@@ -22,7 +22,6 @@ import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -86,19 +85,19 @@ public class OpenCDXIAMProviderModel {
                             openCDXCountryRepository.findByName(address.getCountryName());
                     byName.ifPresent(openCDXCountryModel ->
                             builder.setCountryId(openCDXCountryModel.getId().toHexString()));
-                    if(address.getAddressPurpose() != null) {
+                    if (address.getAddressPurpose() != null) {
                         builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
                     }
-                    if(address.getAddress1() != null) {
+                    if (address.getAddress1() != null) {
                         builder.setAddress1(address.getAddress1());
                     }
-                    if(address.getCity() != null) {
+                    if (address.getCity() != null) {
                         builder.setCity(address.getCity());
                     }
-                    if(address.getState() != null) {
+                    if (address.getState() != null) {
                         builder.setState(address.getState());
                     }
-                    if(address.getPostalCode() != null) {
+                    if (address.getPostalCode() != null) {
                         builder.setPostalCode(address.getPostalCode());
                     }
                     return builder.build();
@@ -107,31 +106,31 @@ public class OpenCDXIAMProviderModel {
 
         this.practiceLocations = result.getPracticeLocations();
 
-        if(result.getBasic() != null) {
+        if (result.getBasic() != null) {
             BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
-            if(result.getBasic().getFirstName() != null) {
+            if (result.getBasic().getFirstName() != null) {
                 basicBuilder.setFirstName(result.getBasic().getFirstName());
             }
-            if(result.getBasic().getLastName() != null) {
+            if (result.getBasic().getLastName() != null) {
                 basicBuilder.setLastName(result.getBasic().getLastName());
             }
-            if(result.getBasic().getCredential() != null) {
+            if (result.getBasic().getCredential() != null) {
                 basicBuilder.setCredential(result.getBasic().getCredential());
             }
-            if(result.getBasic().getSoleProprietor() != null) {
+            if (result.getBasic().getSoleProprietor() != null) {
                 basicBuilder.setSoleProprietor(result.getBasic().getSoleProprietor());
             }
-            if(result.getBasic().getGender() != null) {
+            if (result.getBasic().getGender() != null) {
                 basicBuilder.setGender(result.getBasic().getGender());
             }
-            if(result.getBasic().getEnumerationDate() != null) {
+            if (result.getBasic().getEnumerationDate() != null) {
                 basicBuilder.setEnumerationDate(result.getBasic().getEnumerationDate());
             }
             basicBuilder.setStatus(ProviderStatus.VALIDATED);
-            if(result.getBasic().getNamePrefix() != null) {
+            if (result.getBasic().getNamePrefix() != null) {
                 basicBuilder.setNamePrefix(result.getBasic().getNamePrefix());
             }
-            if(result.getBasic().getNameSuffix() != null) {
+            if (result.getBasic().getNameSuffix() != null) {
                 basicBuilder.setNameSuffix(result.getBasic().getNameSuffix());
             }
             this.basic = basicBuilder.build();
@@ -139,19 +138,19 @@ public class OpenCDXIAMProviderModel {
         this.taxonomies = result.getTaxonomies().stream()
                 .map(taxonomy -> {
                     Taxonomy.Builder builder = Taxonomy.newBuilder();
-                    if(taxonomy.getCode() != null) {
+                    if (taxonomy.getCode() != null) {
                         builder.setCode(taxonomy.getCode());
                     }
-                    if(taxonomy.getTaxonomyGroup() != null) {
+                    if (taxonomy.getTaxonomyGroup() != null) {
                         builder.setTaxonomyGroup(taxonomy.getTaxonomyGroup());
                     }
-                    if(taxonomy.getDesc() != null) {
+                    if (taxonomy.getDesc() != null) {
                         builder.setDesc(taxonomy.getDesc());
                     }
-                    if(taxonomy.getState() != null) {
+                    if (taxonomy.getState() != null) {
                         builder.setState(taxonomy.getState());
                     }
-                    if(taxonomy.getLicense() != null) {
+                    if (taxonomy.getLicense() != null) {
                         builder.setLicense(taxonomy.getLicense());
                     }
                     builder.setPrimary(taxonomy.isPrimary());
@@ -162,19 +161,19 @@ public class OpenCDXIAMProviderModel {
         this.identifiers = result.getIdentifiers().stream()
                 .map(identifiers -> {
                     Identifier.Builder builder = Identifier.newBuilder();
-                    if(identifiers.getCode() != null) {
+                    if (identifiers.getCode() != null) {
                         builder.setCode(identifiers.getCode());
                     }
-                    if(identifiers.getDesc() != null) {
+                    if (identifiers.getDesc() != null) {
                         builder.setDesc(identifiers.getDesc());
                     }
                     if (null != identifiers.getIssuer()) {
                         builder.setIssuer(identifiers.getIssuer());
                     }
-                    if(identifiers.getIdentifier() != null) {
+                    if (identifiers.getIdentifier() != null) {
                         builder.setIdentifier(identifiers.getIdentifier());
                     }
-                    if(identifiers.getState() != null) {
+                    if (identifiers.getState() != null) {
                         builder.setState(identifiers.getState());
                     }
                     return builder.build();

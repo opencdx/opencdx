@@ -34,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.Optional;
-
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -190,10 +189,14 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     public CreateUserProfileResponse createUserProfile(CreateUserProfileRequest request) {
         boolean forceUser = false;
 
-        if(!openCDXCurrentUser.getCurrentUser().getAgentType().equals(AgentType.AGENT_TYPE_SYSTEM)) {
-            Optional<OpenCDXProfileModel> userProfile = this.openCDXProfileRepository.findByUserId(openCDXCurrentUser.getCurrentUser().getId());
-            if(userProfile.isPresent()) {
-                throw new OpenCDXConflict(DOMAIN, 2, "User Profile exists: " + userProfile.get().getId().toHexString());
+        if (!openCDXCurrentUser.getCurrentUser().getAgentType().equals(AgentType.AGENT_TYPE_SYSTEM)) {
+            Optional<OpenCDXProfileModel> userProfile = this.openCDXProfileRepository.findByUserId(
+                    openCDXCurrentUser.getCurrentUser().getId());
+            if (userProfile.isPresent()) {
+                throw new OpenCDXConflict(
+                        DOMAIN,
+                        2,
+                        "User Profile exists: " + userProfile.get().getId().toHexString());
             }
             forceUser = true;
         }
@@ -247,7 +250,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         }
 
         OpenCDXProfileModel model = new OpenCDXProfileModel(request.getUserProfile());
-        if(forceUser) {
+        if (forceUser) {
             model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
         }
 

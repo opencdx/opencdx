@@ -27,10 +27,8 @@ import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
-import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
-import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -59,8 +57,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
-    private static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
-    private static final String RULESET = "RULESET";
     private static final String QUESTION_TYPE_CHOICE = "choice";
     private static final String CODE_TINKAR = "tinkar";
     private final OpenCDXAuditService openCDXAuditService;
@@ -69,7 +65,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository;
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
-    private final OpenCDXRuleSetRepository openCDXRuleSetRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
     /**
@@ -82,7 +77,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXQuestionnaireRepository   the OpenCDXQuestionnaireRepository instance used for interacting with questionnaire data
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
      * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
-     * @param openCDXRuleSetRepository the OpenCDXRuleSetRepository instance used for interacting with the ruleset data.
      * @param openCDXProfileRepository the OpenCDXProfileRepository instance used for interacting with the profile data.
      */
     @Autowired
@@ -93,7 +87,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
             OpenCDXClassificationMessageService openCDXClassificationMessageService,
-            OpenCDXRuleSetRepository openCDXRuleSetRepository,
             OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
@@ -101,24 +94,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.openCDXQuestionnaireRepository = openCDXQuestionnaireRepository;
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
-        this.openCDXRuleSetRepository = openCDXRuleSetRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
-    }
-
-    /**
-     * Operation to get rulesets
-     *
-     * @param request the request to retrieve rules at the client level
-     * @return Response containing a list of rulesets
-     */
-    @Override
-    public RuleSetsResponse getRuleSets(ClientRulesRequest request) {
-
-        List<RuleSet> rulesets = this.openCDXRuleSetRepository.findAll().stream()
-                .map(OpenCDXRuleSet::getProtobufMessage)
-                .toList();
-
-        return RuleSetsResponse.newBuilder().addAllRuleSets(rulesets).build();
     }
 
     // Submiited Questionnaire
@@ -571,95 +547,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .build();
     }
 
-    @Override
-    public CreateRuleSetResponse createRuleSet(CreateRuleSetRequest request) {
-        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.save(new OpenCDXRuleSet(request.getRuleSet()));
-        try {
-            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.config(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Creating RuleSet",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    RULESET + ruleset.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(ruleset));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 18, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
-            throw openCDXNotAcceptable;
-        }
-        return CreateRuleSetResponse.newBuilder()
-                .setRuleSet(ruleset.getProtobufMessage())
-                .build();
-    }
-
-    @Override
-    public UpdateRuleSetResponse updateRuleSet(UpdateRuleSetRequest request) {
-        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.save(new OpenCDXRuleSet(request.getRuleSet()));
-        try {
-            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.config(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Updating RuleSet",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    RULESET + ruleset.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(ruleset));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 19, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
-            throw openCDXNotAcceptable;
-        }
-        return UpdateRuleSetResponse.newBuilder()
-                .setRuleSet(ruleset.getProtobufMessage())
-                .build();
-    }
-
-    @Override
-    public GetRuleSetResponse getRuleSet(GetRuleSetRequest request) {
-        return GetRuleSetResponse.newBuilder()
-                .setRuleSet(this.openCDXRuleSetRepository
-                        .findById(new ObjectId(request.getId()))
-                        .map(OpenCDXRuleSet::getProtobufMessage)
-                        .orElseThrow(
-                                () -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find RuleSet: " + request.getId())))
-                .build();
-    }
-
-    @Override
-    public DeleteRuleSetResponse deleteRuleSet(DeleteRuleSetRequest request) {
-        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository
-                .findById(new ObjectId(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 20, "Failed to find RuleSet: " + request.getId()));
-        ruleset.setStatus(QuestionnaireStatus.retired);
-        this.openCDXRuleSetRepository.save(ruleset);
-
-        try {
-            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.config(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Deleting RuleSet",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    RULESET + ruleset.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(ruleset));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
-            throw openCDXNotAcceptable;
-        }
-
-        return DeleteRuleSetResponse.newBuilder()
-                .setRuleSet(ruleset.getProtobufMessage())
-                .build();
-    }
-
     private void populateQuestionChoices(OpenCDXQuestionnaireModel model) {
         List<QuestionnaireItem> questions = new ArrayList<>();
 
@@ -679,6 +566,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         model.setItems(questions);
     }
 
+    @SuppressWarnings("java:S1172")
     private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 

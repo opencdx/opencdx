@@ -1,9 +1,28 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.health.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.medication.EndMedicationRequest;
@@ -12,10 +31,11 @@ import cdx.opencdx.grpc.health.medication.Medication;
 import cdx.opencdx.grpc.health.medication.SearchMedicationsRequest;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
-import cdx.opencdx.health.service.OpenCDXApiFDA;
-import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +44,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
@@ -43,14 +62,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -72,6 +83,7 @@ class OpenCDXMedicationRestControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -141,7 +153,8 @@ class OpenCDXMedicationRestControllerTest {
                     }
                 });
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByPatientId(Mockito.any(ObjectId.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByPatientId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(ObjectId.get())
@@ -150,7 +163,8 @@ class OpenCDXMedicationRestControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthId(Mockito.any(String.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthId(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(ObjectId.get())
@@ -159,7 +173,8 @@ class OpenCDXMedicationRestControllerTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
-        Mockito.when(this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(Mockito.any(ObjectId.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(ObjectId.get())
@@ -168,7 +183,8 @@ class OpenCDXMedicationRestControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthIdAndEndDateIsNull(Mockito.any(String.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthIdAndEndDateIsNull(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(ObjectId.get())
@@ -183,7 +199,7 @@ class OpenCDXMedicationRestControllerTest {
     }
 
     @Test
-    void prescribing() throws Exception{
+    void prescribing() throws Exception {
         Medication medication = Medication.newBuilder()
                 .setPatientId(ObjectId.get().toHexString())
                 .setNationalHealthId(UUID.randomUUID().toString())
@@ -201,7 +217,7 @@ class OpenCDXMedicationRestControllerTest {
     }
 
     @Test
-    void ending() throws Exception{
+    void ending() throws Exception {
         EndMedicationRequest endMedicationRequest = EndMedicationRequest.newBuilder()
                 .setMedicationId(ObjectId.get().toHexString())
                 .setEndDate(Timestamp.newBuilder().setSeconds(1696933104).build())
@@ -217,7 +233,7 @@ class OpenCDXMedicationRestControllerTest {
     }
 
     @Test
-    void listAllMedications()  throws Exception{
+    void listAllMedications() throws Exception {
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
                 .setPatientId(ObjectId.get().toHexString())
                 .setPagination(
@@ -234,7 +250,7 @@ class OpenCDXMedicationRestControllerTest {
     }
 
     @Test
-    void listCurrentMedications() throws Exception{
+    void listCurrentMedications() throws Exception {
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
                 .setPatientId(ObjectId.get().toHexString())
                 .setPagination(
@@ -252,7 +268,7 @@ class OpenCDXMedicationRestControllerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"indapamide", "atenolol", "perindopril"})
-    void searchMedications(String brandName) throws Exception{
+    void searchMedications(String brandName) throws Exception {
         SearchMedicationsRequest searchMedicationsRequest = SearchMedicationsRequest.newBuilder()
                 .setBrandName(brandName)
                 .setPagination(

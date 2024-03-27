@@ -54,4 +54,15 @@ public class ConnectedTestChangeSet {
         mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("patientId")));
         mongockTemplate.getCollection("provider").createIndex(Indexes.ascending(List.of("npiNumber")));
     }
+
+    /**
+     * Create an index based on the height
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "002", id = "Setup Height Index", author = "Gaurav Mishra")
+    public void setupHeightIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        mongockTemplate.getCollection("heights").createIndex(Indexes.ascending(List.of("patientId")));
+    }
 }

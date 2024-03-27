@@ -16,9 +16,7 @@
 package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClassificationServiceGrpc;
+import cdx.opencdx.grpc.neural.classification.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +52,19 @@ public class OpenCDXGrpcClassificationController extends ClassificationServiceGr
     public void classify(ClassificationRequest request, StreamObserver<ClassificationResponse> responseObserver) {
         log.trace("Received classify request");
         responseObserver.onNext(this.classificationService.classify(request));
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Operation to get rulesets
+     * @param request the request to retrieve rules at the client level
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getRuleSets(RuleSetsRequest request, StreamObserver<RuleSetsResponse> responseObserver) {
+        log.trace("Received getRuleSets request");
+        responseObserver.onNext(classificationService.getRuleSets(request));
         responseObserver.onCompleted();
     }
 }

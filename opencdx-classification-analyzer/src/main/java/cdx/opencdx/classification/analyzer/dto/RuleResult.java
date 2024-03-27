@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.service;
+package cdx.opencdx.classification.analyzer.dto;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.grpc.neural.classification.ClassificationType;
+import cdx.opencdx.grpc.neural.classification.TestKit;
+import lombok.Data;
 
 /**
- * Interface for the ClassificationProcessorService.  Performs classification of Questionnaire and Connected Test
- * data.
+ * Model for Rule Result
  */
-public interface OpenCDXClassifyProcessorService {
+@Data
+public class RuleResult {
     /**
-     * Classify the OpenCDXClassificationModel
-     * @param model model to classify
+     * Constructor for RuleResult
      */
-    void classify(OpenCDXClassificationModel model);
+    public RuleResult() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    private String furtherActions = "";
+
+    private boolean notifyCDC = false;
+
+    private ClassificationType type;
+
+    private TestKit testKit = null;
 }

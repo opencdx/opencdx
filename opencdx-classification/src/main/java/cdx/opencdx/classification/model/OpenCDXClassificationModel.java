@@ -52,16 +52,15 @@ public class OpenCDXClassificationModel {
     private ObjectId id;
 
     private OpenCDXProfileModel patient;
-
     private UserAnswer userAnswer;
     private ClassificationResponse classificationResponse;
     private Media media;
     private ConnectedTest connectedTest;
     private UserQuestionnaireData userQuestionnaireData;
+    private Media testDetailsMedia;
 
     private Instant created;
     private Instant modified;
     private ObjectId creator;
     private ObjectId modifier;
-    private Media testDetailsMedia;
 }

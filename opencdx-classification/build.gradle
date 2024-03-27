@@ -26,10 +26,7 @@ dependencies {
     implementation "org.apache.tika:tika-core:${apacheTikaVersion}"
 
 
-    // https://mvnrepository.com/artifact/io.github.openfeign/feign-httpclient
-    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.1'
-    // https://mvnrepository.com/artifact/io.github.openfeign/feign-hc5
-    implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.1'
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
     //Database
     implementation "com.github.cloudyrock.mongock:mongock-spring-v5:${mongoData}"
@@ -44,13 +41,14 @@ dependencies {
     implementation "org.evrete:evrete-dsl-java:${evreteVersion}"
 
     // HAPI FHIR
-    implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.8.5"
+    implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:${hapiFhirVersion}"
 
     //GRPC - To enable the GRPC uncomment the following two lines
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
+    implementation project(":opencdx-classification-analyzer")
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'

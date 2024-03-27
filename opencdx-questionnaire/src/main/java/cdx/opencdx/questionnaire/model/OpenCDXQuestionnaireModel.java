@@ -68,7 +68,7 @@ public class OpenCDXQuestionnaireModel {
     private String description;
 
     private List<QuestionnaireItem> items;
-    private ObjectId ruleId;
+    private String ruleId;
     private List<String> ruleQuestionId;
 
     private Instant created;
@@ -91,13 +91,10 @@ public class OpenCDXQuestionnaireModel {
         this.status = QuestionnaireStatus.active;
         this.description = questionnaire.getDescription();
         if (questionnaire.hasRuleId()) {
-            this.ruleId = new ObjectId(questionnaire.getRuleId());
+            this.ruleId = questionnaire.getRuleId();
         }
         this.items = questionnaire.getItemList();
 
-        if (questionnaire.hasRuleId()) {
-            this.ruleId = new ObjectId(questionnaire.getRuleId());
-        }
         this.ruleQuestionId = questionnaire.getRuleQuestionIdList();
 
         if (questionnaire.hasCreated()) {
@@ -141,7 +138,7 @@ public class OpenCDXQuestionnaireModel {
             builder.setDescription(this.description);
         }
         if (this.ruleId != null) {
-            builder.setRuleId(this.ruleId.toHexString());
+            builder.setRuleId(this.ruleId);
         }
         if (this.ruleQuestionId != null && !this.ruleQuestionId.isEmpty()) {
             builder.addAllRuleQuestionId(this.ruleQuestionId);

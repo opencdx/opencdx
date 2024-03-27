@@ -153,7 +153,7 @@ public class OpenCDXMedicationModel {
                     medication.getEndDate().getNanos());
         }
         this.providerNumber = medication.getProviderNumber();
-        if(medication.hasPharmacyId()) {
+        if (medication.hasPharmacyId()) {
             this.pharmacyId = new ObjectId(medication.getPharmacyId());
         }
         this.prescription = medication.getIsPrescription();
@@ -181,6 +181,7 @@ public class OpenCDXMedicationModel {
      * Method to convert to protobuf message Medication
      * @return Protobuf message Medication
      */
+    @SuppressWarnings("java:S3776")
     public Medication getProtobufMessage() {
         Medication.Builder builder = Medication.newBuilder();
         if (this.medicationName != null) {

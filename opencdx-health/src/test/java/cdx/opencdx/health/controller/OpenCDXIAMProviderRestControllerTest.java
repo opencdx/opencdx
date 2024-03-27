@@ -187,10 +187,10 @@ class OpenCDXIAMProviderRestControllerTest {
                 openCDXCurrentUser,
                 this.openCDXNpiRegistryClient);
         MvcResult mvcResult = this.mockMvc
-                .perform(get("/provider/load")
+                .perform(post("/provider/load")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
-                                .setUserId("1245356781")
+                                .setUserId(ObjectId.get().toHexString())
                                 .setProviderNumber("1245356781")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -204,10 +204,10 @@ class OpenCDXIAMProviderRestControllerTest {
     @Test
     void loadProviderExcp() throws Exception {
         MvcResult mvcResult = this.mockMvc
-                .perform(get("/provider/load")
+                .perform(post("/provider/load")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
-                                .setUserId("1245356781")
+                                .setUserId(ObjectId.get().toHexString())
                                 .setProviderNumber("1245356781")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
