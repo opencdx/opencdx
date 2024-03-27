@@ -144,7 +144,8 @@ class OpenCDXClassificationServiceImplTest {
                     }
                 });
 
-        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(Mockito.any(TestIdRequest.class),Mockito.any(OpenCDXCallCredentials.class)))
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<ConnectedTest>() {
                     @Override
                     public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {

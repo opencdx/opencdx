@@ -97,10 +97,10 @@ class OpenCDXRestClassificationControllerTest {
     @MockBean
     OpenCDXProfileRepository openCDXProfileRepository;
 
-
     @BeforeEach
     public void setup() {
-        Mockito.when(this.openCDXTestCaseClient.listTestCase(Mockito.any(TestCaseListRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+        Mockito.when(this.openCDXTestCaseClient.listTestCase(
+                        Mockito.any(TestCaseListRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(TestCaseListResponse.newBuilder()
                         .addTestCases(TestCase.newBuilder()
                                 .setId(ObjectId.get().toHexString())
@@ -116,10 +116,10 @@ class OpenCDXRestClassificationControllerTest {
                                 .setId(argument.getTestCaseId())
                                 .build();
                     }
-                }   );
+                });
 
-
-        Mockito.when(this.openCDXManufacturerClient.getManufacturerById(Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+        Mockito.when(this.openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<Manufacturer>() {
                     @Override
                     public Manufacturer answer(InvocationOnMock invocation) throws Throwable {
@@ -130,18 +130,18 @@ class OpenCDXRestClassificationControllerTest {
                     }
                 });
 
-        Mockito.when(this.openCDXDeviceClient.getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+        Mockito.when(this.openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<Device>() {
                     @Override
                     public Device answer(InvocationOnMock invocation) throws Throwable {
                         DeviceIdRequest argument = invocation.getArgument(0);
-                        return Device.newBuilder()
-                                .setId(argument.getDeviceId())
-                                .build();
+                        return Device.newBuilder().setId(argument.getDeviceId()).build();
                     }
                 });
 
-        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(Mockito.any(TestIdRequest.class),Mockito.any(OpenCDXCallCredentials.class)))
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<ConnectedTest>() {
                     @Override
                     public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {
