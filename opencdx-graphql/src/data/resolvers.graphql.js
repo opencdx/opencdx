@@ -1,4 +1,4 @@
-import { Manufacturers, Devices, Patients, Audit } from "../db/dbConnector.js";
+import { Manufacturers, Devices, Patients, Audit, Questionnaires } from "../db/dbConnector.js";
 
 /**
  * GraphQL Resolvers
@@ -58,6 +58,22 @@ export const resolvers = {
       try {
         const audit = await Audit.find();
         return audit;
+      } catch (err) {
+        reject(err)
+      }
+    },
+    getQuestionnaires: async (root) => {
+      try {
+        const questionnaires = await Questionnaires.find();
+        return questionnaires;
+      } catch (err) {
+        reject(err)
+      }
+    },
+    findAQuestionnaire: async (root, { id }) => {
+      try {
+        const questionnaire = await Questionnaires.findOne({ _id: id });
+        return questionnaire;
       } catch (err) {
         reject(err)
       }
