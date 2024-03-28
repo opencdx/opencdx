@@ -88,5 +88,4 @@ public class OpenCDXIdentifier implements java.lang.Comparable<OpenCDXIdentifier
     public ObjectId getObjectId() {
         return id;
     }
-
 }

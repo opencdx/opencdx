@@ -20,7 +20,6 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
 import io.micrometer.observation.annotation.Observed;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Instant;
@@ -64,13 +63,13 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
                 Method getIdMethod = object.getClass().getMethod("getId");
                 OpenCDXIdentifier id = (OpenCDXIdentifier) getIdMethod.invoke(object);
 
-                if(id == null) {
+                if (id == null) {
                     Method setIdMethod = object.getClass().getMethod("setId", OpenCDXIdentifier.class);
                     setIdMethod.invoke(object, new OpenCDXIdentifier());
                 }
             }
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            log.error("Failed to add OpenCDXIdentifier",e);
+            log.error("Failed to add OpenCDXIdentifier", e);
         }
 
         return super.maybeCallBeforeConvert(object, collection);
@@ -133,13 +132,8 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
         this.findAndModify(query, update, Document.class, collectionName);
     }
 
-    @Override
-    protected <T> T populateIdIfNecessary(T savedObject, Object id) {
-        return super.populateIdIfNecessary(savedObject, id);
-    }
-
     // Method to check if a class has a specific method
-    private  static boolean hasMethod(Class<?> clazz, String methodName) {
+    private static boolean hasMethod(Class<?> clazz, String methodName) {
         for (Method method : clazz.getMethods()) {
             if (method.getName().equals(methodName)) {
                 return true;
