@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.anf.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -24,7 +25,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,7 +39,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("anf-statement")
 public class OpenCDXANFStatementModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private AnfStatement.Measure time;
     private AnfStatement.Participant subjectOfRecord;
@@ -52,8 +52,8 @@ public class OpenCDXANFStatementModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     private AnfStatement.Status status;
 
@@ -67,7 +67,7 @@ public class OpenCDXANFStatementModel {
     public OpenCDXANFStatementModel(AnfStatement.ANFStatement anfStatement) {
         log.trace("Creating OpenCDXANFStatementModel from ANFStatement");
         if (anfStatement.hasId()) {
-            this.id = new ObjectId(anfStatement.getId().getId());
+            this.id = new OpenCDXIdentifier(anfStatement.getId().getId());
         }
 
         this.time = anfStatement.getTime();
@@ -90,10 +90,10 @@ public class OpenCDXANFStatementModel {
                     anfStatement.getModified().getNanos());
         }
         if (anfStatement.hasCreator()) {
-            this.creator = new ObjectId(anfStatement.getCreator());
+            this.creator = new OpenCDXIdentifier(anfStatement.getCreator());
         }
         if (anfStatement.hasModifier()) {
-            this.modifier = new ObjectId(anfStatement.getModifier());
+            this.modifier = new OpenCDXIdentifier(anfStatement.getModifier());
         }
 
         this.status = AnfStatement.Status.STATUS_ACTIVE;

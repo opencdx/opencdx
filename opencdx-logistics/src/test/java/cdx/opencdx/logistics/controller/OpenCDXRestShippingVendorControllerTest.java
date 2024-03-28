@@ -129,13 +129,13 @@ class OpenCDXRestShippingVendorControllerTest {
         //                Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
         //                Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
         //                Mockito.when(this.openCDXShippingRepository.findById(new
-        // ObjectId("60f1e6b1f075a901a94d3762")))
+        // OpenCDXIdentifier("60f1e6b1f075a901a94d3762")))
         //                        .thenAnswer(new Answer<Optional<OpenCDXShippingModel>>() {
         //                            @Override
         //                            public Optional<OpenCDXShippingModel> answer(InvocationOnMock invocation) throws
         // Throwable
         //         {
-        //                                ObjectId argument = invocation.getArgument(0);
+        //                                OpenCDXIdentifier argument = invocation.getArgument(0);
         //                                return Optional.of(OpenCDXShippingModel.builder()
         //                                        .id(argument)
         //                                        .trackingNumber("trackNumber")
@@ -144,11 +144,11 @@ class OpenCDXRestShippingVendorControllerTest {
         //                            }
         //                        });
         //                Mockito.when(this.openCDXShippingRepository.findById(new
-        // ObjectId("60f1e6b1f075a901a94d3762")))
+        // OpenCDXIdentifier("60f1e6b1f075a901a94d3762")))
         //                        .thenReturn(Optional.of(shippingModel));
-        //        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        //        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
         //                .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
-        //                        .id(ObjectId.get())
+        //                        .id(OpenCDXIdentifier.get())
         //                        .fullName(FullName.newBuilder()
         //                                .setFirstName("first")
         //                                .setLastName("last")

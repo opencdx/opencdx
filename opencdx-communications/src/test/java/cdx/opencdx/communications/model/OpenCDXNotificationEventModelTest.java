@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +25,13 @@ class OpenCDXNotificationEventModelTest {
     @Test
     void getProtobufMessage_1() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                .setEventId(ObjectId.get().toHexString())
-                .setEmailTemplateId(ObjectId.get().toHexString())
-                .setSmsTemplateId(ObjectId.get().toHexString())
+                .setEventId(OpenCDXIdentifier.get().toHexString())
+                .setEmailTemplateId(OpenCDXIdentifier.get().toHexString())
+                .setSmsTemplateId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
@@ -42,10 +42,10 @@ class OpenCDXNotificationEventModelTest {
     @Test
     void getProtobufMessage_2() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                .setEventId(ObjectId.get().toHexString())
-                .setEmailTemplateId(ObjectId.get().toHexString())
-                .setSmsTemplateId(ObjectId.get().toHexString())
-                .setMessageTemplateId(ObjectId.get().toHexString())
+                .setEventId(OpenCDXIdentifier.get().toHexString())
+                .setEmailTemplateId(OpenCDXIdentifier.get().toHexString())
+                .setSmsTemplateId(OpenCDXIdentifier.get().toHexString())
+                .setMessageTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);

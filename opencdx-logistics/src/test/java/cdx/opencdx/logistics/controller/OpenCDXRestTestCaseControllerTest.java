@@ -18,6 +18,7 @@ package cdx.opencdx.logistics.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Pagination;
@@ -29,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,9 +75,13 @@ class OpenCDXRestTestCaseControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .thenAnswer(new Answer<OpenCDXTestCaseModel>() {
@@ -85,16 +89,16 @@ class OpenCDXRestTestCaseControllerTest {
                     public OpenCDXTestCaseModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXTestCaseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXTestCaseModel>>() {
                     @Override
                     public Optional<OpenCDXTestCaseModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXTestCaseModel.builder().id(argument).build());
                     }
@@ -106,13 +110,14 @@ class OpenCDXRestTestCaseControllerTest {
     @Test
     void getTestCaseById() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerId("manufacturerId")
                 .setBatchNumber("2")
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(get("/testcase/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/testcase/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -121,9 +126,9 @@ class OpenCDXRestTestCaseControllerTest {
     @Test
     void addTestCase() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("2")
                 .build();
 
@@ -139,9 +144,9 @@ class OpenCDXRestTestCaseControllerTest {
     @Test
     void updateTestCase() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("2")
                 .build();
 
@@ -157,13 +162,13 @@ class OpenCDXRestTestCaseControllerTest {
     @Test
     void deleteTestCase() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerId("manufacturerId")
                 .setBatchNumber("2")
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(delete("/testcase/" + ObjectId.get().toHexString())
+                .perform(delete("/testcase/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -175,7 +180,7 @@ class OpenCDXRestTestCaseControllerTest {
         Mockito.when(this.openCDXTestCaseRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXTestCaseModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -202,7 +207,7 @@ class OpenCDXRestTestCaseControllerTest {
         Mockito.when(this.openCDXTestCaseRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXTestCaseModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

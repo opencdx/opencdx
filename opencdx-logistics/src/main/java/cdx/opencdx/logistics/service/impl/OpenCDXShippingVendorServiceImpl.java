@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -39,7 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -135,7 +135,7 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
                             () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 1, "Failed to find patient"));
             String patientId = openCDXShippingModel.getPackageDetails().getPatientId();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(patientId))
+                    .findById(new OpenCDXIdentifier(patientId))
                     .orElseThrow(
                             () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 2, "Failed to find patient"));
 

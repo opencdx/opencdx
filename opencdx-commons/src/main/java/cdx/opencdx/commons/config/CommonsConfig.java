@@ -51,9 +51,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
-import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.observability.ContextProviderFactory;
 import org.springframework.data.mongodb.observability.MongoObservationCommandListener;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
@@ -246,16 +244,6 @@ public class CommonsConfig {
             OpenCDXDocumentValidator openCDXDocumentValidator) {
         log.trace("Creaging Audit Service for {}", applicationName);
         return new OpenCDXAuditServiceImpl(messageService, applicationName, openCDXDocumentValidator);
-    }
-
-    @Bean
-    @Primary
-    @Profile("mongo")
-    @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
-    @ExcludeFromJacocoGeneratedReport
-    MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
-        log.trace("Creating Mongo Template");
-        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 
     @Bean

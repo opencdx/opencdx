@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -24,7 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,7 +40,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXEmailTemplateModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private TemplateType templateType;
     private String subject;
@@ -49,8 +49,8 @@ public class OpenCDXEmailTemplateModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor to create this model based on an EmailTemplate
@@ -59,7 +59,7 @@ public class OpenCDXEmailTemplateModel {
     public OpenCDXEmailTemplateModel(EmailTemplate template) {
 
         if (template.hasTemplateId()) {
-            this.id = new ObjectId(template.getTemplateId());
+            this.id = new OpenCDXIdentifier(template.getTemplateId());
         }
         this.templateType = template.getTemplateType();
         this.subject = template.getSubject();
@@ -75,10 +75,10 @@ public class OpenCDXEmailTemplateModel {
                     template.getModified().getSeconds(), template.getModified().getNanos());
         }
         if (template.hasCreator()) {
-            this.creator = new ObjectId(template.getCreator());
+            this.creator = new OpenCDXIdentifier(template.getCreator());
         }
         if (template.hasModifier()) {
-            this.modifier = new ObjectId(template.getModifier());
+            this.modifier = new OpenCDXIdentifier(template.getModifier());
         }
     }
 

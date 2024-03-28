@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.ShippingStatus;
@@ -26,7 +27,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -42,18 +42,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXOrderModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
     private FullName shippingName;
     private Address shippingAddress;
-    private ObjectId testCaseID;
+    private OpenCDXIdentifier testCaseID;
     private ShippingStatus status;
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create this model from this protobuf message
@@ -65,15 +65,15 @@ public class OpenCDXOrderModel {
         }
 
         if (order.hasId()) {
-            this.id = new ObjectId(order.getId());
+            this.id = new OpenCDXIdentifier(order.getId());
         } else {
             this.status = ShippingStatus.PENDING;
         }
         this.shippingName = order.getShippingName();
 
-        this.patientId = new ObjectId(order.getPatientId());
+        this.patientId = new OpenCDXIdentifier(order.getPatientId());
         this.shippingAddress = order.getShippingAddress();
-        this.testCaseID = new ObjectId(order.getTestCaseId());
+        this.testCaseID = new OpenCDXIdentifier(order.getTestCaseId());
 
         if (order.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -84,10 +84,10 @@ public class OpenCDXOrderModel {
                     order.getModified().getSeconds(), order.getModified().getNanos());
         }
         if (order.hasCreator()) {
-            this.creator = new ObjectId(order.getCreator());
+            this.creator = new OpenCDXIdentifier(order.getCreator());
         }
         if (order.hasModifier()) {
-            this.modifier = new ObjectId(order.getModifier());
+            this.modifier = new OpenCDXIdentifier(order.getModifier());
         }
     }
 

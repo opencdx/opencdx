@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,14 +29,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 @SuppressWarnings("java:S100")
-public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTestModel, ObjectId> {
+public interface OpenCDXConnectedTestRepository extends OpenCDXRepository<OpenCDXConnectedTestModel> {
     /**
      * Lookup ConnectedTests for a user.
      * @param patientId Patient to lookup
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTestModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 
     /**
      * Lookup ConnectedTests by national health id

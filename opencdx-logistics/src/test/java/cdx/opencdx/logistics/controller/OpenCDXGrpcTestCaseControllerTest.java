@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,9 +88,13 @@ class OpenCDXGrpcTestCaseControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXTestCaseService = new OpenCDXTestCaseServiceImpl(
                 this.openCDXTestCaseRepository,
@@ -109,13 +113,13 @@ class OpenCDXGrpcTestCaseControllerTest {
         StreamObserver<TestCase> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCaseIdRequest testCaseIdRequest = TestCaseIdRequest.newBuilder()
-                .setTestCaseId(ObjectId.get().toHexString())
+                .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcTestCaseController.getTestCaseById(testCaseIdRequest, responseObserver);
 
@@ -128,15 +132,15 @@ class OpenCDXGrpcTestCaseControllerTest {
         StreamObserver<TestCase> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCase testCase = TestCase.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setLidrId("")
                 .build();
         this.openCDXGrpcTestCaseController.addTestCase(testCase, responseObserver);
@@ -150,15 +154,15 @@ class OpenCDXGrpcTestCaseControllerTest {
         StreamObserver<TestCase> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCase testCase = TestCase.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setLidrId("")
                 .build();
         this.openCDXGrpcTestCaseController.updateTestCase(testCase, responseObserver);
@@ -172,13 +176,13 @@ class OpenCDXGrpcTestCaseControllerTest {
         StreamObserver<DeleteResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCaseIdRequest testCaseIdRequest = TestCaseIdRequest.newBuilder()
-                .setTestCaseId(ObjectId.get().toHexString())
+                .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcTestCaseController.deleteTestCase(testCaseIdRequest, responseObserver);
 
@@ -195,7 +199,7 @@ class OpenCDXGrpcTestCaseControllerTest {
         Mockito.when(this.openCDXTestCaseRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXTestCaseModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -215,10 +219,10 @@ class OpenCDXGrpcTestCaseControllerTest {
     void listTestCaseManufacturer() {
         StreamObserver<TestCaseListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXTestCaseRepository.findAllByManufacturerId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXTestCaseModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -228,7 +232,7 @@ class OpenCDXGrpcTestCaseControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setManufacturerId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcTestCaseController.listTestCase(testCaseListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
@@ -239,10 +243,10 @@ class OpenCDXGrpcTestCaseControllerTest {
     void listTestCaseVendorElse() {
         StreamObserver<TestCaseListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXTestCaseRepository.findAllByVendorId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXTestCaseModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -252,7 +256,7 @@ class OpenCDXGrpcTestCaseControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcTestCaseController.listTestCase(testCaseListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

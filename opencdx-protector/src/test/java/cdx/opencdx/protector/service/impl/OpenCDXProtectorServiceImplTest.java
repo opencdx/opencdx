@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.protector.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -31,7 +32,6 @@ import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,9 +66,13 @@ class OpenCDXProtectorServiceImplTest {
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.protectorService = new OpenCDXProtectorServiceImpl(this.openCDXDocumentValidator);
     }
@@ -81,7 +85,7 @@ class OpenCDXProtectorServiceImplTest {
     void detectAnomalies() {
         AnomalyDetectionDataRequest request = AnomalyDetectionDataRequest.newBuilder()
                 .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         SecurityResponse response = this.protectorService.detectAnomalies(request);
@@ -95,7 +99,7 @@ class OpenCDXProtectorServiceImplTest {
     void enforceAuthorizationControl() {
         AuthorizationControlDataRequest request = AuthorizationControlDataRequest.newBuilder()
                 .setAuthorizationControlData(AuthorizationControlData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         SecurityResponse response = this.protectorService.enforceAuthorizationControl(request);
@@ -120,7 +124,7 @@ class OpenCDXProtectorServiceImplTest {
     void monitorRealTimeActivity() {
         RealTimeMonitoringDataRequest request = RealTimeMonitoringDataRequest.newBuilder()
                 .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
-                        .setMonitoredEntity(ObjectId.get().toHexString())
+                        .setMonitoredEntity(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         SecurityResponse response = this.protectorService.monitorRealTimeActivity(request);
@@ -134,7 +138,7 @@ class OpenCDXProtectorServiceImplTest {
     void analyzeUserBehavior() {
         UserBehaviorAnalysisDataRequest request = UserBehaviorAnalysisDataRequest.newBuilder()
                 .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         SecurityResponse response = this.protectorService.analyzeUserBehavior(request);

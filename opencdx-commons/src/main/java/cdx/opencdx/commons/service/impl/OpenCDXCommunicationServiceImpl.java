@@ -15,13 +15,13 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.communication.Notification;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,7 +49,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
     @Override
     public void sendNotification(Notification notification) {
-        openCDXDocumentValidator.validateDocumentOrThrow("notification-event", new ObjectId(notification.getEventId()));
+        openCDXDocumentValidator.validateDocumentOrThrow(
+                "notification-event", new OpenCDXIdentifier(notification.getEventId()));
         log.trace("Sending notification");
         this.messageService.send(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, notification);
     }

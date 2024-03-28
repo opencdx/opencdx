@@ -18,6 +18,7 @@ package cdx.opencdx.questionnaire.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -35,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,32 +102,32 @@ class OpenCDXRestQuestionnaireControllerTest {
                     public OpenCDXProfileModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXProfileModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -139,9 +139,9 @@ class OpenCDXRestQuestionnaireControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -149,8 +149,8 @@ class OpenCDXRestQuestionnaireControllerTest {
         Mockito.when(this.openCDXUserQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
@@ -161,48 +161,48 @@ class OpenCDXRestQuestionnaireControllerTest {
                     public OpenCDXUserQuestionnaireModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXUserQuestionnaireModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXUserQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXUserQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXUserQuestionnaireModel>>() {
                     @Override
                     public Optional<OpenCDXUserQuestionnaireModel> answer(InvocationOnMock invocation)
                             throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
-                                .patientId(ObjectId.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
                 });
-        Mockito.when(openCDXUserQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXUserQuestionnaireRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
 
         Mockito.when(this.openCDXQuestionnaireRepository.save(Mockito.any(OpenCDXQuestionnaireModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXQuestionnaireModel>>() {
                     @Override
                     public Optional<OpenCDXQuestionnaireModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXQuestionnaireModel.builder().id(argument).build());
                     }
                 });
-        Mockito.when(openCDXQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXQuestionnaireRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         Mockito.when(this.openCDXQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
@@ -212,9 +212,13 @@ class OpenCDXRestQuestionnaireControllerTest {
                     }
                 });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -237,7 +241,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireRequest.newBuilder()
                                 .setQuestionnaire(Questionnaire.newBuilder()
-                                        .setId(ObjectId.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();
@@ -251,7 +255,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireRequest.newBuilder()
                                 .setQuestionnaire(Questionnaire.newBuilder()
-                                        .setId(ObjectId.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();
@@ -260,7 +264,7 @@ class OpenCDXRestQuestionnaireControllerTest {
 
     @Test
     void testGetSubmittedQuestionnaire() throws Exception {
-        String id = ObjectId.get().toHexString();
+        String id = OpenCDXIdentifier.get().toHexString();
         MvcResult mv = this.mockMvc
                 .perform(get("/questionnaire/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -321,7 +325,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireDataRequest.newBuilder()
                                 .setQuestionnaireData(QuestionnaireData.newBuilder()
-                                        .setId(ObjectId.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();
@@ -333,7 +337,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testGetSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(get("/system/questionnaire/" + ObjectId.get().toHexString())
+                .perform(get("/system/questionnaire/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
         Assertions.assertEquals(
@@ -344,7 +348,8 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/system/questionnaire/" + ObjectId.get().toHexString())
+                .perform(delete("/system/questionnaire/"
+                                + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
@@ -407,7 +412,8 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteClientQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/client/questionnaire/" + ObjectId.get().toHexString())
+                .perform(delete("/client/questionnaire/"
+                                + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
@@ -424,7 +430,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(UserQuestionnaireDataRequest.newBuilder()
                                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();
@@ -434,15 +440,15 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testGetUserQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(get("/user/questionnaire/" + ObjectId.get().toHexString())
+                .perform(get("/user/questionnaire/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(GetQuestionnaireRequest.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setPagination(Pagination.newBuilder()
                                         .setPageNumber(0)
                                         .setPageSize(10)
                                         .build())
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(200, mv.getResponse().getStatus());
@@ -459,7 +465,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                         .setPageNumber(0)
                                         .setPageSize(10)
                                         .build())
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build())))
                 .andReturn();
         Assertions.assertFalse(mv.getResponse().getContentAsString().contains("cause"));

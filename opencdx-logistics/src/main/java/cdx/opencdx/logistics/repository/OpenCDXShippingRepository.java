@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXShippingRepository extends MongoRepository<OpenCDXShippingModel, ObjectId> {
+public interface OpenCDXShippingRepository extends OpenCDXRepository<OpenCDXShippingModel> {
     /**
      * Method to find a shipping by tracking number.
      * @param trackingNumber Tracking number for the shipping.

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.health.profile.*;
 import cdx.opencdx.grpc.iam.IamUser;
@@ -28,7 +29,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -43,7 +43,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("users")
 public class OpenCDXIAMUserModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String username;
     private String systemName;
@@ -66,8 +66,8 @@ public class OpenCDXIAMUserModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
     /**
      * Method to identify AgentType for Audit
      * @return AgentType corresponding to IamUser.
@@ -102,7 +102,7 @@ public class OpenCDXIAMUserModel {
     public OpenCDXIAMUserModel(IamUser iamUser) {
         log.trace("Creating user from IAM User");
         if (iamUser.hasId()) {
-            this.id = new ObjectId(iamUser.getId());
+            this.id = new OpenCDXIdentifier(iamUser.getId());
         }
         this.systemName = iamUser.getSystemName();
 
@@ -119,10 +119,10 @@ public class OpenCDXIAMUserModel {
                     iamUser.getModified().getSeconds(), iamUser.getModified().getNanos());
         }
         if (iamUser.hasCreator()) {
-            this.creator = new ObjectId(iamUser.getCreator());
+            this.creator = new OpenCDXIdentifier(iamUser.getCreator());
         }
         if (iamUser.hasModifier()) {
-            this.modifier = new ObjectId(iamUser.getModifier());
+            this.modifier = new OpenCDXIdentifier(iamUser.getModifier());
         }
     }
 

@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.commons.service;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import java.util.List;
-import org.bson.types.ObjectId;
 
 /**
  * OpenCDXDocumentValidator is an interface that defines methods to validate the existence of documents in a collection or repository.
@@ -31,7 +31,7 @@ public interface OpenCDXDocumentValidator {
      * @param documentId     Id of the document to check
      * @return True if the document exists, false otherwise
      */
-    boolean documentExists(String collectionName, ObjectId documentId);
+    boolean documentExists(String collectionName, OpenCDXIdentifier documentId);
 
     /**
      * Check if a document exists, if it does not log a warning
@@ -40,7 +40,7 @@ public interface OpenCDXDocumentValidator {
      * @param documentId     Id of the document to check
      * @return True if the document exists, false otherwise
      */
-    boolean validateDocumentOrLog(String collectionName, ObjectId documentId);
+    boolean validateDocumentOrLog(String collectionName, OpenCDXIdentifier documentId);
 
     /**
      * Check if a document exists, if it does not throw an exception
@@ -48,7 +48,7 @@ public interface OpenCDXDocumentValidator {
      * @param collectionName Name of the collection to check
      * @param documentId     Id of the document to check
      */
-    void validateDocumentOrThrow(String collectionName, ObjectId documentId);
+    void validateDocumentOrThrow(String collectionName, OpenCDXIdentifier documentId);
 
     /**
      * Check if a list of documents exists
@@ -57,7 +57,7 @@ public interface OpenCDXDocumentValidator {
      * @param documentIds    Ids of the documents to check
      * @return True if all documents exist, false otherwise
      */
-    boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds);
+    boolean allDocumentsExist(String collectionName, List<OpenCDXIdentifier> documentIds);
 
     /**
      * Check if a list of documents exists, if it does not log a warning
@@ -66,7 +66,7 @@ public interface OpenCDXDocumentValidator {
      * @param documentIds    Ids of the documents to check
      * @return True if all documents exist, false otherwise
      */
-    boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds);
+    boolean validateDocumentsOrLog(String collectionName, List<OpenCDXIdentifier> documentIds);
 
     /**
      * Check if a list of documents exists, if it does not throw an exception
@@ -74,7 +74,7 @@ public interface OpenCDXDocumentValidator {
      * @param collectionName Name of the collection to check
      * @param documentIds    Ids of the documents to check
      */
-    void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds);
+    void validateDocumentsOrThrow(String collectionName, List<OpenCDXIdentifier> documentIds);
 
     /**
      * Check if a document exists in an organization workspace if it doesn it throws an exception
@@ -82,11 +82,11 @@ public interface OpenCDXDocumentValidator {
      * @param organization Organization ID
      * @param workspace    Workspace ID
      */
-    void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace);
+    void validateOrganizationWorkspaceOrThrow(OpenCDXIdentifier organization, OpenCDXIdentifier workspace);
 
     /**
      * Check if a documents exists in the repository if it doesn it throws an exception
      * @param documentIds List of document IDs
      */
-    void validateDocumentsOrThrow(List<ObjectId> documentIds);
+    void validateDocumentsOrThrow(List<OpenCDXIdentifier> documentIds);
 }

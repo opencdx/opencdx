@@ -25,6 +25,7 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXDeviceClient;
 import cdx.opencdx.client.service.OpenCDXManufacturerClient;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -41,7 +42,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,26 +83,26 @@ class OpenCDXCDCPayloadServiceImplTest {
     @BeforeEach
     void setUp() {
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -114,9 +114,9 @@ class OpenCDXCDCPayloadServiceImplTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -127,12 +127,12 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     @Test
     void testSendCDCPayloadMessage() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-        String manufacturerId = ObjectId.get().toHexString();
-        String vendorId = ObjectId.get().toHexString();
-        String countryId = ObjectId.get().toHexString();
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
 
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
@@ -172,12 +172,12 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     @Test
     void testSendCDCPayloadMessage2() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-        String manufacturerId = ObjectId.get().toHexString();
-        String vendorId = ObjectId.get().toHexString();
-        String countryId = ObjectId.get().toHexString();
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
 
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
@@ -217,12 +217,12 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     @Test
     void testSendCDCPayloadMessage3() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-        String manufacturerId = ObjectId.get().toHexString();
-        String vendorId = ObjectId.get().toHexString();
-        String countryId = ObjectId.get().toHexString();
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
 
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
@@ -230,7 +230,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         openCDXProfileModel.setGender(null);
         openCDXProfileModel.setActive(true);
         openCDXProfileModel.setAddresses(null);
-        openCDXProfileModel.setId(new ObjectId(patientId));
+        openCDXProfileModel.setId(new OpenCDXIdentifier(patientId));
 
         Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
         // deviceInfo.
@@ -249,7 +249,8 @@ class OpenCDXCDCPayloadServiceImplTest {
         when(openCDXManufacturerClient.getManufacturerById(
                         Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(manufacturerInfo);
-        when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(openCDXProfileModel));
+        when(openCDXProfileRepository.findById(new OpenCDXIdentifier(patientId)))
+                .thenReturn(Optional.of(openCDXProfileModel));
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
         model.setConnectedTest(connectedTest);
@@ -268,21 +269,22 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     @Test
     void testSendCDCPayloadMessageDeviceNotFound() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
 
         OpenCDXProfileModel patient = createUser3(patientId);
         patient.setFullName(null);
         patient.setPrimaryContactInfo(null);
-        patient.setId(new ObjectId(patientId));
+        patient.setId(new OpenCDXIdentifier(patientId));
 
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
         when(openCDXConnectedTestClient.getTestDetailsById(
                         Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(connectedTest);
-        when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(patient));
+        when(openCDXProfileRepository.findById(new OpenCDXIdentifier(patientId)))
+                .thenReturn(Optional.of(patient));
         when(openCDXDeviceClient.getDeviceById(
                         Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenThrow(OpenCDXClientException.class);
@@ -300,12 +302,12 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     @Test
     void testSendCDCPayloadMessageManufacturerNotFound() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-        String manufacturerId = ObjectId.get().toHexString();
-        String vendorId = ObjectId.get().toHexString();
-        String countryId = ObjectId.get().toHexString();
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
 
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
@@ -318,7 +320,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         OpenCDXProfileModel openCDXProfileModel = createUser1(patientId);
         openCDXProfileModel.setActive(true);
 
-        when(openCDXProfileRepository.findById(new ObjectId(patientId)))
+        when(openCDXProfileRepository.findById(new OpenCDXIdentifier(patientId)))
                 .thenReturn(Optional.of(createUser4(patientId)));
         when(openCDXDeviceClient.getDeviceById(
                         Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
@@ -359,7 +361,7 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     private OpenCDXProfileModel createUser1(String userId) {
         OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
-        openCDXProfileModel.setId(new ObjectId(userId));
+        openCDXProfileModel.setId(new OpenCDXIdentifier(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -408,7 +410,7 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     private OpenCDXProfileModel createUser2(String userId) {
         OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
-        openCDXProfileModel.setId(new ObjectId(userId));
+        openCDXProfileModel.setId(new OpenCDXIdentifier(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -498,8 +500,8 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     private OpenCDXProfileModel createUser4(String userId) {
         OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
-        openCDXProfileModel.setUserId(new ObjectId(userId));
-        openCDXProfileModel.setId(new ObjectId(userId));
+        openCDXProfileModel.setUserId(new OpenCDXIdentifier(userId));
+        openCDXProfileModel.setId(new OpenCDXIdentifier(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")

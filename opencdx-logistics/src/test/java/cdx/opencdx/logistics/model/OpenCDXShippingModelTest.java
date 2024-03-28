@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.shipping.AdditionalService;
@@ -22,7 +23,6 @@ import cdx.opencdx.grpc.shipping.Order;
 import cdx.opencdx.grpc.shipping.ServiceLevel;
 import cdx.opencdx.grpc.shipping.Shipping;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +37,7 @@ class OpenCDXShippingModelTest {
     @Test
     void toProtobufMsg() {
         OpenCDXShippingModel openCDXShippingModel = new OpenCDXShippingModel(Shipping.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setPaymentDetails(PaymentDetails.newBuilder().getDefaultInstanceForType())
                 .build());
         Assertions.assertDoesNotThrow(() -> openCDXShippingModel.toProtobuf());
@@ -46,7 +46,7 @@ class OpenCDXShippingModelTest {
     @Test
     void testToString() {
         OpenCDXShippingModel openCDXShippingModel = new OpenCDXShippingModel(OpenCDXShippingModel.builder()
-                .id(ObjectId.get())
+                .id(OpenCDXIdentifier.get())
                 .senderAddress(Address.newBuilder().getDefaultInstanceForType())
                 .recipientAddress(Address.newBuilder().getDefaultInstanceForType())
                 .packageDetails(Order.newBuilder().build())
@@ -55,7 +55,7 @@ class OpenCDXShippingModelTest {
                 .requireSignature(true)
                 .declaredValue(10.0)
                 .shippingCost(100.0)
-                .shippingVendorId(ObjectId.get().toHexString())
+                .shippingVendorId(OpenCDXIdentifier.get().toHexString())
                 .paymentDetails(PaymentDetails.newBuilder().getDefaultInstanceForType())
                 .build());
         Assertions.assertDoesNotThrow(() -> openCDXShippingModel.toString());

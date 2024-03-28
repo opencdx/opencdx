@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -22,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -38,9 +38,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXMessageModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
     private String title;
     private String message;
 
@@ -49,8 +49,8 @@ public class OpenCDXMessageModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor taking a Message and generating the Model
@@ -58,9 +58,9 @@ public class OpenCDXMessageModel {
      */
     public OpenCDXMessageModel(Message message) {
         if (message.hasId()) {
-            this.id = new ObjectId(message.getId());
+            this.id = new OpenCDXIdentifier(message.getId());
         }
-        this.patientId = new ObjectId(message.getPatientId());
+        this.patientId = new OpenCDXIdentifier(message.getPatientId());
         this.title = message.getTitle();
         this.message = message.getMessage();
         this.messageType = message.getType();
@@ -75,10 +75,10 @@ public class OpenCDXMessageModel {
                     message.getModified().getSeconds(), message.getModified().getNanos());
         }
         if (message.hasCreator()) {
-            this.creator = new ObjectId(message.getCreator());
+            this.creator = new OpenCDXIdentifier(message.getCreator());
         }
         if (message.hasModifier()) {
-            this.modifier = new ObjectId(message.getModifier());
+            this.modifier = new OpenCDXIdentifier(message.getModifier());
         }
     }
 

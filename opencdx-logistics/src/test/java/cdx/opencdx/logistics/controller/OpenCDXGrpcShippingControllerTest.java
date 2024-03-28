@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -32,7 +33,6 @@ import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,30 +75,34 @@ class OpenCDXGrpcShippingControllerTest {
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -110,9 +114,9 @@ class OpenCDXGrpcShippingControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -123,20 +127,20 @@ class OpenCDXGrpcShippingControllerTest {
                     public OpenCDXOrderModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXOrderModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXOrderModel>>() {
                     @Override
                     public Optional<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXOrderModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -144,21 +148,21 @@ class OpenCDXGrpcShippingControllerTest {
         Mockito.when(this.openCDXOrderRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXOrderModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
         Mockito.when(this.openCDXOrderRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenAnswer(new Answer<PageImpl<OpenCDXOrderModel>>() {
                     @Override
                     public PageImpl<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return new PageImpl<>(
                                 List.of(OpenCDXOrderModel.builder()
-                                        .id(ObjectId.get())
+                                        .id(OpenCDXIdentifier.get())
                                         .patientId(argument)
                                         .build()),
                                 PageRequest.of(1, 10),
@@ -182,15 +186,15 @@ class OpenCDXGrpcShippingControllerTest {
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -203,8 +207,9 @@ class OpenCDXGrpcShippingControllerTest {
     void getOrder() {
         StreamObserver<GetOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        GetOrderRequest getOrderRequest =
-                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Assertions.assertDoesNotThrow(
                 () -> this.openCDXGrpcShippingController.getOrder(getOrderRequest, responseObserver));
@@ -217,16 +222,16 @@ class OpenCDXGrpcShippingControllerTest {
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -240,7 +245,7 @@ class OpenCDXGrpcShippingControllerTest {
         StreamObserver<CancelOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertDoesNotThrow(

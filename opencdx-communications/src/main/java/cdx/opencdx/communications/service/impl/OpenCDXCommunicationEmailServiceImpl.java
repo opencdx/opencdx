@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -118,7 +118,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
     @Override
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXEmailTemplateRepository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .findById(new OpenCDXIdentifier(templateRequest.getTemplateId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 1, "Failed to find email template: " + templateRequest.getTemplateId()))
                 .getProtobufMessage();
@@ -162,7 +162,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
 
         if (this.openCDXNotificationEventRepository.existsByEmailTemplateId(
-                new ObjectId(templateRequest.getTemplateId()))) {
+                new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
 
@@ -183,7 +183,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
             throw openCDXNotAcceptable;
         }
 
-        this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        this.openCDXEmailTemplateRepository.deleteById(new OpenCDXIdentifier(templateRequest.getTemplateId()));
         log.trace("Deleted email template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }

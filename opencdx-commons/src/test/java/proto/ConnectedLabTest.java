@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.connected.BasicInfo;
 import cdx.opencdx.grpc.lab.connected.LabFindings;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +24,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,9 +42,9 @@ class ConnectedLabTest {
     void testLabFindings() throws JsonProcessingException {
         LabFindings labFindings = LabFindings.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
-                        .setWorkspaceId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
-                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                         .setType("lab")
                         .setVendorLabTestId(UUID.randomUUID().toString())
                         .setNationalHealthId(UUID.randomUUID().toString())

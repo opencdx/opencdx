@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
@@ -38,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -96,7 +96,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     @Override
     public Country getCountryById(CountryIdRequest request) {
         return this.openCDXCountryRepository
-                .findById(new ObjectId(request.getCountryId()))
+                .findById(new OpenCDXIdentifier(request.getCountryId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find country: " + request.getCountryId()))
                 .getProtobufMessage();
     }
@@ -147,7 +147,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     @Override
     public DeleteResponse deleteCountry(CountryIdRequest request) {
-        ObjectId countryId = new ObjectId(request.getCountryId());
+        OpenCDXIdentifier countryId = new OpenCDXIdentifier(request.getCountryId());
         if (Boolean.TRUE.equals(this.openCDXManufacturerRepository.existsByAddress_CountryId(countryId)
                 || this.openCDXVendorRepository.existsByAddress_CountryId(countryId)
                 || this.openCDXDeviceRepository.existsByManufacturerCountryId(countryId)
@@ -177,7 +177,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXCountryModel.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXCountryRepository.deleteById(new ObjectId(request.getCountryId()));
+        this.openCDXCountryRepository.deleteById(new OpenCDXIdentifier(request.getCountryId()));
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Country ID: " + request.getCountryId() + " deleted.")

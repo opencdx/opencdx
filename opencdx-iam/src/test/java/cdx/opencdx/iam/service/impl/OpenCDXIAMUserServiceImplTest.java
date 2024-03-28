@@ -18,6 +18,7 @@ package cdx.opencdx.iam.service.impl;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -40,7 +41,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,26 +109,26 @@ class OpenCDXIAMUserServiceImplTest {
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -140,9 +140,9 @@ class OpenCDXIAMUserServiceImplTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -156,17 +156,23 @@ class OpenCDXIAMUserServiceImplTest {
                     public OpenCDXIAMUserModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMUserModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.checkCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,
@@ -194,7 +200,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void getIamUser() {
         GetIamUserRequest request = GetIamUserRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.getIamUser(request));
     }
@@ -202,8 +208,9 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void updateIamUser() {
         UpdateIamUserRequest request = UpdateIamUserRequest.newBuilder()
-                .setIamUser(
-                        IamUser.newBuilder().setId(ObjectId.get().toHexString()).build())
+                .setIamUser(IamUser.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.updateIamUser(request));
     }
@@ -211,7 +218,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void deleteIamUser() {
         DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
     }
@@ -219,7 +226,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void userExists() {
         UserExistsRequest request = UserExistsRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.userExists(request));
     }
@@ -227,7 +234,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void changePassword() {
         ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setNewPassword("newpass")
                 .setOldPassword("pass")
                 .build();
@@ -236,13 +243,13 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void changePasswordElse() {
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .password("{noop}pass")
                         .build()));
         ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setNewPassword("newpass")
                 .setOldPassword("password")
                 .build();
@@ -265,7 +272,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
         OpenCDXIAMUserModel model3 =
-                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+                OpenCDXIAMUserModel.builder().id(OpenCDXIdentifier.get()).build();
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
         ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
@@ -281,7 +288,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void getIamUsersCatch() throws JsonProcessingException {
         GetIamUserRequest request = GetIamUserRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -296,9 +303,9 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .password("{noop}pass")
                         .build()));
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.getIamUser(request));
@@ -307,8 +314,9 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void updateIamUserCatch() throws JsonProcessingException {
         UpdateIamUserRequest request = UpdateIamUserRequest.newBuilder()
-                .setIamUser(
-                        IamUser.newBuilder().setId(ObjectId.get().toHexString()).build())
+                .setIamUser(IamUser.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .build())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -323,9 +331,9 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .password("{noop}pass")
                         .build()));
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.updateIamUser(request));
@@ -334,7 +342,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void deleteIamUserCatch() throws JsonProcessingException {
         DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -349,9 +357,9 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .password("{noop}pass")
                         .build()));
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
@@ -360,7 +368,7 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void userExistsCatch() throws JsonProcessingException {
         UserExistsRequest request = UserExistsRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -375,9 +383,9 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .username("test@opencdx.org")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .password("{noop}pass")
@@ -388,8 +396,9 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void login() {
         when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
-                .thenReturn(Optional.of(
-                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build()));
         LoginRequest request = LoginRequest.newBuilder()
                 .setUserName("username")
                 .setPassword("password")
@@ -410,7 +419,7 @@ class OpenCDXIAMUserServiceImplTest {
     void loginCatch() {
         when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(BadCredentialsException.class);
@@ -425,7 +434,7 @@ class OpenCDXIAMUserServiceImplTest {
     void loginCatchLockedException() {
         when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(LockedException.class);
@@ -440,7 +449,7 @@ class OpenCDXIAMUserServiceImplTest {
     void loginCatchDisabledException() {
         when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(DisabledException.class);
@@ -453,33 +462,33 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void verifyEmailIamUser() {
-        String id = ObjectId.get().toHexString();
+        String id = OpenCDXIdentifier.get().toHexString();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
 
     @Test
     void verifyEmailIamUserElse() {
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build()));
-        String id = ObjectId.get().toHexString();
+        String id = OpenCDXIdentifier.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
 
     @Test
     void verifyEmailIamUserPrimary() {
-        ObjectId objectId = ObjectId.get();
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        OpenCDXIdentifier openCDXIdentifier = OpenCDXIdentifier.get();
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(objectId)
+                        .id(openCDXIdentifier)
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build()));
 
-        String id = objectId.toHexString();
+        String id = openCDXIdentifier.toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
 
@@ -498,13 +507,13 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
-        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build()));
-        String id = ObjectId.get().toHexString();
+        String id = OpenCDXIdentifier.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
 
@@ -513,7 +522,7 @@ class OpenCDXIAMUserServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("");
 
-        ObjectId id = ObjectId.get();
+        OpenCDXIdentifier id = OpenCDXIdentifier.get();
         OpenCDXCurrentUser currentUser = Mockito.mock(OpenCDXCurrentUser.class);
         Mockito.when(currentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder()
@@ -523,7 +532,9 @@ class OpenCDXIAMUserServiceImplTest {
                         .build());
 
         Mockito.when(currentUser.checkCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,

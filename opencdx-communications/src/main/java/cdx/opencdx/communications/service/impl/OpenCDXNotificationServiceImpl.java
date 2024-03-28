@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -42,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -133,11 +133,11 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         if (notificationEvent.hasEmailTemplateId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "email-template", new ObjectId(notificationEvent.getEmailTemplateId()));
+                    "email-template", new OpenCDXIdentifier(notificationEvent.getEmailTemplateId()));
         }
         if (notificationEvent.hasSmsTemplateId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "sms-template", new ObjectId(notificationEvent.getSmsTemplateId()));
+                    "sms-template", new OpenCDXIdentifier(notificationEvent.getSmsTemplateId()));
         }
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -167,7 +167,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     @Override
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXNotificationEventRepository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .findById(new OpenCDXIdentifier(templateRequest.getTemplateId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 1, "Failed to find event notification: " + templateRequest.getTemplateId()))
                 .getProtobufMessage();
@@ -206,7 +206,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (this.openCDXNotificaitonRepository.existsByEventId(new ObjectId(templateRequest.getTemplateId()))) {
+        if (this.openCDXNotificaitonRepository.existsByEventId(
+                new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {
@@ -225,7 +226,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        this.openCDXNotificationEventRepository.deleteById(new OpenCDXIdentifier(templateRequest.getTemplateId()));
         log.trace("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
@@ -349,7 +350,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     }
 
     private void recordAudit(
-            CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
+            CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, OpenCDXIdentifier patientId) {
 
         String nationalHealthId = "N/A";
         String patientIdString = patientId.toHexString();

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.AddressPurpose;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 
 /**
  * Model for protobuf address.
@@ -40,7 +40,7 @@ public class OpenCDXAddressModel {
     private String city;
     private String postalCode;
     private String state;
-    private ObjectId countryId;
+    private OpenCDXIdentifier countryId;
 
     /**
      * Constructor from a protobuf address
@@ -56,7 +56,7 @@ public class OpenCDXAddressModel {
         this.city = address.getCity();
         this.postalCode = address.getPostalCode();
         this.state = address.getState();
-        this.countryId = new ObjectId(address.getCountryId());
+        this.countryId = new OpenCDXIdentifier(address.getCountryId());
     }
 
     /**

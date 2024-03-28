@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXHeightMeasurementRepository extends MongoRepository<OpenCDXHeightMeasurementModel, ObjectId> {
+public interface OpenCDXHeightMeasurementRepository extends OpenCDXRepository<OpenCDXHeightMeasurementModel> {
     /**
      * Find all heights by patient id.
      * @param patientId the patient id

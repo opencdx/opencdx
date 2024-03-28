@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.grpc.shipping.DeliveryTracking;
@@ -26,7 +27,6 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,14 +46,15 @@ class RoutineTest {
     void testRoutineRequest() throws JsonProcessingException {
         RoutineRequest item = RoutineRequest.newBuilder()
                 .setRoutine(Routine.newBuilder()
-                        .setRoutineId(ObjectId.get().toString())
+                        .setRoutineId(OpenCDXIdentifier.get().toString())
                         .setName("Test Routine")
                         .setDescription("Test Routine Description")
                         .setStatus(Routine.Status.COMPLETED)
                         .setCreationDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setLastUpdatedDatetime(Timestamp.newBuilder().setSeconds(1696435104))
-                        .setAssignedUser(ObjectId.get().toHexString())
-                        .addAllAssociatedProtocols(List.of(ObjectId.get().toHexString()))
+                        .setAssignedUser(OpenCDXIdentifier.get().toHexString())
+                        .addAllAssociatedProtocols(
+                                List.of(OpenCDXIdentifier.get().toHexString()))
                         .build())
                 .build();
 
@@ -64,15 +65,15 @@ class RoutineTest {
     void testDeliveryTrackingRequest() throws JsonProcessingException {
         DeliveryTrackingRequest item = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(DeliveryTracking.newBuilder()
-                        .setTrackingId(ObjectId.get().toHexString())
-                        .setOrderId(ObjectId.get().toHexString())
+                        .setTrackingId(OpenCDXIdentifier.get().toHexString())
+                        .setOrderId(OpenCDXIdentifier.get().toHexString())
                         .setStatus(ShippingStatus.DELAYED)
                         .setStartDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setEndDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setCurrentLocation("Current Location")
-                        .setRecipient(ObjectId.get().toHexString())
-                        .addAllDeliveryItems(List.of(ObjectId.get().toHexString()))
-                        .setAssignedCourier(ObjectId.get().toHexString())
+                        .setRecipient(OpenCDXIdentifier.get().toHexString())
+                        .addAllDeliveryItems(List.of(OpenCDXIdentifier.get().toHexString()))
+                        .setAssignedCourier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -83,14 +84,14 @@ class RoutineTest {
     void testClinicalProtocolExecution() throws JsonProcessingException {
         ClinicalProtocolExecutionRequest item = ClinicalProtocolExecutionRequest.newBuilder()
                 .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
-                        .setExecutionId(ObjectId.get().toHexString())
-                        .setRoutineId(ObjectId.get().toHexString())
-                        .setProtocolId(ObjectId.get().toHexString())
+                        .setExecutionId(OpenCDXIdentifier.get().toHexString())
+                        .setRoutineId(OpenCDXIdentifier.get().toHexString())
+                        .setProtocolId(OpenCDXIdentifier.get().toHexString())
                         .setStatus(ClinicalProtocolExecution.Status.COMPLETED)
                         .setStartDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setEndDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setResults("ClinicalProtocolExecution Results")
-                        .setAssignedMedicalStaff(ObjectId.get().toHexString())
+                        .setAssignedMedicalStaff(OpenCDXIdentifier.get().toHexString())
                         .addAllSteps(List.of("Step 1", "Step 2", "Step 3"))
                         .build())
                 .build();
@@ -102,12 +103,13 @@ class RoutineTest {
     void testLabOrderRequest() throws JsonProcessingException {
         LabOrderRequest item = LabOrderRequest.newBuilder()
                 .setLabOrder(LabOrder.newBuilder()
-                        .setLabOrderId(ObjectId.get().toHexString())
+                        .setLabOrderId(OpenCDXIdentifier.get().toHexString())
                         .setTestName("Test Name")
                         .setOrderDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
-                                ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                                OpenCDXIdentifier.get().toHexString(),
+                                OpenCDXIdentifier.get().toHexString()))
                         .build())
                 .build();
 
@@ -118,12 +120,13 @@ class RoutineTest {
     void testDiagnosisRequest() throws JsonProcessingException {
         DiagnosisRequest item = DiagnosisRequest.newBuilder()
                 .setDiagnosis(Diagnosis.newBuilder()
-                        .setDiagnosisId(ObjectId.get().toHexString())
+                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
                         .setDiagnosisCode("Diagnosis Code")
                         .setDiagnosisDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
-                                ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                                OpenCDXIdentifier.get().toHexString(),
+                                OpenCDXIdentifier.get().toHexString()))
                         .build())
                 .build();
 
@@ -134,12 +137,13 @@ class RoutineTest {
     void testSuspectedDiagnosisRequest() throws JsonProcessingException {
         SuspectedDiagnosisRequest item = SuspectedDiagnosisRequest.newBuilder()
                 .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId(ObjectId.get().toHexString())
+                        .setSuspectedDiagnosisId(OpenCDXIdentifier.get().toHexString())
                         .setDiagnosisCode("Diagnosis Code")
                         .setDiagnosisDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
-                                ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                                OpenCDXIdentifier.get().toHexString(),
+                                OpenCDXIdentifier.get().toHexString()))
                         .build())
                 .build();
 
@@ -150,12 +154,13 @@ class RoutineTest {
     void testLabResultRequest() throws JsonProcessingException {
         LabResultRequest item = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder()
-                        .setResultId(ObjectId.get().toHexString())
+                        .setResultId(OpenCDXIdentifier.get().toHexString())
                         .setResultValue("Result Value")
                         .setResultDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
-                                ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                                OpenCDXIdentifier.get().toHexString(),
+                                OpenCDXIdentifier.get().toHexString()))
                         .build())
                 .build();
 

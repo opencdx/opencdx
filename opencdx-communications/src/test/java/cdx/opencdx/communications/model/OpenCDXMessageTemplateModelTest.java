@@ -17,11 +17,11 @@ package cdx.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.MessageTemplate;
 import cdx.opencdx.grpc.communication.MessageType;
 import com.google.protobuf.Timestamp;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +35,9 @@ class OpenCDXMessageTemplateModelTest {
                 .setContent("content")
                 .setType(MessageType.INFO)
                 .setCreated(Timestamp.newBuilder().getDefaultInstanceForType())
-                .setCreator(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.newBuilder())
-                .setModifier(ObjectId.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build());
         Assertions.assertNull(model.getId());
     }
@@ -50,9 +50,9 @@ class OpenCDXMessageTemplateModelTest {
                 .setContent("content")
                 .setType(MessageType.INFO)
                 .setCreated(Timestamp.newBuilder().getDefaultInstanceForType())
-                .setCreator(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.newBuilder())
-                .setModifier(ObjectId.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build());
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }

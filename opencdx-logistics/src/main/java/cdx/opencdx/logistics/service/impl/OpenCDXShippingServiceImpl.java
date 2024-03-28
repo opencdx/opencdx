@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -88,7 +88,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         log.info("Creating Order");
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getOrder().getPatientId()))
+                .findById(new OpenCDXIdentifier(request.getOrder().getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 1, FAILED_TO_FIND_PROFILE + request.getOrder().getPatientId()));
 
@@ -119,7 +119,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
     public GetOrderResponse getOrder(GetOrderRequest request) {
         log.info("Getting Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_ORDER + request.getId()));
 
         OpenCDXProfileModel patient = this.openCDXProfileRepository
@@ -152,7 +152,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
     public UpdateOrderResponse updateOrder(UpdateOrderRequest request) {
         log.info("Updating Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
-                .findById(new ObjectId(request.getOrder().getId()))
+                .findById(new OpenCDXIdentifier(request.getOrder().getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 6, FAILED_TO_FIND_ORDER + request.getOrder().getId()));
 
@@ -162,7 +162,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 7, FAILED_TO_FIND_PROFILE + patientId));
 
         model.setShippingAddress(request.getOrder().getShippingAddress());
-        model.setTestCaseID(new ObjectId(request.getOrder().getTestCaseId()));
+        model.setTestCaseID(new OpenCDXIdentifier(request.getOrder().getTestCaseId()));
 
         model = this.openCDXOrderRepository.save(model);
 
@@ -191,7 +191,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
     public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
         log.info("Canceling Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 9, FAILED_TO_FIND_ORDER + request.getId()));
 
         String patientId = model.getPatientId().toHexString();
@@ -242,7 +242,8 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
         }
         Page<OpenCDXOrderModel> all = null;
         if (request.hasPatientId()) {
-            all = this.openCDXOrderRepository.findAllByPatientId(new ObjectId(request.getPatientId()), pageable);
+            all = this.openCDXOrderRepository.findAllByPatientId(
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else {
             all = this.openCDXOrderRepository.findAll(pageable);
         }

@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {
+public interface OpenCDXIAMProviderRepository extends OpenCDXRepository<OpenCDXIAMProviderModel> {
     /**
      * Find the provider by the NPI number.
      *

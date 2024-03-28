@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -38,7 +39,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -137,7 +137,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     @Override
     public Questionnaire updateQuestionnaire(QuestionnaireRequest request) {
         if (!this.openCDXQuestionnaireRepository.existsById(
-                new ObjectId(request.getQuestionnaire().getId()))) {
+                new OpenCDXIdentifier(request.getQuestionnaire().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
                     2,
@@ -172,7 +172,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     @Override
     public Questionnaire getSubmittedQuestionnaire(GetQuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
         return model.getProtobufMessage();
     }
@@ -233,7 +233,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
 
         Optional<OpenCDXQuestionnaireModel> model =
-                this.openCDXQuestionnaireRepository.findById(new ObjectId(request.getId()));
+                this.openCDXQuestionnaireRepository.findById(new OpenCDXIdentifier(request.getId()));
         if (model.isPresent()) {
             model.get().setStatus(QuestionnaireStatus.retired);
             this.openCDXQuestionnaireRepository.save(model.get());
@@ -457,12 +457,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     @Override
     public UserQuestionnaireData getUserQuestionnaireData(GetQuestionnaireRequest request) {
         UserQuestionnaireData data = this.openCDXUserQuestionnaireRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(
                         () -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find user questionnaire: " + request.getId()))
                 .getProtobufMessage();
         OpenCDXProfileModel user = this.openCDXProfileRepository
-                .findById(new ObjectId(data.getPatientId()))
+                .findById(new OpenCDXIdentifier(data.getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getPatientId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
