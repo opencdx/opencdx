@@ -54,6 +54,8 @@ class ClientConfigTest {
         clientConfig.openCDXProtectorClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXProviderClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXRoutineClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXHeightMeasurementClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXWeightMeasurementClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }

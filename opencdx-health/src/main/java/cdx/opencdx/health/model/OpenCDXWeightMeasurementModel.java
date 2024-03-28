@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.health.model;
 
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.HeightUnits;
+import cdx.opencdx.grpc.health.WeightMeasurement;
+import cdx.opencdx.grpc.health.WeightUnits;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -29,23 +29,23 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Model for Height Measurement in Mongo. Features conversions to/from Protobuf messages.
+ * Model for Weight Measurement in Mongo. Features conversions to/from Protobuf messages.
  */
 @Slf4j
 @Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("heights")
+@Document("weights")
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
-public class OpenCDXHeightMeasurementModel {
+public class OpenCDXWeightMeasurementModel {
     @Id
     private ObjectId id;
 
     private ObjectId patientId;
     private String nationalHealthId;
-    private double height;
-    HeightUnits unitsOfMeasure;
+    private double weight;
+    WeightUnits unitsOfMeasure;
     private Instant timeOfMeasurement;
     private Instant created;
     private Instant modified;
@@ -53,46 +53,46 @@ public class OpenCDXHeightMeasurementModel {
     private String modifier;
 
     /**
-     * Constructor from protobuf message HeightMeasurement
-     * @param heightMeasurement Protobuf message to generate from
+     * Constructor from protobuf message WeightMeasurement
+     * @param weightMeasurement Protobuf message to generate from
      */
-    public OpenCDXHeightMeasurementModel(HeightMeasurement heightMeasurement) {
-        if (heightMeasurement.hasId()) {
-            this.id = new ObjectId(heightMeasurement.getId());
+    public OpenCDXWeightMeasurementModel(WeightMeasurement weightMeasurement) {
+        if (weightMeasurement.hasId()) {
+            this.id = new ObjectId(weightMeasurement.getId());
         }
-        this.patientId = new ObjectId(heightMeasurement.getPatientId());
-        this.nationalHealthId = heightMeasurement.getNationalHealthId();
-        this.height = heightMeasurement.getHeight();
-        this.unitsOfMeasure = heightMeasurement.getUnitsOfMeasure();
-        if (heightMeasurement.hasTimeOfMeasurement()) {
+        this.patientId = new ObjectId(weightMeasurement.getPatientId());
+        this.nationalHealthId = weightMeasurement.getNationalHealthId();
+        this.weight = weightMeasurement.getWeight();
+        this.unitsOfMeasure = weightMeasurement.getUnitsOfMeasure();
+        if (weightMeasurement.hasTimeOfMeasurement()) {
             this.timeOfMeasurement = Instant.ofEpochSecond(
-                    heightMeasurement.getCreated().getSeconds(),
-                    heightMeasurement.getCreated().getNanos());
+                    weightMeasurement.getCreated().getSeconds(),
+                    weightMeasurement.getCreated().getNanos());
         }
-        if (heightMeasurement.hasCreated()) {
+        if (weightMeasurement.hasCreated()) {
             this.created = Instant.ofEpochSecond(
-                    heightMeasurement.getCreated().getSeconds(),
-                    heightMeasurement.getCreated().getNanos());
+                    weightMeasurement.getCreated().getSeconds(),
+                    weightMeasurement.getCreated().getNanos());
         }
-        if (heightMeasurement.hasModified()) {
+        if (weightMeasurement.hasModified()) {
             this.modified = Instant.ofEpochSecond(
-                    heightMeasurement.getModified().getSeconds(),
-                    heightMeasurement.getModified().getNanos());
+                    weightMeasurement.getModified().getSeconds(),
+                    weightMeasurement.getModified().getNanos());
         }
-        if (heightMeasurement.hasCreator()) {
-            this.creator = heightMeasurement.getCreator();
+        if (weightMeasurement.hasCreator()) {
+            this.creator = weightMeasurement.getCreator();
         }
-        if (heightMeasurement.hasModifier()) {
-            this.modifier = heightMeasurement.getModifier();
+        if (weightMeasurement.hasModifier()) {
+            this.modifier = weightMeasurement.getModifier();
         }
     }
 
     /**
-     * Method to get the protobuf height measurement object
+     * Method to get the protobuf weight measurement object
      * @return protobuf height object
      */
-    public HeightMeasurement getProtobufMessage() {
-        HeightMeasurement.Builder builder = HeightMeasurement.newBuilder();
+    public WeightMeasurement getProtobufMessage() {
+        WeightMeasurement.Builder builder = WeightMeasurement.newBuilder();
         if (this.id != null) {
             builder.setId(this.id.toHexString());
         }
@@ -101,7 +101,7 @@ public class OpenCDXHeightMeasurementModel {
         if (this.nationalHealthId != null) {
             builder.setNationalHealthId(this.nationalHealthId);
         }
-        builder.setHeight(this.height);
+        builder.setWeight(this.weight);
         if (this.unitsOfMeasure != null) {
             builder.setUnitsOfMeasure(this.unitsOfMeasure);
         }
