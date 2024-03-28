@@ -20,7 +20,15 @@ import java.util.Date;
 import org.bson.types.ObjectId;
 
 public class OpenCDXIdentifier implements java.lang.Comparable<OpenCDXIdentifier>, java.io.Serializable {
-    private final ObjectId id;
+    private ObjectId id;
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public void setId(String id) {
+        this.id = new ObjectId(id);
+    }
 
     public OpenCDXIdentifier() {
         this.id = new ObjectId();
