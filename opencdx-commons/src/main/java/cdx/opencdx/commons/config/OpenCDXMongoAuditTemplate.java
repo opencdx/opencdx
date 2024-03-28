@@ -20,6 +20,9 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
 import io.micrometer.observation.annotation.Observed;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +52,28 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         super(mongoDbFactory, mongoConverter);
         log.trace("OpenCDXMongoAuditTemplate created");
+    }
+
+    @Override
+    protected <T> T maybeCallBeforeConvert(T object, String collection) {
+        boolean hasSetIdMethod = hasMethod(object.getClass(), "setId");
+        boolean hasGetMethod = hasMethod(object.getClass(), "getId");
+
+        try {
+            if (hasGetMethod && hasSetIdMethod) {
+                Method getIdMethod = object.getClass().getMethod("getId");
+                OpenCDXIdentifier id = (OpenCDXIdentifier) getIdMethod.invoke(object);
+
+                if(id == null) {
+                    Method setIdMethod = object.getClass().getMethod("setId", OpenCDXIdentifier.class);
+                    setIdMethod.invoke(object, new OpenCDXIdentifier());
+                }
+            }
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            log.error("Failed to add OpenCDXIdentifier",e);
+        }
+
+        return super.maybeCallBeforeConvert(object, collection);
     }
 
     @Override
@@ -106,5 +131,20 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
         update.set("modified", date);
 
         this.findAndModify(query, update, Document.class, collectionName);
+    }
+
+    @Override
+    protected <T> T populateIdIfNecessary(T savedObject, Object id) {
+        return super.populateIdIfNecessary(savedObject, id);
+    }
+
+    // Method to check if a class has a specific method
+    private  static boolean hasMethod(Class<?> clazz, String methodName) {
+        for (Method method : clazz.getMethods()) {
+            if (method.getName().equals(methodName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
