@@ -60,13 +60,17 @@ message HeightMeasurement {
  */
 enum HeightUnits {
   /*
+   * Unspecified Units for Height
+   */
+  HEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
    * Height in centimeters
    */
-  CM = 0;
+  CM = 1;
   /*
    * Height in inches
    */
-  INCHES = 1;
+  INCHES = 2;
 }
 
 /*
@@ -121,13 +125,17 @@ message WeightMeasurement {
  */
 enum WeightUnits {
   /*
+   * Unspecified Weight Units
+   */
+  WEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
    * Weight in kilograms.
    */
-  KGS = 0;
+  KGS = 1;
   /*
    * Weight in pounds.
    */
-  LBS = 1;
+  LBS = 2;
 }
 
 /*
