@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -33,11 +32,11 @@ public interface OpenCDXNotificationEventRepository extends OpenCDXRepository<Op
      * @param emailTemplateId Email Template ID
      * @return boolean indicating if found.
      */
-    boolean existsByEmailTemplateId(ObjectId emailTemplateId);
+    boolean existsByEmailTemplateId(OpenCDXIdentifier emailTemplateId);
     /**
      * Indicates if a Notification Event exists using an SmsTemplate
      * @param smsTemplateId SMS Template ID
      * @return boolean indicating if found.
      */
-    boolean existsBySmsTemplateId(ObjectId smsTemplateId);
+    boolean existsBySmsTemplateId(OpenCDXIdentifier smsTemplateId);
 }

@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.profile.CreateUserProfileRequest;
 import cdx.opencdx.grpc.health.profile.UserProfile;
@@ -25,7 +26,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -233,7 +233,7 @@ class IamTest {
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(CreateUserProfileRequest.newBuilder()
                                 .setUserProfile(UserProfile.newBuilder(UserProfile.getDefaultInstance())
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()));
     }

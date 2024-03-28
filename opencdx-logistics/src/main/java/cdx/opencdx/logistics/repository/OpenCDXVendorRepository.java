@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXVendorModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Repository for Mongo Vendor documents
@@ -32,5 +31,5 @@ public interface OpenCDXVendorRepository extends OpenCDXRepository<OpenCDXVendor
      * @param countryId String of the vendor id
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddress_CountryId(ObjectId countryId);
+    Boolean existsByAddress_CountryId(OpenCDXIdentifier countryId);
 }

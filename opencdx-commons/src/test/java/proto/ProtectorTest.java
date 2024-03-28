@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.neural.protector.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,6 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,8 +42,8 @@ class ProtectorTest {
     void testAnomalyDetectionDataRequest() throws JsonProcessingException {
         AnomalyDetectionDataRequest item = AnomalyDetectionDataRequest.newBuilder()
                 .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .setDataAccessPattern("dataAccessPattern")
                         .setTimeStamp(Timestamp.newBuilder().setSeconds(1696435104))
                         .addAllAnomaliesDetected(List.of("anomaly1", "anomaly2"))
@@ -60,10 +60,10 @@ class ProtectorTest {
     void testAuthorizationControlDataRequest() throws JsonProcessingException {
         AuthorizationControlDataRequest item = AuthorizationControlDataRequest.newBuilder()
                 .setAuthorizationControlData(AuthorizationControlData.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .setDataAccessLevel("dataAccessLevel")
-                        .setAccessGrantedBy(ObjectId.get().toHexString())
+                        .setAccessGrantedBy(OpenCDXIdentifier.get().toHexString())
                         .addAllAccessScopes(List.of("accessScope1", "accessScope2"))
                         .setAccessValidityPeriod("accessValidityPeriod")
                         .setIsTemporaryAccess(true)
@@ -77,7 +77,7 @@ class ProtectorTest {
     void testPrivacyProtectionDataRequest() throws JsonProcessingException {
         PrivacyProtectionDataRequest item = PrivacyProtectionDataRequest.newBuilder()
                 .setPrivacyProtectionData(PrivacyProtectionData.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
                         .setDataType("dataType")
                         .setAnonymizedData("anonymizedData")
                         .setIsDataEncrypted(true)
@@ -94,8 +94,8 @@ class ProtectorTest {
     void testRealTimeMonitoringDataRequest() throws JsonProcessingException {
         RealTimeMonitoringDataRequest item = RealTimeMonitoringDataRequest.newBuilder()
                 .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
-                        .setMonitoredEntity(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
+                        .setMonitoredEntity(OpenCDXIdentifier.get().toHexString())
                         .setMonitoringDetails("monitoringDetails")
                         .setMonitoringStartTime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMonitoringEndTime(Timestamp.newBuilder().setSeconds(1696435104))
@@ -112,8 +112,8 @@ class ProtectorTest {
     void testUserBehaviorAnalysisDataRequest() throws JsonProcessingException {
         UserBehaviorAnalysisDataRequest item = UserBehaviorAnalysisDataRequest.newBuilder()
                 .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .setBehaviorPattern("behaviorPattern")
                         .addAllAssociatedActivities(List.of("associatedActivity1", "associatedActivity2"))
                         .setAnalysisTimeFrame("analysisTimeFrame")

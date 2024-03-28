@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.commons.service;
 
-import org.bson.types.ObjectId;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 
 /**
  * OpenCDXClassificationMessageService is an interface that defines methods for submitting a questionnaire and a connected test for classification.
@@ -27,7 +27,8 @@ public interface OpenCDXClassificationMessageService {
      * @param userId the id of the user submitting the questionnaire
      * @param mediaId the id of the media to submit, or null if no media is submitted
      */
-    void submitQuestionnaire(ObjectId userId, ObjectId questionnaireUserId, ObjectId mediaId);
+    void submitQuestionnaire(
+            OpenCDXIdentifier userId, OpenCDXIdentifier questionnaireUserId, OpenCDXIdentifier mediaId);
 
     /**
      * Submit a connected test for classification
@@ -35,5 +36,5 @@ public interface OpenCDXClassificationMessageService {
      * @param userId the id of the user submitting the connected test
      * @param mediaId the id of the media to submit, or null if no media is submitted
      */
-    void submitConnectedTest(ObjectId userId, ObjectId connectedTestId, ObjectId mediaId);
+    void submitConnectedTest(OpenCDXIdentifier userId, OpenCDXIdentifier connectedTestId, OpenCDXIdentifier mediaId);
 }

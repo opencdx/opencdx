@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.media.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.media.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -24,7 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -38,11 +38,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("media")
 public class OpenCDXMediaModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     Instant updated;
-    ObjectId organization;
-    ObjectId workspace;
+    OpenCDXIdentifier organization;
+    OpenCDXIdentifier workspace;
     String name;
     String shortDescription;
     String description;
@@ -57,8 +57,8 @@ public class OpenCDXMediaModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor taking a Media and generating the Model
@@ -66,7 +66,7 @@ public class OpenCDXMediaModel {
      */
     public OpenCDXMediaModel(Media media) {
         if (media.hasId()) {
-            this.id = new ObjectId(media.getId());
+            this.id = new OpenCDXIdentifier(media.getId());
         }
 
         if (media.hasUpdatedAt()) {
@@ -76,8 +76,8 @@ public class OpenCDXMediaModel {
             this.updated = Instant.now();
         }
 
-        this.organization = new ObjectId(media.getOrganizationId());
-        this.workspace = new ObjectId(media.getWorkspaceId());
+        this.organization = new OpenCDXIdentifier(media.getOrganizationId());
+        this.workspace = new OpenCDXIdentifier(media.getWorkspaceId());
         this.name = media.getName();
         this.shortDescription = media.getShortDescription();
         this.description = media.getDescription();
@@ -97,10 +97,10 @@ public class OpenCDXMediaModel {
                     media.getModified().getSeconds(), media.getModified().getNanos());
         }
         if (media.hasCreator()) {
-            this.creator = new ObjectId(media.getCreator());
+            this.creator = new OpenCDXIdentifier(media.getCreator());
         }
         if (media.hasModifier()) {
-            this.modifier = new ObjectId(media.getModifier());
+            this.modifier = new OpenCDXIdentifier(media.getModifier());
         }
     }
 

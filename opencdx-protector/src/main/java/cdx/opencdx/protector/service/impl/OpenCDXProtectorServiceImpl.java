@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.protector.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     @Override
     public SecurityResponse detectAnomalies(AnomalyDetectionDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                USERS, new ObjectId(request.getAnomalyDetectionData().getUserId()));
+                USERS, new OpenCDXIdentifier(request.getAnomalyDetectionData().getUserId()));
 
         // Placeholder implementation for detecting anomalies
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -62,7 +62,8 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     @Override
     public SecurityResponse enforceAuthorizationControl(AuthorizationControlDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                USERS, new ObjectId(request.getAuthorizationControlData().getUserId()));
+                USERS,
+                new OpenCDXIdentifier(request.getAuthorizationControlData().getUserId()));
 
         // Placeholder implementation for enforcing authorization control
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -86,7 +87,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     @Override
     public SecurityResponse monitorRealTimeActivity(RealTimeMonitoringDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                USERS, new ObjectId(request.getRealTimeMonitoringData().getMonitoredEntity()));
+                USERS, new OpenCDXIdentifier(request.getRealTimeMonitoringData().getMonitoredEntity()));
 
         // Placeholder implementation for monitoring real-time activity
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -99,7 +100,8 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     @Override
     public SecurityResponse analyzeUserBehavior(UserBehaviorAnalysisDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                USERS, new ObjectId(request.getUserBehaviorAnalysisData().getUserId()));
+                USERS,
+                new OpenCDXIdentifier(request.getUserBehaviorAnalysisData().getUserId()));
 
         // Placeholder implementation for analyzing user behavior
         // Actual implementation should analyze the request and provide a SecurityResponse

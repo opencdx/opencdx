@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -37,7 +36,7 @@ public interface OpenCDXConnectedTestRepository extends OpenCDXRepository<OpenCD
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTestModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 
     /**
      * Lookup ConnectedTests by national health id

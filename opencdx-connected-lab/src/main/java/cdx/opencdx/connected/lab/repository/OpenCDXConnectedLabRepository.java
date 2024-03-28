@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.connected.lab.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.connected.lab.model.OpenCDXConnectedLabModel;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -35,12 +34,12 @@ public interface OpenCDXConnectedLabRepository extends OpenCDXRepository<OpenCDX
      * @return the OpenCDXConnectedLabModel
      */
     Optional<OpenCDXConnectedLabModel> findByOrganizationIdAndWorkspaceId(
-            ObjectId organizationId, ObjectId workspaceId);
+            OpenCDXIdentifier organizationId, OpenCDXIdentifier workspaceId);
 
     /**
      * Find by organization id.
      * @param organizationId the organization id
      * @return the OpenCDXConnectedLabModel
      */
-    Optional<OpenCDXConnectedLabModel> findByOrganizationId(ObjectId organizationId);
+    Optional<OpenCDXConnectedLabModel> findByOrganizationId(OpenCDXIdentifier organizationId);
 }

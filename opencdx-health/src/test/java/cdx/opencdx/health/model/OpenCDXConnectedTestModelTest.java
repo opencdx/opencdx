@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.connected.*;
 import com.google.protobuf.Timestamp;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,20 +29,20 @@ class OpenCDXConnectedTestModelTest {
     @Test
     void getProtobufMessage_1() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
-                .setId(new ObjectId().toHexString())
+                .setId(new OpenCDXIdentifier().toHexString())
                 .setNationalHealthId(UUID.randomUUID().toString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);
@@ -55,9 +55,9 @@ class OpenCDXConnectedTestModelTest {
     @Test
     void getProtobufMessage_2() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
-                .setId(new ObjectId().toHexString())
+                .setId(new OpenCDXIdentifier().toHexString())
                 .setNationalHealthId(UUID.randomUUID().toString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)
@@ -78,9 +78,9 @@ class OpenCDXConnectedTestModelTest {
     void getProtobufMessage_4() {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -95,7 +95,7 @@ class OpenCDXConnectedTestModelTest {
     void getProtobufMessage_5() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
                 .setNationalHealthId(UUID.randomUUID().toString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)

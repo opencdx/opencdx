@@ -16,6 +16,7 @@
 package cdx.opencdx.iam.changelog;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -26,7 +27,6 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.model.Indexes;
 import java.util.List;
-import org.bson.types.ObjectId;
 
 /**
  * Change sets to MongoDB for IAM
@@ -194,7 +194,7 @@ public class IAMChangeSet {
             OpenCDXIAMUserRepository openCDXIAMUserRepository, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .id(new ObjectId("5f63a53ddcc67c7a1c3d93e8"))
+                .id(new OpenCDXIdentifier("5f63a53ddcc67c7a1c3d93e8"))
                 .username("admin@opencdx.org")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .type(IamUserType.IAM_USER_TYPE_REGULAR)

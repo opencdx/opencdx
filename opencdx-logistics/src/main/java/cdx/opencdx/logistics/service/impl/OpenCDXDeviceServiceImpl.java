@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -82,7 +82,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     @Override
     public Device getDeviceById(DeviceIdRequest request) {
         return this.openCDXDeviceRepository
-                .findById(new ObjectId(request.getDeviceId()))
+                .findById(new OpenCDXIdentifier(request.getDeviceId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()))
                 .getProtobufMessage();
@@ -91,15 +91,18 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     @Override
     public Device addDevice(Device request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                COUNTRY, new ObjectId(request.getManufacturerCountryId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(request.getVendorCountryId()));
+                COUNTRY, new OpenCDXIdentifier(request.getManufacturerCountryId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "manufacturer", new ObjectId(request.getManufacturerId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
+                COUNTRY, new OpenCDXIdentifier(request.getVendorCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "manufacturer", new OpenCDXIdentifier(request.getManufacturerId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new OpenCDXIdentifier(request.getVendorId()));
 
         this.openCDXDocumentValidator.validateDocumentsOrThrow(
                 "testcases",
-                request.getTestCaseIdsList().stream().map(ObjectId::new).toList());
+                request.getTestCaseIdsList().stream()
+                        .map(OpenCDXIdentifier::new)
+                        .toList());
 
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
@@ -124,14 +127,17 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     @Override
     public Device updateDevice(Device request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                COUNTRY, new ObjectId(request.getManufacturerCountryId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(request.getVendorCountryId()));
+                COUNTRY, new OpenCDXIdentifier(request.getManufacturerCountryId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "manufacturer", new ObjectId(request.getManufacturerId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
+                COUNTRY, new OpenCDXIdentifier(request.getVendorCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "manufacturer", new OpenCDXIdentifier(request.getManufacturerId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new OpenCDXIdentifier(request.getVendorId()));
         this.openCDXDocumentValidator.validateDocumentsOrThrow(
                 "testcases",
-                request.getTestCaseIdsList().stream().map(ObjectId::new).toList());
+                request.getTestCaseIdsList().stream()
+                        .map(OpenCDXIdentifier::new)
+                        .toList());
 
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
@@ -155,10 +161,10 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
     @Override
     public DeleteResponse deleteDevice(DeviceIdRequest request) {
-        ObjectId objectId = new ObjectId(request.getDeviceId());
+        OpenCDXIdentifier openCDXIdentifier = new OpenCDXIdentifier(request.getDeviceId());
 
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository
-                .findById(objectId)
+                .findById(openCDXIdentifier)
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()));
 
@@ -178,7 +184,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXDeviceModel.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXDeviceRepository.deleteById(objectId);
+        this.openCDXDeviceRepository.deleteById(openCDXIdentifier);
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Device: " + request.getDeviceId() + " is deleted.")
@@ -210,9 +216,10 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
         if (request.hasManufacturerId()) {
             all = this.openCDXDeviceRepository.findAllByManufacturerId(
-                    new ObjectId(request.getManufacturerId()), pageable);
+                    new OpenCDXIdentifier(request.getManufacturerId()), pageable);
         } else if (request.hasVendorId()) {
-            all = this.openCDXDeviceRepository.findAllByVendorId(new ObjectId(request.getVendorId()), pageable);
+            all = this.openCDXDeviceRepository.findAllByVendorId(
+                    new OpenCDXIdentifier(request.getVendorId()), pageable);
         } else {
             all = this.openCDXDeviceRepository.findAll(pageable);
         }

@@ -18,8 +18,6 @@ package cdx.opencdx.iam.repository;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**

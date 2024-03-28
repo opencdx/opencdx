@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -36,7 +37,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,9 +90,13 @@ class OpenCDXVendorServiceImplTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXVendorService = new OpenCDXVendorServiceImpl(
                 this.openCDXVendorRepository,
@@ -111,10 +115,10 @@ class OpenCDXVendorServiceImplTest {
     void getVendorById() {
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXVendorService.getVendorById(vendorIdRequest));
     }
@@ -122,12 +126,13 @@ class OpenCDXVendorServiceImplTest {
     @Test
     void addVendor() throws JsonProcessingException {
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
-        Vendor vendor = Vendor.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Vendor vendor =
+                Vendor.newBuilder().setId(OpenCDXIdentifier.get().toHexString()).build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXVendorModel.class)))
                 .thenThrow(JsonProcessingException.class);
@@ -146,15 +151,15 @@ class OpenCDXVendorServiceImplTest {
     @Test
     void addVendor2() throws JsonProcessingException {
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         Vendor vendor = Vendor.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -175,12 +180,13 @@ class OpenCDXVendorServiceImplTest {
     @Test
     void updateVendor() throws JsonProcessingException {
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
-        Vendor vendor = Vendor.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Vendor vendor =
+                Vendor.newBuilder().setId(OpenCDXIdentifier.get().toHexString()).build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXVendorModel.class)))
                 .thenThrow(JsonProcessingException.class);
@@ -199,15 +205,15 @@ class OpenCDXVendorServiceImplTest {
     @Test
     void updateVendor_2() throws JsonProcessingException {
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         Vendor vendor = Vendor.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -229,7 +235,7 @@ class OpenCDXVendorServiceImplTest {
     void deleteVendor() {
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         Mockito.when(this.openCDXDeviceRepository.existsByVendorId(Mockito.any()))
@@ -239,7 +245,7 @@ class OpenCDXVendorServiceImplTest {
                 .thenReturn(true);
 
         VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertEquals(
                 "Vendor: " + vendorIdRequest.getVendorId() + " is in use.",

@@ -29,6 +29,7 @@ package proto; /*
                 * limitations under the License.
                 */
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.connected.*;
@@ -40,7 +41,6 @@ import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -66,11 +66,11 @@ class ConnectTestTest {
                         .setModifier("modifier")
                         .setVendorLabTestId("vendorLabTestId")
                         .setType("type")
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setHealthServiceId("hea;thServiceId")
-                        .setWorkspaceId(ObjectId.get().toHexString())
-                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                         .setSource("source")
                         .build())
                 .setOrderInfo(OrderInfo.newBuilder()

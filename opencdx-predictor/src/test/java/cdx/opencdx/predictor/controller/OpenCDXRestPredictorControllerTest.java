@@ -18,13 +18,13 @@ package cdx.opencdx.predictor.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,9 +65,13 @@ class OpenCDXRestProtectorControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -89,7 +93,7 @@ class OpenCDXRestProtectorControllerTest {
                 .perform(post("/")
                         .content(this.objectMapper.writeValueAsString(PredictorRequest.newBuilder()
                                 .setPredictorInput(PredictorInput.newBuilder()
-                                        .setTestId(ObjectId.get().toHexString())
+                                        .setTestId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

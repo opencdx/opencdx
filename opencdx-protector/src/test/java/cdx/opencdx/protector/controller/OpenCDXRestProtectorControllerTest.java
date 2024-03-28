@@ -18,6 +18,7 @@ package cdx.opencdx.protector.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -26,7 +27,6 @@ import cdx.opencdx.grpc.neural.protector.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,11 +71,11 @@ class OpenCDXRestProtectorControllerTest {
 
     @BeforeEach
     public void setup() {
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
@@ -85,9 +85,13 @@ class OpenCDXRestProtectorControllerTest {
                     }
                 });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -109,7 +113,7 @@ class OpenCDXRestProtectorControllerTest {
                 .perform(post("/detectAnomalies")
                         .content(objectMapper.writeValueAsString(AnomalyDetectionDataRequest.newBuilder()
                                 .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -126,7 +130,7 @@ class OpenCDXRestProtectorControllerTest {
                 .perform(post("/authorize")
                         .content(this.objectMapper.writeValueAsString(AuthorizationControlDataRequest.newBuilder()
                                 .setAuthorizationControlData(AuthorizationControlData.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -154,7 +158,8 @@ class OpenCDXRestProtectorControllerTest {
                 .perform(post("/monitorRealTime")
                         .content(this.objectMapper.writeValueAsString(RealTimeMonitoringDataRequest.newBuilder()
                                 .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
-                                        .setMonitoredEntity(ObjectId.get().toHexString())
+                                        .setMonitoredEntity(
+                                                OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -171,7 +176,7 @@ class OpenCDXRestProtectorControllerTest {
                 .perform(post("/analyzeUserBehavior")
                         .content(objectMapper.writeValueAsString(UserBehaviorAnalysisDataRequest.newBuilder()
                                 .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

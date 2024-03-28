@@ -16,6 +16,7 @@
 package cdx.opencdx.communications.changelog;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
@@ -34,7 +35,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 
 /**
  * Change set to load up default templates used by OpenCDX.
@@ -80,7 +80,7 @@ public class CommunicationsChangeSet {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
 
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d373a"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d373a"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
                 .subject("Welcome to OpenCDX")
                 .content(
@@ -94,19 +94,19 @@ public class CommunicationsChangeSet {
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d373c"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d373c"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
                 .message(
                         "Welcome [[${userName}]]  to OpenCDX. Your account has been setup with your username: [[${userName}]].")
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d373e"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d373e"))
                 .eventName("Welcome to OpenCDX")
                 .eventDescription("New Member has joined OpenCDX")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d373a"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d373a"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d373c"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d373c"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .parameters(Collections.emptyList())
@@ -133,7 +133,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Newsletter Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3741"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3741"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NEWSLETTER)
                 .subject("OpenCDX Newsletter")
                 .content("""
@@ -142,10 +142,10 @@ public class CommunicationsChangeSet {
                 .variables(List.of(MESSAGE))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3743"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3743"))
                 .eventName("OpenCDX Newsletter")
                 .eventDescription("Periodic newsletter sent to user. ")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3741"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3741"))
                 .emailRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .parameters(Collections.emptyList())
@@ -171,7 +171,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Alert Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3744"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3744"))
                 .templateType(TemplateType.TEMPLATE_TYPE_ALERT)
                 .subject("OpenCDX Alert")
                 .content(
@@ -185,18 +185,18 @@ public class CommunicationsChangeSet {
                 .variables(List.of(FIRST_NAME, LAST_NAME, "reason"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3745"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3745"))
                 .templateType(TemplateType.TEMPLATE_TYPE_ALERT)
                 .message("Please be advised you are receiving this alert for the following reason: [[${reason}]].")
                 .variables(List.of("reason"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3746"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3746"))
                 .eventName("Alert Notification to inform the user.")
                 .eventDescription("Alert Notification to inform the user.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3744"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3744"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3745"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3745"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .parameters(Collections.emptyList())
@@ -223,7 +223,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Reminder Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3747"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3747"))
                 .templateType(TemplateType.TEMPLATE_TYPE_REMINDER)
                 .subject("OpenCDX Reminder")
                 .content(
@@ -237,18 +237,18 @@ public class CommunicationsChangeSet {
                 .variables(List.of(FIRST_NAME, LAST_NAME, "reminder"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3748"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3748"))
                 .templateType(TemplateType.TEMPLATE_TYPE_REMINDER)
                 .message("Reminder: [[${reminder}]]")
                 .variables(List.of("reminder"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3749"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3749"))
                 .eventName("Reminder to User")
                 .eventDescription("Notificaiton to user of upcoming event.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3747"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3747"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3748"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3748"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .parameters(Collections.emptyList())
@@ -275,7 +275,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Confirmation Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d374a"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d374a"))
                 .templateType(TemplateType.TEMPLATE_TYPE_CONFIRMATION)
                 .subject("OpenCDX Confirmation")
                 .content(
@@ -290,19 +290,19 @@ public class CommunicationsChangeSet {
                 .variables(List.of(FIRST_NAME, LAST_NAME, "confirmation"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d374b"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d374b"))
                 .templateType(TemplateType.TEMPLATE_TYPE_CONFIRMATION)
                 .message(
                         "This is to confirm you have [[${confirmation}]]. If this is not accurate please contact OpenCDX immediately.")
                 .variables(List.of("confirmation"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d374c"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d374c"))
                 .eventName("Confirmation of activity")
                 .eventDescription("Confirmation of an activity")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d374a"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d374a"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d374b"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d374b"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .parameters(Collections.emptyList())
@@ -329,7 +329,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Notification Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d374e"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d374e"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Notification")
                 .content(
@@ -343,18 +343,18 @@ public class CommunicationsChangeSet {
                 .variables(List.of(FIRST_NAME, LAST_NAME, NOTIFICATION))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d374f"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d374f"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("${notification}")
                 .variables(List.of(NOTIFICATION))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3750"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3750"))
                 .eventName("Notification to user")
                 .eventDescription("Notification to user of an event.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d374e"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d374e"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d374f"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d374f"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
@@ -378,7 +378,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Email Verify Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d375f"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d375f"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Notification")
                 .content(
@@ -394,10 +394,10 @@ public class CommunicationsChangeSet {
                 .build();
 
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3760"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3760"))
                 .eventName("Notification to user")
                 .eventDescription("Notification to user of an event.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d375f"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d375f"))
                 .emailRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE)
                 .build();
@@ -436,7 +436,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Notification Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3751"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3751"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Change Password")
                 .content(
@@ -450,18 +450,18 @@ public class CommunicationsChangeSet {
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3752"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3752"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("Your password has changed for account: [[${userName}]]")
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3753"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3753"))
                 .eventName("Change Password Notification to user")
                 .eventDescription("Change Password Notification to user.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3751"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3751"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3752"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3752"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
@@ -487,7 +487,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Shipment Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3762"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3762"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Notification Shipment")
                 .content(
@@ -522,18 +522,18 @@ public class CommunicationsChangeSet {
                         "countryId"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3763"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3763"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("Your item [[${itemShipped}]] with tracking id [[${trackingNumber}]] has been shipped.")
                 .variables(List.of("itemShipped", "trackingNumber"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3764"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3764"))
                 .eventName("Shipment Created Notification to user")
                 .eventDescription("Shipment Created Notification to user.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3762"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3762"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3763"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3763"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
@@ -561,7 +561,7 @@ public class CommunicationsChangeSet {
         log.trace("Creating Test & Questionnaire Result");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3767"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3767"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Test/Questionnaire Results")
                 .content(
@@ -576,27 +576,27 @@ public class CommunicationsChangeSet {
                 .variables(List.of(FIRST_NAME, LAST_NAME, TEST_NAME, MESSAGE))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3768"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3768"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("Your test [[${testName}]] result is [[${message}]].")
                 .variables(List.of(TEST_NAME, MESSAGE))
                 .build();
         OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3769"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3769"))
                 .messageType(MessageType.INFO)
                 .title("Test/Questionnaire Results")
                 .variables(List.of(TEST_NAME, MESSAGE))
                 .content("Your test [[${testName}]] result is [[${message}]].")
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3770"))
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3770"))
                 .eventName("Test Result")
                 .eventDescription("Result for the tests undergone")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3767"))
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3767"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3768"))
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3768"))
                 .smsRetry(4)
-                .messageTemplateId(new ObjectId("60f1e6b1f075a361a94d3769"))
+                .messageTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3769"))
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);

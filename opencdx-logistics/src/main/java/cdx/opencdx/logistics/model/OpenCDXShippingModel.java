@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.PaymentDetails;
@@ -31,7 +32,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -46,7 +46,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXShippingModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private FullName shippingName;
     private Address senderAddress;
@@ -88,7 +88,7 @@ public class OpenCDXShippingModel {
      */
     public OpenCDXShippingModel(Shipping shipping) {
         if (shipping.hasId()) {
-            this.id = new ObjectId(shipping.getId());
+            this.id = new OpenCDXIdentifier(shipping.getId());
         }
         this.shippingName = shipping.getShippingName();
         this.senderAddress = shipping.getSenderAddress();

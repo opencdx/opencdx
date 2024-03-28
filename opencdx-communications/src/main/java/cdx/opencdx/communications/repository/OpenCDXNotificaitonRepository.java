@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -52,5 +51,5 @@ public interface OpenCDXNotificaitonRepository extends OpenCDXRepository<OpenCDX
      * @param id Id of the NotificationEvent to check for being used.
      * @return boolean indicating if found.
      */
-    boolean existsByEventId(ObjectId id);
+    boolean existsByEventId(OpenCDXIdentifier id);
 }

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.lab.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
@@ -35,7 +36,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -87,8 +87,10 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
     public LabFindingsResponse submitLabFindings(LabFindings request) {
         log.info("Submitting lab findings");
 
-        ObjectId organizationId = new ObjectId(request.getBasicInfo().getOrganizationId());
-        ObjectId workspaceId = new ObjectId(request.getBasicInfo().getWorkspaceId());
+        OpenCDXIdentifier organizationId =
+                new OpenCDXIdentifier(request.getBasicInfo().getOrganizationId());
+        OpenCDXIdentifier workspaceId =
+                new OpenCDXIdentifier(request.getBasicInfo().getWorkspaceId());
 
         Optional<OpenCDXConnectedLabModel> openCDXConnectedLabModel =
                 this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(organizationId, workspaceId);
@@ -154,7 +156,7 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
     public GetConnectedLabResponse getConnectedLab(GetConnectedLabRequest request) {
         log.info("Getting connected lab");
         OpenCDXConnectedLabModel model = this.openCDXConnectedLabRepository
-                .findById(new ObjectId(request.getConnectedLabId()))
+                .findById(new OpenCDXIdentifier(request.getConnectedLabId()))
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLabId()));
         return GetConnectedLabResponse.newBuilder()
@@ -165,7 +167,7 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
     @Override
     public UpdateConnectedLabResponse updateConnectedLab(UpdateConnectedLabRequest request) {
         if (!this.openCDXConnectedLabRepository.existsById(
-                new ObjectId(request.getConnectedLab().getId()))) {
+                new OpenCDXIdentifier(request.getConnectedLab().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
                     2,
@@ -201,7 +203,7 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
         log.info("Deleting connected lab");
 
         OpenCDXConnectedLabModel model = this.openCDXConnectedLabRepository
-                .findById(new ObjectId(request.getConnectedLabId()))
+                .findById(new OpenCDXIdentifier(request.getConnectedLabId()))
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLabId()));
 

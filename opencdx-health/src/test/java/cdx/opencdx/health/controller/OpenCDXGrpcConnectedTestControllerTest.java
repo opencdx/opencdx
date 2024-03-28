@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -35,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,15 +92,19 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
@@ -150,15 +154,15 @@ class OpenCDXGrpcConnectedTestControllerTest {
         StreamObserver<TestSubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
-                        .setDeviceIdentifier(ObjectId.get().toHexString())
-                        .setMediaId(ObjectId.get().toHexString())
+                        .setDeviceIdentifier(OpenCDXIdentifier.get().toHexString())
+                        .setMediaId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
@@ -181,16 +185,16 @@ class OpenCDXGrpcConnectedTestControllerTest {
         OpenCDXConnectedTestModel openCDXConnectedTestModel =
                 new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build());
 
-        Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXConnectedTestModel));
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(ObjectId.get().toHexString())
+                .setTestId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver);
 
@@ -204,10 +208,10 @@ class OpenCDXGrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
-        Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(ObjectId.get().toHexString())
+                .setTestId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -219,7 +223,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedTests() {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -229,7 +233,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setPatientId(new ObjectId().toHexString())
+                .setPatientId(new OpenCDXIdentifier().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -241,14 +245,14 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedTests_2() throws JsonProcessingException {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .patientId(ObjectId.get())
-                                .id(ObjectId.get())
+                                .patientId(OpenCDXIdentifier.get())
+                                .id(OpenCDXIdentifier.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),
@@ -275,7 +279,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setPatientId(new ObjectId().toHexString())
+                .setPatientId(new OpenCDXIdentifier().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -286,7 +290,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedTests_3() {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -297,7 +301,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(true)
                         .setSort("nationalHealthId")
                         .build())
-                .setPatientId(new ObjectId().toHexString())
+                .setPatientId(new OpenCDXIdentifier().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -309,7 +313,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedTests_4() {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -320,7 +324,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(false)
                         .setSort("nationalHealthId")
                         .build())
-                .setPatientId(new ObjectId().toHexString())
+                .setPatientId(new OpenCDXIdentifier().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -358,10 +362,10 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .patientId(ObjectId.get())
-                                .id(ObjectId.get())
+                                .patientId(OpenCDXIdentifier.get())
+                                .id(OpenCDXIdentifier.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),

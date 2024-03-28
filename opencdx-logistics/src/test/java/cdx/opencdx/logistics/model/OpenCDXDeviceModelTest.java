@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.inventory.Device;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ class OpenCDXDeviceModelTest {
                 .manufacturerDate(Instant.now())
                 .expiryDate(Instant.now())
                 .testValidationDate(Instant.now())
-                .testCaseIds(List.of(ObjectId.get()))
+                .testCaseIds(List.of(OpenCDXIdentifier.get()))
                 .build();
         Assertions.assertDoesNotThrow(() -> deviceModel.getProtobufMessage());
     }
@@ -44,17 +44,17 @@ class OpenCDXDeviceModelTest {
     @Test
     void getProtobufMessage_3() {
         Device device = Device.newBuilder()
-                .setManufacturerId(new ObjectId().toHexString())
-                .setManufacturerCountryId(new ObjectId().toHexString())
-                .setVendorCountryId(new ObjectId().toHexString())
-                .setVendorId(new ObjectId().toHexString())
+                .setManufacturerId(new OpenCDXIdentifier().toHexString())
+                .setManufacturerCountryId(new OpenCDXIdentifier().toHexString())
+                .setVendorCountryId(new OpenCDXIdentifier().toHexString())
+                .setVendorId(new OpenCDXIdentifier().toHexString())
                 .setManufactureDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setTestValidationDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXDeviceModel model = new OpenCDXDeviceModel(device);
         Assertions.assertEquals(

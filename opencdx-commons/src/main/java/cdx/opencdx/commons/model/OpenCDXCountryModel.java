@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Country;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -23,7 +24,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,14 +39,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXCountryModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create this model from this protobuf message
@@ -55,7 +55,7 @@ public class OpenCDXCountryModel {
     public OpenCDXCountryModel(Country country) {
         log.trace("Creating OpenCDXCountryModel from protobuf message");
         if (country.hasId()) {
-            this.id = new ObjectId(country.getId());
+            this.id = new OpenCDXIdentifier(country.getId());
         }
         this.name = country.getName();
 
@@ -68,10 +68,10 @@ public class OpenCDXCountryModel {
                     country.getModified().getSeconds(), country.getModified().getNanos());
         }
         if (country.hasCreator()) {
-            this.creator = new ObjectId(country.getCreator());
+            this.creator = new OpenCDXIdentifier(country.getCreator());
         }
         if (country.hasModifier()) {
-            this.modifier = new ObjectId(country.getModifier());
+            this.modifier = new OpenCDXIdentifier(country.getModifier());
         }
     }
 

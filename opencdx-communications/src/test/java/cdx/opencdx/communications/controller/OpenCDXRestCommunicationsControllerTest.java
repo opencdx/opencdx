@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -36,7 +37,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,53 +106,53 @@ class OpenCDXRestCommunicationsControllerTest {
 
     @BeforeEach
     public void setup() {
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
 
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(new OpenCDXSMSTemplateModel()));
 
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
 
         Mockito.when(this.openCDXMessageTemplateRepository.save(Mockito.any(OpenCDXMessageTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXMessageTemplateRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMessageTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(new OpenCDXMessageTemplateModel()));
 
         Mockito.when(this.openCDXMessageRepository.saveAll(Mockito.anyList()))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXMessageRepository.findAllById(Mockito.anyList()))
                 .thenReturn(List.of(OpenCDXMessageModel.builder()
-                        .id(ObjectId.get())
-                        .patientId(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
+                        .patientId(OpenCDXIdentifier.get())
                         .title("title")
                         .message("message")
                         .messageType(MessageType.INFO)
                         .messageStatus(MessageStatus.READ)
                         .build()));
-        Mockito.when(this.openCDXMessageRepository.findAllByPatientId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMessageRepository.findAllByPatientId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(List.of(OpenCDXMessageModel.builder()
-                        .id(ObjectId.get())
-                        .patientId(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
+                        .patientId(OpenCDXIdentifier.get())
                         .title("title")
                         .message("message")
                         .messageType(MessageType.INFO)
@@ -165,12 +165,12 @@ class OpenCDXRestCommunicationsControllerTest {
                     public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXNotificationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationModel()));
 
         Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
@@ -182,13 +182,17 @@ class OpenCDXRestCommunicationsControllerTest {
         Mockito.when(this.openCDXMessageTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
-        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -216,7 +220,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                                        .setTemplateId(ObjectId.get().toHexString())
+                                        .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -228,7 +232,7 @@ class OpenCDXRestCommunicationsControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"/email/", "/sms/", "/event/"})
     void testGets(String url) throws Exception {
-        String uuid = ObjectId.get().toHexString();
+        String uuid = OpenCDXIdentifier.get().toHexString();
         MvcResult result = this.mockMvc
                 .perform(get(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -244,7 +248,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(put("/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                                        .setTemplateId(ObjectId.get().toHexString())
+                                        .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -256,7 +260,7 @@ class OpenCDXRestCommunicationsControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"/email/", "/sms/", "/event/"})
     void testDeletes(String url) throws Exception {
-        String uuid = ObjectId.get().toHexString();
+        String uuid = OpenCDXIdentifier.get().toHexString();
         MvcResult result = this.mockMvc
                 .perform(delete(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -272,7 +276,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                                        .setTemplateId(ObjectId.get().toHexString())
+                                        .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -287,7 +291,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(put("/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                                        .setTemplateId(ObjectId.get().toHexString())
+                                        .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -300,12 +304,12 @@ class OpenCDXRestCommunicationsControllerTest {
     void createNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/event")
-                        .content(this.objectMapper.writeValueAsString(
-                                NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                                        .setEventId(ObjectId.get().toHexString())
-                                        .setEmailTemplateId(ObjectId.get().toHexString())
-                                        .setSmsTemplateId(ObjectId.get().toHexString())
-                                        .build()))
+                        .content(this.objectMapper.writeValueAsString(NotificationEvent.newBuilder(
+                                        NotificationEvent.getDefaultInstance())
+                                .setEventId(OpenCDXIdentifier.get().toHexString())
+                                .setEmailTemplateId(OpenCDXIdentifier.get().toHexString())
+                                .setSmsTemplateId(OpenCDXIdentifier.get().toHexString())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -317,12 +321,12 @@ class OpenCDXRestCommunicationsControllerTest {
     void updateNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/event")
-                        .content(this.objectMapper.writeValueAsString(
-                                NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                                        .setEventId(ObjectId.get().toHexString())
-                                        .setEmailTemplateId(ObjectId.get().toHexString())
-                                        .setSmsTemplateId(ObjectId.get().toHexString())
-                                        .build()))
+                        .content(this.objectMapper.writeValueAsString(NotificationEvent.newBuilder(
+                                        NotificationEvent.getDefaultInstance())
+                                .setEventId(OpenCDXIdentifier.get().toHexString())
+                                .setEmailTemplateId(OpenCDXIdentifier.get().toHexString())
+                                .setSmsTemplateId(OpenCDXIdentifier.get().toHexString())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -335,8 +339,8 @@ class OpenCDXRestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/notification")
                         .content(this.objectMapper.writeValueAsString(Notification.newBuilder()
-                                .setEventId(ObjectId.get().toHexString())
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setEventId(OpenCDXIdentifier.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -427,7 +431,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(get("/messageTemplate")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(TemplateRequest.newBuilder()
-                                .setTemplateId(ObjectId.get().toHexString())
+                                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -443,7 +447,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(put("/message")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
-                                .setTemplateId(ObjectId.get().toHexString())
+                                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -456,9 +460,9 @@ class OpenCDXRestCommunicationsControllerTest {
     @Test
     void deleteMessageTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/message/" + ObjectId.get().toHexString())
+                .perform(delete("/message/" + OpenCDXIdentifier.get().toHexString())
                         .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
-                                .setTemplateId(ObjectId.get().toHexString())
+                                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 //  .andExpect(status().isOk())
@@ -497,7 +501,7 @@ class OpenCDXRestCommunicationsControllerTest {
                                         .setPageSize(10)
                                         .setSortAscending(true)
                                         .build())
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -513,7 +517,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/message/read")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(MarkMessagesAsReadRequest.newBuilder()
-                                .addAllId(List.of(ObjectId.get().toHexString()))
+                                .addAllId(List.of(OpenCDXIdentifier.get().toHexString()))
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -529,7 +533,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/message/unread")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(MarkMessagesAsUnreadRequest.newBuilder()
-                                .addAllId(List.of(ObjectId.get().toHexString()))
+                                .addAllId(List.of(OpenCDXIdentifier.get().toHexString()))
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

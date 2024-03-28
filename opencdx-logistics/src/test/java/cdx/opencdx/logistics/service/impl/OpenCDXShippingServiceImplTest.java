@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -38,7 +39,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,30 +80,34 @@ class OpenCDXShippingServiceImplTest {
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -115,9 +119,9 @@ class OpenCDXShippingServiceImplTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -128,25 +132,25 @@ class OpenCDXShippingServiceImplTest {
                     public OpenCDXOrderModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXOrderModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXOrderModel>>() {
                     @Override
                     public Optional<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
 
                         return Optional.of(OpenCDXOrderModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .created(Instant.now())
                                 .modified(Instant.now())
-                                .creator(ObjectId.get())
-                                .modifier(ObjectId.get())
+                                .creator(OpenCDXIdentifier.get())
+                                .modifier(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -154,21 +158,21 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXOrderRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXOrderModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
         Mockito.when(this.openCDXOrderRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenAnswer(new Answer<PageImpl<OpenCDXOrderModel>>() {
                     @Override
                     public PageImpl<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return new PageImpl<>(
                                 List.of(OpenCDXOrderModel.builder()
-                                        .id(ObjectId.get())
+                                        .id(OpenCDXIdentifier.get())
                                         .patientId(argument)
                                         .build()),
                                 PageRequest.of(1, 10),
@@ -188,21 +192,21 @@ class OpenCDXShippingServiceImplTest {
     void createOrder() {
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .setStatus(ShippingStatus.PENDING)
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -211,8 +215,9 @@ class OpenCDXShippingServiceImplTest {
 
     @Test
     void getOrder() {
-        GetOrderRequest getOrderRequest =
-                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
@@ -221,16 +226,16 @@ class OpenCDXShippingServiceImplTest {
     void updateOrder() {
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -240,7 +245,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void cancelOrder() {
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.cancelOrder(cancelOrderRequest));
@@ -309,7 +314,7 @@ class OpenCDXShippingServiceImplTest {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
@@ -325,15 +330,15 @@ class OpenCDXShippingServiceImplTest {
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -349,8 +354,9 @@ class OpenCDXShippingServiceImplTest {
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
                 openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest =
-                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
@@ -366,16 +372,16 @@ class OpenCDXShippingServiceImplTest {
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -392,7 +398,7 @@ class OpenCDXShippingServiceImplTest {
                 openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -410,7 +416,7 @@ class OpenCDXShippingServiceImplTest {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -420,7 +426,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void createOrder_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -432,15 +438,15 @@ class OpenCDXShippingServiceImplTest {
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -451,7 +457,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void getOrder_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -461,8 +467,9 @@ class OpenCDXShippingServiceImplTest {
                 objectMapper,
                 openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest =
-                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
@@ -470,7 +477,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void updateOrder_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -482,16 +489,16 @@ class OpenCDXShippingServiceImplTest {
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -502,7 +509,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void cancelOrder_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -513,7 +520,7 @@ class OpenCDXShippingServiceImplTest {
                 openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -523,7 +530,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void listOrders_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -536,7 +543,7 @@ class OpenCDXShippingServiceImplTest {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.listOrders(listOrdersRequest));
@@ -545,7 +552,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void getOrder_OpenCDXNotFound_2() throws JsonProcessingException {
         this.openCDXOrderRepository = Mockito.mock(OpenCDXOrderRepository.class);
-        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -555,8 +562,9 @@ class OpenCDXShippingServiceImplTest {
                 objectMapper,
                 openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest =
-                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
@@ -564,7 +572,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void updateOrder_OpenCDXNotFound_2() throws JsonProcessingException {
         this.openCDXOrderRepository = Mockito.mock(OpenCDXOrderRepository.class);
-        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -576,16 +584,16 @@ class OpenCDXShippingServiceImplTest {
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setShippingAddress(Address.newBuilder()
                                 .setAddress1("1001 Main St")
                                 .setState("CA")
                                 .setCity("San Francisco")
                                 .setPostalCode("94105")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setTestCaseId(ObjectId.get().toHexString())
+                        .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -596,7 +604,7 @@ class OpenCDXShippingServiceImplTest {
     @Test
     void cancelOrder_OpenCDXNotFound_2() throws JsonProcessingException {
         this.openCDXOrderRepository = Mockito.mock(OpenCDXOrderRepository.class);
-        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXShippingService = new OpenCDXShippingServiceImpl(
@@ -607,7 +615,7 @@ class OpenCDXShippingServiceImplTest {
                 openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(

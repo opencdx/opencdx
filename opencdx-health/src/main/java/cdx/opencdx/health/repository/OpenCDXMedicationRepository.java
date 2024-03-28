@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -37,7 +36,7 @@ public interface OpenCDXMedicationRepository extends OpenCDXRepository<OpenCDXMe
      * @param pageable the pageable
      * @return the Page of medications
      */
-    Page<OpenCDXMedicationModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXMedicationModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
     /**
      * Find all medications by national health id.
      * @param nationalHealthId the national health id
@@ -51,7 +50,7 @@ public interface OpenCDXMedicationRepository extends OpenCDXRepository<OpenCDXMe
      * @param pageable the pageable
      * @return the Page of medications
      */
-    Page<OpenCDXMedicationModel> findAllByPatientIdAndEndDateIsNull(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXMedicationModel> findAllByPatientIdAndEndDateIsNull(OpenCDXIdentifier patientId, Pageable pageable);
     /**
      * Find all medications by national health id and end date is null.
      * @param nationalHealthId the national health id

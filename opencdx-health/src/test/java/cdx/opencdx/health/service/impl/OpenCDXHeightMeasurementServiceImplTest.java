@@ -18,6 +18,7 @@ package cdx.opencdx.health.service.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -82,18 +83,18 @@ class OpenCDXHeightMeasurementServiceImplTest {
                     public OpenCDXHeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXHeightMeasurementModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXHeightMeasurementModel>>() {
                     @Override
                     public Optional<OpenCDXHeightMeasurementModel> answer(InvocationOnMock invocation)
                             throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(argument)
                                 .patientId(argument)
@@ -102,9 +103,13 @@ class OpenCDXHeightMeasurementServiceImplTest {
                 });
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -136,10 +141,10 @@ class OpenCDXHeightMeasurementServiceImplTest {
 
     @Test
     void getHeightMeasurementOpenCDXNotFound() {
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         GetHeightMeasurementRequest request = GetHeightMeasurementRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXHeightMeasurementService.getHeightMeasurement(request));
@@ -169,10 +174,10 @@ class OpenCDXHeightMeasurementServiceImplTest {
 
     @Test
     void deleteHeightMeasurementOpenCDXNotFound() {
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeleteHeightMeasurementRequest request = DeleteHeightMeasurementRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXHeightMeasurementService.deleteHeightMeasurement(request));
@@ -194,8 +199,8 @@ class OpenCDXHeightMeasurementServiceImplTest {
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXHeightMeasurementModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(ObjectId.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),

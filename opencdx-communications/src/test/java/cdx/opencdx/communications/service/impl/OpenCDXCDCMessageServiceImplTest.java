@@ -17,6 +17,7 @@ package cdx.opencdx.communications.service.impl;
 
 import static org.mockito.Mockito.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -33,7 +34,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,7 +97,9 @@ class OpenCDXCDCMessageServiceImplTest {
             when(statusLine.getStatusCode()).thenReturn(HttpStatus.SC_CREATED);
 
             Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                    .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                    .thenReturn(OpenCDXIAMUserModel.builder()
+                            .id(OpenCDXIdentifier.get())
+                            .build());
 
             openCDXCDCMessageService.sendCDCMessage("CDC Message");
 

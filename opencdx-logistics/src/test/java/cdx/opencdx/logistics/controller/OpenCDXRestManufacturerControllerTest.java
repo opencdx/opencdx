@@ -18,6 +18,7 @@ package cdx.opencdx.logistics.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.EmailAddress;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,9 +85,13 @@ class OpenCDXRestManufacturerControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .thenAnswer(new Answer<OpenCDXManufacturerModel>() {
@@ -95,23 +99,23 @@ class OpenCDXRestManufacturerControllerTest {
                     public OpenCDXManufacturerModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXManufacturerModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXManufacturerModel>>() {
                     @Override
                     public Optional<OpenCDXManufacturerModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXManufacturerModel.builder().id(argument).build());
                     }
                 });
-        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -120,7 +124,7 @@ class OpenCDXRestManufacturerControllerTest {
     @Test
     void getManufacturerById() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerEmail(EmailAddress.newBuilder()
                         .setEmail("manufacturerEmail@email.com")
                         .setType(EmailType.EMAIL_TYPE_WORK)
@@ -128,7 +132,7 @@ class OpenCDXRestManufacturerControllerTest {
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(get("/manufacturer/" + ObjectId.get().toHexString())
+                .perform(get("/manufacturer/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -138,7 +142,7 @@ class OpenCDXRestManufacturerControllerTest {
     @Test
     void addVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerEmail(EmailAddress.newBuilder()
                         .setEmail("manufacturerEmail@email.com")
                         .setType(EmailType.EMAIL_TYPE_WORK)
@@ -157,7 +161,7 @@ class OpenCDXRestManufacturerControllerTest {
     @Test
     void updateVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerEmail(EmailAddress.newBuilder()
                         .setEmail("manufacturerEmail@email.com")
                         .setType(EmailType.EMAIL_TYPE_WORK)
@@ -176,7 +180,7 @@ class OpenCDXRestManufacturerControllerTest {
     @Test
     void deleteVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerEmail(EmailAddress.newBuilder()
                         .setEmail("manufacturerEmail@email.com")
                         .setType(EmailType.EMAIL_TYPE_WORK)
@@ -184,7 +188,7 @@ class OpenCDXRestManufacturerControllerTest {
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(delete("/manufacturer/" + ObjectId.get().toHexString())
+                .perform(delete("/manufacturer/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

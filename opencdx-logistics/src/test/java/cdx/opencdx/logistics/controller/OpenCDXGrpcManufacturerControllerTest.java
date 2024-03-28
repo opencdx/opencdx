@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,9 +87,13 @@ class OpenCDXGrpcManufacturerControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXManufacturerService = new OpenCDXManufacturerServiceImpl(
                 this.openCDXManufacturerRepository,
@@ -110,13 +114,13 @@ class OpenCDXGrpcManufacturerControllerTest {
         StreamObserver<Manufacturer> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
-                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+                OpenCDXManufacturerModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
         ManufacturerIdRequest manufacturerIdRequest = ManufacturerIdRequest.newBuilder()
-                .setManufacturerId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcManufacturerController.getManufacturerById(manufacturerIdRequest, responseObserver);
 
@@ -129,13 +133,13 @@ class OpenCDXGrpcManufacturerControllerTest {
         StreamObserver<Manufacturer> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
-                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+                OpenCDXManufacturerModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
         Manufacturer manufacturer = Manufacturer.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerContact(ContactInfo.newBuilder().build())
                 .setManufacturerEmail(EmailAddress.newBuilder().build())
                 .setManufacturerPhone(PhoneNumber.newBuilder().build())
@@ -151,13 +155,13 @@ class OpenCDXGrpcManufacturerControllerTest {
         StreamObserver<Manufacturer> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
-                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+                OpenCDXManufacturerModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
         Manufacturer manufacturer = Manufacturer.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerContact(ContactInfo.newBuilder().build())
                 .setManufacturerEmail(EmailAddress.newBuilder().build())
                 .setManufacturerPhone(PhoneNumber.newBuilder().build())
@@ -173,13 +177,13 @@ class OpenCDXGrpcManufacturerControllerTest {
         StreamObserver<DeleteResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
-                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+                OpenCDXManufacturerModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
         ManufacturerIdRequest manufacturerIdRequest = ManufacturerIdRequest.newBuilder()
-                .setManufacturerId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcManufacturerController.deleteManufacturer(manufacturerIdRequest, responseObserver);
 

@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXDeviceModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Repository for persisting Device entities.
@@ -34,37 +33,37 @@ public interface OpenCDXDeviceRepository extends OpenCDXRepository<OpenCDXDevice
      * @param manufacturerCountryId Country code to look for
      * @return Boolean indicating if successful
      */
-    Boolean existsByManufacturerCountryId(ObjectId manufacturerCountryId);
+    Boolean existsByManufacturerCountryId(OpenCDXIdentifier manufacturerCountryId);
     /**
      * Determine if an entity had a Country code
      * @param vendorCountryId Country code to look for
      * @return Boolean indicating if successful
      */
-    Boolean existsByVendorCountryId(ObjectId vendorCountryId);
+    Boolean existsByVendorCountryId(OpenCDXIdentifier vendorCountryId);
     /**
      * Determine if an entity had a Country code
      * @param vendorId Vendor to look for
      * @return Boolean indicating if successful
      */
-    Boolean existsByVendorId(ObjectId vendorId);
+    Boolean existsByVendorId(OpenCDXIdentifier vendorId);
     /**
      * Determine if an entity had a Country code
      * @param manfacturerId Manufacturer code to look for
      * @return Boolean indicating if successful
      */
-    Boolean existsByManufacturerId(ObjectId manfacturerId);
+    Boolean existsByManufacturerId(OpenCDXIdentifier manfacturerId);
     /**
      * Find all manufacturer for a device.
      * @param manufacturerId The manufacturerId.
      * @param pageable The page to return.
      * @return The devices.
      */
-    Page<OpenCDXDeviceModel> findAllByManufacturerId(ObjectId manufacturerId, Pageable pageable);
+    Page<OpenCDXDeviceModel> findAllByManufacturerId(OpenCDXIdentifier manufacturerId, Pageable pageable);
     /**
      * Find all vendor for a device.
      * @param vendorId The vendorId.
      * @param pageable The page to return.
      * @return The devices
      */
-    Page<OpenCDXDeviceModel> findAllByVendorId(ObjectId vendorId, Pageable pageable);
+    Page<OpenCDXDeviceModel> findAllByVendorId(OpenCDXIdentifier vendorId, Pageable pageable);
 }

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -32,7 +33,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -84,7 +84,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
     @Override
     public CreateWorkspaceResponse createWorkspace(CreateWorkspaceRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "organization", new ObjectId(request.getWorkspace().getOrganizationId()));
+                "organization", new OpenCDXIdentifier(request.getWorkspace().getOrganizationId()));
         OpenCDXIAMWorkspaceModel model = new OpenCDXIAMWorkspaceModel(request.getWorkspace());
         model = this.openCDXIAMWorkspaceRepository.save(model);
 
@@ -119,7 +119,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
     @Override
     public GetWorkspaceDetailsByIdResponse getWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest request) {
         OpenCDXIAMWorkspaceModel model = this.openCDXIAMWorkspaceRepository
-                .findById(new ObjectId(request.getWorkspaceId()))
+                .findById(new OpenCDXIdentifier(request.getWorkspaceId()))
                 .orElseThrow(
                         () -> new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_WORKSPACE" + request.getWorkspaceId()));
         return GetWorkspaceDetailsByIdResponse.newBuilder()
@@ -136,7 +136,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
     @Override
     public UpdateWorkspaceResponse updateWorkspace(UpdateWorkspaceRequest request) {
         if (!this.openCDXIAMWorkspaceRepository.existsById(
-                new ObjectId(request.getWorkspace().getId()))) {
+                new OpenCDXIdentifier(request.getWorkspace().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
                     3,

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.connected.*;
 import com.google.protobuf.Timestamp;
@@ -24,7 +25,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -41,9 +41,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXConnectedTestModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
     private String nationalHealthId;
 
     private BasicInfo basicInfo;
@@ -55,8 +55,8 @@ public class OpenCDXConnectedTestModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message ConnectedTest
@@ -64,9 +64,9 @@ public class OpenCDXConnectedTestModel {
      */
     public OpenCDXConnectedTestModel(ConnectedTest connectedTest) {
         if (connectedTest.getBasicInfo().hasId()) {
-            this.id = new ObjectId(connectedTest.getBasicInfo().getId());
+            this.id = new OpenCDXIdentifier(connectedTest.getBasicInfo().getId());
         }
-        this.patientId = new ObjectId(connectedTest.getBasicInfo().getPatientId());
+        this.patientId = new OpenCDXIdentifier(connectedTest.getBasicInfo().getPatientId());
         this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();
         this.basicInfo = connectedTest.getBasicInfo();
         this.orderInfo = connectedTest.getOrderInfo();
@@ -86,10 +86,10 @@ public class OpenCDXConnectedTestModel {
                     connectedTest.getModified().getNanos());
         }
         if (connectedTest.hasCreator()) {
-            this.creator = new ObjectId(connectedTest.getCreator());
+            this.creator = new OpenCDXIdentifier(connectedTest.getCreator());
         }
         if (connectedTest.hasModifier()) {
-            this.modifier = new ObjectId(connectedTest.getModifier());
+            this.modifier = new OpenCDXIdentifier(connectedTest.getModifier());
         }
     }
     /**

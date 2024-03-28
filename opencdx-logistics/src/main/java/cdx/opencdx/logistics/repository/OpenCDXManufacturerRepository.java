@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXManufacturerModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -34,5 +33,5 @@ public interface OpenCDXManufacturerRepository extends OpenCDXRepository<OpenCDX
      * @param countryId Country ID to search for.
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddress_CountryId(ObjectId countryId);
+    Boolean existsByAddress_CountryId(OpenCDXIdentifier countryId);
 }

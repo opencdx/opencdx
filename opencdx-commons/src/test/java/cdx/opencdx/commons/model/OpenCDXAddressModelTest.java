@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.AddressPurpose;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ class OpenCDXAddressModelTest {
                 .setCity("City")
                 .setPostalCode("Postcode")
                 .setState("State")
-                .setCountryId(new ObjectId().toHexString())
+                .setCountryId(new OpenCDXIdentifier().toHexString())
                 .setAddressPurpose(AddressPurpose.MAILING)
                 .build();
 

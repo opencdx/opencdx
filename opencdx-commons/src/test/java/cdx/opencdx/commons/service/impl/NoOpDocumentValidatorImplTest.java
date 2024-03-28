@@ -17,8 +17,8 @@ package cdx.opencdx.commons.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import java.util.Collections;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +60,7 @@ class NoOpDocumentValidatorImplTest {
     @Test
     void validateOrganizationWorkspaceOrThrow() {
         NoOpDocumentValidatorImpl noOpDocumentValidator = new NoOpDocumentValidatorImpl();
-        Assertions.assertDoesNotThrow(
-                () -> noOpDocumentValidator.validateOrganizationWorkspaceOrThrow(ObjectId.get(), ObjectId.get()));
+        Assertions.assertDoesNotThrow(() -> noOpDocumentValidator.validateOrganizationWorkspaceOrThrow(
+                OpenCDXIdentifier.get(), OpenCDXIdentifier.get()));
     }
 }

@@ -17,10 +17,10 @@ package cdx.opencdx.audit.controller;
 
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,8 +58,8 @@ class OpenCDXGrpcAuditControllerTest {
                 .setAuditSource(AuditSource.getDefaultInstance())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         this.openCDXGrpcAuditController.event(event, responseObserver);

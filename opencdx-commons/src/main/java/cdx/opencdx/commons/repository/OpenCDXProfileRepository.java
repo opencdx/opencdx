@@ -15,12 +15,11 @@
  */
 package cdx.opencdx.commons.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -45,8 +44,8 @@ public interface OpenCDXProfileRepository extends OpenCDXRepository<OpenCDXProfi
 
     /**
      * Method to find a profile by their user id
-     * @param userId ObjectId of the user to look up.
+     * @param userId OpenCDXIdentifier of the user to look up.
      * @return Optional OpenCDXProfileModel of the user.
      */
-    Optional<OpenCDXProfileModel> findByUserId(ObjectId userId);
+    Optional<OpenCDXProfileModel> findByUserId(OpenCDXIdentifier userId);
 }

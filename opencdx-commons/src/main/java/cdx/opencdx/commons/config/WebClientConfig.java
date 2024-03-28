@@ -46,8 +46,6 @@ public class WebClientConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-
-
     /**
      * Customizer for WebClient
      * @return ZipkinWebClientBuilderCustomizer

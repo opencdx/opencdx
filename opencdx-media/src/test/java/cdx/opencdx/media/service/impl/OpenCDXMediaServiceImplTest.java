@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.media.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
@@ -23,7 +24,6 @@ import cdx.opencdx.media.service.OpenCDXMediaService;
 import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,16 +59,16 @@ class OpenCDXMediaServiceImplTest {
                     public OpenCDXMediaModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXMediaModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXMediaModel.builder().id(argument).build());
                     }
@@ -102,21 +102,22 @@ class OpenCDXMediaServiceImplTest {
 
     @Test
     void getMedia() {
-        Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.getMedia(
-                GetMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build()));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.getMedia(GetMediaRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build()));
     }
 
     @Test
     void updateMedia() {
         Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.updateMedia(UpdateMediaRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build()));
     }
 
     @Test
     void deleteMedia() {
         Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.deleteMedia(DeleteMediaRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build()));
     }
 }

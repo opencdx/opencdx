@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -37,7 +38,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,30 +87,34 @@ class OpenCDXMedicationRestControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -122,9 +126,9 @@ class OpenCDXMedicationRestControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -135,30 +139,30 @@ class OpenCDXMedicationRestControllerTest {
                     public OpenCDXMedicationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXMedicationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXMedicationRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMedicationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMedicationModel>>() {
                     @Override
                     public Optional<OpenCDXMedicationModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
         Mockito.when(this.openCDXMedicationRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -167,18 +171,18 @@ class OpenCDXMedicationRestControllerTest {
                         Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
         Mockito.when(this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -187,8 +191,8 @@ class OpenCDXMedicationRestControllerTest {
                         Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
@@ -201,7 +205,7 @@ class OpenCDXMedicationRestControllerTest {
     @Test
     void prescribing() throws Exception {
         Medication medication = Medication.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setNationalHealthId(UUID.randomUUID().toString())
                 .setMedicationName("medication")
                 .setStartDate(Timestamp.newBuilder().setSeconds(1696733104))
@@ -219,7 +223,7 @@ class OpenCDXMedicationRestControllerTest {
     @Test
     void ending() throws Exception {
         EndMedicationRequest endMedicationRequest = EndMedicationRequest.newBuilder()
-                .setMedicationId(ObjectId.get().toHexString())
+                .setMedicationId(OpenCDXIdentifier.get().toHexString())
                 .setEndDate(Timestamp.newBuilder().setSeconds(1696933104).build())
                 .build();
 
@@ -235,7 +239,7 @@ class OpenCDXMedicationRestControllerTest {
     @Test
     void listAllMedications() throws Exception {
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
@@ -252,7 +256,7 @@ class OpenCDXMedicationRestControllerTest {
     @Test
     void listCurrentMedications() throws Exception {
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();

@@ -19,8 +19,6 @@ import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**

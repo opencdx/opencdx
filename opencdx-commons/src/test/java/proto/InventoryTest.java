@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,7 +27,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +52,7 @@ class InventoryTest {
                                 .setCity("Hometown")
                                 .setPostalCode("12345")
                                 .setState("Texas")
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .build()));
     }
 
@@ -63,7 +63,7 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(Country.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setName("USA")
                                 .build()));
     }
@@ -75,14 +75,14 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(Manufacturer.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setName("Any Manufacturer")
                                 .setManufacturerAddress(Address.newBuilder()
                                         .setAddress1("1234 Main Street")
                                         .setCity("Hometown")
                                         .setPostalCode("12345")
                                         .setState("Texas")
-                                        .setCountryId(ObjectId.get().toHexString())
+                                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .setManufacturerContact(ContactInfo.newBuilder()
                                         .setName(FullName.newBuilder()
@@ -111,14 +111,14 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(Vendor.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setVendorName("Any Manufacturer")
                                 .setVendorAddress(Address.newBuilder()
                                         .setAddress1("1234 Main Street")
                                         .setCity("Hometown")
                                         .setPostalCode("12345")
                                         .setState("Texas")
-                                        .setCountryId(ObjectId.get().toHexString())
+                                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .setVendorContact(ContactInfo.newBuilder()
                                         .setName(FullName.newBuilder()
@@ -147,13 +147,14 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(Device.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .setType("Medical")
                                 .setModel("SR-71")
-                                .setManufacturerId(ObjectId.get().toHexString())
-                                .setManufacturerCountryId(ObjectId.get().toHexString())
-                                .setVendorId(ObjectId.get().toHexString())
-                                .setVendorCountryId(ObjectId.get().toHexString())
+                                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                                .setManufacturerCountryId(
+                                        OpenCDXIdentifier.get().toHexString())
+                                .setVendorId(OpenCDXIdentifier.get().toHexString())
+                                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
                                 .setManufactureDate(this.getTimeStamp(Instant.now()))
                                 .setExpiryDate(this.getTimeStamp(Instant.now()))
                                 .setBatchNumber("10")
@@ -185,12 +186,12 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(TestCase.newBuilder()
-                                .setId(ObjectId.get().toHexString())
-                                .setManufacturerId(ObjectId.get().toHexString())
-                                .setVendorId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                                .setVendorId(OpenCDXIdentifier.get().toHexString())
                                 .addAllDeviceIds(List.of(
-                                        ObjectId.get().toHexString(),
-                                        ObjectId.get().toHexString()))
+                                        OpenCDXIdentifier.get().toHexString(),
+                                        OpenCDXIdentifier.get().toHexString()))
                                 .setNumberOfTests(8)
                                 .setPackagingDate(this.getTimeStamp(Instant.now()))
                                 .setExpiryDate(this.getTimeStamp(Instant.now()))

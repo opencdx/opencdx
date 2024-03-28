@@ -17,10 +17,10 @@ package cdx.opencdx.commons.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class OpenCDXIAMUserModelTest {
     @Test
     void getProtobufMessage_1() {
         IamUser user = IamUser.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setUsername("email")
                 .setSystemName("system")
                 .setEmailVerified(false)
@@ -37,8 +37,8 @@ class OpenCDXIAMUserModelTest {
                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -72,7 +72,7 @@ class OpenCDXIAMUserModelTest {
     @Test
     void getProtobufMessage_4() {
         IamUser user = IamUser.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setUsername("email")
                 .setSystemName("system")
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
@@ -87,7 +87,7 @@ class OpenCDXIAMUserModelTest {
     @Test
     void getProtobufMessage_5() {
         IamUser user = IamUser.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
                 .build();

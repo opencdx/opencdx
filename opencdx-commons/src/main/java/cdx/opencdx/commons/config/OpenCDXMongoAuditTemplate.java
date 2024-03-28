@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
 import io.micrometer.observation.annotation.Observed;
@@ -23,7 +24,6 @@ import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.*;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -54,7 +54,7 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     @Override
     protected <T> T maybeCallBeforeSave(T object, Document document, String collection) {
         log.trace("OpenCDXMongoAuditTemplate maybeCallBeforeSave");
-        ObjectId identityID =
+        OpenCDXIdentifier identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();
 
@@ -95,7 +95,7 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     private void updateRemovalQuery(String collectionName, Query query) {
         log.trace("OpenCDXMongoAuditTemplate updateRemovalQuery");
-        ObjectId identityID =
+        OpenCDXIdentifier identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();
 

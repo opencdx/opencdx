@@ -15,12 +15,11 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXMessageModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -34,5 +33,5 @@ public interface OpenCDXMessageRepository extends OpenCDXRepository<OpenCDXMessa
      * @param patientId Patient ID to find messages for.
      * @return List of messages for the patient.
      */
-    List<OpenCDXMessageModel> findAllByPatientId(ObjectId patientId);
+    List<OpenCDXMessageModel> findAllByPatientId(OpenCDXIdentifier patientId);
 }

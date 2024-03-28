@@ -18,8 +18,6 @@ package cdx.opencdx.audit.repository;
 import cdx.opencdx.audit.model.AuditEventModel;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
