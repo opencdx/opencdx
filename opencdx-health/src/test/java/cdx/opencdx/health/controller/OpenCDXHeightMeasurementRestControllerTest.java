@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,7 +111,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                             argument.setPatientId(OpenCDXIdentifier.get());
-                            argument.setNationalHealthId(ObjectId.get().toHexString());
+                            argument.setNationalHealthId(OpenCDXIdentifier.get().toHexString());
                         }
                         return argument;
                     }
@@ -137,7 +136,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
                         List.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
-                                .nationalHealthId(ObjectId.get().toHexString())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -171,7 +170,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
     @Test
     void getHeightMeasurementRequest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/vitals/height/" + ObjectId.get().toHexString())
+                .perform(get("/vitals/height/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -185,7 +184,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
                 .perform(MockMvcRequestBuilders.post("/vitals/height")
                         .content(this.objectMapper.writeValueAsString(CreateHeightMeasurementRequest.newBuilder()
                                 .setHeightMeasurement(HeightMeasurement.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -200,8 +199,8 @@ class OpenCDXHeightMeasurementRestControllerTest {
                 .perform(put("/vitals/height")
                         .content(this.objectMapper.writeValueAsString(UpdateHeightMeasurementRequest.newBuilder()
                                 .setHeightMeasurement(HeightMeasurement.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
-                                        .setId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -213,7 +212,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
     @Test
     void deleteHeightMeasurement() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/vitals/height/" + ObjectId.get().toHexString())
+                .perform(delete("/vitals/height/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -232,7 +231,7 @@ class OpenCDXHeightMeasurementRestControllerTest {
                                         .setPageSize(10)
                                         .setSortAscending(true)
                                         .build())
-                                .setNationalHealthId(ObjectId.get().toHexString())
+                                .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

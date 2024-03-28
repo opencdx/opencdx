@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -35,7 +35,7 @@ public interface OpenCDXHeightMeasurementRepository extends OpenCDXRepository<Op
      * @param pageable Pageable for pagination
      * @return the list of heights
      */
-    Page<OpenCDXHeightMeasurementModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXHeightMeasurementModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 
     /**
      * Find all heights by patient id.

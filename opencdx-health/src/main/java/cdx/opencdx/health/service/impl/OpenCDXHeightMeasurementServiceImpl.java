@@ -33,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -247,7 +246,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
         Page<OpenCDXHeightMeasurementModel> all = Page.empty();
         if (request.hasPatientId()) {
             all = this.openCDXHeightMeasurementRepository.findAllByPatientId(
-                    new ObjectId(request.getPatientId()), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
             all = this.openCDXHeightMeasurementRepository.findAllByNationalHealthId(
                     request.getNationalHealthId(), pageable);

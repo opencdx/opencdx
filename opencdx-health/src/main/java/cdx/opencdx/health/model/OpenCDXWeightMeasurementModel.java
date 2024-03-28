@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.health.WeightMeasurement;
 import cdx.opencdx.grpc.health.WeightUnits;
 import com.google.protobuf.Timestamp;
@@ -24,7 +25,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,9 +40,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXWeightMeasurementModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private double weight;
     WeightUnits unitsOfMeasure;
@@ -58,9 +58,9 @@ public class OpenCDXWeightMeasurementModel {
      */
     public OpenCDXWeightMeasurementModel(WeightMeasurement weightMeasurement) {
         if (weightMeasurement.hasId()) {
-            this.id = new ObjectId(weightMeasurement.getId());
+            this.id = new OpenCDXIdentifier(weightMeasurement.getId());
         }
-        this.patientId = new ObjectId(weightMeasurement.getPatientId());
+        this.patientId = new OpenCDXIdentifier(weightMeasurement.getPatientId());
         this.nationalHealthId = weightMeasurement.getNationalHealthId();
         this.weight = weightMeasurement.getWeight();
         this.unitsOfMeasure = weightMeasurement.getUnitsOfMeasure();

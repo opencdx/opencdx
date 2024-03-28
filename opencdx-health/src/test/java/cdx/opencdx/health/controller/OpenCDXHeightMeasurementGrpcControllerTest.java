@@ -33,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,12 +109,12 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
                 });
 
         Mockito.when(this.openCDXHeightMeasurementRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
-                                .nationalHealthId(ObjectId.get().toHexString())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -154,7 +153,7 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
         this.openCDXHeightMeasurementGrpcController.createHeightMeasurement(
                 CreateHeightMeasurementRequest.newBuilder()
                         .setHeightMeasurement(HeightMeasurement.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -167,7 +166,7 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
         StreamObserver<GetHeightMeasurementResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXHeightMeasurementGrpcController.getHeightMeasurement(
                 GetHeightMeasurementRequest.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetHeightMeasurementResponse.class));
@@ -180,8 +179,8 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
         this.openCDXHeightMeasurementGrpcController.updateHeightMeasurement(
                 UpdateHeightMeasurementRequest.newBuilder()
                         .setHeightMeasurement(HeightMeasurement.newBuilder()
-                                .setId(ObjectId.get().toHexString())
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -194,7 +193,7 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXHeightMeasurementGrpcController.deleteHeightMeasurement(
                 DeleteHeightMeasurementRequest.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SuccessResponse.class));
@@ -206,8 +205,8 @@ class OpenCDXHeightMeasurementGrpcControllerTest {
         StreamObserver<ListHeightMeasurementsResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXHeightMeasurementGrpcController.listHeightMeasurements(
                 ListHeightMeasurementsRequest.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setPagination(Pagination.newBuilder()
                                 .setPageNumber(1)
                                 .setPageSize(10)

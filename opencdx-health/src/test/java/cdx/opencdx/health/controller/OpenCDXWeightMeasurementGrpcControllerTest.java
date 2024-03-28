@@ -17,6 +17,7 @@ package cdx.opencdx.health.controller;
 
 import static org.mockito.Mockito.mock;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -31,7 +32,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,18 +88,18 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
                     public OpenCDXWeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXWeightMeasurementModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXWeightMeasurementModel>>() {
                     @Override
                     public Optional<OpenCDXWeightMeasurementModel> answer(InvocationOnMock invocation)
                             throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXWeightMeasurementModel.builder()
                                 .id(argument)
                                 .patientId(argument)
@@ -108,12 +108,12 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
                 });
 
         Mockito.when(this.openCDXWeightMeasurementRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXWeightMeasurementModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
-                                .nationalHealthId(ObjectId.get().toHexString())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -123,9 +123,13 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
                         List.of(OpenCDXWeightMeasurementModel.builder().build()), PageRequest.of(1, 10), 1));
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.weightMeasurementService = new OpenCDXWeightMeasurementServiceImpl(
                 this.openCDXAuditService,
@@ -148,7 +152,7 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
         this.openCDXWeightMeasurementGrpcController.createWeightMeasurement(
                 CreateWeightMeasurementRequest.newBuilder()
                         .setWeightMeasurement(WeightMeasurement.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -161,7 +165,7 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
         StreamObserver<GetWeightMeasurementResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXWeightMeasurementGrpcController.getWeightMeasurement(
                 GetWeightMeasurementRequest.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetWeightMeasurementResponse.class));
@@ -174,8 +178,8 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
         this.openCDXWeightMeasurementGrpcController.updateWeightMeasurement(
                 UpdateWeightMeasurementRequest.newBuilder()
                         .setWeightMeasurement(WeightMeasurement.newBuilder()
-                                .setId(ObjectId.get().toHexString())
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setPatientId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -188,7 +192,7 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXWeightMeasurementGrpcController.deleteWeightMeasurement(
                 DeleteWeightMeasurementRequest.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SuccessResponse.class));
@@ -200,8 +204,8 @@ class OpenCDXWeightMeasurementGrpcControllerTest {
         StreamObserver<ListWeightMeasurementsResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXWeightMeasurementGrpcController.listWeightMeasurements(
                 ListWeightMeasurementsRequest.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .setPagination(Pagination.newBuilder()
                                 .setPageNumber(1)
                                 .setPageSize(10)

@@ -34,7 +34,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,7 +130,7 @@ class OpenCDXHeightMeasurementServiceImplTest {
     void createHeightMeasurement() {
         CreateHeightMeasurementRequest request = CreateHeightMeasurementRequest.newBuilder()
                 .setHeightMeasurement(HeightMeasurement.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
@@ -153,7 +152,7 @@ class OpenCDXHeightMeasurementServiceImplTest {
     @Test
     void getHeightMeasurementOpenCDXNotAcceptable() {
         GetHeightMeasurementRequest request = GetHeightMeasurementRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXHeightMeasurementService.getHeightMeasurement(request));
@@ -163,8 +162,8 @@ class OpenCDXHeightMeasurementServiceImplTest {
     void updateHeightMeasurement() {
         UpdateHeightMeasurementRequest request = UpdateHeightMeasurementRequest.newBuilder()
                 .setHeightMeasurement(HeightMeasurement.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
@@ -186,7 +185,7 @@ class OpenCDXHeightMeasurementServiceImplTest {
     @Test
     void deleteHeightMeasurementOpenCDXNotAcceptable() {
         DeleteHeightMeasurementRequest request = DeleteHeightMeasurementRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -196,18 +195,18 @@ class OpenCDXHeightMeasurementServiceImplTest {
     @Test
     void listHeightMeasurementsOpenCDXNotAcceptable() {
         Mockito.when(this.openCDXHeightMeasurementRepository.findAllByPatientId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
-                                .nationalHealthId(ObjectId.get().toHexString())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
         ListHeightMeasurementsRequest request = ListHeightMeasurementsRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(Pagination.newBuilder()
                         .setPageNumber(1)
                         .setPageSize(10)

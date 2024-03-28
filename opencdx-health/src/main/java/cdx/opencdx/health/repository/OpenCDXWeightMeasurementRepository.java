@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,14 +28,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXWeightMeasurementRepository extends MongoRepository<OpenCDXWeightMeasurementModel, ObjectId> {
+public interface OpenCDXWeightMeasurementRepository extends OpenCDXRepository<OpenCDXWeightMeasurementModel> {
     /**
      * Find all weights by patient id.
      * @param patientId the patient id
      * @param pageable Pageable for pagination
      * @return the list of heights
      */
-    Page<OpenCDXWeightMeasurementModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXWeightMeasurementModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 
     /**
      * Find all weights by patient id.

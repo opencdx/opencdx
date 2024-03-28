@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -88,7 +88,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     @Override
     public CreateWeightMeasurementResponse createWeightMeasurement(CreateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new ObjectId(request.getWeightMeasurement().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
         OpenCDXWeightMeasurementModel openCDXWeightMeasurementModel = this.openCDXWeightMeasurementRepository.save(
                 new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
         try {
@@ -123,7 +123,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     @Override
     public GetWeightMeasurementResponse getWeightMeasurement(GetWeightMeasurementRequest request) {
         OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_WEIGHT + request.getId()));
 
         try {
@@ -158,9 +158,9 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     @Override
     public UpdateWeightMeasurementResponse updateWeightMeasurement(UpdateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new ObjectId(request.getWeightMeasurement().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "weights", new ObjectId(request.getWeightMeasurement().getId()));
+                "weights", new OpenCDXIdentifier(request.getWeightMeasurement().getId()));
         OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository.save(
                 new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
         try {
@@ -195,7 +195,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     @Override
     public SuccessResponse deleteWeightMeasurement(DeleteWeightMeasurementRequest request) {
         OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_WEIGHT + request.getId()));
 
         this.openCDXWeightMeasurementRepository.deleteById(model.getId());
@@ -246,7 +246,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
         Page<OpenCDXWeightMeasurementModel> all = Page.empty();
         if (request.hasPatientId()) {
             all = this.openCDXWeightMeasurementRepository.findAllByPatientId(
-                    new ObjectId(request.getPatientId()), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
             all = this.openCDXWeightMeasurementRepository.findAllByNationalHealthId(
                     request.getNationalHealthId(), pageable);
