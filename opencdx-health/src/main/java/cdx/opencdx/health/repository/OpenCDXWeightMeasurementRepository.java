@@ -17,31 +17,31 @@ package cdx.opencdx.health.repository;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
+import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database height measurement model.
+ * Interface for the Database Weight measurement model.
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXHeightMeasurementRepository extends OpenCDXRepository<OpenCDXHeightMeasurementModel> {
+public interface OpenCDXWeightMeasurementRepository extends OpenCDXRepository<OpenCDXWeightMeasurementModel> {
     /**
-     * Find all heights by patient id.
+     * Find all weights by patient id.
      * @param patientId the patient id
      * @param pageable Pageable for pagination
      * @return the list of heights
      */
-    Page<OpenCDXHeightMeasurementModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
+    Page<OpenCDXWeightMeasurementModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 
     /**
-     * Find all heights by patient id.
+     * Find all weights by patient id.
      * @param nationalHealthId the patient id
      * @param pageable Pageable for pagination
      * @return the list of heights
      */
-    Page<OpenCDXHeightMeasurementModel> findAllByNationalHealthId(String nationalHealthId, Pageable pageable);
+    Page<OpenCDXWeightMeasurementModel> findAllByNationalHealthId(String nationalHealthId, Pageable pageable);
 }

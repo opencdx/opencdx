@@ -15,45 +15,43 @@
  */
 package cdx.opencdx.health.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.HeightUnits;
+import cdx.opencdx.grpc.health.WeightMeasurement;
+import cdx.opencdx.grpc.health.WeightUnits;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class OpenCDXHeightMeasurementModelTest {
+class OpenCDXWeightMeasurementModelTest {
 
     @Test
     void getProtobufMessage() {
-        HeightMeasurement heightMeasurement = HeightMeasurement.newBuilder()
+        WeightMeasurement weightMeasurement = WeightMeasurement.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
-                .setHeight(10.0)
-                .setUnitsOfMeasure(HeightUnits.CM)
+                .setWeight(40.0)
+                .setUnitsOfMeasure(WeightUnits.KGS)
                 .setTimeOfMeasurement(Timestamp.getDefaultInstance())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
                 .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
-        OpenCDXHeightMeasurementModel model = new OpenCDXHeightMeasurementModel(heightMeasurement);
+        OpenCDXWeightMeasurementModel model = new OpenCDXWeightMeasurementModel(weightMeasurement);
         Assertions.assertNotNull(model.getProtobufMessage());
     }
 
     @Test
     void getProtobufMessageElse() {
-        HeightMeasurement heightMeasurement = HeightMeasurement.newBuilder()
+        WeightMeasurement weightMeasurement = WeightMeasurement.newBuilder()
                 .setCreated(Timestamp.getDefaultInstance())
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
-                .setHeight(10.0)
+                .setWeight(40.0)
                 .build();
-        OpenCDXHeightMeasurementModel model = new OpenCDXHeightMeasurementModel(heightMeasurement);
+        OpenCDXWeightMeasurementModel model = new OpenCDXWeightMeasurementModel(weightMeasurement);
         Assertions.assertNotNull(model.getProtobufMessage());
     }
 }

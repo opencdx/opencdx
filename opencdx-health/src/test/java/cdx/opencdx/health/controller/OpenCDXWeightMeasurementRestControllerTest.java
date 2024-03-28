@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,14 +24,14 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.CreateHeightMeasurementRequest;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.ListHeightMeasurementsRequest;
-import cdx.opencdx.grpc.health.UpdateHeightMeasurementRequest;
-import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
-import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
-import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;
-import cdx.opencdx.health.service.impl.OpenCDXHeightMeasurementServiceImpl;
+import cdx.opencdx.grpc.health.CreateWeightMeasurementRequest;
+import cdx.opencdx.grpc.health.ListWeightMeasurementsRequest;
+import cdx.opencdx.grpc.health.UpdateWeightMeasurementRequest;
+import cdx.opencdx.grpc.health.WeightMeasurement;
+import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
+import cdx.opencdx.health.repository.OpenCDXWeightMeasurementRepository;
+import cdx.opencdx.health.service.OpenCDXWeightMeasurementService;
+import cdx.opencdx.health.service.impl.OpenCDXWeightMeasurementServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.List;
@@ -65,7 +64,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXHeightMeasurementRestControllerTest {
+class OpenCDXWeightMeasurementRestControllerTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -85,9 +84,9 @@ class OpenCDXHeightMeasurementRestControllerTest {
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @MockBean
-    OpenCDXHeightMeasurementRepository openCDXHeightMeasurementRepository;
+    OpenCDXWeightMeasurementRepository openCDXWeightMeasurementRepository;
 
-    OpenCDXHeightMeasurementService heightMeasurementService;
+    OpenCDXWeightMeasurementService weightMeasurementService;
 
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
@@ -98,16 +97,16 @@ class OpenCDXHeightMeasurementRestControllerTest {
     @MockBean
     Connection connection;
 
-    OpenCDXHeightMeasurementRestController openCDXHeightMeasurementRestController;
+    OpenCDXWeightMeasurementRestController openCDXWeightMeasurementRestController;
 
     @BeforeEach
     public void setup() {
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.save(Mockito.any(OpenCDXHeightMeasurementModel.class)))
-                .thenAnswer(new Answer<OpenCDXHeightMeasurementModel>() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.save(Mockito.any(OpenCDXWeightMeasurementModel.class)))
+                .thenAnswer(new Answer<OpenCDXWeightMeasurementModel>() {
                     @Override
-                    public OpenCDXHeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXHeightMeasurementModel argument = invocation.getArgument(0);
+                    public OpenCDXWeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXWeightMeasurementModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                             argument.setPatientId(OpenCDXIdentifier.get());
@@ -117,23 +116,23 @@ class OpenCDXHeightMeasurementRestControllerTest {
                     }
                 });
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXHeightMeasurementModel>>() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXWeightMeasurementModel>>() {
                     @Override
-                    public Optional<OpenCDXHeightMeasurementModel> answer(InvocationOnMock invocation)
+                    public Optional<OpenCDXWeightMeasurementModel> answer(InvocationOnMock invocation)
                             throws Throwable {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXHeightMeasurementModel.builder()
+                        return Optional.of(OpenCDXWeightMeasurementModel.builder()
                                 .id(argument)
                                 .patientId(argument)
                                 .nationalHealthId(argument.toHexString())
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXHeightMeasurementRepository.findAllByNationalHealthId(
+        Mockito.when(this.openCDXWeightMeasurementRepository.findAllByNationalHealthId(
                         Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXHeightMeasurementModel.builder()
+                        List.of(OpenCDXWeightMeasurementModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
@@ -149,14 +148,14 @@ class OpenCDXHeightMeasurementRestControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
                         .build());
-        this.heightMeasurementService = new OpenCDXHeightMeasurementServiceImpl(
+        this.weightMeasurementService = new OpenCDXWeightMeasurementServiceImpl(
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
-                this.openCDXHeightMeasurementRepository);
-        this.openCDXHeightMeasurementRestController =
-                new OpenCDXHeightMeasurementRestController(heightMeasurementService);
+                this.openCDXWeightMeasurementRepository);
+        this.openCDXWeightMeasurementRestController =
+                new OpenCDXWeightMeasurementRestController(weightMeasurementService);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
@@ -164,13 +163,13 @@ class OpenCDXHeightMeasurementRestControllerTest {
     @AfterEach
     void tearDown() {
         Mockito.reset(this.connection);
-        Mockito.reset(this.openCDXHeightMeasurementRepository);
+        Mockito.reset(this.openCDXWeightMeasurementRepository);
     }
 
     @Test
-    void getHeightMeasurementRequest() throws Exception {
+    void getWeightMeasurementRequest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/vitals/height/" + OpenCDXIdentifier.get().toHexString())
+                .perform(get("/vitals/weight/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -179,11 +178,11 @@ class OpenCDXHeightMeasurementRestControllerTest {
     }
 
     @Test
-    void createHeightMeasurementRequest() throws Exception {
+    void createWeightMeasurementRequest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/vitals/height")
-                        .content(this.objectMapper.writeValueAsString(CreateHeightMeasurementRequest.newBuilder()
-                                .setHeightMeasurement(HeightMeasurement.newBuilder()
+                .perform(MockMvcRequestBuilders.post("/vitals/weight")
+                        .content(this.objectMapper.writeValueAsString(CreateWeightMeasurementRequest.newBuilder()
+                                .setWeightMeasurement(WeightMeasurement.newBuilder()
                                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -194,11 +193,11 @@ class OpenCDXHeightMeasurementRestControllerTest {
     }
 
     @Test
-    void updateHeightMeasurementRequest() throws Exception {
+    void updateWeightMeasurementRequest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/vitals/height")
-                        .content(this.objectMapper.writeValueAsString(UpdateHeightMeasurementRequest.newBuilder()
-                                .setHeightMeasurement(HeightMeasurement.newBuilder()
+                .perform(put("/vitals/weight")
+                        .content(this.objectMapper.writeValueAsString(UpdateWeightMeasurementRequest.newBuilder()
+                                .setWeightMeasurement(WeightMeasurement.newBuilder()
                                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
@@ -210,9 +209,9 @@ class OpenCDXHeightMeasurementRestControllerTest {
     }
 
     @Test
-    void deleteHeightMeasurement() throws Exception {
+    void deleteWeightMeasurement() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/vitals/height/" + OpenCDXIdentifier.get().toHexString())
+                .perform(delete("/vitals/weight/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -221,11 +220,11 @@ class OpenCDXHeightMeasurementRestControllerTest {
     }
 
     @Test
-    void listHeightMeasurementRequest() throws Exception {
+    void listWeightMeasurementRequest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/vitals/height/list")
+                .perform(post("/vitals/weight/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(ListHeightMeasurementsRequest.newBuilder()
+                        .content(this.objectMapper.writeValueAsString(ListWeightMeasurementsRequest.newBuilder()
                                 .setPagination(Pagination.newBuilder()
                                         .setPageNumber(1)
                                         .setPageSize(10)

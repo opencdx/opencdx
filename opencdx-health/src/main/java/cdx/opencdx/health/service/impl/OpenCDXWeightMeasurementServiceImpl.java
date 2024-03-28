@@ -25,9 +25,9 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.*;
-import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
-import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
-import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;
+import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
+import cdx.opencdx.health.repository.OpenCDXWeightMeasurementRepository;
+import cdx.opencdx.health.service.OpenCDXWeightMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
@@ -40,181 +40,181 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing height measurement
+ * Service for processing weight measurement
  */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasurementService {
+public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasurementService {
 
-    private static final String DOMAIN = "OpenCDXHeightMeasurementServiceImpl";
-    private static final String HEIGHT_MEASUREMENTS = "HEIGHT Measurements: ";
+    private static final String DOMAIN = "OpenCDXWeightMeasurementServiceImpl";
+    private static final String WEIGHT_MEASUREMENTS = "WEIGHT Measurements: ";
     private static final String OBJECT = "OBJECT";
-    private static final String FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS = "Failed to convert Height Measurements";
-    private static final String FAILED_TO_FIND_HEIGHT = "Failed to find height ";
+    private static final String FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS = "Failed to convert Weight Measurements";
+    private static final String FAILED_TO_FIND_WEIGHT = "Failed to find weight ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-    private final OpenCDXHeightMeasurementRepository openCDXHeightMeasurementRepository;
+    private final OpenCDXWeightMeasurementRepository openCDXWeightMeasurementRepository;
 
     /**
-     * Constructor with OpenCDXHeightMeasurementService
+     * Constructor with OpenCDXWeightMeasurementService
      *
      * @param openCDXAuditService            user for recording PHI
      * @param openCDXCurrentUser             Current User Service
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      * @param openCDXDocumentValidator       Validator for documents
-     * @param openCDXHeightMeasurementRepository Mongo Repository for OpenCDXHeightMeasurement
+     * @param openCDXWeightMeasurementRepository Mongo Repository for OpenCDXWeightMeasurement
      */
-    public OpenCDXHeightMeasurementServiceImpl(
+    public OpenCDXWeightMeasurementServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXHeightMeasurementRepository openCDXHeightMeasurementRepository) {
+            OpenCDXWeightMeasurementRepository openCDXWeightMeasurementRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        this.openCDXHeightMeasurementRepository = openCDXHeightMeasurementRepository;
+        this.openCDXWeightMeasurementRepository = openCDXWeightMeasurementRepository;
     }
     /**
-     * Method to create height measurement.
+     * Method to create weight measurement.
      *
-     * @param request CreateHeightMeasurementRequest for measurement.
-     * @return CreateHeightMeasurementResponse with measurement.
+     * @param request CreateWeightMeasurementRequest for measurement.
+     * @return CreateWeightMeasurementResponse with measurement.
      */
     @Override
-    public CreateHeightMeasurementResponse createHeightMeasurement(CreateHeightMeasurementRequest request) {
+    public CreateWeightMeasurementResponse createWeightMeasurement(CreateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
-        OpenCDXHeightMeasurementModel openCDXHeightMeasurementModel = this.openCDXHeightMeasurementRepository.save(
-                new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
+                "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
+        OpenCDXWeightMeasurementModel openCDXWeightMeasurementModel = this.openCDXWeightMeasurementRepository.save(
+                new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Heights created",
+                    "Weights created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXHeightMeasurementModel.getPatientId().toHexString(),
-                    openCDXHeightMeasurementModel.getNationalHealthId(),
-                    HEIGHT_MEASUREMENTS + openCDXHeightMeasurementModel.getId(),
-                    this.objectMapper.writeValueAsString(openCDXHeightMeasurementModel));
+                    openCDXWeightMeasurementModel.getPatientId().toHexString(),
+                    openCDXWeightMeasurementModel.getNationalHealthId(),
+                    WEIGHT_MEASUREMENTS + openCDXWeightMeasurementModel.getId(),
+                    this.objectMapper.writeValueAsString(openCDXWeightMeasurementModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 1, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXHeightMeasurementModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXWeightMeasurementModel.toString());
             throw openCDXNotAcceptable;
         }
-        return CreateHeightMeasurementResponse.newBuilder()
-                .setHeightMeasurement(openCDXHeightMeasurementModel.getProtobufMessage())
+        return CreateWeightMeasurementResponse.newBuilder()
+                .setWeightMeasurement(openCDXWeightMeasurementModel.getProtobufMessage())
                 .build();
     }
 
     /**
-     * Method to get height measurement.
+     * Method to get weight measurement.
      *
-     * @param request GetHeightMeasurementResponse for measurement.
-     * @return GetHeightMeasurementRequest with measurement.
+     * @param request GetWeightMeasurementResponse for measurement.
+     * @return GetWeightMeasurementRequest with measurement.
      */
     @Override
-    public GetHeightMeasurementResponse getHeightMeasurement(GetHeightMeasurementRequest request) {
-        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository
+    public GetWeightMeasurementResponse getWeightMeasurement(GetWeightMeasurementRequest request) {
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_HEIGHT + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_WEIGHT + request.getId()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiAccessed(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Heights Accessed",
+                    "Weights Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getPatientId().toHexString(),
                     model.getNationalHealthId(),
-                    HEIGHT_MEASUREMENTS + model.getId(),
+                    WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        return GetHeightMeasurementResponse.newBuilder()
-                .setHeightMeasurement(model.getProtobufMessage())
+        return GetWeightMeasurementResponse.newBuilder()
+                .setWeightMeasurement(model.getProtobufMessage())
                 .build();
     }
 
     /**
-     * Method to update height measurement.
+     * Method to update weight measurement.
      *
-     * @param request UpdateHeightMeasurementRequest for measurement.
-     * @return UpdateHeightMeasurementResponse with measurement.
+     * @param request UpdateWeightMeasurementRequest for measurement.
+     * @return UpdateWeightMeasurementResponse with measurement.
      */
     @Override
-    public UpdateHeightMeasurementResponse updateHeightMeasurement(UpdateHeightMeasurementRequest request) {
+    public UpdateWeightMeasurementResponse updateWeightMeasurement(UpdateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "heights", new OpenCDXIdentifier(request.getHeightMeasurement().getId()));
-        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository.save(
-                new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
+                "weights", new OpenCDXIdentifier(request.getWeightMeasurement().getId()));
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository.save(
+                new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Height Updated",
+                    "Weight Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getPatientId().toHexString(),
                     model.getNationalHealthId(),
-                    HEIGHT_MEASUREMENTS + model.getId(),
+                    WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        return UpdateHeightMeasurementResponse.newBuilder()
-                .setHeightMeasurement(model.getProtobufMessage())
+        return UpdateWeightMeasurementResponse.newBuilder()
+                .setWeightMeasurement(model.getProtobufMessage())
                 .build();
     }
 
     /**
-     * Method to delete height measurement.
+     * Method to delete weight measurement.
      *
-     * @param request DeleteHeightMeasurementRequest for measurement.
+     * @param request DeleteWeightMeasurementRequest for measurement.
      * @return SuccessResponse with measurement.
      */
     @Override
-    public SuccessResponse deleteHeightMeasurement(DeleteHeightMeasurementRequest request) {
-        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository
+    public SuccessResponse deleteWeightMeasurement(DeleteWeightMeasurementRequest request) {
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_HEIGHT + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_WEIGHT + request.getId()));
 
-        this.openCDXHeightMeasurementRepository.deleteById(model.getId());
-        log.info("Deleted Height: {}", request.getId());
+        this.openCDXWeightMeasurementRepository.deleteById(model.getId());
+        log.info("Deleted Weight: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiDeleted(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Height Deleted",
+                    "Weight Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getPatientId().toHexString(),
                     model.getNationalHealthId(),
-                    HEIGHT_MEASUREMENTS + model.getId(),
+                    WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
@@ -223,13 +223,13 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     }
 
     /**
-     * Method to list height measurement.
+     * Method to list weight measurement.
      *
-     * @param request ListHeightMeasurementsRequest for measurement.
-     * @return ListHeightMeasurementsResponse with measurement.
+     * @param request ListWeightMeasurementsRequest for measurement.
+     * @return ListWeightMeasurementsResponse with measurement.
      */
     @Override
-    public ListHeightMeasurementsResponse listHeightMeasurements(ListHeightMeasurementsRequest request) {
+    public ListWeightMeasurementsResponse listWeightMeasurements(ListWeightMeasurementsRequest request) {
         log.trace("Searching Database");
         Pageable pageable;
         if (request.getPagination().hasSort()) {
@@ -243,43 +243,43 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                     request.getPagination().getPageNumber(),
                     request.getPagination().getPageSize());
         }
-        Page<OpenCDXHeightMeasurementModel> all = Page.empty();
+        Page<OpenCDXWeightMeasurementModel> all = Page.empty();
         if (request.hasPatientId()) {
-            all = this.openCDXHeightMeasurementRepository.findAllByPatientId(
+            all = this.openCDXWeightMeasurementRepository.findAllByPatientId(
                     new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
-            all = this.openCDXHeightMeasurementRepository.findAllByNationalHealthId(
+            all = this.openCDXWeightMeasurementRepository.findAllByNationalHealthId(
                     request.getNationalHealthId(), pageable);
         }
         log.trace("found database results");
 
-        all.get().forEach(openCDXHeightMeasurementModel -> {
+        all.get().forEach(openCDXWeightMeasurementModel -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
                         currentUser.getId().toHexString(),
                         currentUser.getAgentType(),
-                        "height accessed",
+                        "weight accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXHeightMeasurementModel.getPatientId().toHexString(),
-                        openCDXHeightMeasurementModel.getNationalHealthId(),
-                        HEIGHT_MEASUREMENTS + openCDXHeightMeasurementModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXHeightMeasurementModel.getProtobufMessage()));
+                        openCDXWeightMeasurementModel.getPatientId().toHexString(),
+                        openCDXWeightMeasurementModel.getNationalHealthId(),
+                        WEIGHT_MEASUREMENTS + openCDXWeightMeasurementModel.getId(),
+                        this.objectMapper.writeValueAsString(openCDXWeightMeasurementModel.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
-                        new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
+                        new OpenCDXNotAcceptable(DOMAIN, 5, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXHeightMeasurementModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXWeightMeasurementModel.toString());
                 throw openCDXNotAcceptable;
             }
         });
-        return ListHeightMeasurementsResponse.newBuilder()
+        return ListWeightMeasurementsResponse.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())
                         .setTotalRecords(all.getTotalElements())
                         .build())
-                .addAllHeightMeasurement(all.get()
-                        .map(OpenCDXHeightMeasurementModel::getProtobufMessage)
+                .addAllWeightMeasurement(all.get()
+                        .map(OpenCDXWeightMeasurementModel::getProtobufMessage)
                         .toList())
                 .build();
     }

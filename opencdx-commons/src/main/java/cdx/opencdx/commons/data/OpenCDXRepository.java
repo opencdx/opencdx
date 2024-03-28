@@ -18,5 +18,9 @@ package cdx.opencdx.commons.data;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * OpenCDXRepository is a generic interface for MongoDB repositories that use OpenCDXIdentifier as the ID type.
+ * @param <T> The type of the entity.
+ */
 @NoRepositoryBean
 public interface OpenCDXRepository<T> extends MongoRepository<T, OpenCDXIdentifier> {}

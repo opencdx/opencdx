@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -27,9 +26,9 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.*;
-import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
-import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
-import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;
+import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
+import cdx.opencdx.health.repository.OpenCDXWeightMeasurementRepository;
+import cdx.opencdx.health.service.OpenCDXWeightMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -54,9 +53,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXHeightMeasurementServiceImplTest {
+class OpenCDXWeightMeasurementServiceImplTest {
 
-    OpenCDXHeightMeasurementService openCDXHeightMeasurementService;
+    OpenCDXWeightMeasurementService openCDXWeightMeasurementService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -71,16 +70,16 @@ class OpenCDXHeightMeasurementServiceImplTest {
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @Mock
-    OpenCDXHeightMeasurementRepository openCDXHeightMeasurementRepository;
+    OpenCDXWeightMeasurementRepository openCDXWeightMeasurementRepository;
 
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.save(Mockito.any(OpenCDXHeightMeasurementModel.class)))
-                .thenAnswer(new Answer<OpenCDXHeightMeasurementModel>() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.save(Mockito.any(OpenCDXWeightMeasurementModel.class)))
+                .thenAnswer(new Answer<OpenCDXWeightMeasurementModel>() {
                     @Override
-                    public OpenCDXHeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXHeightMeasurementModel argument = invocation.getArgument(0);
+                    public OpenCDXWeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXWeightMeasurementModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }
@@ -88,13 +87,13 @@ class OpenCDXHeightMeasurementServiceImplTest {
                     }
                 });
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXHeightMeasurementModel>>() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXWeightMeasurementModel>>() {
                     @Override
-                    public Optional<OpenCDXHeightMeasurementModel> answer(InvocationOnMock invocation)
+                    public Optional<OpenCDXWeightMeasurementModel> answer(InvocationOnMock invocation)
                             throws Throwable {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXHeightMeasurementModel.builder()
+                        return Optional.of(OpenCDXWeightMeasurementModel.builder()
                                 .id(argument)
                                 .patientId(argument)
                                 .build());
@@ -113,12 +112,12 @@ class OpenCDXHeightMeasurementServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
 
-        this.openCDXHeightMeasurementService = new OpenCDXHeightMeasurementServiceImpl(
+        this.openCDXWeightMeasurementService = new OpenCDXWeightMeasurementServiceImpl(
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
-                this.openCDXHeightMeasurementRepository);
+                this.openCDXWeightMeasurementRepository);
     }
 
     @AfterEach
@@ -127,84 +126,84 @@ class OpenCDXHeightMeasurementServiceImplTest {
     }
 
     @Test
-    void createHeightMeasurement() {
-        CreateHeightMeasurementRequest request = CreateHeightMeasurementRequest.newBuilder()
-                .setHeightMeasurement(HeightMeasurement.newBuilder()
+    void createWeightMeasurement() {
+        CreateWeightMeasurementRequest request = CreateWeightMeasurementRequest.newBuilder()
+                .setWeightMeasurement(WeightMeasurement.newBuilder()
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
-                () -> this.openCDXHeightMeasurementService.createHeightMeasurement(request));
+                () -> this.openCDXWeightMeasurementService.createWeightMeasurement(request));
     }
 
     @Test
-    void getHeightMeasurementOpenCDXNotFound() {
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+    void getWeightMeasurementOpenCDXNotFound() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
-        GetHeightMeasurementRequest request = GetHeightMeasurementRequest.newBuilder()
+        GetWeightMeasurementRequest request = GetWeightMeasurementRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXHeightMeasurementService.getHeightMeasurement(request));
+                OpenCDXNotFound.class, () -> this.openCDXWeightMeasurementService.getWeightMeasurement(request));
     }
 
     @Test
-    void getHeightMeasurementOpenCDXNotAcceptable() {
-        GetHeightMeasurementRequest request = GetHeightMeasurementRequest.newBuilder()
+    void getWeightMeasurementOpenCDXNotAcceptable() {
+        GetWeightMeasurementRequest request = GetWeightMeasurementRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXHeightMeasurementService.getHeightMeasurement(request));
+                OpenCDXNotAcceptable.class, () -> this.openCDXWeightMeasurementService.getWeightMeasurement(request));
     }
 
     @Test
-    void updateHeightMeasurement() {
-        UpdateHeightMeasurementRequest request = UpdateHeightMeasurementRequest.newBuilder()
-                .setHeightMeasurement(HeightMeasurement.newBuilder()
+    void updateWeightMeasurement() {
+        UpdateWeightMeasurementRequest request = UpdateWeightMeasurementRequest.newBuilder()
+                .setWeightMeasurement(WeightMeasurement.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
-                () -> this.openCDXHeightMeasurementService.updateHeightMeasurement(request));
+                () -> this.openCDXWeightMeasurementService.updateWeightMeasurement(request));
     }
 
     @Test
-    void deleteHeightMeasurementOpenCDXNotFound() {
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+    void deleteWeightMeasurementOpenCDXNotFound() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
-        DeleteHeightMeasurementRequest request = DeleteHeightMeasurementRequest.newBuilder()
+        DeleteWeightMeasurementRequest request = DeleteWeightMeasurementRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXHeightMeasurementService.deleteHeightMeasurement(request));
+                OpenCDXNotFound.class, () -> this.openCDXWeightMeasurementService.deleteWeightMeasurement(request));
     }
 
     @Test
-    void deleteHeightMeasurementOpenCDXNotAcceptable() {
-        DeleteHeightMeasurementRequest request = DeleteHeightMeasurementRequest.newBuilder()
+    void deleteWeightMeasurementOpenCDXNotAcceptable() {
+        DeleteWeightMeasurementRequest request = DeleteWeightMeasurementRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
-                () -> this.openCDXHeightMeasurementService.deleteHeightMeasurement(request));
+                () -> this.openCDXWeightMeasurementService.deleteWeightMeasurement(request));
     }
 
     @Test
-    void listHeightMeasurementsOpenCDXNotAcceptable() {
-        Mockito.when(this.openCDXHeightMeasurementRepository.findAllByPatientId(
+    void listWeightMeasurementsOpenCDXNotAcceptable() {
+        Mockito.when(this.openCDXWeightMeasurementRepository.findAllByPatientId(
                         Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXHeightMeasurementModel.builder()
+                        List.of(OpenCDXWeightMeasurementModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
-        ListHeightMeasurementsRequest request = ListHeightMeasurementsRequest.newBuilder()
+        ListWeightMeasurementsRequest request = ListWeightMeasurementsRequest.newBuilder()
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(Pagination.newBuilder()
@@ -215,12 +214,12 @@ class OpenCDXHeightMeasurementServiceImplTest {
                         .build())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXHeightMeasurementService.listHeightMeasurements(request));
+                OpenCDXNotAcceptable.class, () -> this.openCDXWeightMeasurementService.listWeightMeasurements(request));
     }
 
     @Test
-    void listHeightMeasurementsSortNotAscending() {
-        ListHeightMeasurementsRequest request = ListHeightMeasurementsRequest.newBuilder()
+    void listWeightMeasurementsSortNotAscending() {
+        ListWeightMeasurementsRequest request = ListWeightMeasurementsRequest.newBuilder()
                 .setPagination(Pagination.newBuilder()
                         .setPageNumber(1)
                         .setPageSize(10)
@@ -228,6 +227,6 @@ class OpenCDXHeightMeasurementServiceImplTest {
                         .setSort("id")
                         .build())
                 .build();
-        Assertions.assertDoesNotThrow(() -> this.openCDXHeightMeasurementService.listHeightMeasurements(request));
+        Assertions.assertDoesNotThrow(() -> this.openCDXWeightMeasurementService.listWeightMeasurements(request));
     }
 }

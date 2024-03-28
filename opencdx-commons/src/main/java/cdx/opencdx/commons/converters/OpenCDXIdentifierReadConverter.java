@@ -20,8 +20,22 @@ import org.bson.types.ObjectId;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 
+/**
+ * Converter to read an OpenCDXIdentifier from an ObjectId.
+ */
 @ReadingConverter
 public class OpenCDXIdentifierReadConverter implements Converter<OpenCDXIdentifier, ObjectId> {
+    /**
+     * Create a new OpenCDXIdentifierReadConverter.
+     */
+    public OpenCDXIdentifierReadConverter() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+    /**
+     * Convert an OpenCDXIdentifier to an ObjectId.
+     * @param source The OpenCDXIdentifier to convert.
+     * @return The ObjectId.
+     */
     @Override
     public ObjectId convert(OpenCDXIdentifier source) {
         return source.getObjectId();

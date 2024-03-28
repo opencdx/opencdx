@@ -41,6 +41,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
+/**
+ * Configuration for MongoDB.
+ */
 @Profile("mongo")
 @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
 @ExcludeFromJacocoGeneratedReport
@@ -53,6 +56,13 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Value("${spring.data.mongodb.database}")
     private String db;
+
+    /**
+     * Default Constructor.
+     */
+    public MongoConfig() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     private CodecRegistry codecRegistry() {
         CodecRegistry defaultCodecRegistry = MongoClientSettings.getDefaultCodecRegistry();
