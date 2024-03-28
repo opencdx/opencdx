@@ -20,8 +20,23 @@ import org.bson.types.ObjectId;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;
 
+/**
+ * Converter to write an OpenCDXIdentifier to an ObjectId.
+ */
 @WritingConverter
 public class OpenCDXIdentifierWriteConverter implements Converter<ObjectId, OpenCDXIdentifier> {
+    /**
+     * Create a new OpenCDXIdentifierWriteConverter.
+     */
+    public OpenCDXIdentifierWriteConverter() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Convert an ObjectId to an OpenCDXIdentifier.
+     * @param source The ObjectId to convert.
+     * @return The OpenCDXIdentifier.
+     */
     @Override
     public OpenCDXIdentifier convert(ObjectId source) {
         return new OpenCDXIdentifier(source);

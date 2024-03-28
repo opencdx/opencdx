@@ -23,10 +23,24 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Configuration for Web.
+ */
 @Slf4j
 @AutoConfiguration
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    /**
+     * Default Constructor.
+     */
+    public WebConfig() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Add converters for OpenCDXIdentifier.
+     * @param registry The registry to add the converters to.
+     */
     @Override
     public void addFormatters(FormatterRegistry registry) {
         log.info("Adding converters");
