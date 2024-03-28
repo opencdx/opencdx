@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
@@ -24,7 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,13 +39,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("notification-event")
 public class OpenCDXNotificationEventModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String eventName;
     private String eventDescription;
-    private ObjectId emailTemplateId;
-    private ObjectId smsTemplateId;
-    private ObjectId messageTemplateId;
+    private OpenCDXIdentifier emailTemplateId;
+    private OpenCDXIdentifier smsTemplateId;
+    private OpenCDXIdentifier messageTemplateId;
     private SensitivityLevel sensitivityLevel;
     private NotificationPriority priority;
     List<String> parameters;
@@ -58,8 +58,8 @@ public class OpenCDXNotificationEventModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor to create this model based on an NotificationEvent
@@ -67,18 +67,18 @@ public class OpenCDXNotificationEventModel {
      */
     public OpenCDXNotificationEventModel(NotificationEvent event) {
         if (event.hasEventId()) {
-            this.id = new ObjectId(event.getEventId());
+            this.id = new OpenCDXIdentifier(event.getEventId());
         }
         this.eventName = event.getEventName();
         this.eventDescription = event.getEventDescription();
         if (event.hasEmailTemplateId()) {
-            this.emailTemplateId = new ObjectId(event.getEmailTemplateId());
+            this.emailTemplateId = new OpenCDXIdentifier(event.getEmailTemplateId());
         }
         if (event.hasSmsTemplateId()) {
-            this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
+            this.smsTemplateId = new OpenCDXIdentifier(event.getSmsTemplateId());
         }
         if (event.hasMessageTemplateId()) {
-            this.messageTemplateId = new ObjectId(event.getMessageTemplateId());
+            this.messageTemplateId = new OpenCDXIdentifier(event.getMessageTemplateId());
         }
         this.parameters = event.getEventParametersList();
         this.sensitivityLevel = event.getSensitivity();
@@ -95,10 +95,10 @@ public class OpenCDXNotificationEventModel {
                     event.getModified().getSeconds(), event.getModified().getNanos());
         }
         if (event.hasCreator()) {
-            this.creator = new ObjectId(event.getCreator());
+            this.creator = new OpenCDXIdentifier(event.getCreator());
         }
         if (event.hasModifier()) {
-            this.modifier = new ObjectId(event.getModifier());
+            this.modifier = new OpenCDXIdentifier(event.getModifier());
         }
     }
 

@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -109,20 +110,20 @@ class OpenCDXHeightMeasurementRestControllerTest {
                     public OpenCDXHeightMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXHeightMeasurementModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
-                            argument.setPatientId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
+                            argument.setPatientId(OpenCDXIdentifier.get());
                             argument.setNationalHealthId(ObjectId.get().toHexString());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXHeightMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXHeightMeasurementModel>>() {
                     @Override
                     public Optional<OpenCDXHeightMeasurementModel> answer(InvocationOnMock invocation)
                             throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(argument)
                                 .patientId(argument)
@@ -134,17 +135,21 @@ class OpenCDXHeightMeasurementRestControllerTest {
                         Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXHeightMeasurementModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(ObjectId.get().toHexString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         this.heightMeasurementService = new OpenCDXHeightMeasurementServiceImpl(
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,

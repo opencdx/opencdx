@@ -18,6 +18,7 @@ package cdx.opencdx.logistics.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Pagination;
@@ -29,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,9 +75,13 @@ class OpenCDXRestDeviceControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .thenAnswer(new Answer<OpenCDXDeviceModel>() {
@@ -85,16 +89,16 @@ class OpenCDXRestDeviceControllerTest {
                     public OpenCDXDeviceModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXDeviceModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXDeviceModel>>() {
                     @Override
                     public Optional<OpenCDXDeviceModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXDeviceModel.builder().id(argument).build());
                     }
@@ -106,12 +110,13 @@ class OpenCDXRestDeviceControllerTest {
     @Test
     void getDeviceById() throws Exception {
         Device device = Device.newBuilder(Device.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setDeviceStatus("deviceStatus")
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(get("/device/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/device/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -120,12 +125,12 @@ class OpenCDXRestDeviceControllerTest {
     @Test
     void addDevice() throws Exception {
         Device device = Device.newBuilder(Device.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setDeviceStatus("deviceStatus")
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -140,11 +145,11 @@ class OpenCDXRestDeviceControllerTest {
     @Test
     void updateDevice() throws Exception {
         Device device = Device.newBuilder(Device.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
                 .setDeviceStatus("deviceStatus")
                 .build();
 
@@ -160,13 +165,13 @@ class OpenCDXRestDeviceControllerTest {
     @Test
     void deleteDevice() throws Exception {
         Device device = Device.newBuilder(Device.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setDeviceStatus("deviceStatus")
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(
-                        delete("/device/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/device/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -177,7 +182,7 @@ class OpenCDXRestDeviceControllerTest {
         Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDeviceModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -204,7 +209,7 @@ class OpenCDXRestDeviceControllerTest {
         Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDeviceModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

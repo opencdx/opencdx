@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -24,7 +25,6 @@ import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,9 +59,13 @@ class OpenCDXPredictorServiceImplTest {
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
     }
@@ -74,7 +78,7 @@ class OpenCDXPredictorServiceImplTest {
     void testPredict() {
         PredictorRequest request = PredictorRequest.newBuilder()
                 .setPredictorInput(PredictorInput.newBuilder()
-                        .setTestId(ObjectId.get().toHexString())
+                        .setTestId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         PredictorResponse response = this.predictorService.predict(request);

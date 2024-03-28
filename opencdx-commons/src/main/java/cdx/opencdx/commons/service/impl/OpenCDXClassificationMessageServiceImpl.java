@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -30,7 +31,6 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -65,7 +65,8 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     @Override
-    public void submitQuestionnaire(ObjectId patientId, ObjectId questionnaireUserId, ObjectId mediaId) {
+    public void submitQuestionnaire(
+            OpenCDXIdentifier patientId, OpenCDXIdentifier questionnaireUserId, OpenCDXIdentifier mediaId) {
         log.info(
                 "Submitting questionnaire for user: {}, Questionnaire: {}, Media: {}",
                 patientId.toHexString(),
@@ -87,7 +88,8 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     @Override
-    public void submitConnectedTest(ObjectId patientId, ObjectId connectedTestId, ObjectId mediaId) {
+    public void submitConnectedTest(
+            OpenCDXIdentifier patientId, OpenCDXIdentifier connectedTestId, OpenCDXIdentifier mediaId) {
         log.info(
                 "Submitting Connected Test for patient: {}, Connected Test: {}, Media: {}",
                 patientId.toHexString(),
@@ -108,7 +110,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
                         .build());
     }
 
-    private UserAnswer.Builder getUserPreparedAnswer(ObjectId patientId) {
+    private UserAnswer.Builder getUserPreparedAnswer(OpenCDXIdentifier patientId) {
         log.trace("Validating User");
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(patientId)

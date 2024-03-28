@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.questionnaire.Questionnaire;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireStatus;
@@ -25,7 +26,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -60,7 +60,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("questionnaire")
 public class OpenCDXQuestionnaireModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String resourceType;
     private String title;
@@ -73,8 +73,8 @@ public class OpenCDXQuestionnaireModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Creates a new instance of QuestionnaireModel based on the given Questionnaire object.
@@ -83,7 +83,7 @@ public class OpenCDXQuestionnaireModel {
      */
     public OpenCDXQuestionnaireModel(Questionnaire questionnaire) {
         if (questionnaire.hasId()) {
-            this.id = new ObjectId(questionnaire.getId());
+            this.id = new OpenCDXIdentifier(questionnaire.getId());
         }
 
         this.resourceType = questionnaire.getResourceType();
@@ -108,10 +108,10 @@ public class OpenCDXQuestionnaireModel {
                     questionnaire.getModified().getNanos());
         }
         if (questionnaire.hasCreator()) {
-            this.creator = new ObjectId(questionnaire.getCreator());
+            this.creator = new OpenCDXIdentifier(questionnaire.getCreator());
         }
         if (questionnaire.hasModifier()) {
-            this.modifier = new ObjectId(questionnaire.getModifier());
+            this.modifier = new OpenCDXIdentifier(questionnaire.getModifier());
         }
     }
 

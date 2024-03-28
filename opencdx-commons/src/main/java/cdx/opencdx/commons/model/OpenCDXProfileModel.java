@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.FullName;
@@ -29,7 +30,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -45,9 +45,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXProfileModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId userId;
+    private OpenCDXIdentifier userId;
 
     private FullName fullName;
     private String nationalHealthId;
@@ -68,12 +68,12 @@ public class OpenCDXProfileModel {
     private boolean isActive;
 
     private List<Vaccine> vaccines;
-    private List<ObjectId> dependents;
+    private List<OpenCDXIdentifier> dependents;
     private List<KnownAllergy> allergies;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Method to update the data with a protobuf UserProfile
@@ -82,7 +82,7 @@ public class OpenCDXProfileModel {
     public OpenCDXProfileModel(UserProfile userProfile) {
         log.trace("Updating user profile for user");
         if (userProfile.hasId()) {
-            this.id = new ObjectId(userProfile.getId());
+            this.id = new OpenCDXIdentifier(userProfile.getId());
         }
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
@@ -90,7 +90,7 @@ public class OpenCDXProfileModel {
         this.gender = userProfile.getGender();
 
         if (userProfile.hasUserId()) {
-            this.userId = new ObjectId(userProfile.getUserId());
+            this.userId = new OpenCDXIdentifier(userProfile.getUserId());
         }
 
         if (userProfile.hasDateOfBirth()) {
@@ -122,10 +122,10 @@ public class OpenCDXProfileModel {
                     userProfile.getModified().getNanos());
         }
         if (userProfile.hasCreator()) {
-            this.creator = new ObjectId(userProfile.getCreator());
+            this.creator = new OpenCDXIdentifier(userProfile.getCreator());
         }
         if (userProfile.hasModifier()) {
-            this.modifier = new ObjectId(userProfile.getModifier());
+            this.modifier = new OpenCDXIdentifier(userProfile.getModifier());
         }
     }
 
@@ -201,7 +201,7 @@ public class OpenCDXProfileModel {
         }
         if (this.dependents != null) {
             builder.addAllDependentId(
-                    this.dependents.stream().map(ObjectId::toHexString).toList());
+                    this.dependents.stream().map(OpenCDXIdentifier::toHexString).toList());
         }
         if (this.allergies != null) {
             builder.addAllKnownAllergies(this.allergies);

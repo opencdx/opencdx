@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.predictor.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -25,7 +26,6 @@ import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.impl.OpenCDXPredictorServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,9 +61,13 @@ class OpenCDXGrpcPredictorControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
         this.grpcPredictorController = new OpenCDXGrpcPredictorController(this.predictorService);
@@ -76,7 +80,7 @@ class OpenCDXGrpcPredictorControllerTest {
     void testPredict() {
         PredictorRequest request = PredictorRequest.newBuilder()
                 .setPredictorInput(PredictorInput.newBuilder()
-                        .setTestId(ObjectId.get().toHexString())
+                        .setTestId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         StreamObserver<PredictorResponse> responseObserver = Mockito.mock(StreamObserver.class);

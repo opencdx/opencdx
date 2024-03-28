@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -36,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,9 +91,13 @@ class OpenCDXGrpcVendorControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXVendorService = new OpenCDXVendorServiceImpl(
                 this.openCDXVendorRepository,
@@ -114,13 +118,13 @@ class OpenCDXGrpcVendorControllerTest {
         StreamObserver<Vendor> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcVendorController.getVendorById(vendorIdRequest, responseObserver);
 
@@ -133,13 +137,13 @@ class OpenCDXGrpcVendorControllerTest {
         StreamObserver<Vendor> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         Vendor vendor = Vendor.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder().build())
                 .setVendorEmail(EmailAddress.newBuilder().build())
                 .setVendorPhone(PhoneNumber.newBuilder().build())
@@ -155,13 +159,13 @@ class OpenCDXGrpcVendorControllerTest {
         StreamObserver<Vendor> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         Vendor vendor = Vendor.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder().build())
                 .setVendorEmail(EmailAddress.newBuilder().build())
                 .setVendorPhone(PhoneNumber.newBuilder().build())
@@ -177,13 +181,13 @@ class OpenCDXGrpcVendorControllerTest {
         StreamObserver<DeleteResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXVendorModel openCDXVendorModel =
-                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+                OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
         VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcVendorController.deleteVendor(vendorIdRequest, responseObserver);
 

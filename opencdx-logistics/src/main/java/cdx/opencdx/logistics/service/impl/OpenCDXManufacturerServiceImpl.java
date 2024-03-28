@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -93,7 +93,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     @Override
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
         return this.openCDXManufacturerRepository
-                .findById(new ObjectId(request.getManufacturerId()))
+                .findById(new OpenCDXIdentifier(request.getManufacturerId()))
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()))
                 .getProtobufMessage();
@@ -103,7 +103,8 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer addManufacturer(Manufacturer request) {
         if (request.hasManufacturerAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getManufacturerAddress().getCountryId()));
+                    "country",
+                    new OpenCDXIdentifier(request.getManufacturerAddress().getCountryId()));
         }
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
@@ -131,7 +132,8 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer updateManufacturer(Manufacturer request) {
         if (request.hasManufacturerAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getManufacturerAddress().getCountryId()));
+                    "country",
+                    new OpenCDXIdentifier(request.getManufacturerAddress().getCountryId()));
         }
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
@@ -156,17 +158,18 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
 
     @Override
     public DeleteResponse deleteManufacturer(ManufacturerIdRequest request) {
-        if (this.openCDXDeviceRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))
-                || this.openCDXTestCaseRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))) {
+        if (this.openCDXDeviceRepository.existsByManufacturerId(new OpenCDXIdentifier(request.getManufacturerId()))
+                || this.openCDXTestCaseRepository.existsByManufacturerId(
+                        new OpenCDXIdentifier(request.getManufacturerId()))) {
             return DeleteResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("Manufacturer: " + request.getManufacturerId() + " is in use.")
                     .build();
         }
 
-        ObjectId objectId = new ObjectId(request.getManufacturerId());
+        OpenCDXIdentifier openCDXIdentifier = new OpenCDXIdentifier(request.getManufacturerId());
         OpenCDXManufacturerModel openCDXManufacturerModel = this.openCDXManufacturerRepository
-                .findById(objectId)
+                .findById(openCDXIdentifier)
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()));
 
@@ -187,7 +190,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
             throw openCDXNotAcceptable;
         }
 
-        this.openCDXManufacturerRepository.deleteById(objectId);
+        this.openCDXManufacturerRepository.deleteById(openCDXIdentifier);
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.")

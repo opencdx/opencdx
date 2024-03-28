@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
@@ -27,7 +28,6 @@ import cdx.opencdx.logistics.service.impl.OpenCDXShippingVendorServiceImpl;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -96,9 +96,9 @@ class OpenCDXGrpcShippingVendorControllerTest {
         Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
         Mockito.when(this.openCDXShippingRepository.findByTrackingNumber(Mockito.anyString()))
                 .thenReturn(Optional.of(shippingModel));
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .fullName(FullName.newBuilder()
                                 .setFirstName("first")
                                 .setLastName("last")

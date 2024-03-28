@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.grpc.common.Address;
@@ -30,7 +31,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -46,9 +46,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXIAMProviderModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId userId;
+    private OpenCDXIdentifier userId;
     private String created_epoch;
     private String enumeration_type;
     private String last_updated_epoch;
@@ -62,8 +62,8 @@ public class OpenCDXIAMProviderModel {
     private List<String> otherNames;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
     private ProviderStatus status;
 
     /**
@@ -72,7 +72,6 @@ public class OpenCDXIAMProviderModel {
      * @param openCDXCountryRepository Country Repository
      */
     public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result, OpenCDXCountryRepository openCDXCountryRepository) {
-        this.id = new ObjectId();
         this.created_epoch = result.getCreatedEpoch();
         this.enumeration_type = result.getEnumerationType();
         this.last_updated_epoch = result.getLastUpdatedEpoch();

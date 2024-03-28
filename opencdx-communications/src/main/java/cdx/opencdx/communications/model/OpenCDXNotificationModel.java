@@ -16,6 +16,7 @@
 package cdx.opencdx.communications.model;
 
 import cdx.opencdx.commons.collections.ListUtils;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -25,7 +26,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,11 +39,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("notifications")
 public class OpenCDXNotificationModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
 
-    private ObjectId eventId;
+    private OpenCDXIdentifier eventId;
     private NotificationStatus smsStatus;
 
     @Builder.Default
@@ -64,12 +64,12 @@ public class OpenCDXNotificationModel {
     private List<Attachment> attachments;
     private List<String> phoneNumbers;
     private Map<String, String> variables;
-    private List<ObjectId> recipients;
+    private List<OpenCDXIdentifier> recipients;
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
     /**
      * Constructor taking a Notification and generating the Model
      * @param notification Notificaiton to generate model for.
@@ -77,12 +77,12 @@ public class OpenCDXNotificationModel {
     public OpenCDXNotificationModel(Notification notification) {
         this.emailFailCount = 0;
         this.smsFailCount = 0;
-        this.patientId = new ObjectId(notification.getPatientId());
+        this.patientId = new OpenCDXIdentifier(notification.getPatientId());
 
         if (notification.hasQueueId()) {
-            this.id = new ObjectId(notification.getQueueId());
+            this.id = new OpenCDXIdentifier(notification.getQueueId());
         }
-        this.eventId = new ObjectId(notification.getEventId());
+        this.eventId = new OpenCDXIdentifier(notification.getEventId());
         if (notification.hasSmsStatus()) {
             this.smsStatus = notification.getSmsStatus();
         } else {
@@ -108,8 +108,9 @@ public class OpenCDXNotificationModel {
         this.attachments = notification.getEmailAttachmentsList();
         this.phoneNumbers = notification.getToPhoneNumberList();
         this.variables = notification.getVariablesMap();
-        this.recipients =
-                notification.getRecipientsIdList().stream().map(ObjectId::new).toList();
+        this.recipients = notification.getRecipientsIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
 
         if (notification.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -122,10 +123,10 @@ public class OpenCDXNotificationModel {
                     notification.getModified().getNanos());
         }
         if (notification.hasCreator()) {
-            this.creator = new ObjectId(notification.getCreator());
+            this.creator = new OpenCDXIdentifier(notification.getCreator());
         }
         if (notification.hasModifier()) {
-            this.modifier = new ObjectId(notification.getModifier());
+            this.modifier = new OpenCDXIdentifier(notification.getModifier());
         }
     }
 
@@ -154,7 +155,7 @@ public class OpenCDXNotificationModel {
         builder.addAllToPhoneNumber(ListUtils.safe(this.phoneNumbers));
         builder.putAllVariables(this.variables);
         builder.addAllRecipientsId(ListUtils.safe(this.recipients).stream()
-                .map(ObjectId::toHexString)
+                .map(OpenCDXIdentifier::toHexString)
                 .toList());
 
         if (this.created != null) {

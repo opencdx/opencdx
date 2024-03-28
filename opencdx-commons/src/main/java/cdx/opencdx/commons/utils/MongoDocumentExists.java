@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.commons.utils;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -46,11 +46,11 @@ public class MongoDocumentExists {
      * Checks if a document exists in a collection.
      *
      * @param collectionName Name of the collection to check
-     * @param documentId     ObjectId of the document to check
+     * @param documentId     OpenCDXIdentifier of the document to check
      * @return true if the document exists, false otherwise
      */
     @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
-    public boolean documentExists(String collectionName, ObjectId documentId) {
+    public boolean documentExists(String collectionName, OpenCDXIdentifier documentId) {
         log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
         boolean exists = mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
         if (exists) {

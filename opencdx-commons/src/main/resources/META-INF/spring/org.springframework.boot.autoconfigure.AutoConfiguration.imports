@@ -1,3 +1,6 @@
+cdx.opencdx.commons.config.WebConfig
 cdx.opencdx.commons.config.CommonsConfig
+cdx.opencdx.commons.config.MongoConfig
+cdx.opencdx.commons.config.WebClientConfig
 cdx.opencdx.commons.security.SecurityCommonConfig
 io.nats.spring.boot.autoconfigure.NatsAutoConfiguration

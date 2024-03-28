@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ class OpenCDXManufacturerModelTest {
                         .city("City")
                         .postalCode("Postcode")
                         .state("state")
-                        .countryId(new ObjectId())
+                        .countryId(new OpenCDXIdentifier())
                         .build())
                 .build();
         Assertions.assertDoesNotThrow(() -> manufacturerModel.getProtobufMessage());
@@ -51,12 +51,12 @@ class OpenCDXManufacturerModelTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setName("vendorName")
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXManufacturerModel model = new OpenCDXManufacturerModel(manufacturer);
         Assertions.assertEquals(
@@ -68,7 +68,7 @@ class OpenCDXManufacturerModelTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setName("vendorName")
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         OpenCDXManufacturerModel model = new OpenCDXManufacturerModel(manufacturer);

@@ -15,12 +15,11 @@
  */
 package cdx.opencdx.questionnaire.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * The OpenCDXUserQuestionnaireRepository interface provides methods for interacting with the "questionnaire-user" collection in MongoDB.
  * This interface extends the MongoRepository interface, which provides basic CRUD operations.
  */
-public interface OpenCDXUserQuestionnaireRepository extends MongoRepository<OpenCDXUserQuestionnaireModel, ObjectId> {}
+public interface OpenCDXUserQuestionnaireRepository extends OpenCDXRepository<OpenCDXUserQuestionnaireModel> {}

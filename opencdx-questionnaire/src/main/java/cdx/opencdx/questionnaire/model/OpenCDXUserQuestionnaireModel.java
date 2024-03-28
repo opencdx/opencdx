@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.questionnaire.Questionnaire;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.util.List;
@@ -22,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -36,9 +36,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("questionnaire-user")
 public class OpenCDXUserQuestionnaireModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
 
     private List<Questionnaire> list;
 
@@ -49,10 +49,10 @@ public class OpenCDXUserQuestionnaireModel {
      */
     public OpenCDXUserQuestionnaireModel(UserQuestionnaireData data) {
         if (data.hasId()) {
-            this.id = new ObjectId(data.getId());
+            this.id = new OpenCDXIdentifier(data.getId());
         }
 
-        this.patientId = new ObjectId(data.getPatientId());
+        this.patientId = new OpenCDXIdentifier(data.getPatientId());
 
         this.list = data.getQuestionnaireDataList();
     }

@@ -17,10 +17,10 @@ package cdx.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +30,11 @@ class OpenCDXSMSTemplateModelTest {
     @Test
     void getProtobufMessage_1() {
         SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
@@ -45,7 +45,7 @@ class OpenCDXSMSTemplateModelTest {
     @Test
     void getProtobufMessage_2() {
         SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);

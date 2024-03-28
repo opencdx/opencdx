@@ -15,10 +15,9 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,4 +25,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXSMSTemplateRespository extends MongoRepository<OpenCDXSMSTemplateModel, ObjectId> {}
+public interface OpenCDXSMSTemplateRespository extends OpenCDXRepository<OpenCDXSMSTemplateModel> {}

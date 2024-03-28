@@ -15,14 +15,14 @@
  */
 package cdx.opencdx.commons.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {
+public interface OpenCDXIAMUserRepository extends OpenCDXRepository<OpenCDXIAMUserModel> {
     /**
      * Method to find a user by their email address
      * @param username String containing the email address to look up for the user.
@@ -41,21 +41,21 @@ public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUser
 
     /**
      * Method to find a user by their email address
-     * @param objectId ObjectId of the user to look up.
+     * @param openCDXIdentifier OpenCDXIdentifier of the user to look up.
      * @return Optional OpenCDXIAMUserModel of the user.
      */
     @Override
-    @Cacheable(value = "findById", key = "#objectId")
-    Optional<OpenCDXIAMUserModel> findById(ObjectId objectId);
+    @Cacheable(value = "findById", key = "#openCDXIdentifier")
+    Optional<OpenCDXIAMUserModel> findById(OpenCDXIdentifier openCDXIdentifier);
 
     /**
      * Method to find a user by their email address
-     * @param objectId ObjectId of the user to look up.
+     * @param openCDXIdentifier OpenCDXIdentifier of the user to look up.
      * @return Optional OpenCDXIAMUserModel of the user.
      */
     @Override
-    @Cacheable(value = "existsById", key = "#objectId")
-    boolean existsById(ObjectId objectId);
+    @Cacheable(value = "existsById", key = "#openCDXIdentifier")
+    boolean existsById(OpenCDXIdentifier openCDXIdentifier);
 
     @Override
     @Caching(

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.media.Media;
@@ -23,7 +24,6 @@ import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.time.Instant;
 import lombok.*;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -49,7 +49,7 @@ public class OpenCDXClassificationModel {
     }
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private OpenCDXProfileModel patient;
     private UserAnswer userAnswer;
@@ -61,6 +61,6 @@ public class OpenCDXClassificationModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 }

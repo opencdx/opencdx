@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
@@ -28,7 +29,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -44,7 +44,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXVendorModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
     private OpenCDXAddressModel address;
@@ -56,8 +56,8 @@ public class OpenCDXVendorModel {
     private List<String> certifications;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor to create model from protobuf message
@@ -65,7 +65,7 @@ public class OpenCDXVendorModel {
      */
     public OpenCDXVendorModel(Vendor vendor) {
         if (vendor.hasId()) {
-            this.setId(new ObjectId(vendor.getId()));
+            this.setId(new OpenCDXIdentifier(vendor.getId()));
         }
         this.setName(vendor.getVendorName());
         if (vendor.hasVendorAddress()) {
@@ -86,10 +86,10 @@ public class OpenCDXVendorModel {
                     vendor.getModified().getSeconds(), vendor.getModified().getNanos());
         }
         if (vendor.hasCreator()) {
-            this.creator = new ObjectId(vendor.getCreator());
+            this.creator = new OpenCDXIdentifier(vendor.getCreator());
         }
         if (vendor.hasModifier()) {
-            this.modifier = new ObjectId(vendor.getModifier());
+            this.modifier = new OpenCDXIdentifier(vendor.getModifier());
         }
     }
 

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
@@ -23,7 +24,6 @@ import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -366,7 +366,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     private void sendMessage(AuditEvent event) {
         log.info("Sending Audit Event: {}", event.getEventType());
         openCDXDocumentValidator.validateDocumentOrLog(
-                "users", new ObjectId(event.getActor().getIdentity()));
+                "users", new OpenCDXIdentifier(event.getActor().getIdentity()));
         if (event.hasAuditEntity()) {
             log.debug("Validating Audit Entity: {}", event.getAuditEntity().getPatientId());
             if (!event.getAuditEntity().getPatientId().isEmpty()) {
@@ -377,10 +377,11 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                             .getPatientId()
                             .substring(event.getAuditEntity().getPatientId().indexOf(userIdSearch)
                                     + userIdSearch.length());
-                    openCDXDocumentValidator.validateDocumentOrLog("users", new ObjectId(userId));
+                    openCDXDocumentValidator.validateDocumentOrLog("users", new OpenCDXIdentifier(userId));
                 } else if (!event.getAuditEntity().getPatientId().contains(providerSearch)) {
                     openCDXDocumentValidator.validateDocumentOrLog(
-                            "profiles", new ObjectId(event.getAuditEntity().getPatientId()));
+                            "profiles",
+                            new OpenCDXIdentifier(event.getAuditEntity().getPatientId()));
                 }
             }
         }

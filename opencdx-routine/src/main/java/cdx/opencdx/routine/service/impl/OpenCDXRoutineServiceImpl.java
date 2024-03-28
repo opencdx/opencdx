@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.routine.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.OpenCDXRoutineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,7 +99,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public LabOrderResponse triggerLabOrder(LabOrderRequest request) {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabOrder().getRelatedEntitiesList().stream()
-                .map(ObjectId::new)
+                .map(OpenCDXIdentifier::new)
                 .toList());
 
         return LabOrderResponse.newBuilder().setLabOrder(request.getLabOrder()).build();
@@ -124,7 +124,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getDiagnosis().getRelatedEntitiesList().stream()
-                .map(ObjectId::new)
+                .map(OpenCDXIdentifier::new)
                 .toList());
 
         return DiagnosisResponse.newBuilder()
@@ -154,7 +154,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     public SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(
                 request.getSuspectedDiagnosis().getRelatedEntitiesList().stream()
-                        .map(ObjectId::new)
+                        .map(OpenCDXIdentifier::new)
                         .toList());
 
         return SuspectedDiagnosisResponse.newBuilder()
@@ -183,7 +183,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public LabResultResponse triggerLabResult(LabResultRequest request) {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabResult().getRelatedEntitiesList().stream()
-                .map(ObjectId::new)
+                .map(OpenCDXIdentifier::new)
                 .toList());
 
         return LabResultResponse.newBuilder()

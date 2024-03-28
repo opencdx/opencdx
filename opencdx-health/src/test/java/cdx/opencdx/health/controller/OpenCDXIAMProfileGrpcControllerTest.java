@@ -17,6 +17,7 @@ package cdx.opencdx.health.controller;
 
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,15 +92,15 @@ class OpenCDXIAMProfileGrpcControllerTest {
     @BeforeEach
     void setUp() {
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -110,18 +110,18 @@ class OpenCDXIAMProfileGrpcControllerTest {
                     public OpenCDXProfileModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXProfileModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -133,9 +133,9 @@ class OpenCDXIAMProfileGrpcControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -147,16 +147,16 @@ class OpenCDXIAMProfileGrpcControllerTest {
                     public OpenCDXIAMUserModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMUserModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
@@ -170,7 +170,7 @@ class OpenCDXIAMProfileGrpcControllerTest {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
                         return Optional.of(OpenCDXIAMUserModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .password("{noop}pass")
                                 .username("ab@safehealth.me")
                                 .emailVerified(true)
@@ -179,9 +179,13 @@ class OpenCDXIAMProfileGrpcControllerTest {
                 });
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
                 this.objectMapper,
@@ -202,7 +206,7 @@ class OpenCDXIAMProfileGrpcControllerTest {
         StreamObserver<UserProfileResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProfileGrpcController.getUserProfile(
                 UserProfileRequest.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
 
@@ -216,9 +220,9 @@ class OpenCDXIAMProfileGrpcControllerTest {
         this.openCDXIAMProfileGrpcController.updateUserProfile(
                 UpdateUserProfileRequest.newBuilder(UpdateUserProfileRequest.getDefaultInstance())
                         .setUpdatedProfile(UserProfile.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
 
@@ -232,7 +236,7 @@ class OpenCDXIAMProfileGrpcControllerTest {
         this.openCDXIAMProfileGrpcController.createUserProfile(
                 CreateUserProfileRequest.newBuilder(CreateUserProfileRequest.getDefaultInstance())
                         .setUserProfile(UserProfile.newBuilder()
-                                .setUserId(ObjectId.get().toHexString()))
+                                .setUserId(OpenCDXIdentifier.get().toHexString()))
                         .build(),
                 responseObserver);
 
@@ -245,7 +249,7 @@ class OpenCDXIAMProfileGrpcControllerTest {
         StreamObserver<DeleteUserProfileResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProfileGrpcController.deleteUserProfile(
                 DeleteUserProfileRequest.newBuilder(DeleteUserProfileRequest.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setUserId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
 

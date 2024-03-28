@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,9 +84,13 @@ class OpenCDXGrpcCountryControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXCountryService = new OpenCDXCountryServiceImpl(
                 this.openCDXVendorRepository,
@@ -106,14 +110,16 @@ class OpenCDXGrpcCountryControllerTest {
     void getCountryById() {
         StreamObserver<Country> responseObserver = Mockito.mock(StreamObserver.class);
 
-        OpenCDXCountryModel openCDXCountryModel =
-                OpenCDXCountryModel.builder().id(ObjectId.get()).name("USA").build();
+        OpenCDXCountryModel openCDXCountryModel = OpenCDXCountryModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .name("USA")
+                .build();
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXCountryModel));
         CountryIdRequest countryIdRequest = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcCountryController.getCountryById(countryIdRequest, responseObserver);
 
@@ -128,7 +134,7 @@ class OpenCDXGrpcCountryControllerTest {
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Country country = Country.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("USA")
                 .build();
         this.openCDXGrpcCountryController.addCountry(country, responseObserver);
@@ -143,7 +149,7 @@ class OpenCDXGrpcCountryControllerTest {
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Country country = Country.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("USA")
                 .build();
         this.openCDXGrpcCountryController.updateCountry(country, responseObserver);
@@ -157,14 +163,16 @@ class OpenCDXGrpcCountryControllerTest {
 
         StreamObserver<DeleteResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        OpenCDXCountryModel openCDXCountryModel =
-                OpenCDXCountryModel.builder().id(ObjectId.get()).name("USA").build();
+        OpenCDXCountryModel openCDXCountryModel = OpenCDXCountryModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .name("USA")
+                .build();
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXCountryModel));
         CountryIdRequest countryIdRequest = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcCountryController.deleteCountry(countryIdRequest, responseObserver);
 

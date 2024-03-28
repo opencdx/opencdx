@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,28 +95,32 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                     public OpenCDXIAMOrganizationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMOrganizationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMOrganizationModel>>() {
                     @Override
                     public Optional<OpenCDXIAMOrganizationModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMOrganizationModel.builder()
                                 .id(argument)
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXIAMOrganizationService = new OpenCDXIAMOrganizationServiceImpl(
                 this.openCDXIAMOrganizationRepository,
@@ -141,8 +145,8 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                                 .setName("test")
                                 .setCreated(Timestamp.getDefaultInstance())
                                 .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                                .setCreator(OpenCDXIdentifier.get().toHexString())
+                                .setModifier(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -174,7 +178,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         StreamObserver<GetOrganizationDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMOrganizationGrpcController.getOrganizationDetailsById(
                 GetOrganizationDetailsByIdRequest.newBuilder(GetOrganizationDetailsByIdRequest.getDefaultInstance())
-                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
 
@@ -186,7 +190,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
     @Test
     void getOrganizationDetailsById_fail() {
         this.openCDXIAMOrganizationRepository = Mockito.mock(OpenCDXIAMOrganizationRepository.class);
-        Mockito.when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXIAMOrganizationService = new OpenCDXIAMOrganizationServiceImpl(
@@ -201,7 +205,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         StreamObserver<GetOrganizationDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
         GetOrganizationDetailsByIdRequest request = GetOrganizationDetailsByIdRequest.newBuilder(
                         GetOrganizationDetailsByIdRequest.getDefaultInstance())
-                .setOrganizationId(ObjectId.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
@@ -214,7 +218,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         this.openCDXIAMOrganizationGrpcController.updateOrganization(
                 UpdateOrganizationRequest.newBuilder(UpdateOrganizationRequest.getDefaultInstance())
                         .setOrganization(Organization.newBuilder(Organization.getDefaultInstance())
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -238,7 +242,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         UpdateOrganizationRequest request = UpdateOrganizationRequest.newBuilder(
                         UpdateOrganizationRequest.getDefaultInstance())
                 .setOrganization(Organization.newBuilder(Organization.getDefaultInstance())
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
@@ -249,7 +253,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
     @Test
     void updateOrganization_fail2() throws JsonProcessingException {
         this.openCDXIAMOrganizationRepository = Mockito.mock(OpenCDXIAMOrganizationRepository.class);
-        Mockito.when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
 
         this.openCDXIAMOrganizationService = new OpenCDXIAMOrganizationServiceImpl(
@@ -265,7 +269,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         UpdateOrganizationRequest request = UpdateOrganizationRequest.newBuilder(
                         UpdateOrganizationRequest.getDefaultInstance())
                 .setOrganization(Organization.newBuilder(Organization.getDefaultInstance())
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(

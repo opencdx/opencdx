@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -31,7 +32,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -111,7 +111,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     @Override
     public GetOrganizationDetailsByIdResponse getOrganizationDetailsById(GetOrganizationDetailsByIdRequest request) {
         OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository
-                .findById(new ObjectId(request.getOrganizationId()))
+                .findById(new OpenCDXIdentifier(request.getOrganizationId()))
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_ORGANIZATION" + request.getOrganizationId()));
         return GetOrganizationDetailsByIdResponse.newBuilder()
@@ -129,7 +129,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request) {
 
         if (!this.openCDXIAMOrganizationRepository.existsById(
-                new ObjectId(request.getOrganization().getId()))) {
+                new OpenCDXIdentifier(request.getOrganization().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
                     3,

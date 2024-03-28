@@ -17,11 +17,11 @@ package cdx.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.Message;
 import cdx.opencdx.grpc.communication.MessageStatus;
 import cdx.opencdx.grpc.communication.MessageType;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +30,8 @@ class OpenCDXMessageModelTest {
     @Test
     void getProtobufMessage() {
         OpenCDXMessageModel model = new OpenCDXMessageModel(Message.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setTitle("title")
                 .setType(MessageType.INFO)
                 .setStatus(MessageStatus.READ)
@@ -42,7 +42,7 @@ class OpenCDXMessageModelTest {
     @Test
     void getProtobufMessage_1() {
         OpenCDXMessageModel model = new OpenCDXMessageModel(Message.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setTitle("title")
                 .setMessage("message")
                 .setType(MessageType.INFO)
@@ -54,15 +54,15 @@ class OpenCDXMessageModelTest {
     @Test
     void getProtobufMessage_2() {
         OpenCDXMessageModel model = new OpenCDXMessageModel(Message.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setTitle("title")
                 .setMessage("message")
                 .setType(MessageType.INFO)
                 .setStatus(MessageStatus.READ)
                 .setCreated(Timestamp.newBuilder().getDefaultInstanceForType())
-                .setCreator(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.newBuilder())
-                .setModifier(ObjectId.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build());
         Assertions.assertNull(model.getId());
     }

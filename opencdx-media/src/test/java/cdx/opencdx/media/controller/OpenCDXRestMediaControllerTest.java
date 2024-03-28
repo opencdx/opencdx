@@ -18,6 +18,7 @@ package cdx.opencdx.media.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
@@ -27,7 +28,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,16 +76,16 @@ class OpenCDXRestMediaControllerTest {
                     public OpenCDXMediaModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXMediaModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXMediaModel.builder().id(argument).build());
                     }
@@ -113,7 +113,7 @@ class OpenCDXRestMediaControllerTest {
     @Test
     void getMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/" + OpenCDXIdentifier.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -124,7 +124,7 @@ class OpenCDXRestMediaControllerTest {
     void updateMedia() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/").content(this.objectMapper.writeValueAsString(UpdateMediaRequest.newBuilder()
-                                .setId(ObjectId.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -136,7 +136,8 @@ class OpenCDXRestMediaControllerTest {
     @Test
     void deleteMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -170,7 +171,7 @@ class OpenCDXRestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + OpenCDXIdentifier.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
@@ -180,11 +181,11 @@ class OpenCDXRestMediaControllerTest {
     void download() throws Exception {
         Assertions.assertNotNull(new FileUploadResponse());
         Mockito.reset(this.openCDXMediaRepository);
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXMediaModel.builder()
                                 .id(argument)
                                 .status(MediaStatus.MEDIA_STATUS_ACTIVE)
@@ -193,7 +194,7 @@ class OpenCDXRestMediaControllerTest {
                     }
                 });
 
-        String fileId = ObjectId.get().toHexString();
+        String fileId = OpenCDXIdentifier.get().toHexString();
         MockMultipartFile jsonFile = new MockMultipartFile(
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
@@ -213,11 +214,11 @@ class OpenCDXRestMediaControllerTest {
     void downloadFail() throws Exception {
         Assertions.assertNotNull(new FileUploadResponse());
         Mockito.reset(this.openCDXMediaRepository);
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXMediaModel.builder()
                                 .id(argument)
                                 .status(MediaStatus.MEDIA_STATUS_DELETED)
@@ -226,7 +227,7 @@ class OpenCDXRestMediaControllerTest {
                     }
                 });
 
-        String fileId = ObjectId.get().toHexString();
+        String fileId = OpenCDXIdentifier.get().toHexString();
         MockMultipartFile jsonFile = new MockMultipartFile(
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
@@ -248,7 +249,7 @@ class OpenCDXRestMediaControllerTest {
                 "file", "..1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + OpenCDXIdentifier.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().is(400));
@@ -260,7 +261,7 @@ class OpenCDXRestMediaControllerTest {
                 new MockMultipartFile("file", null, "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + OpenCDXIdentifier.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());

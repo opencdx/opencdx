@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXTestCaseModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,32 +28,32 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {
+public interface OpenCDXTestCaseRepository extends OpenCDXRepository<OpenCDXTestCaseModel> {
     /**
      * Determine if en entity has a manufacturer ID
      * @param manufacturerId Mandufacturer ID to search for
      * @return Boolean indicating if found.
      */
-    Boolean existsByManufacturerId(ObjectId manufacturerId);
+    Boolean existsByManufacturerId(OpenCDXIdentifier manufacturerId);
 
     /**
      * Determine if an entity has a vendor ID
      * @param vendorId Vendor ID to search for
      * @return Boolean indicating if found.
      */
-    Boolean existsByVendorId(ObjectId vendorId);
+    Boolean existsByVendorId(OpenCDXIdentifier vendorId);
     /**
      * Find all manufacturer for a device.
      * @param manufacturerId The manufacturerId.
      * @param pageable The page to return.
      * @return The devices.
      */
-    Page<OpenCDXTestCaseModel> findAllByManufacturerId(ObjectId manufacturerId, Pageable pageable);
+    Page<OpenCDXTestCaseModel> findAllByManufacturerId(OpenCDXIdentifier manufacturerId, Pageable pageable);
     /**
      * Find all vendor for a device.
      * @param vendorId The vendorId.
      * @param pageable The page to return.
      * @return The devices.
      */
-    Page<OpenCDXTestCaseModel> findAllByVendorId(ObjectId vendorId, Pageable pageable);
+    Page<OpenCDXTestCaseModel> findAllByVendorId(OpenCDXIdentifier vendorId, Pageable pageable);
 }

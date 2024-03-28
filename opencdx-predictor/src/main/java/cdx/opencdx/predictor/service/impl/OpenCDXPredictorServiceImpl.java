@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.predictor.PredictorOutput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
@@ -22,7 +23,6 @@ import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +55,8 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
     @Override
     public PredictorResponse predict(PredictorRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "connected-test", new ObjectId(request.getPredictorInput().getTestId()));
+                "connected-test",
+                new OpenCDXIdentifier(request.getPredictorInput().getTestId()));
 
         return PredictorResponse.newBuilder()
                 .setPredictorOutput(PredictorOutput.newBuilder()
