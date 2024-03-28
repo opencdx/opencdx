@@ -15,8 +15,13 @@
  */
 package cdx.opencdx.commons.config;
 
+import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
+import cdx.opencdx.commons.converters.OpenCDXIdentifierCodec;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.*;
@@ -40,6 +45,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.codecs.Codec;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.lognet.springboot.grpc.GRpcGlobalInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationRegistryCustomizer;
@@ -51,7 +58,9 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.observability.ContextProviderFactory;
 import org.springframework.data.mongodb.observability.MongoObservationCommandListener;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
@@ -133,11 +142,24 @@ public class CommonsConfig {
             ObservationRegistry observationRegistry,
             MongoProperties mongoProperties,
             MongoClientSettings.Builder clientSettingsBuilder) {
+        CodecRegistry defaultCodecRegistry = MongoClientSettings.getDefaultCodecRegistry();
+        Codec<OpenCDXIdentifier> openCDXIdentifierCodec = new OpenCDXIdentifierCodec(defaultCodecRegistry);
+        CodecRegistry codecRegistry = fromRegistries(defaultCodecRegistry, fromCodecs(openCDXIdentifierCodec));
+
         log.trace("Setting up Mongo Observability Customizer");
         return clientSettingsBuilder
                 .contextProvider(ContextProviderFactory.create(observationRegistry))
+                .codecRegistry(codecRegistry)
                 .addCommandListener(new MongoObservationCommandListener(
                         observationRegistry, new ConnectionString(mongoProperties.determineUri())));
+    }
+
+    @Profile("mongo")
+    @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @Bean
+    public MongoTemplate mongoTemplate(MongoDatabaseFactory databaseFactory, MappingMongoConverter converter) {
+        log.trace("Creating Mongo Template");
+        return new OpenCDXMongoAuditTemplate(databaseFactory, converter);
     }
 
     /**

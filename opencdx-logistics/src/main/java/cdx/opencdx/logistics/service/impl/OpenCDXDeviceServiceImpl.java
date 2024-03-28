@@ -212,7 +212,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                     request.getPagination().getPageSize());
         }
         log.info("Searching Database");
-        Page<OpenCDXDeviceModel> all = null;
+        Page<OpenCDXDeviceModel> all;
 
         if (request.hasManufacturerId()) {
             all = this.openCDXDeviceRepository.findAllByManufacturerId(

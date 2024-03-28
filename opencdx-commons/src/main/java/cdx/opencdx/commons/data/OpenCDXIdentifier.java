@@ -17,24 +17,18 @@ package cdx.opencdx.commons.data;
 
 import java.nio.ByteBuffer;
 import java.util.Date;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 
 /**
  * OpenCDXIdentifier is a wrapper around ObjectId that provides a more descriptive name and implements Comparable.
  */
+@Setter
 public class OpenCDXIdentifier implements java.lang.Comparable<OpenCDXIdentifier>, java.io.Serializable {
     /**
      * The ObjectId for this OpenCDXIdentifier.
      */
     private ObjectId id;
-
-    /**
-     * Set the ObjectId for this OpenCDXIdentifier.
-     * @param id The ObjectId to set.
-     */
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 
     /**
      * Set the ObjectId for this OpenCDXIdentifier from a hex string.

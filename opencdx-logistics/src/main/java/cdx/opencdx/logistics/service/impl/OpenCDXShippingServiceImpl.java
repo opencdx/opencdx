@@ -240,7 +240,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                     request.getPagination().getPageNumber(),
                     request.getPagination().getPageSize());
         }
-        Page<OpenCDXOrderModel> all = null;
+        Page<OpenCDXOrderModel> all;
         if (request.hasPatientId()) {
             all = this.openCDXOrderRepository.findAllByPatientId(
                     new OpenCDXIdentifier(request.getPatientId()), pageable);

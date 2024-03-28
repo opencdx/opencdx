@@ -74,7 +74,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Nullable private final SerializationDelegate serialization;
 
-    private Gauge gauge;
+    private final Gauge gauge;
 
     /**
      * Create a new ConcurrentMapCache with the specified name.

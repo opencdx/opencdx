@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Observed(name = "opencdx")
 public class OpenCDXRestClassificationController {
 
-    private OpenCDXClassificationService classificationService;
+    private final OpenCDXClassificationService classificationService;
 
     /**
      * Constructor that takes a ClassificationService

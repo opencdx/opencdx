@@ -246,12 +246,10 @@ public class OpenCDXMedicationModel {
         if (this.pharmacyId != null) {
             builder.setPharmacyId(pharmacyId.toHexString());
         }
-        if (this.prescription) {
-            builder.setIsPrescription(prescription);
-        }
-        if (this.generic) {
-            builder.setIsGeneric(generic);
-        }
+        builder.setIsPrescription(prescription);
+
+        builder.setIsGeneric(generic);
+
         if (id != null) {
             builder.setId(id.toHexString());
         }

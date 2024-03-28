@@ -23,7 +23,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * The Application class is the entry point for the Spring Boot application.
  * It is responsible for starting up the application and initializing the necessary components.
- *
+ * <p>
  * This class is annotated with the following annotations:
  * - @EnableAdminServer: Enables the Admin Server functionality in the application.
  * - @EnableDiscoveryClient: Enables the registration of this application with a discovery server.

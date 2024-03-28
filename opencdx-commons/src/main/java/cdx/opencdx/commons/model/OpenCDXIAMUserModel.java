@@ -17,7 +17,6 @@ package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.health.profile.*;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;

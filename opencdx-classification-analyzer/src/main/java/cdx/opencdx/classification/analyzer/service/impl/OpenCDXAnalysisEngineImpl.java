@@ -272,14 +272,11 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
                                 .findFirst();
 
                 if (question.isPresent()) {
-                    switch (question.get().getType()) {
-                        case "integer":
-                            return question.get().getAnswer(0).getValueInteger();
-                        case "boolean":
-                            return question.get().getAnswer(0).getValueBoolean();
-                        default:
-                            return question.get().getAnswer(0).getValueString();
-                    }
+                    return switch (question.get().getType()) {
+                        case "integer" -> question.get().getAnswer(0).getValueInteger();
+                        case "boolean" -> question.get().getAnswer(0).getValueBoolean();
+                        default -> question.get().getAnswer(0).getValueString();
+                    };
                 }
             }
         }
