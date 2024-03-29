@@ -30,7 +30,7 @@ public interface OpenCDXNpiRegistryClient {
     /**
      * The value of NPI_VERSION is {@value}
      */
-    public static final String NPI_VERSION = "2.1";
+    String NPI_VERSION = "2.1";
 
     /**
      * Method to get provider info from NPI Registry
