@@ -62,6 +62,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     private final OpenCDXTestCaseClient openCDXTestCaseClient;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final KnowledgeService knowledgeService;
     /**
      * Random number generator for demonstration purposes to generate random classification responses.
      */
@@ -84,6 +85,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.random = new Random();
+        this.knowledgeService = new KnowledgeService();
     }
 
     /**
@@ -230,7 +232,6 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isBlank()
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
 
-            KnowledgeService knowledgeService = new KnowledgeService();
             Knowledge knowledge = null;
 
             try {
