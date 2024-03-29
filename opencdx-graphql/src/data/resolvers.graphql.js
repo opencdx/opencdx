@@ -11,7 +11,7 @@ export const resolvers = {
         const manufacturers = await Manufacturers.find();
         return manufacturers;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     findAManufacturer: async (root, { id }) => {
@@ -19,7 +19,7 @@ export const resolvers = {
         const manufacturer = await Manufacturers.findOne({ _id: id });
         return manufacturer;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     getDevices: async (root) => {
@@ -27,7 +27,7 @@ export const resolvers = {
         const devices = await Devices.find();
         return devices;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     findADevice: async (root, { id }) => {
@@ -35,7 +35,7 @@ export const resolvers = {
         const device = await Devices.findOne({ _id: id });
         return device;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     getPatients: async (root) => {
@@ -43,7 +43,7 @@ export const resolvers = {
         const patients = await Patients.find();
         return patients;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     findAPatient: async (root, { id }) => {
@@ -51,7 +51,7 @@ export const resolvers = {
         const patient = await Patients.findOne({ _id: id });
         return patient;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     getAudit: async (root) => {
@@ -59,7 +59,7 @@ export const resolvers = {
         const audit = await Audit.find();
         return audit;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     getQuestionnaires: async (root) => {
@@ -67,7 +67,7 @@ export const resolvers = {
         const questionnaires = await Questionnaires.find();
         return questionnaires;
       } catch (err) {
-        reject(err)
+        console.error(err)
       }
     },
     findAQuestionnaire: async (root, { id }) => {
@@ -75,7 +75,23 @@ export const resolvers = {
         const questionnaire = await Questionnaires.findOne({ _id: id });
         return questionnaire;
       } catch (err) {
-        reject(err)
+        console.error(err)
+      }
+    },
+    getQuestionnaireCount: async (root) => {
+      try {
+        const count = await Questionnaires.countDocuments();
+        return count;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getQuestionnaireCountByTitle: async (root, { title }) => {
+      try {
+        const count = await Questionnaires.countDocuments({ title: title});
+        return count;
+      } catch (err) {
+        console.error(err)
       }
     },
   },

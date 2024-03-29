@@ -108,6 +108,8 @@ export const typeDefs = gql`
     
     getQuestionnaires: [Questionnaire]
     findAQuestionnaire(id: String): Questionnaire
+    getQuestionnaireCount: Int
+    getQuestionnaireCountByTitle(title: String): Int
   }
 
   type Item {
