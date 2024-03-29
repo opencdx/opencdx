@@ -25,13 +25,8 @@ import dev.ikm.tinkar.common.service.*;
 import io.micrometer.observation.annotation.Observed;
 import java.io.File;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
-
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

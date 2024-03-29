@@ -171,7 +171,8 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
                 .build();
     }
 
-    private static Map<String, String> getCreateShipmentVariables(OpenCDXProfileModel patient, OpenCDXShippingModel openCDXShippingModel) {
+    private static Map<String, String> getCreateShipmentVariables(
+            OpenCDXProfileModel patient, OpenCDXShippingModel openCDXShippingModel) {
         Map<String, String> map = new HashMap<>();
         map.put("firstName", patient.getFullName().getFirstName());
         map.put("lastName", patient.getFullName().getLastName());

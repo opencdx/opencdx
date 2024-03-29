@@ -149,10 +149,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         Gauge gauge = Gauge.builder(
                         "opencdx."
                                 + this.name
-                                .toLowerCase()
-                                .replace(' ', '.')
-                                .replace('_', '.')
-                                .replace('-', '.') + ".entries",
+                                        .toLowerCase()
+                                        .replace(' ', '.')
+                                        .replace('_', '.')
+                                        .replace('-', '.') + ".entries",
                         store,
                         ConcurrentMap::size)
                 .baseUnit("entries")
