@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -88,7 +88,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     @Override
     public CreateHeightMeasurementResponse createHeightMeasurement(CreateHeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new ObjectId(request.getHeightMeasurement().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
         OpenCDXHeightMeasurementModel openCDXHeightMeasurementModel = this.openCDXHeightMeasurementRepository.save(
                 new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
         try {
@@ -123,7 +123,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     @Override
     public GetHeightMeasurementResponse getHeightMeasurement(GetHeightMeasurementRequest request) {
         OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_HEIGHT + request.getId()));
 
         try {
@@ -158,9 +158,9 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     @Override
     public UpdateHeightMeasurementResponse updateHeightMeasurement(UpdateHeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new ObjectId(request.getHeightMeasurement().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "heights", new ObjectId(request.getHeightMeasurement().getId()));
+                "heights", new OpenCDXIdentifier(request.getHeightMeasurement().getId()));
         OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository.save(
                 new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
         try {
@@ -195,7 +195,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     @Override
     public SuccessResponse deleteHeightMeasurement(DeleteHeightMeasurementRequest request) {
         OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_HEIGHT + request.getId()));
 
         this.openCDXHeightMeasurementRepository.deleteById(model.getId());
@@ -246,7 +246,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
         Page<OpenCDXHeightMeasurementModel> all = Page.empty();
         if (request.hasPatientId()) {
             all = this.openCDXHeightMeasurementRepository.findAllByPatientId(
-                    new ObjectId(request.getPatientId()), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
             all = this.openCDXHeightMeasurementRepository.findAllByNationalHealthId(
                     request.getNationalHealthId(), pageable);

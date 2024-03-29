@@ -17,6 +17,7 @@ package cdx.opencdx.communications.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -32,7 +33,6 @@ import cdx.opencdx.grpc.communication.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,9 +78,13 @@ class OpenCDXMessageServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXMessageService = new OpenCDXMessageServiceImpl(
                 openCDXDocumentValidator,
@@ -113,11 +117,12 @@ class OpenCDXMessageServiceImplTest {
     @Test
     void createMessageTemplateNoException() throws JsonProcessingException {
         Mockito.when(this.openCDXMessageTemplateRepository.save(Mockito.any(OpenCDXMessageTemplateModel.class)))
-                .thenReturn(
-                        OpenCDXMessageTemplateModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXMessageTemplateModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
         MessageTemplate messageTemplate = MessageTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXMessageService.createMessageTemplate(messageTemplate);
@@ -127,11 +132,12 @@ class OpenCDXMessageServiceImplTest {
     @Test
     void getMessageTemplate() {
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Mockito.when(openCDXMessageTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(
-                        OpenCDXMessageTemplateModel.builder().id(ObjectId.get()).build()));
+        Mockito.when(openCDXMessageTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.of(OpenCDXMessageTemplateModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build()));
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXMessageService.getMessageTemplate(messageTemplate);
         });
@@ -140,9 +146,9 @@ class OpenCDXMessageServiceImplTest {
     @Test
     void getMessageTemplateException() {
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Mockito.when(openCDXMessageTemplateRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXMessageTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXMessageService.getMessageTemplate(messageTemplate));
@@ -161,7 +167,7 @@ class OpenCDXMessageServiceImplTest {
     void updateMessageTemplateException() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         MessageTemplate messageTemplate = MessageTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.openCDXMessageService.updateMessageTemplate(messageTemplate);
@@ -171,11 +177,12 @@ class OpenCDXMessageServiceImplTest {
     @Test
     void updateMessageTemplate() throws JsonProcessingException {
         Mockito.when(this.openCDXMessageTemplateRepository.save(Mockito.any(OpenCDXMessageTemplateModel.class)))
-                .thenReturn(
-                        OpenCDXMessageTemplateModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXMessageTemplateModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
         MessageTemplate messageTemplate = MessageTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXMessageService.updateMessageTemplate(messageTemplate));
     }
@@ -183,11 +190,12 @@ class OpenCDXMessageServiceImplTest {
     @Test
     void deleteMessageTemplate() throws JsonProcessingException {
         Mockito.when(this.openCDXMessageTemplateRepository.save(Mockito.any(OpenCDXMessageTemplateModel.class)))
-                .thenReturn(
-                        OpenCDXMessageTemplateModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXMessageTemplateModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXMessageService.deleteMessageTemplate(messageTemplate));
     }
@@ -196,7 +204,7 @@ class OpenCDXMessageServiceImplTest {
     void deleteMessageTemplateException() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.openCDXMessageService.deleteMessageTemplate(messageTemplate);
@@ -205,10 +213,10 @@ class OpenCDXMessageServiceImplTest {
 
     @Test
     void deleteMessageTemplateSuccess() {
-        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXMessageService.deleteMessageTemplate(messageTemplate));
     }

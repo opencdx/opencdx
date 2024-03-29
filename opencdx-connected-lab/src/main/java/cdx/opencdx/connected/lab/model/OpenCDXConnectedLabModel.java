@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.lab.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
@@ -28,7 +29,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -43,12 +43,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("connected-lab")
 public class OpenCDXConnectedLabModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
     private String identifier;
-    private ObjectId organizationId;
-    private ObjectId workspaceId;
+    private OpenCDXIdentifier organizationId;
+    private OpenCDXIdentifier workspaceId;
     private ContactInfo contactInfo;
     private Address labAddress;
     private EmailAddress labEmail;
@@ -59,8 +59,8 @@ public class OpenCDXConnectedLabModel {
     private LabMetaDataProcessor labProcessor;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor for OpenCDXConnectedLabModel
@@ -68,13 +68,13 @@ public class OpenCDXConnectedLabModel {
      */
     public OpenCDXConnectedLabModel(ConnectedLab lab) {
         if (lab.hasId()) {
-            this.id = new ObjectId(lab.getId());
+            this.id = new OpenCDXIdentifier(lab.getId());
         }
 
         this.name = lab.getName();
         this.identifier = lab.getIdentifier();
-        this.organizationId = new ObjectId(lab.getOrganizationId());
-        this.workspaceId = new ObjectId(lab.getWorkspaceId());
+        this.organizationId = new OpenCDXIdentifier(lab.getOrganizationId());
+        this.workspaceId = new OpenCDXIdentifier(lab.getWorkspaceId());
         this.contactInfo = lab.getContactInfo();
         if (lab.hasLabAddress()) {
             this.labAddress = lab.getLabAddress();
@@ -101,10 +101,10 @@ public class OpenCDXConnectedLabModel {
                     lab.getModified().getSeconds(), lab.getModified().getNanos());
         }
         if (lab.hasCreator()) {
-            this.creator = new ObjectId(lab.getCreator());
+            this.creator = new OpenCDXIdentifier(lab.getCreator());
         }
         if (lab.hasModifier()) {
-            this.modifier = new ObjectId(lab.getModifier());
+            this.modifier = new OpenCDXIdentifier(lab.getModifier());
         }
     }
     /**

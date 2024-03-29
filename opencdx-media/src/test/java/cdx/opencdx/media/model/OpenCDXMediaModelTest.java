@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.media.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.media.*;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +26,11 @@ class OpenCDXMediaModelTest {
     @Test
     void getProtobufMessage() {
         OpenCDXMediaModel model = new OpenCDXMediaModel(Media.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setCreatedAt(Timestamp.getDefaultInstance())
                 .setUpdatedAt(Timestamp.getDefaultInstance())
-                .setOrganizationId(ObjectId.get().toHexString())
-                .setWorkspaceId(ObjectId.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setName("name")
                 .setShortDescription("This is a short Description")
                 .setDescription("This is a description")
@@ -44,8 +44,8 @@ class OpenCDXMediaModelTest {
                 .setStatus(MediaStatus.MEDIA_STATUS_ACTIVE)
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build());
 
         Assertions.assertNotNull(model.getProtobufMessage());
@@ -54,8 +54,8 @@ class OpenCDXMediaModelTest {
     @Test
     void getProtobufMessage_2() {
         OpenCDXMediaModel model = new OpenCDXMediaModel(Media.newBuilder()
-                .setOrganizationId(ObjectId.get().toHexString())
-                .setWorkspaceId(ObjectId.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setName("name")
                 .setShortDescription("This is a short Description")
                 .setDescription("This is a description")

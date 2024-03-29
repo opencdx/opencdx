@@ -15,13 +15,13 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
 import cdx.opencdx.grpc.shipping.Order;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -51,8 +51,9 @@ public class OpenCDXOrderMessageServiceImpl implements OpenCDXOrderMessageServic
     public void submitOrder(Order order) {
         log.info("Submitting order to OpenCDXMessageService: {}", order);
 
-        this.openCDXDocumentValidator.validateDocumentOrThrow("profiles", new ObjectId(order.getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow("testcases", new ObjectId(order.getTestCaseId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("profiles", new OpenCDXIdentifier(order.getPatientId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "testcases", new OpenCDXIdentifier(order.getTestCaseId()));
 
         this.messageService.send(OpenCDXMessageService.ORDER_MESSAGE_SUBJECT, order);
     }

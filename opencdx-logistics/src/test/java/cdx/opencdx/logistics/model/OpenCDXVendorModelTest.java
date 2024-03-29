@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Vendor;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class OpenCDXVendorModelTest {
                         .city("City")
                         .postalCode("Postcode")
                         .state("Region")
-                        .countryId(new ObjectId())
+                        .countryId(new OpenCDXIdentifier())
                         .build())
                 .build();
         Assertions.assertDoesNotThrow(() -> vendorModel.getProtobufMessage());
@@ -50,12 +50,12 @@ class OpenCDXVendorModelTest {
         Vendor vendorModel = Vendor.newBuilder()
                 .setVendorName("vendorName")
                 .setVendorAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXVendorModel model = new OpenCDXVendorModel(vendorModel);
         Assertions.assertEquals(
@@ -67,7 +67,7 @@ class OpenCDXVendorModelTest {
         Vendor vendorModel = Vendor.newBuilder()
                 .setVendorName("vendorName")
                 .setVendorAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         OpenCDXVendorModel model = new OpenCDXVendorModel(vendorModel);

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -37,7 +38,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -103,7 +103,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public MessageTemplate createMessageTemplate(MessageTemplate messageTemplate) throws OpenCDXNotAcceptable {
         if (messageTemplate.hasTemplateId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "message", new ObjectId(messageTemplate.getTemplateId()));
+                    "message", new OpenCDXIdentifier(messageTemplate.getTemplateId()));
         }
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -139,7 +139,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public MessageTemplate getMessageTemplate(TemplateRequest templateRequest)
             throws OpenCDXNotFound, OpenCDXNotAcceptable {
         return this.openCDXMessageTemplateRepository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .findById(new OpenCDXIdentifier(templateRequest.getTemplateId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 1, "Failed to find message template: " + templateRequest.getTemplateId()))
                 .getProtobufMessage();
@@ -192,7 +192,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @CacheEvict(value = "message_template", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteMessageTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (openCDXMessageTemplateRepository.existsById(new ObjectId(templateRequest.getTemplateId()))) {
+        if (openCDXMessageTemplateRepository.existsById(new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {
@@ -211,7 +211,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXMessageTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        this.openCDXMessageTemplateRepository.deleteById(new OpenCDXIdentifier(templateRequest.getTemplateId()));
         log.trace("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
@@ -260,7 +260,9 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public GetMessagesResponse getMessages(GetMessagesRequest request) {
         return GetMessagesResponse.newBuilder()
                 .addAllMessages(
-                        this.openCDXMessageRepository.findAllByPatientId(new ObjectId(request.getPatientId())).stream()
+                        this.openCDXMessageRepository
+                                .findAllByPatientId(new OpenCDXIdentifier(request.getPatientId()))
+                                .stream()
                                 .map(OpenCDXMessageModel::getProtobufMessage)
                                 .toList())
                 .build();
@@ -277,7 +279,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
         List<OpenCDXMessageModel> openCDXMessageModelList = Collections.emptyList();
         if (!request.getIdList().isEmpty()) {
             openCDXMessageModelList = openCDXMessageRepository.findAllById(
-                    request.getIdList().stream().map(ObjectId::new).toList());
+                    request.getIdList().stream().map(OpenCDXIdentifier::new).toList());
             openCDXMessageModelList.forEach(model -> model.setMessageStatus(MessageStatus.READ));
             openCDXMessageRepository.saveAll(openCDXMessageModelList);
         }
@@ -299,7 +301,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
         List<OpenCDXMessageModel> openCDXMessageModelList = Collections.emptyList();
         if (!request.getIdList().isEmpty()) {
             openCDXMessageModelList = openCDXMessageRepository.findAllById(
-                    request.getIdList().stream().map(ObjectId::new).toList());
+                    request.getIdList().stream().map(OpenCDXIdentifier::new).toList());
             openCDXMessageModelList.forEach(model -> model.setMessageStatus(MessageStatus.UNREAD));
             openCDXMessageRepository.saveAll(openCDXMessageModelList);
         }

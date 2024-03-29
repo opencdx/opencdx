@@ -17,6 +17,7 @@ package cdx.opencdx.connected.lab.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -37,7 +38,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,9 +79,13 @@ class OpenCDXConnectedLabServiceImplTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(this.openCDXConnectedLabRepository.save(Mockito.any(OpenCDXConnectedLabModel.class)))
                 .thenAnswer(new Answer<OpenCDXConnectedLabModel>() {
@@ -89,54 +93,54 @@ class OpenCDXConnectedLabServiceImplTest {
                     public OpenCDXConnectedLabModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXConnectedLabModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
                     @Override
                     public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
 
                         return Optional.of(OpenCDXConnectedLabModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .identifier("default")
                                 .created(Instant.now())
                                 .modified(Instant.now())
-                                .creator(ObjectId.get())
-                                .modifier(ObjectId.get())
+                                .creator(OpenCDXIdentifier.get())
+                                .modifier(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXConnectedLabRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
 
         Mockito.when(this.openCDXConnectedLabRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedLabModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .identifier("default")
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
         Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
-                        Mockito.any(ObjectId.class), Mockito.any(ObjectId.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
                     @Override
                     public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
 
                         return Optional.of(OpenCDXConnectedLabModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .identifier("default")
                                 .created(Instant.now())
                                 .modified(Instant.now())
-                                .creator(ObjectId.get())
-                                .modifier(ObjectId.get())
+                                .creator(OpenCDXIdentifier.get())
+                                .modifier(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -153,8 +157,8 @@ class OpenCDXConnectedLabServiceImplTest {
     void submitLabFindings() {
         LabFindings labFindings = LabFindings.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -166,12 +170,12 @@ class OpenCDXConnectedLabServiceImplTest {
         CreateConnectedLabRequest createConnectedLabRequest = CreateConnectedLabRequest.newBuilder()
                 .setConnectedLab(ConnectedLab.newBuilder()
                         .setIdentifier("default")
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -182,7 +186,7 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void getConnectedLab() {
         GetConnectedLabRequest getConnectedLabRequest = GetConnectedLabRequest.newBuilder()
-                .setConnectedLabId(ObjectId.get().toHexString())
+                .setConnectedLabId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertDoesNotThrow(() -> this.openCDXConnectedLabService.getConnectedLab(getConnectedLabRequest));
@@ -192,14 +196,14 @@ class OpenCDXConnectedLabServiceImplTest {
     void updateConnectedLab() {
         UpdateConnectedLabRequest createConnectedLabRequest = UpdateConnectedLabRequest.newBuilder()
                 .setConnectedLab(ConnectedLab.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setIdentifier("default")
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -210,7 +214,7 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void deleteConnectedLab() {
         DeleteConnectedLabRequest deleteConnectedLabRequest = DeleteConnectedLabRequest.newBuilder()
-                .setConnectedLabId(ObjectId.get().toHexString())
+                .setConnectedLabId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertDoesNotThrow(
@@ -282,21 +286,21 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void submitLabFindings_OnlyOrganization() {
         Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
-                        Mockito.any(ObjectId.class), Mockito.any(ObjectId.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
-        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
                     @Override
                     public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
 
                         return Optional.of(OpenCDXConnectedLabModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .identifier("default")
                                 .created(Instant.now())
                                 .modified(Instant.now())
-                                .creator(ObjectId.get())
-                                .modifier(ObjectId.get())
+                                .creator(OpenCDXIdentifier.get())
+                                .modifier(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -308,8 +312,8 @@ class OpenCDXConnectedLabServiceImplTest {
                 openCDXLabConnectionFactoryBean);
         LabFindings labFindings = LabFindings.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -332,12 +336,12 @@ class OpenCDXConnectedLabServiceImplTest {
         CreateConnectedLabRequest createConnectedLabRequest = CreateConnectedLabRequest.newBuilder()
                 .setConnectedLab(ConnectedLab.newBuilder()
                         .setIdentifier("default")
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -361,14 +365,14 @@ class OpenCDXConnectedLabServiceImplTest {
 
         UpdateConnectedLabRequest createConnectedLabRequest = UpdateConnectedLabRequest.newBuilder()
                 .setConnectedLab(ConnectedLab.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setIdentifier("default")
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -391,7 +395,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 openCDXLabConnectionFactoryBean);
 
         DeleteConnectedLabRequest deleteConnectedLabRequest = DeleteConnectedLabRequest.newBuilder()
-                .setConnectedLabId(ObjectId.get().toHexString())
+                .setConnectedLabId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -402,7 +406,7 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void getConnectedLab_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXConnectedLabRepository = Mockito.mock(OpenCDXConnectedLabRepository.class);
-        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
@@ -413,7 +417,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 openCDXLabConnectionFactoryBean);
 
         GetConnectedLabRequest getConnectedLabRequest = GetConnectedLabRequest.newBuilder()
-                .setConnectedLabId(ObjectId.get().toHexString())
+                .setConnectedLabId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
@@ -423,7 +427,7 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void updateConnectedLab_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXConnectedLabRepository = Mockito.mock(OpenCDXConnectedLabRepository.class);
-        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
@@ -435,14 +439,14 @@ class OpenCDXConnectedLabServiceImplTest {
 
         UpdateConnectedLabRequest createConnectedLabRequest = UpdateConnectedLabRequest.newBuilder()
                 .setConnectedLab(ConnectedLab.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setIdentifier("default")
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .setCreated(Timestamp.newBuilder().setSeconds(1000000).build())
                         .setModified(Timestamp.newBuilder().setSeconds(1000000).build())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
+                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                        .setModifier(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
 
@@ -454,7 +458,7 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void deleteConnectedLab_OpenCDXNotFound() throws JsonProcessingException {
         this.openCDXConnectedLabRepository = Mockito.mock(OpenCDXConnectedLabRepository.class);
-        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
@@ -465,7 +469,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 openCDXLabConnectionFactoryBean);
 
         DeleteConnectedLabRequest deleteConnectedLabRequest = DeleteConnectedLabRequest.newBuilder()
-                .setConnectedLabId(ObjectId.get().toHexString())
+                .setConnectedLabId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         Assertions.assertThrows(

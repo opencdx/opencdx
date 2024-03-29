@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,16 +26,16 @@ class OpenCDXNotificationModelTest {
     @Test
     void getProtobufMessage() {
         OpenCDXNotificationModel openCDXNotificationModel = new OpenCDXNotificationModel(Notification.newBuilder()
-                .setQueueId(ObjectId.get().toHexString())
-                .setEventId(ObjectId.get().toHexString())
-                .setPatientId(ObjectId.get().toHexString())
+                .setQueueId(OpenCDXIdentifier.get().toHexString())
+                .setEventId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
                 .setTimestamp(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build());
 
         Assertions.assertNotNull(openCDXNotificationModel.getProtobufMessage());

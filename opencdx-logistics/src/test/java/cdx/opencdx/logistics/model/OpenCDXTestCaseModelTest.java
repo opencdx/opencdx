@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.inventory.TestCase;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class OpenCDXTestCaseModelTest {
         OpenCDXTestCaseModel testCaseModel = OpenCDXTestCaseModel.builder()
                 .packagingDate(Instant.now())
                 .expiryDate(Instant.now())
-                .deviceIds(List.of(ObjectId.get()))
+                .deviceIds(List.of(OpenCDXIdentifier.get()))
                 .build();
         Assertions.assertDoesNotThrow(() -> testCaseModel.getProtobufMessage());
     }
@@ -43,15 +43,15 @@ class OpenCDXTestCaseModelTest {
     @Test
     void getProtobufMessage_3() {
         TestCase testCase = TestCase.newBuilder()
-                .setVendorId(new ObjectId().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
+                .setVendorId(new OpenCDXIdentifier().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
                 .setPackagingDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1700138692))
-                .addAllDeviceIds(List.of(new ObjectId().toHexString()))
+                .addAllDeviceIds(List.of(new OpenCDXIdentifier().toHexString()))
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
-                .setCreator(ObjectId.get().toHexString())
-                .setModifier(ObjectId.get().toHexString())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXTestCaseModel model = new OpenCDXTestCaseModel(testCase);
         Assertions.assertEquals(

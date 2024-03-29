@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.organization.Department;
 import cdx.opencdx.grpc.organization.Workspace;
 import com.google.protobuf.Timestamp;
@@ -25,7 +26,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,7 +40,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("workspace")
 public class OpenCDXIAMWorkspaceModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
     private String description;
@@ -54,11 +54,11 @@ public class OpenCDXIAMWorkspaceModel {
     private String usagePolicy;
     private String availabilitySchedule;
     private List<Department> departments;
-    private ObjectId organization;
+    private OpenCDXIdentifier organization;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message Workspace
@@ -66,7 +66,7 @@ public class OpenCDXIAMWorkspaceModel {
      */
     public OpenCDXIAMWorkspaceModel(Workspace workspace) {
         if (workspace.hasId()) {
-            this.id = new ObjectId(workspace.getId());
+            this.id = new OpenCDXIdentifier(workspace.getId());
         }
         this.name = workspace.getName();
         this.description = workspace.getDescription();
@@ -84,7 +84,7 @@ public class OpenCDXIAMWorkspaceModel {
         this.usagePolicy = workspace.getUsagePolicy();
         this.availabilitySchedule = workspace.getAvailabilitySchedule();
         this.departments = workspace.getDepartmentsList();
-        this.organization = new ObjectId(workspace.getOrganizationId());
+        this.organization = new OpenCDXIdentifier(workspace.getOrganizationId());
 
         if (workspace.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -96,10 +96,10 @@ public class OpenCDXIAMWorkspaceModel {
                     workspace.getModified().getNanos());
         }
         if (workspace.hasCreator()) {
-            this.creator = new ObjectId(workspace.getCreator());
+            this.creator = new OpenCDXIdentifier(workspace.getCreator());
         }
         if (workspace.hasModifier()) {
-            this.modifier = new ObjectId(workspace.getModifier());
+            this.modifier = new OpenCDXIdentifier(workspace.getModifier());
         }
     }
 

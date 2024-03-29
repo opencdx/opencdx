@@ -2,6 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://appuser:${db.mongo.password}@database:27017/opencdx
+      database: opencdx
 db:
   mongo:
     password: '{cipher}AQCIKYMkCo/JH0CtyXFRieltUB7mZ3z/yZ7GLKdU3Q4mF6VE9DESZwnJ0EcURWMeLTrIjFMj3JYBufKV+qZ/PBzX/U4DnwcWbZo0akoum8/bP6ZOlxRZ4XhaNVbiNXV7SMpjlq1m5bw7Uw6OCEK05clqZUzMm4uIf7GuyszAfYiLbm7eLkcRiCjHJ48ExOhqXVr01tl+NqPo/gDeGfuErPcL1w6Vs3Bxk5Nk1tWt9ClUGE0dl6ZxoGg22kWuyFF6+O5yRYGgGbtIWvsovjvKr0hDlIPJSFjwp/ywEc8twTyJoAW6J/TwecOEjVrJiQfKVVftXT3OxBHK/FBchpkrKpYlXNhpXz0VoPnFblVXK3ak426q2NZ0R0iwI9YUYY8TVXc='

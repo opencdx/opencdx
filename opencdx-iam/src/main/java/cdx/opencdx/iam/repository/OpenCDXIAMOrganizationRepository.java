@@ -15,10 +15,9 @@
  */
 package cdx.opencdx.iam.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,4 +25,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXIAMOrganizationRepository extends MongoRepository<OpenCDXIAMOrganizationModel, ObjectId> {}
+public interface OpenCDXIAMOrganizationRepository extends OpenCDXRepository<OpenCDXIAMOrganizationModel> {}

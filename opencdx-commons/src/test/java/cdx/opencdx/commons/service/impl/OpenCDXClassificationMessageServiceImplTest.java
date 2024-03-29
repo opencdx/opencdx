@@ -18,6 +18,7 @@ package cdx.opencdx.commons.service.impl;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
@@ -30,7 +31,6 @@ import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import java.time.Instant;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -54,9 +54,9 @@ class OpenCDXClassificationMessageServiceImplTest {
         OpenCDXMessageService messageServiceMock = Mockito.mock(OpenCDXMessageService.class);
 
         // Input id values
-        ObjectId userId = new ObjectId();
-        ObjectId connectedTestId = new ObjectId();
-        ObjectId mediaId = new ObjectId();
+        OpenCDXIdentifier userId = new OpenCDXIdentifier();
+        OpenCDXIdentifier connectedTestId = new OpenCDXIdentifier();
+        OpenCDXIdentifier mediaId = new OpenCDXIdentifier();
 
         // Constructs user model
         OpenCDXProfileModel userModel = new OpenCDXProfileModel();
@@ -67,7 +67,9 @@ class OpenCDXClassificationMessageServiceImplTest {
         Mockito.when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.of(userModel));
 
         Mockito.when(openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         // Constructs target object
         OpenCDXClassificationMessageServiceImpl target = new OpenCDXClassificationMessageServiceImpl(
@@ -91,9 +93,9 @@ class OpenCDXClassificationMessageServiceImplTest {
     @Test
     void submitQuestionnaire_withValidInputs_noExceptionThrown() {
 
-        ObjectId userId = new ObjectId();
-        ObjectId questionnaireUserId = new ObjectId();
-        ObjectId mediaId = new ObjectId();
+        OpenCDXIdentifier userId = new OpenCDXIdentifier();
+        OpenCDXIdentifier questionnaireUserId = new OpenCDXIdentifier();
+        OpenCDXIdentifier mediaId = new OpenCDXIdentifier();
 
         OpenCDXProfileModel userModel = new OpenCDXProfileModel();
         userModel.setId(userId);
@@ -101,7 +103,9 @@ class OpenCDXClassificationMessageServiceImplTest {
         userModel.setDateOfBirth(Instant.now());
 
         Mockito.when(openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.of(userModel));
 
         Assertions.assertDoesNotThrow(() -> service.submitQuestionnaire(userId, questionnaireUserId, mediaId));
@@ -110,9 +114,9 @@ class OpenCDXClassificationMessageServiceImplTest {
     @Test
     void submitQuestionnaire_withInvalidUserId_throwsNotFound() {
 
-        ObjectId userId = new ObjectId();
-        ObjectId questionnaireUserId = new ObjectId();
-        ObjectId mediaId = new ObjectId();
+        OpenCDXIdentifier userId = new OpenCDXIdentifier();
+        OpenCDXIdentifier questionnaireUserId = new OpenCDXIdentifier();
+        OpenCDXIdentifier mediaId = new OpenCDXIdentifier();
 
         when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.empty());
 

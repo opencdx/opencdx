@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -36,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -103,17 +103,18 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Connected Test does not have basic info");
         }
 
-        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getPatientId());
+        OpenCDXIdentifier patientID =
+                new OpenCDXIdentifier(connectedTest.getBasicInfo().getPatientId());
 
         this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
-                new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
-                new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
+                new OpenCDXIdentifier(connectedTest.getBasicInfo().getOrganizationId()),
+                new OpenCDXIdentifier(connectedTest.getBasicInfo().getWorkspaceId()));
 
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "devices", new ObjectId(connectedTest.getTestDetails().getDeviceIdentifier()));
+                "devices", new OpenCDXIdentifier(connectedTest.getTestDetails().getDeviceIdentifier()));
 
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "media", new ObjectId(connectedTest.getTestDetails().getMediaId()));
+                "media", new OpenCDXIdentifier(connectedTest.getTestDetails().getMediaId()));
 
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(patientID)
@@ -181,7 +182,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         }
 
         this.openCDXClassificationMessageService.submitConnectedTest(
-                patientID, new ObjectId(submittedTest.getBasicInfo().getId()), null);
+                patientID, new OpenCDXIdentifier(submittedTest.getBasicInfo().getId()), null);
         return TestSubmissionResponse.newBuilder()
                 .setSubmissionId(submittedTest.getBasicInfo().getId())
                 .build();
@@ -190,7 +191,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest) {
         ConnectedTest connectedTest = this.openCDXConnectedTestRepository
-                .findById(new ObjectId(testIdRequest.getTestId()))
+                .findById(new OpenCDXIdentifier(testIdRequest.getTestId()))
                 .orElseThrow(() ->
                         new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testIdRequest.getTestId()))
                 .getProtobufMessage();
@@ -219,7 +220,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request) {
 
-        ObjectId objectId = new ObjectId(request.getPatientId());
+        OpenCDXIdentifier openCDXIdentifier = new OpenCDXIdentifier(request.getPatientId());
 
         log.trace("Searching Database");
 
@@ -237,7 +238,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         }
 
         Page<OpenCDXConnectedTestModel> all =
-                this.openCDXConnectedTestRepository.findAllByPatientId(objectId, pageable);
+                this.openCDXConnectedTestRepository.findAllByPatientId(openCDXIdentifier, pageable);
         log.trace("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {

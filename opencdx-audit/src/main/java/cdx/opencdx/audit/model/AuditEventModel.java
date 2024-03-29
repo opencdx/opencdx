@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.audit.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.*;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -38,7 +38,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("audit")
 public class AuditEventModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private Instant created;
     private AuditEventType eventType;
@@ -48,8 +48,8 @@ public class AuditEventModel {
     private AuditSource auditSource;
     private AuditEntity auditEntity;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create AuditEventModel entity from this protobuf message
@@ -68,10 +68,10 @@ public class AuditEventModel {
                     auditEvent.getModified().getNanos());
         }
         if (auditEvent.hasCreator()) {
-            this.creator = new ObjectId(auditEvent.getCreator());
+            this.creator = new OpenCDXIdentifier(auditEvent.getCreator());
         }
         if (auditEvent.hasModifier()) {
-            this.modifier = new ObjectId(auditEvent.getModifier());
+            this.modifier = new OpenCDXIdentifier(auditEvent.getModifier());
         }
 
         this.eventType = auditEvent.getEventType();

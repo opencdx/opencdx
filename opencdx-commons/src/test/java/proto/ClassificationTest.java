@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
 import cdx.opencdx.grpc.common.Gender;
@@ -26,7 +27,6 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class ClassificationTest {
     void testClassificationRequest() throws JsonProcessingException {
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
                         .addAllSymptoms(List.of(Symptom.newBuilder()
                                 .setName("Fever")
                                 .setSeverity(SeverityLevel.HIGH)

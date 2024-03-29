@@ -1,6 +1,6 @@
 /**
  * Implementation for the In-Memory Cache
- *
+ * <p>
  * This package is solely dedicated to the functionalities
  * related to the In-Memory Cache.
  *

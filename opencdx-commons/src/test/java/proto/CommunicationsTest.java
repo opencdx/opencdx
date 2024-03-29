@@ -29,6 +29,7 @@ package proto; /*
                 * limitations under the License.
                 */
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
@@ -40,7 +41,6 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -112,7 +112,7 @@ class CommunicationsTest {
                 .setEventId("eventId")
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setTimestamp(Timestamp.newBuilder().setSeconds(1696732104))
                 .addAllToEmail(List.of("toEmail1", "toEmail2"))
                 .addAllCcEmail(List.of("ccEmail1", "ccEmail2"))

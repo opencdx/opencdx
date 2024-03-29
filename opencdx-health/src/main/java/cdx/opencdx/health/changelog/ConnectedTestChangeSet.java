@@ -32,6 +32,7 @@ public class ConnectedTestChangeSet {
 
     private static final String USER_ID = "userId";
     private static final String SYSTEM = "SYSTEM";
+    private static final String PATIENT_ID = "patientId";
 
     /**
      * Default Constructor
@@ -51,7 +52,7 @@ public class ConnectedTestChangeSet {
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of(USER_ID)));
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of("nationalHealthId")));
         mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("nationalHealthId")));
-        mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("patientId")));
+        mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of(PATIENT_ID)));
         mongockTemplate.getCollection("provider").createIndex(Indexes.ascending(List.of("npiNumber")));
     }
 
@@ -63,6 +64,17 @@ public class ConnectedTestChangeSet {
     @ChangeSet(order = "002", id = "Setup Height Index", author = "Gaurav Mishra")
     public void setupHeightIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
-        mongockTemplate.getCollection("heights").createIndex(Indexes.ascending(List.of("patientId")));
+        mongockTemplate.getCollection("heights").createIndex(Indexes.ascending(List.of(PATIENT_ID)));
+    }
+
+    /**
+     * Create an index based on the weight
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "003", id = "Setup Weight Index", author = "Gaurav Mishra")
+    public void setupWeightIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        mongockTemplate.getCollection("weights").createIndex(Indexes.ascending(List.of(PATIENT_ID)));
     }
 }

@@ -29,26 +29,113 @@ message HeightMeasurement {
    */
   double height = 4;
   /*
+   * The unit of measurement for height. The value is an enum defined by the `HeightUnits` message.
+   */
+  HeightUnits units_of_measure = 5;
+  /*
    * Timestamp when the vitals were taken.
    */
-  optional google.protobuf.Timestamp time_of_measurement = 5;
+  optional google.protobuf.Timestamp time_of_measurement = 6;
   /*
    * Creation timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp created = 6;
+  optional google.protobuf.Timestamp created = 7;
   /*
    * Modification timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp modified = 7;
+  optional google.protobuf.Timestamp modified = 8;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 8;
+  optional string creator = 9;
   /**
    * The user who last modified the Message.
    */
-  optional string modifier = 9;
+  optional string modifier = 10;
 
+}
+
+/*
+ * Defines the units of measure.
+ */
+enum HeightUnits {
+  /*
+   * Unspecified Units for Height
+   */
+  HEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
+   * Height in centimeters
+   */
+  CM = 1;
+  /*
+   * Height in inches
+   */
+  INCHES = 2;
+}
+
+/*
+ * Represents Weight Measurement information.
+ */
+message WeightMeasurement {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Weight of the patient
+   */
+  double weight = 4;
+  /*
+   * The unit of measurement for weight. The value is an enum defined by the `WeightUnits` message.
+   */
+  WeightUnits units_of_measure = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+
+}
+
+/*
+ * Defines the units of measure.
+ */
+enum WeightUnits {
+  /*
+   * Unspecified Weight Units
+   */
+  WEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
+   * Weight in kilograms.
+   */
+  KGS = 1;
+  /*
+   * Weight in pounds.
+   */
+  LBS = 2;
 }
 
 /*
@@ -178,6 +265,122 @@ message ListHeightMeasurementsResponse {
 }
 
 /*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message CreateWeightMeasurementRequest {
+  /*
+   * The Weight Measurement
+   */
+  optional WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info for weight.
+ */
+message CreateWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message GetWeightMeasurementRequest {
+  /*
+   * The Weight Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Weight Measurements info.
+ */
+message GetWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info for weight
+ */
+message UpdateWeightMeasurementRequest {
+  /*
+   * The Weight Measurement
+   */
+  optional WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message UpdateWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info for weight.
+ */
+message DeleteWeightMeasurementRequest {
+  /*
+   * The Weight Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info for weight.
+ */
+message ListWeightMeasurementsRequest {
+  oneof weight_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the Weight Measurement
+ */
+message ListWeightMeasurementsResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /**
+  * The list of Height Measurement.
+  */
+  repeated WeightMeasurement weight_Measurement = 2;
+}
+
+/*
  * The HeightVitalsService provides remote procedure call (RPC) methods to manipulate and fetch
  * Height Measurements related information.
  */
@@ -203,4 +406,33 @@ service HeightMeasurementService {
    * List HeightMeasurement.
    */
   rpc ListHeightMeasurements(ListHeightMeasurementsRequest) returns (ListHeightMeasurementsResponse);
+}
+
+
+/*
+ * The WeightMeasurementService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Weight Measurements related information.
+ */
+service WeightMeasurementService {
+
+  /**
+   * Create a WeightMeasurement.
+   */
+  rpc CreateWeightMeasurement(CreateWeightMeasurementRequest) returns (CreateWeightMeasurementResponse);
+  /**
+   * Get a WeightMeasurement.
+   */
+  rpc GetWeightMeasurement(GetWeightMeasurementRequest) returns (GetWeightMeasurementResponse);
+  /**
+   * Update a WeightMeasurement.
+   */
+  rpc UpdateWeightMeasurement(UpdateWeightMeasurementRequest) returns (UpdateWeightMeasurementResponse);
+  /**
+   * Delete a WeightMeasurement.
+   */
+  rpc DeleteWeightMeasurement(DeleteWeightMeasurementRequest) returns (SuccessResponse);
+  /**
+   * List WeightMeasurement.
+   */
+  rpc ListWeightMeasurements(ListWeightMeasurementsRequest) returns (ListWeightMeasurementsResponse);
 }

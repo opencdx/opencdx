@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.organization.CreateWorkspaceRequest;
@@ -30,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,9 +81,13 @@ class OpenCDXIAMWorkspaceRestControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         when(this.openCDXIAMWorkspaceRepository.save(Mockito.any(OpenCDXIAMWorkspaceModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMWorkspaceModel>() {
@@ -91,21 +95,21 @@ class OpenCDXIAMWorkspaceRestControllerTest {
                     public OpenCDXIAMWorkspaceModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMWorkspaceModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(ObjectId.class)))
+        when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMWorkspaceModel>>() {
                     @Override
                     public Optional<OpenCDXIAMWorkspaceModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXIAMWorkspaceModel.builder().id(argument).build());
                     }
                 });
-        when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class)))
+        when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -128,7 +132,8 @@ class OpenCDXIAMWorkspaceRestControllerTest {
                 .perform(MockMvcRequestBuilders.post("/workspace")
                         .content(this.objectMapper.writeValueAsString(CreateWorkspaceRequest.newBuilder()
                                 .setWorkspace(Workspace.newBuilder()
-                                        .setOrganizationId(ObjectId.get().toHexString())
+                                        .setOrganizationId(
+                                                OpenCDXIdentifier.get().toHexString())
                                         .setCreatedDate(Timestamp.newBuilder()
                                                 .setSeconds(10L)
                                                 .setNanos(5)
@@ -146,7 +151,7 @@ class OpenCDXIAMWorkspaceRestControllerTest {
     void getWorkspaceDetailsById() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(
-                                "/workspace/" + ObjectId.get().toHexString())
+                                "/workspace/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -160,8 +165,9 @@ class OpenCDXIAMWorkspaceRestControllerTest {
                 .perform(MockMvcRequestBuilders.put("/workspace")
                         .content(this.objectMapper.writeValueAsString(UpdateWorkspaceRequest.newBuilder()
                                 .setWorkspace(Workspace.newBuilder()
-                                        .setOrganizationId(ObjectId.get().toHexString())
-                                        .setId(ObjectId.get().toHexString())
+                                        .setOrganizationId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

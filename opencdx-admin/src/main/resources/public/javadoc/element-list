@@ -16,6 +16,10 @@ cdx.opencdx.audit.model
 cdx.opencdx.audit.repository
 cdx.opencdx.audit.security
 cdx.opencdx.classification
+cdx.opencdx.classification.analyzer.config
+cdx.opencdx.classification.analyzer.dto
+cdx.opencdx.classification.analyzer.rules
+cdx.opencdx.classification.analyzer.service.impl
 cdx.opencdx.classification.config
 cdx.opencdx.classification.controller
 cdx.opencdx.classification.handlers
@@ -34,6 +38,8 @@ cdx.opencdx.commons.aspects
 cdx.opencdx.commons.cache
 cdx.opencdx.commons.collections
 cdx.opencdx.commons.config
+cdx.opencdx.commons.converters
+cdx.opencdx.commons.data
 cdx.opencdx.commons.dto
 cdx.opencdx.commons.exceptions
 cdx.opencdx.commons.handlers
@@ -71,8 +77,9 @@ cdx.opencdx.gateway.filter
 cdx.opencdx.health
 cdx.opencdx.health.changelog
 cdx.opencdx.health.controller
-cdx.opencdx.health.dto
+cdx.opencdx.health.dto.npi
 cdx.opencdx.health.dto.openfda
+cdx.opencdx.health.feign
 cdx.opencdx.health.model
 cdx.opencdx.health.repository
 cdx.opencdx.health.security
@@ -120,7 +127,6 @@ cdx.opencdx.protector.security
 cdx.opencdx.protector.service
 cdx.opencdx.protector.service.impl
 cdx.opencdx.questionnaire
-cdx.opencdx.questionnaire.changelog
 cdx.opencdx.questionnaire.config
 cdx.opencdx.questionnaire.controller
 cdx.opencdx.questionnaire.model

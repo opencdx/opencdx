@@ -39,7 +39,7 @@ public class OpenCDXLabConnectedDefault implements OpenCDXLabConnected {
         log.info(
                 "Received request to submit lab findings for patient: {}",
                 request.getBasicInfo().getPatientId());
-        log.info("Lab Findings: {}", request.toString());
+        log.info("Lab Findings: {}", request);
 
         return LabFindingsResponse.newBuilder()
                 .setLabFindingsId(request.getId())

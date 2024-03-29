@@ -24,7 +24,6 @@ import cdx.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoClient;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.mongo.MongoLockProvider;
@@ -32,6 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * Applicaiton Configuration
@@ -77,15 +77,16 @@ public class AppConfig {
 
     /**
      * Lock provider for synchronization between instances of a service
-     * @param mongo MongoClient to contact Mongo.
+     * @param mongoTemplate MongoTemplate to contact Mongo.
      * @param applicationName Name of application for Collection
      * @return LockProvider to use
      */
     @Bean
     @Description("Bean for the LockProvider for service synchronization.")
-    public LockProvider lockProvider(MongoClient mongo, @Value("${spring.application.name}") String applicationName) {
+    public LockProvider lockProvider(
+            MongoTemplate mongoTemplate, @Value("${spring.application.name}") String applicationName) {
         log.info("Creating LockProvider");
-        return new MongoLockProvider(mongo.getDatabase("opencdx").getCollection("lock-" + applicationName));
+        return new MongoLockProvider(mongoTemplate.getCollection("lock-" + applicationName));
     }
 
     /**

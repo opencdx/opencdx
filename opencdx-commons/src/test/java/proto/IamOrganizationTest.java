@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.organization.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,7 +25,6 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,7 +77,7 @@ class IamOrganizationTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(GetOrganizationDetailsByIdRequest.newBuilder()
-                                .setOrganizationId(ObjectId.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                                 .build()));
     }
 
@@ -110,13 +110,13 @@ class IamOrganizationTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(GetWorkspaceDetailsByIdRequest.newBuilder()
-                                .setWorkspaceId(ObjectId.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                 .build()));
     }
 
     Organization getOrganization() {
         return Organization.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("OrganizationName")
                 .setDescription("OrganizationDescription")
                 .setFoundingDate(Timestamp.newBuilder().setSeconds(1696435104))
@@ -127,7 +127,7 @@ class IamOrganizationTest {
                         .setCity("City")
                         .setPostalCode("Postcode")
                         .setState("state")
-                        .setCountryId(ObjectId.get().toHexString())
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .setWebsite("http://")
                 .setIndustry("Medical")
@@ -154,10 +154,10 @@ class IamOrganizationTest {
 
     Workspace getWorkSpace() {
         return Workspace.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("Workspace Name")
                 .setDescription("Workspace Description")
-                .setOrganizationId(ObjectId.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                 .setCreatedDate(Timestamp.newBuilder().setSeconds(1696435104))
                 .setLocation("San Diego, California, United States")
                 .setManager("Bob")
@@ -168,11 +168,11 @@ class IamOrganizationTest {
                 .setUsagePolicy("usage Policy")
                 .setAvailabilitySchedule("Monday - Friday")
                 .addAllDepartments(List.of(Department.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .setName("Department Name")
                         .setDescription("Department Description")
                         .addAllEmployees(List.of(Employee.newBuilder()
-                                .setEmployeeId(ObjectId.get().toHexString())
+                                .setEmployeeId(OpenCDXIdentifier.get().toHexString())
                                 .setName(FullName.newBuilder()
                                         .setFirstName("Employee")
                                         .setLastName("Name")

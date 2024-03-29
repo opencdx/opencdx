@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +24,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,8 +42,8 @@ class PredictorTest {
     void testPredictorRequest() throws JsonProcessingException {
         PredictorRequest item = PredictorRequest.newBuilder()
                 .setPredictorInput(PredictorInput.newBuilder()
-                        .setEncounterId(ObjectId.get().toHexString())
-                        .setTestId(ObjectId.get().toHexString())
+                        .setEncounterId(OpenCDXIdentifier.get().toHexString())
+                        .setTestId(OpenCDXIdentifier.get().toHexString())
                         .addAllTestFeatures(List.of("Feature 1", "Feature 2", "Feature 3"))
                         .build())
                 .build();

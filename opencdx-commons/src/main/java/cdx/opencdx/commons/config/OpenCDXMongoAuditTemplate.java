@@ -16,14 +16,16 @@
 package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
 import io.micrometer.observation.annotation.Observed;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.*;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -52,9 +54,31 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     }
 
     @Override
+    protected <T> T maybeCallBeforeConvert(T object, String collection) {
+        boolean hasSetIdMethod = hasMethod(object.getClass(), "setId");
+        boolean hasGetMethod = hasMethod(object.getClass(), "getId");
+
+        try {
+            if (hasGetMethod && hasSetIdMethod) {
+                Method getIdMethod = object.getClass().getMethod("getId");
+                OpenCDXIdentifier id = (OpenCDXIdentifier) getIdMethod.invoke(object);
+
+                if (id == null) {
+                    Method setIdMethod = object.getClass().getMethod("setId", OpenCDXIdentifier.class);
+                    setIdMethod.invoke(object, new OpenCDXIdentifier());
+                }
+            }
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            log.error("Failed to add OpenCDXIdentifier", e);
+        }
+
+        return super.maybeCallBeforeConvert(object, collection);
+    }
+
+    @Override
     protected <T> T maybeCallBeforeSave(T object, Document document, String collection) {
         log.trace("OpenCDXMongoAuditTemplate maybeCallBeforeSave");
-        ObjectId identityID =
+        OpenCDXIdentifier identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();
 
@@ -95,7 +119,7 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     private void updateRemovalQuery(String collectionName, Query query) {
         log.trace("OpenCDXMongoAuditTemplate updateRemovalQuery");
-        ObjectId identityID =
+        OpenCDXIdentifier identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();
 
@@ -106,5 +130,15 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
         update.set("modified", date);
 
         this.findAndModify(query, update, Document.class, collectionName);
+    }
+
+    // Method to check if a class has a specific method
+    private static boolean hasMethod(Class<?> clazz, String methodName) {
+        for (Method method : clazz.getMethods()) {
+            if (method.getName().equals(methodName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

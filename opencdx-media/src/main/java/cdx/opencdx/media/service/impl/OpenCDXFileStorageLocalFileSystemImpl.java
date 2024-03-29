@@ -16,6 +16,7 @@
 package cdx.opencdx.media.service.impl;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXForbidden;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
@@ -33,7 +34,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.InputStreamResource;
@@ -79,7 +79,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
     @Override
     public boolean storeFile(MultipartFile file, String fileId) {
         OpenCDXMediaModel media = this.openCDXMediaRepository
-                .findById(new ObjectId(fileId))
+                .findById(new OpenCDXIdentifier(fileId))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));
 
         String originalFilename = file.getOriginalFilename();
@@ -121,7 +121,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
         log.info("Reading file: {}", fileId + "." + extension);
         OpenCDXMediaModel media = this.openCDXMediaRepository
-                .findById(new ObjectId(fileId))
+                .findById(new OpenCDXIdentifier(fileId))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));
 
         String fileName = fileId + "." + extension;

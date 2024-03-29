@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXConflict;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -35,7 +36,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -83,7 +83,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     @Override
     public UserProfileResponse getUserProfile(UserProfileRequest request) {
         OpenCDXProfileModel model = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getUserId()))
+                .findById(new OpenCDXIdentifier(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getUserId()));
 
         try {
@@ -115,10 +115,11 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         this.openCDXDocumentValidator.validateDocumentsOrThrow(
                 "users",
                 request.getUpdatedProfile().getDependentIdList().stream()
-                        .map(ObjectId::new)
+                        .map(OpenCDXIdentifier::new)
                         .toList());
         for (Address address : request.getUpdatedProfile().getAddressList()) {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    COUNTRY, new OpenCDXIdentifier(address.getCountryId()));
         }
 
         if (request.getUpdatedProfile().hasEmergencyContact()) {
@@ -126,14 +127,15 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     .getEmergencyContact()
                     .getContactInfo()
                     .getAddressesList()) {
-                this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+                this.openCDXDocumentValidator.validateDocumentOrThrow(
+                        COUNTRY, new OpenCDXIdentifier(address.getCountryId()));
             }
         }
         if (request.getUpdatedProfile().hasPharmacyDetails()
                 && request.getUpdatedProfile().getPharmacyDetails().hasPharmacyAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUpdatedProfile()
+                    new OpenCDXIdentifier(request.getUpdatedProfile()
                             .getPharmacyDetails()
                             .getPharmacyAddress()
                             .getCountryId()));
@@ -141,16 +143,17 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         if (request.getUpdatedProfile().hasPlaceOfBirth()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUpdatedProfile().getPlaceOfBirth().getCountry()));
+                    new OpenCDXIdentifier(
+                            request.getUpdatedProfile().getPlaceOfBirth().getCountry()));
         }
         if (request.getUpdatedProfile().hasEmployeeIdentity()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "organization",
-                    new ObjectId(
+                    new OpenCDXIdentifier(
                             request.getUpdatedProfile().getEmployeeIdentity().getOrganizationId()));
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "workspace",
-                    new ObjectId(
+                    new OpenCDXIdentifier(
                             request.getUpdatedProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
@@ -204,10 +207,11 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         this.openCDXDocumentValidator.validateDocumentsOrThrow(
                 "users",
                 request.getUserProfile().getDependentIdList().stream()
-                        .map(ObjectId::new)
+                        .map(OpenCDXIdentifier::new)
                         .toList());
         for (Address address : request.getUserProfile().getAddressList()) {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    COUNTRY, new OpenCDXIdentifier(address.getCountryId()));
         }
 
         if (request.getUserProfile().hasEmergencyContact()) {
@@ -215,14 +219,15 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     .getEmergencyContact()
                     .getContactInfo()
                     .getAddressesList()) {
-                this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+                this.openCDXDocumentValidator.validateDocumentOrThrow(
+                        COUNTRY, new OpenCDXIdentifier(address.getCountryId()));
             }
         }
         if (request.getUserProfile().hasPharmacyDetails()
                 && request.getUserProfile().getPharmacyDetails().hasPharmacyAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUserProfile()
+                    new OpenCDXIdentifier(request.getUserProfile()
                             .getPharmacyDetails()
                             .getPharmacyAddress()
                             .getCountryId()));
@@ -230,20 +235,23 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         if (request.getUserProfile().hasPlaceOfBirth()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUserProfile().getPlaceOfBirth().getCountry()));
+                    new OpenCDXIdentifier(
+                            request.getUserProfile().getPlaceOfBirth().getCountry()));
         }
         if (request.getUserProfile().hasEmployeeIdentity()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "organization",
-                    new ObjectId(request.getUserProfile().getEmployeeIdentity().getOrganizationId()));
+                    new OpenCDXIdentifier(
+                            request.getUserProfile().getEmployeeIdentity().getOrganizationId()));
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "workspace",
-                    new ObjectId(request.getUserProfile().getEmployeeIdentity().getWorkspaceId()));
+                    new OpenCDXIdentifier(
+                            request.getUserProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
         if (request.getUserProfile().hasUserId()
                 && this.openCDXProfileRepository.existsById(
-                        new ObjectId(request.getUserProfile().getUserId()))
+                        new OpenCDXIdentifier(request.getUserProfile().getUserId()))
                 && this.openCDXProfileRepository.existsByNationalHealthId(
                         request.getUserProfile().getNationalHealthId())) {
             throw new OpenCDXConflict(DOMAIN, 3, "User Profile exist" + request.getUserProfile());
@@ -283,7 +291,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     @Override
     public DeleteUserProfileResponse deleteUserProfile(DeleteUserProfileRequest request) {
         OpenCDXProfileModel userModel = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getUserId()))
+                .findById(new OpenCDXIdentifier(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_USER + request.getUserId()));
 
         userModel.setActive(false);

@@ -19,7 +19,7 @@ dependencies {
 
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
-    implementation 'com.hubspot.jackson:jackson-datatype-protobuf:0.9.14'
+    implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
 
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.1'
     implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.1'

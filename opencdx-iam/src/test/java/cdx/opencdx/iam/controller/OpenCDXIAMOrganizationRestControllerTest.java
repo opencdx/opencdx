@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.organization.*;
@@ -28,7 +29,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,9 +78,13 @@ class OpenCDXIAMOrganizationRestControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         when(this.openCDXIAMOrganizationRepository.save(Mockito.any(OpenCDXIAMOrganizationModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMOrganizationModel>() {
@@ -88,22 +92,22 @@ class OpenCDXIAMOrganizationRestControllerTest {
                     public OpenCDXIAMOrganizationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMOrganizationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(ObjectId.class)))
+        when(this.openCDXIAMOrganizationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMOrganizationModel>>() {
                     @Override
                     public Optional<OpenCDXIAMOrganizationModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMOrganizationModel.builder()
                                 .id(argument)
                                 .build());
                     }
                 });
-        when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(ObjectId.class)))
+        when(this.openCDXIAMOrganizationRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -143,7 +147,7 @@ class OpenCDXIAMOrganizationRestControllerTest {
     void getOrganizationDetailsById() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(
-                                "/organization/" + ObjectId.get().toHexString())
+                                "/organization/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -157,7 +161,7 @@ class OpenCDXIAMOrganizationRestControllerTest {
                 .perform(MockMvcRequestBuilders.put("/organization")
                         .content(this.objectMapper.writeValueAsString(UpdateOrganizationRequest.newBuilder()
                                 .setOrganization(Organization.newBuilder()
-                                        .setId(ObjectId.get().toHexString())
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

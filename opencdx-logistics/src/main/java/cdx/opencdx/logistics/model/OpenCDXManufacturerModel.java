@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
@@ -28,7 +29,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -44,7 +44,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXManufacturerModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
     private OpenCDXAddressModel address;
@@ -56,8 +56,8 @@ public class OpenCDXManufacturerModel {
     private List<String> certifications;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create this entity from the Manufacturer protobuf message
@@ -65,7 +65,7 @@ public class OpenCDXManufacturerModel {
      */
     public OpenCDXManufacturerModel(Manufacturer manufacturer) {
         if (manufacturer.hasId()) {
-            this.setId(new ObjectId(manufacturer.getId()));
+            this.setId(new OpenCDXIdentifier(manufacturer.getId()));
         }
         this.setName(manufacturer.getName());
         if (manufacturer.hasManufacturerAddress()) {
@@ -88,10 +88,10 @@ public class OpenCDXManufacturerModel {
                     manufacturer.getModified().getNanos());
         }
         if (manufacturer.hasCreator()) {
-            this.creator = new ObjectId(manufacturer.getCreator());
+            this.creator = new OpenCDXIdentifier(manufacturer.getCreator());
         }
         if (manufacturer.hasModifier()) {
-            this.modifier = new ObjectId(manufacturer.getModifier());
+            this.modifier = new OpenCDXIdentifier(manufacturer.getModifier());
         }
     }
 

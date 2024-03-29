@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -28,7 +29,6 @@ import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,9 +75,13 @@ class OpenCDXCommunicationEmailServiceImplTest {
                 .then(AdditionalAnswers.returnsFirstArg());
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailServiceImpl(
@@ -106,7 +110,7 @@ class OpenCDXCommunicationEmailServiceImplTest {
     void updateEmailTemplate() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.openCDXCommunicationEmailService.updateEmailTemplate(emailTemplate);
@@ -126,7 +130,7 @@ class OpenCDXCommunicationEmailServiceImplTest {
     void deleteEmailTemplate() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.openCDXCommunicationEmailService.deleteEmailTemplate(templateRequest);
@@ -135,10 +139,11 @@ class OpenCDXCommunicationEmailServiceImplTest {
 
     @Test
     void deleteEmailTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(
+                        Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
+                .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertFalse(this.openCDXCommunicationEmailService
                 .deleteEmailTemplate(templateRequest)

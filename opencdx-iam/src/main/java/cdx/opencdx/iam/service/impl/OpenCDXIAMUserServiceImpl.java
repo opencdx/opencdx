@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -41,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -228,7 +228,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public GetIamUserResponse getIamUser(GetIamUserRequest request) {
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getId()));
 
         try {
@@ -263,7 +263,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request) {
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getIamUser().getId()))
+                .findById(new OpenCDXIdentifier(request.getIamUser().getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, FAILED_TO_FIND_USER + request.getIamUser().getId()));
 
@@ -305,7 +305,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_USER + request.getId()));
 
         if (passwordEncoder.matches(request.getOldPassword(), model.getPassword())) {
@@ -357,7 +357,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request) {
         OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_USER + request.getId()));
 
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
@@ -397,7 +397,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public UserExistsResponse userExists(UserExistsRequest request) {
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + request.getId()));
 
         model = this.openCDXIAMUserRepository.save(model);
@@ -434,7 +434,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     public void verifyEmailIamUser(String id) {
         this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(id))
+                .findById(new OpenCDXIdentifier(id))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));
 
         model.setEmailVerified(true);
