@@ -25,8 +25,14 @@ import dev.ikm.tinkar.common.service.*;
 import io.micrometer.observation.annotation.Observed;
 import java.io.File;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,6 +58,13 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
             @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild) {
         this.pathParent = pathParent;
         this.pathChild = pathChild;
+    }
+
+    @Scheduled(initialDelay = 120000, fixedDelay = Long.MAX_VALUE)
+    public void initialize() {
+        log.info("Initializing OpenCDXTinkarServiceImpl");
+        initializePrimitiveData(pathParent, pathChild);
+        log.info("OpenCDXTinkarServiceImpl initialized");
     }
 
     @Override
