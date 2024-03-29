@@ -34,6 +34,7 @@ import io.nats.client.*;
 import io.nats.client.api.ServerInfo;
 import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
+import io.nats.client.impl.AckType;
 import io.nats.client.impl.Headers;
 import io.nats.client.impl.NatsJetStreamMetaData;
 import io.nats.client.support.Status;
@@ -217,6 +218,7 @@ class NatsOpenCDXMessageServiceImplTest {
 
     private Message getMessage() {
         return new Message() {
+
             @Override
             public String getSubject() {
                 return null;
@@ -278,6 +280,11 @@ class NatsOpenCDXMessageServiceImplTest {
             }
 
             @Override
+            public AckType lastAck() {
+                return null;
+            }
+
+            @Override
             public void ack() {}
 
             @Override
@@ -285,6 +292,12 @@ class NatsOpenCDXMessageServiceImplTest {
 
             @Override
             public void nak() {}
+
+            @Override
+            public void nakWithDelay(Duration duration) {}
+
+            @Override
+            public void nakWithDelay(long l) {}
 
             @Override
             public void term() {}
