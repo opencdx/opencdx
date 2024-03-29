@@ -28,7 +28,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
-import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.communication.Notification;
@@ -384,7 +383,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
         if (null != userQuestionnaireData
                 && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
-            testName = userQuestionnaireData.getQuestionnaireDataList().get(0).getTitle();
+            testName =
+                    userQuestionnaireData.getQuestionnaireDataList().getFirst().getTitle();
         }
 
         if (testName == null) {

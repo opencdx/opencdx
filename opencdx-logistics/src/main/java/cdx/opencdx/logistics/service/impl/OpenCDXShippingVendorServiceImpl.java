@@ -139,23 +139,9 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
                     .orElseThrow(
                             () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 2, "Failed to find patient"));
 
-            Map<String, String> map = new HashMap<>();
-            map.put("firstName", patient.getFullName().getFirstName());
-            map.put("lastName", patient.getFullName().getLastName());
-            map.put("notification", "Updated delivery tracking ");
-            map.put("trackingNumber", openCDXShippingModel.getTrackingNumber());
-            map.put("itemShipped", openCDXShippingModel.getPackageDetails().getTestCaseId());
-            map.put("address1", patient.getAddresses().get(0).getAddress1());
-            map.put("address2", patient.getAddresses().get(0).getAddress2());
-            map.put("address3", patient.getAddresses().get(0).getAddress3());
-            map.put("city", patient.getAddresses().get(0).getCity());
-            map.put("postalCode", patient.getAddresses().get(0).getPostalCode());
-            map.put("state", patient.getAddresses().get(0).getState());
-            map.put("countryId", patient.getAddresses().get(0).getCountryId());
-
             Notification.Builder builder = Notification.newBuilder()
                     .setEventId(OpenCDXCommunicationService.CREATE_SHIPMENT)
-                    .putAllVariables(map);
+                    .putAllVariables(getCreateShipmentVariables(patient, openCDXShippingModel));
             builder.setPatientId(patient.getId().toHexString());
 
             EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
@@ -183,6 +169,24 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
                 .build();
+    }
+
+    private static Map<String, String> getCreateShipmentVariables(
+            OpenCDXProfileModel patient, OpenCDXShippingModel openCDXShippingModel) {
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", patient.getFullName().getFirstName());
+        map.put("lastName", patient.getFullName().getLastName());
+        map.put("notification", "Updated delivery tracking ");
+        map.put("trackingNumber", openCDXShippingModel.getTrackingNumber());
+        map.put("itemShipped", openCDXShippingModel.getPackageDetails().getTestCaseId());
+        map.put("address1", patient.getAddresses().getFirst().getAddress1());
+        map.put("address2", patient.getAddresses().getFirst().getAddress2());
+        map.put("address3", patient.getAddresses().getFirst().getAddress3());
+        map.put("city", patient.getAddresses().getFirst().getCity());
+        map.put("postalCode", patient.getAddresses().getFirst().getPostalCode());
+        map.put("state", patient.getAddresses().getFirst().getState());
+        map.put("countryId", patient.getAddresses().getFirst().getCountryId());
+        return map;
     }
 
     /**

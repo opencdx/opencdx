@@ -32,7 +32,7 @@ import org.springframework.security.access.annotation.Secured;
 @Observed(name = "opencdx")
 public class OpenCDXGrpcClassificationController extends ClassificationServiceGrpc.ClassificationServiceImplBase {
 
-    private OpenCDXClassificationService classificationService;
+    private final OpenCDXClassificationService classificationService;
     /**
      * Constructor using the ClassificationService
      * @param classificationService service to use for processing

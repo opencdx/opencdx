@@ -56,6 +56,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
     private final OpenCDXManufacturerClient openCDXManufacturerClient;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXMessageService openCDXMessageService;
+    private final IParser parser;
 
     /**
      * Constructor with OpenCDXCDCPayloadServiceImpl
@@ -74,6 +75,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         this.openCDXManufacturerClient = openCDXManufacturerClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXMessageService = openCDXMessageService;
+        this.parser = FhirContext.forR4().newJsonParser();
     }
 
     public void sendCDCPayloadMessage(OpenCDXClassificationModel model) {
@@ -401,7 +403,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
     }
 
     private void sendMessage(Bundle bundle) {
-        IParser parser = FhirContext.forR4().newJsonParser().setPrettyPrint(true);
+
         String cdcPayload = parser.encodeResourceToString(bundle);
         log.debug("Sending CDC Payload Event: {}", cdcPayload);
         this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, cdcPayload);

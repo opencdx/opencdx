@@ -32,7 +32,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * This class represents a classification model used in OpenCDX.
  * It contains various properties such as user answer, classification response, media, connected test,
  * user questionnaire data, creation timestamp, modification timestamp, creator, and modifier.
- *
+ * <p>
  * This class is used for conversions to Protobuf messages.
  */
 @Data

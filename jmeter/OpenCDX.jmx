@@ -3537,7 +3537,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/SearchMedications</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <stringProp name="GRPCSampler.deadline">2000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
               <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>

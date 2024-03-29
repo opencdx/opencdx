@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Interface for the OpenFDA client.  Can be used with an OpenFDA API Key, that can be requested from https://open.fda.gov/apis/authentication/ .
+ * Interface for the OpenFDA client.  Can be used with an OpenFDA API Key, that can be requested from <a href="https://open.fda.gov/apis/authentication/">...</a> .
  * The key should be passed in the Authorization header in the form "Basic eW91ckFQSUtleUhlcmU6".
  */
 @FeignClient(name = "fdaDrugClient")

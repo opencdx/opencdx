@@ -186,20 +186,18 @@ public class OpenCDXShippingModel {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("OpenCDXShippingModel{").append("\n");
-        sb.append("id=").append(id).append("\n");
-        sb.append("shippingName = ").append(shippingName).append("\n");
-        sb.append("senderAddress = ").append(senderAddress).append("\n");
-        sb.append("recipientAddress = ").append(recipientAddress).append("\n");
-        sb.append("packageDetails = ").append(packageDetails).append("\n");
-        sb.append("serviceLevel = ").append(serviceLevel).append("\n");
-        sb.append("additionalServices = ").append(additionalServices).append("\n");
-        sb.append("requireSignature = ").append(requireSignature).append("\n");
-        sb.append("declaredValue = ").append(declaredValue).append("\n");
-        sb.append("shippingCost= ").append(shippingCost).append("\n");
-        sb.append("shippingVendorId = ").append(shippingVendorId).append("\n");
-        sb.append("paymentDetails = ").append(paymentDetails).append("\n");
-        sb.append('}');
-        return sb.toString();
+        return "OpenCDXShippingModel{" + "\n" + "id="
+                + id + "\n" + "shippingName = "
+                + shippingName + "\n" + "senderAddress = "
+                + senderAddress + "\n" + "recipientAddress = "
+                + recipientAddress + "\n" + "packageDetails = "
+                + packageDetails + "\n" + "serviceLevel = "
+                + serviceLevel + "\n" + "additionalServices = "
+                + additionalServices + "\n" + "requireSignature = "
+                + requireSignature + "\n" + "declaredValue = "
+                + declaredValue + "\n" + "shippingCost= "
+                + shippingCost + "\n" + "shippingVendorId = "
+                + shippingVendorId + "\n" + "paymentDetails = "
+                + paymentDetails + "\n" + '}';
     }
 }

@@ -2,7 +2,7 @@
  * The OpenCDX Configuration server is encapsulated in this class, which is utilized for disseminating
  * configuration information to all related OpenCDX Microservices. This ensures each microservice
  * functions with the appropriate context and settings.
- *
+ * <p>
  * Being an integral component of the OpenCDX ecosystem, this class requires thoughtful initialization and proper
  * configuration before being employed in any OpenCDX-based project settings.
  *

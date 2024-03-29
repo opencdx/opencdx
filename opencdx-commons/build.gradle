@@ -43,7 +43,7 @@ dependencies {
     implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:${owaspSanitizerVersion}"
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
-    implementation 'com.hubspot.jackson:jackson-datatype-protobuf:0.9.14'
+    implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
     implementation 'io.swagger.core.v3:swagger-core-jakarta:2.2.19'
     implementation project(":opencdx-proto")
     implementation project(":opencdx-client")

@@ -29,7 +29,7 @@ import org.bson.types.ObjectId;
  */
 public class OpenCDXIdentifierCodec implements Codec<OpenCDXIdentifier> {
 
-    private Codec<ObjectId> objectIdCodec;
+    private final Codec<ObjectId> objectIdCodec;
 
     /**
      * Create a new OpenCDXIdentifierCodec with the given CodecRegistry.
