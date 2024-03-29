@@ -1,3 +1,5 @@
+import { questionnaireSchema } from './schema/questionnaireSchema.js';
+
 const mongoose = require('mongoose');
 const { environment } = require('../config/config');
 const { manufacturerSchema } = require('./schema/manufacturerSchema.js');
@@ -25,5 +27,6 @@ const Manufacturers = mongoose.model('Manufacturers', manufacturerSchema);
 const Devices = mongoose.model('Devices', deviceSchema);
 const Patients = mongoose.model('Patients', patientSchema);
 const Audit = mongoose.model('Audit',auditSchema)
+const Questionnaires = mongoose.model('Questionnaire', questionnaireSchema)
 
-export { Manufacturers, Devices, Patients, Audit };
+export { Manufacturers, Devices, Patients, Audit, Questionnaires };

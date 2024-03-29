@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from "graphql-tag";
 
 export const typeDefs = gql`
   type Manufacturer {
@@ -105,5 +105,25 @@ export const typeDefs = gql`
     findAPatient(id: String): Patient
 
     getAudit: [Audit]
+    
+    getQuestionnaires: [Questionnaire]
+    findAQuestionnaire(id: String): Questionnaire
+    getQuestionnaireCount: Int
+    getQuestionnaireCountByTitle(title: String): Int
+  }
+
+  type Item {
+    type_: String,
+    required_: Boolean,
+    linkId_: String
+  }
+
+  type Questionnaire {
+    id: ID,
+    resourceType: String,
+    title: String,
+    status: String,
+    description: String,
+    items: [Item]
   }
 `;
