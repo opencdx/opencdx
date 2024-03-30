@@ -17,7 +17,7 @@ package cdx.opencdx.commons.cache;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Gauge;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import io.micrometer.core.instrument.Metrics;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Comparator;
 import java.util.Map;
@@ -144,30 +144,20 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         this.timeToIdle = timeToIdle;
         this.maxEntries = maxEntries;
 
-        SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
+        String metricName =
+                this.name.toLowerCase().replace(' ', '.').replace('_', '.').replace('-', '.');
 
-        Gauge gauge = Gauge.builder(
-                        "opencdx."
-                                + this.name
-                                        .toLowerCase()
-                                        .replace(' ', '.')
-                                        .replace('_', '.')
-                                        .replace('-', '.') + ".entries",
-                        store,
-                        ConcurrentMap::size)
+        Gauge gauge = Gauge.builder("opencdx.cache.gauge." + metricName, store, ConcurrentMap::size)
+                .baseUnit("entries")
+                .strongReference(true)
                 .baseUnit("entries")
                 .description("The number of entries in the cache")
-                .register(simpleMeterRegistry);
+                .register(Metrics.globalRegistry);
 
-        this.counter = Counter.builder("opencdx.gauge."
-                        + this.name
-                                .toLowerCase()
-                                .replace(' ', '.')
-                                .replace('_', '.')
-                                .replace('-', '.') + ".hits.counter")
+        this.counter = Counter.builder("opencdx.cache.counter." + metricName)
                 .baseUnit("hits")
                 .description("The number of hits in the cache")
-                .register(simpleMeterRegistry);
+                .register(Metrics.globalRegistry);
 
         log.info("Creating cache: {} Gauge: {}", name, gauge.getId().getName());
     }
