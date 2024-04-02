@@ -230,6 +230,12 @@ spring:
             - Path=/cdx.opencdx.grpc.health.WeightMeasurementService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-bpm
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.BPMService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 
 eureka:
   client:
