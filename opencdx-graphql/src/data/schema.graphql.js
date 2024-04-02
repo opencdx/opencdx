@@ -7,19 +7,27 @@ export const typeDefs = gql`
     website: String
     description: String
   }
-  type Patient {
+  type Demographics {
+    ethnicity_: String
+    race_: String
+    nationality_: String
+  }
+  type Address {
+    state_: String
+  }
+  type Profile {
     id: ID
     gender: String
-    firstName: String
-    lastName: String
-    birthDate: String
-    language: String
-    race: String
-    ethnicity: String
-    zipCode: String
-    state: String
-    city: String
-    county: String
+    demographics: Demographics
+    addresses: [Address]
+  }
+  type Users {
+    id: ID
+    usersSchema: String
+  }
+  type Organization {
+    id: ID
+    name: String
   }
   type Device {
     id: ID
@@ -100,9 +108,16 @@ export const typeDefs = gql`
 
     getDevices: [Device]
     findADevice(id: String): Device
+    getDevicesCount: Int
 
-    getPatients: [Patient]
-    findAPatient(id: String): Patient
+    getProfiles: [Profile]
+    findAProfile(id: String): Profile
+    getGenderCount(gender: String): Int
+    getRaceCount(race: String): Int
+
+    getUsersCountByStatus(status: String): Int
+
+    getOrganizationCount: Int
 
     getAudit: [Audit]
     
