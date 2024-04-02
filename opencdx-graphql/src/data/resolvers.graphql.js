@@ -1,4 +1,4 @@
-import { Manufacturers, Devices, Patients, Audit, Questionnaires } from "../db/dbConnector.js";
+import { Manufacturers, Devices, Profile, Audit, Questionnaires, Users, Organization } from "../db/dbConnector.js";
 
 /**
  * GraphQL Resolvers
@@ -38,18 +38,58 @@ export const resolvers = {
         console.error(err)
       }
     },
-    getPatients: async (root) => {
+    getDevicesCount: async (root) => {
       try {
-        const patients = await Patients.find();
-        return patients;
+        const count = await Devices.countDocuments();
+        return count;
       } catch (err) {
         console.error(err)
       }
     },
-    findAPatient: async (root, { id }) => {
+    getProfiles: async (root) => {
       try {
-        const patient = await Patients.findOne({ _id: id });
-        return patient;
+        const profiles = await Profile.find();
+        return profiles;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    findAProfile: async (root, { id }) => {
+      try {
+        const profile = await Profile.findOne({ _id: id });
+        return profile;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getGenderCount: async (root, { gender }) => {
+      try {
+        const count = await Profile.countDocuments({ gender: gender});
+        return count;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getRaceCount: async (root, { race }) => {
+      try {
+        const count = await Profile.countDocuments({ 'demographics.race_': race});
+        return count;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getUsersCountByStatus: async (root, { status }) => {
+      try {
+        const users = await Users.countDocuments({status: status});
+        return users;
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getOrganizationCount: async (root) => {
+      try {
+        const organizations = await Organization.countDocuments();
+        return organizations;
       } catch (err) {
         console.error(err)
       }
