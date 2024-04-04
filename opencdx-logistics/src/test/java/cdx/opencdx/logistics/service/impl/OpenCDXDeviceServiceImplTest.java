@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,9 +85,13 @@ class OpenCDXDeviceServiceImplTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXDeviceService = new OpenCDXDeviceServiceImpl(
                 this.openCDXDeviceRepository,
@@ -104,29 +108,31 @@ class OpenCDXDeviceServiceImplTest {
     void getDeviceById() {
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeviceIdRequest deviceIdRequest = DeviceIdRequest.newBuilder()
-                .setDeviceId(ObjectId.get().toHexString())
+                .setDeviceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXDeviceService.getDeviceById(deviceIdRequest));
     }
 
     @Test
     void addDevice() throws JsonProcessingException {
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         Device device = Device.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("10")
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))
@@ -142,19 +148,21 @@ class OpenCDXDeviceServiceImplTest {
 
     @Test
     void updateDevice() throws JsonProcessingException {
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         Device device = Device.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("10")
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))
@@ -172,10 +180,10 @@ class OpenCDXDeviceServiceImplTest {
     void deleteDeviceOpenCDXNotFound() {
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeviceIdRequest device = DeviceIdRequest.newBuilder()
-                .setDeviceId(ObjectId.get().toHexString())
+                .setDeviceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         OpenCDXDeviceServiceImpl openCDXDeviceService1 = new OpenCDXDeviceServiceImpl(
@@ -189,14 +197,16 @@ class OpenCDXDeviceServiceImplTest {
 
     @Test
     void deleteDeviceOpenCDXNotAcceptable() throws JsonProcessingException {
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         DeviceIdRequest device = DeviceIdRequest.newBuilder()
-                .setDeviceId(ObjectId.get().toHexString())
+                .setDeviceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))

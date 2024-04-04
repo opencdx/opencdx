@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.commons.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXProfileRepository extends MongoRepository<OpenCDXProfileModel, ObjectId> {
+public interface OpenCDXProfileRepository extends OpenCDXRepository<OpenCDXProfileModel> {
     /**
      * Method to find a profile by their national health id
      * @param nationalHealthId String containing the national health id to look up for the user.
@@ -44,8 +44,8 @@ public interface OpenCDXProfileRepository extends MongoRepository<OpenCDXProfile
 
     /**
      * Method to find a profile by their user id
-     * @param userId ObjectId of the user to look up.
+     * @param userId OpenCDXIdentifier of the user to look up.
      * @return Optional OpenCDXProfileModel of the user.
      */
-    Optional<OpenCDXProfileModel> findByUserId(ObjectId userId);
+    Optional<OpenCDXProfileModel> findByUserId(OpenCDXIdentifier userId);
 }

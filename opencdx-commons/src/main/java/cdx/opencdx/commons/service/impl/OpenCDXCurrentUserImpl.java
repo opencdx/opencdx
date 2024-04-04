@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -26,7 +27,6 @@ import cdx.opencdx.grpc.iam.IamUserType;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -77,7 +77,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
             return OpenCDXIAMUserModel.builder()
                     .systemName("ByPass User")
                     .type(IamUserType.IAM_USER_TYPE_SYSTEM)
-                    .id(new ObjectId("000000000000000000000001"))
+                    .id(new OpenCDXIdentifier("000000000000000000000001"))
                     .build();
         }
         if (!(authentication instanceof AnonymousAuthenticationToken)) {

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.inventory.Device;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -24,7 +25,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,14 +39,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("devices")
 public class OpenCDXDeviceModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String type;
     private String model;
-    private ObjectId manufacturerId;
-    private ObjectId vendorId;
-    private ObjectId manufacturerCountryId;
-    private ObjectId vendorCountryId;
+    private OpenCDXIdentifier manufacturerId;
+    private OpenCDXIdentifier vendorId;
+    private OpenCDXIdentifier manufacturerCountryId;
+    private OpenCDXIdentifier vendorCountryId;
     private Instant manufacturerDate;
     private Instant expiryDate;
     private String batchNumber;
@@ -68,15 +68,15 @@ public class OpenCDXDeviceModel {
     private Boolean fdaAuthorized;
     private String deviceStatus;
     private String associatedSoftwareVersion;
-    private List<ObjectId> testCaseIds;
+    private List<OpenCDXIdentifier> testCaseIds;
     private String name;
     private String shortDescription;
     private String description;
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create Device entity from this protobuf message
@@ -84,14 +84,14 @@ public class OpenCDXDeviceModel {
      */
     public OpenCDXDeviceModel(Device device) {
         if (device.hasId()) {
-            this.id = new ObjectId(device.getId());
+            this.id = new OpenCDXIdentifier(device.getId());
         }
         this.type = device.getType();
         this.model = device.getModel();
-        this.manufacturerId = new ObjectId(device.getManufacturerId());
-        this.manufacturerCountryId = new ObjectId(device.getManufacturerCountryId());
-        this.vendorId = new ObjectId(device.getVendorId());
-        this.vendorCountryId = new ObjectId(device.getVendorCountryId());
+        this.manufacturerId = new OpenCDXIdentifier(device.getManufacturerId());
+        this.manufacturerCountryId = new OpenCDXIdentifier(device.getManufacturerCountryId());
+        this.vendorId = new OpenCDXIdentifier(device.getVendorId());
+        this.vendorCountryId = new OpenCDXIdentifier(device.getVendorCountryId());
         this.lidrId = device.getLidrId();
         if (device.hasManufactureDate()) {
             this.manufacturerDate = Instant.ofEpochSecond(
@@ -125,7 +125,7 @@ public class OpenCDXDeviceModel {
         this.deviceStatus = device.getDeviceStatus();
         this.associatedSoftwareVersion = device.getAssociatedSoftwareVersion();
         this.testCaseIds =
-                device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
+                device.getTestCaseIdsList().stream().map(OpenCDXIdentifier::new).toList();
         this.name = device.getName();
         this.shortDescription = device.getShortDescription();
         this.description = device.getDescription();
@@ -139,10 +139,10 @@ public class OpenCDXDeviceModel {
                     device.getModified().getSeconds(), device.getModified().getNanos());
         }
         if (device.hasCreator()) {
-            this.creator = new ObjectId(device.getCreator());
+            this.creator = new OpenCDXIdentifier(device.getCreator());
         }
         if (device.hasModifier()) {
-            this.modifier = new ObjectId(device.getModifier());
+            this.modifier = new OpenCDXIdentifier(device.getModifier());
         }
     }
 
@@ -249,8 +249,9 @@ public class OpenCDXDeviceModel {
             builder.setAssociatedSoftwareVersion(this.associatedSoftwareVersion);
         }
         if (this.testCaseIds != null && !this.testCaseIds.isEmpty()) {
-            builder.addAllTestCaseIds(
-                    this.testCaseIds.stream().map(ObjectId::toHexString).toList());
+            builder.addAllTestCaseIds(this.testCaseIds.stream()
+                    .map(OpenCDXIdentifier::toHexString)
+                    .toList());
         }
         if (this.name != null) {
             builder.setName(this.name);

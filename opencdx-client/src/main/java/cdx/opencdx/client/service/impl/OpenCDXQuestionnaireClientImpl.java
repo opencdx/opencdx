@@ -56,32 +56,6 @@ public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClien
     }
 
     /**
-     * Method to gRPC Call Questionnaire Service getRuleSets() api.
-     *
-     * @param request                Client Rules request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Message response.
-     */
-    @Override
-    public RuleSetsResponse getRuleSets(ClientRulesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
-        try {
-            return questionnaireServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .getRuleSets(request);
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
-                    1,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    /**
      * Method to gRPC Call Questionnaire Service createQuestionnaire() api.
      *
      * @param request                Questionnaire request
@@ -532,84 +506,6 @@ public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClien
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
                     18,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    @Override
-    public CreateRuleSetResponse createRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
-        try {
-            return questionnaireServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .createRuleSet(CreateRuleSetRequest.newBuilder()
-                            .setRuleSet(ruleSet)
-                            .build());
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
-                    19,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    @Override
-    public UpdateRuleSetResponse updateRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials) {
-        try {
-            return questionnaireServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .updateRuleSet(UpdateRuleSetRequest.newBuilder()
-                            .setRuleSet(ruleSet)
-                            .build());
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
-                    20,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    @Override
-    public GetRuleSetResponse getRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials) {
-        try {
-            return questionnaireServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .getRuleSet(GetRuleSetRequest.newBuilder().setId(ruleSetId).build());
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
-                    19,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    @Override
-    public DeleteRuleSetResponse deleteRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials) {
-        try {
-            return questionnaireServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .deleteRuleSet(
-                            DeleteRuleSetRequest.newBuilder().setId(ruleSetId).build());
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
-                    19,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);

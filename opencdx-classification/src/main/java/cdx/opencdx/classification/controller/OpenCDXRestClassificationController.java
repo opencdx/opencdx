@@ -18,6 +18,8 @@ package cdx.opencdx.classification.controller;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Observed(name = "opencdx")
 public class OpenCDXRestClassificationController {
 
-    private OpenCDXClassificationService classificationService;
+    private final OpenCDXClassificationService classificationService;
 
     /**
      * Constructor that takes a ClassificationService
@@ -47,6 +49,17 @@ public class OpenCDXRestClassificationController {
     @Autowired
     public OpenCDXRestClassificationController(OpenCDXClassificationService classificationService) {
         this.classificationService = classificationService;
+    }
+
+    /**
+     * Get RuleSets Rest API
+     * @param request ClientRulesRequest indicating organization and workspace
+     * @return RuleSetsResponse with the message.
+     */
+    @PostMapping(value = "/ruleset/list")
+    public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody RuleSetsRequest request) {
+        RuleSetsResponse ruleSets = classificationService.getRuleSets(request);
+        return new ResponseEntity<>(ruleSets, HttpStatus.OK);
     }
 
     /**

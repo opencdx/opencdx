@@ -74,6 +74,32 @@ enum ClassificationType {
 }
 
 /*
+ * `RuleSet` message represents a certain ruleset for the rule engine.
+ * This message is used for defining and documenting rules that are applied to questionnaire responses.
+ */
+message RuleSet {
+  /*
+   * UUID identifier for the rule.
+   */
+  string rule_id = 1;
+  /*
+   * Indicates the type of the rule (e.g., business rule, validation rule etc.).
+   */
+  string type = 2;
+  /*
+   * Indicates the category of the rule.
+   */
+  string category = 3;
+  /*
+   * Description or any remarks regarding the rule.
+   */
+  string description = 4;
+  /**name of the rule
+   */
+  string name = 5;
+}
+
+/*
  * Message denoting a geographical location via coordinates.
  */
 message Location {
@@ -172,6 +198,29 @@ message Symptom {
    * Additional details about the symptom.
    */
   string additional_details = 5;
+}
+/*
+ * Represents the request to retrieve client-level rules.
+ */
+message RuleSetsRequest {
+  /*
+   * The ID of the specified organization linked to the Questionnaire data.
+   */
+  optional string organization_id = 1;
+  /*
+   * The ID of the specified workspace linked to the Questionnaire data.
+   */
+  optional string workspace_id = 2;
+}
+
+/*
+ * Represents the response retrieved from the GetRuleSets operation.
+ */
+message RuleSetsResponse {
+  /*
+   * The collection of rule sets that are available.
+   */
+  repeated RuleSet rule_sets = 1;
 }
 
 /*
@@ -311,8 +360,13 @@ message ClassificationRequest {
  * Service providing the Classify RPC for test kit classification.
  */
 service ClassificationService {
-  rpc Classify(ClassificationRequest) returns (ClassificationResponse);
+  /*
+ * Defines operations for FHIR questionnaires
+ */
+  rpc GetRuleSets(RuleSetsRequest) returns (RuleSetsResponse);
   /*
    * Classify RPC returns a classification result based on UserAnswer input.
    */
+  rpc Classify(ClassificationRequest) returns (ClassificationResponse);
+
 }

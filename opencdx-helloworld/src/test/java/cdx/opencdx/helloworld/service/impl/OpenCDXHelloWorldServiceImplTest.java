@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.helloworld.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -22,7 +23,6 @@ import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.OpenCDXHelloWorldService;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,9 +57,13 @@ class OpenCDXHelloWorldServiceImplTest {
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXHelloWorldService =
                 new OpenCDXHelloWorldServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
@@ -78,7 +82,7 @@ class OpenCDXHelloWorldServiceImplTest {
             public Person answer(InvocationOnMock invocation) throws Throwable {
                 Person argument = invocation.getArgument(0);
                 if (argument.getId() == null) {
-                    argument.setId(ObjectId.get());
+                    argument.setId(OpenCDXIdentifier.get());
                 }
                 return argument;
             }

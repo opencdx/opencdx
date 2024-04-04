@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,9 +78,13 @@ class OpenCDXCountryServiceImplTest {
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXCountryService = new OpenCDXCountryServiceImpl(
                 this.openCDXVendorRepository,
@@ -100,10 +104,10 @@ class OpenCDXCountryServiceImplTest {
 
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         CountryIdRequest countryIdRequest = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXCountryService.getCountryById(countryIdRequest));
@@ -114,7 +118,7 @@ class OpenCDXCountryServiceImplTest {
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Country country = Country.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("USA")
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -136,7 +140,7 @@ class OpenCDXCountryServiceImplTest {
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Country country = Country.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("USA")
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -157,7 +161,7 @@ class OpenCDXCountryServiceImplTest {
     void deleteCountry() {
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         Mockito.when(this.openCDXDeviceRepository.existsByVendorId(Mockito.any()))
@@ -173,7 +177,7 @@ class OpenCDXCountryServiceImplTest {
                 .thenReturn(true);
 
         CountryIdRequest countryIdRequest = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertEquals(
                 "Country ID: " + countryIdRequest.getCountryId() + " in use.",
@@ -213,13 +217,13 @@ class OpenCDXCountryServiceImplTest {
     @Test
     void deleteCountryOpenCDXNotAcceptable() throws JsonProcessingException {
         OpenCDXCountryModel openCDXCountryModel =
-                OpenCDXCountryModel.builder().id(ObjectId.get()).build();
+                OpenCDXCountryModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXCountryModel));
         CountryIdRequest country = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXCountryModel.class)))
@@ -237,10 +241,10 @@ class OpenCDXCountryServiceImplTest {
 
     @Test
     void deleteCountryOpenCDXNotFound() {
-        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         CountryIdRequest country = CountryIdRequest.newBuilder()
-                .setCountryId(ObjectId.get().toHexString())
+                .setCountryId(OpenCDXIdentifier.get().toHexString())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         OpenCDXCountryServiceImpl openCDXCountryService1 = new OpenCDXCountryServiceImpl(

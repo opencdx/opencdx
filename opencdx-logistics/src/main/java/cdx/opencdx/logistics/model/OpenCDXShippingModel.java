@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.PaymentDetails;
@@ -31,7 +32,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -46,7 +46,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXShippingModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private FullName shippingName;
     private Address senderAddress;
@@ -88,7 +88,7 @@ public class OpenCDXShippingModel {
      */
     public OpenCDXShippingModel(Shipping shipping) {
         if (shipping.hasId()) {
-            this.id = new ObjectId(shipping.getId());
+            this.id = new OpenCDXIdentifier(shipping.getId());
         }
         this.shippingName = shipping.getShippingName();
         this.senderAddress = shipping.getSenderAddress();
@@ -186,20 +186,18 @@ public class OpenCDXShippingModel {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("OpenCDXShippingModel{").append("\n");
-        sb.append("id=").append(id).append("\n");
-        sb.append("shippingName = ").append(shippingName).append("\n");
-        sb.append("senderAddress = ").append(senderAddress).append("\n");
-        sb.append("recipientAddress = ").append(recipientAddress).append("\n");
-        sb.append("packageDetails = ").append(packageDetails).append("\n");
-        sb.append("serviceLevel = ").append(serviceLevel).append("\n");
-        sb.append("additionalServices = ").append(additionalServices).append("\n");
-        sb.append("requireSignature = ").append(requireSignature).append("\n");
-        sb.append("declaredValue = ").append(declaredValue).append("\n");
-        sb.append("shippingCost= ").append(shippingCost).append("\n");
-        sb.append("shippingVendorId = ").append(shippingVendorId).append("\n");
-        sb.append("paymentDetails = ").append(paymentDetails).append("\n");
-        sb.append('}');
-        return sb.toString();
+        return "OpenCDXShippingModel{" + "\n" + "id="
+                + id + "\n" + "shippingName = "
+                + shippingName + "\n" + "senderAddress = "
+                + senderAddress + "\n" + "recipientAddress = "
+                + recipientAddress + "\n" + "packageDetails = "
+                + packageDetails + "\n" + "serviceLevel = "
+                + serviceLevel + "\n" + "additionalServices = "
+                + additionalServices + "\n" + "requireSignature = "
+                + requireSignature + "\n" + "declaredValue = "
+                + declaredValue + "\n" + "shippingCost= "
+                + shippingCost + "\n" + "shippingVendorId = "
+                + shippingVendorId + "\n" + "paymentDetails = "
+                + paymentDetails + "\n" + '}';
     }
 }

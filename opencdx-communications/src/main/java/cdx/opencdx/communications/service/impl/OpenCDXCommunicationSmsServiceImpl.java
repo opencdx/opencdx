@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -117,7 +117,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     @Override
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXSMSTemplateRespository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .findById(new OpenCDXIdentifier(templateRequest.getTemplateId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 1, "Failed to find sms template: " + templateRequest.getTemplateId()))
                 .getProtobufMessage();
@@ -160,7 +160,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         if (this.openCDXNotificationEventRepository.existsBySmsTemplateId(
-                new ObjectId(templateRequest.getTemplateId()))) {
+                new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {
@@ -179,7 +179,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        this.openCDXSMSTemplateRespository.deleteById(new OpenCDXIdentifier(templateRequest.getTemplateId()));
         log.trace("Deleted SMS Template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }

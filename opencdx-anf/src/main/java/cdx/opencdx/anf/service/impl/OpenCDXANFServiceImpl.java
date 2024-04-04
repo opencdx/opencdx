@@ -18,6 +18,7 @@ package cdx.opencdx.anf.service.impl;
 import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -95,20 +95,20 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     request.getAuthorsList().stream()
                             .filter(AnfStatement.Practitioner::hasId)
                             .map(AnfStatement.Practitioner::getId)
-                            .map(ObjectId::new)
+                            .map(OpenCDXIdentifier::new)
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    PROFILES, new ObjectId(request.getSubjectOfRecord().getId()));
+                    PROFILES, new OpenCDXIdentifier(request.getSubjectOfRecord().getId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(request.getSubjectOfRecord().getId()))
+                    .findById(new OpenCDXIdentifier(request.getSubjectOfRecord().getId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
@@ -138,12 +138,12 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
         log.trace("Getting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(
+                    .findById(new OpenCDXIdentifier(
                             openCDXANFStatementModel.getSubjectOfRecord().getId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
@@ -181,20 +181,20 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     request.getAuthorsList().stream()
                             .filter(AnfStatement.Practitioner::hasId)
                             .map(AnfStatement.Practitioner::getId)
-                            .map(ObjectId::new)
+                            .map(OpenCDXIdentifier::new)
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    PROFILES, new ObjectId(request.getSubjectOfRecord().getId()));
+                    PROFILES, new OpenCDXIdentifier(request.getSubjectOfRecord().getId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(request.getSubjectOfRecord().getId()))
+                    .findById(new OpenCDXIdentifier(request.getSubjectOfRecord().getId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
@@ -223,12 +223,12 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
         log.trace("Deleting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(
+                    .findById(new OpenCDXIdentifier(
                             openCDXANFStatementModel.getSubjectOfRecord().getId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,

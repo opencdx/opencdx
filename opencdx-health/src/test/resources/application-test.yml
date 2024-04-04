@@ -27,6 +27,8 @@ spring:
         config:
           fdaDrugClient:
             url: https://api.fda.gov/drug
+          npiRegistryClient:
+            url: https://npiregistry.cms.hhs.gov/api
 
   spring.data.mongodb:
     uri: mongodb+srv://<username>:<password>@database:27017/opencdx/

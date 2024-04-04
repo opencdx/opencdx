@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.media.Media;
@@ -23,7 +24,6 @@ import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.time.Instant;
 import lombok.*;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -32,7 +32,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * This class represents a classification model used in OpenCDX.
  * It contains various properties such as user answer, classification response, media, connected test,
  * user questionnaire data, creation timestamp, modification timestamp, creator, and modifier.
- *
+ * <p>
  * This class is used for conversions to Protobuf messages.
  */
 @Data
@@ -49,19 +49,18 @@ public class OpenCDXClassificationModel {
     }
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private OpenCDXProfileModel patient;
-
     private UserAnswer userAnswer;
     private ClassificationResponse classificationResponse;
     private Media media;
     private ConnectedTest connectedTest;
     private UserQuestionnaireData userQuestionnaireData;
+    private Media testDetailsMedia;
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
-    private Media testDetailsMedia;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 }

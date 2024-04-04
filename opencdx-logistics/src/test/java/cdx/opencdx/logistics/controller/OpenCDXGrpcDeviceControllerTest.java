@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,9 +84,13 @@ class OpenCDXGrpcDeviceControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXDeviceService = new OpenCDXDeviceServiceImpl(
                 this.openCDXDeviceRepository,
@@ -104,14 +108,16 @@ class OpenCDXGrpcDeviceControllerTest {
     void getDeviceById() {
         StreamObserver<Device> responseObserver = Mockito.mock(StreamObserver.class);
 
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         DeviceIdRequest deviceIdRequest = DeviceIdRequest.newBuilder()
-                .setDeviceId(ObjectId.get().toHexString())
+                .setDeviceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcDeviceController.getDeviceById(deviceIdRequest, responseObserver);
 
@@ -123,19 +129,21 @@ class OpenCDXGrpcDeviceControllerTest {
     void addDevice() {
         StreamObserver<Device> responseObserver = Mockito.mock(StreamObserver.class);
 
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         Device device = Device.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("10")
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setLidrId("")
                 .build();
         this.openCDXGrpcDeviceController.addDevice(device, responseObserver);
@@ -149,22 +157,22 @@ class OpenCDXGrpcDeviceControllerTest {
         StreamObserver<Device> responseObserver = Mockito.mock(StreamObserver.class);
 
         OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
-                .id(ObjectId.get())
+                .id(OpenCDXIdentifier.get())
                 .model("model")
-                .manufacturerId(ObjectId.get())
-                .vendorId(ObjectId.get())
+                .manufacturerId(OpenCDXIdentifier.get())
+                .vendorId(OpenCDXIdentifier.get())
                 .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         Device device = Device.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("10")
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setManufacturerCountryId(ObjectId.get().toHexString())
-                .setVendorCountryId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorCountryId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .setLidrId("")
                 .build();
         this.openCDXGrpcDeviceController.updateDevice(device, responseObserver);
@@ -177,14 +185,16 @@ class OpenCDXGrpcDeviceControllerTest {
     void deleteDevice() {
         StreamObserver<DeleteResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        OpenCDXDeviceModel openCDXDeviceModel =
-                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        OpenCDXDeviceModel openCDXDeviceModel = OpenCDXDeviceModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .model("model")
+                .build();
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXDeviceModel));
         DeviceIdRequest deviceIdRequest = DeviceIdRequest.newBuilder()
-                .setDeviceId(ObjectId.get().toHexString())
+                .setDeviceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcDeviceController.deleteDevice(deviceIdRequest, responseObserver);
         String message = "Device: " + deviceIdRequest.getDeviceId() + " is deleted.";
@@ -200,7 +210,7 @@ class OpenCDXGrpcDeviceControllerTest {
         Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDeviceModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -219,10 +229,10 @@ class OpenCDXGrpcDeviceControllerTest {
     void listDevicesManufacturer() {
         StreamObserver<DeviceListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXDeviceRepository.findAllByManufacturerId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDeviceModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -232,7 +242,7 @@ class OpenCDXGrpcDeviceControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setManufacturerId(ObjectId.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
@@ -242,10 +252,10 @@ class OpenCDXGrpcDeviceControllerTest {
     void listDevicesVendor() {
         StreamObserver<DeviceListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXDeviceRepository.findAllByVendorId(
-                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDeviceModel.builder()
-                                .manufacturerId(ObjectId.get())
+                                .manufacturerId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -255,7 +265,7 @@ class OpenCDXGrpcDeviceControllerTest {
                         .setPageSize(10)
                         .setSortAscending(false)
                         .build())
-                .setVendorId(ObjectId.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

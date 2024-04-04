@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.inventory.TestCase;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -23,7 +24,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -37,11 +37,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("testcases")
 public class OpenCDXTestCaseModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId manufacturerId;
-    private ObjectId vendorId;
-    private List<ObjectId> deviceIds;
+    private OpenCDXIdentifier manufacturerId;
+    private OpenCDXIdentifier vendorId;
+    private List<OpenCDXIdentifier> deviceIds;
     private Integer nunberOftests;
     private Instant packagingDate;
     private Instant expiryDate;
@@ -54,8 +54,8 @@ public class OpenCDXTestCaseModel {
     private String lidrId;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Create this entity from a TestCase Protobuf message
@@ -63,13 +63,13 @@ public class OpenCDXTestCaseModel {
      */
     public OpenCDXTestCaseModel(TestCase testCase) {
         if (testCase.hasId()) {
-            this.id = new ObjectId(testCase.getId());
+            this.id = new OpenCDXIdentifier(testCase.getId());
         }
         if (testCase.hasManufacturerId()) {
-            this.manufacturerId = new ObjectId(testCase.getManufacturerId());
+            this.manufacturerId = new OpenCDXIdentifier(testCase.getManufacturerId());
         }
         if (testCase.hasVendorId()) {
-            this.vendorId = new ObjectId(testCase.getVendorId());
+            this.vendorId = new OpenCDXIdentifier(testCase.getVendorId());
         }
         if (testCase.hasPackagingDate()) {
             this.packagingDate = Instant.ofEpochSecond(
@@ -82,7 +82,8 @@ public class OpenCDXTestCaseModel {
                     testCase.getExpiryDate().getSeconds(),
                     testCase.getExpiryDate().getNanos());
         }
-        this.deviceIds = testCase.getDeviceIdsList().stream().map(ObjectId::new).toList();
+        this.deviceIds =
+                testCase.getDeviceIdsList().stream().map(OpenCDXIdentifier::new).toList();
         this.nunberOftests = testCase.getNumberOfTests();
         this.batchNumber = testCase.getBatchNumber();
         this.serialNumber = testCase.getSerialNumber();
@@ -100,10 +101,10 @@ public class OpenCDXTestCaseModel {
                     testCase.getModified().getSeconds(), testCase.getModified().getNanos());
         }
         if (testCase.hasCreator()) {
-            this.creator = new ObjectId(testCase.getCreator());
+            this.creator = new OpenCDXIdentifier(testCase.getCreator());
         }
         if (testCase.hasModifier()) {
-            this.modifier = new ObjectId(testCase.getModifier());
+            this.modifier = new OpenCDXIdentifier(testCase.getModifier());
         }
     }
 
@@ -163,7 +164,7 @@ public class OpenCDXTestCaseModel {
         }
         if (this.deviceIds != null && !this.deviceIds.isEmpty()) {
             builder.addAllDeviceIds(
-                    this.deviceIds.stream().map(ObjectId::toHexString).toList());
+                    this.deviceIds.stream().map(OpenCDXIdentifier::toHexString).toList());
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

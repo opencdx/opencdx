@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -25,7 +26,6 @@ import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
 import java.util.List;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -91,7 +91,7 @@ class OpenCDXShippingVendorServiceImplTest {
 
     @Test
     void createDeliveryTrackingShippingRepo() {
-        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(DeliveryTracking.newBuilder()
@@ -110,9 +110,9 @@ class OpenCDXShippingVendorServiceImplTest {
         Order order = Mockito.mock(Order.class);
         Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
         Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
-        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(shippingModel));
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(DeliveryTracking.newBuilder()
@@ -135,9 +135,9 @@ class OpenCDXShippingVendorServiceImplTest {
         Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
         Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
                 .thenReturn(Optional.of(shippingModel));
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
-                        .id(ObjectId.get())
+                        .id(OpenCDXIdentifier.get())
                         .fullName(FullName.newBuilder()
                                 .setFirstName("first")
                                 .setLastName("last")

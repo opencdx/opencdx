@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,11 +26,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXMessageTemplateRepository extends MongoRepository<OpenCDXMessageTemplateModel, ObjectId> {
+public interface OpenCDXMessageTemplateRepository extends OpenCDXRepository<OpenCDXMessageTemplateModel> {
     /**
      * Indicates if a message exists using for a given template ID
      * @param id Id of the Message template to check for being used.
      * @return boolean indicating if found.
      */
-    boolean existsById(ObjectId id);
+    boolean existsById(OpenCDXIdentifier id);
 }

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.organization.Organization;
@@ -26,7 +27,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -42,7 +42,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXIAMOrganizationModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private String name;
     private String description;
@@ -58,8 +58,8 @@ public class OpenCDXIAMOrganizationModel {
     private List<ContactInfo> contactInfo;
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message Organization
@@ -67,7 +67,7 @@ public class OpenCDXIAMOrganizationModel {
      */
     public OpenCDXIAMOrganizationModel(Organization organization) {
         if (organization.hasId()) {
-            this.id = new ObjectId(organization.getId());
+            this.id = new OpenCDXIdentifier(organization.getId());
         }
         this.name = organization.getName();
         this.description = organization.getDescription();
@@ -97,10 +97,10 @@ public class OpenCDXIAMOrganizationModel {
                     organization.getModified().getNanos());
         }
         if (organization.hasCreator()) {
-            this.creator = new ObjectId(organization.getCreator());
+            this.creator = new OpenCDXIdentifier(organization.getCreator());
         }
         if (organization.hasModifier()) {
-            this.modifier = new ObjectId(organization.getModifier());
+            this.modifier = new OpenCDXIdentifier(organization.getModifier());
         }
     }
 

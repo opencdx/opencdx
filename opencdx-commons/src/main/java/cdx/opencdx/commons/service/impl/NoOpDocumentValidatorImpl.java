@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import java.util.List;
-import org.bson.types.ObjectId;
 
 /**
  * No-op implementation of OpenCDXDocumentValidator
@@ -32,42 +32,42 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
     }
 
     @Override
-    public boolean documentExists(String collectionName, ObjectId documentId) {
+    public boolean documentExists(String collectionName, OpenCDXIdentifier documentId) {
         return true;
     }
 
     @Override
-    public boolean validateDocumentOrLog(String collectionName, ObjectId documentId) {
+    public boolean validateDocumentOrLog(String collectionName, OpenCDXIdentifier documentId) {
         return this.documentExists(collectionName, documentId);
     }
 
     @Override
-    public void validateDocumentOrThrow(String collectionName, ObjectId documentId) {
+    public void validateDocumentOrThrow(String collectionName, OpenCDXIdentifier documentId) {
         // Explicitly do nothing
     }
 
     @Override
-    public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
+    public boolean allDocumentsExist(String collectionName, List<OpenCDXIdentifier> documentIds) {
         return true;
     }
 
     @Override
-    public boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds) {
+    public boolean validateDocumentsOrLog(String collectionName, List<OpenCDXIdentifier> documentIds) {
         return this.allDocumentsExist(collectionName, documentIds);
     }
 
     @Override
-    public void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds) {
+    public void validateDocumentsOrThrow(String collectionName, List<OpenCDXIdentifier> documentIds) {
         // Explicitly do nothing
     }
 
     @Override
-    public void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace) {
+    public void validateOrganizationWorkspaceOrThrow(OpenCDXIdentifier organization, OpenCDXIdentifier workspace) {
         // Explicitly do nothing
     }
 
     @Override
-    public void validateDocumentsOrThrow(List<ObjectId> documentIds) {
+    public void validateDocumentsOrThrow(List<OpenCDXIdentifier> documentIds) {
         // Explicitly do nothing
     }
 }

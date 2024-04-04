@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,9 +89,13 @@ class OpenCDXTestCaseServiceImplTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXTestCaseService = new OpenCDXTestCaseServiceImpl(
                 this.openCDXTestCaseRepository,
@@ -108,10 +112,10 @@ class OpenCDXTestCaseServiceImplTest {
     void getTestCaseById() {
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         TestCaseIdRequest testCaseIdRequest = TestCaseIdRequest.newBuilder()
-                .setTestCaseId(ObjectId.get().toHexString())
+                .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXTestCaseService.getTestCaseById(testCaseIdRequest));
@@ -120,15 +124,15 @@ class OpenCDXTestCaseServiceImplTest {
     @Test
     void addTestCase() throws JsonProcessingException {
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCase testCase = TestCase.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -147,13 +151,14 @@ class OpenCDXTestCaseServiceImplTest {
     @Test
     void addTestCase_2() throws JsonProcessingException {
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
-        TestCase testCase =
-                TestCase.newBuilder().setId(ObjectId.get().toHexString()).build();
+        TestCase testCase = TestCase.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXTestCaseModel.class)))
@@ -171,15 +176,15 @@ class OpenCDXTestCaseServiceImplTest {
     @Test
     void updateTestCase() throws JsonProcessingException {
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCase testCase = TestCase.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .setManufacturerId(ObjectId.get().toHexString())
-                .setVendorId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setManufacturerId(OpenCDXIdentifier.get().toHexString())
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -198,13 +203,13 @@ class OpenCDXTestCaseServiceImplTest {
     @Test
     void deleteTestCase() throws JsonProcessingException {
         OpenCDXTestCaseModel openCDXTestCaseModel =
-                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+                OpenCDXTestCaseModel.builder().id(OpenCDXIdentifier.get()).build();
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.of(openCDXTestCaseModel));
         TestCaseIdRequest testCase = TestCaseIdRequest.newBuilder()
-                .setTestCaseId(ObjectId.get().toHexString())
+                .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -222,10 +227,10 @@ class OpenCDXTestCaseServiceImplTest {
 
     @Test
     void deleteTestCaseOpenCDXNotFound() {
-        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         TestCaseIdRequest testCase = TestCaseIdRequest.newBuilder()
-                .setTestCaseId(ObjectId.get().toHexString())
+                .setTestCaseId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);

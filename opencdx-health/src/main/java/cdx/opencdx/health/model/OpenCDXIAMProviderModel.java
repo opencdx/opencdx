@@ -15,13 +15,15 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.health.dto.OpenCDXDtoNpiResult;
+import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -29,7 +31,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -45,13 +46,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXIAMProviderModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private String userId;
+    private OpenCDXIdentifier userId;
     private String created_epoch;
     private String enumeration_type;
     private String last_updated_epoch;
-    private String number;
+    private String npiNumber;
     private List<Address> addresses;
     private List<String> practiceLocations;
     private BasicInfo basic;
@@ -59,10 +60,10 @@ public class OpenCDXIAMProviderModel {
     private List<Identifier> identifiers;
     private List<String> endpoints;
     private List<String> otherNames;
-    private com.google.protobuf.Timestamp created;
-    private com.google.protobuf.Timestamp modified;
-    private String creator;
-    private String modifier;
+    private Instant created;
+    private Instant modified;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
     private ProviderStatus status;
 
     /**
@@ -71,11 +72,10 @@ public class OpenCDXIAMProviderModel {
      * @param openCDXCountryRepository Country Repository
      */
     public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result, OpenCDXCountryRepository openCDXCountryRepository) {
-        this.id = new ObjectId();
         this.created_epoch = result.getCreatedEpoch();
         this.enumeration_type = result.getEnumerationType();
         this.last_updated_epoch = result.getLastUpdatedEpoch();
-        this.number = result.getNumber();
+        this.npiNumber = result.getNumber();
 
         this.addresses = result.getAddresses().stream()
                 .map(address -> {
@@ -84,51 +84,97 @@ public class OpenCDXIAMProviderModel {
                             openCDXCountryRepository.findByName(address.getCountryName());
                     byName.ifPresent(openCDXCountryModel ->
                             builder.setCountryId(openCDXCountryModel.getId().toHexString()));
-                    builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
-                    builder.setAddress1(address.getAddress1());
-                    builder.setCity(address.getCity());
-                    builder.setState(address.getState());
-                    builder.setPostalCode(address.getPostalCode());
+                    if (address.getAddressPurpose() != null) {
+                        builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
+                    }
+                    if (address.getAddress1() != null) {
+                        builder.setAddress1(address.getAddress1());
+                    }
+                    if (address.getCity() != null) {
+                        builder.setCity(address.getCity());
+                    }
+                    if (address.getState() != null) {
+                        builder.setState(address.getState());
+                    }
+                    if (address.getPostalCode() != null) {
+                        builder.setPostalCode(address.getPostalCode());
+                    }
                     return builder.build();
                 })
                 .toList();
 
         this.practiceLocations = result.getPracticeLocations();
 
-        BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
-        this.basic = basicBuilder
-                .setFirstName(result.getBasic().getFirstName())
-                .setLastName(result.getBasic().getLastName())
-                .setCredential(result.getBasic().getCredential())
-                .setSoleProprietor(result.getBasic().getSoleProprietor())
-                .setGender(result.getBasic().getGender())
-                .setEnumerationDate(result.getBasic().getEnumerationDate())
-                .setStatus(ProviderStatus.VALIDATED)
-                .setNamePrefix(result.getBasic().getNamePrefix())
-                .setNameSuffix(result.getBasic().getNameSuffix())
-                .build();
+        if (result.getBasic() != null) {
+            BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
+            if (result.getBasic().getFirstName() != null) {
+                basicBuilder.setFirstName(result.getBasic().getFirstName());
+            }
+            if (result.getBasic().getLastName() != null) {
+                basicBuilder.setLastName(result.getBasic().getLastName());
+            }
+            if (result.getBasic().getCredential() != null) {
+                basicBuilder.setCredential(result.getBasic().getCredential());
+            }
+            if (result.getBasic().getSoleProprietor() != null) {
+                basicBuilder.setSoleProprietor(result.getBasic().getSoleProprietor());
+            }
+            if (result.getBasic().getGender() != null) {
+                basicBuilder.setGender(result.getBasic().getGender());
+            }
+            if (result.getBasic().getEnumerationDate() != null) {
+                basicBuilder.setEnumerationDate(result.getBasic().getEnumerationDate());
+            }
+            basicBuilder.setStatus(ProviderStatus.VALIDATED);
+            if (result.getBasic().getNamePrefix() != null) {
+                basicBuilder.setNamePrefix(result.getBasic().getNamePrefix());
+            }
+            if (result.getBasic().getNameSuffix() != null) {
+                basicBuilder.setNameSuffix(result.getBasic().getNameSuffix());
+            }
+            this.basic = basicBuilder.build();
+        }
         this.taxonomies = result.getTaxonomies().stream()
                 .map(taxonomy -> {
                     Taxonomy.Builder builder = Taxonomy.newBuilder();
-                    builder.setCode(builder.getCode());
-                    builder.setTaxonomyGroup(builder.getTaxonomyGroup());
-                    builder.setDesc(builder.getDesc());
-                    builder.setState(builder.getState());
-                    builder.setLicense(builder.getLicense());
-                    builder.setPrimary(builder.getPrimary());
+                    if (taxonomy.getCode() != null) {
+                        builder.setCode(taxonomy.getCode());
+                    }
+                    if (taxonomy.getTaxonomyGroup() != null) {
+                        builder.setTaxonomyGroup(taxonomy.getTaxonomyGroup());
+                    }
+                    if (taxonomy.getDesc() != null) {
+                        builder.setDesc(taxonomy.getDesc());
+                    }
+                    if (taxonomy.getState() != null) {
+                        builder.setState(taxonomy.getState());
+                    }
+                    if (taxonomy.getLicense() != null) {
+                        builder.setLicense(taxonomy.getLicense());
+                    }
+                    builder.setPrimary(taxonomy.isPrimary());
+
                     return builder.build();
                 })
                 .toList();
         this.identifiers = result.getIdentifiers().stream()
                 .map(identifiers -> {
                     Identifier.Builder builder = Identifier.newBuilder();
-                    builder.setCode(identifiers.getCode());
-                    builder.setDesc(identifiers.getDesc());
+                    if (identifiers.getCode() != null) {
+                        builder.setCode(identifiers.getCode());
+                    }
+                    if (identifiers.getDesc() != null) {
+                        builder.setDesc(identifiers.getDesc());
+                    }
                     if (null != identifiers.getIssuer()) {
                         builder.setIssuer(identifiers.getIssuer());
                     }
-                    builder.setIdentifier(identifiers.getIdentifier());
-                    builder.setState(identifiers.getState());
+                    if (identifiers.getIdentifier() != null) {
+                        builder.setIdentifier(identifiers.getIdentifier());
+                    }
+                    if (identifiers.getState() != null) {
+                        builder.setState(identifiers.getState());
+                    }
                     return builder.build();
                 })
                 .toList();
@@ -146,7 +192,7 @@ public class OpenCDXIAMProviderModel {
         Provider.Builder builder = Provider.newBuilder();
         builder.setId(this.id.toHexString());
         if (this.userId != null) {
-            builder.setUserId(this.userId);
+            builder.setUserId(this.userId.toHexString());
         }
         if (this.created_epoch != null) {
             builder.setCreatedEpoch(this.created_epoch);
@@ -157,8 +203,8 @@ public class OpenCDXIAMProviderModel {
         if (this.last_updated_epoch != null) {
             builder.setLastUpdatedEpoch(this.last_updated_epoch);
         }
-        if (this.number != null) {
-            builder.setNumber(this.number);
+        if (this.npiNumber != null) {
+            builder.setNumber(this.npiNumber);
         }
         if (this.addresses != null) {
             builder.addAllAddresses(this.addresses);
@@ -181,23 +227,23 @@ public class OpenCDXIAMProviderModel {
         if (this.otherNames != null) {
             builder.addAllOtherNames(this.otherNames);
         }
-        if (this.created != null) {
+        if (created != null) {
             builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(this.created.getSeconds())
-                    .setNanos(this.created.getNanos())
+                    .setSeconds(created.getEpochSecond())
+                    .setNanos(created.getNano())
                     .build());
         }
-        if (this.modified != null) {
+        if (modified != null) {
             builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(this.modified.getSeconds())
-                    .setNanos(this.modified.getNanos())
+                    .setSeconds(modified.getEpochSecond())
+                    .setNanos(modified.getNano())
                     .build());
         }
-        if (this.creator != null) {
-            builder.setCreator(this.creator);
+        if (creator != null) {
+            builder.setCreator(creator.toHexString());
         }
-        if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+        if (modifier != null) {
+            builder.setModifier(modifier.toHexString());
         }
         return builder.build();
     }

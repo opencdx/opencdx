@@ -37,7 +37,6 @@ public class OpenCDXLabConnectionFactoryBean {
 
     private Map<String, Class<? extends OpenCDXLabConnected>> connectionsMap;
 
-
     /**
      * Default Constructor
      */

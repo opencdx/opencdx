@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,27 +37,27 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.userLogout(
-                ObjectId.get().toHexString(), AgentType.AGENT_TYPE_HUMAN_USER, "Logout"));
+                OpenCDXIdentifier.get().toHexString(), AgentType.AGENT_TYPE_HUMAN_USER, "Logout"));
     }
 
     @Test
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.userAccessChange(
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "Access Change",
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 UUID.randomUUID().toString()));
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiUpdated(
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Updated",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 UUID.randomUUID().toString(),
                 "resource",
                 "jsonRecord"));
@@ -66,11 +66,11 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiDeleted(
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 UUID.randomUUID().toString(),
                 "resource",
                 "jsonRecord"));
@@ -79,7 +79,7 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void phiDeleted_2() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiDeleted(
-                ObjectId.get().toHexString(),
+                OpenCDXIdentifier.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,

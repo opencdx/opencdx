@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
@@ -35,7 +36,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +48,8 @@ import org.springframework.stereotype.Service;
 public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
     private static final String OBJECT = "OBJECT";
     private static final String MEDICATION = "Medication: ";
-    private static final String FAILED_TO_CONVERT_OPEN_CDX_MEDICATION_MODEL = "failed to convert OpenCDXMedicationModel";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_MEDICATION_MODEL =
+            "failed to convert OpenCDXMedicationModel";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -83,7 +84,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
     @Override
     public Medication prescribing(Medication request) {
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getPatientId()))
+                .findById(new OpenCDXIdentifier(request.getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotAcceptable(this.getClass().getName(), 1, "Patient not found"));
 
         OpenCDXMedicationModel model = this.openCDXMedicationRepository.save(new OpenCDXMedicationModel(request));
@@ -113,7 +114,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
     @Override
     public Medication ending(EndMedicationRequest request) {
         OpenCDXMedicationModel model = this.openCDXMedicationRepository
-                .findById(new ObjectId(request.getMedicationId()))
+                .findById(new OpenCDXIdentifier(request.getMedicationId()))
                 .orElseThrow(() -> new OpenCDXNotAcceptable(this.getClass().getName(), 1, "Medication not found"));
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(model.getPatientId())
@@ -151,7 +152,8 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
         Pageable pageable = getPageable(request.getPagination());
         Page<OpenCDXMedicationModel> all = Page.empty();
         if (request.hasPatientId()) {
-            all = this.openCDXMedicationRepository.findAllByPatientId(new ObjectId(request.getPatientId()), pageable);
+            all = this.openCDXMedicationRepository.findAllByPatientId(
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
 
         } else if (request.hasNationalHealthId()) {
             all = this.openCDXMedicationRepository.findAllByNationalHealthId(request.getNationalHealthId(), pageable);
@@ -172,7 +174,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
         Page<OpenCDXMedicationModel> all = Page.empty();
         if (request.hasPatientId()) {
             all = this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(
-                    new ObjectId(request.getPatientId()), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), pageable);
 
         } else if (request.hasNationalHealthId()) {
             all = this.openCDXMedicationRepository.findAllByNationalHealthIdAndEndDateIsNull(

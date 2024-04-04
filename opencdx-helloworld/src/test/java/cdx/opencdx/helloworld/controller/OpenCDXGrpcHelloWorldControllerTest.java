@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.helloworld.controller;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -23,7 +24,6 @@ import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.impl.OpenCDXHelloWorldServiceImpl;
 import io.grpc.stub.StreamObserver;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,16 +59,20 @@ class OpenCDXGrpcHelloWorldControllerTest {
     void setUp() {
         this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(new Answer<Person>() {
             @Override
             public Person answer(InvocationOnMock invocation) throws Throwable {
                 Person argument = invocation.getArgument(0);
                 if (argument.getId() == null) {
-                    argument.setId(ObjectId.get());
+                    argument.setId(OpenCDXIdentifier.get());
                 }
                 return argument;
             }

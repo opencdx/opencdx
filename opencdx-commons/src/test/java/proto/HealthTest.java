@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.health.medication.SearchMedicationsRequest;
 import cdx.opencdx.grpc.health.profile.*;
@@ -27,7 +28,6 @@ import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,10 +49,8 @@ class HealthTest {
     void searchMedicationsRequest() throws JsonProcessingException {
         SearchMedicationsRequest searchMedicationsRequest = SearchMedicationsRequest.newBuilder()
                 .setBrandName("Adipex")
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
         log.info("SearchMedicationsRequest: \n {}", this.writer.writeValueAsString(searchMedicationsRequest));
@@ -65,9 +63,9 @@ class HealthTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(UpdateUserProfileRequest.newBuilder()
-                                .setUserId(ObjectId.get().toHexString())
+                                .setUserId(OpenCDXIdentifier.get().toHexString())
                                 .setUpdatedProfile(UserProfile.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .setFullName(FullName.newBuilder()
                                                 .setFirstName("First")
@@ -75,11 +73,12 @@ class HealthTest {
                                                 .setLastName("last")
                                                 .build())
                                         .addAllContacts(List.of(ContactInfo.newBuilder()
-                                                .setPatientId(ObjectId.get().toHexString())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
                                                 .addAllAddresses(List.of(Address.newBuilder()
                                                         .setCity("City")
-                                                        .setCountryId(
-                                                                ObjectId.get().toHexString())
+                                                        .setCountryId(OpenCDXIdentifier.get()
+                                                                .toHexString())
                                                         .setState("CA")
                                                         .setPostalCode("12345")
                                                         .setAddress1("101 Main Street")
@@ -104,7 +103,8 @@ class HealthTest {
                                                 .build())
                                         .addAllAddress(List.of(Address.newBuilder()
                                                 .setCity("City")
-                                                .setCountryId(ObjectId.get().toHexString())
+                                                .setCountryId(
+                                                        OpenCDXIdentifier.get().toHexString())
                                                 .setState("CA")
                                                 .setPostalCode("12345")
                                                 .setAddress1("101 Main Street")
@@ -136,11 +136,12 @@ class HealthTest {
                                                 .setOrganizationId("OrganizationId")
                                                 .build())
                                         .setPrimaryContactInfo(ContactInfo.newBuilder()
-                                                .setPatientId(ObjectId.get().toHexString())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
                                                 .addAllAddresses(List.of(Address.newBuilder()
                                                         .setCity("City")
-                                                        .setCountryId(
-                                                                ObjectId.get().toHexString())
+                                                        .setCountryId(OpenCDXIdentifier.get()
+                                                                .toHexString())
                                                         .setState("CA")
                                                         .setPostalCode("12345")
                                                         .setAddress1("101 Main Street")
@@ -156,8 +157,8 @@ class HealthTest {
                                                 .build())
                                         .setEmergencyContact(EmergencyContact.newBuilder()
                                                 .setContactInfo(ContactInfo.newBuilder()
-                                                        .setPatientId(
-                                                                ObjectId.get().toHexString())
+                                                        .setPatientId(OpenCDXIdentifier.get()
+                                                                .toHexString())
                                                         .setName(FullName.newBuilder()
                                                                 .setFirstName("First")
                                                                 .setMiddleName("Middle")
@@ -167,7 +168,7 @@ class HealthTest {
                                                                 .build())
                                                         .addAllAddresses(List.of(Address.newBuilder()
                                                                 .setCity("City")
-                                                                .setCountryId(ObjectId.get()
+                                                                .setCountryId(OpenCDXIdentifier.get()
                                                                         .toHexString())
                                                                 .setState("CA")
                                                                 .setPostalCode("12345")
@@ -194,11 +195,11 @@ class HealthTest {
                                                         .build())
                                                 .setPharmacyName("Pharmacy Name")
                                                 .setPharmacyContact(ContactInfo.newBuilder()
-                                                        .setPatientId(
-                                                                ObjectId.get().toHexString())
+                                                        .setPatientId(OpenCDXIdentifier.get()
+                                                                .toHexString())
                                                         .addAllAddresses(List.of(Address.newBuilder()
                                                                 .setCity("City")
-                                                                .setCountryId(ObjectId.get()
+                                                                .setCountryId(OpenCDXIdentifier.get()
                                                                         .toHexString())
                                                                 .setState("CA")
                                                                 .setPostalCode("12345")
@@ -220,13 +221,14 @@ class HealthTest {
                                                 .setLocality("CA")
                                                 .setHealthDistrict("District")
                                                 .setFacilityType("Clinic")
-                                                .setManufacturer(ObjectId.get().toHexString())
+                                                .setManufacturer(
+                                                        OpenCDXIdentifier.get().toHexString())
                                                 .setDoseNumber(20)
                                                 .setVaccineType("COVID-19")
                                                 .build()))
                                         .addAllDependentId(List.of(
-                                                ObjectId.get().toHexString(),
-                                                ObjectId.get().toHexString()))
+                                                OpenCDXIdentifier.get().toHexString(),
+                                                OpenCDXIdentifier.get().toHexString()))
                                         .addAllKnownAllergies(List.of(KnownAllergy.newBuilder()
                                                 .setAllergen("Evergreen Trees")
                                                 .setReaction("Respiratory Distress")

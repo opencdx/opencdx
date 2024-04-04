@@ -1,16 +1,30 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.health.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.medication.*;
-import cdx.opencdx.grpc.shipping.CreateOrderRequest;
-import cdx.opencdx.grpc.shipping.CreateOrderResponse;
-import cdx.opencdx.grpc.shipping.Order;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
 import cdx.opencdx.health.service.OpenCDXApiFDA;
@@ -19,7 +33,9 @@ import cdx.opencdx.health.service.impl.OpenCDXMedicationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import org.bson.types.ObjectId;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,12 +54,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
@@ -56,6 +66,7 @@ class OpenCDXMedicationGrpcControllerTest {
 
     @Autowired
     OpenCDXApiFDA openCDXApiFDA;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -72,30 +83,34 @@ class OpenCDXMedicationGrpcControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -107,9 +122,9 @@ class OpenCDXMedicationGrpcControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -120,66 +135,74 @@ class OpenCDXMedicationGrpcControllerTest {
                     public OpenCDXMedicationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXMedicationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXMedicationRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXMedicationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMedicationModel>>() {
                     @Override
                     public Optional<OpenCDXMedicationModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByPatientId(Mockito.any(ObjectId.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByPatientId(
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthId(Mockito.any(String.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthId(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
-        Mockito.when(this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(Mockito.any(ObjectId.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByPatientIdAndEndDateIsNull(
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthIdAndEndDateIsNull(Mockito.any(String.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMedicationRepository.findAllByNationalHealthIdAndEndDateIsNull(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXMedicationModel.builder()
-                                .id(ObjectId.get())
-                                .patientId(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
 
         this.openCDXMedicationService = new OpenCDXMedicationServiceImpl(
-                this.objectMapper,this.openCDXAuditService, this.openCDXCurrentUser,this.openCDXMedicationRepository,this.openCDXProfileRepository,this.openCDXApiFDA);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.openCDXMedicationRepository,
+                this.openCDXProfileRepository,
+                this.openCDXApiFDA);
 
         this.openCDXMedicationGrpcController = new OpenCDXMedicationGrpcController(this.openCDXMedicationService);
-
     }
 
     @Test
@@ -187,7 +210,7 @@ class OpenCDXMedicationGrpcControllerTest {
         StreamObserver<Medication> responseObserver = Mockito.mock(StreamObserver.class);
 
         Medication medication = Medication.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setNationalHealthId(UUID.randomUUID().toString())
                 .setMedicationName("medication")
                 .setStartDate(Timestamp.newBuilder().setSeconds(1696733104))
@@ -203,7 +226,7 @@ class OpenCDXMedicationGrpcControllerTest {
         StreamObserver<Medication> responseObserver = Mockito.mock(StreamObserver.class);
 
         EndMedicationRequest endMedicationRequest = EndMedicationRequest.newBuilder()
-                .setMedicationId(ObjectId.get().toHexString())
+                .setMedicationId(OpenCDXIdentifier.get().toHexString())
                 .setEndDate(Timestamp.newBuilder().setSeconds(1696933104).build())
                 .build();
 
@@ -217,15 +240,16 @@ class OpenCDXMedicationGrpcControllerTest {
         StreamObserver<ListMedicationsResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMedicationGrpcController.listAllMedications(listMedicationsRequest, responseObserver));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMedicationGrpcController.listAllMedications(listMedicationsRequest, responseObserver));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void listAllMedications_NHI() {
         StreamObserver<ListMedicationsResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -236,8 +260,8 @@ class OpenCDXMedicationGrpcControllerTest {
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMedicationGrpcController.listAllMedications(listMedicationsRequest, responseObserver));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMedicationGrpcController.listAllMedications(listMedicationsRequest, responseObserver));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -246,15 +270,16 @@ class OpenCDXMedicationGrpcControllerTest {
         StreamObserver<ListMedicationsResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMedicationGrpcController.listCurrentMedications(listMedicationsRequest, responseObserver));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMedicationGrpcController.listCurrentMedications(listMedicationsRequest, responseObserver));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void listCurrentMedications_NHI() {
         StreamObserver<ListMedicationsResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -265,10 +290,11 @@ class OpenCDXMedicationGrpcControllerTest {
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMedicationGrpcController.listCurrentMedications(listMedicationsRequest, responseObserver));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMedicationGrpcController.listCurrentMedications(listMedicationsRequest, responseObserver));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @ParameterizedTest
     @ValueSource(strings = {"Tylenol", "Adipex", "Guanfacine"})
     void searchMedications(String brandName) {
@@ -280,8 +306,8 @@ class OpenCDXMedicationGrpcControllerTest {
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMedicationGrpcController.searchMedications(searchMedicationsRequest, responseObserver));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMedicationGrpcController.searchMedications(searchMedicationsRequest, responseObserver));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

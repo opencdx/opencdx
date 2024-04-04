@@ -19,9 +19,9 @@ import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -39,6 +39,8 @@ import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.shipping.Order;
@@ -48,7 +50,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXMediaClient openCDXMediaClient;
     private final OpenCDXConnectedTestClient openCDXConnectedTestClient;
     private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
-    private final OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+    private final OpenCDXAnalysisEngine openCDXAnalysisEngine;
     private final OpenCDXClassificationRepository openCDXClassificationRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
@@ -86,7 +87,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXMediaClient service for media client
      * @param openCDXConnectedTestClient service for connected test client
      * @param openCDXQuestionnaireClient service for questionnaire client
-     * @param openCDXClassifyProcessorService service for classification processor
+     * @param openCDXAnalysisEngine service for classification processor
      * @param openCDXClassificationRepository repository for classification
      * @param openCDXProfileRepository repository for profile
      * @param openCDXOrderMessageService service for order message
@@ -103,7 +104,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXMediaClient openCDXMediaClient,
             OpenCDXConnectedTestClient openCDXConnectedTestClient,
             OpenCDXQuestionnaireClient openCDXQuestionnaireClient,
-            OpenCDXClassifyProcessorService openCDXClassifyProcessorService,
+            OpenCDXAnalysisEngine openCDXAnalysisEngine,
             OpenCDXClassificationRepository openCDXClassificationRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
@@ -117,13 +118,24 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXMediaClient = openCDXMediaClient;
         this.openCDXConnectedTestClient = openCDXConnectedTestClient;
         this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
-        this.openCDXClassifyProcessorService = openCDXClassifyProcessorService;
+        this.openCDXAnalysisEngine = openCDXAnalysisEngine;
         this.openCDXClassificationRepository = openCDXClassificationRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
         this.openCDXCommunicationService = openCDXCommunicationService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
+    }
+
+    /**
+     * Operation to get rulesets
+     *
+     * @param request the request to retrieve rules at the client level
+     * @return Response containing a list of rulesets
+     */
+    @Override
+    public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
+        return this.openCDXAnalysisEngine.getRuleSets(request);
     }
 
     /**
@@ -135,18 +147,22 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     public ClassificationResponse classify(ClassificationRequest request) {
         log.trace("Processing ClassificationRequest");
 
-        OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getUserAnswer().getPatientId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        this.getClass().getName(),
-                        1,
-                        "Failed to find patient: " + request.getUserAnswer().getPatientId()));
+        OpenCDXClassificationModel model = creeateOpenCDXClassificationModel(request);
 
-        OpenCDXClassificationModel model = validateAndLoad(request);
-
-        model.setPatient(patient);
-
-        this.openCDXClassifyProcessorService.classify(model);
+        if (model.getConnectedTest() != null) {
+            model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeConnectedTest(
+                    model.getPatient(),
+                    model.getUserAnswer(),
+                    model.getMedia(),
+                    model.getConnectedTest(),
+                    model.getTestDetailsMedia()));
+        } else if (model.getUserQuestionnaireData() != null) {
+            model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeQuestionnaire(
+                    model.getPatient(), model.getUserAnswer(), model.getMedia(), model.getUserQuestionnaireData()));
+        } else {
+            throw new OpenCDXNotAcceptable(
+                    this.getClass().getName(), 1, "Failed to classify: No connected test or questionnaire data found");
+        }
 
         model = this.openCDXClassificationRepository.save(model);
 
@@ -160,8 +176,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     currentUser.getAgentType(),
                     "Classification Record and Results",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    model.getPatient().getId().toHexString(),
+                    model.getPatient().getNationalHealthId(),
                     "CLASSIFICATION: " + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -175,21 +191,29 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         return model.getClassificationResponse();
     }
 
-    private OpenCDXClassificationModel validateAndLoad(ClassificationRequest request) {
+    private OpenCDXClassificationModel creeateOpenCDXClassificationModel(ClassificationRequest request) {
         log.trace("Validating ClassificationRequest");
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+
+        model.setPatient(this.openCDXProfileRepository
+                .findById(new OpenCDXIdentifier(request.getUserAnswer().getPatientId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        this.getClass().getName(),
+                        1,
+                        "Failed to find patient: " + request.getUserAnswer().getPatientId())));
+
         model.setUserAnswer(request.getUserAnswer());
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
         log.trace("Validating User");
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new ObjectId(request.getUserAnswer().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getUserAnswer().getPatientId()));
 
         if (request.getUserAnswer().hasMediaId()) {
             log.trace("Validating Media");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "media", new ObjectId(request.getUserAnswer().getMediaId()));
+                    "media", new OpenCDXIdentifier(request.getUserAnswer().getMediaId()));
 
             GetMediaResponse response = this.openCDXMediaClient.getMedia(
                     GetMediaRequest.newBuilder()
@@ -206,7 +230,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         if (request.getUserAnswer().hasConnectedTestId()) {
             log.trace("Validating ConnectedTest");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
+                    "connected-test",
+                    new OpenCDXIdentifier(request.getUserAnswer().getConnectedTestId()));
 
             retrieveConnectedTest(request, openCDXCallCredentials, model);
         }
@@ -214,7 +239,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         if (request.getUserAnswer().hasUserQuestionnaireId()) {
             log.trace("Validating UserQuestionnaire");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
+                    "questionnaire-user",
+                    new OpenCDXIdentifier(request.getUserAnswer().getUserQuestionnaireId()));
             retrieveQuestionnaire(request, openCDXCallCredentials, model);
         }
         log.trace("Validated ClassificationRequest");
@@ -301,7 +327,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         try {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "testcases",
-                    new ObjectId(model.getClassificationResponse().getTestKit().getTestCaseId()));
+                    new OpenCDXIdentifier(
+                            model.getClassificationResponse().getTestKit().getTestCaseId()));
             Address shippingAddress = null;
 
             Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
@@ -356,7 +383,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
         if (null != userQuestionnaireData
                 && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
-            testName = userQuestionnaireData.getQuestionnaireDataList().get(0).getTitle();
+            testName =
+                    userQuestionnaireData.getQuestionnaireDataList().getFirst().getTitle();
         }
 
         if (testName == null) {

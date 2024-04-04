@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXOrderModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,12 +28,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXOrderRepository extends MongoRepository<OpenCDXOrderModel, ObjectId> {
+public interface OpenCDXOrderRepository extends OpenCDXRepository<OpenCDXOrderModel> {
     /**
      * Find all orders for a patient.
      * @param patientId The patient to find orders for.
      * @param pageable The page to return.
      * @return The orders for the patient.
      */
-    Page<OpenCDXOrderModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
+    Page<OpenCDXOrderModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
 }

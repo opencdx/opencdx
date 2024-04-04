@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +40,7 @@ class AnfTest {
     @Test
     void testIdentifier() throws JsonProcessingException {
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         log.info(
@@ -51,7 +51,7 @@ class AnfTest {
     void testAnfStatement() throws JsonProcessingException {
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .setTime(AnfStatement.Measure.newBuilder()
                         .setUpperBound("100")
@@ -62,12 +62,12 @@ class AnfTest {
                         .setSemantic("expression")
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
                         .setPractitionerValue("practitioner")
                         .setCode("expression")
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build()))
                 .setSubjectOfInformation("expression")
                 .addAllAssociatedStatement(List.of(AnfStatement.AssociatedStatement.newBuilder()

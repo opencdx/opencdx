@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.communication.MessageTemplate;
 import cdx.opencdx.grpc.communication.MessageType;
 import com.google.protobuf.Timestamp;
@@ -25,7 +26,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -41,7 +41,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXMessageTemplateModel {
 
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
     private List<String> variables;
     private String title;
@@ -51,8 +51,8 @@ public class OpenCDXMessageTemplateModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor to create based on an MessageTemplate
@@ -60,7 +60,7 @@ public class OpenCDXMessageTemplateModel {
      */
     public OpenCDXMessageTemplateModel(MessageTemplate template) {
         if (template.hasTemplateId()) {
-            this.id = new ObjectId(template.getTemplateId());
+            this.id = new OpenCDXIdentifier(template.getTemplateId());
         }
         this.variables = new ArrayList<>(template.getVariablesList());
         this.title = template.getTitle();
@@ -76,10 +76,10 @@ public class OpenCDXMessageTemplateModel {
                     template.getModified().getSeconds(), template.getModified().getNanos());
         }
         if (template.hasCreator()) {
-            this.creator = new ObjectId(template.getCreator());
+            this.creator = new OpenCDXIdentifier(template.getCreator());
         }
         if (template.hasModifier()) {
-            this.modifier = new ObjectId(template.getModifier());
+            this.modifier = new OpenCDXIdentifier(template.getModifier());
         }
     }
 

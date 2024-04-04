@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -92,7 +92,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     @Override
     public Vendor getVendorById(VendorIdRequest request) {
         return this.openCDXVendorRepository
-                .findById(new ObjectId(request.getVendorId()))
+                .findById(new OpenCDXIdentifier(request.getVendorId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXManufacturerServiceImpl", 1, "Failed to find vendor: " + request.getVendorId()))
                 .getProtobufMessage();
@@ -102,7 +102,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor addVendor(Vendor request) {
         if (request.hasVendorAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getVendorAddress().getCountryId()));
+                    "country", new OpenCDXIdentifier(request.getVendorAddress().getCountryId()));
         }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
@@ -128,7 +128,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor updateVendor(Vendor request) {
         if (request.hasVendorAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getVendorAddress().getCountryId()));
+                    "country", new OpenCDXIdentifier(request.getVendorAddress().getCountryId()));
         }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
@@ -153,10 +153,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     @Override
     public DeleteResponse deleteVendor(VendorIdRequest request) {
 
-        ObjectId objectId = new ObjectId(request.getVendorId());
+        OpenCDXIdentifier openCDXIdentifier = new OpenCDXIdentifier(request.getVendorId());
 
-        if (this.openCDXDeviceRepository.existsByVendorId(objectId)
-                || this.openCDXTestCaseRepository.existsByVendorId(objectId)) {
+        if (this.openCDXDeviceRepository.existsByVendorId(openCDXIdentifier)
+                || this.openCDXTestCaseRepository.existsByVendorId(openCDXIdentifier)) {
             return DeleteResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("Vendor: " + request.getVendorId() + " is in use.")
@@ -164,7 +164,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
         }
 
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository
-                .findById(objectId)
+                .findById(openCDXIdentifier)
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXManufacturerServiceImpl", 1, "Failed to find vendor: " + request.getVendorId()));
 
@@ -185,7 +185,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
             throw openCDXNotAcceptable;
         }
 
-        this.openCDXVendorRepository.deleteById(new ObjectId(request.getVendorId()));
+        this.openCDXVendorRepository.deleteById(new OpenCDXIdentifier(request.getVendorId()));
 
         return DeleteResponse.newBuilder()
                 .setSuccess(true)

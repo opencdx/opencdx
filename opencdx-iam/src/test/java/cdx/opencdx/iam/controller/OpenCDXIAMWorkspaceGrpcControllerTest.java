@@ -17,6 +17,7 @@ package cdx.opencdx.iam.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -36,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,27 +102,31 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
                     public OpenCDXIAMWorkspaceModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMWorkspaceModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMWorkspaceModel>>() {
                     @Override
                     public Optional<OpenCDXIAMWorkspaceModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXIAMWorkspaceModel.builder().id(argument).build());
                     }
                 });
-        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
                 this.openCDXIAMWorkspaceRepository,
@@ -145,11 +149,11 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
                 CreateWorkspaceRequest.newBuilder(CreateWorkspaceRequest.getDefaultInstance())
                         .setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance())
                                 .setName("test")
-                                .setOrganizationId(ObjectId.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                                 .setCreated(Timestamp.getDefaultInstance())
                                 .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                                .setCreator(OpenCDXIdentifier.get().toHexString())
+                                .setModifier(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -175,7 +179,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         StreamObserver<CreateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
         CreateWorkspaceRequest request = CreateWorkspaceRequest.newBuilder()
                 .setWorkspace(Workspace.newBuilder()
-                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
@@ -188,7 +192,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         StreamObserver<GetWorkspaceDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMWorkspaceGrpcController.getWorkspaceDetailsById(
                 GetWorkspaceDetailsByIdRequest.newBuilder(GetWorkspaceDetailsByIdRequest.getDefaultInstance())
-                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
 
@@ -199,7 +203,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
     @Test
     void getWorkspaceDetailsById_fail() {
         this.openCDXIAMWorkspaceRepository = Mockito.mock(OpenCDXIAMWorkspaceRepository.class);
-        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
 
         this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
@@ -214,7 +218,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         StreamObserver<GetWorkspaceDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
         GetWorkspaceDetailsByIdRequest request = GetWorkspaceDetailsByIdRequest.newBuilder(
                         GetWorkspaceDetailsByIdRequest.getDefaultInstance())
-                .setWorkspaceId(ObjectId.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
@@ -227,8 +231,8 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         this.openCDXIAMWorkspaceGrpcController.updateWorkspace(
                 UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance())
                         .setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance())
-                                .setOrganizationId(ObjectId.get().toHexString())
-                                .setId(ObjectId.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -254,8 +258,8 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
 
         UpdateWorkspaceRequest request = UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance())
                 .setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance())
-                        .setOrganizationId(ObjectId.get().toHexString())
-                        .setId(ObjectId.get().toHexString())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(
@@ -266,7 +270,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
     @Test
     void updateWorkspace_fail2() throws JsonProcessingException {
         this.openCDXIAMWorkspaceRepository = Mockito.mock(OpenCDXIAMWorkspaceRepository.class);
-        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
 
         this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
@@ -281,7 +285,7 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
 
         UpdateWorkspaceRequest request = UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance())
                 .setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance())
-                        .setId(ObjectId.get().toHexString())
+                        .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(

@@ -20,12 +20,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
-import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.*;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.*;
+import cdx.opencdx.grpc.connected.BasicInfo;
+import cdx.opencdx.grpc.connected.ConnectedTest;
+import cdx.opencdx.grpc.connected.TestIdRequest;
+import cdx.opencdx.grpc.inventory.*;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
@@ -35,6 +41,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,19 +85,85 @@ class OpenCDXRestClassificationControllerTest {
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
 
     @MockBean
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
+
+    @MockBean
     OpenCDXClassificationRepository openCDXClassificationRepository;
+
+    @MockBean
+    OpenCDXDeviceClient openCDXDeviceClient;
+
+    @MockBean
+    OpenCDXManufacturerClient openCDXManufacturerClient;
+
+    @MockBean
+    OpenCDXTestCaseClient openCDXTestCaseClient;
 
     @MockBean
     OpenCDXProfileRepository openCDXProfileRepository;
 
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXTestCaseClient.listTestCase(
+                        Mockito.any(TestCaseListRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(TestCaseListResponse.newBuilder()
+                        .addTestCases(TestCase.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build())
+                        .build());
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseClient.getTestCaseById(Mockito.any(), Mockito.any()))
+                .thenAnswer(new Answer<TestCase>() {
+                    @Override
+                    public TestCase answer(InvocationOnMock invocation) throws Throwable {
+                        TestCaseIdRequest argument = invocation.getArgument(0);
+                        return TestCase.newBuilder()
+                                .setId(argument.getTestCaseId())
+                                .build();
+                    }
+                });
+
+        Mockito.when(this.openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<Manufacturer>() {
+                    @Override
+                    public Manufacturer answer(InvocationOnMock invocation) throws Throwable {
+                        ManufacturerIdRequest argument = invocation.getArgument(0);
+                        return Manufacturer.newBuilder()
+                                .setId(argument.getManufacturerId())
+                                .build();
+                    }
+                });
+
+        Mockito.when(this.openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<Device>() {
+                    @Override
+                    public Device answer(InvocationOnMock invocation) throws Throwable {
+                        DeviceIdRequest argument = invocation.getArgument(0);
+                        return Device.newBuilder().setId(argument.getDeviceId()).build();
+                    }
+                });
+
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<ConnectedTest>() {
+                    @Override
+                    public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {
+                        TestIdRequest argument = invocation.getArgument(0);
+                        return ConnectedTest.newBuilder()
+                                .setBasicInfo(BasicInfo.newBuilder()
+                                        .setId(argument.getTestId())
+                                        .build())
+                                .build();
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .fullName(FullName.newBuilder()
@@ -103,8 +176,14 @@ class OpenCDXRestClassificationControllerTest {
                                                 .setType(EmailType.EMAIL_TYPE_PERSONAL)
                                                 .build()))
                                         .build())
+                                .addresses(List.of(Address.newBuilder()
+                                        .setCity("New York")
+                                        .setCountryId(ObjectId.get().toHexString())
+                                        .setPostalCode("10001")
+                                        .setAddress1("123 Main St")
+                                        .build()))
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -115,9 +194,15 @@ class OpenCDXRestClassificationControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .addresses(List.of(Address.newBuilder()
+                                        .setCity("New York")
+                                        .setCountryId(ObjectId.get().toHexString())
+                                        .setPostalCode("10001")
+                                        .setAddress1("123 Main St")
+                                        .build()))
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
@@ -129,15 +214,19 @@ class OpenCDXRestClassificationControllerTest {
                     public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXClassificationModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -153,14 +242,15 @@ class OpenCDXRestClassificationControllerTest {
         Assertions.assertNotNull(mockMvc);
     }
 
-    @Test
+    @RepeatedTest(100)
     void testSubmitClassification() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/classify")
                         .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
                                 .setUserAnswer(UserAnswer.newBuilder()
-                                        .setPatientId(ObjectId.get().toHexString())
-                                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setUserQuestionnaireId(
+                                                OpenCDXIdentifier.get().toHexString())
                                         .setGender(Gender.GENDER_MALE)
                                         .setAge(30))
                                 .build()))

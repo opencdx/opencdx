@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.model;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.health.medication.DosageForm;
 import cdx.opencdx.grpc.health.medication.Medication;
 import cdx.opencdx.grpc.health.medication.MedicationAdministrationRoute;
@@ -29,7 +30,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -45,9 +45,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("medications")
 public class OpenCDXMedicationModel {
     @Id
-    private ObjectId id;
+    private OpenCDXIdentifier id;
 
-    private ObjectId patientId;
+    private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private String medicationName;
     private String dosageStrength;
@@ -63,7 +63,7 @@ public class OpenCDXMedicationModel {
     private Instant startDate;
     private Instant endDate;
     private String providerNumber;
-    private ObjectId pharmacyId;
+    private OpenCDXIdentifier pharmacyId;
     private boolean prescription;
     private String productNdc;
 
@@ -72,8 +72,8 @@ public class OpenCDXMedicationModel {
 
     private Instant created;
     private Instant modified;
-    private ObjectId creator;
-    private ObjectId modifier;
+    private OpenCDXIdentifier creator;
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from OpenFDA Result and Product
@@ -124,9 +124,9 @@ public class OpenCDXMedicationModel {
      */
     public OpenCDXMedicationModel(Medication medication) {
         if (medication.hasId()) {
-            this.id = new ObjectId(medication.getId());
+            this.id = new OpenCDXIdentifier(medication.getId());
         }
-        this.patientId = new ObjectId(medication.getPatientId());
+        this.patientId = new OpenCDXIdentifier(medication.getPatientId());
         this.nationalHealthId = medication.getNationalHealthId();
         this.medicationName = medication.getMedicationName();
         this.dosageStrength = medication.getDosageStrength();
@@ -153,8 +153,8 @@ public class OpenCDXMedicationModel {
                     medication.getEndDate().getNanos());
         }
         this.providerNumber = medication.getProviderNumber();
-        if(medication.hasPharmacyId()) {
-            this.pharmacyId = new ObjectId(medication.getPharmacyId());
+        if (medication.hasPharmacyId()) {
+            this.pharmacyId = new OpenCDXIdentifier(medication.getPharmacyId());
         }
         this.prescription = medication.getIsPrescription();
         this.generic = medication.getIsGeneric();
@@ -170,10 +170,10 @@ public class OpenCDXMedicationModel {
                     medication.getModified().getNanos());
         }
         if (medication.hasCreator()) {
-            this.creator = new ObjectId(medication.getCreator());
+            this.creator = new OpenCDXIdentifier(medication.getCreator());
         }
         if (medication.hasModifier()) {
-            this.modifier = new ObjectId(medication.getModifier());
+            this.modifier = new OpenCDXIdentifier(medication.getModifier());
         }
     }
 
@@ -181,6 +181,7 @@ public class OpenCDXMedicationModel {
      * Method to convert to protobuf message Medication
      * @return Protobuf message Medication
      */
+    @SuppressWarnings("java:S3776")
     public Medication getProtobufMessage() {
         Medication.Builder builder = Medication.newBuilder();
         if (this.medicationName != null) {
@@ -245,12 +246,10 @@ public class OpenCDXMedicationModel {
         if (this.pharmacyId != null) {
             builder.setPharmacyId(pharmacyId.toHexString());
         }
-        if (this.prescription) {
-            builder.setIsPrescription(prescription);
-        }
-        if (this.generic) {
-            builder.setIsGeneric(generic);
-        }
+        builder.setIsPrescription(prescription);
+
+        builder.setIsGeneric(generic);
+
         if (id != null) {
             builder.setId(id.toHexString());
         }

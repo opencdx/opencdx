@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,32 +93,32 @@ class OpenCDXIAMProfileRestControllerTest {
                     public OpenCDXProfileModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXProfileModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(argument)
                                 .build());
@@ -130,16 +130,20 @@ class OpenCDXIAMProfileRestControllerTest {
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
+                                .id(OpenCDXIdentifier.get())
                                 .nationalHealthId(argument)
-                                .userId(ObjectId.get())
+                                .userId(OpenCDXIdentifier.get())
                                 .build());
                     }
                 });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMUserModel>() {
@@ -147,16 +151,16 @@ class OpenCDXIAMProfileRestControllerTest {
                     public OpenCDXIAMUserModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIAMUserModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
@@ -178,7 +182,8 @@ class OpenCDXIAMProfileRestControllerTest {
     @Test
     void getUserProfile() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/profile/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/profile/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -190,7 +195,7 @@ class OpenCDXIAMProfileRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(put("/profile")
                         .content(this.objectMapper.writeValueAsString(UpdateUserProfileRequest.newBuilder()
-                                .setUserId(ObjectId.get().toHexString())
+                                .setUserId(OpenCDXIdentifier.get().toHexString())
                                 .setUpdatedProfile(UserProfile.newBuilder()
                                         .setGender(Gender.GENDER_MALE)
                                         .build())))
@@ -207,8 +212,9 @@ class OpenCDXIAMProfileRestControllerTest {
                 .perform(MockMvcRequestBuilders.post("/profile")
                         .content(this.objectMapper.writeValueAsString(CreateUserProfileRequest.newBuilder()
                                 .setUserProfile(UserProfile.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
-                                        .setNationalHealthId(ObjectId.get().toHexString())
+                                        .setUserId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -220,7 +226,7 @@ class OpenCDXIAMProfileRestControllerTest {
     @Test
     void deleteUserProfile() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/profile/" + ObjectId.get().toHexString())
+                .perform(delete("/profile/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

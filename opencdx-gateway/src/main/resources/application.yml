@@ -212,6 +212,24 @@ spring:
             - Path=/cdx.opencdx.grpc.health.medication.MedicationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-provider
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.provider.ProviderService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-height
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.HeightMeasurementService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-weight
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.WeightMeasurementService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 
 eureka:
   client:

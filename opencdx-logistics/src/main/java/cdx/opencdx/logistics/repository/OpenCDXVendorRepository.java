@@ -15,21 +15,21 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXVendorModel;
 import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Repository for Mongo Vendor documents
  */
 @SuppressWarnings("java:S100")
 @Observed(name = "opencdx")
-public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {
+public interface OpenCDXVendorRepository extends OpenCDXRepository<OpenCDXVendorModel> {
     /**
      * Determine if a country is used in the address of a vendor
      * @param countryId String of the vendor id
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddress_CountryId(ObjectId countryId);
+    Boolean existsByAddress_CountryId(OpenCDXIdentifier countryId);
 }

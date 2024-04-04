@@ -16,6 +16,7 @@
 package cdx.opencdx.media.service.impl;
 
 import cdx.opencdx.commons.collections.ListUtils;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
@@ -25,7 +26,6 @@ import cdx.opencdx.media.service.OpenCDXMediaService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -88,7 +88,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
     public GetMediaResponse getMedia(GetMediaRequest request) {
         return GetMediaResponse.newBuilder()
                 .setMedia(this.openCDXMediaRepository
-                        .findById(new ObjectId(request.getId()))
+                        .findById(new OpenCDXIdentifier(request.getId()))
                         .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_MEDIA + request.getId()))
                         .getProtobufMessage())
                 .build();
@@ -97,7 +97,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
     @Override
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
         OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_MEDIA + request.getId()));
 
         mediaModel.setName(request.getName());
@@ -114,7 +114,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
     @Override
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
         OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
-                .findById(new ObjectId(request.getId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_MEDIA + request.getId()));
 
         mediaModel.setStatus(MediaStatus.MEDIA_STATUS_DELETED);

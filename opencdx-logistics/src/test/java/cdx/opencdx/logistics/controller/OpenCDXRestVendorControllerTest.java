@@ -18,6 +18,7 @@ package cdx.opencdx.logistics.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.*;
@@ -31,7 +32,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,9 +83,13 @@ class OpenCDXRestVendorControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .thenAnswer(new Answer<OpenCDXVendorModel>() {
@@ -93,23 +97,23 @@ class OpenCDXRestVendorControllerTest {
                     public OpenCDXVendorModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXVendorModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXVendorModel>>() {
                     @Override
                     public Optional<OpenCDXVendorModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(
                                 OpenCDXVendorModel.builder().id(argument).build());
                     }
                 });
-        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -118,10 +122,10 @@ class OpenCDXRestVendorControllerTest {
     @Test
     void getVendorById() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder()
                         .addAllAddresses(List.of(Address.newBuilder()
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .setAddress1("Test 1")
                                 .build()))
                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
@@ -136,7 +140,8 @@ class OpenCDXRestVendorControllerTest {
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(get("/vendor/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/vendor/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -145,10 +150,10 @@ class OpenCDXRestVendorControllerTest {
     @Test
     void addVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder()
                         .addAllAddresses(List.of(Address.newBuilder()
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .setAddress1("Test 1")
                                 .build()))
                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
@@ -174,10 +179,10 @@ class OpenCDXRestVendorControllerTest {
     @Test
     void updateVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder()
                         .addAllAddresses(List.of(Address.newBuilder()
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .setAddress1("Test 1")
                                 .build()))
                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
@@ -203,10 +208,10 @@ class OpenCDXRestVendorControllerTest {
     @Test
     void deleteVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder()
                         .addAllAddresses(List.of(Address.newBuilder()
-                                .setCountryId(ObjectId.get().toHexString())
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
                                 .setAddress1("Test 1")
                                 .build()))
                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
@@ -221,8 +226,8 @@ class OpenCDXRestVendorControllerTest {
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(
-                        delete("/vendor/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/vendor/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());

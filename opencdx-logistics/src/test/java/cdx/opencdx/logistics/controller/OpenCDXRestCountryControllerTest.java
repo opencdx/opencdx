@@ -18,6 +18,7 @@ package cdx.opencdx.logistics.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,9 +86,13 @@ class OpenCDXRestCountryControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
-                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .build());
 
         Mockito.when(openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .thenAnswer(new Answer<OpenCDXCountryModel>() {
@@ -96,29 +100,29 @@ class OpenCDXRestCountryControllerTest {
                     public OpenCDXCountryModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXCountryModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
-                            argument.setId(ObjectId.get());
+                            argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-        Mockito.when(openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+        Mockito.when(openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXCountryModel>>() {
                     @Override
                     public Optional<OpenCDXCountryModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXCountryModel.builder()
                                 .id(argument)
                                 .name("USA")
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_CountryId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_CountryId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXVendorRepository.existsByAddress_CountryId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXVendorRepository.existsByAddress_CountryId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXDeviceRepository.existsByVendorCountryId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.existsByVendorCountryId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerCountryId(Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerCountryId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(false);
 
         MockitoAnnotations.openMocks(this);
@@ -129,7 +133,8 @@ class OpenCDXRestCountryControllerTest {
     void getCountryById() throws Exception {
 
         MvcResult result = this.mockMvc
-                .perform(get("/country/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/country/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -138,7 +143,7 @@ class OpenCDXRestCountryControllerTest {
     @Test
     void addCountry() throws Exception {
         Country country = Country.newBuilder(Country.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("countryName")
                 .build();
 
@@ -154,7 +159,7 @@ class OpenCDXRestCountryControllerTest {
     @Test
     void updateCountry() throws Exception {
         Country country = Country.newBuilder(Country.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
+                .setId(OpenCDXIdentifier.get().toHexString())
                 .setName("countryName")
                 .build();
 
@@ -170,7 +175,7 @@ class OpenCDXRestCountryControllerTest {
     @Test
     void deleteCountry() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/country/" + ObjectId.get().toHexString())
+                .perform(delete("/country/" + OpenCDXIdentifier.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
