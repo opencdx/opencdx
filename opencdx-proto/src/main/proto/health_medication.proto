@@ -509,12 +509,7 @@ service MedicationAdministrationService {
   /*
    * Retrieve medication information by patient ID within a date range.
    */
-  rpc GetMedicationsByPatientId(GetMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
-
-  /*
-   * Retrieve medication information by national health ID within a date range.
-   */
-  rpc GetMedicationsByNationalHealthId(GetMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+  rpc ListMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
 }
 
 /*
