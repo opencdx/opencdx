@@ -154,6 +154,12 @@ public class CommonsConfig {
                         observationRegistry, new ConnectionString(mongoProperties.determineUri())));
     }
 
+    /**
+     * Mongo Template
+     * @param databaseFactory Database factory
+     * @param converter Mapping Mongo Converter                       *
+     * @return Observation Registry
+     */
     @Profile("mongo")
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
     @Bean

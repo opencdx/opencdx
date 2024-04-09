@@ -55,6 +55,9 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         this.pathChild = pathChild;
     }
 
+    /**
+     * Initializer
+     */
     @Scheduled(initialDelay = 120000, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
