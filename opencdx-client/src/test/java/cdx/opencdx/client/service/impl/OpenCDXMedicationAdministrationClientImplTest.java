@@ -123,7 +123,6 @@ class OpenCDXMedicationAdministrationClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXMedicationAdministrationClient.listMedications(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXMedicationAdministrationClient.listMedications(request, openCDXCallCredentials));
     }
 }

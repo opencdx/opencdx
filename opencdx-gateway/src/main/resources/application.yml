@@ -57,7 +57,7 @@ spring:
           filters:
             - AddResponseHeader=X-Request-header, header-value            
         - id: grpc-predictor
-          uri: https://predictor:9090
+          uri: https://classification:9090
           predicates:
             - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
           filters:

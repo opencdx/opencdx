@@ -13,51 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.predictor.service.impl;
+package cdx.opencdx.classification.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
-import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
-import cdx.opencdx.predictor.service.OpenCDXPredictorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXPredictorServiceImplTest {
+class OpenCDXRestProtectorControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
-    OpenCDXDocumentValidator openCDXDocumentValidator;
+    private WebApplicationContext context;
 
-    OpenCDXPredictorService predictorService;
+    private MockMvc mockMvc;
 
-    @Autowired
-    OpenCDXAuditService openCDXAuditService;
+    @MockBean
+    Connection connection;
 
-    @Mock
+    @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
-    void beforeEach() {
+    public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
@@ -67,27 +73,35 @@ class OpenCDXPredictorServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
-    void tearDown() {}
+    void tearDown() {
+        Mockito.reset(this.connection);
+    }
 
-    // Test case: OpenCDXPredictorServiceImplTest that calls the predict
     @Test
-    void testPredict() {
-        PredictorRequest request = PredictorRequest.newBuilder()
-                .setPredictorInput(PredictorInput.newBuilder()
-                        .setTestId(OpenCDXIdentifier.get().toHexString())
-                        .build())
-                .build();
-        PredictorResponse response = this.predictorService.predict(request);
+    void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
+        Assertions.assertNotNull(mockMvc);
+    }
 
-        Assertions.assertEquals(
-                "OpenCDXPredictorServiceImpl [predict]",
-                response.getPredictorOutput().getPredictedValue());
-        Assertions.assertEquals(
-                request.getPredictorInput().getEncounterId(),
-                response.getPredictorOutput().getEncounterId());
+    @Test
+    void testPostPredict() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/")
+                        .content(this.objectMapper.writeValueAsString(PredictorRequest.newBuilder()
+                                .setPredictorInput(PredictorInput.newBuilder()
+                                        .setTestId(OpenCDXIdentifier.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        // Assertions.assertEquals(
+        //        "{\"predictorOutput\":{\"predictedValue\":\"PredictorServiceImpl - PredictorResponse\"}}",
+        //        result.getResponse().getContentAsString());
+        Assertions.assertNotNull(result);
     }
 }
