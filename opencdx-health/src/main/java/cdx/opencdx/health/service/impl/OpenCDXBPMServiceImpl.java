@@ -31,14 +31,13 @@ import cdx.opencdx.health.service.OpenCDXBPMService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for processing bpm
@@ -90,8 +89,8 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
     public CreateBPMResponse createBPMMeasurement(CreateBPMRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getBpmMeasurement().getPatientId()));
-        OpenCDXBPMModel openCDXBPMModel = this.openCDXBPMRepository.save(
-                new OpenCDXBPMModel(request.getBpmMeasurement()));
+        OpenCDXBPMModel openCDXBPMModel =
+                this.openCDXBPMRepository.save(new OpenCDXBPMModel(request.getBpmMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
@@ -104,8 +103,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     BPM + openCDXBPMModel.getId(),
                     this.objectMapper.writeValueAsString(openCDXBPMModel));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXBPMModel.toString());
             throw openCDXNotAcceptable;
@@ -139,8 +137,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
@@ -162,8 +159,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                 "profiles", new OpenCDXIdentifier(request.getBpmMeasurement().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "bpm", new OpenCDXIdentifier(request.getBpmMeasurement().getId()));
-        OpenCDXBPMModel model = this.openCDXBPMRepository.save(
-                new OpenCDXBPMModel(request.getBpmMeasurement()));
+        OpenCDXBPMModel model = this.openCDXBPMRepository.save(new OpenCDXBPMModel(request.getBpmMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
@@ -176,8 +172,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
@@ -214,8 +209,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
@@ -246,11 +240,9 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
         }
         Page<OpenCDXBPMModel> all = Page.empty();
         if (request.hasPatientId()) {
-            all = this.openCDXBPMRepository.findAllByPatientId(
-                    new OpenCDXIdentifier(request.getPatientId()), pageable);
+            all = this.openCDXBPMRepository.findAllByPatientId(new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
-            all = this.openCDXBPMRepository.findAllByNationalHealthId(
-                    request.getNationalHealthId(), pageable);
+            all = this.openCDXBPMRepository.findAllByNationalHealthId(request.getNationalHealthId(), pageable);
         }
         log.trace("found database results");
 
@@ -279,9 +271,8 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                         .setTotalPages(all.getTotalPages())
                         .setTotalRecords(all.getTotalElements())
                         .build())
-                .addAllBpmMeasurement(all.get()
-                        .map(OpenCDXBPMModel::getProtobufMessage)
-                        .toList())
+                .addAllBpmMeasurement(
+                        all.get().map(OpenCDXBPMModel::getProtobufMessage).toList())
                 .build();
     }
 }

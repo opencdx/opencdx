@@ -40,12 +40,9 @@ class OpenCDXBPMClientImplTest {
 
     @BeforeEach
     void setUp() {
-        this.bpmServiceBlockingStub =
-                Mockito.mock(BPMServiceGrpc.BPMServiceBlockingStub.class);
-        this.openCDXBPMClient =
-                new OpenCDXBPMClientImpl(this.bpmServiceBlockingStub);
-        Mockito.when(bpmServiceBlockingStub.withCallCredentials(Mockito.any()))
-                .thenReturn(this.bpmServiceBlockingStub);
+        this.bpmServiceBlockingStub = Mockito.mock(BPMServiceGrpc.BPMServiceBlockingStub.class);
+        this.openCDXBPMClient = new OpenCDXBPMClientImpl(this.bpmServiceBlockingStub);
+        Mockito.when(bpmServiceBlockingStub.withCallCredentials(Mockito.any())).thenReturn(this.bpmServiceBlockingStub);
     }
 
     @AfterEach
@@ -55,8 +52,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void createBPM() {
-        Mockito.when(this.bpmServiceBlockingStub.createBPMMeasurement(
-                        Mockito.any(CreateBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.createBPMMeasurement(Mockito.any(CreateBPMRequest.class)))
                 .thenReturn(CreateBPMResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -67,8 +63,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void createBPMException() {
-        Mockito.when(this.bpmServiceBlockingStub.createBPMMeasurement(
-                        Mockito.any(CreateBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.createBPMMeasurement(Mockito.any(CreateBPMRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         CreateBPMRequest request = CreateBPMRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
@@ -79,20 +74,17 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void getBPM() {
-        Mockito.when(this.bpmServiceBlockingStub.getBPMMeasurement(
-                        Mockito.any(GetBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.getBPMMeasurement(Mockito.any(GetBPMRequest.class)))
                 .thenReturn(GetBPMResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 GetBPMResponse.getDefaultInstance(),
-                this.openCDXBPMClient.getBPMMeasurement(
-                        GetBPMRequest.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXBPMClient.getBPMMeasurement(GetBPMRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void getBPMException() {
-        Mockito.when(this.bpmServiceBlockingStub.getBPMMeasurement(
-                        Mockito.any(GetBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.getBPMMeasurement(Mockito.any(GetBPMRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         GetBPMRequest request = GetBPMRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
@@ -103,8 +95,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void updateBPM() {
-        Mockito.when(this.bpmServiceBlockingStub.updateBPMMeasurement(
-                        Mockito.any(UpdateBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.updateBPMMeasurement(Mockito.any(UpdateBPMRequest.class)))
                 .thenReturn(UpdateBPMResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -115,8 +106,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void updateBPMException() {
-        Mockito.when(this.bpmServiceBlockingStub.updateBPMMeasurement(
-                        Mockito.any(UpdateBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.updateBPMMeasurement(Mockito.any(UpdateBPMRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         UpdateBPMRequest request = UpdateBPMRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
@@ -127,8 +117,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void deleteBPM() {
-        Mockito.when(this.bpmServiceBlockingStub.deleteBPMMeasurement(
-                        Mockito.any(DeleteBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.deleteBPMMeasurement(Mockito.any(DeleteBPMRequest.class)))
                 .thenReturn(SuccessResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -139,8 +128,7 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void deleteBPMException() {
-        Mockito.when(this.bpmServiceBlockingStub.deleteBPMMeasurement(
-                        Mockito.any(DeleteBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.deleteBPMMeasurement(Mockito.any(DeleteBPMRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         DeleteBPMRequest request = DeleteBPMRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
@@ -151,20 +139,17 @@ class OpenCDXBPMClientImplTest {
 
     @Test
     void listBPMs() {
-        Mockito.when(this.bpmServiceBlockingStub.listBPMMeasurements(
-                        Mockito.any(ListBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.listBPMMeasurements(Mockito.any(ListBPMRequest.class)))
                 .thenReturn(ListBPMResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ListBPMResponse.getDefaultInstance(),
-                this.openCDXBPMClient.listBPMMeasurements(
-                        ListBPMRequest.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXBPMClient.listBPMMeasurements(ListBPMRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void listBPMsException() {
-        Mockito.when(this.bpmServiceBlockingStub.listBPMMeasurements(
-                        Mockito.any(ListBPMRequest.class)))
+        Mockito.when(this.bpmServiceBlockingStub.listBPMMeasurements(Mockito.any(ListBPMRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ListBPMRequest request = ListBPMRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");

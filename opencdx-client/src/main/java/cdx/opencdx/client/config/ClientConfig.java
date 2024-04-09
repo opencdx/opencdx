@@ -360,8 +360,7 @@ public class ClientConfig {
             @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXBPMClientImpl(
-                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+        return new OpenCDXBPMClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     private ManagedChannel createChannel(

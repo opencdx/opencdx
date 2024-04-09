@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.health.controller;
 
+import static org.mockito.Mockito.mock;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -28,6 +30,8 @@ import cdx.opencdx.health.service.OpenCDXBPMService;
 import cdx.opencdx.health.service.impl.OpenCDXBPMServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,11 +47,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.mock;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -98,20 +97,19 @@ class OpenCDXBPMGrpcControllerTest {
         Mockito.when(this.openCDXBPMRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXBPMModel>>() {
                     @Override
-                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation)
-                            throws Throwable {
+                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXBPMModel.builder()
                                 .id(argument)
                                 .patientId(argument)
                                 .cuffSize(CuffSize.CUFF_SIZE_UNSPECIFIED)
-                                        .armUsed(ArmUsed.ARM_USED_UNSPECIFIED)
-                                        .systolic(80)
-                                        .diastolic(120)
-                                        .bpmUnits(BPMUnits.BARS)
-                                        .measurementTakenUsingCuff("yes")
-                                        .sittingPositionFiveMinutes(true)
-                                        .urinatedThirtyMinutesPrior(false)
+                                .armUsed(ArmUsed.ARM_USED_UNSPECIFIED)
+                                .systolic(80)
+                                .diastolic(120)
+                                .bpmUnits(BPMUnits.BARS)
+                                .measurementTakenUsingCuff("yes")
+                                .sittingPositionFiveMinutes(true)
+                                .urinatedThirtyMinutesPrior(false)
                                 .build());
                     }
                 });
@@ -136,8 +134,7 @@ class OpenCDXBPMGrpcControllerTest {
                         1));
         Mockito.when(this.openCDXBPMRepository.findAllByNationalHealthId(
                         Mockito.any(String.class), Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXBPMModel.builder().build()), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(List.of(OpenCDXBPMModel.builder().build()), PageRequest.of(1, 10), 1));
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder()
@@ -154,8 +151,7 @@ class OpenCDXBPMGrpcControllerTest {
                 this.objectMapper,
                 this.openCDXDocumentValidator,
                 this.openCDXBPMRepository);
-        this.openCDXBPMGrpcController =
-                new OpenCDXBPMGrpcController(this.openCDXBPMService);
+        this.openCDXBPMGrpcController = new OpenCDXBPMGrpcController(this.openCDXBPMService);
     }
 
     @AfterEach

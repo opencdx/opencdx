@@ -32,8 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
     private static final String OPEN_CDX_BPM_CLIENT_IMPL = "OpenCDXBPMClientImpl";
-    private final BPMServiceGrpc.BPMServiceBlockingStub
-            bpmServiceBlockingStub;
+    private final BPMServiceGrpc.BPMServiceBlockingStub bpmServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
@@ -47,8 +46,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      * Constructor for creating the BPM client implementation.
      * @param bpmServiceBlockingStub gRPC Blocking Stub for Provider.
      */
-    public OpenCDXBPMClientImpl(
-            BPMServiceGrpc.BPMServiceBlockingStub bpmServiceBlockingStub) {
+    public OpenCDXBPMClientImpl(BPMServiceGrpc.BPMServiceBlockingStub bpmServiceBlockingStub) {
         this.bpmServiceBlockingStub = bpmServiceBlockingStub;
     }
 
@@ -61,8 +59,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      */
     @Override
     public CreateBPMResponse createBPMMeasurement(
-            CreateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+            CreateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
         try {
             return bpmServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -87,8 +84,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      * @return Message response.
      */
     @Override
-    public GetBPMResponse getBPMMeasurement(
-            GetBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public GetBPMResponse getBPMMeasurement(GetBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return bpmServiceBlockingStub
@@ -115,8 +111,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      */
     @Override
     public UpdateBPMResponse updateBPMMeasurement(
-            UpdateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+            UpdateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
         try {
             return bpmServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -141,8 +136,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      * @return Message response.
      */
     @Override
-    public SuccessResponse deleteBPMMeasurement(
-            DeleteBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public SuccessResponse deleteBPMMeasurement(DeleteBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return bpmServiceBlockingStub
@@ -168,8 +162,7 @@ public class OpenCDXBPMClientImpl implements OpenCDXBPMClient {
      * @return Message response.
      */
     @Override
-    public ListBPMResponse listBPMMeasurements(
-            ListBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ListBPMResponse listBPMMeasurements(ListBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return bpmServiceBlockingStub

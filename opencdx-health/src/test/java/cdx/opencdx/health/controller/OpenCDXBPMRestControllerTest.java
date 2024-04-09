@@ -16,6 +16,9 @@
 package cdx.opencdx.health.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -30,6 +33,8 @@ import cdx.opencdx.health.service.OpenCDXBPMService;
 import cdx.opencdx.health.service.impl.OpenCDXBPMServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,13 +59,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -120,8 +118,7 @@ class OpenCDXBPMRestControllerTest {
         Mockito.when(this.openCDXBPMRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXBPMModel>>() {
                     @Override
-                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation)
-                            throws Throwable {
+                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXBPMModel.builder()
                                 .id(argument)
@@ -171,8 +168,7 @@ class OpenCDXBPMRestControllerTest {
                 this.objectMapper,
                 this.openCDXDocumentValidator,
                 this.openCDXBPMRepository);
-        this.openCDXBPMRestController =
-                new OpenCDXBPMRestController(openCDXBPMService);
+        this.openCDXBPMRestController = new OpenCDXBPMRestController(openCDXBPMService);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }

@@ -29,8 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class OpenCDXBPMGrpcController
-        extends BPMServiceGrpc.BPMServiceImplBase {
+public class OpenCDXBPMGrpcController extends BPMServiceGrpc.BPMServiceImplBase {
     private final OpenCDXBPMService openCDXBPMService;
 
     /**
@@ -43,36 +42,31 @@ public class OpenCDXBPMGrpcController
     }
 
     @Override
-    public void createBPMMeasurement(
-            CreateBPMRequest request, StreamObserver<CreateBPMResponse> responseObserver) {
+    public void createBPMMeasurement(CreateBPMRequest request, StreamObserver<CreateBPMResponse> responseObserver) {
         responseObserver.onNext(this.openCDXBPMService.createBPMMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getBPMMeasurement(
-            GetBPMRequest request, StreamObserver<GetBPMResponse> responseObserver) {
+    public void getBPMMeasurement(GetBPMRequest request, StreamObserver<GetBPMResponse> responseObserver) {
         responseObserver.onNext(this.openCDXBPMService.getBPMMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void updateBPMMeasurement(
-            UpdateBPMRequest request, StreamObserver<UpdateBPMResponse> responseObserver) {
+    public void updateBPMMeasurement(UpdateBPMRequest request, StreamObserver<UpdateBPMResponse> responseObserver) {
         responseObserver.onNext(this.openCDXBPMService.updateBPMMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void deleteBPMMeasurement(
-            DeleteBPMRequest request, StreamObserver<SuccessResponse> responseObserver) {
+    public void deleteBPMMeasurement(DeleteBPMRequest request, StreamObserver<SuccessResponse> responseObserver) {
         responseObserver.onNext(this.openCDXBPMService.deleteBPMMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void listBPMMeasurements(
-            ListBPMRequest request, StreamObserver<ListBPMResponse> responseObserver) {
+    public void listBPMMeasurements(ListBPMRequest request, StreamObserver<ListBPMResponse> responseObserver) {
         responseObserver.onNext(this.openCDXBPMService.listBPMMeasurements(request));
         responseObserver.onCompleted();
     }

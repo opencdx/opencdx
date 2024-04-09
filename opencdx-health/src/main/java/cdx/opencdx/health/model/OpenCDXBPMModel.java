@@ -18,6 +18,7 @@ package cdx.opencdx.health.model;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.health.*;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,8 +26,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
 
 /**
  * Model for BPM in Mongo. Features conversions to/from Protobuf messages.
@@ -78,18 +77,15 @@ public class OpenCDXBPMModel {
         this.urinatedThirtyMinutesPrior = bpm.getUrinated30MinutesPrior();
         if (bpm.hasTimeOfMeasurement()) {
             this.timeOfMeasurement = Instant.ofEpochSecond(
-                    bpm.getCreated().getSeconds(),
-                    bpm.getCreated().getNanos());
+                    bpm.getCreated().getSeconds(), bpm.getCreated().getNanos());
         }
         if (bpm.hasCreated()) {
             this.created = Instant.ofEpochSecond(
-                    bpm.getCreated().getSeconds(),
-                    bpm.getCreated().getNanos());
+                    bpm.getCreated().getSeconds(), bpm.getCreated().getNanos());
         }
         if (bpm.hasModified()) {
             this.modified = Instant.ofEpochSecond(
-                    bpm.getModified().getSeconds(),
-                    bpm.getModified().getNanos());
+                    bpm.getModified().getSeconds(), bpm.getModified().getNanos());
         }
         if (bpm.hasCreator()) {
             this.creator = bpm.getCreator();

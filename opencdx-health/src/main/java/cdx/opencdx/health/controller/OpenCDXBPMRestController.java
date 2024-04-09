@@ -61,10 +61,8 @@ public class OpenCDXBPMRestController {
      * @return Response BPM.
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreateBPMResponse> createBPMRequest(
-            @RequestBody CreateBPMRequest request) {
-        return new ResponseEntity<>(
-                this.openCDXBPMService.createBPMMeasurement(request), HttpStatus.OK);
+    public ResponseEntity<CreateBPMResponse> createBPMRequest(@RequestBody CreateBPMRequest request) {
+        return new ResponseEntity<>(this.openCDXBPMService.createBPMMeasurement(request), HttpStatus.OK);
     }
 
     /**
@@ -73,10 +71,8 @@ public class OpenCDXBPMRestController {
      * @return Response with the bpm.
      */
     @PutMapping
-    public ResponseEntity<UpdateBPMResponse> updateBPMRequest(
-            @RequestBody UpdateBPMRequest request) {
-        return new ResponseEntity<>(
-                this.openCDXBPMService.updateBPMMeasurement(request), HttpStatus.OK);
+    public ResponseEntity<UpdateBPMResponse> updateBPMRequest(@RequestBody UpdateBPMRequest request) {
+        return new ResponseEntity<>(this.openCDXBPMService.updateBPMMeasurement(request), HttpStatus.OK);
     }
 
     /**
@@ -98,9 +94,7 @@ public class OpenCDXBPMRestController {
      * @return All the BPM.
      */
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ListBPMResponse> listBPMRequest(
-            @RequestBody ListBPMRequest request) {
-        return new ResponseEntity<>(
-                this.openCDXBPMService.listBPMMeasurements(request), HttpStatus.OK);
+    public ResponseEntity<ListBPMResponse> listBPMRequest(@RequestBody ListBPMRequest request) {
+        return new ResponseEntity<>(this.openCDXBPMService.listBPMMeasurements(request), HttpStatus.OK);
     }
 }

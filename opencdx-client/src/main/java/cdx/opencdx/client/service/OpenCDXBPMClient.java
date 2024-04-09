@@ -30,8 +30,7 @@ public interface OpenCDXBPMClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    CreateBPMResponse createBPMMeasurement(
-            CreateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    CreateBPMResponse createBPMMeasurement(CreateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -40,8 +39,7 @@ public interface OpenCDXBPMClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    GetBPMResponse getBPMMeasurement(
-            GetBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    GetBPMResponse getBPMMeasurement(GetBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -50,8 +48,7 @@ public interface OpenCDXBPMClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    UpdateBPMResponse updateBPMMeasurement(
-            UpdateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    UpdateBPMResponse updateBPMMeasurement(UpdateBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -60,8 +57,7 @@ public interface OpenCDXBPMClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    SuccessResponse deleteBPMMeasurement(
-            DeleteBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    SuccessResponse deleteBPMMeasurement(DeleteBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -70,7 +66,6 @@ public interface OpenCDXBPMClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ListBPMResponse listBPMMeasurements(
-            ListBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    ListBPMResponse listBPMMeasurements(ListBPMRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import static org.mockito.ArgumentMatchers.any;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -29,6 +31,8 @@ import cdx.opencdx.health.repository.OpenCDXBPMRepository;
 import cdx.opencdx.health.service.OpenCDXBPMService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,11 +49,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -91,8 +90,7 @@ class OpenCDXBPMServiceImplTest {
         Mockito.when(this.openCDXBPMRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXBPMModel>>() {
                     @Override
-                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation)
-                            throws Throwable {
+                    public Optional<OpenCDXBPMModel> answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXBPMModel.builder()
                                 .id(argument)
@@ -141,9 +139,7 @@ class OpenCDXBPMServiceImplTest {
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXBPMService.createBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.createBPMMeasurement(request));
     }
 
     @Test
@@ -153,8 +149,7 @@ class OpenCDXBPMServiceImplTest {
         GetBPMRequest request = GetBPMRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXBPMService.getBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXBPMService.getBPMMeasurement(request));
     }
 
     @Test
@@ -162,8 +157,7 @@ class OpenCDXBPMServiceImplTest {
         GetBPMRequest request = GetBPMRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.getBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.getBPMMeasurement(request));
     }
 
     @Test
@@ -174,9 +168,7 @@ class OpenCDXBPMServiceImplTest {
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXBPMService.updateBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.updateBPMMeasurement(request));
     }
 
     @Test
@@ -186,8 +178,7 @@ class OpenCDXBPMServiceImplTest {
         DeleteBPMRequest request = DeleteBPMRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXBPMService.deleteBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXBPMService.deleteBPMMeasurement(request));
     }
 
     @Test
@@ -195,9 +186,7 @@ class OpenCDXBPMServiceImplTest {
         DeleteBPMRequest request = DeleteBPMRequest.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXBPMService.deleteBPMMeasurement(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.deleteBPMMeasurement(request));
     }
 
     @Test
@@ -229,8 +218,7 @@ class OpenCDXBPMServiceImplTest {
                         .setSort("id")
                         .build())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.listBPMMeasurements(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXBPMService.listBPMMeasurements(request));
     }
 
     @Test
