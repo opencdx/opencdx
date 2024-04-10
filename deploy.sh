@@ -844,7 +844,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Spotless failed. Please review output to determine the issue."
     fi
-    if ./gradlew clean build publish -x dependencyCheckAggregate -x sonarlintMain -x sonarlintTest -x spotlessApply --parallel; then
+    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest -x spotlessApply --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
@@ -867,7 +867,7 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Spotless failed. Please review output to determine the issue."
     fi
-    if ./gradlew build publish -x dependencyCheckAggregate -x sonarlintMain -x sonarlintTest --parallel; then
+    if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
@@ -886,7 +886,7 @@ fi
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
     handle_info "TODO: Fix dependencyCheckAggregate"
-    ./gradlew  versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
+    ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"
 fi
