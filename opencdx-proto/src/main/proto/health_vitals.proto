@@ -236,6 +236,52 @@ enum ArmUsed {
 }
 
 /*
+ * Defines the HeartRPM measure.
+ */
+message HeartRPM {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Measurement taken over in seconds
+   */
+  string measurement_taken_over_in_seconds = 4;
+  /*
+   * Sitting position 5 minutes
+   */
+  bool sitting_position_5_minutes = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+}
+
+/*
  * This message contains the details required for creating a health vitals info.
  */
 message CreateHeightMeasurementRequest {
@@ -595,6 +641,122 @@ message ListBPMResponse {
 }
 
 /*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateHeartRPMRequest {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateHeartRPMResponse {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the HeartRPM info.
+ */
+message GetHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateHeartRPMRequest {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListHeartRPMRequest {
+  oneof heart_rpm_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the HeartRPM
+ */
+message ListHeartRPMResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /**
+  * The list of HeartRPM.
+  */
+  repeated HeartRPM heart_rpm_Measurement = 2;
+}
+
+/*
  * The HeightVitalsService provides remote procedure call (RPC) methods to manipulate and fetch
  * Height Measurements related information.
  */
@@ -649,6 +811,34 @@ service WeightMeasurementService {
    * List WeightMeasurement.
    */
   rpc ListWeightMeasurements(ListWeightMeasurementsRequest) returns (ListWeightMeasurementsResponse);
+}
+
+/*
+ * The HeartRPMService provides remote procedure call (RPC) methods to manipulate and fetch
+ * HeartRPM related information.
+ */
+service HeartRPMService {
+
+  /**
+   * Create a HeartRPM.
+   */
+  rpc CreateHeartRPMMeasurement(CreateHeartRPMRequest) returns (CreateHeartRPMResponse);
+  /**
+   * Get a HeartRPM.
+   */
+  rpc GetHeartRPMMeasurement(GetHeartRPMRequest) returns (GetHeartRPMResponse);
+  /**
+   * Update a HeartRPM.
+   */
+  rpc UpdateHeartRPMMeasurement(UpdateHeartRPMRequest) returns (UpdateHeartRPMResponse);
+  /**
+   * Delete a HeartRPM.
+   */
+  rpc DeleteHeartRPMMeasurement(DeleteHeartRPMRequest) returns (SuccessResponse);
+  /**
+   * List HeartRPM.
+   */
+  rpc ListHeartRPMMeasurements(ListHeartRPMRequest) returns (ListHeartRPMResponse);
 }
 
 
