@@ -90,7 +90,7 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void testPostPredict() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/")
+                .perform(post("/predict")
                         .content(this.objectMapper.writeValueAsString(PredictorRequest.newBuilder()
                                 .setPredictorInput(PredictorInput.newBuilder()
                                         .setTestId(OpenCDXIdentifier.get().toHexString())

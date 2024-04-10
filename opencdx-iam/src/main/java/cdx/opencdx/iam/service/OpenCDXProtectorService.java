@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.protector.service;
+package cdx.opencdx.iam.service;
 
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;

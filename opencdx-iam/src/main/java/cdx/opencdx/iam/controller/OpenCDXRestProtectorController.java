@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.protector.controller;
+package cdx.opencdx.iam.controller;
 
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
@@ -21,7 +21,7 @@ import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
 import cdx.opencdx.grpc.neural.protector.SecurityResponse;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
-import cdx.opencdx.protector.service.OpenCDXProtectorService;
+import cdx.opencdx.iam.service.OpenCDXProtectorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

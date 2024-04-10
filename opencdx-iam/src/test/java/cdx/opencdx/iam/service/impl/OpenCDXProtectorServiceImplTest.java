@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.protector.service.impl;
+package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -30,7 +30,7 @@ import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
 import cdx.opencdx.grpc.neural.protector.SecurityResponse;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
-import cdx.opencdx.protector.service.OpenCDXProtectorService;
+import cdx.opencdx.iam.service.OpenCDXProtectorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
