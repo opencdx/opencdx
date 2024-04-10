@@ -107,32 +107,6 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
-      
-  predictor:
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 60s
-        max_attempts: 5
-        window: 60s
-    image: opencdx/predictor:${version}
-    healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    depends_on:
-      config:
-        condition: service_healthy
-      discovery:
-        condition: service_healthy
-      database:
-        condition: service_healthy
-      nats:
-        condition: service_started
-    volumes:
-      - ../certs:/certs
-
   questionnaire:
     deploy:
       restart_policy:
