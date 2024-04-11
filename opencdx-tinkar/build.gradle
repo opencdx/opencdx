@@ -37,12 +37,10 @@ dependencies {
     implementation project(":opencdx-client")
 
     implementation "dev.ikm.tinkar:entity:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:entity-provider:${tinkarVersion}"
     implementation "dev.ikm.tinkar:common:${tinkarVersion}"
     implementation "dev.ikm.tinkar:coordinate:${tinkarVersion}"
-    implementation "dev.ikm.tinkar:data-mvstore-provider:${tinkarVersion}"
     implementation "dev.ikm.tinkar:data-spinedarray-provider:${tinkarVersion}"
-    implementation "dev.ikm.tinkar:data-websocket-client-provider:${tinkarVersion}"
-    implementation "dev.ikm.tinkar:data-ephemeral-provider:${tinkarVersion}"
     implementation "dev.ikm.tinkar:executor-provider:${tinkarVersion}"
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
