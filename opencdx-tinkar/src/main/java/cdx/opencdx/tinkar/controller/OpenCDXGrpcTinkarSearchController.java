@@ -35,7 +35,7 @@ public class OpenCDXGrpcTinkarSearchController extends TinkarQueryServiceGrpc.Ti
 
     /**
      * Constructor taking the OpenCDXTinkarService
-     * @param openCDXTinkarService OpenCDXTInkarServer to use
+     * @param openCDXTinkarService OpenCDXTinkarServer to use
      */
     public OpenCDXGrpcTinkarSearchController(OpenCDXTinkarService openCDXTinkarService) {
         this.openCDXTinkarService = openCDXTinkarService;
@@ -48,20 +48,47 @@ public class OpenCDXGrpcTinkarSearchController extends TinkarQueryServiceGrpc.Ti
      */
     @Secured({})
     @Override
-    public void searchTinkar(TinkarQueryRequest request, StreamObserver<TinkarQueryResponse> responseObserver) {
+    public void searchTinkar(
+            TinkarSearchQueryRequest request, StreamObserver<TinkarSearchQueryResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTinkarService.search(request));
         responseObserver.onCompleted();
     }
 
     /**
      * Method to search Tinkar DB using a query string
-     * @param request ConnectedTest submitted.
+     * @param request TinkarGetRequest submitted.
      * @param responseObserver Observer to process the response
      */
     @Secured({})
     @Override
-    public void getTinkarEntity(TinkarGetRequest request, StreamObserver<TinkarQueryResult> responseObserver) {
+    public void getTinkarEntity(TinkarGetRequest request, StreamObserver<TinkarGetResult> responseObserver) {
+        log.info("concept id - {}", request.getConceptId());
         responseObserver.onNext(this.openCDXTinkarService.getEntity(request));
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Method to search Tinkar for child concepts
+     * @param request TinkarGetRequest submitted.
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getTinkarChildConcepts(TinkarGetRequest request, StreamObserver<TinkarGetResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTinkarService.getTinkarChildConcepts(request));
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Method to search Tinkar for dependent concepts
+     * @param request TinkarGetRequest submitted.
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getTinkarDescendantConcepts(
+            TinkarGetRequest request, StreamObserver<TinkarGetResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTinkarService.getTinkarDescendantConcepts(request));
         responseObserver.onCompleted();
     }
 }
