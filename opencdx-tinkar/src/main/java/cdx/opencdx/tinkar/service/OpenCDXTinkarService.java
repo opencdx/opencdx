@@ -15,10 +15,7 @@
  */
 package cdx.opencdx.tinkar.service;
 
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
+import cdx.opencdx.grpc.tinkar.*;
 
 /**
  * Interface to search TINKAR Repository
@@ -28,16 +25,32 @@ public interface OpenCDXTinkarService {
     /**
      * Method to search for a term
      *
-     * @param request TinkarQueryRequest containing the terms to search
-     * @return TinkarQueryResponse
+     * @param request TinkarSearchQueryRequest containing the terms to search
+     * @return TinkarSearchQueryResponse
      */
-    TinkarQueryResponse search(TinkarQueryRequest request);
+    TinkarSearchQueryResponse search(TinkarSearchQueryRequest request);
 
     /**
      * Method to search for an NID
      *
      * @param request TinkarGetRequest containing the terms to search
-     * @return TinkarQueryResult
+     * @return TinkarGetResult
      */
-    TinkarQueryResult getEntity(TinkarGetRequest request);
+    TinkarGetResult getEntity(TinkarGetRequest request);
+
+    /**
+     * Method to search children for a given public UUID
+     *
+     * @param request TinkarGetRequest containing the public UUID to search
+     * @return TinkarGetResponse
+     */
+    TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request);
+
+    /**
+     * Method to search descendants for a given public UUID
+     *
+     * @param request TinkarGetRequest containing the public UUID to search
+     * @return TinkarGetResponse
+     */
+    TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request);
 }

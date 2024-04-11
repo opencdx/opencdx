@@ -15,17 +15,18 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
+import cdx.opencdx.grpc.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
+import dev.ikm.tinkar.common.id.PublicId;
+import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.*;
+import dev.ikm.tinkar.provider.search.Searcher;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,22 +60,17 @@ class OpenCDXTinkarServiceImplTest {
         try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
                 MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
                 MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
-            primitiveData.when(PrimitiveData::running).thenReturn(false);
             primitiveData.when(PrimitiveData::get).thenReturn(primitiveDataService);
-            when(primitiveDataService.search("test", 10)).thenReturn(createResults());
+            when(primitiveDataService.search("test", 10)).thenReturn(createSearchResults());
 
-            TinkarQueryResponse response = openCDXTinkarService.search(TinkarQueryRequest.newBuilder()
+            TinkarSearchQueryResponse response = openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
                     .setQuery("test")
                     .setMaxResults(10)
                     .build());
 
-            log.info("**************");
-            log.info(String.valueOf(response));
-
             Assertions.assertNotNull(response);
             Assertions.assertEquals(1, response.getResultsCount());
 
-            primitiveData.verify(PrimitiveData::running);
             primitiveData.verify(PrimitiveData::get);
             verify(primitiveDataService).search("test", 10);
         }
@@ -85,12 +81,11 @@ class OpenCDXTinkarServiceImplTest {
         try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
                 MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
                 MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
-            primitiveData.when(PrimitiveData::running).thenReturn(false);
             primitiveData.when(PrimitiveData::get).thenReturn(primitiveDataService);
             when(primitiveDataService.search("test", 10)).thenThrow(Exception.class);
 
             try {
-                openCDXTinkarService.search(TinkarQueryRequest.newBuilder()
+                openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
                         .setQuery("test")
                         .setMaxResults(10)
                         .build());
@@ -99,7 +94,6 @@ class OpenCDXTinkarServiceImplTest {
                 Assertions.assertEquals("Search Failed", e.getMessage());
             }
 
-            primitiveData.verify(PrimitiveData::running);
             primitiveData.verify(PrimitiveData::get);
             verify(primitiveDataService).search("test", 10);
         }
@@ -107,69 +101,84 @@ class OpenCDXTinkarServiceImplTest {
 
     @Test
     void testGetEntity() throws Exception {
-        try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
-                MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
-                MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
-            primitiveData.when(PrimitiveData::running).thenReturn(false);
-            primitiveData.when(PrimitiveData::get).thenReturn(primitiveDataService);
-            when(primitiveDataService.search("nid=-2144684618", 1)).thenReturn(createResults());
+        try (MockedStatic<Searcher> searcher = Mockito.mockStatic(Searcher.class)) {
+            searcher.when(() -> Searcher.descriptionsOf(Mockito.any(List.class)))
+                    .thenReturn(List.of("TEST"));
 
-            TinkarQueryResult result = openCDXTinkarService.getEntity(
-                    TinkarGetRequest.newBuilder().setNid(-2144684618).build());
+            TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
+                    .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                    .build());
 
             Assertions.assertNotNull(result);
-            Assertions.assertEquals(-2144684618, result.getNid());
+            Assertions.assertEquals("TEST", result.getDescription());
 
-            primitiveData.verify(PrimitiveData::running);
-            primitiveData.verify(PrimitiveData::get);
-            verify(primitiveDataService).search("nid=-2144684618", 1);
-        }
-    }
-
-    @Test
-    void testGetEntityNullResult() throws Exception {
-        try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
-                MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
-                MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
-            primitiveData.when(PrimitiveData::running).thenReturn(false);
-            primitiveData.when(PrimitiveData::get).thenReturn(primitiveDataService);
-            when(primitiveDataService.search("nid=-2144684618", 1)).thenReturn(new PrimitiveDataSearchResult[0]);
-
-            TinkarQueryResult result = openCDXTinkarService.getEntity(
-                    TinkarGetRequest.newBuilder().setNid(-2144684618).build());
-
-            Assertions.assertNull(result);
-
-            primitiveData.verify(PrimitiveData::running);
-            primitiveData.verify(PrimitiveData::get);
-            verify(primitiveDataService).search("nid=-2144684618", 1);
+            searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)));
         }
     }
 
     @Test
     void testGetEntityException() throws Exception {
-        try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
-                MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
-                MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
-            primitiveData.when(PrimitiveData::running).thenReturn(false);
-            primitiveData.when(PrimitiveData::get).thenReturn(primitiveDataService);
-            when(primitiveDataService.search("nid=-2144684618", 1)).thenThrow(Exception.class);
+        try (MockedStatic<Searcher> searcher = Mockito.mockStatic(Searcher.class)) {
+            searcher.when(() -> Searcher.descriptionsOf(Mockito.any(List.class)))
+                    .thenReturn(new ArrayList<String>());
 
             try {
-                openCDXTinkarService.getEntity(
-                        TinkarGetRequest.newBuilder().setNid(-2144684618).build());
+                TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                        .build());
             } catch (Exception e) {
                 Assertions.assertEquals(OpenCDXBadRequest.class, e.getClass());
                 Assertions.assertEquals("Entity Get Failed", e.getMessage());
             }
 
-            primitiveData.verify(PrimitiveData::running);
-            primitiveData.verify(PrimitiveData::get);
-            verify(primitiveDataService).search("nid=-2144684618", 1);
+            searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)));
         }
     }
 
-    private PrimitiveDataSearchResult[] createResults() {
+    @Test
+    void testGetTinkarChildConcepts() {
+        try (MockedStatic<Searcher> searcher = Mockito.mockStatic(Searcher.class)) {
+            searcher.when(() -> Searcher.childrenOf(Mockito.any(PublicId.class)))
+                    .thenReturn(List.of(
+                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
+                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))));
+            searcher.when(() -> Searcher.descriptionsOf(Mockito.any(List.class)))
+                    .thenReturn(List.of("TEST-CHILD-DESCRIPTION"));
+
+            TinkarGetResponse childConcepts = openCDXTinkarService.getTinkarChildConcepts(TinkarGetRequest.newBuilder()
+                    .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
+                    .build());
+            Assertions.assertNotNull(childConcepts);
+            Assertions.assertEquals(2, childConcepts.getResultsCount());
+
+            searcher.verify(() -> Searcher.childrenOf(Mockito.any(PublicId.class)));
+            searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)), times(2));
+        }
+    }
+
+    @Test
+    void testGetTinkarDescendantConcepts() {
+        try (MockedStatic<Searcher> searcher = Mockito.mockStatic(Searcher.class)) {
+            searcher.when(() -> Searcher.descendantsOf(Mockito.any(PublicId.class)))
+                    .thenReturn(List.of(
+                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
+                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))));
+            searcher.when(() -> Searcher.descriptionsOf(Mockito.any(List.class)))
+                    .thenReturn(List.of("TEST-DEP-DESCRIPTION"));
+
+            TinkarGetResponse descendantConcepts =
+                    openCDXTinkarService.getTinkarDescendantConcepts(TinkarGetRequest.newBuilder()
+                            .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
+                            .build());
+            Assertions.assertNotNull(descendantConcepts);
+            Assertions.assertEquals(2, descendantConcepts.getResultsCount());
+
+            searcher.verify(() -> Searcher.descendantsOf(Mockito.any(PublicId.class)));
+            searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)), times(2));
+        }
+    }
+
+    private PrimitiveDataSearchResult[] createSearchResults() {
         PrimitiveDataSearchResult[] result = new PrimitiveDataSearchResult[1];
         result[0] = new PrimitiveDataSearchResult(
                 -2144684618, -2147483638, -2147483638, 1, 13.158955F, "<B>Chronic</B> <B>disease</B>");

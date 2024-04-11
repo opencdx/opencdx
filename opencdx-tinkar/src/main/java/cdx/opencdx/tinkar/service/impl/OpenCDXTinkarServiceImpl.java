@@ -16,15 +16,17 @@
 package cdx.opencdx.tinkar.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
+import cdx.opencdx.grpc.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
+import dev.ikm.tinkar.common.id.PublicId;
+import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.*;
+import dev.ikm.tinkar.provider.search.Searcher;
 import io.micrometer.observation.annotation.Observed;
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -55,7 +57,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         this.pathChild = pathChild;
     }
 
-    @Scheduled(initialDelay = 120000, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(initialDelay = 30000, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
         initializePrimitiveData(pathParent, pathChild);
@@ -63,15 +65,15 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     }
 
     @Override
-    public TinkarQueryResponse search(TinkarQueryRequest request) {
+    public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
-            initializePrimitiveData(pathParent, pathChild);
+            log.info("search query - {}", request.getQuery());
             PrimitiveDataSearchResult[] searchResults =
                     PrimitiveData.get().search(request.getQuery(), request.getMaxResults());
-            TinkarQueryResult[] results =
-                    Arrays.stream(searchResults).map(this::extract).toArray(TinkarQueryResult[]::new);
+            TinkarSearchQueryResult[] results =
+                    Arrays.stream(searchResults).map(this::extract).toArray(TinkarSearchQueryResult[]::new);
 
-            return TinkarQueryResponse.newBuilder()
+            return TinkarSearchQueryResponse.newBuilder()
                     .addAllResults(Arrays.asList(results))
                     .build();
         } catch (Exception e) {
@@ -80,15 +82,44 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     }
 
     @Override
-    public TinkarQueryResult getEntity(TinkarGetRequest request) {
+    public TinkarGetResult getEntity(TinkarGetRequest request) {
         try {
-            initializePrimitiveData(pathParent, pathChild);
-            PrimitiveDataSearchResult[] searchResult = PrimitiveData.get().search("nid=" + request.getNid(), 1);
-            return (searchResult.length > 0) ? extract(searchResult[0]) : null;
+            List<String> descriptions =
+                    Searcher.descriptionsOf(List.of(PublicIds.of(UUID.fromString(request.getConceptId()))));
+            return TinkarGetResult.newBuilder()
+                    .setConceptId(request.getConceptId())
+                    .setDescription(descriptions.getFirst())
+                    .build();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Entity Get Failed", e);
         }
+    }
+
+    @Override
+    public TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request) {
+        PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> children = Searcher.childrenOf(parentConceptId);
+        List<TinkarGetResult> results = children.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Override
+    public TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request) {
+        PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> children = Searcher.descendantsOf(parentConceptId);
+        List<TinkarGetResult> results = children.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
     private void initializePrimitiveData(String pathParent, String pathChild) {
@@ -100,8 +131,8 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         }
     }
 
-    private TinkarQueryResult extract(PrimitiveDataSearchResult searchResult) {
-        return TinkarQueryResult.newBuilder()
+    private TinkarSearchQueryResult extract(PrimitiveDataSearchResult searchResult) {
+        return TinkarSearchQueryResult.newBuilder()
                 .setNid(searchResult.nid())
                 .setRcNid(searchResult.rcNid())
                 .setPatternNid(searchResult.patternNid())
