@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.controller;
+package cdx.opencdx.health.controller;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -38,7 +38,7 @@ import cdx.opencdx.grpc.routine.RoutineResponse;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse;
-import cdx.opencdx.routine.service.impl.OpenCDXRoutineServiceImpl;
+import cdx.opencdx.health.service.impl.OpenCDXRoutineServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;

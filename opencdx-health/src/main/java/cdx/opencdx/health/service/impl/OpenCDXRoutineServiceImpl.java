@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.service.impl;
+package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.routine.service.OpenCDXRoutineService;
+import cdx.opencdx.health.service.OpenCDXRoutineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

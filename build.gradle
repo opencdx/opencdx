@@ -143,7 +143,6 @@ def exportedProjects = [
         ":opencdx-gateway",
         ":opencdx-media",
         ":opencdx-questionnaire",
-        ":opencdx-routine",
         ":opencdx-tinkar",
         ":opencdx-logistics"
 ]

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.service.impl;
+package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -38,7 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRoutineServiceImplTest {
 
     @Autowired
