@@ -50,14 +50,8 @@ spring:
             - Path=/cdx.opencdx.grpc.audit.AuditService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-protector
-          uri: https://protector:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.protector.NeuralProtectorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value            
         - id: grpc-predictor
-          uri: https://predictor:9090
+          uri: https://classification:9090
           predicates:
             - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
           filters:
@@ -87,7 +81,7 @@ spring:
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-routine
-          uri: https://routine:9090
+          uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
           filters:
@@ -153,21 +147,15 @@ spring:
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-predictor
-          uri: https://predictor:9090
+          uri: https://classification:9090
           predicates:
             - Path=/cdx.opencdx.grpc.neural.predictor.NeuralPredictorService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-protector
-          uri: https://protector:9090
+          uri: https://iam:9090
           predicates:
             - Path=/cdx.opencdx.grpc.neural.protector.NeuralProtectorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-routine
-          uri: https://routine:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-classification
@@ -230,6 +218,12 @@ spring:
             - Path=/cdx.opencdx.grpc.health.WeightMeasurementService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-bpm
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.BPMService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 
 eureka:
   client:
@@ -278,9 +272,6 @@ management:
     propagation:
       type: b3
   metrics:
-    export:
-      prometheus:
-        enabled: true
     distribution:
       percentiles-histogram:
         http:
@@ -289,6 +280,10 @@ management:
   zipkin:
     tracing:
       endpoint: https://zipkin:9411/api/v2/spans
+  prometheus:
+    metrics:
+      export:
+        enabled: true
 logging:
   level:
     health:

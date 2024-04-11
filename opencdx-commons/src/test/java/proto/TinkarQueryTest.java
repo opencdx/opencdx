@@ -61,8 +61,9 @@ class TinkarQueryTest {
                 "{\"nid\":-2144684618,\"rcNid\":-2147393046,\"patternNid\":-2147483638,\"fieldIndex\":1,\"score\":13.158955,\"highlightedString\":\"<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>\"}",
                 this.mapper.writeValueAsString(tinkarSearchQueryResult));
 
-        TinkarSearchQueryResponse tinkarSearchQueryResponse =
-                TinkarSearchQueryResponse.newBuilder().addResults(tinkarSearchQueryResult).build();
+        TinkarSearchQueryResponse tinkarSearchQueryResponse = TinkarSearchQueryResponse.newBuilder()
+                .addResults(tinkarSearchQueryResult)
+                .build();
 
         Assertions.assertEquals(
                 "{\"results\":[{\"nid\":-2144684618,\"rcNid\":-2147393046,\"patternNid\":-2147483638,\"fieldIndex\":1,\"score\":13.158955,\"highlightedString\":\"<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>\"}]}",
@@ -86,7 +87,8 @@ class TinkarQueryTest {
                 .build();
 
         Assertions.assertEquals(
-                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}", this.mapper.writeValueAsString(result));
+                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}",
+                this.mapper.writeValueAsString(result));
 
         TinkarGetResponse tinkarGetResponse =
                 TinkarGetResponse.newBuilder().addResults(result).build();
@@ -94,7 +96,5 @@ class TinkarQueryTest {
         Assertions.assertEquals(
                 "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}]}",
                 this.mapper.writeValueAsString(tinkarGetResponse));
-
     }
-
 }

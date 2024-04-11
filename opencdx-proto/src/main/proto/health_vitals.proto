@@ -139,6 +139,149 @@ enum WeightUnits {
 }
 
 /*
+ * Defines the BPM measure.
+ */
+message BPM {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Cuff Size
+   */
+  CuffSize cuff_size = 4;
+  /*
+   * Arm Used
+   */
+  ArmUsed arm_used = 5;
+  /*
+   * Systolic BP
+   */
+  int32 systolic = 6;
+  /*
+   * Diastolic BP
+   */
+  int32 diastolic = 7;
+  /*
+   * BPM Units
+   */
+  BPMUnits unit = 8;
+  /*
+   * Measurement taken using cuff
+   */
+  string measurement_taken_using_cuff = 9;
+  /*
+   * Sitting position 5 minutes
+   */
+  bool sitting_position_5_minutes = 10;
+  /*
+   * Urinated 30 minutes prior
+   */
+  bool urinated_30_minutes_prior = 11;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 12;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 13;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 14;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 15;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 16;
+}
+
+/*
+ * BPM units
+ */
+enum BPMUnits {
+  MILLIMETERS_OF_MERCURY = 0;
+  KILOPASCALS = 1;
+  CENTIMETERS_OF_MERCURY = 2;
+  ATMOSPHERES = 3;
+  POUNDS_PER_SQUARE_INCH = 4;
+  BARS = 5;
+}
+
+// Enum for cuff size options
+enum CuffSize {
+  CUFF_SIZE_UNSPECIFIED = 0;
+  SMALL = 1;
+  MEDIUM = 2;
+  LARGE = 3;
+}
+
+// Enum for arm used options
+enum ArmUsed {
+  ARM_USED_UNSPECIFIED = 0;
+  LEFT_ARM = 1;
+  RIGHT_ARM = 2;
+}
+
+/*
+ * Defines the HeartRPM measure.
+ */
+message HeartRPM {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Measurement taken over in seconds
+   */
+  string measurement_taken_over_in_seconds = 4;
+  /*
+   * Sitting position 5 minutes
+   */
+  bool sitting_position_5_minutes = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+}
+
+/*
  * This message contains the details required for creating a health vitals info.
  */
 message CreateHeightMeasurementRequest {
@@ -380,6 +523,239 @@ message ListWeightMeasurementsResponse {
   repeated WeightMeasurement weight_Measurement = 2;
 }
 
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateBPMRequest {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateBPMResponse {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetBPMRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the BPM info.
+ */
+message GetBPMResponse {
+  /*
+   * The BPM
+   */
+  optional BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateBPMRequest {
+  /*
+   * The BPM
+   */
+  optional BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateBPMResponse {
+  /*
+   * The BPM
+   */
+  optional BPM bpm_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteBPMRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListBPMRequest {
+  oneof bpm_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the BPM
+ */
+message ListBPMResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /**
+  * The list of BPM.
+  */
+  repeated BPM bpm_Measurement = 2;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateHeartRPMRequest {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateHeartRPMResponse {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the HeartRPM info.
+ */
+message GetHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateHeartRPMRequest {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListHeartRPMRequest {
+  oneof heart_rpm_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the HeartRPM
+ */
+message ListHeartRPMResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /**
+  * The list of HeartRPM.
+  */
+  repeated HeartRPM heart_rpm_Measurement = 2;
+}
+
 /*
  * The HeightVitalsService provides remote procedure call (RPC) methods to manipulate and fetch
  * Height Measurements related information.
@@ -435,4 +811,61 @@ service WeightMeasurementService {
    * List WeightMeasurement.
    */
   rpc ListWeightMeasurements(ListWeightMeasurementsRequest) returns (ListWeightMeasurementsResponse);
+}
+
+/*
+ * The HeartRPMService provides remote procedure call (RPC) methods to manipulate and fetch
+ * HeartRPM related information.
+ */
+service HeartRPMService {
+
+  /**
+   * Create a HeartRPM.
+   */
+  rpc CreateHeartRPMMeasurement(CreateHeartRPMRequest) returns (CreateHeartRPMResponse);
+  /**
+   * Get a HeartRPM.
+   */
+  rpc GetHeartRPMMeasurement(GetHeartRPMRequest) returns (GetHeartRPMResponse);
+  /**
+   * Update a HeartRPM.
+   */
+  rpc UpdateHeartRPMMeasurement(UpdateHeartRPMRequest) returns (UpdateHeartRPMResponse);
+  /**
+   * Delete a HeartRPM.
+   */
+  rpc DeleteHeartRPMMeasurement(DeleteHeartRPMRequest) returns (SuccessResponse);
+  /**
+   * List HeartRPM.
+   */
+  rpc ListHeartRPMMeasurements(ListHeartRPMRequest) returns (ListHeartRPMResponse);
+}
+
+
+/*
+ * The BPMService provides remote procedure call (RPC) methods to manipulate and fetch
+ * BPM related information.
+ */
+service BPMService {
+
+  /**
+   * Create a BPM.
+   */
+  rpc CreateBPMMeasurement(CreateBPMRequest) returns (CreateBPMResponse);
+  /**
+   * Get a BPM.
+   */
+  rpc GetBPMMeasurement(GetBPMRequest) returns (GetBPMResponse);
+  /**
+   * Update a BPM.
+   */
+  rpc UpdateBPMMeasurement(UpdateBPMRequest) returns (UpdateBPMResponse);
+  /**
+   * Delete a BPM.
+   */
+  rpc DeleteBPMMeasurement(DeleteBPMRequest) returns (SuccessResponse);
+  /**
+   * List BPM.
+   */
+  rpc ListBPMMeasurements(ListBPMRequest) returns (ListBPMResponse);
 }

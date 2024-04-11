@@ -352,6 +352,40 @@ public class ClientConfig {
                 createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXBPMClient openCDXBPMClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXBPMClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXMedicationAdministrationClient openCDXMedicationAdministrationClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXMedicationAdministrationClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXHeartRPMClient openCDXHeartRPMClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXHeartRPMClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
     private ManagedChannel createChannel(
             String server,
             Integer port,
