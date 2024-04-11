@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.controller;
+package cdx.opencdx.health.controller;
 
 import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.routine.service.OpenCDXRoutineService;
+import cdx.opencdx.health.service.OpenCDXRoutineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class OpenCDXRestRoutineController {
      * @param request RoutineRequest indicating input.
      * @return RoutineResponse with the data.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/routine", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoutineResponse> createRoutine(@RequestBody RoutineRequest request) {
         RoutineResponse response = openCDXRoutineService.createRoutine(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class OpenCDXRestRoutineController {
      * @param routineId The ID of the routine to retrieve.
      * @return RoutineResponse with the data.
      */
-    @GetMapping(value = "/{routineId}")
+    @GetMapping(value = "/routine/{routineId}")
     public ResponseEntity<RoutineResponse> getRoutineById(@PathVariable(value = "routineId") String routineId) {
         RoutineRequest request = RoutineRequest.newBuilder()
                 .setRoutine(Routine.newBuilder().setRoutineId(routineId).build())

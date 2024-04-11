@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.controller;
+package cdx.opencdx.health.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -119,7 +119,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testCreateRoutine() throws Exception {
         this.mockMvc
-                .perform(post("/")
+                .perform(post("/routine")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(RoutineRequest.newBuilder()
                                 .setRoutine(
@@ -133,7 +133,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetRoutine() throws Exception {
         this.mockMvc
-                .perform(get("/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/routine/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.routine.routineId").value("789"));

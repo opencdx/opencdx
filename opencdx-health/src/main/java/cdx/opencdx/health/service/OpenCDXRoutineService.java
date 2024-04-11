@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.routine.service;
+package cdx.opencdx.health.service;
 
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse;

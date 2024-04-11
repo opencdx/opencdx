@@ -98,23 +98,23 @@ check.dependsOn dependencyCheckAggregate
 def myNvdKey = System.getenv("NVD_API_KEY")
 
 // Conditionally include the section based on the presence of the environment variable
-if (myNvdKey != null && myNvdKey != "") {
-    println "Using NVD API Key"
-    dependencyCheck {
-        analyzers.assemblyEnabled = false
-        suppressionFile = "./config/owasp_suppression.xml"
-        nvd {
-            apiKey = myNvdKey
-            delay = 16000
-        }
-    }
-} else {
+//if (myNvdKey != null && myNvdKey != "") {
+//    println "Using NVD API Key"
+//    dependencyCheck {
+//        analyzers.assemblyEnabled = false
+//        suppressionFile = "./config/owasp_suppression.xml"
+//        nvd {
+//            apiKey = myNvdKey
+//            delay = 16000
+//        }
+//    }
+//} else {
     println "NVD API Key not available.."
     dependencyCheck {
         analyzers.assemblyEnabled = false
         suppressionFile = "./config/owasp_suppression.xml"
     }
-}
+//}
 
 // License Check
 otsSwInfo {
@@ -143,7 +143,6 @@ def exportedProjects = [
         ":opencdx-gateway",
         ":opencdx-media",
         ":opencdx-questionnaire",
-        ":opencdx-routine",
         ":opencdx-tinkar",
         ":opencdx-logistics"
 ]

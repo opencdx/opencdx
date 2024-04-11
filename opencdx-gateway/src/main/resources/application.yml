@@ -81,7 +81,7 @@ spring:
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-routine
-          uri: https://routine:9090
+          uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
           filters:
@@ -156,12 +156,6 @@ spring:
           uri: https://iam:9090
           predicates:
             - Path=/cdx.opencdx.grpc.neural.protector.NeuralProtectorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-routine
-          uri: https://routine:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-classification
@@ -278,9 +272,6 @@ management:
     propagation:
       type: b3
   metrics:
-    export:
-      prometheus:
-        enabled: true
     distribution:
       percentiles-histogram:
         http:
@@ -289,6 +280,10 @@ management:
   zipkin:
     tracing:
       endpoint: https://zipkin:9411/api/v2/spans
+  prometheus:
+    metrics:
+      export:
+        enabled: true
 logging:
   level:
     health:

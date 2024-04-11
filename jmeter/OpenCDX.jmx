@@ -10641,7 +10641,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/routine [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10662,7 +10662,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine</stringProp>
+            <stringProp name="HTTPSampler.path">/health/routine</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10676,7 +10676,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/clinicalProtocolExecution [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/clinicalProtocolExecution [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10699,7 +10699,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/clinicalProtocolExecution</stringProp>
+            <stringProp name="HTTPSampler.path">/health/clinicalProtocolExecution</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10713,7 +10713,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/labOrder [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/labOrder [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10732,7 +10732,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/labOrder</stringProp>
+            <stringProp name="HTTPSampler.path">/health/labOrder</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10746,7 +10746,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/diagnosis [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/diagnosis [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10765,7 +10765,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/diagnosis</stringProp>
+            <stringProp name="HTTPSampler.path">/health/diagnosis</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10779,7 +10779,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/suspectedDiagnosis [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/suspectedDiagnosis [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10798,7 +10798,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/suspectedDiagnosis</stringProp>
+            <stringProp name="HTTPSampler.path">/health/suspectedDiagnosis</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10812,7 +10812,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/labResult [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/labResult [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -10831,7 +10831,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/labResult</stringProp>
+            <stringProp name="HTTPSampler.path">/health/labResult</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
