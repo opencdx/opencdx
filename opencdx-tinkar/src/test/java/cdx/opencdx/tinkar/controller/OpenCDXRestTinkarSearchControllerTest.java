@@ -24,13 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@ActiveProfiles({"test", "managed"})
+@ActiveProfiles({"test"})
 @ExtendWith(MockitoExtension.class)
 class OpenCDXRestTinkarSearchControllerTest {
 
@@ -46,10 +45,9 @@ class OpenCDXRestTinkarSearchControllerTest {
     }
 
     @Test
-    void search() throws Exception {
+    void testSearch() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/").content("{\"name\": \"jeff\"}")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .perform(get("/search")
                         .param("query", "chronic disease of respiratory")
                         .param("maxResults", "10"))
                 .andExpect(status().is(200))
@@ -57,12 +55,25 @@ class OpenCDXRestTinkarSearchControllerTest {
     }
 
     @Test
-    void getEntity() throws Exception {
+    void testGetEntity() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/nid")
-                        .content("{\"name\": \"jeff\"}")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .param("nid", "1"))
+                .perform(get("/conceptId").param("conceptId", "550e8400-e29b-41d4-a716-446655440000"))
+                .andExpect(status().is(200))
+                .andReturn();
+    }
+
+    @Test
+    void testGetTinkarChildConcepts() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/children/conceptId").param("conceptId", "550e8400-e29b-41d4-a716-446655440000"))
+                .andExpect(status().is(200))
+                .andReturn();
+    }
+
+    @Test
+    void testGetTinkarDescendantConcepts() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/descendants/conceptId").param("conceptId", "550e8400-e29b-41d4-a716-446655440000"))
                 .andExpect(status().is(200))
                 .andReturn();
     }
