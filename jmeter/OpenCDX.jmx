@@ -3211,12 +3211,12 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Lab" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Health / Connected Lab" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / CreateConnectedLab" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health / CreateConnectedLab" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3247,7 +3247,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / GetConnectedLab" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health / GetConnectedLab" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3265,7 +3265,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / UpdateConnectedLab" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health / UpdateConnectedLab" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3295,7 +3295,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  SubmitTest" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health /  SubmitTest" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3453,7 +3453,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  GetTestDetailsById" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health /  GetTestDetailsById" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3471,7 +3471,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  ListConnectedTests" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health /  ListConnectedTests" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -3496,7 +3496,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 </stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / SubmitLabFindings" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Health / SubmitLabFindings" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -9382,7 +9382,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/lab [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -9400,7 +9400,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-lab</stringProp>
+            <stringProp name="HTTPSampler.path">/health/lab</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -9422,7 +9422,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab [PUT]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/lab [PUT]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -9441,7 +9441,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-lab</stringProp>
+            <stringProp name="HTTPSampler.path">/health/lab</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -9455,12 +9455,12 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab [GET]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/lab [GET]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-lab/${connected_lab_id_r}</stringProp>
+            <stringProp name="HTTPSampler.path">/health/lab/${connected_lab_id_r}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -9673,7 +9673,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab/lab [POST]]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/lab/findings [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -9696,7 +9696,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-lab/lab</stringProp>
+            <stringProp name="HTTPSampler.path">/health/lab/findings</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
