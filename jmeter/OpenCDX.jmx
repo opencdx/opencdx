@@ -88,7 +88,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata"></stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/SignUp</stringProp>
               <stringProp name="GRPCSampler.deadline">3000</stringProp>
@@ -131,7 +131,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata"></stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/Login</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -155,7 +155,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/CurrentUser</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -181,7 +181,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/ListIamUsers</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -204,7 +204,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/UpdateIamUser</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -227,7 +227,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/GetIamUser</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -245,7 +245,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/ChangePassword</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -266,7 +266,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/add_country</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -290,7 +290,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/get_country_by_id</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -308,7 +308,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/update_country</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -327,7 +327,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/CreateOrganization</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -392,7 +392,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/UpdateOrganization</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -450,7 +450,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/GetOrganizationDetailsById</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -468,7 +468,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/ListOrganizations</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -484,7 +484,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/CreateWorkspace</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -548,7 +548,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/UpdateWorkspace</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -605,7 +605,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/GetWorkspaceDetailsById</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -623,7 +623,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/ListWorkspaces</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -660,7 +660,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -684,7 +684,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.audit.AuditService/Event</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -716,7 +716,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/add_manufacturer</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -751,7 +751,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/get_manufacturer_by_id</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -769,7 +769,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/update_manufacturer</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -795,7 +795,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/add_vendor</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -829,7 +829,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/get_vendor_by_id</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -847,7 +847,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/update_vendor</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -873,7 +873,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/add_test_case</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -897,7 +897,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/get_test_case_by_id</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -915,7 +915,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/add_device</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -939,7 +939,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/update_test_case</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -955,7 +955,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/update_device</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -971,7 +971,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/get_device_by_id</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -989,7 +989,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/listCountries</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1012,7 +1012,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/list_devices</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1035,7 +1035,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/listManufacturers</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1058,7 +1058,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/list_test_case</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1081,7 +1081,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/listVendors</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1110,7 +1110,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/CreateMedia</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1171,7 +1171,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/GetMedia</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1225,7 +1225,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/UpdateMedia</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1250,7 +1250,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/ListMedia</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1279,7 +1279,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/CreateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1472,7 +1472,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/UpdateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1658,7 +1658,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/GetUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1682,7 +1682,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/CreateHeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1713,7 +1713,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/GetHeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1731,7 +1731,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/UpdateHeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1755,7 +1755,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/ListHeightMeasurements</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1780,7 +1780,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.WeightMeasurementService/CreateWeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1812,7 +1812,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.WeightMeasurementService/GetWeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1830,7 +1830,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.WeightMeasurementService/UpdateWeightMeasurement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1859,7 +1859,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.WeightMeasurementService/ListWeightMeasurements</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1890,7 +1890,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1914,7 +1914,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1932,7 +1932,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1950,7 +1950,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1966,7 +1966,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -1989,7 +1989,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2013,7 +2013,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2031,7 +2031,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2049,7 +2049,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2065,7 +2065,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2088,7 +2088,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2112,7 +2112,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2130,7 +2130,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2148,7 +2148,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2164,7 +2164,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2187,7 +2187,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2203,7 +2203,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2221,7 +2221,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2239,7 +2239,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2263,7 +2263,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2287,7 +2287,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2305,7 +2305,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2323,7 +2323,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2339,7 +2339,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2362,7 +2362,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2386,7 +2386,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2404,7 +2404,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2422,7 +2422,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2438,7 +2438,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2461,7 +2461,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2485,7 +2485,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2503,7 +2503,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2521,7 +2521,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2537,7 +2537,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2560,7 +2560,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2582,7 +2582,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2606,7 +2606,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2624,7 +2624,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2642,7 +2642,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2658,7 +2658,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2681,7 +2681,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2705,7 +2705,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2723,7 +2723,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2741,7 +2741,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2757,7 +2757,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2780,7 +2780,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2804,7 +2804,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2822,7 +2822,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2840,7 +2840,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2856,7 +2856,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2879,7 +2879,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2901,7 +2901,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2925,7 +2925,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2943,7 +2943,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2961,7 +2961,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -2977,7 +2977,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3000,7 +3000,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3024,7 +3024,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3042,7 +3042,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3060,7 +3060,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3076,7 +3076,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3099,7 +3099,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3123,7 +3123,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3141,7 +3141,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3159,7 +3159,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3175,7 +3175,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3198,7 +3198,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3220,7 +3220,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/CreateConnectedLab</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3251,7 +3251,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/GetConnectedLab</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3269,7 +3269,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/UpdateConnectedLab</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3299,7 +3299,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3457,7 +3457,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/GetTestDetailsById</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3475,7 +3475,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/ListConnectedTests</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3500,7 +3500,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/SubmitLabFindings</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3534,7 +3534,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/SearchMedications</stringProp>
               <stringProp name="GRPCSampler.deadline">2000</stringProp>
@@ -3557,7 +3557,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/Prescribing</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3597,7 +3597,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListCurrentMedications</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3620,7 +3620,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListCurrentMedications</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3643,7 +3643,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/Ending</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3662,7 +3662,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListAllMedications</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3685,7 +3685,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListAllMedications</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3714,7 +3714,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.provider.ProviderService/LoadProvider</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3733,7 +3733,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.provider.ProviderService/LoadProvider</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3752,7 +3752,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.provider.ProviderService/LoadProvider</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3771,7 +3771,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.provider.ProviderService/LoadProvider</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3795,7 +3795,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -3959,7 +3959,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/CreateANFStatement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4007,7 +4007,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/GetANFStatement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4025,7 +4025,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/UpdateANFStatement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4068,7 +4068,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/DeleteANFStatement</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4092,7 +4092,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateRoutine</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4118,7 +4118,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateClinicalProtocolExecution</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4146,7 +4146,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateLabOrder</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4170,7 +4170,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateDiagnosis</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4194,7 +4194,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateSuspectedDiagnosis</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4218,7 +4218,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateLabResult</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4248,7 +4248,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.predictor.NeuralPredictorService/Predict</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4284,7 +4284,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/DetectAnomalies</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4312,7 +4312,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/EnforceAuthorizationControl</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4339,7 +4339,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/ProtectPrivacy</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4366,7 +4366,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/MonitorRealTimeActivity</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4394,7 +4394,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/AnalyzeUserBehavior</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -4428,7 +4428,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/GetRuleSets</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5331,7 +5331,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5380,7 +5380,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.OrderService/CreateOrder</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5419,7 +5419,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.OrderService/GetOrder</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5437,7 +5437,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.OrderService/UpdateOrder</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5469,7 +5469,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.ShippingService/GetShippingVendors</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5531,7 +5531,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.ShippingService/ShipPackage</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5555,7 +5555,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.ShippingService/CreateDeliveryTracking</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5590,7 +5590,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.tinkar.TinkarQueryService/searchTinkar</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5609,7 +5609,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.tinkar.TinkarQueryService/searchTinkar</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5628,7 +5628,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.tinkar.TinkarQueryService/getTinkarEntity</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5652,7 +5652,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/DeleteMedia</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
@@ -5676,7 +5676,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetMessages</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
