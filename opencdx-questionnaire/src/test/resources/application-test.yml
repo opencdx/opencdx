@@ -40,3 +40,7 @@ opencdx:
     format: "%s!"
   client:
     trustStore: ../certs/opencdx-clients.pem
+    tinkar:
+      server: tinkar
+      port: 9090
+      enabled: true
