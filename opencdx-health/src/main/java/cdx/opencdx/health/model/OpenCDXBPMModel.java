@@ -48,7 +48,6 @@ public class OpenCDXBPMModel {
     private int systolic;
     private int diastolic;
     BPMUnits bpmUnits;
-    private String measurementTakenUsingCuff;
     private boolean sittingPositionFiveMinutes;
     private boolean urinatedThirtyMinutesPrior;
     private Instant timeOfMeasurement;
@@ -72,7 +71,6 @@ public class OpenCDXBPMModel {
         this.systolic = bpm.getSystolic();
         this.diastolic = bpm.getDiastolic();
         this.bpmUnits = bpm.getUnit();
-        this.measurementTakenUsingCuff = bpm.getMeasurementTakenUsingCuff();
         this.sittingPositionFiveMinutes = bpm.getSittingPosition5Minutes();
         this.urinatedThirtyMinutesPrior = bpm.getUrinated30MinutesPrior();
         if (bpm.hasTimeOfMeasurement()) {
@@ -114,7 +112,6 @@ public class OpenCDXBPMModel {
         builder.setSystolic(this.systolic);
         builder.setDiastolic(this.diastolic);
         builder.setUnit(this.bpmUnits);
-        builder.setMeasurementTakenUsingCuff(this.measurementTakenUsingCuff);
         builder.setSittingPosition5Minutes(this.sittingPositionFiveMinutes);
         builder.setUrinated30MinutesPrior(this.urinatedThirtyMinutesPrior);
         if (this.timeOfMeasurement != null) {

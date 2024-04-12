@@ -161,7 +161,7 @@ public class OpenCDXHeartRPMServiceImpl implements OpenCDXHeartRPMService {
                 "profiles",
                 new OpenCDXIdentifier(request.getHeartRpmMeasurement().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "heartRPM",
+                "heart-rpm",
                 new OpenCDXIdentifier(request.getHeartRpmMeasurement().getId()));
         OpenCDXHeartRPMModel model =
                 this.openCDXHeartRPMRepository.save(new OpenCDXHeartRPMModel(request.getHeartRpmMeasurement()));

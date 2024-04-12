@@ -33,12 +33,12 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tests" enabled="true">
-        <stringProp name="ThreadGroup.num_threads">${__P(noThreads,10)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -1870,6 +1870,224 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
 	&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+	&quot;start_date&quot;:&quot;2023-09-08T02:45:04Z&quot;,
+	&quot;end_date&quot;:&quot;2023-11-08T02:45:04Z&quot;,
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:0,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Heart / Create" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeartRPMService/CreateHeartRPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;heart_rpm_Measurement&quot;:{
+		&quot;measurement_taken_over_in_seconds&quot;:30,
+		&quot;sitting_position_5_minutes&quot;:true,
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Weight ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">heart_id_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.heart_rpm_Measurement.id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Heart / Get" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeartRPMService/GetHeartRPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${heart_id_g}&quot;
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Heart / Update" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeartRPMService/UpdateHeartRPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;heart_rpm_Measurement&quot;: {
+    &quot;id&quot;: &quot;${heart_id_g}&quot;,
+    &quot;patient_id&quot;: &quot;${patient_id_g}&quot;,
+    &quot;national_health_id&quot;: &quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+    &quot;measurement_taken_over_in_seconds&quot;: 45,
+    &quot;sitting_position_5_minutes&quot;: true,
+    &quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;,
+    &quot;created&quot;: &quot;2024-04-12T16:40:20.643Z&quot;,
+    &quot;modified&quot;: &quot;2024-04-12T16:40:20.643Z&quot;,
+    &quot;creator&quot;: &quot;661963eb0743161dc22c5ed5&quot;,
+    &quot;modifier&quot;: &quot;661963eb0743161dc22c5ed5&quot;
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Heart / List" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeartRPMService/ListHeartRPMMeasurements</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+	&quot;start_date&quot;:&quot;2023-09-08T02:45:04Z&quot;,
+	&quot;end_date&quot;:&quot;2023-11-08T02:45:04Z&quot;,
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:0,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="BPM / Create" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.BPMService/CreateBPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;bpm_Measurement&quot;:{
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;,		
+		&quot;cuff_size&quot;:&quot;MEDIUM&quot;,
+		&quot;arm_used&quot;:&quot;LEFT_ARM&quot;,
+		&quot;systolic&quot;:75,
+		&quot;diastolic&quot;:120,
+		&quot;unit&quot;:&quot;BARS&quot;,
+		&quot;sitting_position_5_minutes&quot;:true,
+		&quot;urinated_30_minutes_prior&quot;:true
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Weight ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">bpm_id_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.bpm_Measurement.id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="BPM / Get" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.BPMService/GetBPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${bpm_id_g}&quot;
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="BPM / Update" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.BPMService/UpdateBPMMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;bpm_Measurement&quot;: {
+    &quot;id&quot;:&quot;${bpm_id_g}&quot;,
+	&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+    &quot;national_health_id&quot;: &quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+    &quot;cuff_size&quot;: &quot;MEDIUM&quot;,
+    &quot;arm_used&quot;: &quot;LEFT_ARM&quot;,
+    &quot;systolic&quot;: 75,
+    &quot;diastolic&quot;: 120,
+    &quot;unit&quot;: &quot;BARS&quot;,
+    &quot;sitting_position_5_minutes&quot;: true,
+    &quot;urinated_30_minutes_prior&quot;: true,
+    &quot;time_of_measurement&quot;: &quot;1970-01-01T00:00:00Z&quot;,
+    &quot;created&quot;: &quot;2024-04-12T17:27:56.940Z&quot;,
+    &quot;modified&quot;: &quot;2024-04-12T17:27:56.940Z&quot;,
+    &quot;creator&quot;: &quot;66196f132c73432b538d454b&quot;,
+    &quot;modifier&quot;: &quot;66196f132c73432b538d454b&quot;
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="BPM / List" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.BPMService/ListBPMMeasurements</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
 	&quot;start_date&quot;:&quot;2023-09-08T02:45:04Z&quot;,
 	&quot;end_date&quot;:&quot;2023-11-08T02:45:04Z&quot;,
 	&quot;pagination&quot;:{
