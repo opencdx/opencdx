@@ -59,6 +59,7 @@ class ClientConfigTest {
         clientConfig.openCDXBPMClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXMedicationAdministrationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXHeartRPMClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXVaccineClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }

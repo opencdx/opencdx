@@ -67,7 +67,6 @@ public class OpenCDXProfileModel {
     private Pharmacy pharmacyDetails;
     private boolean isActive;
 
-    private List<Vaccine> vaccines;
     private List<OpenCDXIdentifier> dependents;
     private List<KnownAllergy> allergies;
     private Instant created;
@@ -108,7 +107,6 @@ public class OpenCDXProfileModel {
         this.primaryContactInfo = userProfile.getPrimaryContactInfo();
         this.emergencyContact = userProfile.getEmergencyContact();
         this.pharmacyDetails = userProfile.getPharmacyDetails();
-        this.vaccines = userProfile.getVaccineAdministeredList();
         this.allergies = userProfile.getKnownAllergiesList();
 
         if (userProfile.hasCreated()) {
@@ -195,9 +193,6 @@ public class OpenCDXProfileModel {
         }
         if (this.pharmacyDetails != null) {
             builder.setPharmacyDetails(this.pharmacyDetails);
-        }
-        if (this.vaccines != null) {
-            builder.addAllVaccineAdministered(this.vaccines);
         }
         if (this.dependents != null) {
             builder.addAllDependentId(

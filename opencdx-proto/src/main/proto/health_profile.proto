@@ -94,59 +94,54 @@ message UserProfile {
   Pharmacy pharmacy_details = 16;
 
   /*
-   * Information about vaccines administered to the user.
-   */
-  repeated Vaccine vaccine_administered = 17;
-
-  /*
    * A list of identifiers for user's dependents.
    */
-  repeated string dependent_id = 18;
+  repeated string dependent_id = 17;
 
   /*
    * A list of known allergies of the user.
    */
-  repeated KnownAllergy known_allergies = 19;
+  repeated KnownAllergy known_allergies = 18;
 
   /*
    * Indicates the active/inactive status of the user.
    */
-  bool is_active = 20;
+  bool is_active = 19;
 
   /*
    * A list of user's email addresses.
    */
-  repeated cdx.opencdx.grpc.common.EmailAddress email = 21;
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 20;
 
   /*
    * A list of user's phone numbers.
    */
-  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 22;
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 21;
 
   /*
    * A list of user's addresses.
    */
-  repeated cdx.opencdx.grpc.common.Address address = 23;
+  repeated cdx.opencdx.grpc.common.Address address = 22;
 
   /*
    * The timestamp indicating when the user's profile was created.
    */
-  optional google.protobuf.Timestamp created = 24;
+  optional google.protobuf.Timestamp created = 23;
 
   /*
    * The timestamp indicating the last modification of the user's profile.
    */
-  optional google.protobuf.Timestamp modified = 25;
+  optional google.protobuf.Timestamp modified = 24;
 
   /*
    * The identifier of the entity that created the user's profile.
    */
-  optional string creator = 26;
+  optional string creator = 25;
 
   /*
    * The identifier of the entity that last modified the user's profile.
    */
-  optional string modifier = 28;
+  optional string modifier = 26;
 }
 /*
  * Contains the emergency contact's relationship to the user and contact information.
@@ -234,44 +229,7 @@ message PlaceOfBirth {
    */
   string city = 3;
 }
-/*
- * Contains information about a vaccine including administration date, FIPS code and locality,
- * health district, facility type, manufacturer, dose number, and vaccine type.
- */
-message Vaccine {
-  /*
-   * The date when the user was vaccinated
-   */
-  string administration_date = 1;
-  /*
-   * The 5-digit Federal Information Processing Standards (FIPS) code for the vaccination locality
-   */
-  string fips = 2;
-  /*
-   * The city or county where the user lives
-   */
-  string locality = 3;
-  /*
-   * The health district assigned by the Virginia Department of Health
-   */
-  string health_district = 4;
-  /*
-   * The type of facility where the vaccine was administered (e.g., Hospital, Clinic, etc.)
-   */
-  string facility_type = 5;
-  /*
-   * The pharmaceutical company that produced the vaccine
-   */
-  string manufacturer = 6;
-  /*
-   * The dose number of the vaccine
-   */
-  int32 dose_number = 7;
-  /*
-   * The type of vaccine (e.g., Pfizer, Moderna, J&J, etc.)
-   */
-  string vaccine_type = 8;
-}
+
 /*
  * Contains the user's education history.
  */
