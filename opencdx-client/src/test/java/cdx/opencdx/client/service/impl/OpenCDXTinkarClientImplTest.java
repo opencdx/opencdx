@@ -18,9 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryServiceGrpc;
+import cdx.opencdx.grpc.tinkar.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -54,23 +52,92 @@ class OpenCDXTinkarClientImplTest {
     }
 
     @Test
-    void searchTinkar() {
-        Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
-                .thenReturn(TinkarQueryResponse.getDefaultInstance());
+    void testSearchTinkar() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarSearchQueryRequest.class)))
+                .thenReturn(TinkarSearchQueryResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                TinkarQueryResponse.getDefaultInstance(),
-                this.openCDXTinkarClient.searchTinkar(TinkarQueryRequest.getDefaultInstance(), openCDXCallCredentials));
+                TinkarSearchQueryResponse.getDefaultInstance(),
+                this.openCDXTinkarClient.searchTinkar(
+                        TinkarSearchQueryRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
-    void searchTinkarException() {
-        Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
+    void testSearchTinkarException() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarSearchQueryRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        TinkarQueryRequest request = TinkarQueryRequest.getDefaultInstance();
+        TinkarSearchQueryRequest request = TinkarSearchQueryRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
                 () -> this.openCDXTinkarClient.searchTinkar(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarEntity() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarEntity(Mockito.any(TinkarGetRequest.class)))
+                .thenReturn(TinkarGetResult.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                TinkarGetResult.getDefaultInstance(),
+                this.openCDXTinkarClient.getTinkarEntity(
+                        TinkarGetRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarEntityException() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarEntity(Mockito.any(TinkarGetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        TinkarGetRequest request = TinkarGetRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXTinkarClient.getTinkarEntity(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarChildConcepts() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarChildConcepts(Mockito.any(TinkarGetRequest.class)))
+                .thenReturn(TinkarGetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                TinkarGetResponse.getDefaultInstance(),
+                this.openCDXTinkarClient.getTinkarChildConcepts(
+                        TinkarGetRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarChildConceptsException() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarChildConcepts(Mockito.any(TinkarGetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        TinkarGetRequest request = TinkarGetRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXTinkarClient.getTinkarChildConcepts(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarDescendantConcepts() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarDescendantConcepts(
+                        Mockito.any(TinkarGetRequest.class)))
+                .thenReturn(TinkarGetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                TinkarGetResponse.getDefaultInstance(),
+                this.openCDXTinkarClient.getTinkarDescendantConcepts(
+                        TinkarGetRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void testGetTinkarDescendantConceptsException() {
+        Mockito.when(this.tinkarQueryServiceBlockingStub.getTinkarDescendantConcepts(
+                        Mockito.any(TinkarGetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        TinkarGetRequest request = TinkarGetRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXTinkarClient.getTinkarDescendantConcepts(request, openCDXCallCredentials));
     }
 }

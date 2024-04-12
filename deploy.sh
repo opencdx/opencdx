@@ -284,7 +284,7 @@ open_reports() {
         ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
-        ./gradlew jacocoRootReport -x bootBuildInfo -x generateGitProperties || handle_error "Failed to generate the JaCoCo report."
+        ./gradlew jacocoRootReport -x bootBuildInfo -x generateGitProperties --parallel || handle_error "Failed to generate the JaCoCo report."
         open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
         ;;
     check)

@@ -14,17 +14,25 @@ service TinkarQueryService {
   /*
    * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
    */
-  rpc searchTinkar(TinkarQueryRequest) returns (TinkarQueryResponse) {}
+  rpc searchTinkar(TinkarSearchQueryRequest) returns (TinkarSearchQueryResponse) {}
   /*
-   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   * `getTinkarEntity` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResult`.
    */
-  rpc getTinkarEntity(TinkarGetRequest) returns (TinkarQueryResult) {}
-
+  rpc getTinkarEntity(TinkarGetRequest) returns (TinkarGetResult) {}
+  /*
+   * `getTinkarChildConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   */
+  rpc getTinkarChildConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
+  /*
+   * `getTinkarDescendantConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   */
+  rpc getTinkarDescendantConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
 }
+
 /*
  * TinkarQueryRequest Message: Represents the user's request to search the tinkar db.
  */
-message TinkarQueryRequest {
+message TinkarSearchQueryRequest {
   /*
    * The search string required for the request.
    */
@@ -34,19 +42,11 @@ message TinkarQueryRequest {
    */
   int32 max_results = 2;
 }
-/*
- * TinkarGetRequest Message: Represents the tinkar concept ID
- */
-message TinkarGetRequest {
-  /*
-   * The Tinkar concept ID
-   */
-  int32 nid = 1;
-}
+
 /*
  * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
  */
-message TinkarQueryResult {
+message TinkarSearchQueryResult {
   int32 nid = 1;
   int32 rc_nid = 2;
   int32 pattern_nid = 3;
@@ -57,6 +57,37 @@ message TinkarQueryResult {
 /*
  * TinkarResponse Message: Represents the response that `Tinkar` service returns.
  */
-message TinkarQueryResponse {
-  repeated TinkarQueryResult results = 1;
+message TinkarSearchQueryResponse {
+  repeated TinkarSearchQueryResult results = 1;
+}
+
+/*
+ * TinkarGetRequest Message: Represents the user's request to search the tinkar db.
+ */
+message TinkarGetRequest {
+  /*
+   * The concept ID required for the request.
+   */
+  string concept_id = 1;
+}
+
+/*
+ * TinkarGetResult Message: Represents the result
+ */
+message TinkarGetResult {
+  /*
+   * The concept ID of the result.
+   */
+  string concept_id = 1;
+  /*
+   * The description of the concept ID of the result.
+   */
+  string description = 2;
+}
+
+/*
+ * TinkarGetResponse Message: Represents the response that `Tinkar` service returns.
+ */
+message TinkarGetResponse {
+  repeated TinkarGetResult results = 1;
 }

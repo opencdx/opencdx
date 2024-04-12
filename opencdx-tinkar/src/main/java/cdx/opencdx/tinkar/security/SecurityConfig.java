@@ -43,7 +43,7 @@ public class SecurityConfig {
     private final CorsConfigurationSource corsConfigurationSource;
 
     /**
-     * Constructore for Security Configuraiton
+     * Constructor for Security Configuration
      * @param configuration Authentication Configuration to use
      * @param jwtTokenFilter Filter for using JWT
      * @param corsConfigurationSource CORS configuration

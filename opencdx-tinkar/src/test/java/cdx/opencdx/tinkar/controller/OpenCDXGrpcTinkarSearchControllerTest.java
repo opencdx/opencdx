@@ -15,13 +15,9 @@
  */
 package cdx.opencdx.tinkar.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
+import cdx.opencdx.grpc.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,40 +45,84 @@ class OpenCDXGrpcTinkarSearchControllerTest {
     }
 
     @Test
-    void searchTinkar() {
-        StreamObserver<TinkarQueryResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        TinkarQueryRequest request = TinkarQueryRequest.newBuilder()
+    void testSearchTinkar() {
+        StreamObserver<TinkarSearchQueryResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarSearchQueryRequest request = TinkarSearchQueryRequest.newBuilder()
                 .setQuery("chronic disease of respiratory system")
                 .setMaxResults(10)
                 .build();
-        TinkarQueryResponse response =
-                TinkarQueryResponse.newBuilder().addResults(createResult()).build();
+        TinkarSearchQueryResponse response = TinkarSearchQueryResponse.newBuilder()
+                .addResults(createResult())
+                .build();
 
         when(openCDXTinkarService.search(request)).thenReturn(response);
 
         openCDXGrpcTinkarSearchController.searchTinkar(request, responseObserver);
 
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).search(request);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void getTinkarEntity() {
-        StreamObserver<TinkarQueryResult> responseObserver = Mockito.mock(StreamObserver.class);
+    void testGetTinkarEntity() {
+        StreamObserver<TinkarGetResult> responseObserver = Mockito.mock(StreamObserver.class);
         TinkarGetRequest request =
-                TinkarGetRequest.newBuilder().setNid(-2144684618).build();
-        TinkarQueryResult response = createResult();
+                TinkarGetRequest.newBuilder().setConceptId("ABED-1234").build();
+        TinkarGetResult response =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
 
         when(openCDXTinkarService.getEntity(request)).thenReturn(response);
 
         openCDXGrpcTinkarSearchController.getTinkarEntity(request, responseObserver);
 
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getEntity(request);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-    private TinkarQueryResult createResult() {
-        return TinkarQueryResult.newBuilder()
+    @Test
+    void testGetTinkarChildConcepts() {
+        StreamObserver<TinkarGetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarGetRequest request = TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build();
+        TinkarGetResult result =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
+        TinkarGetResponse response =
+                TinkarGetResponse.newBuilder().addResults(result).build();
+
+        when(openCDXTinkarService.getTinkarChildConcepts(request)).thenReturn(response);
+
+        openCDXGrpcTinkarSearchController.getTinkarChildConcepts(request, responseObserver);
+
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getTinkarChildConcepts(request);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void testGetTinkarDescendantConcepts() {
+        StreamObserver<TinkarGetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarGetRequest request = TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build();
+        TinkarGetResult result =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
+        TinkarGetResponse response =
+                TinkarGetResponse.newBuilder().addResults(result).build();
+
+        when(openCDXTinkarService.getTinkarDescendantConcepts(request)).thenReturn(response);
+
+        openCDXGrpcTinkarSearchController.getTinkarDescendantConcepts(request, responseObserver);
+
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getTinkarDescendantConcepts(request);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    private TinkarSearchQueryResult createResult() {
+        return TinkarSearchQueryResult.newBuilder()
                 .setNid(-2144684618)
                 .setRcNid(-2147393046)
                 .setPatternNid(-2147483638)

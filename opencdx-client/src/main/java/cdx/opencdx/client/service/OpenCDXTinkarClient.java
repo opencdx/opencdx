@@ -17,10 +17,7 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
-import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
+import cdx.opencdx.grpc.tinkar.*;
 
 /**
  * Interface for communicating with the Tinkar microservice.
@@ -28,19 +25,38 @@ import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
 public interface OpenCDXTinkarClient {
     /**
      * Method to gRPC Call Tinkar Service searchTinkar() api.
-     * @param request TinkarQueryRequest request to pass
+     * @param request TinkarSearchQueryRequest request to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return TinkarQueryResponse
+     * @return TinkarSearchQueryResponse
      */
-    TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    TinkarSearchQueryResponse searchTinkar(
+            TinkarSearchQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call Tinkar Service getTinkarEntity() api.
      * @param request TinkarGetRequest request to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return TinkarQueryResult
+     * @return TinkarGetResult
      */
-    TinkarQueryResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    TinkarGetResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Tinkar Service getTinkarChildConcepts() api.
+     * @param request TinkarGetRequest request to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return TinkarGetResult
+     */
+    TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Tinkar Service getTinkarDescendantConcepts() api.
+     * @param request TinkarGetRequest request to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return TinkarGetResult
+     */
+    TinkarGetResponse getTinkarDescendantConcepts(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
 }

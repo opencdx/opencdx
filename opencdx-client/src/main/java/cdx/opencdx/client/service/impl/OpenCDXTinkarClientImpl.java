@@ -60,46 +60,68 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
      * @return TinkarQueryResponse
      */
     @Override
-    public TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public TinkarSearchQueryResponse searchTinkar(
+            TinkarSearchQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .searchTinkar(request);
         } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    "OpenCDXTinkarClientImpl",
-                    1,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
+            throw createClientException(e);
         }
     }
 
     /**
      * Method to gRPC Call Tinkar Service getTinkarEntity() api.
-     * @param request TinkarGetRequest request to pass
+     * @param request TinkarGetResult request to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return TinkarQueryResult
      */
     @Override
-    public TinkarQueryResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public TinkarGetResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .getTinkarEntity(request);
         } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    "OpenCDXTinkarClientImpl",
-                    1,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
+            throw createClientException(e);
         }
+    }
+
+    @Override
+    public TinkarGetResponse getTinkarChildConcepts(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+        try {
+            return tinkarQueryServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getTinkarChildConcepts(request);
+        } catch (StatusRuntimeException e) {
+            throw createClientException(e);
+        }
+    }
+
+    @Override
+    public TinkarGetResponse getTinkarDescendantConcepts(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+        try {
+            return tinkarQueryServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getTinkarDescendantConcepts(request);
+        } catch (StatusRuntimeException e) {
+            throw createClientException(e);
+        }
+    }
+
+    private OpenCDXClientException createClientException(StatusRuntimeException e) {
+        com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+        return new OpenCDXClientException(
+                Code.forNumber(status.getCode()),
+                "OpenCDXTinkarClientImpl",
+                1,
+                status.getMessage(),
+                status.getDetailsList(),
+                e);
     }
 }
