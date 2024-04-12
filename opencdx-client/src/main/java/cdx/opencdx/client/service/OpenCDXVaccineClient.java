@@ -20,7 +20,6 @@ import cdx.opencdx.grpc.health.GetVaccineByIdRequest;
 import cdx.opencdx.grpc.health.ListVaccinesRequest;
 import cdx.opencdx.grpc.health.ListVaccinesResponse;
 import cdx.opencdx.grpc.health.Vaccine;
-import cdx.opencdx.grpc.health.medication.*;
 
 /**
  * Interface for vaccine administration
