@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -27,6 +29,9 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.tinkar.TinkarGetResult;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -66,6 +71,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXTinkarClient openCDXTinkarClient;
 
     /**
      * This class represents the implementation of the OpenCDXQuestionnaireService interface.
@@ -78,6 +84,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
      * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
      * @param openCDXProfileRepository the OpenCDXProfileRepository instance used for interacting with the profile data.
+     * @param openCDXTinkarClient service for querying Tinkar
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(
@@ -87,7 +94,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
             OpenCDXClassificationMessageService openCDXClassificationMessageService,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXTinkarClient openCDXTinkarClient) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -95,6 +103,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXTinkarClient = openCDXTinkarClient;
     }
 
     // Submiited Questionnaire
@@ -570,16 +579,19 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 
-        // TODO: Make call to get answer options
-        Coding coding = Coding.newBuilder().setDisplay("Answer 1").build();
-        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
-                .setValueCoding(coding)
-                .build());
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
-        coding = Coding.newBuilder().setDisplay("Answer 2").build();
-        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
-                .setValueCoding(coding)
-                .build());
+        TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
+                TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+
+        for (TinkarGetResult result : response.getResultsList()) {
+            Coding coding =
+                    Coding.newBuilder().setDisplay(result.getDescription()).build();
+            answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                    .setValueCoding(coding)
+                    .build());
+        }
 
         return answerOptions;
     }

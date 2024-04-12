@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -86,6 +87,9 @@ class OpenCDXQuestionnaireServiceImplTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXTinkarClient openCDXTinkarClient;
 
     OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
@@ -244,7 +248,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
     }
 
     @AfterEach
@@ -273,7 +278,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.createQuestionnaire(request));
@@ -331,7 +337,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -471,7 +478,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
@@ -506,7 +514,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -528,7 +537,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -564,7 +574,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())

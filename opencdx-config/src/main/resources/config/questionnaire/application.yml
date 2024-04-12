@@ -2,3 +2,8 @@
 spring:
   application:
     name: questionnaire
+
+opencdx:
+  client:
+    tinker:
+      enabled: true

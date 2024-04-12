@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.controller;
 
+import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -89,6 +90,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXTinkarClient openCDXTinkarClient;
 
     OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
@@ -241,7 +245,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
     }
 
@@ -315,7 +320,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -347,7 +353,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -385,7 +392,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -439,7 +447,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -556,7 +565,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -588,7 +598,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -804,7 +815,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -854,7 +866,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -900,7 +913,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
