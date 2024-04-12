@@ -1426,16 +1426,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         } ]
       }
     },
-    &quot;vaccineAdministered&quot; : [ {
-      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,
-      &quot;fips&quot; : &quot;12345&quot;,
-      &quot;locality&quot; : &quot;CA&quot;,
-      &quot;healthDistrict&quot; : &quot;District&quot;,
-      &quot;facilityType&quot; : &quot;Clinic&quot;,
-      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,
-      &quot;doseNumber&quot; : 20,
-      &quot;vaccineType&quot; : &quot;COVID-19&quot;
-    } ],
     &quot;dependentId&quot; : [ &quot;${user_id_g}&quot; ],
     &quot;knownAllergies&quot; : [ {
       &quot;allergen&quot; : &quot;Evergreen Trees&quot;,
@@ -1620,16 +1610,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         } ]
       }
     },
-    &quot;vaccineAdministered&quot; : [ {
-      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,
-      &quot;fips&quot; : &quot;12345&quot;,
-      &quot;locality&quot; : &quot;CA&quot;,
-      &quot;healthDistrict&quot; : &quot;District&quot;,
-      &quot;facilityType&quot; : &quot;Clinic&quot;,
-      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,
-      &quot;doseNumber&quot; : 20,
-      &quot;vaccineType&quot; : &quot;COVID-19&quot;
-    } ],
     &quot;dependentId&quot; : [ &quot;${user_id_g}&quot; ],
     &quot;knownAllergies&quot; : [ {
       &quot;allergen&quot; : &quot;Evergreen Trees&quot;,
@@ -7548,16 +7528,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         } ]&#xd;
       }&#xd;
     },&#xd;
-    &quot;vaccineAdministered&quot; : [ {&#xd;
-      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,&#xd;
-      &quot;fips&quot; : &quot;12345&quot;,&#xd;
-      &quot;locality&quot; : &quot;CA&quot;,&#xd;
-      &quot;healthDistrict&quot; : &quot;District&quot;,&#xd;
-      &quot;facilityType&quot; : &quot;Clinic&quot;,&#xd;
-      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,&#xd;
-      &quot;doseNumber&quot; : 20,&#xd;
-      &quot;vaccineType&quot; : &quot;COVID-19&quot;&#xd;
-    } ],&#xd;
     &quot;dependentId&quot; : [ &quot;${user_id_r}&quot; ],&#xd;
     &quot;knownAllergies&quot; : [ {&#xd;
       &quot;allergen&quot; : &quot;Evergreen Trees&quot;,&#xd;
@@ -7751,16 +7721,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         } ]&#xd;
       }&#xd;
     },&#xd;
-    &quot;vaccineAdministered&quot; : [ {&#xd;
-      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,&#xd;
-      &quot;fips&quot; : &quot;12345&quot;,&#xd;
-      &quot;locality&quot; : &quot;CA&quot;,&#xd;
-      &quot;healthDistrict&quot; : &quot;District&quot;,&#xd;
-      &quot;facilityType&quot; : &quot;Clinic&quot;,&#xd;
-      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,&#xd;
-      &quot;doseNumber&quot; : 20,&#xd;
-      &quot;vaccineType&quot; : &quot;COVID-19&quot;&#xd;
-    } ],&#xd;
     &quot;dependentId&quot; : [  &quot;${user_id_r}&quot; ],&#xd;
     &quot;knownAllergies&quot; : [ {&#xd;
       &quot;allergen&quot; : &quot;Evergreen Trees&quot;,&#xd;
