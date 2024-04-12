@@ -175,37 +175,33 @@ message BPM {
    */
   BPMUnits unit = 8;
   /*
-   * Measurement taken using cuff
-   */
-  string measurement_taken_using_cuff = 9;
-  /*
    * Sitting position 5 minutes
    */
-  bool sitting_position_5_minutes = 10;
+  bool sitting_position_5_minutes = 9;
   /*
    * Urinated 30 minutes prior
    */
-  bool urinated_30_minutes_prior = 11;
+  bool urinated_30_minutes_prior = 10;
   /*
    * Timestamp when the vitals were taken.
    */
-  optional google.protobuf.Timestamp time_of_measurement = 12;
+  optional google.protobuf.Timestamp time_of_measurement = 11;
   /*
    * Creation timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp created = 13;
+  optional google.protobuf.Timestamp created = 12;
   /*
    * Modification timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp modified = 14;
+  optional google.protobuf.Timestamp modified = 13;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 15;
+  optional string creator = 14;
   /**
    * The user who last modified the Message.
    */
-  optional string modifier = 16;
+  optional string modifier = 15;
 }
 
 /*
@@ -254,7 +250,7 @@ message HeartRPM {
   /*
    * Measurement taken over in seconds
    */
-  string measurement_taken_over_in_seconds = 4;
+  int32 measurement_taken_over_in_seconds = 4;
   /*
    * Sitting position 5 minutes
    */

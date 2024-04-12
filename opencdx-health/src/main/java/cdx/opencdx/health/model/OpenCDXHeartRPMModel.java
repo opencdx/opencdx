@@ -43,7 +43,7 @@ public class OpenCDXHeartRPMModel {
 
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
-    private String measurementTakenOverInSeconds;
+    private Integer measurementTakenOverInSeconds;
     private boolean sittingPositionFiveMinutes;
     private Instant timeOfMeasurement;
     private Instant created;

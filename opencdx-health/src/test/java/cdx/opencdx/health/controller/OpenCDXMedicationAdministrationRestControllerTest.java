@@ -216,7 +216,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
     @Test
     void trackMedicationAdministration() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/medicine/administer")
+                .perform(post("/medication/administer")
                         .content(this.objectMapper.writeValueAsString(MedicationAdministration.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setPatientId(ObjectId.get().toHexString())
@@ -235,7 +235,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
     @Test
     void getMedicationById() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/medicine/administer/" + OpenCDXIdentifier.get())
+                .perform(post("/medication/administer/" + OpenCDXIdentifier.get())
                         .content(this.objectMapper.writeValueAsString(GetMedicationByIdRequest.newBuilder()
                                 .setMedicationId(ObjectId.get().toHexString())
                                 .build()))
@@ -249,7 +249,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
     @Test
     void getMedicationsByPatientId() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/medicine/administer/list")
+                .perform(post("/medication/administer/list")
                         .content(this.objectMapper.writeValueAsString(ListMedicationsRequest.newBuilder()
                                 .setPagination(Pagination.newBuilder()
                                         .setPageNumber(1)

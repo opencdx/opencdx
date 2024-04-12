@@ -15,31 +15,31 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
-import io.micrometer.observation.annotation.Observed;
+import cdx.opencdx.health.model.OpenCDXConnectedLabModel;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database provider model.
+ * Repository for interacting the "opencdxconnectedlab" records
  */
 @Repository
-@Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends OpenCDXRepository<OpenCDXIAMProviderModel> {
-    /**
-     * Find the provider by the NPI number.
-     *
-     * @param npi NPI number to search for.
-     * @return Provider model if found.
-     */
-    Optional<OpenCDXIAMProviderModel> findByNpiNumber(String npi);
+public interface OpenCDXConnectedLabRepository extends OpenCDXRepository<OpenCDXConnectedLabModel> {
 
     /**
-     * Check if a provider exists by the NPI number.
-     *
-     * @param npi NPI number to search for.
-     * @return True if the provider exists.
+     * Find by organization id and workspace id.
+     * @param organizationId the organization id
+     * @param workspaceId the workspace id
+     * @return the OpenCDXConnectedLabModel
      */
-    boolean existsByNpiNumber(String npi);
+    Optional<OpenCDXConnectedLabModel> findByOrganizationIdAndWorkspaceId(
+            OpenCDXIdentifier organizationId, OpenCDXIdentifier workspaceId);
+
+    /**
+     * Find by organization id.
+     * @param organizationId the organization id
+     * @return the OpenCDXConnectedLabModel
+     */
+    Optional<OpenCDXConnectedLabModel> findByOrganizationId(OpenCDXIdentifier organizationId);
 }

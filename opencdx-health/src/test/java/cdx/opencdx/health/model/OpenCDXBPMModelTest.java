@@ -35,7 +35,6 @@ class OpenCDXBPMModelTest {
                 .setSystolic(80)
                 .setDiastolic(120)
                 .setUnit(BPMUnits.BARS)
-                .setMeasurementTakenUsingCuff("yes")
                 .setSittingPosition5Minutes(true)
                 .setUrinated30MinutesPrior(false)
                 .setTimeOfMeasurement(Timestamp.getDefaultInstance())
