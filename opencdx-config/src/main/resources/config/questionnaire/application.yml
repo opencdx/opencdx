@@ -5,5 +5,5 @@ spring:
 
 opencdx:
   client:
-    tinker:
+    tinkar:
       enabled: true
