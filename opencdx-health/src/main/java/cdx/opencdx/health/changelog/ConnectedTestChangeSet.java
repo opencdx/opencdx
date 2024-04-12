@@ -20,6 +20,7 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import java.util.List;
 
@@ -53,7 +54,9 @@ public class ConnectedTestChangeSet {
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of("nationalHealthId")));
         mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("nationalHealthId")));
         mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of(PATIENT_ID)));
-        mongockTemplate.getCollection("provider").createIndex(Indexes.ascending(List.of("npiNumber")));
+        mongockTemplate
+                .getCollection("provider")
+                .createIndex(Indexes.ascending(List.of("npiNumber")), new IndexOptions().unique(true));
     }
 
     /**
