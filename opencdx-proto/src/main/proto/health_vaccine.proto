@@ -1,0 +1,139 @@
+/*
+ * This section archives the outcomes of linked tests results originating from a specific patient.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health;
+
+import "health_medication.proto";
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+ * Contains information about a vaccine including administration date, FIPS code and location,
+ * health district, facility type, dose number, and vaccine.
+ */
+message Vaccine {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * The date when the user was vaccinated
+   */
+  optional google.protobuf.Timestamp administration_date = 4;
+  /*
+   * The 5-digit Federal Information Processing Standards (FIPS) code for the vaccination locality
+   */
+  string fips = 5;
+  /*
+   * The city or county where the user lives
+   */
+  cdx.opencdx.grpc.common.Address location = 6;
+  /*
+   * The health district assigned by the Virginia Department of Health
+   */
+  string health_district = 7;
+  /*
+   * The type of facility where the vaccine was administered (e.g., Hospital, Clinic, etc.)
+   */
+  string facility_type = 8;
+  /*
+   * The type of vaccine
+  */
+  cdx.opencdx.grpc.health.medication.Medication vaccine = 9;
+  /*
+   * The dose number of the vaccine
+   */
+  int32 dose_number = 10;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 11;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 12;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 13;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 14;
+}
+
+message GetVaccineByIdRequest {
+  /*
+   * The id of the vaccine to search for.
+   */
+  string id = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing vaccine by patient ID.
+ */
+message ListVaccinesRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the patient.
+   */
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.common.Pagination pagination = 3;
+}
+
+/*
+ * Response message for listing vaccines.
+ */
+message ListVaccinesResponse {
+  /*
+   * List of vaccines.
+   */
+  repeated Vaccine vaccine = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
+/*
+ * Service for tracking vaccine and administration.
+ */
+service VaccineService {
+  /*
+    * Tracks when vaccine is given to a patient.
+    */
+  rpc TrackVaccineAdministration(Vaccine) returns (Vaccine);
+  /*
+   * Retrieve vaccine information by ID.
+   */
+  rpc GetVaccineById(GetVaccineByIdRequest) returns (Vaccine);
+
+  /*
+   * Retrieve vaccine information by patient ID within a date range.
+   */
+  rpc ListVaccines(ListVaccinesRequest) returns (ListVaccinesResponse);
+}

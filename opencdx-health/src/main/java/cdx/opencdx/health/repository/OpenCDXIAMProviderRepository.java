@@ -34,4 +34,12 @@ public interface OpenCDXIAMProviderRepository extends OpenCDXRepository<OpenCDXI
      * @return Provider model if found.
      */
     Optional<OpenCDXIAMProviderModel> findByNpiNumber(String npi);
+
+    /**
+     * Check if a provider exists by the NPI number.
+     *
+     * @param npi NPI number to search for.
+     * @return True if the provider exists.
+     */
+    boolean existsByNpiNumber(String npi);
 }

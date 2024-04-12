@@ -94,7 +94,7 @@ class OpenCDXHeartRPMServiceImplTest {
                         return Optional.of(OpenCDXHeartRPMModel.builder()
                                 .id(argument)
                                 .patientId(argument)
-                                .measurementTakenOverInSeconds("yes")
+                                .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build());
                     }
@@ -197,7 +197,7 @@ class OpenCDXHeartRPMServiceImplTest {
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
-                                .measurementTakenOverInSeconds("yes")
+                                .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build()),
                         PageRequest.of(1, 10),

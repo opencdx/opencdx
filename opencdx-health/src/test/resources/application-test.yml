@@ -48,7 +48,8 @@ feign:
 opencdx:
   client:
     trustStore: ../certs/opencdx-clients.pem
-
+  connections:
+    default: cdx.opencdx.health.handler.OpenCDXLabConnectedDefault
 
 openFda:
   apiKey:

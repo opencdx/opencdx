@@ -189,7 +189,7 @@ spring:
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-connected-lab
-          uri: https://connected-lab:9090
+          uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.lab.connected.ConnectedLabService/**
           filters:
@@ -224,7 +224,12 @@ spring:
             - Path=/cdx.opencdx.grpc.health.BPMService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-
+        - id: grpc-bpm
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.HeartRPMService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:
