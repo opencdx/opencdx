@@ -215,17 +215,6 @@ class HealthTest {
                                                                 .build()))
                                                         .build())
                                                 .build())
-                                        .addAllVaccineAdministered(List.of(Vaccine.newBuilder()
-                                                .setAdministrationDate("2021/06/01")
-                                                .setFips("12345")
-                                                .setLocality("CA")
-                                                .setHealthDistrict("District")
-                                                .setFacilityType("Clinic")
-                                                .setManufacturer(
-                                                        OpenCDXIdentifier.get().toHexString())
-                                                .setDoseNumber(20)
-                                                .setVaccineType("COVID-19")
-                                                .build()))
                                         .addAllDependentId(List.of(
                                                 OpenCDXIdentifier.get().toHexString(),
                                                 OpenCDXIdentifier.get().toHexString()))
