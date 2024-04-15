@@ -8,6 +8,173 @@ import "opencdx_data.proto";
 
 
 /*
+ * Defines the required parameters for a template request.
+ */
+message TemplateRequest{
+  /*
+   * The unique identifier for the template.
+   */
+  string template_id = 1;
+}
+
+/*
+ * Indicates whether the operation was successful.
+ */
+message SuccessResponse{
+  /*
+   * Indication of success. If true, the operation was successful. If false, the operation failed.
+   */
+  bool success = 1;
+}
+
+
+/*
+ * Defines the request to list SMS templates.
+ */
+message SMSTemplateListRequest{
+  /*
+   * Pagination specifics like the page number and page size for the list request.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+/*
+ * Defines the request to list Email templates.
+ */
+message EmailTemplateListRequest{
+  /*
+   * Pagination specifics like the page number and page size for the list request.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+/*
+ * Defines the request to list Notification events.
+ */
+message NotificationEventListRequest{
+  /*
+   * Pagination specifics like the page number and page size for the list request.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+/*
+ * Contains the response data for a list of SMS templates.
+ */
+message SMSTemplateListResponse {
+  /*
+   * Pagination details of the whole list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * The actual list of SMS templates.
+   */
+  repeated cdx.opencdx.grpc.data.SMSTemplate templates = 2;
+}
+/*
+ * Contains the response data for a list of Email templates.
+ */
+message EmailTemplateListResponse {
+  /*
+   * Pagination details of the whole list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * The actual list of Email templates.
+   */
+  repeated cdx.opencdx.grpc.data.EmailTemplate templates = 2;
+}
+/*
+ * Contains the response data for a list of Notification events.
+ */
+message NotificationEventListResponse {
+  /*
+   * Pagination details of the whole list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * The actual list of Notification events.
+   */
+  repeated cdx.opencdx.grpc.data.NotificationEvent templates = 2;
+}
+
+/**
+ * The request to get Messages.
+ */
+message GetMessagesRequest {
+  /**
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+/**
+ * The response to get Messages.
+ */
+message GetMessagesResponse {
+  /**
+   * The Messages.
+   */
+  repeated cdx.opencdx.grpc.data.Message messages = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+/**
+ * The request to mark a Message as read.
+ */
+message MarkMessagesAsReadRequest {
+  /**
+   * The unique identifier for the Message.
+   */
+  repeated string id = 1;
+}
+/**
+ * The response to mark a Message as read.
+ */
+message MarkMessagesAsReadResponse {
+  /**
+   * The Message.
+   */
+  repeated cdx.opencdx.grpc.data.Message messages = 1;
+}
+
+/**
+ * The request to mark a Message as unread.
+ */
+message MarkMessagesAsUnreadRequest {
+  /**
+   * The unique identifier for the Message.
+   */
+  repeated string id = 1;
+}
+/**
+ * The response to mark a Message as unread.
+ */
+message MarkMessagesAsUnreadResponse {
+  /**
+   * The Message.
+   */
+  repeated cdx.opencdx.grpc.data.Message messages = 1;
+}
+
+/**
+ * The response to list MessageTemplates.
+ */
+message MessageTemplateListResponse {
+  /**
+   * The list of MessageTemplates.
+   */
+  repeated cdx.opencdx.grpc.data.MessageTemplate templates = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+/*
  * Service API Definition.
  * This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.
  * Each type of resource (Email, SMS, Notification Event) supports CRUD operations.
@@ -17,15 +184,15 @@ service CommunicationService {
   /*
    * Creates a new email template and returns the created template.
    */
-  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  rpc CreateEmailTemplate(cdx.opencdx.grpc.data.EmailTemplate) returns (cdx.opencdx.grpc.data.EmailTemplate);
   /*
    * Retrieves an existing email template using its ID and returns the corresponding template.
    */
-  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate);
+  rpc GetEmailTemplate(TemplateRequest) returns (cdx.opencdx.grpc.data.EmailTemplate);
   /*
    * Updates an existing email template and returns the updated template.
    */
-  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  rpc UpdateEmailTemplate(cdx.opencdx.grpc.data.EmailTemplate) returns (cdx.opencdx.grpc.data.EmailTemplate);
   /*
    * Deletes an existing email template using its ID and returns a success response if the operation was successful.
    */
@@ -33,15 +200,15 @@ service CommunicationService {
   /*
    * Creates a new SMS template and returns the created template.
    */
-  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  rpc CreateSMSTemplate(cdx.opencdx.grpc.data.SMSTemplate) returns (cdx.opencdx.grpc.data.SMSTemplate);
   /*
    * Retrieves an existing SMS template using its ID and returns the corresponding template.
    */
-  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate);
+  rpc GetSMSTemplate(TemplateRequest) returns (cdx.opencdx.grpc.data.SMSTemplate);
   /*
    * Updates an existing SMS template and returns the updated template.
    */
-  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  rpc UpdateSMSTemplate(cdx.opencdx.grpc.data.SMSTemplate) returns (cdx.opencdx.grpc.data.SMSTemplate);
   /*
    * Deletes an existing SMS template using its ID and returns a success response if the operation was successful.
    */
@@ -49,15 +216,15 @@ service CommunicationService {
   /*
    * Creates a new notification event and returns the created event.
    */
-  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  rpc CreateNotificationEvent(cdx.opencdx.grpc.data.NotificationEvent) returns (cdx.opencdx.grpc.data.NotificationEvent);
   /*
    * Retrieves an existing notification event using its ID and returns the corresponding event.
    */
-  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent);
+  rpc GetNotificationEvent(TemplateRequest) returns (cdx.opencdx.grpc.data.NotificationEvent);
   /*
    * Updates an existing notification event and returns the updated event.
    */
-  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  rpc UpdateNotificationEvent(cdx.opencdx.grpc.data.NotificationEvent) returns (cdx.opencdx.grpc.data.NotificationEvent);
   /*
    * Deletes an existing notification event using its ID and returns a success response if the operation was successful.
    */
@@ -66,7 +233,7 @@ service CommunicationService {
   /*
    * Sends a notification and returns a success response if the operation was successful.
    */
-  rpc SendNotification(Notification) returns (SuccessResponse);
+  rpc SendNotification(cdx.opencdx.grpc.data.Notification) returns (SuccessResponse);
   /*
    * Retrieves a list of SMS templates.
    */
@@ -83,15 +250,15 @@ service CommunicationService {
   /**
    * Create a MessageTemplate.
    */
-  rpc CreateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  rpc CreateMessageTemplate(cdx.opencdx.grpc.data.MessageTemplate) returns (cdx.opencdx.grpc.data.MessageTemplate);
   /**
    * Get a MessageTemplate.
    */
-  rpc GetMessageTemplate(TemplateRequest) returns (MessageTemplate);
+  rpc GetMessageTemplate(TemplateRequest) returns (cdx.opencdx.grpc.data.MessageTemplate);
   /**
    * Update a MessageTemplate.
    */
-  rpc UpdateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  rpc UpdateMessageTemplate(cdx.opencdx.grpc.data.MessageTemplate) returns (cdx.opencdx.grpc.data.MessageTemplate);
   /**
    * Delete a MessageTemplate.
    */
@@ -99,7 +266,7 @@ service CommunicationService {
   /**
    * List MessageTemplates.
    */
-  rpc ListMessageTemplates(cdx.opencdx.grpc.common.Pagination) returns (MessageTemplateListResponse);
+  rpc ListMessageTemplates(cdx.opencdx.grpc.data.Pagination) returns (MessageTemplateListResponse);
   /**
  * Get Messages.
  */

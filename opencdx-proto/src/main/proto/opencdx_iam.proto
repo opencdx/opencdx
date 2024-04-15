@@ -8,6 +8,441 @@ import "opencdx_data.proto";
 
 
 /*
+ * This message contains the details required for creating an organization. It encapsulates the organization to be created.
+ */
+message CreateOrganizationRequest {
+  /*
+   * The organization object with the details for the organization that will be created.
+   */
+  optional cdx.opencdx.grpc.data.Organization organization = 1;
+}
+
+/*
+ * This message contains the details of the organization that has been created. It encapsulates the organization created.
+ */
+message CreateOrganizationResponse {
+  /*
+   * The created organization object with the details of the new organization.
+   */
+  optional cdx.opencdx.grpc.data.Organization organization = 1;
+}
+
+/*
+ * This message contains the unique identifier of an organization. It is used to request the details of a specific organization.
+ */
+message GetOrganizationDetailsByIdRequest {
+  /*
+   * The unique identifier for the organization whose details are being requested.
+   */
+  optional string organization_id = 1;
+}
+
+/*
+ * This message contains the details of the organization retrieved. It encapsulates the organization details.
+ */
+message GetOrganizationDetailsByIdResponse {
+  /*
+   * The organization object with the retrieved details of the organization.
+   */
+  optional cdx.opencdx.grpc.data.Organization organization = 1;
+}
+
+/*
+ * This message contains the updated details of an organization for a request to update an organization.
+ */
+message UpdateOrganizationRequest {
+  /*
+   * The organization object with the updated details for the organization that will be updated.
+   */
+  optional cdx.opencdx.grpc.data.Organization organization = 1;
+}
+
+/*
+ * This message contains the updated details of the organization that has been updated.
+ */
+message UpdateOrganizationResponse {
+  /*
+   * The updated organization object with the revised details of the organization.
+   */
+  optional cdx.opencdx.grpc.data.Organization organization = 1;
+}
+
+/*
+ * This message contains the list of organizations. It is the response message for a request to list all organizations.
+ */
+message ListOrganizationsResponse {
+  /*
+   * An array of organization objects which include the details of all organizations.
+   */
+  repeated cdx.opencdx.grpc.data.Organization organizations = 1;
+}
+
+/*
+ * This message contains the details required for creating a workspace within an organization.
+ */
+message CreateWorkspaceRequest {
+  /*
+   * The workspace object with the details for the workspace that will be created.
+   */
+  optional cdx.opencdx.grpc.data.Workspace workspace = 1;
+}
+
+/*
+ * This message contains the details of the workspace that has been created within an organization.
+ */
+message CreateWorkspaceResponse {
+  /*
+   * The created workspace object including the details of the new workspace.
+   */
+  optional cdx.opencdx.grpc.data.Workspace workspace = 1;
+}
+
+/*
+ * This message contains the unique identifier for a workspace. It is used to request the details of a specific workspace.
+ */
+message GetWorkspaceDetailsByIdRequest {
+  /*
+   * The unique identifier for the workspace whose details are being requested.
+   */
+  optional string workspace_id = 1;
+}
+
+/*
+ * This message contains the details of the requested workspace.
+ */
+message GetWorkspaceDetailsByIdResponse {
+  /*
+   * The workspace object with the retrieved details of the workspace.
+   */
+  optional cdx.opencdx.grpc.data.Workspace workspace = 1;
+}
+
+/*
+ * This message contains the updated details of a workspace. It's used for a request to update a workspace.
+ */
+message UpdateWorkspaceRequest {
+  /*
+   * The workspace object with the updated details for the workspace that will be updated.
+   */
+  optional cdx.opencdx.grpc.data.Workspace workspace = 1;
+}
+
+/*
+ * This message contains the updated details of the workspace that has been updated.
+ */
+message UpdateWorkspaceResponse {
+  /*
+   * The updated workspace object with the revised details of the workspace.
+   */
+  optional cdx.opencdx.grpc.data.Workspace workspace = 1;
+}
+
+/*
+ * This message contains the list of all workspaces within an organization. It is the response message for a request to list all workspaces.
+ */
+message ListWorkspacesResponse {
+  /*
+   * An array of workspace objects which includes the details of all workspaces within an organization.
+   */
+  repeated cdx.opencdx.grpc.data.Workspace workspaces = 1;
+}
+
+
+/*
+ * Defines a request to log in with a username and password.
+ */
+message LoginRequest {
+  /*
+   * The username of the user.
+   */
+  string user_name = 1;
+  /*
+   * The password of the user.
+   */
+  string password = 2;
+}
+
+/*
+ * Defines a response that holds a JWT token for authorizing future requests.
+ */
+message LoginResponse {
+  /*
+   * The JWT token.
+   */
+  string token = 1;
+}
+
+/*
+ * Represents a request to get the current user. This message doesn't contain any fields.
+ */
+message CurrentUserRequest {
+}
+
+/*
+ * Defines a response that returns the current user's data.
+ */
+message CurrentUserResponse {
+  /*
+   * Information about the current user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Defines a request to create a new IAM user.
+ */
+message SignUpRequest {
+  /*
+   * The type of the user.
+   */
+  cdx.opencdx.grpc.data.IamUserType type = 1;
+  /*
+   * The user's first name.
+   */
+  string first_name = 2;
+  /*
+   * The user's last name.
+   */
+  string last_name = 3;
+  /*
+   * The system's name.
+   */
+  string system_name = 4;
+  /*
+   * The username of the new user.
+   */
+  string username = 5;
+  /*
+   * The password for the new user.
+   */
+  string password = 6;
+}
+
+/*
+ * Defines a response that contains the data of the created IAM user.
+ */
+message SignUpResponse {
+  /*
+   * Information about the new user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Represents a request to list IAM users with pagination and sorting.
+ */
+message ListIamUsersRequest {
+  /*
+   * Details for pagination and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+
+/*
+ * Defines a response that contains a list of IAM users.
+ */
+message ListIamUsersResponse {
+  /*
+   * Pagination results.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * List of fetched IAM users.
+   */
+  repeated cdx.opencdx.grpc.data.IamUser iam_users = 2;
+}
+
+/*
+ * Defines a request to fetch an IAM user by their user ID.
+ */
+message GetIamUserRequest {
+  /*
+   * ID of the user to fetch.
+   */
+  string id = 1;
+}
+
+/*
+ * Defines a response that contains the fetched IAM user's data.
+ */
+message GetIamUserResponse {
+  /*
+   * Information about the fetched user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Defines a request to update an IAM user's data.
+ */
+message UpdateIamUserRequest {
+  /*
+   * The user's updated data.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Defines a response that contains the data of the updated IAM user.
+ */
+message UpdateIamUserResponse {
+  /*
+   * Information about the updated user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Defines a request to change an IAM user's password.
+ */
+message ChangePasswordRequest {
+  /*
+   * The ID of the user to update.
+   */
+  string id = 1;
+  /*
+   * The user's current password.
+   */
+  string old_password = 2;
+  /*
+   * The user's new password.
+   */
+  string new_password = 3;
+  /*
+   * Confirmation of the new password.
+   */
+  string new_password_confirmation = 4;
+}
+
+/*
+ * Defines a response that contains the updated IAM user's data.
+ */
+message ChangePasswordResponse {
+  /*
+   * Information about the updated user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Defines a request to delete an IAM user by their ID.
+ */
+message DeleteIamUserRequest {
+  /*
+   * ID of the user to delete.
+   */
+  string id = 1;
+}
+
+/*
+ * Defines a response that contains the data of the deleted IAM user.
+ */
+message DeleteIamUserResponse {
+  /*
+   * Information about the deleted user.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+
+/*
+ * Represents a request to check if an IAM user exists by their ID.
+ */
+message UserExistsRequest {
+  /*
+   * The ID of the user to check.
+   */
+  string id = 1;
+}
+
+/*
+ * Defines a response that indicates whether the user exists.
+ */
+message UserExistsResponse {
+  /*
+   * The user's data if they exist.
+   */
+  cdx.opencdx.grpc.data.IamUser iam_user = 1;
+}
+/*
+ * This message serves as a placeholder for methods that do not require any input parameters.
+ * It's an empty message often used in RPC methods where no request data is to be sent.
+ */
+message Empty {}
+
+
+/*
+ * This message format represents a request for AnomalyDetectionData.
+ * It encapsulates the anomaly detection data details within AnomalyDetectionDataRequest.
+ */
+message AnomalyDetectionDataRequest {
+  /*
+   * A detailed request which encapsulates anomaly detection data
+   */
+  cdx.opencdx.grpc.data.AnomalyDetectionData anomaly_detection_data = 1;
+}
+
+/*
+ * This message format represents a request for AuthorizationControlData.
+ * It encapsulates the authorization control data details within AuthorizationControlDataRequest.
+ */
+message AuthorizationControlDataRequest {
+  /*
+   * A comprehensive request encapsulating authorization control data
+   */
+  cdx.opencdx.grpc.data.AuthorizationControlData authorization_control_data = 1;
+}
+
+/*
+ * This message format represents a request for PrivacyProtectionData.
+ * It encapsulates the privacy protection data details within PrivacyProtectionDataRequest.
+ */
+message PrivacyProtectionDataRequest {
+  /*
+   * A request encapsulating privacy protection data with in-depth fields
+   */
+  cdx.opencdx.grpc.data.PrivacyProtectionData privacy_protection_data = 1;
+}
+
+/*
+ * This message format represents a request for RealTimeMonitoringData.
+ * It encapsulates the real-time monitoring data details within RealTimeMonitoringDataRequest.
+ */
+message RealTimeMonitoringDataRequest {
+  /*
+   * An elaborate request encapsulating real-time monitoring data
+   */
+  cdx.opencdx.grpc.data.RealTimeMonitoringData real_time_monitoring_data = 1;
+}
+
+/*
+ * This message format represents a request for UserBehaviorAnalysisData.
+ * It encapsulates the user behavior analysis data details within UserBehaviorAnalysisDataRequest.
+ */
+message UserBehaviorAnalysisDataRequest {
+  /*
+   * An expanded request containing user behavior analysis data
+   */
+  cdx.opencdx.grpc.data.UserBehaviorAnalysisData user_behavior_analysis_data = 1;
+}
+
+/*
+ * This message format represents the response from the NeuralProtectorService.
+ * It includes an optional encounter_id and response message.
+ */
+message SecurityResponse {
+  /*
+   * Encounter ID associated with the data
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Response message from the NeuralProtectorService
+   */
+  optional string response = 2;
+}
+
+
+/*
  * The OrganizationService is a service that provides operations for
  * managing Organization entities. These operations include creating new
  * organizations, fetching organization details by ID, updating organization
