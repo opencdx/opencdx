@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Observed(name = "opencdx")
+@Slf4j
 public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireService {
 
     // Constants for error handling
@@ -64,6 +66,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private static final String QUESTION_TYPE_CHOICE = "choice";
     private static final String CODE_TINKAR = "tinkar";
+    private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -130,10 +133,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     QUESTIONNAIRE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXQuestionnaireModel", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 1, FAILED_TO_CONVERT, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
         return model.getProtobufMessage();
@@ -164,10 +166,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     QUESTIONNAIRE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXQuestionnaireModel", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
         return model.getProtobufMessage();
@@ -183,6 +184,33 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+        return model.getProtobufMessage();
+    }
+
+    @Override
+    public Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request) {
+        OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+
+        populateQuestionChoices(model);
+        model = this.openCDXQuestionnaireRepository.save(model);
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Update Questionnaire",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    QUESTIONNAIRE + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return model.getProtobufMessage();
     }
 
@@ -564,6 +592,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 for (Code code : question.getCodeList()) {
                     if (code.getSystem().equals(CODE_TINKAR)) {
                         question = QuestionnaireItem.newBuilder(question)
+                                .clearAnswerOption()
                                 .addAllAnswerOption(getAnswerOptions(code.getCode()))
                                 .build();
                     }
@@ -582,15 +611,19 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
-        TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
-                TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+        try {
+            TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
+                    TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
 
-        for (TinkarGetResult result : response.getResultsList()) {
-            Coding coding =
-                    Coding.newBuilder().setDisplay(result.getDescription()).build();
-            answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
-                    .setValueCoding(coding)
-                    .build());
+            for (TinkarGetResult result : response.getResultsList()) {
+                Coding coding =
+                        Coding.newBuilder().setDisplay(result.getDescription()).build();
+                answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                        .setValueCoding(coding)
+                        .build());
+            }
+        } catch (Exception e) {
+            log.error("Error retrieving from Tinkar", e);
         }
 
         return answerOptions;
