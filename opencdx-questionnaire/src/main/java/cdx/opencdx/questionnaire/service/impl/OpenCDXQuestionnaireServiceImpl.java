@@ -175,8 +175,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     /**
-     * Refresh the Questionnaire
-     * @param request id of the questionnaire to refresh
+     * Process the GetQuestionnaireRequest
+     * @param request id of Quest the process
      * @return Message generated for the data submission request.
      */
     @Override
@@ -188,8 +188,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     /**
-     * Process the GetQuestionnaireRequest
-     * @param request id of Quest the process
+     * Refresh the Questionnaire
+     * @param request id of the questionnaire to refresh
      * @return Message generated for this request.
      */
     @Override
