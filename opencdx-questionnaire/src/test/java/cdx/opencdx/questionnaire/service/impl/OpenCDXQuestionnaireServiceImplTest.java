@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -27,6 +28,9 @@ import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.tinkar.TinkarGetResult;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -34,6 +38,8 @@ import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -583,5 +589,31 @@ class OpenCDXQuestionnaireServiceImplTest {
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> questionnaireService.getUserQuestionnaireDataList(request));
+    }
+
+    @Test
+    void testRefreshQuestionnaire() {
+        String code = "123-abc";
+        String answer = "Answer 1";
+
+        OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(
+                        QuestionnaireItem.newBuilder().addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                                .setType("choice")
+                                .build())).build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString()).build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model));
+
+        Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
+                        Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(TinkarGetResponse.newBuilder().addResults(
+                        TinkarGetResult.newBuilder().setDescription(answer)).build());
+
+        Questionnaire response = this.questionnaireService.refreshQuestionnaire(request);
+
+        Assertions.assertEquals(answer, response.getItem(0).getAnswerOption(0).getValueCoding().getDisplay());
     }
 }

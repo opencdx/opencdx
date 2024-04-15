@@ -175,9 +175,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     /**
-     * Process the GetQuestionnaireRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Refresh the Questionnaire
+     * @param request id of the questionnaire to refresh
+     * @return Message generated for the data submission request.
      */
     @Override
     public Questionnaire getSubmittedQuestionnaire(GetQuestionnaireRequest request) {
@@ -187,6 +187,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         return model.getProtobufMessage();
     }
 
+    /**
+     * Process the GetQuestionnaireRequest
+     * @param request id of Quest the process
+     * @return Message generated for this request.
+     */
     @Override
     public Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
