@@ -16,9 +16,11 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.grpc.common.ContinentEnum;
 import cdx.opencdx.grpc.common.Country;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +44,14 @@ public class OpenCDXCountryModel {
     private OpenCDXIdentifier id;
 
     private String name;
+    private String iso2;
+    private String iso3;
+    private ContinentEnum continent;
+    private String fips;
+    private Integer isoNumeric;
+    private List<String> languageCodes;
+    private String phoneCode;
+    private String topLevelInternetDomain;
 
     private Instant created;
     private Instant modified;
@@ -58,6 +68,14 @@ public class OpenCDXCountryModel {
             this.id = new OpenCDXIdentifier(country.getId());
         }
         this.name = country.getName();
+        this.iso2 = country.getIso2();
+        this.iso3 = country.getIso3();
+        this.continent = country.getContinent();
+        this.fips = country.getFips();
+        this.isoNumeric = country.getIsoNumeric();
+        this.languageCodes = country.getLanguageCodesList();
+        this.phoneCode = country.getPhoneCode();
+        this.topLevelInternetDomain = country.getTopLevelInternetDomain();
 
         if (country.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -76,6 +94,39 @@ public class OpenCDXCountryModel {
     }
 
     /**
+     * Create country Object for db
+     *
+     * @param name Name of country
+     * @param digram iso2
+     * @param trigram iso3
+     * @param topLevelInternetDomain internet domain
+     * @param fips fips
+     * @param isoNumeric isoNumeric
+     * @param phoneCode phone Code
+     * @param continent continent
+     * @param languageCodes language Code
+     */
+    public OpenCDXCountryModel(
+            final String name,
+            final String digram,
+            final String trigram,
+            final String topLevelInternetDomain,
+            final String fips,
+            final Integer isoNumeric,
+            final String phoneCode,
+            final String continent,
+            final List<String> languageCodes) {
+        this.iso2 = digram;
+        this.iso3 = trigram;
+        this.continent = ContinentEnum.valueOf(continent);
+        this.name = name;
+        this.fips = fips;
+        this.isoNumeric = isoNumeric;
+        this.languageCodes = languageCodes;
+        this.phoneCode = phoneCode;
+        this.topLevelInternetDomain = topLevelInternetDomain;
+    }
+    /**
      * Method to get Protobuf Message
      * @return Country protobuf message
      */
@@ -87,6 +138,30 @@ public class OpenCDXCountryModel {
         }
         if (this.name != null) {
             builder.setName(this.name);
+        }
+        if (this.iso2 != null) {
+            builder.setIso2(this.iso2);
+        }
+        if (this.iso3 != null) {
+            builder.setIso3(this.iso3);
+        }
+        if (this.continent != null) {
+            builder.setContinent(this.continent);
+        }
+        if (this.fips != null) {
+            builder.setFips(this.fips);
+        }
+        if (this.isoNumeric != null) {
+            builder.setIsoNumeric(this.isoNumeric);
+        }
+        if (this.languageCodes != null) {
+            builder.addAllLanguageCodes(this.languageCodes);
+        }
+        if (this.phoneCode != null) {
+            builder.setPhoneCode(this.phoneCode);
+        }
+        if (this.topLevelInternetDomain != null) {
+            builder.setTopLevelInternetDomain(this.topLevelInternetDomain);
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
