@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -27,6 +29,9 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.tinkar.TinkarGetResult;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -39,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -48,6 +54,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Observed(name = "opencdx")
+@Slf4j
 public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireService {
 
     // Constants for error handling
@@ -59,6 +66,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private static final String QUESTION_TYPE_CHOICE = "choice";
     private static final String CODE_TINKAR = "tinkar";
+    private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -66,6 +74,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXTinkarClient openCDXTinkarClient;
 
     /**
      * This class represents the implementation of the OpenCDXQuestionnaireService interface.
@@ -78,6 +87,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
      * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
      * @param openCDXProfileRepository the OpenCDXProfileRepository instance used for interacting with the profile data.
+     * @param openCDXTinkarClient service for querying Tinkar
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(
@@ -87,7 +97,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
             OpenCDXClassificationMessageService openCDXClassificationMessageService,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXTinkarClient openCDXTinkarClient) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -95,6 +106,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXTinkarClient = openCDXTinkarClient;
     }
 
     // Submiited Questionnaire
@@ -121,10 +133,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     QUESTIONNAIRE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXQuestionnaireModel", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 1, FAILED_TO_CONVERT, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
         return model.getProtobufMessage();
@@ -155,10 +166,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     QUESTIONNAIRE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXQuestionnaireModel", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
         return model.getProtobufMessage();
@@ -174,6 +184,38 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+        return model.getProtobufMessage();
+    }
+
+    /**
+     * Refresh the Questionnaire
+     * @param request id of the questionnaire to refresh
+     * @return Updated questionnaire for this request
+     */
+    @Override
+    public Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request) {
+        OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+
+        populateQuestionChoices(model);
+        model = this.openCDXQuestionnaireRepository.save(model);
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Update Questionnaire",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    QUESTIONNAIRE + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return model.getProtobufMessage();
     }
 
@@ -548,38 +590,50 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     private void populateQuestionChoices(OpenCDXQuestionnaireModel model) {
-        List<QuestionnaireItem> questions = new ArrayList<>();
+        if (model.getItems() != null) {
+            List<QuestionnaireItem> questions = new ArrayList<>();
 
-        for (QuestionnaireItem question : model.getItems()) {
-            if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
-                for (Code code : question.getCodeList()) {
-                    if (code.getSystem().equals(CODE_TINKAR)) {
+            for (QuestionnaireItem question : model.getItems()) {
+                if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
+                    Optional<Code> tinkarCode = question.getCodeList().stream()
+                            .filter(code -> code.getSystem().equals(CODE_TINKAR))
+                            .findFirst();
+                    if (tinkarCode.isPresent()) {
                         question = QuestionnaireItem.newBuilder(question)
-                                .addAllAnswerOption(getAnswerOptions(code.getCode()))
+                                .clearAnswerOption()
+                                .addAllAnswerOption(
+                                        getAnswerOptions(tinkarCode.get().getCode()))
                                 .build();
                     }
                 }
+                questions.add(question);
             }
-            questions.add(question);
-        }
 
-        model.setItems(questions);
+            model.setItems(questions);
+        }
     }
 
     @SuppressWarnings("java:S1172")
     private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 
-        // TODO: Make call to get answer options
-        Coding coding = Coding.newBuilder().setDisplay("Answer 1").build();
-        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
-                .setValueCoding(coding)
-                .build());
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
-        coding = Coding.newBuilder().setDisplay("Answer 2").build();
-        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
-                .setValueCoding(coding)
-                .build());
+        try {
+            TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
+                    TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+
+            for (TinkarGetResult result : response.getResultsList()) {
+                Coding coding =
+                        Coding.newBuilder().setDisplay(result.getDescription()).build();
+                answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                        .setValueCoding(coding)
+                        .build());
+            }
+        } catch (Exception e) {
+            log.error("Error retrieving from Tinkar", e);
+        }
 
         return answerOptions;
     }

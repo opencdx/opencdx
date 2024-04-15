@@ -16,7 +16,7 @@ spring:
   application:
     name: questionnaire
   profiles:
-    active: managed,mongo,nats,questionnaire
+    active: managed,mongo,nats,client,questionnaire
 
 logging:
   level:

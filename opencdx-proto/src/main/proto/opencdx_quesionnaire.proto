@@ -171,6 +171,12 @@ service QuestionnaireService {
    */
   rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (cdx.opencdx.grpc.data.Questionnaires);
 
+
+  /*
+   * Refreshes a questionnaire
+   */
+  rpc RefreshQuestionnaire(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.Questionnaire);
+
   /*
    * Fetches the entire list of submitted questionnaire data.
    */

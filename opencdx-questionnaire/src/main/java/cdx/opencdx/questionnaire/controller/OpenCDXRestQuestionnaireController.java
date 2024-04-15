@@ -90,6 +90,18 @@ public class OpenCDXRestQuestionnaireController {
     }
 
     /**
+     * Refresh Questionnaire Rest API
+     * @param questionnaireId GetQuestionnaireRequest indicating the questionnaire to be updated
+     * @return Questionnaire with the message.
+     */
+    @GetMapping(value = "/questionnaire/refresh/{Id}")
+    public ResponseEntity<Questionnaire> refreshQuestionnaire(@PathVariable(value = "Id") String questionnaireId) {
+        Questionnaire questionnaire = openCDXQuestionnaireService.refreshQuestionnaire(
+                GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build());
+        return new ResponseEntity<>(questionnaire, HttpStatus.OK);
+    }
+
+    /**
      * Delete Questionnaire Rest API
      * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
