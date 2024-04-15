@@ -1,0 +1,50 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Medoa.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.media;
+import "opencdx_data.proto";
+
+    /*
+     * Provides an interface for the Media Service.
+    * This service offers functionalities for managing media such as creating, listing,
+    * retrieving, updating and deleting media.
+    */
+service MediaService {
+  /*
+   * CreateMedia method creates a new media object based on the client request.
+   */
+  rpc CreateMedia(CreateMediaRequest) returns (CreateMediaResponse);
+
+  /*
+   * ListMedia method returns a list of media objects from the media records.
+   */
+  rpc ListMedia(ListMediaRequest) returns (ListMediaResponse);
+
+  /*
+   * GetMedia method returns a specific media object from the media record using its ID.
+   */
+  rpc GetMedia(GetMediaRequest) returns (GetMediaResponse);
+
+  /*
+   * UpdateMedia method updates existing media data using the provided new data.
+   */
+  rpc UpdateMedia(UpdateMediaRequest) returns (UpdateMediaResponse);
+
+  /*
+   * DeleteMedia method deletes a media object from the media record using its ID.
+   */
+  rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaResponse);
+}
+
+
+/*
+ * MediaPreprocessorService is the interface defining the service that preprocesses media.
+ */
+service MediaPreprocessorService {
+  /*
+   * PreprocessMedia is a method that takes a PreprocessMediaRequest message and returns a PreprocessMediaResponse message.
+   */
+  rpc PreprocessMedia(PreprocessMediaRequest) returns (PreprocessMediaResponse);
+}

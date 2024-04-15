@@ -1,0 +1,10 @@
+/*
+ * A comprehensive care management system that monitors a user's medications, clinical tests, and other standard health practices.
+ */
+syntax = "proto3";
+package cdx.opencdx.grpc.routine;
+option java_multiple_files = true;
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+

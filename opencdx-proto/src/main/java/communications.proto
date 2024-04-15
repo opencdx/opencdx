@@ -1,0 +1,11 @@
+/*
+ * Outlines the communication protocol for OpenCDX via Email and SMS, facilitating interactions with users and other entities.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.communication;
+import "audit.proto";
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+

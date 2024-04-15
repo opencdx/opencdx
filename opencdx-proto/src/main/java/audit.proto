@@ -1,0 +1,9 @@
+/*
+ * The Audit protobuf encapsulates the process of recording and monitoring events that are necessitated for audit purposes.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.audit;
+import "google/protobuf/timestamp.proto";
+
+

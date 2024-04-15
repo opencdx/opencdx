@@ -1,0 +1,18 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Audit.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.audit;
+import "opencdx_data.proto";
+
+/*
+ * This service engages in communication with the Audit Service
+ * to record AuditEvent entities that are essential for retaining certain information.
+ */
+service AuditService {
+  /*
+   * This operation enables the registration of an AuditEvent.
+   */
+  rpc Event(cdx.opencdx.grpc.data.AuditEvent) returns (cdx.opencdx.grpc.data.AuditStatus);
+}

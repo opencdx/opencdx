@@ -1,0 +1,107 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Questionnaire.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.questionnaire;
+import "opencdx_data.proto";
+
+
+
+/*
+ * Defines a service for the storing of Questionnaires and their associated data.
+ * which may include but not limited to answers to the questions, rules, and other metadata.
+ * User data is preserved with ANF statements to allow simplified evaluation of the user's responses.
+ */
+service QuestionnaireService {
+
+  /*
+   * Handling operations for Questionnaires
+   */
+  rpc CreateQuestionnaire(QuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Submits a questionnaire request and responds with the status of submission.
+   */
+  rpc UpdateQuestionnaire(QuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Dispatches a request to update a questionnaire.
+   */
+  rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Fetches the submitted questionnaire data by its unique Id.
+   */
+  rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (Questionnaires);
+
+  /*
+   * Fetches the entire list of submitted questionnaire data.
+   */
+  rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for QuestionnaireData
+   */
+  rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for system-level display.
+   */
+  rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the system level.
+   */
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData);
+
+  /*
+   * Fetches system-level questionnaire data by its unique Id.
+   */
+  rpc GetQuestionnaireDataList(GetQuestionnaireListRequest) returns (SystemQuestionnaireData);
+
+  /*
+   * Fetches the list of all system-level questionnaire data.
+   */
+  rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for ClientQuestionnaireData
+   */
+  rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for client-level display.
+   */
+  rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the client level.
+   */
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData);
+
+  /*
+   * Fetches client-level questionnaire data by its unique Id.
+   */
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireListRequest) returns (ClientQuestionnaireData);
+
+  /*
+   * Fetches the list of all client-level questionnaire data.
+   */
+  rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for UserQuestionnaireData
+   */
+  rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the user level.
+   */
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData);
+
+  /*
+   * Fetches user-level questionnaire data by its unique Id.
+   */
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireDataResponse);
+}

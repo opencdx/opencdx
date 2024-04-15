@@ -1,0 +1,11 @@
+/*
+ * A system designed to facilitate the granting of permissions to both systems and
+ * individuals for accessing medical records.
+ */
+syntax = "proto3";
+package cdx.opencdx.grpc.neural.protector;
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+

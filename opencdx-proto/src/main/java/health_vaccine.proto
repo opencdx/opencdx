@@ -1,0 +1,10 @@
+/*
+ * This section archives the outcomes of linked tests results originating from a specific patient.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health;
+
+import "health_medication.proto";
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";

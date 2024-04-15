@@ -1,0 +1,13 @@
+/*
+ * This Protocol Buffers (protobuf) definition is primarily focused on the management of medication.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health.medication;
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+
+
+
+

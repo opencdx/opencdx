@@ -1,0 +1,220 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Logistics.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.logistics;
+import "opencdx_data.proto";
+
+/*
+ * CountryService is a gRPC service for managing Countries.
+ * It offers CRUD operations like retrieving a specific country by its ID,
+ * adding a new country, updating an existing country, deleting a country and
+ * retrieving the list of all available countries.
+ */
+service CountryService {
+  /*
+   * Get a specific country by its ID.
+   */
+  rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Add a new country.
+   */
+  rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Update an existing country.
+   */
+  rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Delete a specific country.
+   */
+  rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available countries.
+   */
+  rpc listCountries(CountryListRequest) returns (CountryListResponse);
+}
+
+/*
+ * ManufacturerService is a gRPC service for managing manufacturers.
+ * It offers CRUD operations like retrieving a specific manufacturer by its ID,
+ * adding a new manufacturer, updating an existing manufacturer,
+ * deleting a manufacturer and retrieving the list of all available manufacturers.
+ */
+service ManufacturerService {
+  /*
+   * Get a specific manufacturer by its ID.
+   */
+  rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer);
+
+  /*
+   * Add a new manufacturer.
+   */
+  rpc add_manufacturer(Manufacturer) returns (Manufacturer);
+
+  /*
+   * Update an existing manufacturer.
+   */
+  rpc update_manufacturer(Manufacturer) returns (Manufacturer);
+
+  /*
+   * Delete a specific manufacturer.
+   */
+  rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available manufacturers.
+   */
+  rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse);
+}
+
+/*
+ * VendorService is a gRPC service for managing vendors.
+ * It offers CRUD operations like retrieving a specific vendor by its ID, adding a new vendor,
+ * updating an existing vendor, deleting a vendor and retrieving the list of all available vendors.
+ */
+service VendorService {
+  /*
+   * Get a specific vendor by its ID.
+   */
+  rpc get_vendor_by_id(VendorIdRequest) returns (Vendor);
+
+  /*
+   * Add a new vendor.
+   */
+  rpc add_vendor(Vendor) returns (Vendor);
+
+  /*
+   * Update an existing vendor.
+   */
+  rpc update_vendor(Vendor) returns (Vendor);
+
+  /*
+   * Delete a specific vendor.
+   */
+  rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available vendors.
+   */
+  rpc listVendors(VendorsListRequest) returns (VendorsListResponse);
+}
+
+/*
+ * DeviceService is a gRPC service for managing devices.
+ * It offers CRUD operations like retrieving a specific device by its ID,
+ * adding a new device, updating an existing device and deleting a device.
+ */
+service DeviceService {
+  /*
+   * Get a specific device by its ID.
+   */
+  rpc get_device_by_id(DeviceIdRequest) returns (Device);
+
+  /*
+   * Add a new device.
+   */
+  rpc add_device(Device) returns (Device);
+
+  /*
+   * Update an existing device.
+   */
+  rpc update_device(Device) returns (Device);
+
+  /*
+   * Delete a specific device.
+   */
+  rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
+
+  /*
+  * Retrieves a list of devices.
+  */
+  rpc list_devices(DeviceListRequest) returns (DeviceListResponse);
+}
+
+/*
+ * TestCaseService is a gRPC service for managing test cases.
+ * It offers CRUD operations like retrieving a specific test case by its ID,
+ * adding a new test case, updating an existing test case and deleting a test case.
+ */
+service TestCaseService {
+  /*
+   * Get a specific test case by its ID.
+   */
+  rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase);
+
+  /*
+   * Add a new test case.
+   */
+  rpc add_test_case(TestCase) returns (TestCase);
+
+  /*
+   * Update an existing test case.
+   */
+  rpc update_test_case(TestCase) returns (TestCase);
+
+  /*
+   * Delete a specific test case.
+   */
+  rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
+
+  /*
+   * Retrieves a list of test case.
+   */
+  rpc list_test_case(TestCaseListRequest) returns (TestCaseListResponse);
+}
+
+/**
+ * The OrderService service is responsible for managing the orders placed by or for patients.
+ */
+service OrderService {
+  /**
+   * Create a new order.
+   */
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
+  /**
+   * Retrieve an existing order.
+   */
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
+  /**
+   * Update an existing order.
+   */
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse) {}
+  /**
+   * Cancel an existing order.
+   */
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse) {}
+  /**
+   * Retrieve a list of orders.
+   */
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse) {}
+}
+
+
+
+/**
+ * The ShippingService service definition.
+ */
+service ShippingService {
+  /**
+   * The GetShippingVendors method is used to get the shipping vendors.
+   */
+  rpc GetShippingVendors(ShippingRequest) returns (ShippingVendorResponse);
+  /**
+   * The ShipPackage method is used to ship a package.
+   */
+  rpc ShipPackage(Shipping) returns (ShippingResponse);
+  /*
+   * RPC service for creating a new entity to track medication delivery.
+   */
+  rpc CreateDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+  /*
+   * RPC service for retrieving information about a specific medication delivery tracking entity.
+   */
+  rpc GetDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+
+}

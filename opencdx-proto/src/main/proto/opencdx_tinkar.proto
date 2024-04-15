@@ -1,0 +1,30 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Tinkar.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.tinkar;
+import "opencdx_data.proto";
+
+
+/*
+ * TinkarQueryService: Provides a gRPC endpoints for the querying the Tinkar DB
+ */
+service TinkarQueryService {
+  /*
+   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   */
+  rpc searchTinkar(TinkarSearchQueryRequest) returns (TinkarSearchQueryResponse) {}
+  /*
+   * `getTinkarEntity` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResult`.
+   */
+  rpc getTinkarEntity(TinkarGetRequest) returns (TinkarGetResult) {}
+  /*
+   * `getTinkarChildConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   */
+  rpc getTinkarChildConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
+  /*
+   * `getTinkarDescendantConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   */
+  rpc getTinkarDescendantConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
+}

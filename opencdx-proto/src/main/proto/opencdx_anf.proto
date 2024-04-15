@@ -1,0 +1,34 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx ANF.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.anf;
+import "opencdx_data.proto";
+
+
+/*
+ * Service interface for operations related to ANF Statement instances.
+ * It provides create, retrieve, update, and delete (CRUD) operations for instances of ANFStatement.
+ */
+service ANFService {
+  /*
+   * Creates a new ANF Statement instance and returns its identifier.
+   */
+  rpc CreateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.Identifier);
+
+  /*
+   * Retrieves an existing ANF Statement using its identifier.
+   */
+  rpc GetANFStatement (cdx.opencdx.grpc.data.Identifier) returns (cdx.opencdx.grpc.data.ANFStatement);
+
+  /*
+   * Updates an existing ANF Statement instance and returns its identifier.
+   */
+  rpc UpdateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.Identifier);
+
+  /*
+   * Deletes an ANF Statement instance using its identifier and >returns the identifier of the deleted item.
+   */
+  rpc DeleteANFStatement (cdx.opencdx.grpc.data.Identifier) returns (cdx.opencdx.grpc.data.Identifier);
+}

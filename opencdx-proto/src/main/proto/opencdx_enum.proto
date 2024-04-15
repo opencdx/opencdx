@@ -1,0 +1,1411 @@
+/*
+ * This proto file contains the enums used throughout the OpenCDx Project.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.enum;
+import "google/protobuf/timestamp.proto";
+
+
+/*
+ * ENUMS for OpenCDx
+ */
+
+/*
+ * Enum representing the various states a Questionnaire can be in.
+ */
+enum QuestionnaireStatus {
+  /*
+   * The questionnaire is still being drafted.
+   */
+  draft = 0;
+
+  /*
+   * The questionnaire is currently in use.
+   */
+  active = 1;
+
+  /*
+   * The questionnaire is retired and no longer in use.
+   */
+  retired = 2;
+
+  /*
+   * The status of the questionnaire is not known.
+   */
+  unknown = 3;
+}
+
+
+/*
+ * MediaPreprocessorCommands is an enumeration that represents the list of commands used by the MediaPreprocessorService.
+ */
+enum MediaPreprocessorCommands {
+  /*
+   * MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED is used when the specific command is not specified or is unknown.
+   */
+  MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS is used when the command to preprocess media is triggered.
+   */
+  MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS = 1;
+}
+
+/*
+ * MediaPreprocessorStatus is an enumeration defining the statuses of media preprocessor.
+ */
+enum MediaPreprocessorStatus {
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED is used when the status of the media preprocessor is not specified or unknown.
+   */
+  MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_PREPROCESSING is used when media is in the process of being preprocessed.
+   */
+  MEDIA_PREPROCESSOR_STATUS_PREPROCESSING = 1;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_ACTIVE indicates that the preprocessor is actively working.
+   */
+  MEDIA_PREPROCESSOR_STATUS_ACTIVE = 2;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_ERROR is used when an error has occurred in the preprocessing task.
+   */
+  MEDIA_PREPROCESSOR_STATUS_ERROR = 3;
+}
+
+/*
+ * MediaPreprocessorEvents is an enumeration representing the possible events during media preprocessing.
+ */
+enum MediaPreprocessorEvents {
+  /*
+   * MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED is used when the specific event is not specified or unknown.
+   */
+  MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED is used when the media has been successfully preprocessed.
+   */
+  MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED = 1;
+}
+
+
+/*
+* Defines the types of media.
+* This type may be used in different media services' methods.
+*/
+enum MediaType {
+  MEDIA_TYPE_UNSPECIFIED = 0; /*
+                               * Unspecified or not yet determined media type.
+                               */
+
+  MEDIA_TYPE_IMAGE = 1; /*
+                         * Indicates that the media is an image type.
+                         */
+
+  MEDIA_TYPE_VIDEO = 2; /*
+                         * Indicates that the media is a video type.
+                         */
+
+  MEDIA_TYPE_ARCHIVE = 3; /*
+                           * Indicates that the media is archived.
+                           */
+
+  MEDIA_TYPE_INTEGRATION = 4; /*
+                               * Indicates that the media is a type of integration.
+                               */
+
+  MEDIA_TYPE_BYTE_ARRAY = 5; /*
+                              * Indicates that the media a byte array or data stream.
+                              */
+}
+
+/*
+ * Defines possible states that media can have.
+ */
+enum MediaStatus {
+  MEDIA_STATUS_UNSPECIFIED = 0; /*
+                                 * Media status is unspecified or not yet determined.
+                                 */
+
+  MEDIA_STATUS_UPLOADING = 1; /*
+                               * Media is in the process of uploading.
+                               */
+
+  MEDIA_STATUS_ACTIVE = 2; /*
+                           * Media is currently active and available.
+                           */
+
+  MEDIA_STATUS_DELETED = 3; /*
+                             * Media has been deleted from the records.
+                             */
+
+  MEDIA_STATUS_ERROR = 4; /*
+                           * An error occurred with the media.
+                           */
+}
+
+
+/*
+ * Enum defining possible user types in IAM.
+ */
+enum IamUserType {
+  /*
+   * Default or unspecified IAM user type.
+   */
+  IAM_USER_TYPE_UNSPECIFIED = 0;
+  /*
+   * Regular IAM user type.
+   */
+  IAM_USER_TYPE_REGULAR = 1;
+  /*
+   * System IAM user type.
+   */
+  IAM_USER_TYPE_SYSTEM = 2;
+  /*
+   * Trial IAM user type.
+   */
+  IAM_USER_TYPE_TRIAL = 3;
+}
+
+/*
+ * Enum defining possible statuses of IAM users.
+ */
+enum IamUserStatus {
+  /*
+   * Default or unspecified IAM user status.
+   */
+  IAM_USER_STATUS_UNSPECIFIED = 0;
+  /*
+   * Active IAM user status.
+   */
+  IAM_USER_STATUS_ACTIVE = 1;
+  /*
+   * Inactive IAM user status.
+   */
+  IAM_USER_STATUS_INACTIVE = 2;
+  /*
+   * Deleted IAM user status.
+   */
+  IAM_USER_STATUS_DELETED = 3;
+}
+
+
+/*
+ * BPM units
+ */
+enum BPMUnits {
+  MILLIMETERS_OF_MERCURY = 0;
+  KILOPASCALS = 1;
+  CENTIMETERS_OF_MERCURY = 2;
+  ATMOSPHERES = 3;
+  POUNDS_PER_SQUARE_INCH = 4;
+  BARS = 5;
+}
+
+// Enum for cuff size options
+enum CuffSize {
+  CUFF_SIZE_UNSPECIFIED = 0;
+  SMALL = 1;
+  MEDIUM = 2;
+  LARGE = 3;
+}
+
+// Enum for arm used options
+enum ArmUsed {
+  ARM_USED_UNSPECIFIED = 0;
+  LEFT_ARM = 1;
+  RIGHT_ARM = 2;
+}
+
+/*
+ * Defines the units of measure.
+ */
+enum HeightUnits {
+  /*
+   * Unspecified Units for Height
+   */
+  HEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
+   * Height in centimeters
+   */
+  CM = 1;
+  /*
+   * Height in inches
+   */
+  INCHES = 2;
+}
+
+/*
+ * Defines the units of measure.
+ */
+enum WeightUnits {
+  /*
+   * Unspecified Weight Units
+   */
+  WEIGHT_UNITS_UNSPECIFIED = 0;
+  /*
+   * Weight in kilograms.
+   */
+  KGS = 1;
+  /*
+   * Weight in pounds.
+   */
+  LBS = 2;
+}
+
+
+/*
+ * Indicates how a medication is to be administered to a patient.
+ */
+enum MedicationAdministrationRoute {
+  /*
+   * Unspecified medication type.
+   */
+  UNSPECIFIED_MEDICATION_TYPE = 0;
+  /*
+   * Medication administered orally, usually in the form of pills or liquid.
+   */
+  ORAL = 1;
+  /*
+   * Medication administered directly into a vein.
+   */
+  INTRAVENOUS = 2;
+  /*
+   * Medication administered into a muscle.
+   */
+  INTRAMUSCULAR = 3;
+  /*
+   * Medication administered into the fatty tissue beneath the skin.
+   */
+  SUBCUTANEOUS = 4;
+  /*
+   * Medication applied onto the skin surface.
+   */
+  TOPICAL = 5;
+  /*
+   * Medication administered via the rectum.
+   */
+  RECTAL = 6;
+  /*
+   * Medication inhaled into the lungs.
+   */
+  INHALATION = 7;
+  /*
+   * Medication administered through the skin.
+   */
+  TRANSDERMAL = 8;
+  /*
+   * Medication administered through the nose.
+   */
+  NASAL = 9;
+  /*
+   * Medication administered into the eye.
+   */
+  OPHTHALMIC = 10;
+  /*
+   * Medication administered into the ear.
+   */
+  OTIC = 11;
+  /*
+   * Medication administered between the cheek and gum.
+   */
+  BUCCAL = 12;
+  /*
+   * Medication administered under the tongue.
+   */
+  SUBLINGUAL = 13;
+  /*
+   * Medication administered into the skin.
+   */
+  INTRADERMAL = 14;
+  /*
+   * Medication administered into a joint.
+   */
+  INTRAARTICULAR = 15;
+  /*
+   * Medication administered directly into a lesion or injury.
+   */
+  INTRALESIONAL = 16;
+  /*
+   * Medication administered directly into the heart.
+   */
+  INTRACARDIAC = 17;
+  /*
+   * Medication administered into the eye.
+   */
+  INTRAOCULAR = 18;
+  /*
+   * Medication administered into the spinal canal.
+   */
+  INTRATHECAL = 19;
+  /*
+   * Medication administered into the bladder.
+   */
+  INTRAVESICAL = 20;
+  /*
+   * Medication administered using iontophoresis technique.
+   */
+  IONTOPHORESIS = 21;
+  /*
+   * Medication administered into the eye.
+   */
+  INTRAVITREAL = 22;
+  /*
+   * Other routes of medication administration not listed here.
+   */
+  OTHER_ROUTE = 23;
+}
+
+
+/*
+  * Indicates how often a medication is to be taken.
+ */
+enum MedicationFrequency {
+  /*
+   * Unspecified frequency.
+   */
+  UNSPECIFIED_FREQUENCY = 0;
+  /*
+   * Once a day.
+   */
+  ONCE_DAILY = 1;
+  /*
+   * Twice a day.
+   */
+  TWICE_DAILY = 2;
+  /*
+   * Three times a day.
+   */
+  THREE_TIMES_DAILY = 3;
+  /*
+   * Four times a day.
+   */
+  FOUR_TIMES_DAILY = 4;
+  /*
+   * Every 6 hours.
+   */
+  EVERY_SIX_HOURS = 5;
+  /*
+   * Every 8 hours.
+   */
+  EVERY_EIGHT_HOURS = 6;
+  /*
+   * Every 12 hours.
+   */
+  EVERY_TWELVE_HOURS = 7;
+  /*
+   * Every other day.
+   */
+  EVERY_OTHER_DAY = 8;
+  /*
+   * Once a week.
+   */
+  ONCE_WEEKLY = 9;
+  /*
+   * Every two weeks.
+   */
+  EVERY_TWO_WEEKS = 10;
+  /*
+   * As needed.
+   */
+  AS_NEEDED = 11;
+  /*
+   * PRN (pro re nata) - as needed.
+   */
+  PRN = 12;
+  /*
+   * Continuous infusion.
+   */
+  CONTINUOUS_INFUSION = 13;
+  /*
+   * Once a month.
+   */
+  ONCE_MONTHLY = 14;
+  /*
+   * Once every 3 months.
+   */
+  ONCE_EVERY_THREE_MONTHS = 15;
+  /*
+   * Once every 6 months.
+   */
+  ONCE_EVERY_SIX_MONTHS = 16;
+  /*
+   * Once a year.
+   */
+  ONCE_YEARLY = 17;
+  /*
+   * Other frequency not listed here.
+   */
+  OTHER_FREQUENCY = 18;
+}
+
+/*
+ * Enumerates different dosage forms of medication.
+ */
+enum DosageForm {
+  /*
+   * Unspecified dosage form.
+   */
+  DOSAGE_FORM_UNSPECIFIED = 0;
+  /*
+   * Tablet dosage form.
+   */
+  TABLET = 1;
+  /*
+   * Capsule dosage form.
+   */
+  CAPSULE = 2;
+  /*
+   * Liquid dosage form.
+   */
+  LIQUID = 3;
+  /*
+   * Injection dosage form.
+   */
+  INJECTION = 4;
+  /*
+   * Cream dosage form.
+   */
+  CREAM = 5;
+  /*
+   * Ointment dosage form.
+   */
+  OINTMENT = 6;
+  /*
+   * Inhaler dosage form.
+   */
+  INHALER = 7;
+  /*
+   * Patch dosage form.
+   */
+  PATCH = 8;
+  /*
+   * Drops dosage form.
+   */
+  DROPS = 9;
+  /*
+   * Spray dosage form.
+   */
+  SPRAY = 10;
+  /*
+   * Suppository dosage form.
+   */
+  SUPPOSITORY = 11;
+  /*
+   * Powder dosage form.
+   */
+  POWDER = 12;
+  /*
+   * Solution dosage form.
+   */
+  SOLUTION = 13;
+  /*
+   * Gel dosage form.
+   */
+  GEL = 14;
+  /*
+   * Lozenge dosage form.
+   */
+  LOZENGE = 15;
+  /*
+   * Suspension dosage form.
+   */
+  SUSPENSION = 16;
+  /*
+   * Chewable tablet dosage form.
+   */
+  CHEWABLE_TABLET = 17;
+  /*
+   * Sublingual tablet dosage form.
+   */
+  SUBLINGUAL_TABLET = 18;
+  /*
+   * Effervescent tablet dosage form.
+   */
+  EFFERVESCENT_TABLET = 19;
+  /*
+   * Other dosage forms not listed here.
+   */
+  OTHER_DOSAGE_FORM = 20;
+}
+
+
+/*
+ * Enum for defining the format types of various tests.
+ */
+enum TestFormat {
+  /*
+   * Represents an unspecified test format.
+   */
+  TEST_FORMAT_UNSPECIFIED = 0;
+  /*
+   * Represents a blood test format.
+   */
+  TEST_FORMAT_BLOOD = 1;
+  /*
+   * Represents a urine test format.
+   */
+  TEST_FORMAT_URINE = 2;
+  /*
+   * Represents a saliva test format.
+   */
+  TEST_FORMAT_SALIVA = 3;
+  /*
+   * Represents a COVID-19 test format.
+   */
+  TEST_FORMAT_COVID_19 = 4;
+}
+
+/*
+ * Enum for categorising types of tests.
+ */
+enum TestClassification {
+  /*
+   * Represents unspecified test classification.
+   */
+  TEST_CLASSIFICATION_UNSPECIFIED = 0;
+  /*
+   * Represents a general test.
+   */
+  TEST_CLASSIFICATION_GENERAL = 1;
+  /*
+   * Represents a diagnostic test.
+   */
+  TEST_CLASSIFICATION_DIAGNOSTIC = 2;
+  /*
+   * Represents a screening test.
+   */
+  TEST_CLASSIFICATION_SCREENING = 3;
+  /*
+   * Represents a monitoring test.
+   */
+  TEST_CLASSIFICATION_MONITORING = 4;
+  /*
+   * Represents a COVID-19 related test.
+   */
+  TEST_CLASSIFICATION_COVID_19 = 5;
+}
+
+/*
+ * Enum for specifying the types of lab tests.
+ */
+enum LabTestType {
+  /*
+   * Represents an unspecified Lab Test Type.
+   */
+  LAB_TEST_TYPE_UNSPECIFIED = 0;
+  /*
+   * Represents a Blood Lab Test.
+   */
+  LAB_TEST_TYPE_BLOOD_TEST = 1;
+  /*
+   * Represents a Urine Lab Test.
+   */
+  LAB_TEST_TYPE_URINE_TEST = 2;
+}
+
+/*
+ * Enum for specifying the types of specimens collected for tests.
+ */
+enum SpecimenType {
+  /*
+   * Represents an unspecified Lab Test Type.
+   */
+  SPECIMEN_TYPE_UNSPECIFIED = 0;
+  /*
+   * Represents a blood specimen type.
+   */
+  SPECIMEN_TYPE_BLOOD = 1;
+  /*
+   * Represents a urine specimen type.
+   */
+  SPECIMEN_TYPE_URINE = 2;
+  /*
+   * Represents a saliva specimen type.
+   */
+  SPECIMEN_TYPE_SALIVA = 3;
+}
+
+/**
+ * The status of a LabFinding.
+ */
+enum LabFindingStatus {
+  /**
+   * The status of the LabFinding is unspecified.
+   */
+  LAB_FINDINGS_STATUS_UNSPECIFIED = 0;
+  /**
+   * The LabFinding has been received by the lab.
+   */
+  LAB_FINDINGS_STATUS_RECEIVED = 1;
+}
+/*
+ * TemplateType is an enumeration that lists all the possible types a template can be set as.
+ * Values in the enum range from notification, welcome messages, newsletters, alerts, reminders, to confirmations.
+ * When the type of a template is not set, the default is TEMPLATE_TYPE_UNSPECIFIED.
+ */
+enum TemplateType {
+  /*
+   * No specific type is assigned to the template.
+   */
+  TEMPLATE_TYPE_UNSPECIFIED = 0;
+  /*
+   * The template is designated for notifications.
+   */
+  TEMPLATE_TYPE_NOTIFICATION = 1;
+  /*
+   * The template is designated for welcome messages.
+   */
+  TEMPLATE_TYPE_WELCOME = 2;
+  /*
+   * The template is designated for newsletters.
+   */
+  TEMPLATE_TYPE_NEWSLETTER = 3;
+  /*
+   * The template is designated for alerts.
+   */
+  TEMPLATE_TYPE_ALERT = 4;
+  /*
+   * The template is designated for reminders.
+   */
+  TEMPLATE_TYPE_REMINDER = 5;
+  /*
+   * The template is designated for confirmations.
+   */
+  TEMPLATE_TYPE_CONFIRMATION = 6;
+}
+/*
+ * NotificationStatus is an enumeration that defines the different statuses a notification can be in.
+ * Values in the enum range from being pending, sent, to failed.
+ * When the status of a notification is not set, the default is NOTIFICATION_STATUS_UNSPECIFIED.
+ */
+enum NotificationStatus {
+  /*
+   * The status of the notification is not defined.
+   */
+  NOTIFICATION_STATUS_UNSPECIFIED = 0;
+  /*
+   * The notification is yet to be sent.
+   */
+  NOTIFICATION_STATUS_PENDING = 1;
+  /*
+   * The notification has been sent.
+   */
+  NOTIFICATION_STATUS_SENT = 2;
+  /*
+   * The notification failed to send.
+   */
+  NOTIFICATION_STATUS_FAILED = 3;
+}
+/*
+ * NotificationPriority defines the levels of priority for notifications.
+ * Values in the enum range from low, medium, high, to immediate priority.
+ * When the priority of a notification is not set, the default is NOTIFICATION_PRIORITY_UNSPECIFIED.
+ */
+enum NotificationPriority {
+  /*
+   * The priority level for the notification is undefined.
+   */
+  NOTIFICATION_PRIORITY_UNSPECIFIED = 0;
+  /*
+   * The priority level for the notification is low.
+   */
+  NOTIFICATION_PRIORITY_LOW = 1;
+  /*
+   * The priority level for the notification is medium.
+   */
+  NOTIFICATION_PRIORITY_MEDIUM = 2;
+  /*
+   * The priority level for the notification is high.
+   */
+  NOTIFICATION_PRIORITY_HIGH = 3;
+  /*
+   * The notification requires immediate attention.
+   */
+  NOTIFICATION_PRIORITY_IMMEDIATE = 4;
+}
+
+/**
+ * The type of Message.
+ */
+enum MessageType {
+  UNSPECIFIED_MESSAGE_TYPE = 0;
+  /**
+   * Informational Message.
+   */
+  INFO = 1;
+  /**
+   * Warning Message.
+   */
+  WARNING = 2;
+  /**
+   * Error Message.
+   */
+  ERROR = 3;
+}
+
+/**
+ * The status of the Message.
+ */
+enum MessageStatus {
+  /**
+   * The status of the Message is unspecified.
+   */
+  UNSPECIFIED_MESSAGE_STATUS = 0;
+  /**
+   * The Message has been read.
+   */
+  READ = 1;
+  /**
+   * The Message has not been read.
+   */
+  UNREAD = 2;
+}
+
+/*
+ * `AnfStatementType` represents the various ways that an ANF Statement can be connected to a question item.
+ */
+enum AnfStatementType {
+  /*
+   * `ANF_STATEMENT_TYPE_UNSPECIFIED` indicates that the ANF statement type is not specified.
+   */
+  ANF_STATEMENT_TYPE_UNSPECIFIED = 0;
+
+  /*
+   * `ANF_STATEMENT_TYPE_MAIN` signifies that it is a primary ANF statement.
+   */
+  ANF_STATEMENT_TYPE_MAIN = 1;
+
+  /*
+   * `ANF_STATEMENT_TYPE_ASSOCIATED` denotes that the ANF statement is associated with
+   * but not primary to the item in question.
+   */
+  ANF_STATEMENT_TYPE_ASSOCIATED = 2;
+
+  /*
+   * `ANF_STATEMENT_USER_QUESTION` implies that the ANF statement is the main
+   * statement pertaining to the question.
+   */
+  ANF_STATEMENT_USER_QUESTION = 3;
+
+  /*
+   * `ANF_STATEMENT_TYPE_NOT_APPLICABLE` implies that the ANF statement does not apply.
+   */
+  ANF_STATEMENT_TYPE_NOT_APPLICABLE = 4;
+}
+
+/*
+ * Enumeration for ANF statement operator types.
+ */
+enum AnfOperatorType {
+  /*
+   * No specific operator is defined
+   */
+  ANF_OPERATOR_TYPE_UNSPECIFIED = 0;
+
+  /*
+   * Represents an equal (=) operator
+   */
+  ANF_OPERATOR_TYPE_EQUAL = 1;
+
+  /*
+   * Symbolizes a not equal (!=) operator
+   */
+  ANF_OPERATOR_TYPE_NOT_EQUAL = 2;
+
+  /*
+   * Denotes a greater-than (>) operator
+   */
+  ANF_OPERATOR_TYPE_GREATER_THAN = 3;
+
+  /*
+   * Indicates a greater-than or equals (>=) operator
+   */
+  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL = 4;
+
+  /*
+   * Represents a less-than (<) operator
+   */
+  ANF_OPERATOR_TYPE_LESS_THAN = 5;
+
+  /*
+   * Symbolizes a less-than or equals (<=) operator
+   */
+  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL = 6;
+
+  /*
+   * Denotes a contains operator
+   */
+  ANF_OPERATOR_TYPE_CONTAINS = 7;
+
+  /*
+   * Indicates a "does not contain" operator
+   */
+  ANF_OPERATOR_TYPE_NOT_CONTAINS = 8;
+
+  /*
+   * Stands for an "in" operator
+   */
+  ANF_OPERATOR_TYPE_IN = 9;
+
+  /*
+   * Represents a "not in" operator
+   */
+  ANF_OPERATOR_TYPE_NOT_IN = 10;
+}
+
+
+/*
+ * AddressPurpose identifies the intended use of an address.
+ */
+enum AddressPurpose {
+  /*
+   * Represents an address used for geographical location.
+   */
+  LOCATION = 0;
+
+  /*
+   * Represents an address used for mail correspondence.
+   */
+  MAILING = 1;
+
+  /*
+   * Represents the main or primary address.
+   */
+  PRIMARY = 2;
+
+  /*
+   * Represents an additional or secondary address.
+   */
+  SECONDARY = 3;
+
+  /*
+   * Represents an address used for invoice or billing correspondence.
+   */
+  BILLING = 4;
+
+  /*
+   * Represents an address used for shipping or delivery.
+   */
+  SHIPPING = 5;
+
+  /*
+   * Represents an address used for work or business location.
+   */
+  WORK = 6;
+}
+
+/*
+ * PhoneType defines the classification of phone numbers.
+ */
+enum PhoneType {
+  /*
+   * Unclassified or undefined phone number type.
+   */
+  PHONE_TYPE_NOT_SPECIFIED = 0;
+
+  /*
+   * Mobile cell phone.
+   */
+  PHONE_TYPE_MOBILE = 1;
+
+  /*
+   * Residential home phone.
+   */
+  PHONE_TYPE_HOME = 2;
+
+  /*
+   * Work or business phone.
+   */
+  PHONE_TYPE_WORK = 3;
+
+  /*
+   * Fax machine.
+   */
+  PHONE_TYPE_FAX = 4;
+
+  /*
+   * Other or miscellaneous phone type.
+   */
+  PHONE_TYPE_OTHER = 5;
+}
+
+/*
+ * EmailType distinguishes the category of email addresses.
+ */
+enum EmailType {
+  /*
+   * Unspecified email type.
+   */
+  EMAIL_TYPE_NOT_SPECIFIED = 0;
+
+  /*
+   * Personal and private email type.
+   */
+  EMAIL_TYPE_PERSONAL = 1;
+
+  /*
+   * Work or professional email type.
+   */
+  EMAIL_TYPE_WORK = 2;
+
+  /*
+   * Other or miscellaneous email type.
+   */
+  EMAIL_TYPE_OTHER = 3;
+}
+
+/*
+ * Gender defines a range of identities that do not necessarily align
+ * with established ideas of male and female.
+ */
+enum Gender {
+  /*
+   * Unidentified or undefined gender.
+   */
+  GENDER_NOT_SPECIFIED = 0;
+
+  /*
+   * Male gender.
+   */
+  GENDER_MALE = 1;
+
+  /*
+   * Female gender.
+   */
+  GENDER_FEMALE = 2;
+
+  /*
+   * Non-binary, neither male nor female.
+   */
+  GENDER_NON_BINARY = 3;
+
+  /*
+   * Other, undefined genders
+   */
+  GENDER_OTHER = 4;
+}
+/*
+ * DurationType defines the units for periods of time.
+ */
+enum DurationType {
+  /*
+   * Unspecified unit of time.
+   */
+  DURATION_TYPE_NOT_SPECIFIED = 0;
+
+  /*
+   * Represents time in milliseconds.
+   */
+  DURATION_TYPE_MILLISECONDS = 1;
+
+  /*
+   * Represents time in seconds.
+   */
+  DURATION_TYPE_SECONDS = 2;
+
+  /*
+   * Represents time in minutes.
+   */
+  DURATION_TYPE_MINUTES = 3;
+
+  /*
+   * Represents time in hours.
+   */
+  DURATION_TYPE_HOURS = 4;
+
+  /*
+   * Represents time in days.
+   */
+  DURATION_TYPE_DAYS = 5;
+
+  /*
+   * Represents time in weeks.
+   */
+  DURATION_TYPE_WEEKS = 6;
+
+  /*
+   * Represents time in months.
+   */
+  DURATION_TYPE_MONTHS = 7;
+
+  /*
+   * Represents time in years.
+   */
+  DURATION_TYPE_YEARS = 8;
+}
+
+
+enum ShippingStatus {
+  /*
+   * The delivery is currently being transported from the source to the destination.
+   */
+  IN_TRANSIT = 0;
+
+  /*
+   * The delivery has been successfully made at the destination.
+   */
+  DELIVERED = 1;
+
+  /*
+   * The planned delivery was called off.
+   */
+  CANCELED = 2;
+
+  /*
+   * The delivery is yet to be picked up from the source.
+   */
+  PENDING_PICKUP = 3;
+
+  /*
+   * The delivery is in its final phase of reaching the destination.
+   */
+  OUT_FOR_DELIVERY = 4;
+
+  /*
+   * The delivery couldn't reach the destination due to some reason.
+   */
+  FAILED_DELIVERY = 5;
+
+  /*
+   * The delivery was made but it was returned back from the destination.
+   */
+  RETURNED = 6;
+
+  /*
+   * The delivery is running behind the scheduled time.
+   */
+  DELAYED = 7;
+
+  /*
+   * The delivery is currently kept on a temporary pause.
+   */
+  ON_HOLD = 8;
+
+  /*
+   * There is some exceptional case or issue associated with the delivery.
+   */
+  EXCEPTION = 9;
+
+  /*
+   * The delivery couldn't be traced or located.
+   */
+  LOST = 10;
+
+  /**
+   * The delivery is in the process of being shipped.
+   */
+  PENDING = 11;
+}
+
+/*
+ * Enum to encapsulate the possible Media statuses.
+ */
+enum Status {
+  /*
+   * Unspecified or unknown media status.
+   */
+  STATUS_UNSPECIFIED = 0;
+
+  /*
+   * Media status is active.
+   */
+  STATUS_ACTIVE = 1;
+
+  /*
+   * Media status designates that the media is being deleted.
+   */
+  STATUS_DELETED = 2;
+}
+
+enum CircumstanceType {
+
+  PERFORMANCE_CIRCUMSTANCE = 0;
+
+  REQUEST_CIRCUMSTANCE = 1;
+
+  NARRATIVE_CIRCUMSTANCE = 2;
+}
+
+/*
+ * Describes the specific type of Audit event being recorded.
+ */
+enum AuditEventType {
+  /*
+   * Represents an unspecified audit event type.
+   */
+  AUDIT_EVENT_TYPE_UNSPECIFIED = 0;
+  /*
+   * Represents a successful user login event.
+   */
+  AUDIT_EVENT_TYPE_USER_LOGIN_SUCCEEDED = 1;
+  /*
+   * Designates an event where a user logged out from the system.
+   */
+  AUDIT_EVENT_TYPE_USER_LOG_OUT = 2;
+  /*
+   * Depicts a failed user login attempt.
+   */
+  AUDIT_EVENT_TYPE_USER_LOGIN_FAIL = 3;
+  /*
+   * Signifies that there was a change in user access.
+   */
+  AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE = 4;
+  /*
+   * Reflects an event where a user password was changed.
+   */
+  AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE = 5;
+  /*
+   * Corresponds to a successful system login event.
+   */
+  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_SUCCEEDED = 6;
+  /*
+   * Symbolizes a system logout event.
+   */
+  AUDIT_EVENT_TYPE_SYSTEM_LOG_OUT = 7;
+  /*
+   * Indicates a failed system login attempt.
+   */
+  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_FAIL = 8;
+  /*
+   * Stands for an event where Personal Identifiable Information was accessed.
+   */
+  AUDIT_EVENT_TYPE_USER_PII_ACCESSED = 9;
+  /*
+   * Immplies an event where Personal Identifiable Information was updated.
+   */
+  AUDIT_EVENT_TYPE_USER_PII_UPDATED = 10;
+  /*
+   * Entails an event where Personal Identifiable Information was created.
+   */
+  AUDIT_EVENT_TYPE_USER_PII_CREATED = 11;
+  /*
+   * Notes an event where Personal Identifiable Information was deleted.
+   */
+  AUDIT_EVENT_TYPE_USER_PII_DELETED = 12;
+  /*
+   * Represents an event where Personal Health Information was accessed.
+   */
+  AUDIT_EVENT_TYPE_USER_PHI_ACCESSED = 13;
+  /*
+   * Exemplifies an event where Personal Health Information was updated.
+   */
+  AUDIT_EVENT_TYPE_USER_PHI_UPDATED = 14;
+  /*
+   * Constitutes an event where Personal Health Information was created.
+   */
+  AUDIT_EVENT_TYPE_USER_PHI_CREATED = 15;
+  /*
+   * Portrays an event where Personal Health Information was deleted.
+   */
+  AUDIT_EVENT_TYPE_USER_PHI_DELETED = 16;
+  /*
+   * Shows a user communication event.
+   */
+  AUDIT_EVENT_TYPE_USER_COMMUNICATION = 17;
+  /*
+   * Denotes a configuration change event.
+   */
+  AUDIT_EVENT_TYPE_CONFIG_CHANGE = 18;
+}
+/*
+ * Describes the level of sensitivity of the data contained within this audit message.
+ */
+enum SensitivityLevel {
+  /*
+   * Represents an unspecified sensitivity level.
+   */
+  SENSITIVITY_LEVEL_UNSPECIFIED = 0;
+  /*
+   * Implies that the information contained is not sensitive.
+   */
+  SENSITIVITY_LEVEL_LOW = 1;
+  /*
+   * Stipulates that the info could be used to identify an individual.
+   */
+  SENSITIVITY_LEVEL_MEDIUM = 2;
+  /*
+   * Indicates that the message contains Personal information.
+   */
+  SENSITIVITY_LEVEL_HIGH = 3;
+}
+/*
+ * Defines the category of an actor: Human, System, or another entity.
+ */
+enum AgentType {
+  /*
+   * Symbolizes an unspecified agent type.
+   */
+  AGENT_TYPE_UNSPECIFIED = 0;
+  /*
+   * Demonstrates that the actor is a human.
+   */
+  AGENT_TYPE_HUMAN_USER = 1;
+  /*
+   * The actor is a system.
+   */
+  AGENT_TYPE_SYSTEM = 2;
+  /*
+   * The actor is a separate entity.
+   */
+  AGENT_TYPE_OTHER_ENTITY = 3;
+}
+
+/*
+ * Enum to denote the severity level.
+ */
+enum SeverityLevel {
+  /**
+   * Unspecified severity.
+   */
+  UNSPECIFIED_SEVERITY_LEVEL = 0;
+  /*
+   * Low severity.
+   */
+  SEVERITY_LEVEL_LOW = 1;
+  /*
+   * Moderate severity.
+   */
+  SEVERITY_LEVEL_MEDIUM = 2;
+  /*
+   * High severity.
+   */
+  SEVERITY_LEVEL_HIGH = 3;
+}
+
+/*
+ * Enum for classification type
+ */
+enum ClassificationType {
+  /**
+   * Unspecified classification
+   */
+  UNSPECIFIED_CLASSIFICATION_TYPE = 0;
+  /*
+   * Bacterial classification
+   */
+  BACTERIAL = 1;
+  /*
+   * Viral classification
+   */
+  VIRAL = 2;
+  /*
+   * Injury classification
+   */
+  INJURY = 3;
+}
+
+/*
+   * Defines the enumeration for various statuses that a routine operation may exist in.
+   * E.g., Scheduled, In progress, Completed, etc.
+   */
+enum RoutineStatus {
+  /*
+   * Indicates that the routine has been planned and is now scheduled
+   */
+  ROUTINE_SCHEDULED = 0;
+
+  /*
+   * Indicates that the execution of the routine is currently underway
+   */
+  ROUTINE_IN_PROGRESS = 1;
+
+  /*
+   * Indicates that the routine has been successfully completed
+   */
+  ROUTINE_COMPLETED = 2;
+
+  /*
+   * Indicates that the routine was planned and scheduled but eventually got canceled
+   */
+  ROUTINE_CANCELED = 3;
+
+  /*
+   * Indicates that the execution of the routine is behind the previously defined schedule
+   */
+  ROUTINE_DELAYED = 4;
+
+  /*
+   * Indicates that the routine execution has been completed and is now awaiting approval
+   */
+  ROUTINE_PENDING_APPROVAL = 5;
+
+  /*
+   * Indicates that the execution of the routine was not successful
+   */
+  ROUTINE_FAILED = 6;
+
+  /*
+   * Indicates that the routine is temporarily on hold for now
+   */
+  ROUTINE_ON_HOLD = 7;
+
+  /*
+   * Indicates that the routine is planned but its execution has not started yet
+   */
+  ROUTINE_NOT_STARTED = 8;
+
+  /*
+   * Indicates that the routine or its results are currently under review
+   */
+  ROUTINE_UNDER_REVIEW = 9;
+
+  /*
+   * Commonly used in healthcare settings, indicating that the routine has been marked as completed
+   */
+  ROUTINE_DISCHARGED = 10;
+
+  /*
+   * Indicates that the routine has been recalled or needs to be re-run
+   */
+  ROUTINE_RECALLED = 11;
+}
+
+/*
+ * The possible statuses for a clinical protocol execution.
+ */
+enum ClinicalProtocolStatus {
+  /*
+   * The protocol execution is yet to start.
+   */
+  CLINICAL_PROTOCOL_NOT_STARTED = 0;
+  /*
+   * The protocol execution is currently ongoing.
+   */
+  CLINICAL_PROTOCOL_IN_PROGRESS = 1;
+  /*
+   * The protocol execution has finished successfully.
+   */
+  CLINICAL_PROTOCOL_COMPLETED = 2;
+  /*
+   * The protocol execution was unsuccessful.
+   */
+  CLINICAL_PROTOCOL_FAILED = 3;
+  /*
+   * The protocol execution was planned but subsequently cancelled.
+   */
+  CLINICAL_PROTOCOL_CANCELED = 4;
+  /*
+   * The protocol execution is overdue and is running late.
+   */
+  CLINICAL_PROTOCOL_DELAYED = 5;
+  /*
+   * The protocol execution results are being analysed/reviewed.
+   */
+  CLINICAL_PROTOCOL_UNDER_REVIEW = 6;
+}
+
+
+/*
+ * Enum `ProviderStatus` is used to represent the current status of a healthcare provider account.
+ * It contains two states, VALIDATED and DELETED.
+ */
+enum ProviderStatus {
+  /*
+   * The status when the provider's credentials and details have been reviewed and approved.
+   */
+  VALIDATED = 0;
+  /*
+   * The status when the provider's account has been deleted, possibly due to violation of terms or at the request of the provider.
+   */
+  DELETED = 1;
+}

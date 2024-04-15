@@ -1,0 +1,8 @@
+/*
+ * An interface that allows retrieval of TINKAR codes using non-TINKAR codes from various coding systems, and vice versa.
+ * It facilitates a two-way conversion between TINKAR codes and other coding systems.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.tinkar;
+import "google/protobuf/wrappers.proto";

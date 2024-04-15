@@ -1,0 +1,151 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx IAM.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.iam;
+import "opencdx_data.proto";
+
+
+/*
+ * The OrganizationService is a service that provides operations for
+ * managing Organization entities. These operations include creating new
+ * organizations, fetching organization details by ID, updating organization
+ * details, and listing all organizations.
+ */
+service OrganizationService {
+  /*
+   * CreateOrganization is an RPC method that allows you to create a new organization.
+   */
+  rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse);
+
+  /*
+   * GetOrganizationDetailsById is an RPC method that fetches details of an organization
+   * by its specific ID.
+   */
+  rpc GetOrganizationDetailsById(GetOrganizationDetailsByIdRequest) returns (GetOrganizationDetailsByIdResponse);
+
+  /*
+   * UpdateOrganization is an RPC method that lets you update details of an existing organization.
+   */
+  rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse);
+
+  /*
+   * ListOrganizations is an RPC method that returns a list of all organizations.
+   */
+  rpc ListOrganizations(Empty) returns (ListOrganizationsResponse);
+}
+
+/*
+ * The WorkspaceService is a service that provides operations for
+ * managing Workspace entities within an Organization. These operations
+ * include creating new workspaces, fetching workspace details by ID,
+ * updating workspace details, and listing all workspaces.
+ */
+service WorkspaceService {
+  /*
+   * CreateWorkspace is an RPC method that enables you to create a new workspace within an organization.
+   */
+  rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse);
+
+  /*
+   * GetWorkspaceDetailsById is an RPC method that retrieves details of a workspace
+   * by its specific ID.
+   */
+  rpc GetWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest) returns (GetWorkspaceDetailsByIdResponse);
+
+  /*
+   * UpdateWorkspace is an RPC method that lets you update details of an existing workspace.
+   */
+  rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse);
+
+  /*
+   * ListWorkspaces is an RPC method that provides a list of all workspaces within an organization.
+   */
+  rpc ListWorkspaces(Empty) returns (ListWorkspacesResponse);
+}
+
+
+/*
+ * IamUserService is a protobuf service that handles user operations for the IAM system.
+ */
+service IamUserService {
+  /*
+   * SignUp is an rpc method that registers a new IAM user. It takes a SignUpRequest and returns a SignUpResponse.
+   */
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+  /*
+   * ListIamUsers is an rpc method that returns a paginated, sortable list of IAM users.
+   * It takes a ListIamUsersRequest and returns a ListIamUsersResponse.
+   */
+  rpc ListIamUsers(ListIamUsersRequest) returns (ListIamUsersResponse);
+  /*
+   * GetIamUser is an rpc method that returns IAM user information for a specified user ID.
+   * It takes a GetIamUserRequest and returns a GetIamUserResponse.
+   */
+  rpc GetIamUser(GetIamUserRequest) returns (GetIamUserResponse);
+  /*
+   * UpdateIamUser is an rpc method that updates the information of an existing IAM user.
+   * It takes an UpdateIamUserRequest and returns an UpdateIamUserResponse.
+   */
+  rpc UpdateIamUser(UpdateIamUserRequest) returns (UpdateIamUserResponse);
+  /*
+   * ChangePassword is an rpc method that changes the password of an existing IAM user.
+   * It takes a ChangePasswordRequest and returns a ChangePasswordResponse.
+   */
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+  /*
+   * DeleteIamUser is an rpc method that deletes an IAM user specified by user ID.
+   * It takes a DeleteIamUserRequest and returns a DeleteIamUserResponse.
+   */
+  rpc DeleteIamUser(DeleteIamUserRequest) returns (DeleteIamUserResponse);
+  /*
+   * UserExists is an rpc method that checks if an IAM user with a given ID exists.
+   * It takes a UserExistsRequest and returns a UserExistsResponse.
+   */
+  rpc UserExists(UserExistsRequest) returns (UserExistsResponse);
+  /*
+   * Login is an rpc method that authenticates an IAM user. It takes a LoginRequest and returns a LoginResponse.
+   */
+  rpc Login(LoginRequest) returns (LoginResponse);
+  /*
+   * CurrentUser is an rpc method that returns the currently authenticated IAM user.
+   * It takes a CurrentUserRequest and returns a CurrentUserResponse.
+   */
+  rpc CurrentUser(CurrentUserRequest) returns (CurrentUserResponse);
+}
+
+
+/*
+ * NeuralProtectorService contains security-related operations for neural networks.
+ * This includes anomaly detection, authorization control enforcement, privacy protection,
+ * real-time activity monitoring, and user behavior analysis.
+ */
+service NeuralProtectorService {
+  /*
+   * An operation to detect unusual or suspicious activity within the network.
+   * Requires an AnomalyDetectionDataRequest and returns a SecurityResponse.
+   */
+  rpc DetectAnomalies(AnomalyDetectionDataRequest) returns (SecurityResponse);
+  /*
+   * An operation to enforce strict access and activity control within a protected environment.
+   * Requires an AuthorizationControlDataRequest and returns a SecurityResponse.
+   */
+  rpc EnforceAuthorizationControl(AuthorizationControlDataRequest) returns (SecurityResponse);
+  /*
+   * An operation to enforce privacy protection measures in order to ensure data confidentiality.
+   * Requires a PrivacyProtectionDataRequest and returns a SecurityResponse.
+   */
+  rpc ProtectPrivacy(PrivacyProtectionDataRequest) returns (SecurityResponse);
+  /*
+   * An operation to monitor real-time activities within the network for immediate threat detection.
+   * Requires a RealTimeMonitoringDataRequest and returns a SecurityResponse.
+   */
+  rpc MonitorRealTimeActivity(RealTimeMonitoringDataRequest) returns (SecurityResponse);
+  /*
+   * An operation to analyze user behavior patterns in an attempt to predict and prevent malicious actions.
+   * Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.
+   */
+  rpc AnalyzeUserBehavior(UserBehaviorAnalysisDataRequest) returns (SecurityResponse);
+}
+

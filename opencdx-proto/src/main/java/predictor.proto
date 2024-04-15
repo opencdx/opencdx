@@ -1,0 +1,9 @@
+/*
+ * This system is responsible for delivering predictions. Based on the given set of inputs, it analyzes patterns, computes correspondences and subsequently generates the most probable outcomes. Ideal for forecasting, statistical analysis, and other predictive modeling applications.
+ */
+syntax = "proto3";
+package cdx.opencdx.grpc.neural.predictor;
+option java_multiple_files = true;
+
+
+

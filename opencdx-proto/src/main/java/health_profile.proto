@@ -1,0 +1,105 @@
+/*
+ * This Protocol Buffers (protobuf) definition is primarily focused on the management of user profiles.
+ * It provides the structure for storing and manipulating user-centric data efficiently.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health.profile;
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+
+
+
+/*
+ * UserProfileRequest is the message format for the request to retrieve a user profile.
+ * It contains a unique user_id to identify the user whose profile needs to be retrieved.
+ */
+message UserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+}
+
+/*
+ * UserProfileResponse is the message format for the response following a request to retrieve a user profile.
+ * It contains the user_profile, which contains the profile details of the requested user.
+ */
+message UserProfileResponse {
+  /*
+   * User's profile information
+   */
+  UserProfile user_profile = 1;
+}
+
+/*
+ * UpdateUserProfileRequest is the message format for the request to update a user profile.
+ * It contains a user_id to identify the user whose profile needs to be updated,
+ * and updated_profile with the new profile details.
+ */
+message UpdateUserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+
+  /*
+   * Updated user profile information
+   */
+  UserProfile updated_profile = 2;
+}
+
+/*
+ * UpdateUserProfileResponse is the message format for the response following a request to update a user profile.
+ * It contains a boolean success which will be true if the update operation was successful.
+ */
+message UpdateUserProfileResponse {
+  /*
+   * Indicates whether the update was successful
+   */
+  bool success = 1;
+}
+
+/*
+ * This message contains the details required for creating a User Profile.
+ */
+message CreateUserProfileRequest {
+  /*
+   * The UserProfile object with the details for the user profile that will be created.
+   */
+  optional UserProfile userProfile = 1;
+}
+
+/*
+ * This message contains the details of the User Profile that has been created.
+ */
+message CreateUserProfileResponse {
+  /*
+   * The created User Profile object.
+   */
+  optional UserProfile userProfile = 1;
+}
+
+/*
+ * DeleteUserProfileRequest is the message format for the request to delete a user profile.
+ * It contains a user_id to identify the user whose profile needs to be deleted.
+ */
+message DeleteUserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+}
+
+/*
+ * DeleteUserProfileResponse is the message format for the response following a request to delete a user profile.
+ * It contains a boolean success which will be true if the delete operation was successful.
+ */
+message DeleteUserProfileResponse {
+  /*
+   * Indicates whether the delete was successful
+   */
+  bool success = 1;
+}
+

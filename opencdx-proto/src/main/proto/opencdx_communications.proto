@@ -1,0 +1,115 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Communications.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.communications;
+import "opencdx_data.proto";
+
+
+/*
+ * Service API Definition.
+ * This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.
+ * Each type of resource (Email, SMS, Notification Event) supports CRUD operations.
+ * Additionally, it also provides functionality to send notifications and to retrieve lists of resources.
+ */
+service CommunicationService {
+  /*
+   * Creates a new email template and returns the created template.
+   */
+  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  /*
+   * Retrieves an existing email template using its ID and returns the corresponding template.
+   */
+  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate);
+  /*
+   * Updates an existing email template and returns the updated template.
+   */
+  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  /*
+   * Deletes an existing email template using its ID and returns a success response if the operation was successful.
+   */
+  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse);
+  /*
+   * Creates a new SMS template and returns the created template.
+   */
+  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  /*
+   * Retrieves an existing SMS template using its ID and returns the corresponding template.
+   */
+  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate);
+  /*
+   * Updates an existing SMS template and returns the updated template.
+   */
+  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  /*
+   * Deletes an existing SMS template using its ID and returns a success response if the operation was successful.
+   */
+  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse);
+  /*
+   * Creates a new notification event and returns the created event.
+   */
+  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  /*
+   * Retrieves an existing notification event using its ID and returns the corresponding event.
+   */
+  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent);
+  /*
+   * Updates an existing notification event and returns the updated event.
+   */
+  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  /*
+   * Deletes an existing notification event using its ID and returns a success response if the operation was successful.
+   */
+  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse);
+
+  /*
+   * Sends a notification and returns a success response if the operation was successful.
+   */
+  rpc SendNotification(Notification) returns (SuccessResponse);
+  /*
+   * Retrieves a list of SMS templates.
+   */
+  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse);
+  /*
+   * Retrieves a list of email templates.
+   */
+  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse);
+  /*
+   * Retrieves a list of notification events.
+   */
+  rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse);
+
+  /**
+   * Create a MessageTemplate.
+   */
+  rpc CreateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  /**
+   * Get a MessageTemplate.
+   */
+  rpc GetMessageTemplate(TemplateRequest) returns (MessageTemplate);
+  /**
+   * Update a MessageTemplate.
+   */
+  rpc UpdateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  /**
+   * Delete a MessageTemplate.
+   */
+  rpc DeleteMessageTemplate(TemplateRequest) returns (SuccessResponse);
+  /**
+   * List MessageTemplates.
+   */
+  rpc ListMessageTemplates(cdx.opencdx.grpc.common.Pagination) returns (MessageTemplateListResponse);
+  /**
+ * Get Messages.
+ */
+  rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse);
+  /**
+   * Mark a Message as read.
+   */
+  rpc MarkMessageAsRead(MarkMessagesAsReadRequest) returns (MarkMessagesAsReadResponse);
+  /**
+   * Mark a Message as unread.
+   */
+  rpc MarkMessageAsUnread(MarkMessagesAsUnreadRequest) returns (MarkMessagesAsUnreadResponse);
+}

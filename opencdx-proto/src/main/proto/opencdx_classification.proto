@@ -1,0 +1,22 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Classification.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.classification;
+import "opencdx_data.proto";
+
+/*
+ * Service providing the Classify RPC for test kit classification.
+ */
+service ClassificationService {
+  /*
+ * Defines operations for FHIR questionnaires
+ */
+  rpc GetRuleSets(cdx.opencdx.grpc.data.RuleSetsRequest) returns (cdx.opencdx.grpc.data.RuleSetsResponse);
+  /*
+   * Classify RPC returns a classification result based on UserAnswer input.
+   */
+  rpc Classify(cdx.opencdx.grpc.data.ClassificationRequest) returns (cdx.opencdx.grpc.data.ClassificationResponse);
+
+}

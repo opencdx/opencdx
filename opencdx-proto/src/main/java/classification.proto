@@ -1,0 +1,12 @@
+/*
+ * Categorization outcome of a test analysis from a specific test-kit.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.neural.classification;
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+
+
+
