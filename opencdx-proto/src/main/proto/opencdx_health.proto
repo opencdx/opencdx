@@ -5,6 +5,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.service.health;
 import "opencdx_data.proto";
+import "opencdx_enum.proto";
 import "google/protobuf/timestamp.proto";
 
 /**
@@ -18,7 +19,7 @@ message LabFindingsResponse {
   /**
    * The status of the LabFinding.
    */
-  cdx.opencdx.grpc.data.LabFindingStatus status = 2;
+  cdx.opencdx.grpc.types.LabFindingStatus status = 2;
 }
 
 /**

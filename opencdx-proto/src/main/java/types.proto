@@ -1,5 +1,0 @@
-syntax = "proto3";
-option java_multiple_files = true;
-/* The base package name for the generated Java files. */
-package cdx.opencdx.grpc.common.types;
-

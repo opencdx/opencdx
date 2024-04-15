@@ -5,6 +5,177 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.service.media;
 import "opencdx_data.proto";
+import "opencdx_enum.proto";
+
+
+
+/*
+ * Contains required parameters for invoking the CreateMedia method.
+ */
+message CreateMediaRequest {
+  /*
+   * Media type such as video, image etc.
+   */
+  cdx.opencdx.grpc.types.MediaType type = 1;
+
+  /*
+   * The name of the media to be created.
+   */
+  string name = 2;
+
+  /*
+   * Brief description about the media.
+   */
+  string short_description = 3;
+
+  /*
+   * Detailed information about the media.
+   */
+  string description = 4;
+
+  /*
+   * Additional labels related to the media.
+   */
+  repeated string labels = 5;
+}
+/*
+ * Contains information received from CreateMedia method once the media is created.
+ */
+message CreateMediaResponse {
+  /*
+   * The media data that was created.
+   */
+  cdx.opencdx.grpc.data.Media media = 1;
+  /*
+   * The URL to which the created media should be uploaded.
+   */
+  string upload_url = 2;
+}
+
+/*
+ * Contains required parameter (media's ID) for invoking the GetMedia method.
+ */
+message GetMediaRequest {
+  /*
+   * The ID of the media that client wants to retrieve.
+   */
+  string id = 1;
+}
+
+/*
+ * Contains information received from GetMedia method.
+ */
+message GetMediaResponse {
+  /*
+   * The media object that was requested by client.
+   */
+  cdx.opencdx.grpc.data.Media media = 1;
+}
+
+/*
+ * Contains required parameters for invoking the ListMedia method.
+ */
+message ListMediaRequest {
+  /*
+   * Information for pagination and sorting of the media list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+
+/*
+ * Contains the list of media objects retrieved from the ListMedia method.
+ */
+message ListMediaResponse {
+  /*
+   * Pagination details for the listed media.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * The list of media objects.
+   */
+  repeated cdx.opencdx.grpc.data.Media templates = 2;
+}
+
+/*
+ * Contains required parameters for invoking the UpdateMedia method.
+ */
+message UpdateMediaRequest {
+  /*
+   * The ID of the media to be updated.
+   */
+  string id = 1;
+  /*
+   * The new name for the media.
+   */
+  string name = 2;
+  /*
+   * The new brief description of the media.
+   */
+  string short_description = 3;
+  /*
+   * The new detailed description of the media.
+   */
+  string description = 4;
+  /*
+   * The new labels for the media.
+   */
+  repeated string labels = 5;
+  /*
+   * The new type for the media.
+   */
+  cdx.opencdx.grpc.types.MediaType type = 6;
+}
+
+/*
+ * Contains information received from UpdateMedia method after the media data is updated.
+ */
+message UpdateMediaResponse {
+  /*
+   * The media data after update.
+   */
+  cdx.opencdx.grpc.data.Media media = 1;
+}
+
+/*
+ * Contains required parameter (media's ID) for invoking the DeleteMedia method.
+ */
+message DeleteMediaRequest {
+  /*
+   * The ID of the media to be deleted.
+   */
+  string id = 1;
+}
+
+/*
+ * Contains information received from DeleteMedia method after the media data is deleted.
+ */
+message DeleteMediaResponse {
+  /*
+   * The details of the media that was deleted.
+   */
+  cdx.opencdx.grpc.data.Media media = 1;
+}
+
+
+/*
+ * PreprocessMediaRequest is a message that encapsulates the parameters for a request to preprocess media.
+ */
+message PreprocessMediaRequest {
+  /*
+   * Indication as to whether the media should be checked.
+   */
+  bool check = 3;
+}
+
+/*
+ * PreprocessMediaResponse is a message that encapsulates the response returned from the PreprocessMedia method.
+ */
+message PreprocessMediaResponse {
+  /*
+   * The data related to the media preprocessor.
+   */
+  cdx.opencdx.grpc.data.MediaPreprocessor media_preprocessor = 1;
+}
 
     /*
      * Provides an interface for the Media Service.

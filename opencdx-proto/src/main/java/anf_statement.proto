@@ -1,7 +1,0 @@
-/*
- * This Analysis Normal Form (ANF) Statement is used to succinctly represent a medical statement in its most pertinent and simplified form.
- */
-syntax = "proto3";
-package cdx.opencdx.grpc.anf;
-import "google/protobuf/timestamp.proto";
-

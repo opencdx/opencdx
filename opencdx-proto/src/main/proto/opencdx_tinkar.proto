@@ -7,6 +7,71 @@ package cdx.opencdx.grpc.service.tinkar;
 import "opencdx_data.proto";
 
 
+
+/*
+ * TinkarQueryRequest Message: Represents the user's request to search the tinkar db.
+ */
+message TinkarSearchQueryRequest {
+  /*
+   * The search string required for the request.
+   */
+  string query = 1;
+  /*
+   * The maximum number of results to be returned.
+   */
+  int32 max_results = 2;
+}
+
+/*
+ * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
+ */
+message TinkarSearchQueryResult {
+  int32 nid = 1;
+  int32 rc_nid = 2;
+  int32 pattern_nid = 3;
+  int32 field_index = 4;
+  float score = 5;
+  string highlighted_string = 6;
+}
+/*
+ * TinkarResponse Message: Represents the response that `Tinkar` service returns.
+ */
+message TinkarSearchQueryResponse {
+  repeated TinkarSearchQueryResult results = 1;
+}
+
+/*
+ * TinkarGetRequest Message: Represents the user's request to search the tinkar db.
+ */
+message TinkarGetRequest {
+  /*
+   * The concept ID required for the request.
+   */
+  string concept_id = 1;
+}
+
+/*
+ * TinkarGetResult Message: Represents the result
+ */
+message TinkarGetResult {
+  /*
+   * The concept ID of the result.
+   */
+  string concept_id = 1;
+  /*
+   * The description of the concept ID of the result.
+   */
+  string description = 2;
+}
+
+/*
+ * TinkarGetResponse Message: Represents the response that `Tinkar` service returns.
+ */
+message TinkarGetResponse {
+  repeated TinkarGetResult results = 1;
+}
+
+
 /*
  * TinkarQueryService: Provides a gRPC endpoints for the querying the Tinkar DB
  */

@@ -1,8 +1,0 @@
-/**
- * The Analysis Normal Form (ANF) Connector Protobuf file outlines the protocol for connecting a Questionnaire to an ANF Statement.
- */
-syntax = "proto3";
-option java_multiple_files = true;
-package cdx.opencdx.grpc.anf;
-import "anf_statement.proto";
-

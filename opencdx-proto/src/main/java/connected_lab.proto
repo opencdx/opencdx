@@ -1,9 +1,0 @@
-syntax = "proto3";
-option java_multiple_files = true;
-package cdx.opencdx.grpc.lab.connected;
-import "opencdx_data.proto";
-import "classification.proto";
-import "connected_test.proto";
-import "google/protobuf/timestamp.proto";
-
-

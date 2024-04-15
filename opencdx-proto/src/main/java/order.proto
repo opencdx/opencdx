@@ -1,9 +1,0 @@
-/**
- * The order service is responsible for managing the orders placed by or for patients.
- */
-syntax = "proto3";
-option java_multiple_files = true;
-package cdx.opencdx.grpc.shipping;
-import "opencdx_data.proto";
-import "google/protobuf/timestamp.proto";
-

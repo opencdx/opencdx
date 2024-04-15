@@ -5,6 +5,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.service.logistics;
 import "opencdx_data.proto";
+import "opencdx_enum.proto";
 import "google/protobuf/timestamp.proto";
 
 /*
@@ -382,7 +383,7 @@ message ShippingResponse {
   /**
    * The shipping status.
    */
-  cdx.opencdx.grpc.data.ShippingStatus status = 2;
+  cdx.opencdx.grpc.types.ShippingStatus status = 2;
   /**
    * The estimated delivery date.
    */

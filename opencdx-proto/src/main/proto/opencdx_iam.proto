@@ -5,6 +5,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.service.iam;
 import "opencdx_data.proto";
+import "opencdx_enum.proto";
 
 
 /*
@@ -195,7 +196,7 @@ message SignUpRequest {
   /*
    * The type of the user.
    */
-  cdx.opencdx.grpc.data.IamUserType type = 1;
+  cdx.opencdx.grpc.types.IamUserType type = 1;
   /*
    * The user's first name.
    */
