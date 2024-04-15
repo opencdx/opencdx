@@ -103,8 +103,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
      */
     @Secured({})
     @Override
-    public void refreshQuestionnaire(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
+    public void refreshQuestionnaire(GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
         Questionnaire response = openCDXQuestionnaireService.refreshQuestionnaire(request);
 
         responseObserver.onNext(response);

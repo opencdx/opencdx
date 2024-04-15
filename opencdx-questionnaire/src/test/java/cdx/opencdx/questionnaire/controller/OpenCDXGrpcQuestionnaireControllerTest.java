@@ -40,7 +40,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -945,20 +944,23 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         String answer = "Answer 1";
 
         OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
-                .items(Collections.singletonList(
-                        QuestionnaireItem.newBuilder().addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
-                                .setType("choice")
-                                .build())).build();
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                        .setType("choice")
+                        .build()))
+                .build();
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString()).build();
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.ofNullable(model));
 
         Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
                         Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenReturn(TinkarGetResponse.newBuilder().addResults(
-                        TinkarGetResult.newBuilder().setDescription(answer)).build());
+                .thenReturn(TinkarGetResponse.newBuilder()
+                        .addResults(TinkarGetResult.newBuilder().setDescription(answer))
+                        .build());
 
         Questionnaire response = Questionnaire.newBuilder()
                 .setDescription("response refreshQuestionnaire")

@@ -590,23 +590,27 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     private void populateQuestionChoices(OpenCDXQuestionnaireModel model) {
-        List<QuestionnaireItem> questions = new ArrayList<>();
+        if (model.getItems() != null) {
+            List<QuestionnaireItem> questions = new ArrayList<>();
 
-        for (QuestionnaireItem question : model.getItems()) {
-            if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
-                for (Code code : question.getCodeList()) {
-                    if (code.getSystem().equals(CODE_TINKAR)) {
+            for (QuestionnaireItem question : model.getItems()) {
+                if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
+                    Optional<Code> tinkarCode = question.getCodeList().stream()
+                            .filter(code -> code.getSystem().equals(CODE_TINKAR))
+                            .findFirst();
+                    if (tinkarCode.isPresent()) {
                         question = QuestionnaireItem.newBuilder(question)
                                 .clearAnswerOption()
-                                .addAllAnswerOption(getAnswerOptions(code.getCode()))
+                                .addAllAnswerOption(
+                                        getAnswerOptions(tinkarCode.get().getCode()))
                                 .build();
                     }
                 }
+                questions.add(question);
             }
-            questions.add(question);
-        }
 
-        model.setItems(questions);
+            model.setItems(questions);
+        }
     }
 
     @SuppressWarnings("java:S1172")

@@ -38,7 +38,6 @@ import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -597,23 +596,27 @@ class OpenCDXQuestionnaireServiceImplTest {
         String answer = "Answer 1";
 
         OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
-                .items(Collections.singletonList(
-                        QuestionnaireItem.newBuilder().addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
-                                .setType("choice")
-                                .build())).build();
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                        .setType("choice")
+                        .build()))
+                .build();
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString()).build();
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
 
         Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.ofNullable(model));
 
         Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
                         Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenReturn(TinkarGetResponse.newBuilder().addResults(
-                        TinkarGetResult.newBuilder().setDescription(answer)).build());
+                .thenReturn(TinkarGetResponse.newBuilder()
+                        .addResults(TinkarGetResult.newBuilder().setDescription(answer))
+                        .build());
 
         Questionnaire response = this.questionnaireService.refreshQuestionnaire(request);
 
-        Assertions.assertEquals(answer, response.getItem(0).getAnswerOption(0).getValueCoding().getDisplay());
+        Assertions.assertEquals(
+                answer, response.getItem(0).getAnswerOption(0).getValueCoding().getDisplay());
     }
 }
