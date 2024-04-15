@@ -227,6 +227,15 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                         && !openCDXDtoNpiJsonResponse.getResults().isEmpty()) {
                     openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
                             openCDXDtoNpiJsonResponse.getResults().getFirst(), openCDXCountryRepository);
+                    if (openCDXIAMProviderRepository.existsByNpiNumber(openCDXIAMProviderModel.getNpiNumber())) {
+                        Optional<OpenCDXIAMProviderModel> model =
+                                openCDXIAMProviderRepository.findByNpiNumber(openCDXIAMProviderModel.getNpiNumber());
+                        if (model.isPresent()) {
+                            return LoadProviderResponse.newBuilder()
+                                    .setProvider(openCDXIAMProviderModel.getProtobufMessage())
+                                    .build();
+                        }
+                    }
                     openCDXIAMProviderModel = this.openCDXIAMProviderRepository.save(openCDXIAMProviderModel);
                     loadProviderPiiCreated(request, openCDXIAMProviderModel);
                     return LoadProviderResponse.newBuilder()

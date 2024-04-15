@@ -123,7 +123,7 @@ class OpenCDXHeartRPMRestControllerTest {
                                 .id(argument)
                                 .patientId(argument)
                                 .nationalHealthId(argument.toHexString())
-                                .measurementTakenOverInSeconds("yes")
+                                .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build());
                     }
@@ -135,7 +135,7 @@ class OpenCDXHeartRPMRestControllerTest {
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
-                                .measurementTakenOverInSeconds("yes")
+                                .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build()),
                         PageRequest.of(1, 10),

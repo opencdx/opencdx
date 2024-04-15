@@ -29,7 +29,7 @@ class OpenCDXHeartRPMModelTest {
                 .setCreated(Timestamp.getDefaultInstance())
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
-                .setMeasurementTakenOverInSeconds("yes")
+                .setMeasurementTakenOverInSeconds(60)
                 .setSittingPosition5Minutes(true)
                 .setTimeOfMeasurement(Timestamp.getDefaultInstance())
                 .setCreated(Timestamp.getDefaultInstance())

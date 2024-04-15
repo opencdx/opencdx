@@ -1,4 +1,0 @@
-# Properties for a Managed Environment go here.
-opencdx:
-  connections:
-    default: cdx.opencdx.connected.lab.handler.OpenCDXLabConnectedDefault

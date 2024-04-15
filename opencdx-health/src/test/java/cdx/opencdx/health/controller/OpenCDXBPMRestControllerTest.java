@@ -129,7 +129,6 @@ class OpenCDXBPMRestControllerTest {
                                 .systolic(80)
                                 .diastolic(120)
                                 .bpmUnits(BPMUnits.BARS)
-                                .measurementTakenUsingCuff("yes")
                                 .sittingPositionFiveMinutes(true)
                                 .urinatedThirtyMinutesPrior(false)
                                 .build());
@@ -147,7 +146,6 @@ class OpenCDXBPMRestControllerTest {
                                 .systolic(80)
                                 .diastolic(120)
                                 .bpmUnits(BPMUnits.BARS)
-                                .measurementTakenUsingCuff("yes")
                                 .sittingPositionFiveMinutes(true)
                                 .urinatedThirtyMinutesPrior(false)
                                 .build()),

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/medicine/administer", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/medication/administer", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXMedicationAdministrationRestController {
     private final OpenCDXMedicationAdministrationService openCDXMedicationAdministrationService;

@@ -34,3 +34,7 @@ feign:
 
 openFda:
   apiKey:
+
+opencdx:
+  connections:
+    default: cdx.opencdx.health.handler.OpenCDXLabConnectedDefault
