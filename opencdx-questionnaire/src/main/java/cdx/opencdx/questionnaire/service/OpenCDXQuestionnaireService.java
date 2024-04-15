@@ -44,6 +44,13 @@ public interface OpenCDXQuestionnaireService {
     Questionnaire getSubmittedQuestionnaire(GetQuestionnaireRequest request);
 
     /**
+     * Refresh the Questionnaire
+     * @param request id of the questionnaire to refresh
+     * @return Message generated for the data submission request.
+     */
+    Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request);
+
+    /**
      * Get the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the data submision request.

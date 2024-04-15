@@ -97,6 +97,20 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     }
 
     /**
+     * refreshQuestionnaire gRPC Service Call
+     * @param request Questionnaire to process
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void refreshQuestionnaire(GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
+        Questionnaire response = openCDXQuestionnaireService.refreshQuestionnaire(request);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    /**
      * deleteSubmittedQuestionnaire gRPC Service Call
      * @param request Request to process
      * @param responseObserver Observer to process the response

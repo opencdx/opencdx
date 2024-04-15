@@ -504,6 +504,11 @@ service QuestionnaireService {
   rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (Questionnaires);
 
   /*
+   * Refreshes a questionnaire
+   */
+  rpc RefreshQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire);
+
+  /*
    * Fetches the entire list of submitted questionnaire data.
    */
   rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse);

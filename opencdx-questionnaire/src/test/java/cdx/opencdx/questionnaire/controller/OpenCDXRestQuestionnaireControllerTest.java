@@ -289,6 +289,17 @@ class OpenCDXRestQuestionnaireControllerTest {
     }
 
     @Test
+    void testRefreshQuestionnaire() throws Exception {
+        String id = OpenCDXIdentifier.get().toHexString();
+        MvcResult mv = this.mockMvc
+                .perform(get("/questionnaire/refresh/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        Assertions.assertEquals(
+                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[]}",
+                mv.getResponse().getContentAsString());
+    }
+
+    @Test
     void testDeleteQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
                 .perform(delete("/questionnaire/639")

@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.questionnaire.controller;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -26,6 +28,9 @@ import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.tinkar.TinkarGetResult;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -35,6 +40,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -89,6 +95,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXTinkarClient openCDXTinkarClient;
 
     OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
@@ -241,7 +250,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
     }
 
@@ -315,7 +325,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -347,7 +358,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -385,7 +397,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -439,7 +452,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -556,7 +570,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -588,7 +603,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -804,7 +820,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -854,7 +871,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -900,7 +918,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
                 openCDXClassificationMessageService,
-                this.openCDXProfileRepository);
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -915,5 +934,41 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver));
+    }
+
+    @Test
+    void refreshQuestionnaire() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        String code = "123-abc";
+        String answer = "Answer 1";
+
+        OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                        .setType("choice")
+                        .build()))
+                .build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model));
+
+        Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
+                        Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(TinkarGetResponse.newBuilder()
+                        .addResults(TinkarGetResult.newBuilder().setDescription(answer))
+                        .build());
+
+        Questionnaire response = Questionnaire.newBuilder()
+                .setDescription("response refreshQuestionnaire")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.refreshQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }
