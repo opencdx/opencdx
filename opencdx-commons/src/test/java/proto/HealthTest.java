@@ -16,9 +16,12 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.health.medication.SearchMedicationsRequest;
-import cdx.opencdx.grpc.health.profile.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
+import cdx.opencdx.grpc.service.health.UpdateUserProfileRequest;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.Gender;
+import cdx.opencdx.grpc.types.PhoneType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

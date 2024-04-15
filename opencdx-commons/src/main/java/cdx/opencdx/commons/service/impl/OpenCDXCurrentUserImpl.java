@@ -23,7 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.types.IamUserType;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

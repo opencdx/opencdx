@@ -17,7 +17,7 @@ package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXConnectedLabMessageService;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
+import cdx.opencdx.grpc.data.LabFindings;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

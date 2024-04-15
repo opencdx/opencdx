@@ -16,9 +16,12 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.communications.*;
+import cdx.opencdx.grpc.types.NotificationPriority;
+import cdx.opencdx.grpc.types.NotificationStatus;
+import cdx.opencdx.grpc.types.SensitivityLevel;
+import cdx.opencdx.grpc.types.TemplateType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

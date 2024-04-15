@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.commons.service;
 
-import cdx.opencdx.grpc.shipping.Order;
+
+import cdx.opencdx.grpc.data.Order;
 
 /**
  * OpenCDXOrderMessageService is an interface that defines methods for submitting an order.

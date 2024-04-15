@@ -16,9 +16,9 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.common.PaymentDetails;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.ConnectedTestListRequest;
+import cdx.opencdx.grpc.types.TestClassification;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

@@ -16,8 +16,11 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.data.Media;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.media.*;
+import cdx.opencdx.grpc.types.MediaStatus;
+import cdx.opencdx.grpc.types.MediaType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

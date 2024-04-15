@@ -17,7 +17,9 @@ package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.data.Actor;
+import cdx.opencdx.grpc.data.AuditEvent;
+import cdx.opencdx.grpc.types.AuditEventType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;

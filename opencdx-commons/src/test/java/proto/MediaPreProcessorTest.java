@@ -15,7 +15,9 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.data.MediaPreprocessor;
+import cdx.opencdx.grpc.service.media.PreprocessMediaRequest;
+import cdx.opencdx.grpc.service.media.PreprocessMediaResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

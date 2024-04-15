@@ -16,8 +16,8 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.LabFindings;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

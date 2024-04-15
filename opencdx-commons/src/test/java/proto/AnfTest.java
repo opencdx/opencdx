@@ -16,7 +16,8 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.CircumstanceType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -39,8 +40,8 @@ class AnfTest {
 
     @Test
     void testIdentifier() throws JsonProcessingException {
-        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        Identifier identifier = Identifier.newBuilder()
+                .setIdentifier(OpenCDXIdentifier.get().toHexString())
                 .build();
 
         log.info(
@@ -49,11 +50,11 @@ class AnfTest {
 
     @Test
     void testAnfStatement() throws JsonProcessingException {
-        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .setId(AnfStatement.Identifier.newBuilder()
+        ANFStatement anfStatement = ANFStatement.newBuilder()
+                .setId(ANFIdentifier.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
-                .setTime(AnfStatement.Measure.newBuilder()
+                .setTime(Measure.newBuilder()
                         .setUpperBound("100")
                         .setLowerBound("0.0")
                         .setIncludeLowerBound(true)
@@ -61,22 +62,22 @@ class AnfTest {
                         .setResolution("1.0")
                         .setSemantic("expression")
                         .build())
-                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                .setSubjectOfRecord(Participant.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
-                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
+                .addAllAuthors(List.of(Practitioner.newBuilder()
                         .setPractitionerValue("practitioner")
                         .setCode("expression")
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build()))
                 .setSubjectOfInformation("expression")
-                .addAllAssociatedStatement(List.of(AnfStatement.AssociatedStatement.newBuilder()
+                .addAllAssociatedStatement(List.of(AssociatedStatement.newBuilder()
                         .setSemantic("Associated description")
                         .build()))
                 .setTopic("Topic")
                 .setType("Type")
-                .setCircumstanceChoice(AnfStatement.CircumstanceChoice.newBuilder()
-                        .setCircumstanceType(AnfStatement.CircumstanceType.NARRATIVE_CIRCUMSTANCE)
+                .setCircumstanceChoice(CircumstanceChoice.newBuilder()
+                        .setCircumstanceType(CircumstanceType.NARRATIVE_CIRCUMSTANCE)
                         .build())
                 .build();
 
