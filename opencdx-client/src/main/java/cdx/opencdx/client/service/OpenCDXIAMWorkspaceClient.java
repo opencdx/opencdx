@@ -17,7 +17,7 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.service.iam.*;
 
 /**
  * Interface for communicating with the  IAM Workspace microservice.

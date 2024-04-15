@@ -17,7 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.questionnaire.*;
 
 /**
  * Interface for communicating with the Questionnaire microservice.

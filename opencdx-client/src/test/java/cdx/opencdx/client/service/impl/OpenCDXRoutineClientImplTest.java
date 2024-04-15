@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXRoutineClient;
-import cdx.opencdx.grpc.routine.*;
+import cdx.opencdx.grpc.service.health.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;

@@ -17,7 +17,11 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.EmailTemplate;
+import cdx.opencdx.grpc.data.Notification;
+import cdx.opencdx.grpc.data.NotificationEvent;
+import cdx.opencdx.grpc.data.SMSTemplate;
+import cdx.opencdx.grpc.service.communications.*;
 
 /**
  * Interface for the Open CDX Communication Client.

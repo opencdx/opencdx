@@ -17,11 +17,11 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.common.Country;
-import cdx.opencdx.grpc.inventory.CountryIdRequest;
-import cdx.opencdx.grpc.inventory.CountryListRequest;
-import cdx.opencdx.grpc.inventory.CountryListResponse;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
+import cdx.opencdx.grpc.data.Country;
+import cdx.opencdx.grpc.service.logistics.CountryIdRequest;
+import cdx.opencdx.grpc.service.logistics.CountryListRequest;
+import cdx.opencdx.grpc.service.logistics.CountryListResponse;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
 
 /**
  * Interface for communicating with the Logistics Country microservice.

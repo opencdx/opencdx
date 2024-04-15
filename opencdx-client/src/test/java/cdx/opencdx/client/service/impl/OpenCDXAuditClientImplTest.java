@@ -17,7 +17,11 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.data.AuditEvent;
+import cdx.opencdx.grpc.data.AuditStatus;
+import cdx.opencdx.grpc.service.audit.*;
+import cdx.opencdx.grpc.types.AgentType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.google.rpc.Code;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;

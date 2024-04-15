@@ -17,7 +17,7 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.routine.*;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for communicating with the Routine microservice.

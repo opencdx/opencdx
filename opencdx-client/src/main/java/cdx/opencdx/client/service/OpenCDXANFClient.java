@@ -17,7 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFStatement;
+import cdx.opencdx.grpc.data.Identifier;
 
 /**
  * Interface for communicating with the Helloworld microservice.
@@ -29,8 +30,8 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier createANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    Identifier createANFStatement(
+            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -39,8 +40,8 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.ANFStatement getANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFStatement getANFStatement(
+            Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -49,8 +50,8 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier updateANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    Identifier updateANFStatement(
+            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -59,7 +60,7 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier deleteANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    Identifier deleteANFStatement(
+            Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

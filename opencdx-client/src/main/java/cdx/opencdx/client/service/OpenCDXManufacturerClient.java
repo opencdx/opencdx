@@ -17,7 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.service.logistics.*;
 
 /**
  * Interface for communicating with the Logistics Manufacturer microservice.

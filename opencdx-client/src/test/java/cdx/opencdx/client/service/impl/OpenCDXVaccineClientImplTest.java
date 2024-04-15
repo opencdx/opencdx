@@ -17,8 +17,8 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.health.*;
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Vaccine;
+import cdx.opencdx.grpc.service.health.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;

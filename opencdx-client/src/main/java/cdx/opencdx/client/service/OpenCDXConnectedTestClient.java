@@ -16,7 +16,8 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Client Interface to the gRPC Connected Tests service
