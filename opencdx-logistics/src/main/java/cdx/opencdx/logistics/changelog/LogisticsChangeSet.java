@@ -371,7 +371,7 @@ public class LogisticsChangeSet {
                 new OpenCDXCountryModel(
                         "Isle of Man", "IM", "IMN", "im", "IM", 833, "44-1624", EUROPE, List.of("en", "gv")),
                 new OpenCDXCountryModel(
-                        "Israel", "IL", "ISR", "il", "IS", 376, "972", ASIA, List.of("he", "ar-IL", "en-IL", null)),
+                        "Israel", "IL", "ISR", "il", "IS", 376, "972", ASIA, List.of("he", "ar-IL", "en-IL")),
                 new OpenCDXCountryModel(
                         "Italy",
                         "IT",
