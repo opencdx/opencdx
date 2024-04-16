@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.media.controller;
 
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.service.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;
 import cdx.opencdx.media.service.OpenCDXMediaService;
