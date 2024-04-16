@@ -186,6 +186,17 @@ enum DurationType {
   DURATION_TYPE_YEARS = 8;
 }
 
+enum ContinentEnum {
+    AFRICA = 0;
+    ANTARCTICA = 1;
+    ASIA = 2;
+    EUROPE = 3;
+    NORTH_AMERICA = 4;
+    OCEANIA = 5;
+    SOUTH_AMERICA = 6;
+
+}
+
 /*
  * Message for Country includes country-identifier and metadata fields.
  */
@@ -198,27 +209,36 @@ message Country {
   /*
    * Name of the country.
    */
-  string name = 2;
+  optional string name = 2;
+
+  optional string iso2 = 3;
+  optional string iso3 = 4;
+  ContinentEnum continent = 5;
+  optional string fips = 6;
+  optional int32 isoNumeric = 7;
+  repeated string languageCodes = 8;
+  optional string phoneCode = 9;
+  optional string topLevelInternetDomain = 10;
 
   /*
    * Creation timestamp of the country data.
    */
-  optional google.protobuf.Timestamp created = 3;
+  optional google.protobuf.Timestamp created = 11;
 
   /*
    * Modification timestamp of the country data.
    */
-  optional google.protobuf.Timestamp modified = 4;
+  optional google.protobuf.Timestamp modified = 12;
 
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 5;
+  optional string creator = 13;
 
   /*
    * Identifier of the last modifier of this record.
    */
-  optional string modifier = 6;
+  optional string modifier = 14;
 }
 
 /*
