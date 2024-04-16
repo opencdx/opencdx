@@ -116,8 +116,7 @@ public class LogisticsChangeSet {
                         "Bahamas", "BS", "BHS", "bs", "BF", 44, "1-242", NORTH_AMERICA, List.of("en-BS")),
                 new OpenCDXCountryModel(
                         "Bahrain", "BH", "BHR", "bh", "BA", 48, "973", ASIA, List.of("ar-BH", "en", "fa", "ur")),
-                new OpenCDXCountryModel(
-                        "Bangladesh", "BD", "BGD", "bd", "BG", 50, "880", ASIA, List.of("bn-BD", "en")),
+                new OpenCDXCountryModel("Bangladesh", "BD", "BGD", "bd", "BG", 50, "880", ASIA, List.of("bn-BD", "en")),
                 new OpenCDXCountryModel(
                         "Barbados", "BB", "BRB", "bb", "BB", 52, "1-246", NORTH_AMERICA, List.of("en-BB")),
                 new OpenCDXCountryModel("Belarus", "BY", "BLR", "by", "BO", 112, "375", EUROPE, List.of("be", "ru")),
@@ -157,8 +156,7 @@ public class LogisticsChangeSet {
                         "1-284",
                         NORTH_AMERICA,
                         List.of("en-VG")),
-                new OpenCDXCountryModel(
-                        "Brunei", "BN", "BRN", "bn", "BX", 96, "673", ASIA, List.of("ms-BN", "en-BN")),
+                new OpenCDXCountryModel("Brunei", "BN", "BRN", "bn", "BX", 96, "673", ASIA, List.of("ms-BN", "en-BN")),
                 new OpenCDXCountryModel(
                         "Bulgaria", "BG", "BGR", "bg", "BU", 100, "359", EUROPE, List.of("bg", "tr-BG")),
                 new OpenCDXCountryModel("Burkina Faso", "BF", "BFA", "bf", "UV", 854, "226", AFRICA, List.of("fr-BF")),
@@ -789,15 +787,7 @@ public class LogisticsChangeSet {
                         List.of("en-TT", "hns", "fr", "es", "zh")),
                 new OpenCDXCountryModel("Tunisia", "TN", "TUN", "tn", "TS", 788, "216", AFRICA, List.of("ar-TN", "fr")),
                 new OpenCDXCountryModel(
-                        "Turkey",
-                        "TR",
-                        "TUR",
-                        "tr",
-                        "TU",
-                        792,
-                        "90",
-                        ASIA,
-                        List.of("tr-TR", "ku", "diq", "az", "av")),
+                        "Turkey", "TR", "TUR", "tr", "TU", 792, "90", ASIA, List.of("tr-TR", "ku", "diq", "az", "av")),
                 new OpenCDXCountryModel(
                         "Turkmenistan", "TM", "TKM", "tm", "TX", 795, "993", ASIA, List.of("tk", "ru", "uz")),
                 new OpenCDXCountryModel(
