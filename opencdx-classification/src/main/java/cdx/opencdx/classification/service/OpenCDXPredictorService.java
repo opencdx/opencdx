@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.classification.service;
 
-import cdx.opencdx.grpc.service.health.PredictorRequest;
-import cdx.opencdx.grpc.service.health.PredictorResponse;
+import cdx.opencdx.grpc.service.classification.PredictorRequest;
+import cdx.opencdx.grpc.service.classification.PredictorResponse;
 
 /**
  * Interface for the Predictor Service.

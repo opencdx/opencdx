@@ -22,7 +22,7 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.PredictorInput;
-import cdx.opencdx.grpc.service.health.PredictorRequest;
+import cdx.opencdx.grpc.service.classification.PredictorRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;

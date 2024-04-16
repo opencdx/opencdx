@@ -1027,27 +1027,7 @@ message ListHeartRPMResponse {
   repeated cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 2;
 }
 
-/*
- * A Protobuf message that is used as a request for the Neural Predictor Service.
- * It encapsulates the necessary input data for a prediction.
- */
-message PredictorRequest {
-  /*
-   * The input data that will be used for prediction.
-   */
-  cdx.opencdx.grpc.data.PredictorInput predictor_input = 1;
-}
 
-/*
- * A Protobuf message that serves as a response from the Neural Predictor Service.
- * It encapsulates the output of the prediction model.
- */
-message PredictorResponse {
-  /*
-   * The output of the prediction model.
-   */
-  cdx.opencdx.grpc.data.PredictorOutput predictor_output = 1;
-}
 
 
 /*
@@ -1476,17 +1456,7 @@ service BPMService {
   rpc ListBPMMeasurements(ListBPMRequest) returns (ListBPMResponse);
 }
 
-/*
- * This is a Protobuf service definition for a Neural Predictor.
- * It includes a method for making a prediction based on input data.
- */
-service NeuralPredictorService {
-  /*
-   * This method predicts a value based on input data it receives in a PredictorRequest message
-   * and returns a PredictorResponse message that contains the output of the prediction model.
-   */
-  rpc Predict(PredictorRequest) returns (PredictorResponse);
-}
+
 
 /*
  * Service definitions in ProviderService to Get, Delete, List and Load healthcare providers.

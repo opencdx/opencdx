@@ -17,8 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.service.health.PredictorRequest;
-import cdx.opencdx.grpc.service.health.PredictorResponse;
+import cdx.opencdx.grpc.service.classification.PredictorRequest;
+import cdx.opencdx.grpc.service.classification.PredictorResponse;
 
 /**
  * Interface for communicating with the Predictor microservice.

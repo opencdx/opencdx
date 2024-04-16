@@ -32,204 +32,79 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: dashboard
-          uri: http://dashboard:3005
-          predicates:
-            - Path=/dashboard/**
-          filters:
-            - RewritePath=/dashboard/(?<segment>.*), /$\{segment}
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.helloworld.Greeter/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-audit
-          uri: https://audit:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.audit.AuditService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-predictor
-          uri: https://classification:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value  
-        - id: grpc-questionnaire
-          uri: https://questionnaire:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.questionnaire.QuestionnaireService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value  
-        - id: grpc-communications
-          uri: https://communications:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.communication.CommunicationService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-health
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.connected.HealthcareService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-media
-          uri: https://media:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.media.MediaService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-routine
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value            
-        - id: grpc-iam
-          uri: https://iam:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.iam.IamUserService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-logistics-country
-          uri: https://logistics:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.inventory.CountryService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-logistics-device
-          uri: https://logistics:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.inventory.DeviceService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-logistics-manufacturer
-          uri: https://logistics:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.inventory.ManufacturerService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-logistics-testcase
-          uri: https://logistics:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.inventory.TestCaseService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-logistics-vendor
-          uri: https://logistics:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.inventory.VendorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-health-profile
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.health.profile.UserProfileService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-iam-workspace
-          uri: https://iam:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.organization.WorkspaceService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-iam-organization
-          uri: https://iam:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.organization.OrganizationService/**
+            - Path=/cdx.opencdx.grpc.service.helloworld.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-anf
           uri: https://anf:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.anf.ANFService/**
+            - Path=/cdx.opencdx.grpc.service.anf.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-predictor
-          uri: https://classification:9090
+        - id: grpc-audit
+          uri: https://audit:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.neural.predictor.NeuralPredictorService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-protector
-          uri: https://iam:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.neural.protector.NeuralProtectorService/**
+            - Path=/cdx.opencdx.grpc.service.audit.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-classification
           uri: https://classification:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.neural.classification.ClassificationService/**
+            - Path=/cdx.opencdx.grpc.service.classification.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-tinkar
-          uri: https://tinkar:9090
+        - id: grpc-communications
+          uri: https://communications:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.tinkar.TinkarQueryService/**
+            - Path=/cdx.opencdx.grpc.service.communications.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: admin-dashboard
-          uri: https://dashboard:3005
+        - id: grpc-health
+          uri: https://health:9090
           predicates:
-            - Path=/dashboard/**
+            - Path=/cdx.opencdx.grpc.service.health.*/**
           filters:
-            - RewritePath=/dashboard/?(?<segment>.*), /$\{segment}
-        - id: grpc-order
-          uri: https://logistics:9090
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-helloworld
+          uri: https://helloworld:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.shipping.OrderService/**
+            - Path=/cdx.opencdx.grpc.service.helloworld.*/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-iam
+          uri: https://iam:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.service.iam.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-logistics
           uri: https://logistics:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.shipping.ShippingService/**
+            - Path=/cdx.opencdx.grpc.service.logistics.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-lab
-          uri: https://health:9090
+        - id: grpc-media
+          uri: https://media:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.lab.connected.ConnectedLabService/**
+            - Path=/cdx.opencdx.grpc.service.media.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-health-medication
-          uri: https://health:9090
+        - id: grpc-questionnaire
+          uri: https://questionnaire:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.health.medication.MedicationService/**
+            - Path=/cdx.opencdx.grpc.service.questionnaire.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-provider
-          uri: https://health:9090
+        - id: grpc-tinkar
+          uri: https://tinkar:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.provider.ProviderService/**
+            - Path=/cdx.opencdx.grpc.service.tinkar.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-height
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.health.HeightMeasurementService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-weight
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.health.WeightMeasurementService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-bpm
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.health.BPMService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-bpm
-          uri: https://health:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.health.HeartRPMService/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
+
 eureka:
   client:
     service-url:
