@@ -188,7 +188,7 @@ enum DurationType {
 
 enum ContinentEnum {
     AFRICA = 0;
-    ANTARTICA = 1;
+    ANTARCTICA = 1;
     ASIA = 2;
     EUROPE = 3;
     NORTH_AMERICA = 4;

@@ -91,7 +91,7 @@ public class LogisticsChangeSet {
                 new OpenCDXCountryModel("Angola", "AO", "AGO", "ao", "AO", 24, "244", AFRICA, List.of("pt-AO")),
                 new OpenCDXCountryModel(
                         "Anguilla", "AI", "AIA", "ai", "AV", 660, "1-264", NORTH_AMERICA, List.of("en-AI")),
-                new OpenCDXCountryModel("Antarctica", "AQ", "ATA", "aq", "AY", 10, "672", "Antarctica", List.of()),
+                new OpenCDXCountryModel("Antarctica", "AQ", "ATA", "aq", "AY", 10, "672", "ANTARCTICA", List.of()),
                 new OpenCDXCountryModel(
                         "Antigua and Barbuda", "AG", "ATG", "ag", "AC", 28, "1-268", NORTH_AMERICA, List.of("en-AG")),
                 new OpenCDXCountryModel(
