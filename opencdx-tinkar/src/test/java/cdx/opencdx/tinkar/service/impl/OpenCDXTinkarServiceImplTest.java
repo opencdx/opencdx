@@ -15,18 +15,13 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
-import static org.mockito.Mockito.*;
-
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
-import cdx.opencdx.grpc.tinkar.*;
+import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.provider.search.Searcher;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +33,12 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

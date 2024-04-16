@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.tinkar.service;
 
-import cdx.opencdx.grpc.tinkar.*;
+import cdx.opencdx.grpc.service.tinkar.*;
 
 /**
  * Interface to search TINKAR Repository
