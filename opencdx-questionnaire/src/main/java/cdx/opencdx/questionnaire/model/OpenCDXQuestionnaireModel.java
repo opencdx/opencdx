@@ -16,18 +16,19 @@
 package cdx.opencdx.questionnaire.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.questionnaire.Questionnaire;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireStatus;
+import cdx.opencdx.grpc.data.Questionnaire;
+import cdx.opencdx.grpc.data.QuestionnaireItem;
+import cdx.opencdx.grpc.types.QuestionnaireStatus;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * This class represents a questionnaire model.

@@ -26,12 +26,13 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.questionnaire.*;
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
-import cdx.opencdx.grpc.tinkar.TinkarGetResult;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.questionnaire.*;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetResult;
+import cdx.opencdx.grpc.types.QuestionnaireStatus;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -40,14 +41,18 @@ import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
 
 /**
  * Service for processing Questionnaire Requests

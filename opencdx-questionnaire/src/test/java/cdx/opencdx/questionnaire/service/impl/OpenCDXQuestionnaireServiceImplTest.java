@@ -26,11 +26,11 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.questionnaire.*;
-import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
-import cdx.opencdx.grpc.tinkar.TinkarGetResponse;
-import cdx.opencdx.grpc.tinkar.TinkarGetResult;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.questionnaire.*;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetResponse;
+import cdx.opencdx.grpc.service.tinkar.TinkarGetResult;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
@@ -38,10 +38,6 @@ import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,6 +54,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

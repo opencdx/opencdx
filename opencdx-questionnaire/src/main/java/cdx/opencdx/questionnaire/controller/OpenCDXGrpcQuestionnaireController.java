@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.questionnaire.controller;
 
-import cdx.opencdx.grpc.questionnaire.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.questionnaire.*;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
