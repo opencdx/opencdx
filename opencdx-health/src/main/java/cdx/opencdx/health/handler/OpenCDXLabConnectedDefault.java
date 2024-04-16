@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.health.handler;
 
-import cdx.opencdx.grpc.lab.connected.LabFindings;
-import cdx.opencdx.grpc.lab.connected.LabFindingsResponse;
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.service.health.LabFindingsResponse;
 import cdx.opencdx.health.model.OpenCDXConnectedLabModel;
 import lombok.extern.slf4j.Slf4j;
 

@@ -16,7 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.HeartRPM;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

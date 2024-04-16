@@ -19,9 +19,11 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.lab.connected.*;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.ConnectedLab;
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.config.OpenCDXLabConnectionFactoryBean;
 import cdx.opencdx.health.model.OpenCDXConnectedLabModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedLabRepository;
@@ -30,9 +32,6 @@ import cdx.opencdx.health.service.impl.OpenCDXConnectedLabServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +47,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

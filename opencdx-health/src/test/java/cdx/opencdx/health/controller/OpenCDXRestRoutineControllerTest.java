@@ -15,29 +15,14 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.routine.ClinicalProtocolExecution;
-import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
-import cdx.opencdx.grpc.routine.Diagnosis;
-import cdx.opencdx.grpc.routine.DiagnosisRequest;
-import cdx.opencdx.grpc.routine.LabOrder;
-import cdx.opencdx.grpc.routine.LabOrderRequest;
-import cdx.opencdx.grpc.routine.LabResult;
-import cdx.opencdx.grpc.routine.LabResultRequest;
-import cdx.opencdx.grpc.routine.Routine;
-import cdx.opencdx.grpc.routine.RoutineRequest;
-import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
-import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,6 +41,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

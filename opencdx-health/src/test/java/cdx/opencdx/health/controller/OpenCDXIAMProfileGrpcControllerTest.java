@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.mockito.Mockito.when;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
@@ -27,13 +25,12 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.health.profile.*;
+import cdx.opencdx.grpc.data.UserProfile;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import cdx.opencdx.health.service.impl.OpenCDXIAMProfileServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +46,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

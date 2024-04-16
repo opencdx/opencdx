@@ -22,9 +22,13 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.EndMedicationRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsResponse;
+import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
 import cdx.opencdx.health.service.OpenCDXApiFDA;
@@ -32,12 +36,13 @@ import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Service for Medication

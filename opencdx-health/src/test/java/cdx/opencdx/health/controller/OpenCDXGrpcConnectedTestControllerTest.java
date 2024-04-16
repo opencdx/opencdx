@@ -23,8 +23,11 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.Gender;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.health.service.OpenCDXConnectedTestService;
@@ -32,10 +35,6 @@ import cdx.opencdx.health.service.impl.OpenCDXConnectedTestServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,6 +52,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

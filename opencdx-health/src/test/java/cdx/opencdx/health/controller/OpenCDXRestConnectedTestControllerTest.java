@@ -15,27 +15,25 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.TestDetails;
+import cdx.opencdx.grpc.service.health.ConnectedTestListByNHIDRequest;
+import cdx.opencdx.grpc.service.health.ConnectedTestListRequest;
+import cdx.opencdx.grpc.service.health.TestIdRequest;
+import cdx.opencdx.grpc.service.health.TestSubmissionResponse;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedTestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -60,6 +58,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

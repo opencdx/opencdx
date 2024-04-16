@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -24,15 +22,14 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.WeightMeasurement;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.model.OpenCDXWeightMeasurementModel;
 import cdx.opencdx.health.repository.OpenCDXWeightMeasurementRepository;
 import cdx.opencdx.health.service.OpenCDXWeightMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +46,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

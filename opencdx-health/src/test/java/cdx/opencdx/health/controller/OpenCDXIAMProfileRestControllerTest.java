@@ -15,26 +15,19 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Gender;
-import cdx.opencdx.grpc.health.profile.CreateUserProfileRequest;
-import cdx.opencdx.grpc.health.profile.UpdateUserProfileRequest;
-import cdx.opencdx.grpc.health.profile.UserProfile;
-import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.data.UserProfile;
+import cdx.opencdx.grpc.service.health.CreateUserProfileRequest;
+import cdx.opencdx.grpc.service.health.UpdateUserProfileRequest;
+import cdx.opencdx.grpc.types.Gender;
+import cdx.opencdx.grpc.types.IamUserType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,6 +49,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

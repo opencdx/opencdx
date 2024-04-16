@@ -15,11 +15,9 @@
  */
 package cdx.opencdx.health.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.HeightUnits;
+import cdx.opencdx.grpc.data.HeightMeasurement;
+import cdx.opencdx.grpc.types.HeightUnits;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -16,7 +16,10 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.BPM;
+import cdx.opencdx.grpc.types.ArmUsed;
+import cdx.opencdx.grpc.types.BPMUnits;
+import cdx.opencdx.grpc.types.CuffSize;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

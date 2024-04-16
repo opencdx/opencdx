@@ -15,18 +15,7 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
-import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse;
-import cdx.opencdx.grpc.routine.DiagnosisRequest;
-import cdx.opencdx.grpc.routine.DiagnosisResponse;
-import cdx.opencdx.grpc.routine.LabOrderRequest;
-import cdx.opencdx.grpc.routine.LabOrderResponse;
-import cdx.opencdx.grpc.routine.LabResultRequest;
-import cdx.opencdx.grpc.routine.LabResultResponse;
-import cdx.opencdx.grpc.routine.RoutineRequest;
-import cdx.opencdx.grpc.routine.RoutineResponse;
-import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
-import cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for the OpenCDXRoutineService, which defines methods for processing routine-related requests.

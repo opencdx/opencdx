@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

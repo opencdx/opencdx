@@ -22,8 +22,9 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.types.ProviderStatus;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiJsonResponse;
 import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
@@ -33,12 +34,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of the IAM Provider Service.

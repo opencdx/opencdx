@@ -15,14 +15,21 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.MedicationAdministration;
+import cdx.opencdx.grpc.service.health.GetMedicationByIdRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsResponse;
 import cdx.opencdx.health.service.OpenCDXMedicationAdministrationService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller for the /health  api's

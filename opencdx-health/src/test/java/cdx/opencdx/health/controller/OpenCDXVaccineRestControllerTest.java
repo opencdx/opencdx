@@ -15,19 +15,16 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.GetVaccineByIdRequest;
-import cdx.opencdx.grpc.health.ListVaccinesRequest;
-import cdx.opencdx.grpc.health.Vaccine;
-import cdx.opencdx.grpc.health.medication.Medication;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.Vaccine;
+import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
+import cdx.opencdx.grpc.service.health.ListVaccinesRequest;
 import cdx.opencdx.health.model.OpenCDXVaccineModel;
 import cdx.opencdx.health.repository.OpenCDXVaccineRepository;
 import cdx.opencdx.health.service.OpenCDXVaccineService;
@@ -35,9 +32,6 @@ import cdx.opencdx.health.service.impl.OpenCDXVaccineServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -62,6 +56,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

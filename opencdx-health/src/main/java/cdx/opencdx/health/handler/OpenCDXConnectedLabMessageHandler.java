@@ -17,7 +17,7 @@ package cdx.opencdx.health.handler;
 
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
+import cdx.opencdx.grpc.data.LabFindings;
 import cdx.opencdx.health.service.OpenCDXConnectedLabService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;

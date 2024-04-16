@@ -15,28 +15,22 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.CreateHeightMeasurementRequest;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.ListHeightMeasurementsRequest;
-import cdx.opencdx.grpc.health.UpdateHeightMeasurementRequest;
+import cdx.opencdx.grpc.data.HeightMeasurement;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateHeightMeasurementRequest;
+import cdx.opencdx.grpc.service.health.ListHeightMeasurementsRequest;
+import cdx.opencdx.grpc.service.health.UpdateHeightMeasurementRequest;
 import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
 import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
 import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;
 import cdx.opencdx.health.service.impl.OpenCDXHeightMeasurementServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,6 +55,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

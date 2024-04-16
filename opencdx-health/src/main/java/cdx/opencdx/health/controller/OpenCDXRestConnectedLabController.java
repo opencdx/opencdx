@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.lab.connected.*;
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.service.OpenCDXConnectedLabService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

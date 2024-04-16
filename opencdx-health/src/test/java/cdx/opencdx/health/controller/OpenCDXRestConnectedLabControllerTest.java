@@ -15,22 +15,16 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.lab.connected.ConnectedLab;
-import cdx.opencdx.grpc.lab.connected.CreateConnectedLabRequest;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
-import cdx.opencdx.grpc.shipping.ListOrdersRequest;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.ConnectedLab;
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateConnectedLabRequest;
+import cdx.opencdx.grpc.service.logistics.ListOrdersRequest;
 import cdx.opencdx.health.config.OpenCDXLabConnectionFactoryBean;
 import cdx.opencdx.health.model.OpenCDXConnectedLabModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedLabRepository;
@@ -38,9 +32,6 @@ import cdx.opencdx.health.service.OpenCDXConnectedLabService;
 import cdx.opencdx.health.service.impl.OpenCDXConnectedLabServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,6 +55,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

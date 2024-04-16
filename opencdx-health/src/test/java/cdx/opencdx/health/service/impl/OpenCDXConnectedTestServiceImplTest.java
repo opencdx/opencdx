@@ -24,16 +24,17 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.TestIdRequest;
+import cdx.opencdx.grpc.service.health.TestSubmissionResponse;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.Gender;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.health.service.OpenCDXConnectedTestService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -49,6 +50,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

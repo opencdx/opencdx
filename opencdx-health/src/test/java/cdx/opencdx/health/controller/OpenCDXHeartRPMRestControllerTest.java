@@ -15,26 +15,22 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.HeartRPM;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateHeartRPMRequest;
+import cdx.opencdx.grpc.service.health.ListHeartRPMRequest;
+import cdx.opencdx.grpc.service.health.UpdateHeartRPMRequest;
 import cdx.opencdx.health.model.OpenCDXHeartRPMModel;
 import cdx.opencdx.health.repository.OpenCDXHeartRPMRepository;
 import cdx.opencdx.health.service.OpenCDXHeartRPMService;
 import cdx.opencdx.health.service.impl.OpenCDXHeartRPMServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +55,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

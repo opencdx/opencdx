@@ -15,17 +15,15 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.MedicationAdministration;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.GetMedicationByIdRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
 import cdx.opencdx.health.model.OpenCDXMedicationAdministrationModel;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationAdministrationRepository;
@@ -35,9 +33,6 @@ import cdx.opencdx.health.service.impl.OpenCDXMedicationAdministrationServiceImp
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -62,6 +57,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

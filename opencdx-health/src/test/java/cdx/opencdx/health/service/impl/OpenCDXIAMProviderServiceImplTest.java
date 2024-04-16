@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -26,10 +23,10 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.provider.DeleteProviderRequest;
-import cdx.opencdx.grpc.provider.GetProviderRequest;
-import cdx.opencdx.grpc.provider.ListProvidersRequest;
-import cdx.opencdx.grpc.provider.LoadProviderRequest;
+import cdx.opencdx.grpc.service.health.DeleteProviderRequest;
+import cdx.opencdx.grpc.service.health.GetProviderRequest;
+import cdx.opencdx.grpc.service.health.ListProvidersRequest;
+import cdx.opencdx.grpc.service.health.LoadProviderRequest;
 import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
@@ -37,10 +34,6 @@ import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.io.IOException;
-import java.net.*;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,6 +49,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

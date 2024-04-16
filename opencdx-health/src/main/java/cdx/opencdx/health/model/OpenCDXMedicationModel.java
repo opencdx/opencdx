@@ -16,15 +16,13 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.medication.DosageForm;
-import cdx.opencdx.grpc.health.medication.Medication;
-import cdx.opencdx.grpc.health.medication.MedicationAdministrationRoute;
-import cdx.opencdx.grpc.health.medication.MedicationFrequency;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.types.DosageForm;
+import cdx.opencdx.grpc.types.MedicationAdministrationRoute;
+import cdx.opencdx.grpc.types.MedicationFrequency;
 import cdx.opencdx.health.dto.openfda.Product;
 import cdx.opencdx.health.dto.openfda.Result;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +30,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
 
 /**
  * Model for Medication in Mongo.  Features conversions

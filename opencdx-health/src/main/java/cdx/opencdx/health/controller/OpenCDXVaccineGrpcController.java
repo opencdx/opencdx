@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.Vaccine;
+import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
+import cdx.opencdx.grpc.service.health.ListVaccinesRequest;
+import cdx.opencdx.grpc.service.health.ListVaccinesResponse;
+import cdx.opencdx.grpc.service.health.VaccineServiceGrpc;
 import cdx.opencdx.health.service.OpenCDXVaccineService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

@@ -15,7 +15,9 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.lab.connected.*;
+
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * This interface provides the contract for the OpenCDXConnectedLabService.
