@@ -18,7 +18,7 @@ package cdx.opencdx.classification.handlers;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

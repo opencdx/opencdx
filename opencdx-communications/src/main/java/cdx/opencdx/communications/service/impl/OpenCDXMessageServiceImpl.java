@@ -28,15 +28,14 @@ import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
 import cdx.opencdx.communications.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.MessageTemplate;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.communications.*;
+import cdx.opencdx.grpc.types.MessageStatus;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -46,6 +45,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Service for Messages.

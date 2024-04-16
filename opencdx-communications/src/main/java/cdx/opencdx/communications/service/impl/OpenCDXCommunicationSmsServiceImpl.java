@@ -27,14 +27,17 @@ import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import cdx.opencdx.communications.service.*;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.SMSTemplate;
+import cdx.opencdx.grpc.service.communications.SMSTemplateListRequest;
+import cdx.opencdx.grpc.service.communications.SMSTemplateListResponse;
+import cdx.opencdx.grpc.service.communications.SuccessResponse;
+import cdx.opencdx.grpc.service.communications.TemplateRequest;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -44,6 +47,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for processing Communications Requests.

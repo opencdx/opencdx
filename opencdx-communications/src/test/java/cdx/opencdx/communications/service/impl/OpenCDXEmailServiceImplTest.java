@@ -16,9 +16,7 @@
 package cdx.opencdx.communications.service.impl;
 
 import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.grpc.communication.*;
-import java.util.ArrayList;
-import java.util.List;
+import cdx.opencdx.grpc.data.Attachment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

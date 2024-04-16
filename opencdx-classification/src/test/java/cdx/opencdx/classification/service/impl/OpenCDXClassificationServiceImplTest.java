@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.classification.service.impl;
 
-import static org.mockito.Mockito.when;
-
 import cdx.opencdx.classification.analyzer.service.impl.OpenCDXAnalysisEngineImpl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
@@ -32,27 +30,19 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
-import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.connected.TestDetails;
-import cdx.opencdx.grpc.connected.TestIdRequest;
-import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.inventory.TestCaseListRequest;
-import cdx.opencdx.grpc.inventory.TestCaseListResponse;
-import cdx.opencdx.grpc.media.GetMediaRequest;
-import cdx.opencdx.grpc.media.GetMediaResponse;
-import cdx.opencdx.grpc.media.Media;
-import cdx.opencdx.grpc.neural.classification.*;
-import cdx.opencdx.grpc.questionnaire.*;
-import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.health.TestIdRequest;
+import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
+import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
+import cdx.opencdx.grpc.service.media.GetMediaRequest;
+import cdx.opencdx.grpc.service.media.GetMediaResponse;
+import cdx.opencdx.grpc.service.questionnaire.GetQuestionnaireRequest;
+import cdx.opencdx.grpc.types.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -72,6 +62,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -335,7 +331,7 @@ class OpenCDXClassificationServiceImplTest {
         ClassificationResponse response = this.classificationService.classify(request);
 
         Assertions.assertEquals(
-                "Executed classify operation.", response.getMessage().toString());
+                "Executed classify operation.", response.getClassification().getMessage().toString());
     }
 
     @Test
@@ -612,7 +608,7 @@ class OpenCDXClassificationServiceImplTest {
                         .addSymptoms(
                                 Symptom.newBuilder()
                                         .setName("John Smith") // Simulating an invalid case with null symptom name
-                                        .setSeverity(SeverityLevel.LOW) // Set severity level for the symptom
+                                        .setSeverity(SeverityLevel.SEVERITY_LEVEL_LOW) // Set severity level for the symptom
                                         .setOnsetDate(Timestamp.newBuilder()
                                                 .setSeconds(1641196800)
                                                 .setNanos(0)) // Set onset date to a specific timestamp
@@ -727,6 +723,6 @@ class OpenCDXClassificationServiceImplTest {
         // Verify that the rules executed and set the correct further actions
         Assertions.assertEquals(
                 "Elevated blood pressure. Please continue monitoring.",
-                classificationService.classify(classificationRequest).getFurtherActions());
+                classificationService.classify(classificationRequest).getClassification().getFurtherActions());
     }
 }

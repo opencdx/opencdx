@@ -25,22 +25,26 @@ import cdx.opencdx.client.service.OpenCDXManufacturerClient;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.inventory.DeviceIdRequest;
-import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.data.ContactInfo;
+import cdx.opencdx.grpc.data.FullName;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
+import cdx.opencdx.grpc.service.logistics.ManufacturerIdRequest;
+import cdx.opencdx.grpc.types.AddressPurpose;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.*;
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
-import org.hl7.fhir.r4.model.Address;
-import org.springframework.stereotype.Service;
 
 /**
  * Service for creating CDC payloads
@@ -105,7 +109,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         DeviceIdRequest deviceRequest = DeviceIdRequest.newBuilder()
                 .setDeviceId(connectedTest.getTestDetails().getDeviceIdentifier())
                 .build();
-        cdx.opencdx.grpc.inventory.Device deviceInfo =
+       cdx.opencdx.grpc.data.Device deviceInfo =
                 this.openCDXDeviceClient.getDeviceById(deviceRequest, openCDXCallCredentials);
 
         // Create a FHIR Device instance

@@ -16,7 +16,7 @@
 package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.grpc.neural.classification.*;
+import cdx.opencdx.grpc.service.classification.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

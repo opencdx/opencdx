@@ -18,8 +18,9 @@ package cdx.opencdx.communications.service;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.MessageTemplate;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.communications.*;
 
 /**
  * Interface for the OpenCDXMessageService

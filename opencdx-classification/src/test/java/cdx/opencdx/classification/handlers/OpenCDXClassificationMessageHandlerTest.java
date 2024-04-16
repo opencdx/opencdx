@@ -15,17 +15,18 @@
  */
 package cdx.opencdx.classification.handlers;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.Mockito.*;
-
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.*;
 
 /**
  * This class tests the OpenCDXClassificationMessageHandler class, specifically the `receivedMessage` method.

@@ -19,7 +19,12 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.Notification;
+import cdx.opencdx.grpc.data.NotificationEvent;
+import cdx.opencdx.grpc.service.communications.NotificationEventListRequest;
+import cdx.opencdx.grpc.service.communications.NotificationEventListResponse;
+import cdx.opencdx.grpc.service.communications.SuccessResponse;
+import cdx.opencdx.grpc.service.communications.TemplateRequest;
 
 /**
  * Interface for the OpenCDXNotificationService

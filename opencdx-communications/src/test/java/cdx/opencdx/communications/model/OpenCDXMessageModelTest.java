@@ -15,12 +15,10 @@
  */
 package cdx.opencdx.communications.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.communication.Message;
-import cdx.opencdx.grpc.communication.MessageStatus;
-import cdx.opencdx.grpc.communication.MessageType;
+import cdx.opencdx.grpc.data.Message;
+import cdx.opencdx.grpc.types.MessageStatus;
+import cdx.opencdx.grpc.types.MessageType;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

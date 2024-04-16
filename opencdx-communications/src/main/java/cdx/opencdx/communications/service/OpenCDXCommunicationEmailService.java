@@ -19,7 +19,11 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.EmailTemplate;
+import cdx.opencdx.grpc.service.communications.EmailTemplateListRequest;
+import cdx.opencdx.grpc.service.communications.EmailTemplateListResponse;
+import cdx.opencdx.grpc.service.communications.SuccessResponse;
+import cdx.opencdx.grpc.service.communications.TemplateRequest;
 
 /**
  * Represents a service for communicating with OpenCDX via email.

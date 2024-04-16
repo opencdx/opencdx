@@ -29,15 +29,14 @@ import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
-import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.EmailTemplate;
+import cdx.opencdx.grpc.data.SMSTemplate;
+import cdx.opencdx.grpc.service.communications.TemplateRequest;
+import cdx.opencdx.grpc.types.NotificationPriority;
+import cdx.opencdx.grpc.types.NotificationStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.Instant;
-import java.util.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +51,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.Instant;
+import java.util.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

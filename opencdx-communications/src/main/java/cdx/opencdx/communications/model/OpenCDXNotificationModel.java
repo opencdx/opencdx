@@ -17,17 +17,21 @@ package cdx.opencdx.communications.model;
 
 import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.Attachment;
+import cdx.opencdx.grpc.data.Notification;
+import cdx.opencdx.grpc.types.NotificationPriority;
+import cdx.opencdx.grpc.types.NotificationStatus;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 
 /**
  * OpenCDXNotificationModel for the Protobuf Notification class, translation between types.
