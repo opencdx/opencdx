@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.iam.service;
 
-
 import cdx.opencdx.grpc.service.iam.*;
 
 /**

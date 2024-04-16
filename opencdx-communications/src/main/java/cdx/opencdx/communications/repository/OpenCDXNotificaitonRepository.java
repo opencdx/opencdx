@@ -21,9 +21,8 @@ import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.grpc.types.NotificationPriority;
 import cdx.opencdx.grpc.types.NotificationStatus;
 import io.micrometer.observation.annotation.Observed;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * MongoRepository for the notificaitons collection.

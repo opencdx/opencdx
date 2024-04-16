@@ -20,14 +20,13 @@ import cdx.opencdx.grpc.data.Message;
 import cdx.opencdx.grpc.types.MessageStatus;
 import cdx.opencdx.grpc.types.MessageType;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
 
 /**
  * Model for OpenCDXMessageModel in Mongo.  Features conversions

@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.media.service;
 
-
 import cdx.opencdx.grpc.service.media.*;
 
 /**

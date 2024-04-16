@@ -28,6 +28,8 @@ import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -41,9 +43,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

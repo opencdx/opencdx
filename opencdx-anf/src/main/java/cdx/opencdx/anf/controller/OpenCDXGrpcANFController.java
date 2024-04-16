@@ -18,7 +18,6 @@ package cdx.opencdx.anf.controller;
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.grpc.data.ANFIdentifier;
 import cdx.opencdx.grpc.data.ANFStatement;
-import cdx.opencdx.grpc.data.Identifier;
 import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
@@ -48,8 +47,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
 
     @Secured({})
     @Override
-    public void createANFStatement(
-            ANFStatement request, StreamObserver<ANFIdentifier> responseObserver) {
+    public void createANFStatement(ANFStatement request, StreamObserver<ANFIdentifier> responseObserver) {
         log.trace("Received request to create ANF Statement");
         responseObserver.onNext(this.openCDXANFService.createANFStatement(request));
         responseObserver.onCompleted();
@@ -57,8 +55,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
 
     @Secured({})
     @Override
-    public void getANFStatement(
-            ANFIdentifier request, StreamObserver<ANFStatement> responseObserver) {
+    public void getANFStatement(ANFIdentifier request, StreamObserver<ANFStatement> responseObserver) {
         log.trace("Received request to get ANF Statement");
         responseObserver.onNext(this.openCDXANFService.getANFStatement(request));
         responseObserver.onCompleted();
@@ -66,8 +63,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
 
     @Secured({})
     @Override
-    public void updateANFStatement(
-            ANFStatement request, StreamObserver<ANFIdentifier> responseObserver) {
+    public void updateANFStatement(ANFStatement request, StreamObserver<ANFIdentifier> responseObserver) {
         log.trace("Received request to update ANF Statement");
         responseObserver.onNext(this.openCDXANFService.updateANFStatement(request));
         responseObserver.onCompleted();
@@ -75,8 +71,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
 
     @Secured({})
     @Override
-    public void deleteANFStatement(
-            ANFIdentifier request, StreamObserver<ANFIdentifier> responseObserver) {
+    public void deleteANFStatement(ANFIdentifier request, StreamObserver<ANFIdentifier> responseObserver) {
         log.trace("Received request to delete ANF Statement");
         responseObserver.onNext(this.openCDXANFService.deleteANFStatement(request));
         responseObserver.onCompleted();

@@ -22,9 +22,8 @@ import cdx.opencdx.grpc.service.logistics.CreateOrderRequest;
 import cdx.opencdx.logistics.service.OpenCDXShippingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The OpenCDXOrderMessageHandler class is responsible for handling order messages

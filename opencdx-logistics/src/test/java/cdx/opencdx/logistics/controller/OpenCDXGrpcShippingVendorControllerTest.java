@@ -28,6 +28,8 @@ import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import cdx.opencdx.logistics.service.impl.OpenCDXShippingVendorServiceImpl;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,9 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

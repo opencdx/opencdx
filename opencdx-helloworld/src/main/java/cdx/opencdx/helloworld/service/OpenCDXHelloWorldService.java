@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.helloworld.service;
 
-
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 
 /**

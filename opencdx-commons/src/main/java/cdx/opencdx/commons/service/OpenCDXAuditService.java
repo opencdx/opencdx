@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.commons.service;
 
-
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 

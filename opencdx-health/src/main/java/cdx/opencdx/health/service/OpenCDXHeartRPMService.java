@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.service;
 
-
 import cdx.opencdx.grpc.service.health.*;
 
 /**

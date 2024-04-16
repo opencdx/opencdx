@@ -46,12 +46,11 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * Service for processing Classification Requests
@@ -323,12 +322,17 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private void orderTestCase(OpenCDXClassificationModel model) {
         log.info(
                 "Ordering Test Case: {}",
-                model.getClassificationResponse().getClassification().getTestKit().getTestCaseId());
+                model.getClassificationResponse()
+                        .getClassification()
+                        .getTestKit()
+                        .getTestCaseId());
         try {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "testcases",
-                    new OpenCDXIdentifier(
-                            model.getClassificationResponse().getClassification().getTestKit().getTestCaseId()));
+                    new OpenCDXIdentifier(model.getClassificationResponse()
+                            .getClassification()
+                            .getTestKit()
+                            .getTestCaseId()));
             Address shippingAddress = null;
 
             Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
@@ -358,14 +362,20 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             builder.setShippingName(model.getPatient().getFullName());
             builder.setPatientId(model.getPatient().getId().toHexString());
             builder.setShippingAddress(shippingAddress);
-            builder.setTestCaseId(model.getClassificationResponse().getClassification().getTestKit().getTestCaseId());
+            builder.setTestCaseId(model.getClassificationResponse()
+                    .getClassification()
+                    .getTestKit()
+                    .getTestCaseId());
 
             this.openCDXOrderMessageService.submitOrder(builder.build());
 
         } catch (OpenCDXNotFound e) {
             log.error(
                     "Failed to find test case: {}",
-                    model.getClassificationResponse().getClassification().getTestKit().getTestCaseId(),
+                    model.getClassificationResponse()
+                            .getClassification()
+                            .getTestKit()
+                            .getTestCaseId(),
                     e);
         }
     }

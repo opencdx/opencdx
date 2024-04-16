@@ -20,7 +20,6 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.service.health.PredictorRequest;
 import cdx.opencdx.grpc.service.health.PredictorResponse;
 
-
 /**
  * Interface for communicating with the Predictor microservice.
  */

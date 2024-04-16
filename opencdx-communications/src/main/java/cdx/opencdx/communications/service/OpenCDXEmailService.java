@@ -16,7 +16,6 @@
 package cdx.opencdx.communications.service;
 
 import cdx.opencdx.grpc.data.Attachment;
-
 import java.util.List;
 
 /**

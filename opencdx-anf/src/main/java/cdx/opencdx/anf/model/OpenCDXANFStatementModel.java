@@ -101,7 +101,7 @@ public class OpenCDXANFStatementModel {
     }
 
     /**
-     * Returns the Protobuf message representation of the 
+     * Returns the Protobuf message representation of the
      *
      * @return The Protobuf message representation
      */
@@ -109,9 +109,7 @@ public class OpenCDXANFStatementModel {
         log.trace("Creating ANFStatement from OpenCDXANFStatementModel");
         ANFStatement.Builder builder = ANFStatement.newBuilder();
 
-        builder.setId(ANFIdentifier.newBuilder()
-                .setId(this.id.toHexString())
-                .build());
+        builder.setId(ANFIdentifier.newBuilder().setId(this.id.toHexString()).build());
 
         if (this.time != null) {
             builder.setTime(this.time);

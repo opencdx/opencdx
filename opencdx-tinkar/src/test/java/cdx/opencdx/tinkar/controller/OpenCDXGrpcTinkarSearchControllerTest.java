@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.tinkar.controller;
 
+import static org.mockito.Mockito.when;
+
 import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import io.grpc.stub.StreamObserver;
@@ -26,8 +28,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

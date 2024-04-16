@@ -15,14 +15,14 @@
  */
 package cdx.opencdx.communications.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.SMSTemplate;
 import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 class OpenCDXSMSTemplateModelTest {

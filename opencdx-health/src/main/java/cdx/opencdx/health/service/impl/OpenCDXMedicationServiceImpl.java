@@ -36,13 +36,12 @@ import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for Medication

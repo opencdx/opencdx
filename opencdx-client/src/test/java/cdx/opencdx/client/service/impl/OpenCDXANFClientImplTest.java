@@ -22,7 +22,6 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXANFClient;
 import cdx.opencdx.grpc.data.ANFIdentifier;
 import cdx.opencdx.grpc.data.ANFStatement;
-import cdx.opencdx.grpc.data.Identifier;
 import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -62,8 +61,7 @@ class OpenCDXANFClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ANFIdentifier.getDefaultInstance(),
-                this.openCDXANFClient.createANFStatement(
-                        ANFStatement.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXANFClient.createANFStatement(ANFStatement.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -84,8 +82,7 @@ class OpenCDXANFClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ANFStatement.getDefaultInstance(),
-                this.openCDXANFClient.getANFStatement(
-                        ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXANFClient.getANFStatement(ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -106,8 +103,7 @@ class OpenCDXANFClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ANFIdentifier.getDefaultInstance(),
-                this.openCDXANFClient.updateANFStatement(
-                        ANFStatement.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXANFClient.updateANFStatement(ANFStatement.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -128,8 +124,7 @@ class OpenCDXANFClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ANFIdentifier.getDefaultInstance(),
-                this.openCDXANFClient.deleteANFStatement(
-                        ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXANFClient.deleteANFStatement(ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test

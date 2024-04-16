@@ -22,7 +22,6 @@ import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;
 import cdx.opencdx.logistics.dto.OpenCDXShippingResponse;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendor;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;

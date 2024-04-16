@@ -19,10 +19,9 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.MessageTemplate;
 import cdx.opencdx.grpc.types.MessageType;
 import com.google.protobuf.Timestamp;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class OpenCDXMessageTemplateModelTest {
 

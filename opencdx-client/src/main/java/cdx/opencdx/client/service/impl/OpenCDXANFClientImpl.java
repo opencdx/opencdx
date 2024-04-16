@@ -20,7 +20,6 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXANFClient;
 import cdx.opencdx.grpc.data.ANFIdentifier;
 import cdx.opencdx.grpc.data.ANFStatement;
-import cdx.opencdx.grpc.data.Identifier;
 import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
@@ -64,8 +63,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public ANFIdentifier createANFStatement(
-            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier createANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -91,8 +89,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public ANFStatement getANFStatement(
-            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFStatement getANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -118,8 +115,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public ANFIdentifier updateANFStatement(
-            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier updateANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -145,8 +141,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public ANFIdentifier deleteANFStatement(
-            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier deleteANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub

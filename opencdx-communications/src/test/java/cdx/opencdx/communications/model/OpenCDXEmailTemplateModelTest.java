@@ -15,13 +15,13 @@
  */
 package cdx.opencdx.communications.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.EmailTemplate;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OpenCDXEmailTemplateModelTest {
 

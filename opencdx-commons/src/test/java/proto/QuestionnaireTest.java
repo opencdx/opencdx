@@ -41,9 +41,8 @@ class QuestionnaireTest {
     @Test
     void testQuestionnaireRequest() throws JsonProcessingException {
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(Questionnaire.newBuilder()
-                        .setResourceType("form")
-                        .setTitle("Questionnaire"))
+                .setQuestionnaire(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
                 .build();
 
         log.info(

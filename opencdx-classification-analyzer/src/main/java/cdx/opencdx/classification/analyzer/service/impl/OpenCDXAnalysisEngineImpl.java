@@ -128,7 +128,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
         runRules(userQuestionnaireData, builder);
 
-        return ClassificationResponse.newBuilder().setClassification(builder.build()).build();
+        return ClassificationResponse.newBuilder()
+                .setClassification(builder.build())
+                .build();
     }
 
     @Override
@@ -192,7 +194,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
             }
         }
 
-        return ClassificationResponse.newBuilder().setClassification(builder.build()).build();
+        return ClassificationResponse.newBuilder()
+                .setClassification(builder.build())
+                .build();
     }
 
     private Resource retrieveFile(Media model) {

@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.questionnaire.service;
 
-
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.questionnaire.*;
 

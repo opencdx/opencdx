@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.classification.service;
 
-
 import cdx.opencdx.grpc.service.health.PredictorRequest;
 import cdx.opencdx.grpc.service.health.PredictorResponse;
 

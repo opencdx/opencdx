@@ -19,12 +19,11 @@ import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.grpc.data.Attachment;
 import io.micrometer.observation.annotation.Observed;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Log based implementation of OpenCDXEmailService.

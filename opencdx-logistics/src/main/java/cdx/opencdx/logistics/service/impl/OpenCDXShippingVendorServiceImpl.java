@@ -33,14 +33,13 @@ import cdx.opencdx.logistics.service.OpenCDXShippingVendor;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * OpenCDX shipping vendor service implementation

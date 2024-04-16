@@ -17,8 +17,6 @@ package cdx.opencdx.commons.service;
 
 import cdx.opencdx.grpc.data.LabFindings;
 
-;
-
 /**
  * The OpenCDXConnectedLabMessageService interface provides methods to send LabFindings to the opencdx-connected-lab system.
  *

@@ -35,16 +35,15 @@ import cdx.opencdx.grpc.types.AddressPurpose;
 import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.PhoneType;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.*;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for creating CDC payloads
@@ -109,7 +108,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         DeviceIdRequest deviceRequest = DeviceIdRequest.newBuilder()
                 .setDeviceId(connectedTest.getTestDetails().getDeviceIdentifier())
                 .build();
-       cdx.opencdx.grpc.data.Device deviceInfo =
+        cdx.opencdx.grpc.data.Device deviceInfo =
                 this.openCDXDeviceClient.getDeviceById(deviceRequest, openCDXCallCredentials);
 
         // Create a FHIR Device instance

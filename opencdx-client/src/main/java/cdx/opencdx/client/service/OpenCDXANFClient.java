@@ -19,7 +19,6 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.data.ANFIdentifier;
 import cdx.opencdx.grpc.data.ANFStatement;
-import cdx.opencdx.grpc.data.Identifier;
 
 /**
  * Interface for communicating with the Helloworld microservice.
@@ -32,8 +31,7 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ANFIdentifier createANFStatement(
-            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier createANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -42,8 +40,7 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ANFStatement getANFStatement(
-            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFStatement getANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -53,8 +50,7 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ANFIdentifier updateANFStatement(
-            ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier updateANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -63,7 +59,6 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ANFIdentifier deleteANFStatement(
-            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier deleteANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

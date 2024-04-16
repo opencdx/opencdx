@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.logistics.service;
 
-
 import cdx.opencdx.grpc.data.Device;
 import cdx.opencdx.grpc.service.logistics.DeleteResponse;
 import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;

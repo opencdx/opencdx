@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.classification.service;
 
-
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import cdx.opencdx.grpc.service.classification.RuleSetsRequest;

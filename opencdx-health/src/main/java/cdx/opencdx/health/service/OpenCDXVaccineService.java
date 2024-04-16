@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.service;
 
-
 import cdx.opencdx.grpc.data.Vaccine;
 import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
 import cdx.opencdx.grpc.service.health.ListVaccinesRequest;

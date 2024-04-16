@@ -27,11 +27,10 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import java.time.Instant;
-import java.util.Optional;
-
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import cdx.opencdx.grpc.types.Gender;
+import java.time.Instant;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
