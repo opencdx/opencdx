@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -50,7 +50,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run gRPC Test?" enabled="true">
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">false</boolProp>
-          <stringProp name="IfController.condition">${__P(gRpcTest,true)}</stringProp>
+          <stringProp name="IfController.condition">${__P(gRpcTest,false)}</stringProp>
         </IfController>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Thread Setup" enabled="true">
@@ -4303,7 +4303,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;routine&quot; : {
     &quot;name&quot; : &quot;Test Routine&quot;,
     &quot;description&quot; : &quot;Test Routine Description&quot;,
-    &quot;status&quot; : &quot;Routine.Status.ACTIVE&quot;,
+    &quot;status&quot; : &quot;RoutineStatus.ROUTINE_COMPLETED&quot;,
     &quot;creationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;lastUpdatedDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;assignedUser&quot; : &quot;6581e5157e001111d3736b48&quot;,
@@ -4330,7 +4330,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;executionId&quot; : &quot;6581e5157e001111d3736b4a&quot;,
     &quot;routineId&quot; : &quot;6581e5157e001111d3736b4b&quot;,
     &quot;protocolId&quot; : &quot;6581e5157e001111d3736b4c&quot;,
-    &quot;status&quot; : &quot;ClinicalProtocolExecution.Status.ACTIVE&quot;,
+    &quot;status&quot; : &quot;ClinicalProtocolStatus.CLINICAL_PROTOCOL_COMPLETED&quot;,
     &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;results&quot; : &quot;ClinicalProtocolExecution Results&quot;,
@@ -5554,7 +5554,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 },
                 &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
                 &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
-                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;severity&quot;: &quot;SEVERITY_LEVEL_HIGH&quot;,
                 &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
             }
         ],
@@ -10971,7 +10971,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;routine&quot; : {&#xd;
     &quot;name&quot; : &quot;Test Routine&quot;,&#xd;
     &quot;description&quot; : &quot;Test Routine Description&quot;,&#xd;
-    &quot;status&quot; : &quot;COMPLETED&quot;,&#xd;
+    &quot;status&quot; : &quot;ROUTINE_COMPLETED&quot;,&#xd;
     &quot;creationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;lastUpdatedDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;assignedUser&quot; : &quot;6581e5157e001111d3736b48&quot;,&#xd;
@@ -11007,7 +11007,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;executionId&quot; : &quot;6581e5157e001111d3736b4a&quot;,&#xd;
     &quot;routineId&quot; : &quot;6581e5157e001111d3736b4b&quot;,&#xd;
     &quot;protocolId&quot; : &quot;6581e5157e001111d3736b4c&quot;,&#xd;
-    &quot;status&quot; : &quot;COMPLETED&quot;,&#xd;
+    &quot;status&quot; : &quot;CLINICAL_PROTOCOL_COMPLETED&quot;,&#xd;
     &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;results&quot; : &quot;ClinicalProtocolExecution Results&quot;,&#xd;
@@ -12707,7 +12707,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;connectedTestId&quot; : &quot;${connectedTestId}&quot;,&#xd;
     &quot;symptoms&quot; : [ {&#xd;
       &quot;name&quot; : &quot;Fever&quot;,&#xd;
-      &quot;severity&quot; : &quot;HIGH&quot;,&#xd;
+      &quot;severity&quot; : &quot;SEVERITY_LEVEL_HIGH&quot;,&#xd;
       &quot;onsetDate&quot; : &quot;2023-10-08T02:28:24Z&quot;,&#xd;
       &quot;duration&quot; : {&#xd;
         &quot;duration&quot; : 4,&#xd;
