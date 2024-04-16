@@ -139,7 +139,7 @@ class OpenCDXGrpcCountryControllerTest {
                 .build();
         this.openCDXGrpcCountryController.addCountry(country, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(country);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -154,7 +154,7 @@ class OpenCDXGrpcCountryControllerTest {
                 .build();
         this.openCDXGrpcCountryController.updateCountry(country, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(country);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 

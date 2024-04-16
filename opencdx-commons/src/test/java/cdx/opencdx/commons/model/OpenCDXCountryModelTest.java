@@ -16,8 +16,10 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.grpc.data.ContinentEnum;
 import cdx.opencdx.grpc.data.Country;
 import com.google.protobuf.Timestamp;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +35,14 @@ class OpenCDXCountryModelTest {
     void getProtobufMessage_2() {
         OpenCDXCountryModel openCDXCountryModel = new OpenCDXCountryModel(Country.newBuilder()
                 .setName("name")
+                .setIso2("US")
+                .setIso3("USA")
+                .setContinent(ContinentEnum.NORTH_AMERICA)
+                .setFips("US")
+                .setIsoNumeric(840)
+                .addAllLanguageCodes(List.of("en-US"))
+                .setPhoneCode("1")
+                .setTopLevelInternetDomain("us")
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
                 .setCreator(OpenCDXIdentifier.get().toHexString())
@@ -50,6 +60,21 @@ class OpenCDXCountryModelTest {
 
     @Test
     void getProtobufMessage_4() {
+        OpenCDXCountryModel openCDXCountryModel = new OpenCDXCountryModel(
+                "United States",
+                "US",
+                "USA",
+                "us",
+                "US",
+                840,
+                "1",
+                ContinentEnum.NORTH_AMERICA.name(),
+                List.of("en-US", "es-US", "haw", "fr"));
+        Assertions.assertDoesNotThrow(openCDXCountryModel::getProtobufMessage);
+    }
+
+    @Test
+    void getProtobufMessage_5() {
         OpenCDXCountryModel openCDXCountryModel = new OpenCDXCountryModel(Country.newBuilder()
                 .setName("name")
                 .setCreated(Timestamp.getDefaultInstance())
