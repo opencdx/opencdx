@@ -17,7 +17,7 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.neural.protector.*;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.service.OpenCDXProtectorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.logistics.service;
 
-import cdx.opencdx.grpc.shipping.*;
+
+import cdx.opencdx.grpc.service.logistics.*;
 
 /**
  * Service for processing Order Requests

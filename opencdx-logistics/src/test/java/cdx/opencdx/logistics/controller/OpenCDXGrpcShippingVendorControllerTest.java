@@ -19,15 +19,15 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import cdx.opencdx.logistics.service.impl.OpenCDXShippingVendorServiceImpl;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

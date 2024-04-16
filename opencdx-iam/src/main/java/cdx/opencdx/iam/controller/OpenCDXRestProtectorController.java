@@ -15,12 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
-import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
-import cdx.opencdx.grpc.neural.protector.SecurityResponse;
-import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.service.OpenCDXProtectorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

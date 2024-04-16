@@ -17,13 +17,14 @@ package cdx.opencdx.logistics.handlers;
 
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.shipping.CreateOrderRequest;
-import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.service.logistics.CreateOrderRequest;
 import cdx.opencdx.logistics.service.OpenCDXShippingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 /**
  * The OpenCDXOrderMessageHandler class is responsible for handling order messages

@@ -17,7 +17,7 @@ package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
-import cdx.opencdx.grpc.common.Country;
+import cdx.opencdx.grpc.data.Country;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

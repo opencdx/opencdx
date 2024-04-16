@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -26,7 +24,8 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.data.Workspace;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
@@ -36,7 +35,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,6 +51,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

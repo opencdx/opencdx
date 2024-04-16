@@ -4105,15 +4105,7 @@ message ServiceLevel {
   string long_description = 3;
 }
 
-/**
- * The ShippingVendorResponse message is used to return the shipping vendors.
- */
-message ShippingVendorResponse {
-  /**
-   * The shipping vendors.
-   */
-  repeated Shipping options = 1;
-}
+
 
 /*
  * This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that

@@ -15,7 +15,12 @@
  */
 package cdx.opencdx.logistics.service;
 
-import cdx.opencdx.grpc.inventory.*;
+
+import cdx.opencdx.grpc.data.Device;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListResponse;
 
 /**
  * Device service for device identification

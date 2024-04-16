@@ -20,12 +20,11 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.common.PhoneType;
-import cdx.opencdx.grpc.communication.Notification;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.service.logistics.ShippingVendorResponse;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;
 import cdx.opencdx.logistics.dto.OpenCDXShippingResponse;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
@@ -34,13 +33,14 @@ import cdx.opencdx.logistics.service.OpenCDXShippingVendor;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
  * OpenCDX shipping vendor service implementation
@@ -156,6 +156,7 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
             if (emailAddress != null) {
                 builder.addAllToEmail(List.of(emailAddress.getEmail()));
             }
+
             List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
                     .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
                     .map(PhoneNumber::getNumber)

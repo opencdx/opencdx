@@ -15,7 +15,12 @@
  */
 package cdx.opencdx.logistics.service;
 
-import cdx.opencdx.grpc.inventory.*;
+
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.ManufacturerIdRequest;
+import cdx.opencdx.grpc.service.logistics.ManufacturerListRequest;
+import cdx.opencdx.grpc.service.logistics.ManufacturersListResponse;
 
 /**
  * Manufacturer Service for manufacturer identificaiton

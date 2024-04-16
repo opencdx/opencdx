@@ -16,12 +16,13 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.inventory.TestCase;
+import cdx.opencdx.grpc.data.TestCase;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+import java.util.List;
 
 class OpenCDXTestCaseModelTest {
     @Test

@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.logistics.controller;
 
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.logistics.service.OpenCDXManufacturerService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

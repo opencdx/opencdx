@@ -22,22 +22,27 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Device;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListResponse;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.logistics.model.OpenCDXDeviceModel;
 import cdx.opencdx.logistics.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.logistics.service.OpenCDXDeviceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for Device Protobuf Messages

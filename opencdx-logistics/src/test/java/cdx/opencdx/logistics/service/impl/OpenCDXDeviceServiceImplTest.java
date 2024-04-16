@@ -23,8 +23,8 @@ import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.inventory.Device;
-import cdx.opencdx.grpc.inventory.DeviceIdRequest;
+import cdx.opencdx.grpc.data.Device;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
 import cdx.opencdx.logistics.controller.OpenCDXGrpcDeviceController;
 import cdx.opencdx.logistics.model.OpenCDXDeviceModel;
 import cdx.opencdx.logistics.repository.OpenCDXDeviceRepository;
@@ -33,7 +33,6 @@ import cdx.opencdx.logistics.repository.OpenCDXVendorRepository;
 import cdx.opencdx.logistics.service.OpenCDXDeviceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -47,6 +46,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

@@ -23,21 +23,17 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import cdx.opencdx.logistics.model.OpenCDXOrderModel;
 import cdx.opencdx.logistics.repository.OpenCDXOrderRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +50,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

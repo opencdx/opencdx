@@ -21,18 +21,16 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.logistics.model.OpenCDXOrderModel;
 import cdx.opencdx.logistics.repository.OpenCDXOrderRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingService;
 import cdx.opencdx.logistics.service.impl.OpenCDXShippingServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +46,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

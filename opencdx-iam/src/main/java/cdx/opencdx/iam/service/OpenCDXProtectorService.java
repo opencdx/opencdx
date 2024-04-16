@@ -15,12 +15,8 @@
  */
 package cdx.opencdx.iam.service;
 
-import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
-import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
-import cdx.opencdx.grpc.neural.protector.SecurityResponse;
-import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
+
+import cdx.opencdx.grpc.service.iam.*;
 
 /**
  * Interface for the Protector Service.

@@ -23,7 +23,8 @@ import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.data.Organization;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +50,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)

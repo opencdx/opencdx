@@ -15,14 +15,15 @@
  */
 package cdx.opencdx.logistics.dto;
 
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.ShippingResponse;
+import cdx.opencdx.grpc.service.logistics.ShippingResponse;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.Instant;
 
 /**
  * The OpenCDXShippingResponse class is a DTO that represents the response of the shipping service.

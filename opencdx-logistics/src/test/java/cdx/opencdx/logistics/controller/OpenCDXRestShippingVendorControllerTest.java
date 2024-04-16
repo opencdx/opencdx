@@ -15,16 +15,12 @@
  */
 package cdx.opencdx.logistics.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.shipping.DeliveryTracking;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.shipping.Order;
-import cdx.opencdx.grpc.shipping.ShippingRequest;
+import cdx.opencdx.grpc.data.DeliveryTracking;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.service.logistics.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.service.logistics.ShippingRequest;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import cdx.opencdx.logistics.service.impl.OpenCDXShippingVendorServiceImpl;
@@ -47,6 +43,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})

@@ -21,18 +21,19 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Implementation of the Organization Service

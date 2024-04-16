@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.logistics.service;
 
-import cdx.opencdx.grpc.common.Country;
-import cdx.opencdx.grpc.inventory.CountryIdRequest;
-import cdx.opencdx.grpc.inventory.CountryListRequest;
-import cdx.opencdx.grpc.inventory.CountryListResponse;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
+import cdx.opencdx.grpc.data.Country;
+import cdx.opencdx.grpc.service.logistics.CountryIdRequest;
+import cdx.opencdx.grpc.service.logistics.CountryListRequest;
+import cdx.opencdx.grpc.service.logistics.CountryListResponse;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
 
 /**
  * Country service for country identification.
