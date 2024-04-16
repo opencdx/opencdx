@@ -15,20 +15,20 @@ service ANFService {
   /*
    * Creates a new ANF Statement instance and returns its identifier.
    */
-  rpc CreateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.Identifier);
+  rpc CreateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.ANFIdentifier);
 
   /*
    * Retrieves an existing ANF Statement using its identifier.
    */
-  rpc GetANFStatement (cdx.opencdx.grpc.data.Identifier) returns (cdx.opencdx.grpc.data.ANFStatement);
+  rpc GetANFStatement (cdx.opencdx.grpc.data.ANFIdentifier) returns (cdx.opencdx.grpc.data.ANFStatement);
 
   /*
    * Updates an existing ANF Statement instance and returns its identifier.
    */
-  rpc UpdateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.Identifier);
+  rpc UpdateANFStatement (cdx.opencdx.grpc.data.ANFStatement) returns (cdx.opencdx.grpc.data.ANFIdentifier);
 
   /*
    * Deletes an ANF Statement instance using its identifier and >returns the identifier of the deleted item.
    */
-  rpc DeleteANFStatement (cdx.opencdx.grpc.data.Identifier) returns (cdx.opencdx.grpc.data.Identifier);
+  rpc DeleteANFStatement (cdx.opencdx.grpc.data.ANFIdentifier) returns (cdx.opencdx.grpc.data.ANFIdentifier);
 }

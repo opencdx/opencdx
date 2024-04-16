@@ -16,7 +16,8 @@
 package cdx.opencdx.anf.controller;
 
 import cdx.opencdx.anf.service.OpenCDXANFService;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,11 @@ public class OpenCDXRestANFController {
      * @return The requested ANF Statement.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<AnfStatement.ANFStatement> getANFStatement(@PathVariable("id") String id) {
+    public ResponseEntity<ANFStatement> getANFStatement(@PathVariable("id") String id) {
         log.trace("Getting ANF Statement");
         return new ResponseEntity<>(
                 this.openCDXANFService.getANFStatement(
-                        AnfStatement.Identifier.newBuilder().setId(id).build()),
+                        ANFIdentifier.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
     /**
@@ -63,8 +64,8 @@ public class OpenCDXRestANFController {
      * @return The created ANF Statement.
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnfStatement.Identifier> createANFStatement(
-            @RequestBody AnfStatement.ANFStatement anfStatement) {
+    public ResponseEntity<ANFIdentifier> createANFStatement(
+            @RequestBody ANFStatement anfStatement) {
         log.trace("Creating ANF Statement");
         return new ResponseEntity<>(this.openCDXANFService.createANFStatement(anfStatement), HttpStatus.OK);
     }
@@ -74,8 +75,8 @@ public class OpenCDXRestANFController {
      * @return The updated ANF Statement.
      */
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnfStatement.Identifier> updateANFStatement(
-            @RequestBody AnfStatement.ANFStatement anfStatement) {
+    public ResponseEntity<ANFIdentifier> updateANFStatement(
+            @RequestBody ANFStatement anfStatement) {
         log.trace("Updating ANF Statement");
         return new ResponseEntity<>(this.openCDXANFService.updateANFStatement(anfStatement), HttpStatus.OK);
     }
@@ -85,11 +86,11 @@ public class OpenCDXRestANFController {
      * @return The deleted ANF Statement.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<AnfStatement.Identifier> deleteANFStatement(@PathVariable String id) {
+    public ResponseEntity<ANFIdentifier> deleteANFStatement(@PathVariable String id) {
         log.trace("Deleting ANF Statement");
         return new ResponseEntity<>(
                 this.openCDXANFService.deleteANFStatement(
-                        AnfStatement.Identifier.newBuilder().setId(id).build()),
+                        ANFIdentifier.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
 }

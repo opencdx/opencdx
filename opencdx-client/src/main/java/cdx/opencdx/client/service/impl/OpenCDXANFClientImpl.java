@@ -18,6 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXANFClient;
+import cdx.opencdx.grpc.data.ANFIdentifier;
 import cdx.opencdx.grpc.data.ANFStatement;
 import cdx.opencdx.grpc.data.Identifier;
 import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
@@ -63,7 +64,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public Identifier createANFStatement(
+    public ANFIdentifier createANFStatement(
             ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
@@ -91,7 +92,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      */
     @Override
     public ANFStatement getANFStatement(
-            Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -117,7 +118,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public Identifier updateANFStatement(
+    public ANFIdentifier updateANFStatement(
             ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
@@ -144,8 +145,8 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public Identifier deleteANFStatement(
-            Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier deleteANFStatement(
+            ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
