@@ -26,12 +26,13 @@ import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.data.UserAnswer;
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation for OpenCDXClassificationMessageService
@@ -120,8 +121,8 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
         UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 
         builder.setSubmittingUserId(openCDXCurrentUser.getCurrentUser().getId().toHexString());
-        if (patient.getGender() != null) {
-            builder.setGender(patient.getGender());
+        if (patient.getDemographics() != null) {
+            builder.setGender(patient.getDemographics().getGender());
         }
 
         if (patient.getDateOfBirth() != null) {

@@ -25,6 +25,7 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.Demographics;
 import cdx.opencdx.grpc.data.UserProfile;
 import cdx.opencdx.grpc.service.health.CreateUserProfileRequest;
 import cdx.opencdx.grpc.service.health.UpdateUserProfileRequest;
@@ -196,7 +197,9 @@ class OpenCDXIAMProfileRestControllerTest {
                         .content(this.objectMapper.writeValueAsString(UpdateUserProfileRequest.newBuilder()
                                 .setUserId(OpenCDXIdentifier.get().toHexString())
                                 .setUpdatedProfile(UserProfile.newBuilder()
-                                        .setGender(Gender.GENDER_MALE)
+                                        .setDemographics(Demographics.newBuilder()
+                                                .setGender(Gender.GENDER_FEMALE)
+                                                .build())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

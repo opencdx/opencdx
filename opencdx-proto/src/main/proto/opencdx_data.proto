@@ -2244,109 +2244,94 @@ message UserProfile {
   repeated ContactInfo contacts = 5;
 
   /*
-   * The gender of the user.
-   */
-  cdx.opencdx.grpc.types.Gender gender = 6;
-
-  /*
    * The date of birth of the user.
    */
-  google.protobuf.Timestamp date_of_birth = 7;
+  google.protobuf.Timestamp date_of_birth = 6;
 
   /*
    * The place of birth of the user.
    */
-  PlaceOfBirth place_of_birth = 8;
+  PlaceOfBirth place_of_birth = 7;
 
   /*
    * The profile photo of the user, represented in bytes (binary data).
    */
-  bytes photo = 9;
-
-  /*
-   * The user's communication preferences.
-   */
-  Preferences communication = 10;
+  bytes photo = 8;
 
   /*
    * The demographic information about the user.
    */
-  Demographics demographics = 11;
-
-  /*
-   * The education qualification details about the user.
-   */
-  Education education = 12;
+  Demographics demographics = 9;
 
   /*
    * The user's employment identification details.
    */
-  EmployeeIdentity employee_identity = 13;
+  EmployeeIdentity employee_identity = 10;
 
   /*
    * The primary contact information for the user.
    */
-  ContactInfo primary_contact_info = 14;
+  ContactInfo primary_contact_info = 11;
 
   /*
    * The user's emergency contact information.
    */
-  EmergencyContact emergency_contact = 15;
+  EmergencyContact emergency_contact = 12;
 
   /*
    * Details about the user's pharmacy of choice.
    */
-  Pharmacy pharmacy_details = 16;
+  Pharmacy pharmacy_details = 13;
 
   /*
    * A list of identifiers for user's dependents.
    */
-  repeated string dependent_id = 17;
+  repeated string dependent_id = 14;
 
   /*
    * A list of known allergies of the user.
    */
-  repeated KnownAllergy known_allergies = 18;
+  repeated KnownAllergy known_allergies = 15;
 
   /*
    * Indicates the active/inactive status of the user.
    */
-  bool is_active = 19;
+  bool is_active = 16;
 
   /*
    * A list of user's email addresses.
    */
-  repeated EmailAddress email = 20;
+  repeated EmailAddress email = 17;
 
   /*
    * A list of user's phone numbers.
    */
-  repeated PhoneNumber phone = 21;
+  repeated PhoneNumber phone = 18;
 
   /*
    * A list of user's addresses.
    */
-  repeated Address address = 22;
+  repeated Address address = 19;
 
   /*
    * The timestamp indicating when the user's profile was created.
    */
-  optional google.protobuf.Timestamp created = 23;
+  optional google.protobuf.Timestamp created = 20;
 
   /*
    * The timestamp indicating the last modification of the user's profile.
    */
-  optional google.protobuf.Timestamp modified = 24;
+  optional google.protobuf.Timestamp modified = 21;
 
   /*
    * The identifier of the entity that created the user's profile.
    */
-  optional string creator = 25;
+  optional string creator = 22;
 
   /*
    * The identifier of the entity that last modified the user's profile.
    */
-  optional string modifier = 26;
+  optional string modifier = 23;
 }
 /*
  * Contains the emergency contact's relationship to the user and contact information.
@@ -2378,24 +2363,7 @@ message Pharmacy {
    */
   ContactInfo pharmacy_contact = 3;
 }
-/*
- * Describes the user's communication preferences including preferred language and time zone,
- * and a boolean flag for preferred mode of communication.
- */
-message Preferences {
-  /*
-   * Preferred language for communication (e.g., English, Spanish, etc.)
-   */
-  string language = 1;
-  /*
-   * Flag indicating whether the user prefers this mode of communication
-   */
-  bool preferred = 2;
-  /*
-   * The user's preferred time zone (e.g., EST, PST, etc.)
-   */
-  string time_zone = 3;
-}
+
 /*
  * Contains demographic information of the user such as ethnicity, race, nationality and gender.
  */
@@ -2403,19 +2371,60 @@ message Demographics {
   /*
    * The user's ethnicity
    */
-  string ethnicity = 1;
+  cdx.opencdx.grpc.types.Ethnicity ethnicity = 1;
+
+  /*
+   * Other Ethnicity is selected
+   */
+  optional string ethnicity_other = 2;
   /*
    * The user's race
    */
-  string race = 2;
+  string race = 3;
   /*
    * The user's country of citizenship
    */
-  string nationality = 3;
+  string nationality = 4;
   /*
    * The user's gender
    */
-  cdx.opencdx.grpc.types.Gender gender = 4;
+  cdx.opencdx.grpc.types.Gender gender = 5;
+
+  /*
+   * The education qualification details about the user.
+   */
+  Education education = 6;
+
+  /*
+ * Preferred language for communication (e.g., English, Spanish, etc.)
+ */
+  string language = 7;
+  /*
+   * The user's preferred time zone (e.g., EST, PST, etc.)
+   */
+  string time_zone = 8;
+
+  /*
+   * Income Level of the patient
+   */
+  cdx.opencdx.grpc.types.IncomeLevel income_level = 9;
+
+  /*
+   * Marital Status of patient
+   */
+  cdx.opencdx.grpc.types.MaritalStatus marital_status = 10;
+
+  /*
+  * Religion of the patient
+   */
+  cdx.opencdx.grpc.types.Religion religion = 11;
+
+  /*
+   * Vital status of patient
+   */
+  cdx.opencdx.grpc.types.VitalStatus  vital_status = 12;
+
+
 }
 /*
  * Contains information about the user's place of birth.

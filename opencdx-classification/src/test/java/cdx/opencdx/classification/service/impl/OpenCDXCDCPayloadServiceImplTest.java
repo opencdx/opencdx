@@ -229,7 +229,6 @@ class OpenCDXCDCPayloadServiceImplTest {
         ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
 
         OpenCDXProfileModel openCDXProfileModel = createUser2(patientId);
-        openCDXProfileModel.setGender(null);
         openCDXProfileModel.setActive(true);
         openCDXProfileModel.setAddresses(null);
         openCDXProfileModel.setId(new OpenCDXIdentifier(patientId));
@@ -397,7 +396,8 @@ class OpenCDXCDCPayloadServiceImplTest {
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());
-        openCDXProfileModel.setGender(Gender.GENDER_MALE);
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
         openCDXProfileModel.setAddresses(List.of(Address.newBuilder()
                 .setAddress1("123 Main St")
                 .setCity("Vienna")
@@ -446,7 +446,8 @@ class OpenCDXCDCPayloadServiceImplTest {
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());
-        openCDXProfileModel.setGender(Gender.GENDER_MALE);
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
         openCDXProfileModel.setAddresses(List.of(Address.newBuilder()
                 .setAddress1("123 Main St")
                 .setCity("Vienna")
@@ -494,7 +495,8 @@ class OpenCDXCDCPayloadServiceImplTest {
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());
-        openCDXProfileModel.setGender(Gender.GENDER_MALE);
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
         openCDXProfileModel.setAddresses(Collections.emptyList());
 
         return openCDXProfileModel;
@@ -537,7 +539,8 @@ class OpenCDXCDCPayloadServiceImplTest {
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());
-        openCDXProfileModel.setGender(Gender.GENDER_MALE);
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
 
         return openCDXProfileModel;
     }
