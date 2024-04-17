@@ -16,14 +16,8 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.FullName;
-import cdx.opencdx.grpc.common.PaymentDetails;
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.AdditionalService;
-import cdx.opencdx.grpc.shipping.Order;
-import cdx.opencdx.grpc.shipping.ServiceLevel;
-import cdx.opencdx.grpc.shipping.Shipping;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;
 import cdx.opencdx.logistics.dto.OpenCDXShippingResponse;
 import java.time.Instant;

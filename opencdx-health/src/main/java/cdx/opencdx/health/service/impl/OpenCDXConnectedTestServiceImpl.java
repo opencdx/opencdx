@@ -23,10 +23,11 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.communication.Notification;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.health.service.OpenCDXConnectedTestService;
@@ -170,6 +171,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             if (emailAddress != null) {
                 builder.addAllToEmail(List.of(emailAddress.getEmail()));
             }
+
             List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
                     .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
                     .map(PhoneNumber::getNumber)

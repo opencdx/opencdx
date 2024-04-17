@@ -16,7 +16,8 @@
 package cdx.opencdx.audit.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.AuditEventType;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

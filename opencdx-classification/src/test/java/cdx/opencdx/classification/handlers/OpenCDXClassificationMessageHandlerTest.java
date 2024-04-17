@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;

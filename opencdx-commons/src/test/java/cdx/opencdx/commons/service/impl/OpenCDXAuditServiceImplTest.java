@@ -17,8 +17,8 @@ package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.types.AgentType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

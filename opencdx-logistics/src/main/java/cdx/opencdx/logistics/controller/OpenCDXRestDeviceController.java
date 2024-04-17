@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.logistics.controller;
 
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Device;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListResponse;
 import cdx.opencdx.logistics.service.OpenCDXDeviceService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

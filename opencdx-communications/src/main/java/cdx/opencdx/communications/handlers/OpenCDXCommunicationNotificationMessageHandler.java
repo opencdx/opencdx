@@ -21,7 +21,7 @@ import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
-import cdx.opencdx.grpc.communication.Notification;
+import cdx.opencdx.grpc.data.Notification;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;

@@ -15,10 +15,7 @@
  */
 package cdx.opencdx.communications.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -28,8 +25,10 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.model.*;
 import cdx.opencdx.communications.repository.*;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.communications.*;
+import cdx.opencdx.grpc.types.MessageStatus;
+import cdx.opencdx.grpc.types.MessageType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;

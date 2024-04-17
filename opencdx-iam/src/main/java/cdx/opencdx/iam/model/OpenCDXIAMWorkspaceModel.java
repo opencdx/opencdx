@@ -16,8 +16,8 @@
 package cdx.opencdx.iam.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.organization.Department;
-import cdx.opencdx.grpc.organization.Workspace;
+import cdx.opencdx.grpc.data.Department;
+import cdx.opencdx.grpc.data.Workspace;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

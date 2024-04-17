@@ -16,10 +16,10 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.FullName;
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.FullName;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;

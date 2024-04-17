@@ -1,0 +1,249 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Questionnaire.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.questionnaire;
+import "opencdx_data.proto";
+
+
+/*
+ * Represents the request to delete data
+ */
+message DeleteQuestionnaireRequest {
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id = 1;
+  /*
+   * The identifier of the associated organization
+   */
+  optional string organization_id = 2;
+  /*
+   * The identifier of the associated workspace
+   */
+  optional string workspace_id = 3;
+  /*
+   * The identifier of the associated user
+   */
+  optional string user_id = 4;
+}
+
+/*
+ * Represents the request to retrieve a specific questionnaire
+ */
+message GetQuestionnaireRequest {
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id = 1;
+  /*
+   * The respective pagination information and sorting details.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Represents the request to retrieve a list of questionnaires
+ */
+message GetQuestionnaireListRequest {
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id = 1;
+  /*
+   * The respective pagination information and sorting details.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Represents the response status of a questionnaire operation.
+ */
+message SubmissionResponse {
+  /*
+   * Denotes whether the operation was successful or not.
+   */
+  bool success = 1;
+  /*
+   * Supplementary message providing more details about the operation status.
+   */
+  string message = 2;
+
+  /*
+   * Relevant ID associated with this submission.
+   */
+  string id = 3;
+}
+
+/*
+ * Represents a request to submit a FHIR questionnaire.
+ */
+message QuestionnaireRequest {
+  /*
+   * The requested questionnaire to be submitted.
+   */
+  cdx.opencdx.grpc.data.Questionnaire questionnaire = 1;
+}
+
+/* The `QuestionnaireDataRequest` message type is used to wrap the questionnaire data for a specific request.
+ * It contains a single field `questionnaire_data` which encapsulates the details specific to the requested questionnaire.
+ */
+message QuestionnaireDataRequest {
+  /*
+   * Field that holds the respective questionnaire data.
+   */
+  cdx.opencdx.grpc.data.QuestionnaireData questionnaire_data = 1;
+}
+
+/* The `ClientQuestionnaireDataRequest` message type is used for client-level requests for the FHIR questionnaire data.
+ * It contains a single field `client_questionnaire_data` which encapsulates the client-level specific questionnaire.
+ */
+message ClientQuestionnaireDataRequest {
+  /*
+   * Field that holds the client-level FHIR questionnaire data.
+   */
+  cdx.opencdx.grpc.data.ClientQuestionnaireData client_questionnaire_data = 1;
+}
+
+/* The `UserQuestionnaireDataRequest` message type is used for user-level requests for the FHIR questionnaire data.
+ * It contains a single field `user_questionnaire_data` which encapsulates the user-level specific questionnaire.
+ */
+message UserQuestionnaireDataRequest {
+  /*
+   * Field that holds user-level FHIR questionnaire data.
+   */
+  cdx.opencdx.grpc.data.UserQuestionnaireData user_questionnaire_data = 1;
+}
+
+
+/*
+ * UserQuestionnaireDataResponse is a message type defined in Protocol Buffers,
+ * a language-neutral, platform-neutral extensible mechanism for serializing structured data.
+ * This message type is used to pass response data of a user questionnaire request.
+ *
+ * list: An array of 'UserQuestionnaireData' items. Each item in the list represents
+ * individual user's response to the questionnaire.
+ *
+ * pagination: This field contains pagination information and sorting details to handle large
+ * data sets. The Pagination object is defined in 'cdx.opencdx.grpc.common' and it enables
+ * navigating through large data sets by loading only a subset of the data at a time, thus
+ * optimizing response time and system resources.
+ */
+message UserQuestionnaireDataResponse {
+  /*
+   * An array of UserQuestionnaireData items
+   */
+  repeated cdx.opencdx.grpc.data.UserQuestionnaireData list = 1;
+
+  /*
+   * Contains pagination information for large data sets
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+
+/*
+ * Defines a service for the storing of Questionnaires and their associated data.
+ * which may include but not limited to answers to the questions, rules, and other metadata.
+ * User data is preserved with ANF statements to allow simplified evaluation of the user's responses.
+ */
+service QuestionnaireService {
+
+  /*
+   * Handling operations for Questionnaires
+   */
+  rpc CreateQuestionnaire(QuestionnaireRequest) returns (cdx.opencdx.grpc.data.Questionnaire);
+
+  /*
+   * Submits a questionnaire request and responds with the status of submission.
+   */
+  rpc UpdateQuestionnaire(QuestionnaireRequest) returns (cdx.opencdx.grpc.data.Questionnaire);
+
+  /*
+   * Dispatches a request to update a questionnaire.
+   */
+  rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.Questionnaire);
+
+  /*
+   * Fetches the submitted questionnaire data by its unique Id.
+   */
+  rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (cdx.opencdx.grpc.data.Questionnaires);
+
+
+  /*
+   * Refreshes a questionnaire
+   */
+  rpc RefreshQuestionnaire(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.Questionnaire);
+
+  /*
+   * Fetches the entire list of submitted questionnaire data.
+   */
+  rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for QuestionnaireData
+   */
+  rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for system-level display.
+   */
+  rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the system level.
+   */
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.SystemQuestionnaireData);
+
+  /*
+   * Fetches system-level questionnaire data by its unique Id.
+   */
+  rpc GetQuestionnaireDataList(GetQuestionnaireListRequest) returns (cdx.opencdx.grpc.data.SystemQuestionnaireData);
+
+  /*
+   * Fetches the list of all system-level questionnaire data.
+   */
+  rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for ClientQuestionnaireData
+   */
+  rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for client-level display.
+   */
+  rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the client level.
+   */
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.ClientQuestionnaireData);
+
+  /*
+   * Fetches client-level questionnaire data by its unique Id.
+   */
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireListRequest) returns (cdx.opencdx.grpc.data.ClientQuestionnaireData);
+
+  /*
+   * Fetches the list of all client-level questionnaire data.
+   */
+  rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for UserQuestionnaireData
+   */
+  rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the user level.
+   */
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (cdx.opencdx.grpc.data.UserQuestionnaireData);
+
+  /*
+   * Fetches user-level questionnaire data by its unique Id.
+   */
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireDataResponse);
+}

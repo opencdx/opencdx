@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.health.GetVaccineByIdRequest;
-import cdx.opencdx.grpc.health.ListVaccinesRequest;
-import cdx.opencdx.grpc.health.ListVaccinesResponse;
-import cdx.opencdx.grpc.health.Vaccine;
+import cdx.opencdx.grpc.data.Vaccine;
+import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
+import cdx.opencdx.grpc.service.health.ListVaccinesRequest;
+import cdx.opencdx.grpc.service.health.ListVaccinesResponse;
 
 /**
  * Service for Vaccine

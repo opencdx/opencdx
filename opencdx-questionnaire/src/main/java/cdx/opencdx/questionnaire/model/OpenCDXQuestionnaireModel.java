@@ -16,9 +16,9 @@
 package cdx.opencdx.questionnaire.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.questionnaire.Questionnaire;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireStatus;
+import cdx.opencdx.grpc.data.Questionnaire;
+import cdx.opencdx.grpc.data.QuestionnaireItem;
+import cdx.opencdx.grpc.types.QuestionnaireStatus;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

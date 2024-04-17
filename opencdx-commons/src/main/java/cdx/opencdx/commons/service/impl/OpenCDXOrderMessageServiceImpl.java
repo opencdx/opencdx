@@ -19,7 +19,7 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
-import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.data.Order;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

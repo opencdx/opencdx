@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.service;
 
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.service.iam.*;
 
 /**
  * Interface for the OpenCDXIAMUserService

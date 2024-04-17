@@ -16,13 +16,13 @@
 package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.media.Media;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
-import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
-import cdx.opencdx.grpc.neural.classification.UserAnswer;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.data.Media;
+import cdx.opencdx.grpc.data.UserAnswer;
+import cdx.opencdx.grpc.data.UserQuestionnaireData;
+import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
 
 /**
  * Interface for the ClassificationProcessorService.  Performs classification of Questionnaire and Connected Test

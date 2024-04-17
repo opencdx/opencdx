@@ -18,7 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXProviderClient;
-import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.grpc.service.health.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;

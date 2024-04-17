@@ -17,7 +17,11 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Device;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.DeviceIdRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListRequest;
+import cdx.opencdx.grpc.service.logistics.DeviceListResponse;
 
 /**
  * Interface for communicating with the Logistics Device microservice.

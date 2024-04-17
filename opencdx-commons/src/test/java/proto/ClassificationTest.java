@@ -16,10 +16,14 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Duration;
-import cdx.opencdx.grpc.common.DurationType;
-import cdx.opencdx.grpc.common.Gender;
-import cdx.opencdx.grpc.neural.classification.*;
+import cdx.opencdx.grpc.data.Duration;
+import cdx.opencdx.grpc.data.Location;
+import cdx.opencdx.grpc.data.Symptom;
+import cdx.opencdx.grpc.data.UserAnswer;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
+import cdx.opencdx.grpc.types.DurationType;
+import cdx.opencdx.grpc.types.Gender;
+import cdx.opencdx.grpc.types.SeverityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -48,7 +52,7 @@ class ClassificationTest {
                         .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
                         .addAllSymptoms(List.of(Symptom.newBuilder()
                                 .setName("Fever")
-                                .setSeverity(SeverityLevel.HIGH)
+                                .setSeverity(SeverityLevel.SEVERITY_LEVEL_HIGH)
                                 .setOnsetDate(Timestamp.newBuilder().setSeconds(1696732104))
                                 .setDuration(Duration.newBuilder()
                                         .setDuration(4)

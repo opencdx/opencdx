@@ -16,7 +16,8 @@
 package cdx.opencdx.anf.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.Status;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -41,30 +42,30 @@ public class OpenCDXANFStatementModel {
     @Id
     private OpenCDXIdentifier id;
 
-    private AnfStatement.Measure time;
-    private AnfStatement.Participant subjectOfRecord;
-    private List<AnfStatement.Practitioner> authors;
+    private Measure time;
+    private Participant subjectOfRecord;
+    private List<Practitioner> authors;
     private String subjectOfInformation;
-    private List<AnfStatement.AssociatedStatement> associatedStatements;
+    private List<AssociatedStatement> associatedStatements;
     private String topic;
     private String type;
-    private AnfStatement.CircumstanceChoice circumstanceChoice;
+    private CircumstanceChoice circumstanceChoice;
 
     private Instant created;
     private Instant modified;
     private OpenCDXIdentifier creator;
     private OpenCDXIdentifier modifier;
 
-    private AnfStatement.Status status;
+    private Status status;
 
     /**
-     * Constructs a new OpenCDXANFStatementModel based on an instance of AnfStatement.ANFStatement.
+     * Constructs a new OpenCDXANFStatementModel based on an instance of ANFStatement.
      * The method initializes the attributes of the OpenCDXANFStatementModel with the corresponding values
      * from the AnfStatement instance.
      *
      * @param anfStatement the AnfStatement instance to create the OpenCDXANFStatementModel from
      */
-    public OpenCDXANFStatementModel(AnfStatement.ANFStatement anfStatement) {
+    public OpenCDXANFStatementModel(ANFStatement anfStatement) {
         log.trace("Creating OpenCDXANFStatementModel from ANFStatement");
         if (anfStatement.hasId()) {
             this.id = new OpenCDXIdentifier(anfStatement.getId().getId());
@@ -96,21 +97,19 @@ public class OpenCDXANFStatementModel {
             this.modifier = new OpenCDXIdentifier(anfStatement.getModifier());
         }
 
-        this.status = AnfStatement.Status.STATUS_ACTIVE;
+        this.status = Status.STATUS_ACTIVE;
     }
 
     /**
-     * Returns the Protobuf message representation of the AnfStatement.
+     * Returns the Protobuf message representation of the
      *
      * @return The Protobuf message representation
      */
-    public AnfStatement.ANFStatement getProtobufMessage() {
+    public ANFStatement getProtobufMessage() {
         log.trace("Creating ANFStatement from OpenCDXANFStatementModel");
-        AnfStatement.ANFStatement.Builder builder = AnfStatement.ANFStatement.newBuilder();
+        ANFStatement.Builder builder = ANFStatement.newBuilder();
 
-        builder.setId(AnfStatement.Identifier.newBuilder()
-                .setId(this.id.toHexString())
-                .build());
+        builder.setId(ANFIdentifier.newBuilder().setId(this.id.toHexString()).build());
 
         if (this.time != null) {
             builder.setTime(this.time);

@@ -27,8 +27,10 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.anf.AnfStatement;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
+import cdx.opencdx.grpc.data.Practitioner;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
@@ -86,15 +88,15 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     }
 
     @Override
-    public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
+    public ANFIdentifier createANFStatement(ANFStatement request) {
         log.trace("Creating ANF Statement");
         if (!request.getAuthorsList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
                     request.getAuthorsList().stream()
-                            .filter(AnfStatement.Practitioner::hasId)
-                            .map(AnfStatement.Practitioner::getId)
+                            .filter(Practitioner::hasId)
+                            .map(Practitioner::getId)
                             .map(OpenCDXIdentifier::new)
                             .toList());
         }
@@ -135,7 +137,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     }
 
     @Override
-    public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
+    public ANFStatement getANFStatement(ANFIdentifier request) {
         log.trace("Getting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
@@ -172,15 +174,15 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     }
 
     @Override
-    public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
+    public ANFIdentifier updateANFStatement(ANFStatement request) {
         log.trace("Updating ANF Statement");
         if (!request.getAuthorsList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
                     request.getAuthorsList().stream()
-                            .filter(AnfStatement.Practitioner::hasId)
-                            .map(AnfStatement.Practitioner::getId)
+                            .filter(Practitioner::hasId)
+                            .map(Practitioner::getId)
                             .map(OpenCDXIdentifier::new)
                             .toList());
         }
@@ -220,7 +222,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     }
 
     @Override
-    public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
+    public ANFIdentifier deleteANFStatement(ANFIdentifier request) {
         log.trace("Deleting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new OpenCDXIdentifier(request.getId()))

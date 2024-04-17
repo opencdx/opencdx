@@ -20,8 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXANFClient;
-import cdx.opencdx.grpc.anf.ANFServiceGrpc;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
+import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -55,20 +56,19 @@ class OpenCDXANFClientImplTest {
 
     @Test
     void createANFStatement() {
-        Mockito.when(this.anfServiceBlockingStub.createANFStatement(Mockito.any(AnfStatement.ANFStatement.class)))
-                .thenReturn(AnfStatement.Identifier.getDefaultInstance());
+        Mockito.when(this.anfServiceBlockingStub.createANFStatement(Mockito.any(ANFStatement.class)))
+                .thenReturn(ANFIdentifier.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                AnfStatement.Identifier.getDefaultInstance(),
-                this.openCDXANFClient.createANFStatement(
-                        AnfStatement.ANFStatement.getDefaultInstance(), openCDXCallCredentials));
+                ANFIdentifier.getDefaultInstance(),
+                this.openCDXANFClient.createANFStatement(ANFStatement.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void createANFStatementException() {
-        Mockito.when(this.anfServiceBlockingStub.createANFStatement(Mockito.any(AnfStatement.ANFStatement.class)))
+        Mockito.when(this.anfServiceBlockingStub.createANFStatement(Mockito.any(ANFStatement.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        AnfStatement.ANFStatement request = AnfStatement.ANFStatement.getDefaultInstance();
+        ANFStatement request = ANFStatement.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
@@ -77,20 +77,19 @@ class OpenCDXANFClientImplTest {
 
     @Test
     void getANFStatement() {
-        Mockito.when(this.anfServiceBlockingStub.getANFStatement(Mockito.any(AnfStatement.Identifier.class)))
-                .thenReturn(AnfStatement.ANFStatement.getDefaultInstance());
+        Mockito.when(this.anfServiceBlockingStub.getANFStatement(Mockito.any(ANFIdentifier.class)))
+                .thenReturn(ANFStatement.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                AnfStatement.ANFStatement.getDefaultInstance(),
-                this.openCDXANFClient.getANFStatement(
-                        AnfStatement.Identifier.getDefaultInstance(), openCDXCallCredentials));
+                ANFStatement.getDefaultInstance(),
+                this.openCDXANFClient.getANFStatement(ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void getANFStatementException() {
-        Mockito.when(this.anfServiceBlockingStub.getANFStatement(Mockito.any(AnfStatement.Identifier.class)))
+        Mockito.when(this.anfServiceBlockingStub.getANFStatement(Mockito.any(ANFIdentifier.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        AnfStatement.Identifier request = AnfStatement.Identifier.getDefaultInstance();
+        ANFIdentifier request = ANFIdentifier.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
@@ -99,20 +98,19 @@ class OpenCDXANFClientImplTest {
 
     @Test
     void updateANFStatement() {
-        Mockito.when(this.anfServiceBlockingStub.updateANFStatement(Mockito.any(AnfStatement.ANFStatement.class)))
-                .thenReturn(AnfStatement.Identifier.getDefaultInstance());
+        Mockito.when(this.anfServiceBlockingStub.updateANFStatement(Mockito.any(ANFStatement.class)))
+                .thenReturn(ANFIdentifier.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                AnfStatement.Identifier.getDefaultInstance(),
-                this.openCDXANFClient.updateANFStatement(
-                        AnfStatement.ANFStatement.getDefaultInstance(), openCDXCallCredentials));
+                ANFIdentifier.getDefaultInstance(),
+                this.openCDXANFClient.updateANFStatement(ANFStatement.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void updateANFStatementException() {
-        Mockito.when(this.anfServiceBlockingStub.updateANFStatement(Mockito.any(AnfStatement.ANFStatement.class)))
+        Mockito.when(this.anfServiceBlockingStub.updateANFStatement(Mockito.any(ANFStatement.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        AnfStatement.ANFStatement request = AnfStatement.ANFStatement.getDefaultInstance();
+        ANFStatement request = ANFStatement.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
@@ -121,20 +119,19 @@ class OpenCDXANFClientImplTest {
 
     @Test
     void deleteANFStatement() {
-        Mockito.when(this.anfServiceBlockingStub.deleteANFStatement(Mockito.any(AnfStatement.Identifier.class)))
-                .thenReturn(AnfStatement.Identifier.getDefaultInstance());
+        Mockito.when(this.anfServiceBlockingStub.deleteANFStatement(Mockito.any(ANFIdentifier.class)))
+                .thenReturn(ANFIdentifier.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                AnfStatement.Identifier.getDefaultInstance(),
-                this.openCDXANFClient.deleteANFStatement(
-                        AnfStatement.Identifier.getDefaultInstance(), openCDXCallCredentials));
+                ANFIdentifier.getDefaultInstance(),
+                this.openCDXANFClient.deleteANFStatement(ANFIdentifier.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void deleteANFStatementException() {
-        Mockito.when(this.anfServiceBlockingStub.deleteANFStatement(Mockito.any(AnfStatement.Identifier.class)))
+        Mockito.when(this.anfServiceBlockingStub.deleteANFStatement(Mockito.any(ANFIdentifier.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        AnfStatement.Identifier request = AnfStatement.Identifier.getDefaultInstance();
+        ANFIdentifier request = ANFIdentifier.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,

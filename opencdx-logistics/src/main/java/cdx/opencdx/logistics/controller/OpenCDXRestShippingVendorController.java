@@ -15,7 +15,9 @@
  */
 package cdx.opencdx.logistics.controller;
 
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.DeliveryTracking;
+import cdx.opencdx.grpc.data.Shipping;
+import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

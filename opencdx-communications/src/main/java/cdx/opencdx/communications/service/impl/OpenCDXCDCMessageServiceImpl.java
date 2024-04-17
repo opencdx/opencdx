@@ -21,7 +21,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.service.OpenCDXCDCMessageService;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.net.URISyntaxException;

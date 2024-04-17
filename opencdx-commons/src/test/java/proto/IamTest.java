@@ -16,10 +16,13 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.profile.CreateUserProfileRequest;
-import cdx.opencdx.grpc.health.profile.UserProfile;
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.UserProfile;
+import cdx.opencdx.grpc.service.health.CreateUserProfileRequest;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.grpc.types.IamUserStatus;
+import cdx.opencdx.grpc.types.IamUserType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

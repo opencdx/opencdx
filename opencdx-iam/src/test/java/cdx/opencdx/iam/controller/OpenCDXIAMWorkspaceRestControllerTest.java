@@ -15,16 +15,15 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.organization.CreateWorkspaceRequest;
-import cdx.opencdx.grpc.organization.UpdateWorkspaceRequest;
-import cdx.opencdx.grpc.organization.Workspace;
+import cdx.opencdx.grpc.data.Workspace;
+import cdx.opencdx.grpc.service.iam.CreateWorkspaceRequest;
+import cdx.opencdx.grpc.service.iam.UpdateWorkspaceRequest;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

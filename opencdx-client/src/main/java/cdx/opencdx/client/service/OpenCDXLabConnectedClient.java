@@ -16,7 +16,8 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.grpc.lab.connected.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for the Lab Connected Service gRPC Client.

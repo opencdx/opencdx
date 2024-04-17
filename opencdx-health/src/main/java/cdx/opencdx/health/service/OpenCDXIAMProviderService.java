@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for the OpenCDXIAMProviderService

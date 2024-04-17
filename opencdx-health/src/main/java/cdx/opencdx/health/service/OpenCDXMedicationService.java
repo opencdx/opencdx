@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.service.health.EndMedicationRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsResponse;
+import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
 
 /**
  * Service for Medication

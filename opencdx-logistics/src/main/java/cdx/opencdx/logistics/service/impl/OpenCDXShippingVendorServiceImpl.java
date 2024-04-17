@@ -20,12 +20,11 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.common.PhoneType;
-import cdx.opencdx.grpc.communication.Notification;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.service.logistics.ShippingVendorResponse;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;
 import cdx.opencdx.logistics.dto.OpenCDXShippingResponse;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
@@ -156,6 +155,7 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
             if (emailAddress != null) {
                 builder.addAllToEmail(List.of(emailAddress.getEmail()));
             }
+
             List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
                     .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
                     .map(PhoneNumber::getNumber)

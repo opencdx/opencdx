@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.communications.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -28,8 +26,8 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
-import cdx.opencdx.grpc.communication.MessageTemplate;
-import cdx.opencdx.grpc.communication.TemplateRequest;
+import cdx.opencdx.grpc.data.MessageTemplate;
+import cdx.opencdx.grpc.service.communications.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;

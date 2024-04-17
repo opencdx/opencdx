@@ -16,7 +16,8 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.ConnectedTest;
 import com.google.protobuf.Timestamp;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

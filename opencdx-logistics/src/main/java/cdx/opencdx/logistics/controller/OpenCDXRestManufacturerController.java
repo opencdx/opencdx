@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.logistics.controller;
 
-import cdx.opencdx.grpc.inventory.*;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.service.logistics.DeleteResponse;
+import cdx.opencdx.grpc.service.logistics.ManufacturerIdRequest;
+import cdx.opencdx.grpc.service.logistics.ManufacturerListRequest;
+import cdx.opencdx.grpc.service.logistics.ManufacturersListResponse;
 import cdx.opencdx.logistics.service.OpenCDXManufacturerService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

@@ -16,10 +16,10 @@
 package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
-import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

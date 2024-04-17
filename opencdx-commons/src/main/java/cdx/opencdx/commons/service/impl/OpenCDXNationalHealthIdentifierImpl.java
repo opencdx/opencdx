@@ -18,7 +18,7 @@ package cdx.opencdx.commons.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.types.IamUserType;
 import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

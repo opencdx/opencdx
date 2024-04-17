@@ -18,7 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
-import cdx.opencdx.grpc.tinkar.*;
+import cdx.opencdx.grpc.service.tinkar.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;

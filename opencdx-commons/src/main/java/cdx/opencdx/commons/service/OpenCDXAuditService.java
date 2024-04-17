@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.commons.service;
 
-import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.types.AgentType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 
 /**
  * The OpenCDXAuditService interface provides methods for recording various audit events.

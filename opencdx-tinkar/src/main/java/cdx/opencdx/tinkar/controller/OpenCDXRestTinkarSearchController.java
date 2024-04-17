@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.tinkar.controller;
 
-import cdx.opencdx.grpc.tinkar.*;
+import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

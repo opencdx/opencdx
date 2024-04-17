@@ -16,10 +16,12 @@
 package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.grpc.shipping.DeliveryTracking;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.service.logistics.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.types.ClinicalProtocolStatus;
+import cdx.opencdx.grpc.types.RoutineStatus;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -49,7 +51,7 @@ class RoutineTest {
                         .setRoutineId(OpenCDXIdentifier.get().toString())
                         .setName("Test Routine")
                         .setDescription("Test Routine Description")
-                        .setStatus(Routine.Status.COMPLETED)
+                        .setStatus(RoutineStatus.ROUTINE_COMPLETED)
                         .setCreationDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setLastUpdatedDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setAssignedUser(OpenCDXIdentifier.get().toHexString())
@@ -87,7 +89,7 @@ class RoutineTest {
                         .setExecutionId(OpenCDXIdentifier.get().toHexString())
                         .setRoutineId(OpenCDXIdentifier.get().toHexString())
                         .setProtocolId(OpenCDXIdentifier.get().toHexString())
-                        .setStatus(ClinicalProtocolExecution.Status.COMPLETED)
+                        .setStatus(ClinicalProtocolStatus.CLINICAL_PROTOCOL_COMPLETED)
                         .setStartDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setEndDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setResults("ClinicalProtocolExecution Results")

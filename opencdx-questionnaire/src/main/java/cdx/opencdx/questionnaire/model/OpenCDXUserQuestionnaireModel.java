@@ -16,8 +16,8 @@
 package cdx.opencdx.questionnaire.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.questionnaire.Questionnaire;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.data.Questionnaire;
+import cdx.opencdx.grpc.data.UserQuestionnaireData;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

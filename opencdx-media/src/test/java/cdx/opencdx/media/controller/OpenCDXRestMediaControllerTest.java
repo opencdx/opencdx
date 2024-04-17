@@ -19,8 +19,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.media.CreateMediaRequest;
+import cdx.opencdx.grpc.service.media.ListMediaRequest;
+import cdx.opencdx.grpc.service.media.UpdateMediaRequest;
+import cdx.opencdx.grpc.types.MediaStatus;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;

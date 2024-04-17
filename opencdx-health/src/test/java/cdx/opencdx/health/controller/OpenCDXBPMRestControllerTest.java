@@ -16,8 +16,6 @@
 package cdx.opencdx.health.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -25,8 +23,14 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.BPM;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateBPMRequest;
+import cdx.opencdx.grpc.service.health.ListBPMRequest;
+import cdx.opencdx.grpc.service.health.UpdateBPMRequest;
+import cdx.opencdx.grpc.types.ArmUsed;
+import cdx.opencdx.grpc.types.BPMUnits;
+import cdx.opencdx.grpc.types.CuffSize;
 import cdx.opencdx.health.model.OpenCDXBPMModel;
 import cdx.opencdx.health.repository.OpenCDXBPMRepository;
 import cdx.opencdx.health.service.OpenCDXBPMService;

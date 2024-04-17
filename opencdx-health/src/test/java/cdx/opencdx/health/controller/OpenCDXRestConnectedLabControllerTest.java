@@ -15,22 +15,19 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.lab.connected.ConnectedLab;
-import cdx.opencdx.grpc.lab.connected.CreateConnectedLabRequest;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
-import cdx.opencdx.grpc.shipping.ListOrdersRequest;
+import cdx.opencdx.grpc.data.BasicInfo;
+import cdx.opencdx.grpc.data.ConnectedLab;
+import cdx.opencdx.grpc.data.LabFindings;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateConnectedLabRequest;
+import cdx.opencdx.grpc.service.logistics.ListOrdersRequest;
 import cdx.opencdx.health.config.OpenCDXLabConnectionFactoryBean;
 import cdx.opencdx.health.model.OpenCDXConnectedLabModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedLabRepository;

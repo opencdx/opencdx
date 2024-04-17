@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,8 +25,10 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.grpc.types.IamUserType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;

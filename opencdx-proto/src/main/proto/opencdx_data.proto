@@ -1,0 +1,5118 @@
+/*
+ * This proto file contains the data structures used throughout the OpenCDx Project.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.data;
+import "opencdx_enum.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+ * Connects an ANF (Attribute-Name-Function) Statement to a query component.
+ */
+message AnfStatementConnector {
+  /*
+   * The Reference to the ANF Statement
+   */
+  ANFStatement anf_statement = 1;
+
+  /*
+   * The Type of the ANF Statement
+   */
+  cdx.opencdx.grpc.types.AnfStatementType anf_statement_type = 2;
+
+  /*
+   * The Type of the ANF Operator used in the Statement
+   */
+  cdx.opencdx.grpc.types.AnfOperatorType anf_operator_type = 3;
+
+  /*
+   * The Value of the ANF Operator used in the Statement
+   */
+  string operator_value = 4;
+}
+
+
+enum ContinentEnum {
+  AFRICA = 0;
+  ANTARCTICA = 1;
+  ASIA = 2;
+  EUROPE = 3;
+  NORTH_AMERICA = 4;
+  OCEANIA = 5;
+  SOUTH_AMERICA = 6;
+
+}
+
+/*
+ * Message for Country includes country-identifier and metadata fields.
+ */
+message Country {
+  /*
+   * Unique ID representing a Country.
+   */
+  optional string id = 1;
+
+  /*
+   * Name of the country.
+   */
+  optional string name = 2;
+
+  optional string iso2 = 3;
+  optional string iso3 = 4;
+  ContinentEnum continent = 5;
+  optional string fips = 6;
+  optional int32 isoNumeric = 7;
+  repeated string languageCodes = 8;
+  optional string phoneCode = 9;
+  optional string topLevelInternetDomain = 10;
+
+  /*
+   * Creation timestamp of the country data.
+   */
+  optional google.protobuf.Timestamp created = 11;
+
+  /*
+   * Modification timestamp of the country data.
+   */
+  optional google.protobuf.Timestamp modified = 12;
+
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 13;
+
+  /*
+   * Identifier of the last modifier of this record.
+   */
+  optional string modifier = 14;
+}
+
+/*
+ * Address, a composition of country, city, state, postal code and purpose of the address.
+ */
+message Address {
+  /*
+   * Country Identifier.
+   */
+  string country_id = 1;
+
+  /*
+   * Purpose of the address.
+   */
+  cdx.opencdx.grpc.types.AddressPurpose address_purpose = 2;
+
+  /*
+   * First line of the address.
+   */
+  string address_1 = 3;
+
+  /*
+   * Optional: Second line of the address.
+   */
+  optional string address_2 = 4;
+
+  /*
+   * Optional: Third line of the address.
+   */
+  optional string address_3 = 5;
+
+  /*
+   * Name of the City.
+   */
+  string city = 6;
+
+  /*
+   * Name of the State.
+   */
+  string state = 7;
+
+  /*
+   * Zip or Postal code.
+   */
+  string postal_code = 8;
+}
+
+/*
+ * PhoneNumber encapsulates the number along with its type.
+ */
+message PhoneNumber {
+  /*
+   * Telephone number.
+   */
+  string number = 1;
+
+  /*
+   * Classification of the phone number.
+   */
+  cdx.opencdx.grpc.types.PhoneType type = 2;
+}
+
+/*
+ * FullName includes the names of the user including first, middle, last along with title and suffix.
+ */
+message FullName {
+  /*
+   * Title of the user (ex: Mr., Mrs., Dr.).
+   */
+  string title = 1;
+
+  /*
+   * First name of the user.
+   */
+  string first_name = 2;
+
+  /*
+   * Middle name of the user(optional).
+   */
+  string middle_name = 3;
+
+  /*
+   * Last name of the user.
+   */
+  string last_name = 4;
+
+  /*
+   * Suffix for the name (ex: Jr., Sr., III).
+   */
+  string suffix = 5;
+}
+
+/*
+ * ContactInfo stores the contact related information of a user.
+ */
+message ContactInfo {
+  /*
+   * Full name of the user.
+   */
+  FullName name = 1;
+
+  /*
+   * Identity of the patient.
+   */
+  optional string patient_id = 2;
+
+  /*
+   * Collection of addresses linked with the user.
+   */
+  repeated Address addresses = 3;
+
+  /*
+   * Collection of phone numbers linked with the user.
+   */
+  repeated PhoneNumber phone_numbers = 4;
+
+  /*
+   * Collection of email addresses linked with the user.
+   */
+  repeated EmailAddress emails = 5;
+}
+
+/*
+ * EmailAddress, structure for storing email address and its type.
+ */
+message EmailAddress {
+  /*
+   * The email address.
+   */
+  string email = 1;
+
+  /*
+   * The type of the email address.
+   */
+  cdx.opencdx.grpc.types.EmailType type = 2;
+}
+
+/*
+ * Pagination is used in response message to provide info about pagination.
+ */
+message Pagination {
+  /*
+   * The current page number.
+   */
+  int32 page_number = 1;
+
+  /*
+   * The page size or count of items in the current page.
+   */
+  int32 page_size = 2;
+
+  /*
+   * Boolean value to sort in ascending order.
+   */
+  bool sort_ascending = 3;
+
+  /*
+   * Column or field based on which the sorting should be applied.
+   */
+  optional string sort = 4;
+
+  /*
+   * Total number of pages.
+   */
+  optional int64 total_pages = 5;
+
+  /*
+   * The total count of records available across pages.
+   */
+  optional int64 total_records = 6;
+}
+
+/*
+ * Duration carries the period of time along with unit of time.
+ */
+message Duration {
+  /*
+   * Period of time.
+   */
+  int64 duration = 1;
+
+  /*
+   * Unit of time.
+   */
+  cdx.opencdx.grpc.types.DurationType type = 2;
+}
+
+message PaymentDetails {
+  /*
+   * Mode of payment used for the test.
+   */
+  string payment_mode = 1;
+  /*
+   * ID referring to insurance information used for the test.
+   */
+  string insurance_info_id = 2;
+  /*
+   * ID of the payment transaction for the test.
+   */
+  string payment_transaction_id = 3;
+  /*
+   * More details about the payment.
+   */
+  string payment_details = 4;
+}
+
+/*
+ * 'Identifier' Message definition for a unique ID associated with an ANFStatement
+ */
+message ANFIdentifier {
+  /*
+   * The variable 'id' stands for the unique Identifier for an ANFStatement.
+   */
+  string id = 1;
+}
+
+
+/*
+ * The `Measure` message encapsulates a quantifiable attribute such as time duration or test results.
+ * It defines an upper and lower bound for the measure, clarification if these bounds are inclusive,
+ * the semantic interpretation of the measure, and optionally, the resolution or accuracy of the measure.
+ *
+ * Following are some examples of measures for clarification:
+ * "Presence" denotes a measure where a certain quantity is existent. The `upper_bound` is set to INF, `lower_bound` is greater than 0 with `include_lower_bound` set based on context.
+ * "Absence" denotes a measure where a certain quantity is non-existent. Both `upper_bound` and `lower_bound` are set to 0 with `include_lower_bound` and `include_upper_bound` set to true.
+ * "Indeterminate" indicates a measure that can range from 0 to some value greater than 0.
+ * "Exact Value" signifies a measure where a certain quantity is a precise value. Both `upper_bound` and `lower_bound` are set to this exact value with `include_lower_bound` and `include_upper_bound` set to true.
+ * "Ranges" represent a measure that falls within a particular range. The `upper_bound` and `lower_bound` are set to the extremities of this range with `include_lower_bound` and `include_upper_bound` set based on context.
+ * `semantic` describes the semantical sense of the measure, e.g., "Countable quantity".
+ */
+message Measure {
+  /*
+   * The `upper_bound` field signifies the maximum limit of the measure.
+   */
+  string upper_bound = 1;
+
+  /*
+   * The `lower_bound` field signifies the minimum limit of the measure.
+   */
+  string lower_bound = 2;
+
+  /*
+   * The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
+   */
+  bool include_upper_bound = 3;
+
+  /*
+   * The `include_lower_bound` field reveals if the `lower_bound` value is inclusive in the measure.
+   */
+  bool include_lower_bound = 4;
+
+  string semantic = 5;
+
+  /*
+   * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
+   */
+  string resolution = 6;
+}
+
+/*
+ * Message representing a participant, who is typically a patient.
+ */
+message Participant {
+  /*
+   * Unique identifier for the participant
+   */
+  string id = 1;
+
+  string practitioner_value = 2;
+
+  string code = 3;
+}
+
+/*
+ * Message representing a practitioner or an entity that authors.
+ */
+message Practitioner {
+  /*
+   * Unique identifier for the practitioner
+   */
+  optional string id = 1;
+
+  /*
+   * Reference to the participating practitioner
+   */
+  string practitioner_value = 2;
+
+  /*
+   * Authorized roles of the practitioner
+   */
+  string code = 3;
+}
+
+/*
+ * Message representing associated statements like preconditions or interpretations.
+ */
+message AssociatedStatement {
+  string id = 1;
+  /*
+   * Contents or description of the associated statement
+   */
+  string semantic = 2;
+}
+
+/*
+ * Message representing a reference to other entities like patient records or health practitioners.
+ */
+message Reference {
+  /*
+   * Unique identifier for the reference
+   */
+  string id = 1;
+  /*
+   * The type of the reference, for example, "Patient", "Practitioner"
+   */
+  string type = 2;
+}
+
+message CircumstanceChoice {
+
+  cdx.opencdx.grpc.types.CircumstanceType circumstance_type = 1;
+
+  string status = 2;
+
+  Measure result = 3;
+
+  string health_risk = 4;
+
+  Measure normal_range = 5;
+
+  Participant circumstance = 6;
+
+  Measure timing = 7;
+
+  Participant participant = 8;
+
+}
+
+/*
+ * The ANFStatement message is the main representation of an ANFStatement. It defines the necessary fields required to represent it.
+ */
+message ANFStatement {
+  /*
+   * Uniquely identifies the ANFStatement.
+   */
+  ANFIdentifier id = 1;
+  /*
+   * Denotes the timestamp of the statement, adhering to the rule: Timing - past, present, or future.
+   * For the "Performance of Action", Timing could denote a past or current timestamp.
+   * For the "Request of Action", Timing would always denote a future timestamp.
+   */
+  Measure time = 2;
+  /*
+   * Identifies the subject of the record, which is typically the patient.
+   */
+  Participant subject_of_record = 3;
+  /*
+   * Identifies all authors behind this statement.
+   */
+  repeated Practitioner authors = 4;
+  /*
+   * Refers to the subject or topic of the incorporated information.
+   */
+  string subject_of_information = 5;
+  /*
+   * Refers to any related statements or conditions.
+   */
+  repeated AssociatedStatement associated_statement = 6;
+  /*
+   * Denotes the topic of the statement, and includes rules for different types of observations, procedures and test:
+   * - Simple observation statements use the "Observation" procedure to symbolize the topic.
+   * - Medication administration statements use the "Administration of substance" concept.
+   * - Laboratory test statements use the "Laboratory Procedure" concept.
+   * - Imaging Procedure statements use the "Imaging Procedure" concept.
+   */
+  string topic = 7;
+  /*
+   * Specifies the type category of the statement such as "Request", "Performance", etc.
+   */
+  string type = 8;
+  /*
+   * Circumstance choice
+   */
+  CircumstanceChoice circumstance_choice = 9;
+  /*
+   * Timestamp when this ANFStatement was created.
+   */
+  optional google.protobuf.Timestamp created = 10;
+  /*
+   * Timestamp when modifications were done to this ANFStatement.
+   */
+  optional google.protobuf.Timestamp modified = 12;
+  /*
+   * Specifies the unique identifier of the creator of this ANFStatement.
+   */
+  optional string creator = 13;
+  /*
+   * Specifies the unique identifier of the modifier of this ANFStatement.
+   */
+  optional string modifier = 14;
+  /*
+   * Specifies the current status of the ANFStatement.
+   */
+  cdx.opencdx.grpc.types.Status status = 15;
+}
+
+/*
+ * Identifies the identity that initiated this audit.
+ */
+message Actor {
+  /*
+   * UUID identifying the identity.
+   */
+  string identity = 1;
+  /*
+   * The role the actor had when initiated.
+   */
+  string role = 2;
+  /*
+   * Network address from actor when initiated.
+   */
+  string network_address = 3;
+  /*
+   * Indicates if the actor is a Human, System or another entity.
+   */
+  cdx.opencdx.grpc.types.AgentType agent_type = 4;
+}
+/*
+ * Contains the relevant data for this audit.
+ */
+message DataObject {
+  string resource = 1;
+  /*
+   * Data block recorded for Audit System
+   */
+  string data = 2;
+  /*
+   * Indicates the sensitivity level of this data.
+   */
+  cdx.opencdx.grpc.types.SensitivityLevel sensitivity = 3;
+}
+/*
+ * Source of the Audit event.
+ */
+message AuditSource {
+  /*
+   * System Name
+   */
+  string system_info = 1;
+  /*
+   * Relevant configuration information.
+   */
+  string configuration = 2;
+}
+/*
+ * Identifies whose information is being acted on.
+ */
+message AuditEntity {
+  /*
+   * Patient ID
+   */
+  string patient_id = 1;
+  /*
+   * National Health Identifier
+   */
+  string nationalHealthId = 2;
+}
+/*
+ * Audit Event information to record.
+ */
+message AuditEvent {
+  /*
+   * Timestamp when this event occurred.
+   */
+  optional google.protobuf.Timestamp created = 1;
+  /*
+   * Identifies the type of event.
+   */
+  cdx.opencdx.grpc.types.AuditEventType event_type = 2;
+  /*
+   * Identifies who is causing the action
+   */
+  Actor actor = 3;
+  /*
+   * Data that is being acted on.
+   */
+  DataObject data_object = 4;
+  /*
+   * Description of use of this data.
+   */
+  string purpose_of_use = 5;
+  /*
+   * Where did the event originate
+   */
+  AuditSource audit_source = 6;
+  /*
+   * Identifies whose data is being acted on.
+   */
+  AuditEntity audit_entity = 7;
+  /*
+   * Timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * ID of the creator of this event.
+   */
+  optional string creator = 9;
+  /*
+   * ID of the modifier of this event.
+   */
+  optional string modifier = 10;
+}
+/*
+ * Indicates the status of an operation
+ */
+message AuditStatus {
+  /*
+   * Indicates whether the operation was successful or not.
+   */
+  bool success = 1;
+}
+
+
+/*
+ * `RuleSet` message represents a certain ruleset for the rule engine.
+ * This message is used for defining and documenting rules that are applied to questionnaire responses.
+ */
+message RuleSet {
+  /*
+   * UUID identifier for the rule.
+   */
+  string rule_id = 1;
+  /*
+   * Indicates the type of the rule (e.g., business rule, validation rule etc.).
+   */
+  string type = 2;
+  /*
+   * Indicates the category of the rule.
+   */
+  string category = 3;
+  /*
+   * Description or any remarks regarding the rule.
+   */
+  string description = 4;
+  /**name of the rule
+   */
+  string name = 5;
+}
+
+/*
+ * Message denoting a geographical location via coordinates.
+ */
+message Location {
+  /*
+   * The latitude of the location.
+   */
+  double latitude = 1;
+  /*
+   * The longitude of the location.
+   */
+  double longitude = 2;
+}
+
+/*
+ * Message providing guidelines for positive and negative interpretations.
+ */
+message Interpretation {
+  /*
+   * Guide for interpreting positive results.
+   */
+  map<string, string> positive = 1;
+  /*
+   * Guide for interpreting negative results.
+   */
+  map<string, string> negative = 2;
+}
+
+/*
+ * Message outlining the details of a test kit.
+ */
+message TestKit {
+  /*
+   * Name of the test kit.
+   */
+  string name = 1;
+  /*
+   * The disease that the test kit targets.
+   */
+  string target_disease = 2;
+  /*
+   * Required type of specimen for the test.
+   */
+  cdx.opencdx.grpc.types.SpecimenType specimen_type = 3;
+  /*
+   * Procedure for conducting the test.
+   */
+  string procedure = 4;
+  /*
+   * Guide for test results interpretation.
+   */
+  Interpretation interpretation_guide = 5;
+  /*
+   * The brand that manufactured the test kit.
+   */
+  string brand = 6;
+  /*
+   * The approval status of the test kit.
+   */
+  string approval_status = 7;
+  /*
+   * The accuracy percentage of the test kit.
+   */
+  float accuracy = 8;
+  /*
+   * The duration of the test in minutes.
+   */
+  int32 test_duration = 9;
+
+  /**
+   * The cost of the test kit.
+   */
+  string test_case_id = 10;
+}
+
+/*
+ * Message to store symptom information.
+ */
+message Symptom {
+  /*
+   * Name of the symptom.
+   */
+  string name = 1;
+  /*
+   * Severity level of the symptom.
+   */
+  cdx.opencdx.grpc.types.SeverityLevel severity = 2;
+  /*
+   * Date when the symptom first appeared.
+   */
+  google.protobuf.Timestamp onset_date = 3;
+  /*
+   * Duration of the symptom.
+   */
+  Duration duration = 4;
+  /*
+   * Additional details about the symptom.
+   */
+  string additional_details = 5;
+}
+
+message Classification {
+  /*
+   * Name of the recommended test kit.
+   */
+  cdx.opencdx.grpc.data.TestKit test_kit = 1;
+  /*
+   * Confidence score of the classification.
+   */
+  float confidence = 2;
+  /*
+   * Probability of a positive result.
+   */
+  float positive_probability = 3;
+  /*
+   * Classification related message.
+   */
+  string message = 4;
+  /*
+   * Availability of the recommended test kit.
+   */
+  string availability = 5;
+  /*
+   * Cost of the recommended test kit.
+   */
+  float cost = 6;
+  /*
+   * Additional recommendations based on classification.
+   */
+  string further_actions = 7;
+  /*
+   * Alternative test kits.
+   */
+  repeated cdx.opencdx.grpc.data.TestKit alternative_options = 8;
+  /*
+   * Feedback URL for user classification result.
+   */
+  string feedback_url = 9;
+  /*
+   * Timestamp of the classification result.
+   */
+  google.protobuf.Timestamp timestamp = 10;
+  /*
+   * Identifier for the patient.
+   */
+  string patient_id = 11;
+
+  /*
+   * Whether to notify the CDC.
+   */
+  bool notify_cdc = 12;
+
+  /*
+   * Classification type
+   */
+  cdx.opencdx.grpc.types.ClassificationType type = 13;
+}
+
+/*
+ * Message to record user-provided test kit classification information.
+ */
+message UserAnswer {
+  /*
+   * ID of the user.
+   */
+  string patient_id = 1;
+
+  /*
+   * Id of the connected test..
+   */
+  optional string connected_test_id = 2;
+
+  /*
+   * Id of the user questionnaire.
+   */
+  optional string user_questionnaire_id = 3;
+  /*
+   * Symptoms reported by the user.
+   */
+  repeated Symptom symptoms = 4;
+  oneof result {
+    /*
+     * ID to a media image for the test result.
+     */
+    string media_id = 5;
+    /*
+     * Text description of the test result.
+     */
+    string text_result = 6;
+  }
+  /*
+   * Age of the user.
+   */
+  int32 age = 7;
+  /*
+   * Gender of the user.
+   */
+  cdx.opencdx.grpc.types.Gender gender = 8;
+  /*
+   * Medical conditions of the user.
+   */
+  string medical_conditions = 9;
+  /*
+   * Pregnancy status of the user.
+   */
+  bool pregnancy_status = 10;
+  /*
+   * Language preference of the user.
+   */
+  string language_preference = 11;
+  /*
+   * Location of the user.
+   */
+  Location user_location = 12;
+
+  /*
+ * ID of the submitting user.
+ */
+  string submitting_user_id = 13;
+}
+
+
+
+
+/*
+ * Coding message: models a specific coding instance from a given terminology system.
+ */
+message Coding {
+  /*
+   * Unique identifier used for inter-element referencing
+   */
+  string id = 1;
+
+  /*
+   * Identifier of the terminology system being used
+   */
+  string system = 2;
+
+  /*
+   * Specific version of the terminology system, if applicable
+   */
+  string version = 3;
+
+  /*
+   * The symbol, as defined by the terminology system
+   */
+  string code = 4;
+
+  /*
+   * The display textual representation as defined by the terminology system
+   */
+  string display = 5;
+}
+
+/*
+ * CodeableConcept message: models a codeable concept that includes one or more codings from
+ * terminology systems, along with a plain text representation.
+ */
+message CodeableConcept {
+  /*
+   * Unique identifier used for inter-element referencing
+   */
+  string id = 1;
+
+  /*
+   * Set of codes defined by various terminology systems
+   */
+  repeated Coding coding = 2;
+
+  /*
+   * Plain text representation of the codeable concept
+   */
+  string text = 3;
+}
+
+
+/**
+ * A Message message.
+ */
+message Message {
+  /**
+   * The unique identifier for the Message.
+   */
+  optional string id = 1;
+  /**
+   * The unique identifier for the patient.
+   */
+  string patient_id = 2;
+  /**
+   * The title of the Message.
+   */
+  string title = 3;
+  /**
+   * The message of the Message.
+   */
+  string message = 4;
+  /**
+   * The type of the Message.
+   */
+  cdx.opencdx.grpc.types.MessageType type = 5;
+  /**
+   * The status of the Message.
+   */
+  cdx.opencdx.grpc.types.MessageStatus status = 6;
+  /**
+   * The time the Message was created.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /**
+   * The time the Message was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /**
+   * The user who created the Message.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+}
+/*
+ * EmailTemplate represents the structure of an email template.
+ * It's a set of properties necessary to maintain an email template's record.
+ */
+message EmailTemplate {
+  /*
+   * The unique identifier for the email template.
+   */
+  optional string template_id = 1;
+  /*
+   * The subject line of the email template.
+   */
+  string subject = 2;
+  /*
+   * The content/body text of the email template.
+   */
+  string content = 3;
+  /*
+   * The variables that might be replaced with actual values in the email template.
+   */
+  repeated string variables = 4;
+  /*
+   * Enumeration defining the type/category of the email template.
+   */
+  cdx.opencdx.grpc.types.TemplateType template_type = 5;
+  /*
+   * The UTC timestamp when the email template was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+  /*
+   * The UTC timestamp when the email template was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+  /*
+   * The user ID of the creator of the email template.
+   */
+  optional string creator = 8;
+  /*
+   * The user ID of the person who last modified the email template.
+   */
+  optional string modifier = 9;
+}
+
+/*
+ * SMSTemplate represents the structure of a sms template.
+ * It's a set of properties necessary to maintain an sms template's record.
+ */
+message SMSTemplate {
+  /*
+   * The unique identifier for the SMS template.
+   */
+  optional string template_id = 1;
+
+  /*
+   * The content/body text of the SMS template.
+   */
+  string message = 2;
+
+  /*
+   * The variables that might be replaced with actual values in the SMS template.
+   */
+  repeated string variables = 3;
+
+  /*
+   * Enumeration defining the type/category of the SMS template.
+   */
+  cdx.opencdx.grpc.types.TemplateType template_type = 4;
+
+  /*
+   * The UTC timestamp when the SMS template was created.
+   */
+  optional google.protobuf.Timestamp created = 5;
+
+  /*
+   * The UTC timestamp when the SMS template was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 6;
+
+  /*
+   * The user ID of the creator of the SMS template.
+   */
+  optional string creator = 7;
+
+  /*
+   * The user ID of the person who last modified the SMS template.
+   */
+  optional string modifier = 8;
+}
+/**
+ * A MessageTemplate for messages.
+ */
+message MessageTemplate {
+  /**
+   * The unique identifier for the Message.
+   */
+  optional string template_id = 1;
+  /*
+ * The variables that might be replaced with actual values in the SMS template.
+ */
+  repeated string variables = 2;
+  /**
+   * The title of the Message.
+   */
+  string title = 3;
+  /**
+   * The message of the Message.
+   */
+  string content = 4;
+  /**
+   * The type of the Message.
+   */
+  cdx.opencdx.grpc.types.MessageType type = 5;
+  /**
+   * The time the Message was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+  /**
+   * The time the Message was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+  /**
+   * The user who created the Message.
+   */
+  optional string creator = 8;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 9;
+}
+
+/*
+ * NotificationEvent captures the details of a notification event.
+ * It contains the properties necessary to generate a named event with email and sms template associations and more.
+ */
+message NotificationEvent {
+  /*
+   * The unique identifier for the notification event.
+   */
+  optional string event_id = 1;
+
+  /*
+   * The human-readable name of the event.
+   */
+  string event_name = 2;
+
+  /*
+   * A brief description about what the event signifies.
+   */
+  string event_description = 3;
+
+  /*
+   * The unique identifier for the associated email template.
+   */
+  optional string email_template_id = 4;
+
+  /*
+   * The unique identifier for the associated sms template.
+   */
+  optional string sms_template_id = 5;
+
+  /**
+   * The unique identifier for the associated message template.
+   */
+  optional string message_template_id = 6;
+  /*
+   * Any parameters related to the event which are necessary during event processing.
+   */
+  repeated string event_parameters = 7;
+
+  /*
+   * Enumeration defining the priority of this notification event.
+   */
+  cdx.opencdx.grpc.types.NotificationPriority priority = 8;
+
+  /*
+   * Enumeration indicating the sensitivity level of the notification when sent.
+   */
+  cdx.opencdx.grpc.types.SensitivityLevel sensitivity = 9;
+
+  /*
+   * Represents the number of attempts to retry sending email. It defaults to 0, meaning infinite retries.
+   */
+  int32 email_retry = 10;
+
+  /*
+   * Represents the number of attempts to retry sending SMS. It defaults to 0, meaning infinite retries.
+   */
+  int32 sms_retry = 11;
+
+  /*
+   * The UTC timestamp when the notification event was created.
+   */
+  optional google.protobuf.Timestamp created = 12;
+
+  /*
+   * The UTC timestamp when the notification event was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 13;
+
+  /*
+   * The user ID of the creator of the notification event.
+   */
+  optional string creator = 14;
+
+  /*
+   * The user ID of the person who last modified the notification event.
+   */
+  optional string modifier = 15;
+}
+
+/*
+ * Defines the structure for a file attachment.
+ */
+message Attachment {
+  /*
+   * The name of the file to be attached.
+   */
+  string filename = 1;
+
+  /*
+   * The binary content of the file to be attached.
+   */
+  bytes data = 2;
+
+  /*
+   * The MIME type, or 'Content-Type', of the file to be attached.
+   */
+  string mime_type = 3;
+}
+
+/*
+ * Defines the data structure for a notification. A notification could be an SMS or EMAIL mode of communication.
+ */
+message Notification {
+  /*
+   * The unique identifier for the notification within the processing queue.
+   */
+  optional string queue_id = 1;
+
+  /*
+   * The unique identifier for the event that triggers this notification.
+   */
+  string event_id = 2;
+
+  /*
+   * The unique identifier for the patient that this notification is intended for.
+   */
+  string patient_id = 3;
+
+  /*
+   * The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
+   */
+  optional cdx.opencdx.grpc.types.NotificationStatus sms_status = 4;
+
+  /*
+   * The status of the EMAIL notification which could also be 'pending', 'sent', or 'failed'.
+   */
+  optional cdx.opencdx.grpc.types.NotificationStatus email_status = 5;
+
+  /*
+   * The timestamp when the notification was added to the queue.
+   */
+  optional google.protobuf.Timestamp timestamp = 6;
+
+  /*
+   * Custom data associated with the notification. The purpose of this data varies based on the specific use case.
+   */
+  map<string, string> custom_data = 7;
+
+  /*
+   * Email-specific attributes.
+   */
+  /*
+   * The email addresses of the primary recipients.
+   */
+  repeated string to_email = 8;
+
+  /*
+   * The email addresses to which the notification should be carbon copied(Cc).
+   */
+  repeated string cc_email = 9;
+
+  /*
+   * The email addresses to which the notification should be blind carbon copied(Bcc).
+   */
+  repeated string bcc_email = 10;
+
+  /*
+   * Any files that need to be attached to the email notification.
+   */
+  repeated Attachment email_attachments = 11;
+
+  /*
+   * SMS-specific attributes.
+   */
+  /*
+   * The phone numbers to which the SMS notification should be sent.
+   */
+  repeated string to_phone_number = 12;
+
+  /*
+   * Variables or placeholders that can be replaced in the notification's content.
+   */
+  map<string, string> variables = 13;
+
+  /*
+   * The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.
+   */
+  repeated string recipients_id = 14;
+
+  /*
+   * The timestamp at which this event was created.
+   */
+  optional google.protobuf.Timestamp created = 15;
+
+  /*
+   * The timestamp at which this event was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 16;
+
+  /*
+   * The unique identifier of the user or system that created this event.
+   */
+  optional string creator = 17;
+
+  /*
+   * The unique identifier of the user or system that last modified this event.
+   */
+  optional string modifier = 18;
+}
+
+/*
+ * Defines the audit record for a communication message.
+ */
+message CommunicationAuditRecord{
+  /*
+   * The notification that triggered the communication.
+   */
+  Notification notification = 1;
+  /*
+   * The actual content of the email communication.
+   */
+  string emailContent = 2;
+  /*
+   * The actual content of the SMS communication.
+   */
+  string smsContent = 3;
+  /*
+   * The actual content of the Message communication.
+   */
+  string messageContent = 4;
+}
+
+
+
+
+/**
+ * A LabFinding are the results of classification of a connected test submission being returned to the lab.
+ */
+message LabFindings {
+
+  /**
+   * The ID of the LabFinding.
+   */
+  optional string id = 1;
+  /**
+   * The basic information of the connected test submission.
+   */
+  BasicInfo basicInfo = 2;
+  /**
+   * The provider information of the connected test submission.
+   */
+  ProviderInfo providerInfo = 3;
+  /**
+   * The metadata of the connected test submission.
+   */
+  Metadata metadata = 4;
+  /**
+   * The classification results of the connected test submission.
+   */
+  Classification classification = 5;
+  /*
+ * The timestamp when this event was created.
+ */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * The timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * The user ID of the creator of this event.
+   */
+  optional string creator = 9;
+  /*
+   * The user ID of the modifier of this event.
+   */
+  optional string modifier = 10;
+}
+
+
+
+/**
+ * MetaData for the processor in processing for this specific lab.
+ */
+message LabMetaDataProcessor {
+  /**
+   * The identifier of the lab.
+   */
+  string lab_identifier = 1;
+  /**
+   * The authorization code for the lab.
+   */
+  string lab_authorization = 2;
+  /**
+   * The processing code for the lab.
+   */
+  string lab_processing_code  = 3;
+  /**
+   * The data for the lab processor.
+   */
+  repeated string lab_data = 4;
+}
+
+/**
+ * The request to create a connected lab.
+ */
+message ConnectedLab {
+  /**
+   * The basic information of the connected lab.
+   */
+  optional string id = 1;
+  /**
+   * The basic information of the connected lab.
+   */
+  string name = 2;
+  /**
+   * Identifier of processing system for submitting to the lab.
+   */
+  string identifier = 3;
+  /*
+   * ID of the organization involved in the test.
+   */
+  string organization_id = 4;
+  /*
+   * ID denoting the workspace in which the test was administered.
+   */
+  string workspace_id = 5;
+
+  /**
+   * The contact information of the connected lab.
+   */
+  ContactInfo contact_info = 6;
+
+  /*
+   * The physical address/office location of the lab.
+   */
+  Address lab_address = 7;
+
+  /*
+   * The email address used for formal communications with the lab.
+   */
+  EmailAddress lab_email = 8;
+
+  /*
+   * The phone number used to get in touch with the lab.
+   */
+  PhoneNumber lab_phone = 9;
+
+  /*
+   * The official website of the lab.
+   */
+  string lab_website = 10;
+
+  /*
+   * A brief description about the lab.
+   */
+  string lab_description = 11;
+
+  /*
+   * A list of all the certifications that the lab holds.
+   * This is repeated as there can be multiple certifications.
+   */
+  repeated string lab_certifications = 12;
+
+  /**
+   * The metadata of the lab processor.
+   */
+  optional LabMetaDataProcessor lab_processor = 13;
+
+  /*
+   * The timestamp capturing when this particular Lab instance was created.
+   * This is optional, and might not be present at all.
+   */
+  optional google.protobuf.Timestamp created = 14;
+
+  /*
+   * The timestamp capturing any modifications to the Lab instance.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 15;
+
+  /*
+   * The ID of the user who initially created this Lab instance.
+   * Another optional field.
+   */
+  optional string creator = 16;
+
+  /*
+   * The ID of the user who made the most recent modifications to this Lab instance.
+   * This field is also optional.
+   */
+  optional string modifier = 17;
+}
+
+
+
+/*
+ * Represents basic information regarding the test.
+ */
+message BasicInfo {
+  /*
+   * Unique identifier for the test.
+   */
+  optional string id = 1;
+  /*
+   * Timestamp marking the creation of the test record.
+   */
+  google.protobuf.Timestamp created = 2;
+  /*
+   * User or entity that initiated the creation of the test.
+   */
+  string creator = 3;
+  /*
+   * Timestamp of the last modification on the test record.
+   */
+  google.protobuf.Timestamp modified = 4;
+  /*
+   * User or entity that last modified the test.
+   */
+  string modifier = 5;
+  /*
+   * ID referencing the test within the vendor's system.
+   */
+  string vendor_lab_test_id = 6;
+  /*
+   * String denoting the classification or type of the test.
+   */
+  string type = 7;
+  /*
+   * ID of the patient associated with the test.
+   */
+  string patient_id = 8;
+  /*
+   * National health ID of the patient associated with the test.
+   */
+  string national_health_id = 9;
+  /*
+   * ID of the health service provider related to the test.
+   */
+  string health_service_id = 10;
+  /*
+   * ID of the organization involved in the test.
+   */
+  string organization_id = 11;
+  /*
+   * ID denoting the workspace in which the test was administered.
+   */
+  string workspace_id = 12;
+  /*
+   * String denoting the source or origin detail of the tested data.
+   */
+  string source = 13;
+}
+/*
+ * Contains information related to the test order.
+ */
+message OrderInfo {
+  /*
+   * Unique identifier for the test order.
+   */
+  string order_id = 1;
+  /*
+   * Current status of the test order.
+   */
+  string status = 2;
+  /*
+   * Descriptive message conveying the order status.
+   */
+  string status_message = 3;
+  /*
+   * Any actions associated with the test order's status.
+   */
+  repeated StatusMessageAction status_message_actions = 4;
+  /*
+   * ID of the clinical encounter pertaining to the test.
+   */
+  string encounter_id = 5;
+  /*
+   * Boolean field indicating if the test has been synced with any Electronic Health Record (EHR) system.
+   */
+  bool is_synced_with_ehr = 6;
+  /*
+   * String detailing the result data from the test.
+   */
+  string result = 7;
+  /*
+   * ID of any associated questionnaire linked to the test.
+   */
+  string questionnaire_id = 8;
+}
+/*
+ * Contains notes related to the test.
+ */
+message TestNotes {
+  /*
+   * General notes regarding the test.
+   */
+  string notes = 1;
+  /*
+   * Notes regarding any medication related to the test.
+   */
+  string medication_notes = 2;
+  /*
+   * Notes regarding any referrals related to the test.
+   */
+  string referral_notes = 3;
+  /*
+   * Notes or observations made during diagnosis.
+   */
+  string diagnostic_notes = 4;
+}
+/*
+ * Contains details related to payments for the test.
+ */
+
+/*
+ * Contains information about the providers associated with the=test.
+ */
+message ProviderInfo {
+  /*
+   * ID of the provider who ordered the test.
+   */
+  string ordering_provider_id = 1;
+  /*
+   * ID of the provider assigned to oversee the test.
+   */
+  int32 assigned_provider_id = 2;
+  /*
+   * National Provider Identifier of the ordering provider.
+   */
+  int32 ordering_provider_npi = 3;
+}
+/*
+ * Contains detailed information about the test and its results.
+ */
+message TestDetails {
+  /*
+   * Metadata associated with the test.
+   */
+  Metadata metadata = 1;
+  /*
+   * Base64 encoded data of the test requisition.
+   */
+  string requisition_base64 = 2;
+  /*
+   * Internal reference ID for the test administered.
+   */
+  string internal_test_id = 3;
+  /*
+   * Information regarding any medications linked to the test.
+   */
+  string medications = 4;
+  /*
+   * Details of any referrals related to the test.
+   */
+  string referrals = 5;
+  /*
+   * Observations or details regarding diagnosis.
+   */
+  string diagnostics = 6;
+  /*
+   * List of IDs for other mentionable tests supplementing the main test.
+   */
+  repeated string orderable_test_ids = 7;
+  /*
+   * Details of other mentionable tests that were possibly ordered.
+   */
+  repeated OrderableTest orderable_tests = 8;
+  /*
+   * Results for all mentioned or mentioned orderable tests.
+   */
+  repeated OrderableTestResult orderable_test_results = 9;
+  /*
+   * Classification or the type of the test.
+   */
+  cdx.opencdx.grpc.types.TestClassification test_classification = 10;
+  /*
+   * Boolean denoting if the test was conducted on-site.
+   */
+  bool is_onsite_test = 11;
+  /*
+   * ID of the specimen collected for the test.
+   */
+  string specimen_id = 12;
+  /*
+   * Confirmation ID from the lab that conducted the test.
+   */
+  string lab_vendor_confirmation_id = 13;
+  /*
+   * Identifier for the device used for the test.
+   */
+  string device_identifier = 14;
+  /*
+   * Serial number for the device used for the test.
+   */
+  string device_serial_number = 15;
+  /*
+   * Boolean denoting if the test record was auto-generated.
+   */
+  bool is_auto_generated = 16;
+  /*
+   * Flag relating to the reporting status of the test.
+   */
+  string reporting_flag = 17;
+  /*
+   * Flag influencing the notification status of the test.
+   */
+  string notification_flag = 18;
+  /*
+   * Status indicator for the test order.
+   */
+  string order_status_flag = 19;
+  /*
+   * Path to the location of the order receipt.
+   */
+  string order_receipt_path = 20;
+  /*
+   * Detailing the type of lab test conducted.
+   */
+  string lab_test_type = 21;
+  /*
+   * Specifies the type of specimen used for the test.
+   */
+  string specimen_type = 22;
+  /*
+   * Medical code associated with the implemented test.
+   */
+  string medical_code = 23;
+  /*
+   * Human friendly name for the test.
+   */
+  string test_name = 24;
+  /*
+   * Descriptive string to illustrate the format of the test.
+   */
+  cdx.opencdx.grpc.types.TestFormat test_format = 25;
+  /*
+   * LOINC code associated with the test.
+   */
+  Coding loinc_code = 26;
+  /*
+  * Media ID
+   */
+  optional string media_id = 27;
+  /*
+ * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+ */
+  optional string lidr_id = 29;
+}
+
+/*
+ * Contains metadata related to a specific test.
+ */
+message Metadata {
+
+  /*
+   * QR Code data associated with the test kit.
+   */
+  string qr_data = 1;
+
+  /*
+   * ID associated with the upload event for the kit's data.
+   */
+  string kit_upload_id = 2;
+
+  /*
+   * Detailed response message related to the test.
+   */
+  string response_message = 3;
+
+  /*
+   * Header or title of the response.
+   */
+  string response_title = 4;
+
+  /*
+   * Numeric code representing the type of response.
+   */
+  int32 response_code = 5;
+
+  /*
+   * Type of any image data associated with the test (for example, "jpg" or "png").
+   */
+  string image_type = 6;
+
+  /*
+   * A string depicting the type of the test.
+   */
+  string type = 7;
+
+  /*
+   * Manufacturer or creator of the test kit.
+   */
+  string manufacturer = 8;
+
+  /*
+   * Lot number attributed to the test kit's cassette.
+   */
+  string cassette_lot_number = 9;
+
+  /*
+   * Boolean outcome of the IgM antibody test.
+   */
+  bool outcome_igm = 10;
+
+  /*
+   * Boolean outcome of the IgG antibody test.
+   */
+  bool outcome_igg = 11;
+
+  /*
+   * Overall outcome or result of the test.
+   */
+  string outcome = 12;
+
+  /*
+   * Self-assessed outcome for the IgM antibody test.
+   */
+  bool self_assessment_outcome_igm = 13;
+
+  /*
+   * Self-assessed outcome for the IgG antibody test.
+   */
+  bool self_assessment_outcome_igg = 14;
+
+  /*
+   * Self-assessed overall outcome or result.
+   */
+  string self_assessment_outcome = 15;
+
+  /*
+   * Expiry date of the test kit's cassette.
+   */
+  string cassette_expiration_date = 16;
+
+  /*
+   * Orderable ID associated with the lab test.
+   */
+  string lab_test_orderable_id = 17;
+
+  /*
+   * The SKU ID associated with the test kit.
+   */
+  string sku_id = 18;
+
+  /*
+   * Verification status or detail of the cassette.
+   */
+  string cassette_verification = 19;
+}
+
+/*
+ * Specifies actions or recommendations based on a specific status message.
+ */
+message StatusMessageAction {
+  /*
+  * Unique identifier for the action exemplified.
+  */
+  string id = 1;
+
+  /*
+  * The value or directive to be followed based on the status message.
+  */
+  string value = 2;
+
+  /*
+  * Detailed description regarding the action or recommendation.
+  */
+  string description = 3;
+}
+
+/*
+ * Represents a specific test that can be ordered in a healthcare context.
+ * This could be any diagnostic, imaging, pathology, or genetic test.
+ */
+message OrderableTest {
+  /*
+   * Unique identifier for the orderable test. This is vital for test tracking.
+   */
+  string orderable_test_id = 1;
+}
+
+/*
+ * Provides detailed result information for an orderable test. This includes when the
+ * test was conducted, the results, and the interpretation or outcome.
+ */
+message OrderableTestResult {
+  /*
+  * Refers to the specific test that was conducted.
+  */
+  string orderable_test_id = 1;
+
+  /*
+  * Indicates the date when the sample or specimen was collected for conducting the test.
+  */
+  string collection_date = 2;
+
+  /*
+  * The actual result or value obtained from the test. It might contain numeric or descriptive results depending on the test type.
+  */
+  string test_result = 3;
+
+  /*
+  * Provides an interpretation or high-level outcome of the test which can be understand by non-medical personnel.
+  */
+  string outcome = 4;
+
+  /*
+  * Offers a detailed message related to the test's response or result.
+  */
+  string response_message = 5;
+
+  /*
+  * Refers to the title or header of the response. It provides a summary of the type of response produced by the test.
+  */
+  string response_title = 6;
+
+  /*
+  * A numeric code representing the type of response. These are standard codes that translate to specific responses.
+  */
+  int32 response_code = 7;
+}
+
+/*
+ * The TestKitMetadata message encapsulates all the metadata related to the physical test kit used.
+ * This includes unique identifiers for the test kit and its manufacturing data.
+ */
+message TestKitMetadata {
+  /*
+  * This is the ID that associates the test kit with the orderable test.
+  */
+  string orderable_test_id = 1;
+
+  /*
+  * The unique device identifier or code for the test kit provided by the manufacturer.
+  */
+  int32 device_identifier = 2;
+
+  /*
+  * The lot or batch number of the test kit. It allows tracing back to the batch of production for quality control.
+  */
+  string batch_lot_number = 3;
+
+  /*
+  * The physical test kit's serial number usually provided for tracking individual kits.
+  */
+  string serial_number = 4;
+
+  /*
+  * Specifies the date when the test kit was manufactured.
+  */
+  string manufacturing_date = 5;
+
+  /*
+  * Shows the expiration date for the test kit. After this date, the test may not function accurately.
+  */
+  string expiration_date = 6;
+
+  /*
+  * Indicates the data format of the kit's barcode. It could vary based on the barcode technology used.
+  */
+  string barcode_data_format = 7;
+
+  /*
+  * Tracks the timestamp when the kit's barcode was scanned, typically representing when the test kit was issued for use.
+  */
+  string scan_date = 8;
+}
+
+
+/*
+ * The ConnectedTest message represents a full connected test order,
+ * including all necessary sub-messages for different sections of information.
+ */
+message ConnectedTest {
+  /*
+   * This field captures basic information relating to the test.
+   */
+  BasicInfo basic_info = 1;
+  /*
+   * This block captures all order related information.
+   */
+  OrderInfo order_info = 2;
+  /*
+   * Holds any notes or annotations related to the test.
+   */
+  TestNotes test_notes = 3;
+  /*
+   * This block captures all payment related details.
+   */
+  PaymentDetails payment_details = 4;
+  /*
+   * Information about the provider is found in this block.
+   */
+  ProviderInfo provider_info = 5;
+  /*
+   * This block captures all the details related to the test and its results.
+   */
+  TestDetails test_details = 6;
+  /*
+   * The timestamp when this event was created.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * The timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * The user ID of the creator of this event.
+   */
+  optional string creator = 9;
+  /*
+   * The user ID of the modifier of this event.
+   */
+  optional string modifier = 10;
+}
+
+/*
+ * Represents information about a medication including its name,
+ * dosage, instructions, route of administration, frequency, start and end dates,
+ * prescribing doctor, pharmacy, and a boolean flag for prescription.
+ */
+message Medication {
+  /*
+   * The unique identifier for the medication
+   */
+  optional string id = 1;
+
+  /*
+   * The unique identifier for the patient
+   */
+  string patient_id = 2;
+
+  /*
+   * The unique identifier for the patient's national health id
+   */
+  string national_health_id = 3;
+  /*
+   * The name of the medication
+   */
+  string medication_name = 4;
+  /*
+   * Details about the medication dosage strength
+   */
+  string dosage_strength = 5;
+  /*
+   * The unit of measurement for the medication dosage
+   */
+  string dosage_unit = 6;
+
+  /*
+   * The dosage form of the medication
+   */
+  cdx.opencdx.grpc.types.DosageForm dosage_form = 7;
+
+  /*
+ * The quantity of medication prescribed or administered.
+ */
+  double quantity = 8;
+
+  /*
+   * Instructions for how to take the medication
+   */
+  string instructions = 9;
+  /*
+   * The way the medication is to be administered (e.g., orally, intravenously, etc.)
+   */
+  cdx.opencdx.grpc.types.MedicationAdministrationRoute route_of_administration = 10;
+
+  /*
+   * A string to represent other route of administration not listed in the MedicationAdministrationRoute enum
+   */
+  optional string other_route_of_administration = 11;
+  /*
+   * How often the medication is to be taken
+   */
+  cdx.opencdx.grpc.types.MedicationFrequency frequency = 12;
+  /*
+   * A string to represent other frequency not listed in the MedicationFrequency enum
+   */
+  string other_frequency = 13;
+  /*
+   * The date when the medication was first taken
+   */
+  google.protobuf.Timestamp start_date = 14;
+  /*
+   * The date when the medication stopped being taken
+   */
+  optional google.protobuf.Timestamp end_date = 15;
+  /*
+   * The provider id of the doctor who prescribed the medication
+   */
+  string provider_number = 16;
+  /*
+   * The pharmacy id where the medication was obtained
+   */
+  optional string pharmacy_id = 17;
+  /*
+   * A flag indicating whether the medication requires a prescription
+   */
+  bool is_prescription = 18;
+
+  /*
+   * A flag indicating whether the medication is generic
+   */
+  bool is_generic = 19;
+
+  /*
+ * The timestamp indicating when the user's profile was created.
+ */
+  optional google.protobuf.Timestamp created = 20;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 21;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 22;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 23;
+  /*
+   * A string to represent other dosage form not listed in the DosageForm enum
+   */
+  optional string other_dosage_form = 24;
+
+  /*
+   * The National Drug Code (NDC) for the medication
+   */
+  optional string product_ndc= 25;
+}
+
+
+/*
+ * Request message for tracking medication administration to a patient.
+ */
+message MedicationAdministration {
+  /*
+   * The unique identifier for the medication administration.
+   */
+  optional string id = 1;
+  /*
+   * The unique identifier for the medication being administered.
+   */
+  string medication_id = 2;
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 3;
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 4;
+  /*
+   * The date and time when the medication was administered.
+   */
+  google.protobuf.Timestamp administration_time = 5;
+
+  /*
+   * The unique identifier for the user who administered the medication.
+   */
+  string administrated_by = 6;
+  /*
+   * Additional notes or details about the medication administration.
+   */
+  string administration_notes = 7;
+  /*
+ * The timestamp indicating when the user's profile was created.
+ */
+  optional google.protobuf.Timestamp created = 8;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 10;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 11;
+}
+
+/*
+ * Request message for retrieving medication information by patient ID within a date range.
+ */
+message GetMedicationsByPatientIdRequest {
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+  /*
+   * Start date of the date range.
+   */
+  google.protobuf.Timestamp start_date = 2;
+  /*
+   * End date of the date range.
+   */
+  google.protobuf.Timestamp end_date = 3;
+  /*
+ * Pagination information.
+ */
+  Pagination pagination = 4;
+}
+
+/*
+ * Request message for retrieving medication information by national health ID within a date range.
+ */
+message GetMedicationsByNationalHealthIdRequest {
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 1;
+  /*
+   * Start date of the date range.
+   */
+  google.protobuf.Timestamp start_date = 2;
+  /*
+   * End date of the date range.
+   */
+  google.protobuf.Timestamp end_date = 3;
+  /*
+ * Pagination information.
+ */
+  Pagination pagination = 4;
+}
+
+
+/*
+ * A message representation of a user profile in the system.
+ * It contains comprehensive information relating to a user such as personal, contact, and health-related information.
+ * Note: Repeated fields represent multiple, optional occurrences of data type; Optional fields can appear zero or one times; Required fields must appear one or more times.
+ */
+message UserProfile {
+  /*
+   * The unique identifier for the user profile.
+   */
+  optional string id = 1;
+  /*
+   * The unique identifier for the user.
+   */
+  optional string user_id = 2;
+
+  /*
+   * The national health identifier of the user.
+   */
+  string national_health_id = 3;
+
+  /*
+   * The full name details of the user.
+   */
+  FullName full_name = 4;
+
+  /*
+   * A list of contact information for the user.
+   */
+  repeated ContactInfo contacts = 5;
+
+  /*
+   * The gender of the user.
+   */
+  cdx.opencdx.grpc.types.Gender gender = 6;
+
+  /*
+   * The date of birth of the user.
+   */
+  google.protobuf.Timestamp date_of_birth = 7;
+
+  /*
+   * The place of birth of the user.
+   */
+  PlaceOfBirth place_of_birth = 8;
+
+  /*
+   * The profile photo of the user, represented in bytes (binary data).
+   */
+  bytes photo = 9;
+
+  /*
+   * The user's communication preferences.
+   */
+  Preferences communication = 10;
+
+  /*
+   * The demographic information about the user.
+   */
+  Demographics demographics = 11;
+
+  /*
+   * The education qualification details about the user.
+   */
+  Education education = 12;
+
+  /*
+   * The user's employment identification details.
+   */
+  EmployeeIdentity employee_identity = 13;
+
+  /*
+   * The primary contact information for the user.
+   */
+  ContactInfo primary_contact_info = 14;
+
+  /*
+   * The user's emergency contact information.
+   */
+  EmergencyContact emergency_contact = 15;
+
+  /*
+   * Details about the user's pharmacy of choice.
+   */
+  Pharmacy pharmacy_details = 16;
+
+  /*
+   * A list of identifiers for user's dependents.
+   */
+  repeated string dependent_id = 17;
+
+  /*
+   * A list of known allergies of the user.
+   */
+  repeated KnownAllergy known_allergies = 18;
+
+  /*
+   * Indicates the active/inactive status of the user.
+   */
+  bool is_active = 19;
+
+  /*
+   * A list of user's email addresses.
+   */
+  repeated EmailAddress email = 20;
+
+  /*
+   * A list of user's phone numbers.
+   */
+  repeated PhoneNumber phone = 21;
+
+  /*
+   * A list of user's addresses.
+   */
+  repeated Address address = 22;
+
+  /*
+   * The timestamp indicating when the user's profile was created.
+   */
+  optional google.protobuf.Timestamp created = 23;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 24;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 25;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 26;
+}
+/*
+ * Contains the emergency contact's relationship to the user and contact information.
+ */
+message EmergencyContact {
+  /*
+   * Describes the emergency contact's relationship to the user
+   */
+  string relationship = 1;
+  /*
+   * Details of the emergency contact including phone number, email address, etc.
+   */
+  ContactInfo contact_info = 2;
+}
+/*
+ * Contains data related to a pharmacy including the name, address and contact information.
+ */
+message Pharmacy {
+  /*
+   * The name of the pharmacy
+   */
+  string pharmacy_name = 1;
+  /*
+   * Physical location of the pharmacy
+   */
+  Address pharmacy_address = 2;
+  /*
+   * Pharmacy's contact details such as phone number or email address
+   */
+  ContactInfo pharmacy_contact = 3;
+}
+/*
+ * Describes the user's communication preferences including preferred language and time zone,
+ * and a boolean flag for preferred mode of communication.
+ */
+message Preferences {
+  /*
+   * Preferred language for communication (e.g., English, Spanish, etc.)
+   */
+  string language = 1;
+  /*
+   * Flag indicating whether the user prefers this mode of communication
+   */
+  bool preferred = 2;
+  /*
+   * The user's preferred time zone (e.g., EST, PST, etc.)
+   */
+  string time_zone = 3;
+}
+/*
+ * Contains demographic information of the user such as ethnicity, race, nationality and gender.
+ */
+message Demographics {
+  /*
+   * The user's ethnicity
+   */
+  string ethnicity = 1;
+  /*
+   * The user's race
+   */
+  string race = 2;
+  /*
+   * The user's country of citizenship
+   */
+  string nationality = 3;
+  /*
+   * The user's gender
+   */
+  cdx.opencdx.grpc.types.Gender gender = 4;
+}
+/*
+ * Contains information about the user's place of birth.
+ */
+message PlaceOfBirth {
+  /*
+   * The country where the user was born
+   */
+  string country = 1;
+  /*
+   * The state or region where the user was born
+   */
+  string state = 2;
+  /*
+   * The city where the user was born
+   */
+  string city = 3;
+}
+
+/*
+ * Contains the user's education history.
+ */
+message Education {
+  /*
+   * A list of education entries each containing data about a degree, the educational institution and duration of study
+   */
+  repeated EducationEntry entries = 1;
+}
+
+/*
+ * Represents a single educational institution where the user studied, the degree obtained there and the duration of study.
+ */
+message EducationEntry {
+  /*
+   * The degree obtained (e.g., Bachelor's, Master's, etc.)
+   */
+  string degree = 1;
+  /*
+   * The name of the educational institution
+   */
+  string institution = 2;
+  /*
+   * The date when the user started studying at this institution
+   */
+  string start_date = 3;
+  /*
+   * The date when the user completed their studies at this institution
+   */
+  string completion_date = 4;
+}
+
+/*
+ * Contains identity related information about an employee.
+ */
+message EmployeeIdentity {
+  /*
+   * Identifier for the employee's organization
+   */
+  string organization_id = 1;
+  /*
+   * Identifier for the employee's workspace
+   */
+  string workspace_id = 2;
+  /*
+   * Identifier for the employee
+   */
+  string employee_id = 3;
+  /*
+   * Flag indicating whether the employee's identity has been verified
+   */
+  bool identity_verified = 4;
+  /*
+   * Current employment status of the employee (e.g., Economically Active, Retired, etc.)
+   */
+  string status = 5;
+}
+
+/*
+ * Represents system settings for a user including identity verification,
+ * email verification, notifications settings, biometrics setting,
+ * registration date, multi-factor authentication settings,
+ * and last login information.
+ */
+message SystemSettings {
+  /*
+   * Flag indicating whether the user's identity has been verified
+   */
+  bool identity_verified = 1;
+  /*
+   * Flag indicating whether the user's email address has been verified
+   */
+  bool email_verified = 2;
+  /*
+   * Flag indicating whether SMS notifications are enabled for the user
+   */
+  bool sms_notifications = 3;
+  /*
+   * Flag indicating whether email notifications are enabled for the user
+   */
+  bool email_notifications = 4;
+  /*
+   * Flag indicating whether biometric authentication is enabled for the user
+   */
+  bool biometrics = 5;
+  /*
+   * The user's registration date
+   */
+  bool user_since = 6;
+  /*
+   * Flag indicating whether multi-factor authentication (MFA) is enabled for the user
+   */
+  bool mfa = 7;
+  /*
+   * Date and time of the user's last successful login
+   */
+  string last_successful_login = 8;
+  /*
+   * Date and time of the user's last failed login attempt
+   */
+  string last_failed_login = 9;
+}
+
+
+
+/*
+ * Represents information about a known allergy including the allergen,
+ * description of the reaction, a boolean flag for severity, date of onset,
+ * date of last occurrence, and additional notes.
+ */
+message KnownAllergy {
+  /*
+   * The substance that causes the allergic reaction
+   */
+  string allergen = 1;
+  /*
+   * Description of what happens when the user is exposed to the allergen
+   */
+  string reaction = 2;
+  /*
+   * A flag indicating the severity of the allergic reaction
+   */
+  bool is_severe = 3;
+  /*
+   * The date when the allergic reaction first occurred
+   */
+  string onset_date = 4;
+  /*
+   * The date of the most recent occurrence of the allergic reaction
+   */
+  string last_occurrence = 5;
+  /*
+   * Additional information about the allergy
+   */
+  string notes = 6;
+}
+
+
+/*
+ * Defines entities for the Routine System.
+ * The main categories specified here are routines and their statuses.
+ *
+ */
+message Routine {
+  
+
+  /*
+   * Holds the unique identifier assigned to each routine process
+   */
+  optional string routine_id = 1;
+
+  /*
+   * Stores the name or title assigned to the routine process
+   */
+  optional string name = 2;
+
+  /*
+   * Holds a brief description providing further details about the routine
+   */
+  optional string description = 3;
+
+  /*
+   * Represents the status, indicating the current state of the routine
+   */
+  cdx.opencdx.grpc.types.RoutineStatus  status = 4;
+
+  /*
+   * Stores the timestamp for when the routine was created
+   */
+  google.protobuf.Timestamp creation_datetime = 5;
+
+  /*
+   * Stores the timestamp for the most recent update made to the routine
+   */
+  google.protobuf.Timestamp last_updated_datetime = 6;
+
+  /*
+   * Holds the information about the user or team responsible for execution of the routine
+   */
+  optional string assigned_user = 7;
+
+  /*
+   * Defines an array to store references to any clinical protocols that are linked with the routine
+   */
+  repeated string associated_protocols = 8;
+}
+
+/*
+ * This Protocol Buffers (protobuf) message represents entities related to the execution of a Clinical Protocol.
+ * A Clinical Protocol Execution details the process of undergoing a specific protocol in a clinical setup.
+ */
+message ClinicalProtocolExecution {
+
+  /*
+   * A unique identifier associated with this particular execution of a clinical protocol.
+   */
+  optional string execution_id = 1;
+  /*
+   * An ID that points to the routine that this clinical protocol execution is tied to.
+   */
+  optional string routine_id = 2;
+  /*
+   * The ID that links to the clinical protocol that is being executed.
+   */
+  optional string protocol_id = 3;
+  /*
+   * An enum value that represents the current status of this protocol execution.
+   */
+  optional cdx.opencdx.grpc.types.ClinicalProtocolStatus status = 4;
+  /*
+   *  The date and time at which the protocol execution commenced.
+   */
+  google.protobuf.Timestamp start_datetime = 5;
+  /*
+   * The date and time at which the protocol execution ended.
+   */
+  google.protobuf.Timestamp end_datetime = 6;
+  /*
+   * Detailed information about the outcomes or results of the protocol execution.
+   */
+  optional string results = 7;
+  /*
+   * Any relevant information about the medical personnel overseeing this clinical protocol execution.
+   */
+  optional string assigned_medical_staff = 8;
+  /*
+   * A list of steps or procedures that encompass the clinical protocol.
+   */
+  repeated string steps = 9;
+}
+
+/*
+ * This message represents a Laboratory Order entity used in creating conditions.
+ * It includes both required and optional fields.
+ */
+message LabOrder {
+  /*
+   * This is a unique identifier assigned to each lab orders
+   */
+  optional string lab_order_id = 1;
+
+  /*
+   * This refers to the name of the lab test ordered
+   */
+  optional string test_name = 2;
+
+  /*
+   * This indicates when the lab order was made
+   */
+  google.protobuf.Timestamp order_datetime = 3;
+
+  /*
+   * This refers to the value set that triggered the creation of the eICR
+   */
+  optional string matched_value_set = 4;
+
+  /*
+   * Entities that are related to this lab order (e.g., Patients, Practitioners)
+   */
+  repeated string related_entities = 5;
+}
+
+/*
+ * This message represents a Diagnosis entity.
+ * It includes both required and optional fields.
+ */
+message Diagnosis {
+  /*
+   * This is a unique identifier for diagnosis
+   */
+  optional string diagnosis_id = 1;
+
+  /*
+   * This represents the diagnosis code assigned to the diagnosis
+   */
+  optional string diagnosis_code = 2;
+
+  /*
+   * This indicates when the diagnosis was made
+   */
+  google.protobuf.Timestamp diagnosis_datetime = 3;
+
+  /*
+   * This refers to the value set that triggered the creation of the eICR
+   */
+  optional string matched_value_set = 4;
+
+  /*
+   * Entities that are related to this diagnosis (e.g., Patients, Practitioners)
+   */
+  repeated string related_entities = 5;
+}
+
+/*
+ * This message represents a Suspected Diagnosis entity.
+ * It includes both required and optional fields.
+ */
+message SuspectedDiagnosis {
+  /*
+   * This is a unique identifier for suspected diagnosis
+   */
+  optional string suspected_diagnosis_id = 1;
+
+  /*
+   * This represents the diagnosis code assigned to the suspected diagnosis
+   */
+  optional string diagnosis_code = 2;
+
+  /*
+   * This indicates the time when the suspected diagnosis was made
+   */
+  google.protobuf.Timestamp diagnosis_datetime = 3;
+
+  /*
+   * This refers to the value set that triggered the creation of the eICR
+   */
+  optional string matched_value_set = 4;
+
+  /*
+   * Entities that are related to this suspected diagnosis (e.g., Patients, Practitioners)
+   */
+  repeated string related_entities = 5;
+}
+
+/*
+ * This message represents a Laboratory Result entity.
+ * It includes both required and optional fields.
+ */
+message LabResult {
+  /*
+   * This is a unique identifier for lab result
+   */
+  optional string result_id = 1;
+
+  /*
+   * This represents the value of the lab result
+   */
+  optional string result_value = 2;
+
+  /*
+   * This indicates when the lab result was generated
+   */
+  google.protobuf.Timestamp result_datetime = 3;
+
+  /*
+   * This is the value set that triggered the creation of the eICR
+   */
+  optional string matched_value_set = 4;
+
+  /*
+   * Entities that are related to this lab result (e.g., Patients, Lab Facilities)
+   */
+  repeated string related_entities = 5;
+}
+
+
+
+
+/*
+ * Contains information about a vaccine including administration date, FIPS code and location,
+ * health district, facility type, dose number, and vaccine.
+ */
+message Vaccine {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * The date when the user was vaccinated
+   */
+  optional google.protobuf.Timestamp administration_date = 4;
+  /*
+   * The 5-digit Federal Information Processing Standards (FIPS) code for the vaccination locality
+   */
+  string fips = 5;
+  /*
+   * The city or county where the user lives
+   */
+  Address location = 6;
+  /*
+   * The health district assigned by the Virginia Department of Health
+   */
+  string health_district = 7;
+  /*
+   * The type of facility where the vaccine was administered (e.g., Hospital, Clinic, etc.)
+   */
+  string facility_type = 8;
+  /*
+   * The type of vaccine
+  */
+  Medication vaccine = 9;
+  /*
+   * The dose number of the vaccine
+   */
+  int32 dose_number = 10;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 11;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 12;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 13;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 14;
+}
+
+
+
+/*
+ * Represents Height Measurement information.
+ */
+message HeightMeasurement {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Height of the patient
+   */
+  double height = 4;
+  /*
+   * The unit of measurement for height. The value is an enum defined by the `HeightUnits` message.
+   */
+  cdx.opencdx.grpc.types.HeightUnits units_of_measure = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+
+}
+
+
+/*
+ * Represents Weight Measurement information.
+ */
+message WeightMeasurement {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Weight of the patient
+   */
+  double weight = 4;
+  /*
+   * The unit of measurement for weight. The value is an enum defined by the `WeightUnits` message.
+   */
+  cdx.opencdx.grpc.types.WeightUnits units_of_measure = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+
+}
+
+/*
+ * Defines the BPM measure.
+ */
+message BPM {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Cuff Size
+   */
+  cdx.opencdx.grpc.types.CuffSize cuff_size = 4;
+  /*
+   * Arm Used
+   */
+  cdx.opencdx.grpc.types.ArmUsed arm_used = 5;
+  /*
+   * Systolic BP
+   */
+  int32 systolic = 6;
+  /*
+   * Diastolic BP
+   */
+  int32 diastolic = 7;
+  /*
+   * BPM Units
+   */
+  cdx.opencdx.grpc.types.BPMUnits unit = 8;
+  /*
+   * Sitting position 5 minutes
+   */
+  bool sitting_position_5_minutes = 9;
+  /*
+   * Urinated 30 minutes prior
+   */
+  bool urinated_30_minutes_prior = 10;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 11;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 12;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 13;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 14;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 15;
+}
+
+/*
+ * Defines the HeartRPM measure.
+ */
+message HeartRPM {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Measurement taken over in seconds
+   */
+  int32 measurement_taken_over_in_seconds = 4;
+  /*
+   * Sitting position 5 minutes
+   */
+  bool sitting_position_5_minutes = 5;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 6;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+}
+
+/*
+ * The `Organization` message defines the data fields and structure for an organization entity.
+ */
+message Organization {
+  /*
+   * A unique string identifier for the organization
+   */
+  optional string id = 1;
+  /*
+   * Contains the official name of the organization
+   */
+  optional string name = 2;
+  /*
+   * Briefly describes the organization
+   */
+  optional string description = 3;
+  /*
+   * Represents the date when the organization was founded
+   */
+  optional google.protobuf.Timestamp founding_date = 4;
+  /*
+   * Captures the physical address of the organization
+   */
+  optional Address address = 5;
+  /*
+   * Contains the official website URL of the organization
+   */
+  optional string website = 6;
+  /*
+   * Represents the industry or sector that the organization belongs to
+   */
+  optional string industry = 7;
+  /*
+   * Specifies the annual revenue generated by the organization
+   */
+  optional double revenue = 8;
+  /*
+   * Contains the URL to the organization's logo
+   */
+  optional string logo_url = 9;
+  /*
+   * Maintains the list of all social media profile links of the organization
+   */
+  repeated string social_media_links = 10;
+  /*
+   * Contains the mission statement of the organization
+   */
+  optional string mission_statement = 11;
+  /*
+   * Contains the vision statement of the organization
+   */
+  optional string vision_statement = 12;
+  /*
+   * Stores the contact information for the organization
+   */
+  repeated ContactInfo contacts = 13;
+  /*
+   * Record of the timestamp when this instance of the organization was created
+   */
+  optional google.protobuf.Timestamp created = 14;
+  /*
+   * Record of the timestamp when this instance of the organization was last modified
+   */
+  optional google.protobuf.Timestamp modified = 15;
+  /*
+   * Denotes the ID of the user who created this organization instance
+   */
+  optional string creator = 16;
+  /*
+   * Denotes the ID of the user who last modified this organization instance
+   */
+  optional string modifier = 17;
+}
+/*
+ * The `Workspace` message outlines the properties associated with workspace entity owned by an organization.
+ */
+message Workspace {
+  /*
+   * A unique string identifier for the workspace
+   */
+  optional string id = 1;
+
+  /*
+   * Contains the official name of the workspace
+   */
+  optional string name = 2;
+
+  /*
+   * Briefly describes the workspace
+   */
+  optional string description = 3;
+
+  /*
+   * Refers to the ID of the organization that owns this workspace
+   */
+  string organization_id = 4;
+
+  /*
+   * Represents the date when the workspace was created
+   */
+  optional google.protobuf.Timestamp created_date = 5;
+
+  /*
+   * Captures the physical location of the workspace
+   */
+  optional string location = 6;
+
+  /*
+   * Denotes the name of the workspace manager
+   */
+  optional string manager = 7;
+
+  /*
+   * Specifies the maximum capacity of the workspace
+   */
+  optional int32 capacity = 8;
+
+  /*
+   * List of facilities available within the workspace
+   */
+  repeated string facilities = 9;
+
+  /*
+   * Specifies the type of workspace (e.g., office, co-working space)
+   */
+  optional string workspace_type = 10;
+
+  /*
+   * Stores URLs to images of the workspace
+   */
+  repeated string workspace_image_urls = 11;
+
+  /*
+   * Contains the policies and rules for using the workspace
+   */
+  optional string usage_policy = 12;
+
+  /*
+   * Schedule of when the workspace is available for use
+   */
+  optional string availability_schedule = 13;
+
+  /*
+   * List of departments within the workspace
+   */
+  repeated Department departments = 14;
+
+  /*
+   * Record of the timestamp when this workspace instance was created
+   */
+  optional google.protobuf.Timestamp created = 15;
+
+  /*
+   * Record of the timestamp when this workspace instance was modified
+   */
+  optional google.protobuf.Timestamp modified = 16;
+
+  /*
+   * Denotes the ID of the user who created this workspace instance
+   */
+  optional string creator = 17;
+
+  /*
+   * Denotes the ID of the user who last modified this workspace instance
+   */
+  optional string modifier = 18;
+}
+
+/*
+ * The `Department` message encapsulates the information about a department within an organization or workspace.
+ */
+message Department {
+  /*
+   * A unique string identifier for the department
+   */
+  optional string id = 1;
+
+  /*
+   * Contains the official name of the department
+   */
+  optional string name = 2;
+
+  /*
+   * Briefly describes the department
+   */
+  optional string description = 3;
+
+  /*
+   * List of employees working within the department
+   */
+  repeated Employee employees = 4;
+}
+
+/*
+ * The `Employee` message captures identification and contact details for an employee.
+ */
+message Employee {
+  /*
+   * A unique string identifier for the employee
+   */
+  optional string employee_id = 1;
+
+  /*
+   * Contains the full name of the employee
+   */
+  optional FullName name = 2;
+
+  /*
+   * Describes the title or position of the employee within the organization
+   */
+  optional string title = 3;
+
+  /*
+   * List of the employee's phone numbers
+   */
+  repeated PhoneNumber phone_numbers = 4;
+
+  /*
+   * Contains the email address of the employee
+   */
+  repeated EmailAddress email = 5;
+}
+
+/*
+ * This message serves as a placeholder for methods that do not require any input parameters.
+ * It's an empty message often used in RPC methods where no request data is to be sent.
+ */
+message Empty {}
+
+/*
+ * Represents an IAM user.
+ */
+message IamUser {
+  /*
+   * The unique ID of the user.
+   */
+  optional string id = 1;
+  /*
+   * The name of the system for System Users.
+   */
+  string system_name = 2;
+  /*
+   * The username of the user.
+   */
+  string username = 3;
+  /*
+   * Indicates whether the user's email has been verified.
+   */
+  bool email_verified = 4;
+  /*
+   * The current status of the user.
+   */
+  cdx.opencdx.grpc.types.IamUserStatus status = 5;
+  /*
+   * The type of the user.
+   */
+  cdx.opencdx.grpc.types.IamUserType type = 6;
+  /*
+   * The timestamp when the user was created.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * The timestamp when the user was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * The ID of the user who created this user.
+   */
+  optional string creator = 9;
+  /*
+   * The ID of the user who last modified this user.
+   */
+  optional string modifier = 10;
+}
+
+/*
+ * Manufacturer is a data structure that captures all the relevant information about a certain manufacturer.
+ */
+message Manufacturer {
+  /*
+   * An optional field representing the unique identifier of the manufacturer.
+   */
+  optional string id = 1;
+
+  /*
+   * The name of the manufacturer.
+   */
+  string name = 2;
+
+  /*
+   * The physical address/office location of the manufacturer.
+   */
+  Address manufacturer_address = 3;
+
+  /*
+   * Detailed contact information of the manufacturer including name of contact, position, etc.
+   */
+  ContactInfo manufacturer_contact = 4;
+
+  /*
+   * The email address used for formal communications with the manufacturer.
+   */
+  EmailAddress manufacturer_email = 5;
+
+  /*
+   * The phone number used to get in touch with the manufacturer.
+   */
+  PhoneNumber manufacturer_phone = 6;
+
+  /*
+   * The official website of the manufacturer.
+   */
+  string manufacturer_website = 7;
+
+  /*
+   * A brief description about the manufacturer.
+   */
+  string manufacturer_description = 8;
+
+  /*
+   * A list of all the certifications that the manufacturer holds.
+   * This is repeated as there can be multiple certifications.
+   */
+  repeated string manufacturer_certifications = 9;
+
+  /*
+   * The timestamp capturing when this particular Manufacturer instance was created.
+   * This is optional, and might not be present at all.
+   */
+  optional google.protobuf.Timestamp created = 10;
+
+  /*
+   * The timestamp capturing any modifications to the Manufacturer instance.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+
+  /*
+   * The ID of the user who initially created this Manufacturer instance.
+   * Another optional field.
+   */
+  optional string creator = 12;
+
+  /*
+   * The ID of the user who made the most recent modifications to this Manufacturer instance.
+   * This field is also optional.
+   */
+  optional string modifier = 13;
+
+  /*
+   * A list of category types that this manufacturer falls under.
+   * Can be one or more, hence marked as repeated.
+   */
+  repeated CategoryType category_type = 14;
+}
+/*
+ * Vendor is a protobuf message type used to represent a vendor.
+ */
+message Vendor {
+
+  /*
+   * ID of the vendor. This field is optional.
+   */
+  optional string id = 1;
+
+  /*
+   * The name of the vendor.
+   */
+  string vendor_name = 2;
+
+  /*
+   * This describes the physical location of the vendor.
+   * It uses `Address` message type from `cdx.opencdx.grpc.common`.
+   */
+  Address vendor_address = 3;
+
+  /*
+   * Contains contact information of the vendor (like name, title etc.)
+   * in `ContactInfo` message type from `cdx.opencdx.grpc.common`.
+   */
+  ContactInfo vendor_contact = 4;
+
+  /*
+   * An EmailAddress message type from `cdx.opencdx.grpc.common`
+   * which represents vendor's email address.
+   */
+  EmailAddress vendor_email = 5;
+
+  /*
+   * A PhoneNumber message type from `cdx.opencdx.grpc.common` representing vendor's phone number.
+   */
+  PhoneNumber vendor_phone = 6;
+
+  /*
+   * The URL of the vendor's website.
+   */
+  string vendor_website = 7;
+
+  /*
+   * A description of the vendor.
+   */
+  string vendor_description = 8;
+
+  /*
+   * Contains list of certifications this vendor possesses.
+   * Multiple elements are allowed.
+   */
+  repeated string vendor_certifications = 9;
+
+  /*
+   * This is a timestamp from `google.protobuf`
+   * which indicates the creation time of this record.
+   */
+  optional google.protobuf.Timestamp created = 10;
+
+  /*
+   * This is a timestamp from `google.protobuf`
+   * which indicates the last modification time of this record.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+
+  /*
+   * ID of the user who created this record. This field is optional.
+   */
+  optional string creator = 12;
+
+  /*
+   * ID of the user who last modified this record. This field is optional.
+   */
+  optional string modifier = 13;
+
+  /*
+   * Contains list of categories the vendor can be bucketed into.
+   * Multiple elements are allowed.
+   * It uses `CategoryType` type from `types`.
+   */
+  repeated CategoryType category_type = 14;
+}
+
+/*
+ * This message "Device" represents an individual device. Each device has
+ * unique characteristics such as model, manufacturer, vendor, batch number,
+ * type, etc. Some of the fields in this message are related to the tests
+ * performed on this device (if any), and others provide information about
+ * its production, distribution, documentation, and digital files (if any).
+ */
+message Device {
+  /*
+   * Unique identifier for the device
+   */
+  optional string id = 1;
+
+  /*
+   * Specifies the type of the device
+   */
+  string type = 2;
+
+  /*
+   * Model name of the device manufactured
+   */
+  string model = 3;
+
+  /*
+   * Unique identifier for the manufacturer of the device
+   */
+  string manufacturer_id = 4;
+
+  /*
+   * Unique identifier for the country of the manufacturer
+   */
+  string manufacturer_country_id = 5;
+
+  /*
+   * Unique identifier for the vendor of the device
+   */
+  string vendor_id = 6;
+
+  /*
+   * Unique identifier for the country of the vendor
+   */
+  string vendor_country_id = 7;
+
+  /*
+   * Timestamp representing the manufacturing date of the device
+   */
+  google.protobuf.Timestamp manufacture_date = 8;
+
+  /*
+   * Timestamp representing the expiry date of the device
+   */
+  google.protobuf.Timestamp expiry_date = 9;
+
+  /*
+   * Unique batch number assigned during device production
+   */
+  string batch_number = 10;
+
+  /*
+   * The unique serial number of each individual device
+   */
+  string serial_number = 11;
+
+  /*
+   * Unique identifier for the type of test performed on the device
+   */
+  string test_type_id = 12;
+
+  /*
+   * Sensitivity metric from the test results
+   */
+  double test_sensitivity = 13;
+
+  /*
+   * Specificity metric from the test results
+   */
+  double test_specificity = 14;
+
+  /*
+   * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+   */
+  optional string lidr_id = 15;
+
+  /*
+   * Details about storage conditions required for the device
+   */
+  string storage_requirements = 16;
+
+  /*
+   * Timestamp representing the validation date of the test performed on the device
+   */
+  google.protobuf.Timestamp test_validation_date = 17;
+
+  /*
+   * Current status of device approval
+   */
+  string approval_status = 18;
+
+  /*
+   * URL providing more information about the device
+   */
+  string url = 19;
+
+  /*
+   * Additional notes or comments about the device
+   */
+  string notes = 20;
+
+  /*
+   * Safety measures or precautions related to the device
+   */
+  string safety = 21;
+
+  /*
+   * Guidelines or instructions for users to handle or operate the device
+   */
+  string user_instructions = 22;
+
+  /*
+   * Constraints or limitations of the device
+   */
+  string limitations = 23;
+
+  /*
+   * Information about the warranty provided for the device
+   */
+  string warranty_info = 24;
+
+  /*
+   * Recommended minimum age for the device usage
+   */
+  int32 intended_use_age = 25;
+
+  /*
+   * Boolean flag indicating if the device is FDA authorized or not
+   */
+  bool is_fda_authorized = 26;
+
+  /*
+   * Current status or condition of the device
+   */
+  string device_status = 27;
+
+  /*
+   * Software version associated with the device, if any
+   */
+  string associated_software_version = 28;
+
+  /*
+   * List of identifiers for the test cases this device is involved in, if any
+   */
+  repeated string test_case_ids = 29;
+
+  /*
+   * Name used to identify the device
+   */
+  string name = 30;
+
+  /*
+   * A brief description about the device
+   */
+  string short_description = 31;
+
+  /*
+   * Detailed description of the device
+   */
+  string description = 32;
+
+  /*
+   * Timestamp when this event was created.
+   */
+  optional google.protobuf.Timestamp created = 33;
+
+  /*
+   * Timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 34;
+
+  /*
+   * ID of the creator of this event.
+   */
+  optional string creator = 35;
+
+  /*
+   * ID of the person who last modified this event.
+   */
+  optional string modifier = 36;
+
+  /*
+   * List of categories that this device belongs to, using a custom type 'CategoryType'
+   */
+  repeated CategoryType category_type = 37;
+
+  /*
+   * QR code that links to the device's digital documentation or files
+   */
+  optional string qr_scan_code = 38;
+
+  /*
+   * SKU (Stock Keeping Unit) identifier, for inventory tracking purposes
+   */
+  optional string sku = 39;
+}
+
+/*
+ * The TestCase message encapsulates the information related to a specific test case or a package of tests.
+ */
+message TestCase {
+  /*
+   * The unique identifier of the test case.
+   */
+  optional string id = 1;
+
+  /*
+   * The unique identifier of the manufacturer of the test case.
+   */
+  optional string manufacturer_id = 2;
+
+  /*
+   * The unique identifier of the vendor who supplies the test case.
+   */
+  optional string vendor_id = 3;
+
+  /*
+   * The list of unique identifiers of devices that are tested by the test case.
+   */
+  repeated string device_ids = 4;
+
+  /*
+   * The total count of tests encapsulated in this test case.
+   */
+  int32 number_of_tests = 5;
+
+  /*
+   * The date on which the test case was packaged.
+   */
+  google.protobuf.Timestamp packaging_date = 6;
+
+  /*
+   * The date on which the test case expires and is no longer fit for use.
+   */
+  google.protobuf.Timestamp expiry_date = 7;
+
+  /*
+   * The unique identifier of the batch which includes this test case.
+   */
+  string batch_number = 8;
+
+  /*
+   * The unique serial number of the test case.
+   */
+  string serial_number = 9;
+
+  /*
+   * Guidelines on how to properly store the test case.
+   */
+  string storage_requirements = 10;
+
+  /*
+   * The instructions about how to use the test case.
+   */
+  string user_instructions = 11;
+
+  /*
+   * All limitations or restrictions associated with the usage of test case.
+   */
+  string limitations = 12;
+
+  /*
+   * Safety guidelines to prevent improper or harmful usage of the test case.
+   */
+  string safety = 13;
+
+  /*
+   * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+   */
+  optional string lidr_id = 14;
+
+  /*
+   * The date and time when this test case was created.
+   */
+  optional google.protobuf.Timestamp created = 15;
+
+  /*
+   * The date and time when the test case was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 16;
+
+  /*
+   * The unique identifier of the user who created this test case.
+   */
+  optional string creator = 17;
+
+  /*
+   * The unique identifier of the user who last modified this test case.
+   */
+  optional string modifier = 18;
+
+  /*
+   * A list of categories applicable to this test case. Uses a custom data type.
+   */
+  repeated CategoryType category_type = 19;
+
+  /*
+   * The Quick Response (QR) code that can be scanned to access more information about this test case.
+   */
+  optional string qr_scan_code = 20;
+
+  /*
+   * The Stock Keeping Unit (SKU) that is used to track the inventory of this test case.
+   */
+  optional string sku = 21;
+}
+
+
+
+
+
+/*
+ * Message containing media related metadata
+ * This message type is used for capturing all details pertaining to a media entity such as documents, images, audio files, etc.
+ */
+message Media {
+  /*
+   * Unique identifier of the media entity.
+   */
+  optional string id = 1;
+
+  /*
+   * The time at which the media entity was created. The time is in the Timestamp format, as provided by the google protobuf library.
+   */
+  optional google.protobuf.Timestamp created_at = 2;
+
+  /*
+   * The time at which this media entity was last updated.
+   */
+  optional google.protobuf.Timestamp updated_at = 3;
+
+  /*
+   * Identifier of the organization this media entity belongs to.
+   */
+  string organization_id = 4;
+
+  /*
+   * Identifier of the workspace this media entity is part of.
+   */
+  string workspace_id = 5;
+
+  /*
+   * Name of the file representing the media entity.
+   */
+  string name = 6;
+
+  /*
+   * A concise description or summary of the media entity.
+   */
+  string short_description = 7;
+
+  /*
+   * A detailed description of the media entity.
+   */
+  string description = 8;
+
+  /*
+   * The type of media entity. The value is an enum defined by the `MediaType` message.
+   */
+  cdx.opencdx.grpc.types.MediaType type = 9;
+
+  /*
+   * List of labels associated with the media entity. Each media entity can have zero or more labels.
+   */
+  repeated string labels = 10;
+
+  /*
+   * The MIME type of the media entity. For example, 'text/plain' for a text file.
+   */
+  string mime_type = 11;
+
+  /*
+   * Size of the media entity file in bytes.
+   */
+  uint64 size = 12;
+
+  /*
+   * URL indicating the location where the media entity is stored, such as on AWS S3 or Google Cloud Platform (GCP). This URL isn't used for retrieval purposes.
+   */
+  string location = 13;
+
+  /*
+   * URL endpoint used for rendering or downloading the media entity.
+   */
+  string endpoint = 14;
+
+  /*
+   * The current state of the media entity. The value is an enum defined by the `MediaStatus` message.
+   */
+  cdx.opencdx.grpc.types.MediaStatus status = 16;
+
+  /*
+   * Timestamp at which this media entity was created. This is a legacy field and is being replaced by `created_at`.
+   */
+  optional google.protobuf.Timestamp created = 17;
+
+  /*
+   * Timestamp at which this media entity was last modified. This is a legacy field and is being replaced by `updated_at`.
+   */
+  optional google.protobuf.Timestamp modified = 18;
+
+  /*
+   * ID of the user who created this media entity.
+   */
+  optional string creator = 19;
+
+  /*
+   * ID of the user who last modified this media entity.
+   */
+  optional string modifier = 20;
+}
+
+
+
+/*
+ * MediaPreprocessor is a message that encapsulates information about the preprocessor.
+ */
+message MediaPreprocessor {
+  /*
+   * The unique identifier of the media preprocessor.
+   */
+  string id = 1;
+  /*
+   * Timestamp indicating when this preprocessor was created.
+   */
+  google.protobuf.Timestamp created_at = 2;
+  /*
+   * Identifier of who created this preprocessor.
+   */
+  string creator = 3;
+  /*
+   * Timestamp indicating the last time this preprocessor was updated.
+   */
+  google.protobuf.Timestamp updated_at = 4;
+  /*
+   * Identifier of who last updated this preprocessor.
+   */
+  string modifier = 5;
+}
+
+
+/**
+  * The Order message captures the details of a single order placed by a patient.
+ */
+message Order {
+  /**
+   * The unique identifier for the order.
+   */
+  optional string id = 1;
+
+  /**
+   * The unique identifier for the patient who placed the order or for whom the order was placed.
+   */
+  optional string patient_id = 2;
+
+  /**
+   * The shipping name for the order.
+   */
+  FullName shipping_name = 3;
+
+  /**
+   * The shipping address for the order.
+   */
+  Address shipping_address = 4;
+
+  /**
+   * The id of TestCase that are part of the order.
+   */
+  string test_case_id = 5;
+
+  /*
+   * The timestamp capturing when this particular Manufacturer instance was created.
+   * This is optional, and might not be present at all.
+   */
+  optional google.protobuf.Timestamp created = 6;
+
+  /*
+   * The timestamp capturing any modifications to the Manufacturer instance.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+
+  /*
+   * The ID of the user who initially created this Manufacturer instance.
+   * Another optional field.
+   */
+  optional string creator = 8;
+
+  /*
+   * The ID of the user who made the most recent modifications to this Manufacturer instance.
+   * This field is also optional.
+   */
+  optional string modifier = 9;
+
+  /**
+   * The status of the order.
+   */
+  optional cdx.opencdx.grpc.types.ShippingStatus status = 10;
+}
+
+
+/**
+ * The Shipping message is used to ship a package.
+ */
+message Shipping {
+
+  /**
+   * The shipping id.
+   */
+  optional string id = 1;
+  /**
+   * The name to ship the package to.
+   */
+  FullName shipping_name = 2;
+  /**
+   * The address of the sender.
+   */
+  Address sender_address = 3;
+  /**
+   * The address of the recipient.
+   */
+  Address recipient_address = 4;
+  /**
+   * The package details.
+   */
+  Order package_details = 5;
+  /**
+   * The service level requested.
+   */
+  ServiceLevel service_level = 6;
+  /**
+   * The additional services requested.
+   */
+  repeated AdditionalService additional_services = 7;
+  /**
+   * The payment details.
+   */
+  bool require_signature = 8;
+  /**
+   * The declared value of the package.
+   */
+  double declared_value = 9;
+  /**
+   * The shipping vendor id.
+   */
+  string shipping_vendor_id = 10;
+
+  /**
+   * The shipping cost.
+   */
+  double shipping_cost = 11;
+  /**
+   * The payment details.
+   */
+  PaymentDetails payment_details = 12;
+}
+
+
+/**
+ * The AdditionalService message is used to define additional services.
+ */
+message AdditionalService {
+  /**
+   * The additional service code.
+   */
+  string code = 1;
+  /**
+   * The additional service short description.
+   */
+  string short_description = 2;
+  /**
+   * The additional service long description.
+   */
+  string long_description = 3;
+}
+
+/**
+ * The ServiceLevel message is used to define the service level.
+ */
+message ServiceLevel {
+  /**
+   * The service level code.
+   */
+  string code = 1;
+  /**
+   * The service level short description.
+   */
+  string short_description = 2;
+  /**
+   * The service level long description.
+   */
+  string long_description = 3;
+}
+
+
+
+/*
+ * This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that
+ * provide information about an ongoing or completed delivery.
+ *
+ * The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.
+ */
+message DeliveryTracking {
+  /*
+   * Uniquely identifies a delivery instance.
+   */
+  optional string tracking_id = 1;
+
+  /*
+   * This field is used to link the delivery to a particular order.
+   */
+  optional string order_id = 2;
+
+  /*
+   * Stores the current status of the delivery.
+   */
+  optional cdx.opencdx.grpc.types.ShippingStatus status = 3;
+
+  /*
+   * The timestamp representing when the delivery process was commenced.
+   */
+  google.protobuf.Timestamp start_datetime = 4;
+
+  /*
+   * The timestamp indicating when the delivery reached its destination.
+   */
+  google.protobuf.Timestamp end_datetime = 5;
+
+  /*
+   * Information about the current whereabouts of the delivery.
+   */
+  optional string current_location = 6;
+
+  /*
+   * Contains information about the person who is supposed to receive the delivery.
+   */
+  optional string recipient = 7;
+
+  /*
+   * Here all the details related to the items included in the delivery are stored.
+   */
+  repeated string delivery_items = 8;
+
+  /*
+   * The courier person who has been responsible for the delivery is identified by this field.
+   */
+  optional string assigned_courier = 9;
+}
+
+
+/*
+ * This is a Protobuf message that serves as a container for the input data
+ * that will be used for making predictions. This could be used in any service
+ * that requires data prediction.
+ */
+message PredictorInput {
+  /*
+   * This is the ID of the encounter that is associated with the data.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * This is the ID of the test that the data is connected to.
+   */
+  optional string test_id = 2;
+
+  /*
+   * These are the various features extracted from the test data.
+   */
+  repeated string test_features = 3;
+}
+
+/*
+ * This is a Protobuf message that is used to encapsulate the output from a prediction model.
+ * The output is associated with a given encounter.
+ */
+message PredictorOutput {
+  /*
+   * The ID of the encounter that the data is associated with.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * The predicted outcome or value that the model has produced.
+   */
+  optional string predicted_value = 2;
+}
+
+
+
+/*
+ * This `AnomalyDetectionData` message contains details regarding detected anomalies in a system.
+ * An anomaly could be an unusual access pattern, a fraud attempt, or a system hack.
+ * It includes associated encounter information, user information, the data access pattern,
+ * a timestamp of data access, and involved IP and geographical location.
+ * Additionally, a list of detected anomalies, affected systems, and the severity level of the anomaly.
+ */
+message AnomalyDetectionData {
+  /*
+   * `encounter_id` is the unique identifier for the encounter associated with the anomaly detection data.
+   * For instance, it may signify a specific event or instance when data was accessed anomalously.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * `user_id` represents the unique identifier of the user associated with the anomaly detection data.
+   * This could be an internal system user or an external user accessing the system.
+   */
+  optional string user_id = 2;
+
+  /*
+   * `data_access_pattern` is an attribute that represents the pattern of data access.
+   * It could signify whether the access was Read, Write, Update, or Delete operation, or a specific sequence of operations.
+   */
+  optional string data_access_pattern = 3;
+
+  /*
+   * `time_stamp` represents the timestamp when the anomalous data access occurred.
+   */
+  optional google.protobuf.Timestamp time_stamp = 4;
+
+  /*
+   * `anomalies_detected` is a list of the anomalies that were detected during the encounter.
+   * Each anomaly might pertain to a different aspect of the system or data access.
+   */
+  repeated string anomalies_detected = 5;
+
+  /*
+   * `source_ip` is the IP address from which the user's abnormal access originated.
+   * It could be used for tracking the source of the anomaly.
+   */
+  optional string source_ip = 6;
+
+  /*
+   * `location` represents the geographic location from which the anomalous data access was made.
+   * This could help in identifying patterns or specific regions where anomalies originate.
+   */
+  optional string location = 7;
+
+  /*
+   * `affected_systems` is a list of all the systems that were adversely impacted by the detected anomalies.
+   * Multiple systems could be affected by a single anomaly.
+   */
+  repeated string affected_systems = 8;
+
+  /*
+   * `severity_level` indicates the severity of the detected anomaly, typically presented as a level.
+   * Levels can include classifications such as low, medium, or high.
+   */
+  optional string severity_level = 9;
+}
+
+/*
+ * The `AuthorizationControlData` message represents the data necessary to control the authorization process.
+ * It carries all the necessary identifiers, properties, and flags needed for managing data access.
+ */
+message AuthorizationControlData {
+
+  /*
+   * The `encounter_id` field is the unique identifier for a particular encounter/session associated with the data access.
+   * It helps to trace back the exact instance when a particular data access was granted or denied.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * The `user_id` field represents the unique identifier of the user associated with the given data access.
+   * This helps clearly identify which user is being granted or denied access.
+   */
+  optional string user_id = 2;
+
+  /*
+   * The `data_access_level` field represents the level or clearance of data access granted to the user.
+   * Different values of this field determine how much of the data the user can access.
+   */
+  optional string data_access_level = 3;
+
+  /*
+   * The `access_granted_by` field represents the entity or authority that has granted the access.
+   */
+  optional string access_granted_by = 4;
+
+  /*
+   * The `access_scopes` field is a comprehensive list of all the scopes or areas under which
+   * the user is authorized to access the data. Each string in this list represents a different scope.
+   */
+  repeated string access_scopes = 5;
+
+  /*
+   * The `access_validity_period` field holds the time frame or period during which the access
+   * granted to the user is considered valid. After this period, the access becomes void and must be renewed.
+   */
+  optional string access_validity_period = 6;
+
+  /*
+   * The `is_temporary_access` is a flag indicating whether the access granted is temporary or permanent.
+   * When this flag is set to true, the user has been granted temporary access.
+   */
+  optional bool is_temporary_access = 7;
+
+  /*
+   * The `conditional_access_params` field contains a list of conditions or parameters that must be met
+   * for the user to be granted access. Each string in this list stands for a different condition or parameter.
+   */
+  repeated string conditional_access_params = 8;
+}
+
+/*
+ * The PrivacyProtectionData message is a Protocol Buffers (protobuf) message
+ * that contains information pertinent to privacy protection of user data.
+ * It includes specifics such as the type of data, anonymized form of data,
+ * encryption details, retention policy, data sharing agreement status,
+ * and the purpose of data collection.
+ */
+message PrivacyProtectionData {
+  /*
+   * Contains the unique identifier of the encounter linked to this privacy protection data.
+   * An 'encounter' refers to the specific interaction or event where the data was obtained.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Represents the category or nature of the data involved.
+   * This could be Personal Identifiable Information (PII), health-related data,
+   * financial information, etc.
+   */
+  optional string data_type = 2;
+
+  /*
+   * Stores the data that has been anonymized or de-identified, through a
+   * process that ensures the original data does not reveal the identity of the users.
+   */
+  optional string anonymized_data = 3;
+
+  /*
+   * This flag is used to check whether the data is stored securely by applying
+   * a specific encryption method.
+   */
+  optional bool is_data_encrypted = 4;
+
+  /*
+   * If data encryption is enabled (is_data_encrypted = true),
+   * this field specifies the particular encryption method used.
+   */
+  optional string encryption_method = 5;
+
+  /*
+   * Defines the policy for data retention, including the length of data storage,
+   * time of review, and conditions for data deletion or archival, in line with privacy regulations.
+   */
+  optional string data_retention_policy = 6;
+
+  /*
+   * Verifies whether there is a mutually agreed upon data sharing contract that
+   * defines the process, rules, and recipients of data sharing, if any.
+   */
+  optional bool has_data_sharing_agreement = 7;
+
+  /*
+   * Articulates why this specific data was collected and what the anticipated uses
+   * of this data are. This explanation is often a part of privacy guidelines for user transparency.
+   */
+  optional string data_purpose = 8;
+}
+
+
+/*
+ * Defines a protocol for the real-time monitoring data.
+ */
+message RealTimeMonitoringData {
+
+  /*
+   * A unique identifier related to the data being monitored - typically related to a particular encounter.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Specifies the name or the unique identifier of the entity (such as user, device, process) that is being monitored in real-time.
+   */
+  optional string monitored_entity = 2;
+
+  /*
+   * Details about what is being monitored or what kind of data is being collected during the real-time monitoring process.
+   */
+  optional string monitoring_details = 3;
+
+  /*
+   * Specifies the precise time when the monitoring process was initiated.
+   */
+  optional google.protobuf.Timestamp monitoring_start_time = 4;
+
+  /*
+   * Indicates the exact time when the monitoring process was concluded. Needless if the monitoring process is continuous.
+   */
+  optional google.protobuf.Timestamp monitoring_end_time = 5;
+
+  /*
+   * Contains a list of alerts initiated during the monitoring process. These alerts can include threshold triggers, system failures, errors, etc.
+   */
+  repeated string triggered_alerts = 6;
+
+  /*
+   * Provides information about the frequency of the monitoring activity, such as 'every 5 minutes or 'hourly'.
+   */
+  optional string monitoring_frequency = 7;
+
+  /*
+   * A boolean value that determines if the monitoring process is continuous. If set to true, the 'monitoring_end_time' field becomes unnecessary.
+   */
+  optional bool is_continuous_monitoring = 8;
+
+  /*
+   * The name or the identifier of the team responsible for executing the monitoring process.
+   */
+  optional string responsible_monitoring_team = 9;
+}
+
+/*
+ * This Protobuf message structure represents a detailed user behavior analysis data.
+ * It includes information such as encounter ID, user ID, user behavior pattern,
+ * associated activities, behavior analysis time frame, historical behavior data,
+ * risk assessment based on behavior, an indicator if the behavior is an outlier,
+ * and potential consequences of the behavior.
+ */
+message UserBehaviorAnalysisData {
+  /*
+   * Encounter ID associated with the data. An encounter ID is an unique identifier
+   * for a particular encounter or event.
+   */
+  optional string encounter_id = 1;
+  /*
+   * ID of the user associated with the data. user_id represents the unique identifier
+   * of a user.
+   */
+  optional string user_id = 2;
+  /*
+   * Pattern of user behavior. It represents a particular way a user interacts with the system.
+   */
+  optional string behavior_pattern = 3;
+  /*
+   * Activities associated with the behavior. They are a list of actions or tasks
+   * performed by the user that are related to the observed behavior.
+   */
+  repeated string associated_activities = 4;
+  /*
+   * Time frame for behavior analysis. It represents the period during which the behavior analysis was conducted.
+   */
+  optional string analysis_time_frame = 5;
+  /*
+   * Historical data of user behavior. This includes past behaviors of the user for historical comparison.
+   */
+  repeated string historical_behavior_data = 6;
+  /*
+   * Risk assessment based on behavior. It is a judgement or estimation of the risk posed by the
+   * current behavior of the user.
+   */
+  optional string risk_assessment = 7;
+  /*
+   * Indicates if behavior is an outlier, i.e., if the current behavior significantly deviates from
+   * the user's usual behavior.
+   */
+  optional bool is_behavior_outlier = 8;
+  /*
+   * Potential consequences of the behavior. These are predictions or estimations of the potential
+   * outcomes if the current behavior is not addressed.
+   */
+  optional string behavior_consequence = 9;
+}
+
+
+
+
+
+
+/*
+ * `BasicInfo` message holds essential details about a healthcare provider.
+ */
+message ProviderBasicInfo {
+  /*
+   * The first name of the provider.
+   */
+  string first_name = 1;
+  /*
+   * The last name of the provider.
+   */
+  string last_name = 2;
+  /*
+   * The credentials of the provider, for example, "M.D.".
+   */
+  string credential = 3;
+  /*
+   * Designation indicating whether the provider is operating as a sole proprietor. Typical values are "YES" / "NO".
+   */
+  string sole_proprietor = 4;
+  /*
+   * Provider's gender.
+   */
+  string gender = 5;
+  /*
+   * The date the provider was added/enumerated in the system.
+   */
+  string enumeration_date = 6;
+  /*
+   * The current status of the provider.
+   */
+  cdx.opencdx.grpc.types.ProviderStatus status = 7;
+  /*
+   * Any prefix for the provider's name, typically designations like "Dr.".
+   */
+  string name_prefix = 8;
+  /*
+   * Any suffix for the provider's name, if applicable.
+   */
+  string name_suffix = 9;
+}
+
+/*
+ * The `Taxonomy` message represents the categorization of the healthcare provider based on their specialty/s.
+ */
+message Taxonomy {
+  /*
+   * Taxonomy code representing a specific medical specialty.
+   */
+  string code = 1;
+  /*
+   * Group or category to which the taxonomy belongs.
+   */
+  string taxonomy_group = 2;
+  /*
+   * Description of the taxonomy.
+   */
+  string desc = 3;
+  /*
+   * State where the provider holds this taxonomy designation.
+   */
+  string state = 4;
+  /*
+   * License number associated with this taxonomy code for the provider.
+   */
+  string license = 5;
+  /*
+   * Indicator to denote whether this taxonomy code is the provider's primary specialty.
+   */
+  bool primary = 6;
+}
+
+/*
+ * `Identifier` message represents the unique identifiers associated with a healthcare provider.
+ */
+message Identifier {
+  /*
+   * Unique identifier code.
+   */
+  string code = 1;
+  /*
+   * Description of the identifier, for example, could denote the type of identifier like "MEDICAID".
+   */
+  string desc = 2;
+  /*
+   * Information on the entity that issued the identifier.
+   */
+  string issuer = 3;
+  /*
+   * The identifier value itself.
+   */
+  string identifier = 4;
+  /*
+   * State associated with this identifier.
+   */
+  string state = 5;
+}
+
+/*
+ * "Provider" message captures all relevant details of a healthcare provider including "id",
+ * "user_id" among other fields. Several fields (e.g., addresses, taxonomies, identifiers) can
+ * comprise multiple values hence "repeated" is used.
+ */
+message Provider {
+  /*
+   * Unique identifier for the provider.
+   */
+  string id = 1;
+
+  /*
+   * Associated User ID of the healthcare provider.
+   */
+  optional string user_id = 2;
+
+  /*
+   * Timestamp (in epoch time) of the provider's creation.
+   */
+  string created_epoch = 3;
+
+  /*
+   * Enumeration type to categorize providers.
+   */
+  string enumeration_type = 4;
+
+  /*
+   * Latest timestamp (in epoch time) when the provider was updated.
+   */
+  string last_updated_epoch = 5;
+
+  /*
+   * Official registration number of the provider.
+   */
+  string number = 6;
+
+  /*
+   * Collection of the healthcare provider's addresses.
+   */
+  repeated Address addresses = 7;
+
+  /*
+   * Correction of various practice locations associated with the provider.
+   */
+  repeated string practiceLocations = 8;
+
+  /*
+   * General information about the provider (name, speciality, etc.).
+   */
+  ProviderBasicInfo basic = 9;
+
+  /*
+   * Different taxonomy codes associated with the healthcare provider.
+   */
+  repeated Taxonomy taxonomies = 10;
+
+  /*
+   * Collection of unique identifiers linked to the provider.
+   */
+  repeated Identifier identifiers = 11;
+
+  /*
+   * Various touchpoints (email, phone number) related to the provider.
+   */
+  repeated string endpoints = 12;
+
+  /*
+   * Any aliases or other names registered under the healthcare provider.
+   */
+  repeated string other_names = 13;
+
+  /*
+   * Protobuf timestamp representing the initial creation of this record.
+   */
+  google.protobuf.Timestamp created = 14;
+
+  /*
+   * Protobuf timestamp when the provider record was last updated.
+   */
+  google.protobuf.Timestamp modified = 15;
+
+  /*
+   * Creator's ID who created provider event.
+   */
+  string creator = 16;
+
+  /*
+   * Modifier's ID who last updated provider event.
+   */
+  string modifier = 17;
+}
+
+/*
+ * A message that encapsulates a collection of Questionnaires. It also
+ * includes pagination features for navigating between large volumes
+ * of questionnaire data.
+ */
+message Questionnaires {
+  /*
+   * A list of Questionnaire resources.
+   */
+  repeated Questionnaire questionnaires = 1;
+
+  /*
+   * Metadata about the pagination state of the Questionnaires list.
+   */
+  Pagination pagination = 2;
+}
+
+/*
+ * A single questionnaire resource. It contains various properties that
+ * provide information about the questionnaire.
+ */
+message Questionnaire {
+  /*
+   * The unique identifier for the questionnaire.
+   */
+  optional string id = 1;
+
+  /*
+   * The type of the resource, in this case, "Questionnaire".
+   */
+  optional string resource_type = 2;
+
+  /*
+   * The title of the questionnaire.
+   */
+  optional string title = 3;
+
+  /*
+   * The status of the questionnaire. See the QuestionnaireStatus enum
+   * for possible values.
+   */
+  optional cdx.opencdx.grpc.types.QuestionnaireStatus status = 4;
+
+  /*
+   * A short description of what the questionnaire is for.
+   */
+  optional string description = 5;
+
+  /*
+   * The purpose or objective that this questionnaire is meant to fulfill.
+   */
+  optional string purpose = 6;
+
+  /*
+   * The list of questionnaire items/questions.
+   */
+  repeated QuestionnaireItem item = 7;
+
+  /*
+   * The identifier of the rule that was executed for the questionnaire submission.
+   */
+  optional string rule_id = 8;
+
+  /*
+   * The identifier of the question which the response will be used for the rule  was executed for the questionnaire submission.
+   */
+  repeated string rule_question_id = 9;
+
+  /*
+   * The timestamp representing when this questionnaire was created.
+   */
+  optional google.protobuf.Timestamp created = 10;
+
+  /*
+   * The timestamp representing when this questionnaire was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+
+  /*
+   * The identifier of the individual or system who created the questionnaire.
+   */
+  optional string creator = 12;
+
+  /*
+   * The identifier of the individual or system who last modified the questionnaire.
+   */
+  optional string modifier = 13;
+}
+
+/*
+ * Represents a question or a group of questions within a questionnaire. Each item has a type, a unique identifier,
+ * conditional display logic, repetitions, read-only status, nested items, answer options and initial values.
+ */
+message QuestionnaireItem {
+  /*
+   * The type of the questionnaire item (ex. integer, boolean, choice).
+   */
+  optional string type = 1;
+  /*
+   * The unique identifier for the item.
+   */
+  optional string link_id = 2;
+  /*
+   * The text content of the item.
+   */
+  optional string text = 3;
+  /*
+   * Conditional display logic for questions.
+   */
+  repeated QuestionnaireEnableWhen enable_when = 4;
+  /*
+   * How the questions are shown when all or any conditions are true.
+   */
+  optional string enable_behavior = 5;
+  /*
+   * Denotes if the item is required.
+   */
+  optional bool required = 6;
+  /*
+   * Denotes if the item can be repeated.
+   */
+  optional bool repeats = 7;
+  /*
+   * Denotes if the item is read-only.
+   */
+  optional bool read_only = 8;
+  /*
+   * A terminology code that corresponds to this group or question.
+   */
+  repeated Code code = 9;
+  /*
+   * Nested questionnaire items.
+   */
+  repeated QuestionnaireItem item = 10;
+  /*
+   * Extensions for the item.
+   */
+  repeated QuestionnaireItemExtension extension = 11;
+  /*
+   * Answer options for choice-type items.
+   */
+  repeated QuestionnaireItemAnswerOption answer_option = 12;
+  /*
+   * Initial values for the item.
+   */
+  repeated QuestionnaireItemInitial initial = 13;
+  /*
+   * The ANF statement connector associated with this item.
+   */
+  repeated AnfStatementConnector anf_statement_connector = 14;
+  /*
+   * The response provided by the user to the item.
+   */
+  repeated AnswerValue answer = 15;
+}
+
+/*
+ * Represents answer response
+ */
+message AnswerValue {
+  /*
+   * Integer answer
+   */
+  optional int32 value_integer = 1;
+  /*
+   * Double answer
+   */
+  optional double value_double = 2;
+  /*
+   * String answer
+   */
+  optional string value_string = 3;
+  /*
+   * Boolean answer
+   */
+  optional bool value_boolean = 4;
+  /*
+   * Coding answer
+   */
+  optional Coding value_coding = 5;
+}
+
+/*
+ * Represents a condition to control the display of the questions.
+ */
+message QuestionnaireEnableWhen {
+  /*
+   * The question identifier.
+   */
+  optional string question = 1;
+  /*
+   * The operator for the conditional display.
+   */
+  optional string operator = 2;
+  /*
+   * The answer options for choice-type questions.
+   */
+  optional Coding answer_coding = 3;
+  /*
+   * The answer option for integer-type questions.
+   */
+  optional int32 answer_integer = 4;
+  /*
+   * The answer option for double-type questions.
+   */
+  optional double answer_double = 5;
+  /*
+   * The answer option for boolean-type questions.
+   */
+  optional bool answer_boolean = 6;
+}
+
+/*
+ * Represents a coding system to correspond to a given group or question.
+ */
+message Code {
+  /*
+   * The system of the code.
+   */
+  optional string system = 1;
+  /*
+   * The code value itself.
+   */
+  optional string code = 2;
+}
+/*
+ * Represents an extension of a questionnaire item, giving it additional features.
+ */
+message QuestionnaireItemExtension {
+  /*
+   * The URL of the extension.
+   */
+  optional string url = 1;
+  /*
+   * The code-able concept extension's value.
+   */
+  optional ValueCodeableConcept value_codeable_concept = 2;
+  /*
+   * The coding value for the extension.
+   */
+  optional Coding value_coding = 3;
+  /*
+   * The integer value for the extension.
+   */
+  optional int32 value_integer = 4;
+  /*
+   * The decimal value for the extension.
+   */
+  optional double value_decimal = 5;
+}
+
+/*
+ * Represents a code-able concept value used in the value_codeable_concept field of a QuestionnaireItemExtension.
+ */
+message ValueCodeableConcept {
+  /*
+   * The human-readable text for the concept value.
+   */
+  optional string text = 1;
+  /*
+   * The list of coding values for the concept.
+   */
+  repeated Coding coding = 2;
+}
+
+/*
+ * Represents an answer option for a particular questionnaire item.
+ */
+message QuestionnaireItemAnswerOption {
+  /*
+   * The coded value for this answer option.
+   */
+  optional Coding value_coding = 1;
+  /*
+   * Indicates whether this answer option is pre-selected.
+   */
+  optional bool initial_selected = 2;
+  /*
+   * The extensions associated with the answer option.
+   */
+  repeated Extension extension = 3;
+}
+
+/*
+ * Represents an extension element used in a QuestionnaireItemAnswerOption message.
+ */
+message Extension {
+  /*
+   * The URL that defines the extension.
+   */
+  optional string url = 1;
+  /*
+   * The decimal value associated with the extension.
+   */
+  optional double value_decimal = 2;
+  /*
+   * The code-able concept associated with the extension.
+   */
+  optional Coding value_codeable_concept = 3;
+}
+
+/*
+ * `QuestionnaireItemInitial` message which represents initial values for a questionnaire item.
+ * This aids in setting up default responses for different types of questions.
+ */
+message QuestionnaireItemInitial {
+  /*
+   * Represents initial boolean value for the item.
+   */
+  optional bool value_boolean = 1;
+  /*
+   * Represents initial value for questions of integer type.
+   */
+  optional int32 value_integer = 2;
+  /*
+   * Represents initial value for questions of decimal type.
+   */
+  optional double value_decimal = 3;
+}
+
+/*
+ * `QuestionnaireData` message represents a questionnaire with key attributes defined as data fields.
+ * This message captures all necessary details to fully describe a questionnaire at a general level.
+ */
+message QuestionnaireData {
+  /*
+   * Represents the unique identifier for the questionnaire.
+   */
+  optional string id = 1;
+  /*
+   * Represents the name of the questionnaire.
+   */
+  optional string name = 2;
+  /*
+   * Represents the current status of the questionnaire.
+   */
+  optional string status = 3;
+  /*
+   * Represents the state of the questionnaire (active or inactive).
+   */
+  optional string state = 4;
+  /*
+   * Represents a JSON structure to be used for displaying the questionnaire to the end user.
+   */
+  optional string question_json_id = 5;
+  /*
+   * Represents a JSON field for ANF or any special statements.
+   */
+  optional string question_anf_json = 6;
+  /*
+   * Stands for the associated rules engine configuration.
+   */
+  optional string rules_engine_config = 7;
+  /*
+   * Timestamp indicating when the questionnaire was created.
+   */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Timestamp indicating when the questionnaire was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this questionnaire.
+   */
+  optional string creator = 10;
+  /*
+   * Identifier of the last modifier of this questionnaire.
+   */
+  optional string modifier = 11;
+}
+
+/*
+ * `SystemQuestionnaireData` message represents a list of questionnaire data at the system level.
+ * This message typically contains questionnaires that are shared across the entire system.
+ */
+message SystemQuestionnaireData {
+  /*
+   * Contains a list of `QuestionnaireData`.
+   */
+  repeated QuestionnaireData questionnaire_data = 1;
+}
+
+/*
+ * `ClientQuestionnaireData` message represents a list of questionnaires along with associated Organization and Workspace.
+ * This message is used to define questionnaires specific to a certain workspace within an organization.
+ */
+message ClientQuestionnaireData {
+  /*
+   * Contains a list of `QuestionnaireData`.
+   */
+  repeated QuestionnaireData questionnaire_data = 1;
+  /*
+   * Represents the Id of the Organization associated with these questionnaires.
+   */
+  optional string organization_id = 2;
+  /*
+   * Represents the Id of the Workspace within the organization where these questionnaires are used.
+   */
+  optional string workspace_id = 3;
+  /*
+   * Id of the rule to be executed on Rules Engine upon questionnaire's submission.
+   */
+  optional string rule_id = 4;
+}
+
+/*
+ * `UserQuestionnaireData` message represents a list of questionnaires associated with a specific user.
+ * This message is used to define questionnaires that are tied to specific users for user-centric tasks.
+ */
+message UserQuestionnaireData {
+  /*
+ * Represents the unique identifier for the questionnaire.
+ */
+  optional string id = 1;
+  /*
+   * Represents the user identifier associated with these questionnaires.
+   */
+  string patient_id = 2;
+  /*
+    * Contains a list of `Questionnaire` associated with a specific user.
+    */
+  repeated Questionnaire questionnaire_data = 3;
+}
+
+
+/*
+ * The 'CategoryType' message is designed to handle different types of categories that
+ * might be needed in the application. This might include categories related to vendor,
+ * manufacturer, test type etc.
+ */
+message CategoryType {
+  /*
+   * 'id' field carries a unique identifier for each category. It's a string and a primary way
+   * to identify and differentiate categories from each other.
+   */
+  string id = 1;
+  /*
+   * 'type' field describes the category. This is a descriptive field giving information about
+   * the type of category.
+   */
+  string type = 2;
+}

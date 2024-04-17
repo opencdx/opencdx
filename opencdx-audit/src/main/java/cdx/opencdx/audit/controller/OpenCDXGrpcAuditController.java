@@ -16,9 +16,9 @@
 package cdx.opencdx.audit.controller;
 
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
-import cdx.opencdx.grpc.audit.AuditEvent;
-import cdx.opencdx.grpc.audit.AuditServiceGrpc;
-import cdx.opencdx.grpc.audit.AuditStatus;
+import cdx.opencdx.grpc.data.AuditEvent;
+import cdx.opencdx.grpc.data.AuditStatus;
+import cdx.opencdx.grpc.service.audit.AuditServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

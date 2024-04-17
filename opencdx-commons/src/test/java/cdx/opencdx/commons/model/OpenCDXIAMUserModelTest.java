@@ -18,8 +18,10 @@ package cdx.opencdx.commons.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.grpc.types.AgentType;
+import cdx.opencdx.grpc.types.IamUserStatus;
+import cdx.opencdx.grpc.types.IamUserType;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

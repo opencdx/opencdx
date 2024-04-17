@@ -16,8 +16,8 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.HeightUnits;
+import cdx.opencdx.grpc.data.HeightMeasurement;
+import cdx.opencdx.grpc.types.HeightUnits;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;

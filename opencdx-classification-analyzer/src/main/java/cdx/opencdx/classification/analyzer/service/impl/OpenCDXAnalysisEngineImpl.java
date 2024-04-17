@@ -25,14 +25,13 @@ import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.inventory.TestCaseListRequest;
-import cdx.opencdx.grpc.inventory.TestCaseListResponse;
-import cdx.opencdx.grpc.media.Media;
-import cdx.opencdx.grpc.neural.classification.*;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
+import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
+import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
+import cdx.opencdx.grpc.types.ClassificationType;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.util.List;
@@ -119,7 +118,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
             log.trace(FILE_NAME, file.getFilename());
         }
 
-        ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
+        Classification.Builder builder = Classification.newBuilder();
 
         builder.setConfidence(this.random.nextFloat(100.0f));
         builder.setPositiveProbability(this.random.nextFloat(90.0f));
@@ -129,7 +128,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
         runRules(userQuestionnaireData, builder);
 
-        return builder.build();
+        return ClassificationResponse.newBuilder()
+                .setClassification(builder.build())
+                .build();
     }
 
     @Override
@@ -149,7 +150,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         if (connectedFile != null) {
             log.trace(FILE_NAME, connectedFile.getFilename());
         }
-        ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
+        Classification.Builder builder = Classification.newBuilder();
         builder.setMessage("Executed classify operation.");
 
         builder.setConfidence(this.random.nextFloat(100.0f));
@@ -193,7 +194,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
             }
         }
 
-        return builder.build();
+        return ClassificationResponse.newBuilder()
+                .setClassification(builder.build())
+                .build();
     }
 
     private Resource retrieveFile(Media model) {
@@ -225,7 +228,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         return null;
     }
 
-    private void runRules(UserQuestionnaireData userQuestionnaireData, ClassificationResponse.Builder builder) {
+    private void runRules(UserQuestionnaireData userQuestionnaireData, Classification.Builder builder) {
         if (userQuestionnaireData != null
                 && userQuestionnaireData.getQuestionnaireDataCount() > 0
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isEmpty()

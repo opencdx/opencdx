@@ -16,12 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.ContactInfo;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.lab.connected.ConnectedLab;
-import cdx.opencdx.grpc.lab.connected.LabMetaDataProcessor;
+import cdx.opencdx.grpc.data.*;
 import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;

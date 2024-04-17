@@ -16,12 +16,7 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.PaymentDetails;
-import cdx.opencdx.grpc.shipping.AdditionalService;
-import cdx.opencdx.grpc.shipping.Order;
-import cdx.opencdx.grpc.shipping.ServiceLevel;
-import cdx.opencdx.grpc.shipping.Shipping;
+import cdx.opencdx.grpc.data.*;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

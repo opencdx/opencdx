@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

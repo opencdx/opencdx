@@ -26,7 +26,9 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
+import cdx.opencdx.grpc.data.Participant;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import java.util.Optional;
@@ -136,7 +138,7 @@ class OpenCDXRestANFControllerTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXANFStatementModel.builder()
                                 .id(argument)
-                                .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                .subjectOfRecord(Participant.newBuilder()
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build());
@@ -161,12 +163,12 @@ class OpenCDXRestANFControllerTest {
 
     @Test
     void createANFStatement() throws Exception {
-        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+        ANFStatement anfStatement = ANFStatement.newBuilder()
                 .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
                 .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.newBuilder().setSeconds(1696733104))
                 .setModifier(OpenCDXIdentifier.get().toHexString())
-                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                .setSubjectOfRecord(Participant.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
@@ -182,11 +184,11 @@ class OpenCDXRestANFControllerTest {
 
     @Test
     void updateANFStatement() throws Exception {
-        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .setId(AnfStatement.Identifier.newBuilder()
+        ANFStatement anfStatement = ANFStatement.newBuilder()
+                .setId(ANFIdentifier.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
-                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                .setSubjectOfRecord(Participant.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();

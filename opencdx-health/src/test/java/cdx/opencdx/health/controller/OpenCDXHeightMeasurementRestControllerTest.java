@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,11 +23,11 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.CreateHeightMeasurementRequest;
-import cdx.opencdx.grpc.health.HeightMeasurement;
-import cdx.opencdx.grpc.health.ListHeightMeasurementsRequest;
-import cdx.opencdx.grpc.health.UpdateHeightMeasurementRequest;
+import cdx.opencdx.grpc.data.HeightMeasurement;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateHeightMeasurementRequest;
+import cdx.opencdx.grpc.service.health.ListHeightMeasurementsRequest;
+import cdx.opencdx.grpc.service.health.UpdateHeightMeasurementRequest;
 import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
 import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
 import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;

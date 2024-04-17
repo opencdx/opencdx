@@ -16,8 +16,8 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.AddressPurpose;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.types.AddressPurpose;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

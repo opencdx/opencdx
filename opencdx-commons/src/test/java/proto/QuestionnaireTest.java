@@ -15,9 +15,10 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
+import cdx.opencdx.grpc.data.Questionnaire;
+import cdx.opencdx.grpc.data.UserQuestionnaireData;
+import cdx.opencdx.grpc.service.questionnaire.QuestionnaireRequest;
+import cdx.opencdx.grpc.service.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -40,9 +41,8 @@ class QuestionnaireTest {
     @Test
     void testQuestionnaireRequest() throws JsonProcessingException {
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(cdx.opencdx.grpc.questionnaire.Questionnaire.newBuilder()
-                        .setResourceType("form")
-                        .setTitle("Questionnaire"))
+                .setQuestionnaire(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
                 .build();
 
         log.info(
@@ -52,7 +52,7 @@ class QuestionnaireTest {
 
     @Test
     void testUserQuestionnaireDataRequest() throws JsonProcessingException {
-        cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().build())
                 .build();
 

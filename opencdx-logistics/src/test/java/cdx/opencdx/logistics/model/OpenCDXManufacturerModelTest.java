@@ -17,8 +17,8 @@ package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.inventory.Manufacturer;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.Manufacturer;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

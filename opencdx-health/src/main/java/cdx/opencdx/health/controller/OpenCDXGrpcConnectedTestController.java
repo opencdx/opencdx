@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.service.OpenCDXConnectedTestService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

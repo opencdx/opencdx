@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.ConnectedTest;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for the OpenCDXConnectedTestService

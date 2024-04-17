@@ -16,7 +16,7 @@
 package cdx.opencdx.communications.service.impl;
 
 import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.Attachment;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

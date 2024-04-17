@@ -17,8 +17,8 @@ package cdx.opencdx.logistics.handlers;
 
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.shipping.CreateOrderRequest;
-import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.service.logistics.CreateOrderRequest;
 import cdx.opencdx.logistics.service.OpenCDXShippingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;

@@ -1,0 +1,609 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Logistics.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.logistics;
+import "opencdx_data.proto";
+import "opencdx_enum.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+ * Request Message to list TestCaseListRequest. This helps
+ * fetching multiple test data for a user, leveraging pagination.
+ */
+message TestCaseListRequest {
+  /*
+   * Pagination information and sorting. Used to fetch a batch of tests for a user rather than all.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * Unique identifier
+   */
+  optional string manufacturer_id = 2;
+  optional string vendor_id = 3;
+}
+
+/*
+ * Response containing the requested list of connected tests for a specific user.
+ * The response includes details of all connected tests for a user.
+ */
+message TestCaseListResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  repeated cdx.opencdx.grpc.data.TestCase test_cases = 2;
+}
+
+/*
+ * Request Message to list Devices. This helps
+ * fetching multiple test data for a user, leveraging pagination.
+ */
+message DeviceListRequest {
+  /*
+   * Pagination information and sorting. Used to fetch a batch of devices.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * Unique identifier
+   */
+  optional string manufacturer_id = 2;
+  optional string vendor_id = 3;
+}
+
+/*
+ * Response containing the requested list of devices for a specific user.
+ * The response includes details of all devices.
+ */
+message DeviceListResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  repeated cdx.opencdx.grpc.data.Device device = 2;
+}
+
+/*
+ * The CountryIdRequest is a request message used to retrieve a country by its specific ID.
+ */
+message CountryIdRequest {
+  /*
+   * The ID of the country to be fetched.
+   */
+  string country_id = 1;
+}
+
+/*
+ * The ManufacturerIdRequest is a request message used to retrieve a manufacturer by its specific ID.
+ */
+message ManufacturerIdRequest {
+  /*
+   * The ID of the manufacturer to be fetched.
+   */
+  string manufacturer_id = 1;
+}
+
+/*
+ * The VendorIdRequest is a request message used to retrieve a vendor by its specific ID.
+ */
+message VendorIdRequest {
+  /*
+   * The ID of the vendor to be fetched.
+   */
+  string vendor_id = 1;
+}
+
+/*
+ * The DeviceIdRequest is a request message used to retrieve a device by its specific ID.
+ */
+message DeviceIdRequest {
+  /*
+   * The ID of the device to be fetched.
+   */
+  string device_id = 1;
+}
+
+/*
+ * The TestCaseIdRequest is a request message used to retrieve a test case by its specific ID.
+ */
+message TestCaseIdRequest {
+  /*
+   * The ID of the test case to be fetched.
+   */
+  string test_case_id = 1;
+}
+
+/*
+ * The DeleteResponse message returns the status and descriptive message of the delete operation.
+ */
+message DeleteResponse {
+  /*
+   * A boolean flag to show the status of the delete operation.
+   */
+  bool success = 1;
+
+  /*
+   * A detailed message about the result of the delete operation.
+   */
+  string message = 2;
+}
+
+/*
+ * The CountryListRequest message to retrieve a paginated, sorted list of countries.
+ */
+message CountryListRequest{
+  /*
+   * Pagination and sorting information for the countries list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+
+/*
+ * The ManufacturerListRequest message to retrieve a paginated, sorted list of manufacturers.
+ */
+message ManufacturerListRequest{
+  /*
+   * Pagination and sorting information for the manufacturers list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+
+/*
+ * The VendorsListRequest message to retrieve a paginated, sorted list of vendors.
+ */
+message VendorsListRequest{
+  /*
+   * Pagination and sorting information for the vendors list.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+}
+
+/*
+ * The CountryListResponse message contains the requested list of countries.
+ */
+message CountryListResponse {
+  /*
+   * Pagination and sorting information about the returned list of countries.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+
+  /*
+   * The array list of country entities in the response.
+   */
+  repeated cdx.opencdx.grpc.data.Country countries = 5;
+}
+
+/*
+ * The ManufacturersListResponse message contains the requested list of manufacturers.
+ */
+message ManufacturersListResponse {
+  /*
+   * Pagination and sorting information about the returned list of manufacturers.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+
+  /*
+   * The array list of manufacturer entities in the response.
+   */
+  repeated cdx.opencdx.grpc.data.Manufacturer manufacturers = 5;
+}
+
+/*
+ * The VendorsListResponse message contains the requested list of vendors.
+ */
+message VendorsListResponse {
+  /*
+   * Pagination and sorting information about the returned list of vendors.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+
+  /*
+   * The array list of vendor entities in the response.
+   */
+  repeated cdx.opencdx.grpc.data.Vendor vendors = 5;
+}
+
+
+/**
+ * The CreateOrderRequest message captures the details of a request to create a new order.
+ */
+message CreateOrderRequest {
+  /**
+   * The order to be created.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+
+/**
+ * The CreateOrderResponse message captures the details of the response to a request to create a new order.
+ */
+message CreateOrderResponse {
+  /**
+   * The order that was created.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+
+/**
+ * The GetOrderRequest message captures the details of a request to retrieve an existing order.
+ */
+message GetOrderRequest {
+  /**
+   * The unique identifier for the order to be retrieved.
+   */
+  string id = 1;
+}
+/**
+ * The GetOrderResponse message captures the details of the response to a request to retrieve an existing order.
+ */
+message GetOrderResponse {
+  /**
+   * The order that was retrieved.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+/**
+ * The UpdateOrderRequest message captures the details of a request to update an existing order.
+ */
+message UpdateOrderRequest {
+  /**
+   * The order to be updated.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+/**
+ * The UpdateOrderResponse message captures the details of the response to a request to update an existing order.
+ */
+message UpdateOrderResponse {
+  /**
+   * The order that was updated.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+
+/**
+ * The CancelOrderRequest message captures the details of a request to cancel an existing order.
+ */
+message CancelOrderRequest {
+  /**
+   * The unique identifier for the order to be cancelled.
+   */
+  string id = 1;
+}
+
+/**
+ * The CancelOrderResponse message captures the details of the response to a request to cancel an existing order.
+ */
+message CancelOrderResponse {
+  /**
+   * The order that was cancelled.
+   */
+  cdx.opencdx.grpc.data.Order order = 1;
+}
+/**
+ * The ListOrdersRequest message captures the details of a request to retrieve a list of orders.
+ */
+message ListOrdersRequest {
+  /**
+   * The pagination details for the list of orders.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+   * The unique identifier for the patient whose orders are to be retrieved.
+   */
+  optional string patient_id = 2;
+}
+/**
+ * The ListOrdersResponse message captures the details of the response to a request to retrieve a list of orders.
+ */
+message ListOrdersResponse {
+
+  /**
+   * The list of orders that were retrieved.
+   */
+  repeated cdx.opencdx.grpc.data.Order orders = 1;
+
+  /**
+   * The pagination details for the list of orders.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+/**
+ * The ShippingRequest message is used to request shipping options for a package.
+ */
+message ShippingRequest {
+  /**
+   * The address of the sender.
+   */
+  cdx.opencdx.grpc.data.Address sender_address = 1;
+  /**
+   * The name to ship the package to.
+   */
+  cdx.opencdx.grpc.data.FullName shipping_name = 2;
+  /**
+   * The address of the recipient.
+   */
+  cdx.opencdx.grpc.data.Address recipient_address = 3;
+  /**
+   * The package details.
+   */
+  cdx.opencdx.grpc.data.Order package_details = 4;
+  /**
+   * The service level requested.
+   */
+  bool require_signature = 5;
+  /**
+   * The declared value of the package.
+   */
+  double declared_value = 6;
+}
+
+
+/*
+ * The DeliveryTrackingRequest message defining the request format for a Delivery Tracking entity.
+ */
+message DeliveryTrackingRequest {
+  /*
+   * Delivery tracking details
+   */
+  cdx.opencdx.grpc.data.DeliveryTracking delivery_tracking = 1;
+}
+
+/*
+ * The DeliveryTrackingResponse message states the response format from the Delivery Tracking operation.
+ * 'delivery_tracking' holds the created delivery tracking details.
+ */
+message DeliveryTrackingResponse {
+  /*
+   * Created delivery tracking data
+   */
+  cdx.opencdx.grpc.data.DeliveryTracking delivery_tracking = 1;
+}
+/**
+ * The ShippingVendorResponse message is used to return the shipping vendors.
+ */
+message ShippingVendorResponse {
+  /**
+   * The shipping vendors.
+   */
+  repeated cdx.opencdx.grpc.data.Shipping options = 1;
+}
+
+/**
+ * The ShippingResponse message is used to return the shipping details.
+ */
+message ShippingResponse {
+  /**
+   * The tracking number.
+   */
+  string tracking_number = 1;
+  /**
+   * The shipping status.
+   */
+  cdx.opencdx.grpc.types.ShippingStatus status = 2;
+  /**
+   * The estimated delivery date.
+   */
+  google.protobuf.Timestamp estimated_delivery_date = 3;
+  /**
+   * The shipping cost.
+   */
+  double total_cost = 4;
+
+}
+
+/*
+ * CountryService is a gRPC service for managing Countries.
+ * It offers CRUD operations like retrieving a specific country by its ID,
+ * adding a new country, updating an existing country, deleting a country and
+ * retrieving the list of all available countries.
+ */
+service CountryService {
+  /*
+   * Get a specific country by its ID.
+   */
+  rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.data.Country);
+
+  /*
+   * Add a new country.
+   */
+  rpc add_country(cdx.opencdx.grpc.data.Country) returns (cdx.opencdx.grpc.data.Country);
+
+  /*
+   * Update an existing country.
+   */
+  rpc update_country(cdx.opencdx.grpc.data.Country) returns (cdx.opencdx.grpc.data.Country);
+
+  /*
+   * Delete a specific country.
+   */
+  rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available countries.
+   */
+  rpc listCountries(CountryListRequest) returns (CountryListResponse);
+}
+
+/*
+ * ManufacturerService is a gRPC service for managing manufacturers.
+ * It offers CRUD operations like retrieving a specific manufacturer by its ID,
+ * adding a new manufacturer, updating an existing manufacturer,
+ * deleting a manufacturer and retrieving the list of all available manufacturers.
+ */
+service ManufacturerService {
+  /*
+   * Get a specific manufacturer by its ID.
+   */
+  rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (cdx.opencdx.grpc.data.Manufacturer);
+
+  /*
+   * Add a new manufacturer.
+   */
+  rpc add_manufacturer(cdx.opencdx.grpc.data.Manufacturer) returns (cdx.opencdx.grpc.data.Manufacturer);
+
+  /*
+   * Update an existing manufacturer.
+   */
+  rpc update_manufacturer(cdx.opencdx.grpc.data.Manufacturer) returns (cdx.opencdx.grpc.data.Manufacturer);
+
+  /*
+   * Delete a specific manufacturer.
+   */
+  rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available manufacturers.
+   */
+  rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse);
+}
+
+/*
+ * VendorService is a gRPC service for managing vendors.
+ * It offers CRUD operations like retrieving a specific vendor by its ID, adding a new vendor,
+ * updating an existing vendor, deleting a vendor and retrieving the list of all available vendors.
+ */
+service VendorService {
+  /*
+   * Get a specific vendor by its ID.
+   */
+  rpc get_vendor_by_id(VendorIdRequest) returns (cdx.opencdx.grpc.data.Vendor);
+
+  /*
+   * Add a new vendor.
+   */
+  rpc add_vendor(cdx.opencdx.grpc.data.Vendor) returns (cdx.opencdx.grpc.data.Vendor);
+
+  /*
+   * Update an existing vendor.
+   */
+  rpc update_vendor(cdx.opencdx.grpc.data.Vendor) returns (cdx.opencdx.grpc.data.Vendor);
+
+  /*
+   * Delete a specific vendor.
+   */
+  rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available vendors.
+   */
+  rpc listVendors(VendorsListRequest) returns (VendorsListResponse);
+}
+
+/*
+ * DeviceService is a gRPC service for managing devices.
+ * It offers CRUD operations like retrieving a specific device by its ID,
+ * adding a new device, updating an existing device and deleting a device.
+ */
+service DeviceService {
+  /*
+   * Get a specific device by its ID.
+   */
+  rpc get_device_by_id(DeviceIdRequest) returns (cdx.opencdx.grpc.data.Device);
+
+  /*
+   * Add a new device.
+   */
+  rpc add_device(cdx.opencdx.grpc.data.Device) returns (cdx.opencdx.grpc.data.Device);
+
+  /*
+   * Update an existing device.
+   */
+  rpc update_device(cdx.opencdx.grpc.data.Device) returns (cdx.opencdx.grpc.data.Device);
+
+  /*
+   * Delete a specific device.
+   */
+  rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
+
+  /*
+  * Retrieves a list of devices.
+  */
+  rpc list_devices(DeviceListRequest) returns (DeviceListResponse);
+}
+
+/*
+ * TestCaseService is a gRPC service for managing test cases.
+ * It offers CRUD operations like retrieving a specific test case by its ID,
+ * adding a new test case, updating an existing test case and deleting a test case.
+ */
+service TestCaseService {
+  /*
+   * Get a specific test case by its ID.
+   */
+  rpc get_test_case_by_id(TestCaseIdRequest) returns (cdx.opencdx.grpc.data.TestCase);
+
+  /*
+   * Add a new test case.
+   */
+  rpc add_test_case(cdx.opencdx.grpc.data.TestCase) returns (cdx.opencdx.grpc.data.TestCase);
+
+  /*
+   * Update an existing test case.
+   */
+  rpc update_test_case(cdx.opencdx.grpc.data.TestCase) returns (cdx.opencdx.grpc.data.TestCase);
+
+  /*
+   * Delete a specific test case.
+   */
+  rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
+
+  /*
+   * Retrieves a list of test case.
+   */
+  rpc list_test_case(TestCaseListRequest) returns (TestCaseListResponse);
+}
+
+/**
+ * The OrderService service is responsible for managing the orders placed by or for patients.
+ */
+service OrderService {
+  /**
+   * Create a new order.
+   */
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
+  /**
+   * Retrieve an existing order.
+   */
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
+  /**
+   * Update an existing order.
+   */
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse) {}
+  /**
+   * Cancel an existing order.
+   */
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse) {}
+  /**
+   * Retrieve a list of orders.
+   */
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse) {}
+}
+
+
+
+/**
+ * The ShippingService service definition.
+ */
+service ShippingService {
+  /**
+   * The GetShippingVendors method is used to get the shipping vendors.
+   */
+  rpc GetShippingVendors(ShippingRequest) returns (ShippingVendorResponse);
+  /**
+   * The ShipPackage method is used to ship a package.
+   */
+  rpc ShipPackage(cdx.opencdx.grpc.data.Shipping) returns (ShippingResponse);
+  /*
+   * RPC service for creating a new entity to track medication delivery.
+   */
+  rpc CreateDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+  /*
+   * RPC service for retrieving information about a specific medication delivery tracking entity.
+   */
+  rpc GetDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+
+}

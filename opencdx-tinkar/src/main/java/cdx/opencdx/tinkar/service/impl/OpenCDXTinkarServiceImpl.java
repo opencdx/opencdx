@@ -16,7 +16,7 @@
 package cdx.opencdx.tinkar.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
-import cdx.opencdx.grpc.tinkar.*;
+import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;

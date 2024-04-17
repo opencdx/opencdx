@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.logistics.service.impl;
 
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.AdditionalService;
-import cdx.opencdx.grpc.shipping.ServiceLevel;
+import cdx.opencdx.grpc.data.AdditionalService;
+import cdx.opencdx.grpc.data.ServiceLevel;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;
 import cdx.opencdx.logistics.dto.OpenCDXShippingResponse;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;

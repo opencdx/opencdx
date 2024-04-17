@@ -18,9 +18,9 @@ package cdx.opencdx.health.model;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.AddressPurpose;
-import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.AddressPurpose;
+import cdx.opencdx.grpc.types.ProviderStatus;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -55,7 +55,7 @@ public class OpenCDXIAMProviderModel {
     private String npiNumber;
     private List<Address> addresses;
     private List<String> practiceLocations;
-    private BasicInfo basic;
+    private ProviderBasicInfo basic;
     private List<Taxonomy> taxonomies;
     private List<Identifier> identifiers;
     private List<String> endpoints;
@@ -106,7 +106,7 @@ public class OpenCDXIAMProviderModel {
         this.practiceLocations = result.getPracticeLocations();
 
         if (result.getBasic() != null) {
-            BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
+            ProviderBasicInfo.Builder basicBuilder = ProviderBasicInfo.newBuilder();
             if (result.getBasic().getFirstName() != null) {
                 basicBuilder.setFirstName(result.getBasic().getFirstName());
             }

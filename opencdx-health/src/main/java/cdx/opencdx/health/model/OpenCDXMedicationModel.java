@@ -16,10 +16,10 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.medication.DosageForm;
-import cdx.opencdx.grpc.health.medication.Medication;
-import cdx.opencdx.grpc.health.medication.MedicationAdministrationRoute;
-import cdx.opencdx.grpc.health.medication.MedicationFrequency;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.types.DosageForm;
+import cdx.opencdx.grpc.types.MedicationAdministrationRoute;
+import cdx.opencdx.grpc.types.MedicationFrequency;
 import cdx.opencdx.health.dto.openfda.Product;
 import cdx.opencdx.health.dto.openfda.Result;
 import com.google.protobuf.Timestamp;

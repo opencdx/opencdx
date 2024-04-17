@@ -16,9 +16,9 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.health.Vaccine;
-import cdx.opencdx.grpc.health.medication.Medication;
+import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.Vaccine;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

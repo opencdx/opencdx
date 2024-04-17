@@ -20,7 +20,9 @@ import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.client.service.*;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -28,22 +30,19 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.communication.Notification;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.connected.TestDetails;
-import cdx.opencdx.grpc.connected.TestIdRequest;
-import cdx.opencdx.grpc.lab.connected.LabFindings;
-import cdx.opencdx.grpc.media.GetMediaRequest;
-import cdx.opencdx.grpc.media.GetMediaResponse;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
-import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
-import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
-import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
+import cdx.opencdx.grpc.service.health.TestIdRequest;
+import cdx.opencdx.grpc.service.media.GetMediaRequest;
+import cdx.opencdx.grpc.service.media.GetMediaResponse;
+import cdx.opencdx.grpc.service.questionnaire.GetQuestionnaireRequest;
+import cdx.opencdx.grpc.types.AddressPurpose;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
@@ -296,11 +295,11 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         sendTestResults(model);
 
         if (model.getClassificationResponse() != null
-                && model.getClassificationResponse().hasTestKit()) {
+                && model.getClassificationResponse().getClassification().hasTestKit()) {
             orderTestCase(model);
         }
 
-        if (model.getClassificationResponse().getNotifyCdc()) {
+        if (model.getClassificationResponse().getClassification().getNotifyCdc()) {
             this.openCDXCDCPayloadService.sendCDCPayloadMessage(model);
         }
         if (model.getConnectedTest() != null) {
@@ -315,7 +314,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         builder.setBasicInfo(model.getConnectedTest().getBasicInfo());
         builder.setProviderInfo(model.getConnectedTest().getProviderInfo());
         builder.setMetadata(model.getConnectedTest().getTestDetails().getMetadata());
-        builder.setClassification(model.getClassificationResponse());
+        builder.setClassification(model.getClassificationResponse().getClassification());
 
         this.openCDXConnectedLabMessageService.submitLabFindings(builder.build());
     }
@@ -323,12 +322,17 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private void orderTestCase(OpenCDXClassificationModel model) {
         log.info(
                 "Ordering Test Case: {}",
-                model.getClassificationResponse().getTestKit().getTestCaseId());
+                model.getClassificationResponse()
+                        .getClassification()
+                        .getTestKit()
+                        .getTestCaseId());
         try {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "testcases",
-                    new OpenCDXIdentifier(
-                            model.getClassificationResponse().getTestKit().getTestCaseId()));
+                    new OpenCDXIdentifier(model.getClassificationResponse()
+                            .getClassification()
+                            .getTestKit()
+                            .getTestCaseId()));
             Address shippingAddress = null;
 
             Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
@@ -358,14 +362,20 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             builder.setShippingName(model.getPatient().getFullName());
             builder.setPatientId(model.getPatient().getId().toHexString());
             builder.setShippingAddress(shippingAddress);
-            builder.setTestCaseId(model.getClassificationResponse().getTestKit().getTestCaseId());
+            builder.setTestCaseId(model.getClassificationResponse()
+                    .getClassification()
+                    .getTestKit()
+                    .getTestCaseId());
 
             this.openCDXOrderMessageService.submitOrder(builder.build());
 
         } catch (OpenCDXNotFound e) {
             log.error(
                     "Failed to find test case: {}",
-                    model.getClassificationResponse().getTestKit().getTestCaseId(),
+                    model.getClassificationResponse()
+                            .getClassification()
+                            .getTestKit()
+                            .getTestCaseId(),
                     e);
         }
     }
@@ -396,7 +406,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         map.put("firstName", patient.getFullName().getFirstName());
         map.put("lastName", patient.getFullName().getLastName());
         map.put("testName", testName);
-        map.put("message", classificationResponse.getFurtherActions());
+        map.put("message", classificationResponse.getClassification().getFurtherActions());
 
         Notification.Builder builder = Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.TEST_RESULT)

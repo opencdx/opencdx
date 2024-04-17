@@ -16,13 +16,20 @@
 package cdx.opencdx.iam.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.neural.protector.*;
+import cdx.opencdx.grpc.data.AnomalyDetectionData;
+import cdx.opencdx.grpc.data.AuthorizationControlData;
+import cdx.opencdx.grpc.data.RealTimeMonitoringData;
+import cdx.opencdx.grpc.data.UserBehaviorAnalysisData;
+import cdx.opencdx.grpc.service.iam.AnomalyDetectionDataRequest;
+import cdx.opencdx.grpc.service.iam.AuthorizationControlDataRequest;
+import cdx.opencdx.grpc.service.iam.RealTimeMonitoringDataRequest;
+import cdx.opencdx.grpc.service.iam.UserBehaviorAnalysisDataRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Optional;

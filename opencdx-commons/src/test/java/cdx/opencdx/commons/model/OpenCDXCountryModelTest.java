@@ -16,8 +16,8 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.ContinentEnum;
-import cdx.opencdx.grpc.common.Country;
+import cdx.opencdx.grpc.data.ContinentEnum;
+import cdx.opencdx.grpc.data.Country;
 import com.google.protobuf.Timestamp;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

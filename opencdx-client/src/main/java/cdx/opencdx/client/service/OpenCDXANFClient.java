@@ -17,7 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
 
 /**
  * Interface for communicating with the Helloworld microservice.
@@ -25,32 +26,31 @@ import cdx.opencdx.grpc.anf.AnfStatement;
 public interface OpenCDXANFClient {
     /**
      * Method to gRPC Call ANF Service createANFStatement() api.
-     * @param request ANF Statement to pass
+     *
+     * @param request                ANF Statement to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier createANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier createANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call ANF Service getANFStatement() api.
-     * @param request Identifier to pass
+     * @param request ANFIdentifier to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.ANFStatement getANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFStatement getANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call ANF Service UpdateANFStatement() api.
-     * @param request ANF Statement to pass
+     *
+     * @param request                ANF Statement to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier updateANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier updateANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 
     /**
@@ -59,7 +59,6 @@ public interface OpenCDXANFClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    AnfStatement.Identifier deleteANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    ANFIdentifier deleteANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

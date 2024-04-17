@@ -16,8 +16,8 @@
 package cdx.opencdx.media.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXMediaService;

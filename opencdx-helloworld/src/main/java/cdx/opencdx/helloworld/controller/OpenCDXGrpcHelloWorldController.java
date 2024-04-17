@@ -15,7 +15,9 @@
  */
 package cdx.opencdx.helloworld.controller;
 
-import cdx.opencdx.grpc.helloworld.*;
+import cdx.opencdx.grpc.service.helloworld.GreeterGrpc;
+import cdx.opencdx.grpc.service.helloworld.HelloRequest;
+import cdx.opencdx.grpc.service.helloworld.HelloResponse;
 import cdx.opencdx.helloworld.service.OpenCDXHelloWorldService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

@@ -16,8 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.common.PaymentDetails;
-import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.data.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;

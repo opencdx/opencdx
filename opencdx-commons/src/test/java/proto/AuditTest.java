@@ -15,7 +15,10 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.AgentType;
+import cdx.opencdx.grpc.types.AuditEventType;
+import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

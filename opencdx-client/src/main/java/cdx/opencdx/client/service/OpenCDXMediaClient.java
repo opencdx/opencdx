@@ -16,7 +16,7 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.service.media.*;
 
 /**
  * Client Interface to the gRPC Media service

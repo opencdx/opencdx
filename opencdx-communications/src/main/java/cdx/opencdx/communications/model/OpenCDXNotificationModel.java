@@ -17,7 +17,10 @@ package cdx.opencdx.communications.model;
 
 import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.communication.*;
+import cdx.opencdx.grpc.data.Attachment;
+import cdx.opencdx.grpc.data.Notification;
+import cdx.opencdx.grpc.types.NotificationPriority;
+import cdx.opencdx.grpc.types.NotificationStatus;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

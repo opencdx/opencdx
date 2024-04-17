@@ -16,7 +16,7 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.inventory.TestCase;
+import cdx.opencdx.grpc.data.TestCase;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

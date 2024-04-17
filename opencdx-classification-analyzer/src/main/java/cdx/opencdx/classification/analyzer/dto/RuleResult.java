@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.classification.analyzer.dto;
 
-import cdx.opencdx.grpc.neural.classification.ClassificationType;
-import cdx.opencdx.grpc.neural.classification.TestKit;
+import cdx.opencdx.grpc.data.TestKit;
+import cdx.opencdx.grpc.types.ClassificationType;
 import lombok.Data;
 
 /**

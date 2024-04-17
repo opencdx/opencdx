@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.inventory.ManufacturerListRequest;
+import cdx.opencdx.grpc.data.EmailAddress;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.logistics.ManufacturerListRequest;
+import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.logistics.model.OpenCDXManufacturerModel;
 import cdx.opencdx.logistics.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.logistics.repository.OpenCDXManufacturerRepository;

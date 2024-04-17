@@ -15,14 +15,15 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.data.Organization;
+import cdx.opencdx.grpc.service.iam.CreateOrganizationRequest;
+import cdx.opencdx.grpc.service.iam.UpdateOrganizationRequest;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

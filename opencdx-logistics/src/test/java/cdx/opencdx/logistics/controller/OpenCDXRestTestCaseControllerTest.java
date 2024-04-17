@@ -21,9 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.inventory.TestCaseListRequest;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.TestCase;
+import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
 import cdx.opencdx.logistics.model.OpenCDXTestCaseModel;
 import cdx.opencdx.logistics.repository.OpenCDXTestCaseRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

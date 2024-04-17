@@ -16,7 +16,11 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.MedicationAdministration;
+import cdx.opencdx.grpc.service.health.GetMedicationByIdRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsResponse;
 
 /**
  * Interface for medication administration

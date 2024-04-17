@@ -16,8 +16,8 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.health.WeightMeasurement;
-import cdx.opencdx.grpc.health.WeightUnits;
+import cdx.opencdx.grpc.data.WeightMeasurement;
+import cdx.opencdx.grpc.types.WeightUnits;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

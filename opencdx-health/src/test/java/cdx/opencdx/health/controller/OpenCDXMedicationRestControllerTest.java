@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,11 +24,11 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.medication.EndMedicationRequest;
-import cdx.opencdx.grpc.health.medication.ListMedicationsRequest;
-import cdx.opencdx.grpc.health.medication.Medication;
-import cdx.opencdx.grpc.health.medication.SearchMedicationsRequest;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.EndMedicationRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

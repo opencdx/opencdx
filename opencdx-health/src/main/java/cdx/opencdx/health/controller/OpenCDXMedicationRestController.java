@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.health.medication.*;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.service.health.EndMedicationRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsResponse;
+import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
 import cdx.opencdx.health.service.OpenCDXMedicationService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

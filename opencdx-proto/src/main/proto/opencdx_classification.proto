@@ -1,0 +1,101 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Classification.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.classification;
+import "opencdx_data.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+ * A Protobuf message that is used as a request for the Neural Predictor Service.
+ * It encapsulates the necessary input data for a prediction.
+ */
+message PredictorRequest {
+  /*
+   * The input data that will be used for prediction.
+   */
+  cdx.opencdx.grpc.data.PredictorInput predictor_input = 1;
+}
+
+/*
+ * A Protobuf message that serves as a response from the Neural Predictor Service.
+ * It encapsulates the output of the prediction model.
+ */
+message PredictorResponse {
+  /*
+   * The output of the prediction model.
+   */
+  cdx.opencdx.grpc.data.PredictorOutput predictor_output = 1;
+}
+/*
+ * Represents the request to retrieve client-level rules.
+ */
+message RuleSetsRequest {
+  /*
+   * The ID of the specified organization linked to the Questionnaire data.
+   */
+  optional string organization_id = 1;
+  /*
+   * The ID of the specified workspace linked to the Questionnaire data.
+   */
+  optional string workspace_id = 2;
+}
+
+
+/*
+ * Represents the response retrieved from the GetRuleSets operation.
+ */
+message RuleSetsResponse {
+  /*
+   * The collection of rule sets that are available.
+   */
+  repeated cdx.opencdx.grpc.data.RuleSet rule_sets = 1;
+}
+
+/*
+ * The response message to user classification request.
+ */
+message ClassificationResponse {
+  /*
+   * The classification result.
+   */
+  cdx.opencdx.grpc.data.Classification classification = 1;
+}
+
+/*
+ * The request message detailing user-provided information for classification.
+ */
+message ClassificationRequest {
+  /*
+   * Information provided by user for classification.
+   */
+  cdx.opencdx.grpc.data.UserAnswer user_answer = 1;
+}
+
+/*
+ * Service providing the Classify RPC for test kit classification.
+ */
+service ClassificationService {
+  /*
+ * Defines operations for FHIR questionnaires
+ */
+  rpc GetRuleSets(RuleSetsRequest) returns (RuleSetsResponse);
+  /*
+   * Classify RPC returns a classification result based on UserAnswer input.
+   */
+  rpc Classify(ClassificationRequest) returns (ClassificationResponse);
+
+}
+
+/*
+ * This is a Protobuf service definition for a Neural Predictor.
+ * It includes a method for making a prediction based on input data.
+ */
+service NeuralPredictorService {
+  /*
+   * This method predicts a value based on input data it receives in a PredictorRequest message
+   * and returns a PredictorResponse message that contains the output of the prediction model.
+   */
+  rpc Predict(PredictorRequest) returns (PredictorResponse);
+}

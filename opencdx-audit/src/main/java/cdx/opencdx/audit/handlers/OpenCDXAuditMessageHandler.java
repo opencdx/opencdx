@@ -20,7 +20,7 @@ import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.grpc.audit.AuditEvent;
+import cdx.opencdx.grpc.data.AuditEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;

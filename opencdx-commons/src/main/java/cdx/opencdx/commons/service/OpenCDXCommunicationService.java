@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.commons.service;
 
-import cdx.opencdx.grpc.communication.Notification;
+import cdx.opencdx.grpc.data.Notification;
 
 /**
  * The OpenCDXCommunicationService interface provides methods to send notifications to the opencdx-communication system.

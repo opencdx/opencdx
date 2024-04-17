@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,10 +26,10 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.medication.EndMedicationRequest;
-import cdx.opencdx.grpc.health.medication.ListMedicationsRequest;
-import cdx.opencdx.grpc.health.medication.Medication;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.EndMedicationRequest;
+import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
 import cdx.opencdx.health.service.OpenCDXApiFDA;

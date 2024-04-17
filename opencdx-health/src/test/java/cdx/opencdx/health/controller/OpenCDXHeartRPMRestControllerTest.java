@@ -16,8 +16,6 @@
 package cdx.opencdx.health.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -25,8 +23,11 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.HeartRPM;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateHeartRPMRequest;
+import cdx.opencdx.grpc.service.health.ListHeartRPMRequest;
+import cdx.opencdx.grpc.service.health.UpdateHeartRPMRequest;
 import cdx.opencdx.health.model.OpenCDXHeartRPMModel;
 import cdx.opencdx.health.repository.OpenCDXHeartRPMRepository;
 import cdx.opencdx.health.service.OpenCDXHeartRPMService;

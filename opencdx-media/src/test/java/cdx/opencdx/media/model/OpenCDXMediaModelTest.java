@@ -16,7 +16,9 @@
 package cdx.opencdx.media.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.media.*;
+import cdx.opencdx.grpc.data.Media;
+import cdx.opencdx.grpc.types.MediaStatus;
+import cdx.opencdx.grpc.types.MediaType;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

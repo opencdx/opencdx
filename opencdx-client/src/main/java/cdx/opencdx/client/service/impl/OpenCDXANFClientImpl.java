@@ -18,8 +18,9 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXANFClient;
-import cdx.opencdx.grpc.anf.ANFServiceGrpc;
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
+import cdx.opencdx.grpc.service.anf.ANFServiceGrpc;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -62,8 +63,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public AnfStatement.Identifier createANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier createANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -89,8 +89,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public AnfStatement.ANFStatement getANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFStatement getANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -116,8 +115,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public AnfStatement.Identifier updateANFStatement(
-            AnfStatement.ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier updateANFStatement(ANFStatement request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub
@@ -143,8 +141,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @return Message response.
      */
     @Override
-    public AnfStatement.Identifier deleteANFStatement(
-            AnfStatement.Identifier request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ANFIdentifier deleteANFStatement(ANFIdentifier request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return anfServiceBlockingStub

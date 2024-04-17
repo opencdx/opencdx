@@ -16,8 +16,8 @@
 package cdx.opencdx.communications.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.communication.MessageTemplate;
-import cdx.opencdx.grpc.communication.MessageType;
+import cdx.opencdx.grpc.data.MessageTemplate;
+import cdx.opencdx.grpc.types.MessageType;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;

@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.logistics.dto;
 
-import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.shipping.ShippingResponse;
+import cdx.opencdx.grpc.service.logistics.ShippingResponse;
+import cdx.opencdx.grpc.types.ShippingStatus;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;

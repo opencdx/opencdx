@@ -1,0 +1,1484 @@
+/*
+ * Proto file for maintaining the list of services implemented by OpenCDx Health.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.service.health;
+import "opencdx_data.proto";
+import "opencdx_enum.proto";
+import "google/protobuf/timestamp.proto";
+
+/**
+ * The response of a LabFinding.
+ */
+message LabFindingsResponse {
+  /**
+   * The ID of the LabFinding.
+   */
+  string lab_findings_id = 1;
+  /**
+   * The status of the LabFinding.
+   */
+  cdx.opencdx.grpc.types.LabFindingStatus status = 2;
+}
+
+/**
+ * The request to create a connected lab.
+ */
+message CreateConnectedLabRequest {
+  /**
+   * The connected lab to be created.
+   */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The response of a connected lab creation.
+ */
+message CreateConnectedLabResponse {
+  /**
+   * The connected lab to be created.
+   */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The request to get a connected lab.
+ */
+message GetConnectedLabRequest {
+  /**
+   * The ID of the connected lab to be retrieved.
+   */
+  string connected_lab_id = 1;
+}
+
+/**
+ * The response of a connected lab retrieval.
+ */
+message GetConnectedLabResponse {
+  /**
+   * The connected lab to be retrieved.
+   */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The request to update a connected lab.
+ */
+message UpdateConnectedLabRequest {
+  /**
+   * The connected lab to be updated.
+   */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The response of a connected lab update.
+ */
+message UpdateConnectedLabResponse {
+  /**
+   * The connected lab to be updated.
+   */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The request to delete a connected lab.
+ */
+message DeleteConnectedLabRequest {
+  /**
+   * The ID of the connected lab to be deleted.
+   */
+  string connected_lab_id = 1;
+}
+
+/**
+ * The response of a connected lab deletion.
+ */
+message DeleteConnectedLabResponse {
+  /**
+     * The connected lab to be updated.
+     */
+  cdx.opencdx.grpc.data.ConnectedLab connected_lab = 1;
+}
+
+/**
+ * The request to list connected labs.
+ */
+message ListConnectedLabsRequest {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+
+  /**
+   * The ID of the organization to list connected tests.
+   */
+  string organization_id = 2;
+
+  /**
+   * The ID of the workspace to list connected tests.
+   */
+  string workspace_id = 3;
+}
+
+/**
+ * The response of a connected lab listing.
+ */
+message ListConnectedLabsResponse {
+  /**
+   * The list of connected labs.
+   */
+  repeated cdx.opencdx.grpc.data.ConnectedLab connected_labs = 1;
+  /*
+ * Pagination information and sorting.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+/*
+ * Request for a Connected Test. Connected test is a term used to describe a test
+ * that is connected to the system and can send and receive data to/from it. The
+ * requested test's detail is fetched using the Test's ID.
+ */
+message TestIdRequest {
+  /*
+  * The ID of a connected Test. This ID enables us to fetch details for a specific test from the system.
+  */
+  string test_id = 1;
+}
+
+/*
+ * The response one gets when they submit a ConnectedTest. This includes an ID for
+ * the submission. The client applications can use this ID for tracking the test submission.
+ */
+message TestSubmissionResponse {
+  /*
+  * The ID of the Connected Test submission. This unique ID is used to reference the submission in subsequent operations.
+  */
+  string submission_id = 1;
+}
+
+
+/*
+ * Request Message to list NotificationConnectedTests. This helps
+ * fetching multiple test data for a user, leveraging pagination.
+ */
+message ConnectedTestListRequest{
+  /*
+   * Pagination information and sorting. Used to fetch a batch of tests for a user rather than all.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * Unique identifier for the patient, used to fetch the tests related to this patient.
+   */
+  string patient_id = 2;
+}
+
+/*
+ * Request to fetch a list of NotificationConnectedTests by National health id.
+ * This helps to get the tests done for a person based on the National health id.
+ */
+message ConnectedTestListByNHIDRequest{
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /*
+   * National Health ID of the user. This ID is unique for each individual in a country, used for fetching health related information.
+   */
+  string national_health_id = 2;
+}
+
+/*
+ * Response containing the requested list of connected tests for a specific national health id.
+ * The response includes details of all connected tests for an individual mapped with his/her national health id.
+ */
+message ConnectedTestListByNHIDResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  repeated cdx.opencdx.grpc.data.ConnectedTest connected_tests = 2;
+}
+
+/*
+ * Response containing the requested list of connected tests for a specific user.
+ * The response includes details of all connected tests for a user.
+ */
+message ConnectedTestListResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  repeated cdx.opencdx.grpc.data.ConnectedTest connected_tests = 2;
+}
+
+
+
+message SearchMedicationsRequest {
+  /*
+   * The brand name of the medication to search for.
+   */
+  string brand_name = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for ending a medication.
+ */
+message EndMedicationRequest {
+  /*
+   * The unique identifier for the medication to be ended.
+   */
+  string medication_id = 1;
+
+  /*
+   * The date when the medication stopped being taken
+   */
+  google.protobuf.Timestamp end_date = 2;
+}
+
+/*
+ * Request message for listing medications by patient ID.
+ */
+message ListMedicationsRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the patient.
+   */
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+
+/*
+ * Response message for listing medications.
+ */
+message ListMedicationsResponse {
+  /*
+   * List of medications.
+   */
+  repeated cdx.opencdx.grpc.data.Medication medications = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+/*
+ * Request message for retrieving medication information by ID.
+ */
+message GetMedicationByIdRequest {
+  /*
+   * The unique identifier for the medication to retrieve.
+   */
+  string medication_id = 1;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+
+
+/*
+ * UserProfileRequest is the message format for the request to retrieve a user profile.
+ * It contains a unique user_id to identify the user whose profile needs to be retrieved.
+ */
+message UserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+}
+
+/*
+ * UserProfileResponse is the message format for the response following a request to retrieve a user profile.
+ * It contains the user_profile, which contains the profile details of the requested user.
+ */
+message UserProfileResponse {
+  /*
+   * User's profile information
+   */
+  cdx.opencdx.grpc.data.UserProfile user_profile = 1;
+}
+
+/*
+ * UpdateUserProfileRequest is the message format for the request to update a user profile.
+ * It contains a user_id to identify the user whose profile needs to be updated,
+ * and updated_profile with the new profile details.
+ */
+message UpdateUserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+
+  /*
+   * Updated user profile information
+   */
+  cdx.opencdx.grpc.data.UserProfile updated_profile = 2;
+}
+
+/*
+ * UpdateUserProfileResponse is the message format for the response following a request to update a user profile.
+ * It contains a boolean success which will be true if the update operation was successful.
+ */
+message UpdateUserProfileResponse {
+  /*
+   * Indicates whether the update was successful
+   */
+  bool success = 1;
+}
+
+/*
+ * This message contains the details required for creating a User Profile.
+ */
+message CreateUserProfileRequest {
+  /*
+   * The UserProfile object with the details for the user profile that will be created.
+   */
+  optional cdx.opencdx.grpc.data.UserProfile userProfile = 1;
+}
+
+/*
+ * This message contains the details of the User Profile that has been created.
+ */
+message CreateUserProfileResponse {
+  /*
+   * The created User Profile object.
+   */
+  optional cdx.opencdx.grpc.data.UserProfile userProfile = 1;
+}
+
+
+
+/*
+ * The RoutineRequest message describing the request format for a Routine operation.
+ * The field 'routine' holds the new routine information that needs to be created.
+ */
+message RoutineRequest {
+  /*
+   * Data structure for the routine details
+   */
+  cdx.opencdx.grpc.data.Routine routine = 1;
+}
+
+/*
+ * The RoutineResponse message represents the response format from the Routine operation.
+ * The field 'routine' holds the created routine information.
+ */
+message RoutineResponse {
+  /*
+   * Newly created routine data
+   */
+  cdx.opencdx.grpc.data.Routine routine = 1;
+}
+
+/*
+ * Message for Requesting a Clinical Protocol Execution.
+ */
+message ClinicalProtocolExecutionRequest {
+  /*
+   * Details for the Clinical Protocol Execution.
+   */
+  cdx.opencdx.grpc.data.ClinicalProtocolExecution clinical_protocol_execution = 1;
+}
+
+/*
+ * Response message for the Clinical Protocol Execution Operation.
+ */
+message ClinicalProtocolExecutionResponse {
+  /*
+   * Resulting data from the Clinical Protocol Execution.
+   */
+  cdx.opencdx.grpc.data.ClinicalProtocolExecution clinical_protocol_execution = 1;
+}
+
+/*
+ * Lab Order Request message. Contains all the necessary information to create a Lab Order.
+ */
+message LabOrderRequest {
+  /*
+   * Lab order details
+   */
+  cdx.opencdx.grpc.data.LabOrder lab_order = 1;
+}
+
+/*
+ * Response message for the Lab Order creation operation.
+ */
+message LabOrderResponse {
+  /*
+   * Newly created lab order data
+   */
+  cdx.opencdx.grpc.data.LabOrder lab_order = 1;
+}
+
+/*
+ * Diagnosis Request message. Contains all the necessary information to create a Diagnosis record.
+ */
+message DiagnosisRequest {
+  /*
+   * Diagnosis details
+   */
+  cdx.opencdx.grpc.data.Diagnosis diagnosis = 1;
+}
+
+/*
+ * Response message for the Diagnosis creation operation.
+ */
+message DiagnosisResponse {
+  /*
+   * Created diagnosis data
+   */
+  cdx.opencdx.grpc.data.Diagnosis diagnosis = 1;
+}
+
+/*
+ * Message for Requesting a new Suspected Diagnosis record.
+ */
+message SuspectedDiagnosisRequest {
+  /*
+   * Data structure for suspected diagnosis
+   */
+  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
+}
+
+/*
+ * Response message after Suspected Diagnosis operation.
+ */
+message SuspectedDiagnosisResponse {
+  /*
+   * The suspected diagnosis data that was created
+   */
+  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
+}
+
+/*
+ * Request message for Lab Result operation which requires all necessary information to create Lab Result data.
+ */
+message LabResultRequest {
+  /*
+   * Lab result details
+   */
+  cdx.opencdx.grpc.data.LabResult lab_result = 1;
+}
+
+/*
+ * Response message to contain the created Lab Result from the CreateLabResult operation.
+ */
+message LabResultResponse {
+  /*
+   * Created lab result data
+   */
+  cdx.opencdx.grpc.data.LabResult lab_result = 1;
+}
+
+
+message GetVaccineByIdRequest {
+  /*
+   * The id of the vaccine to search for.
+   */
+  string id = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing vaccine by patient ID.
+ */
+message ListVaccinesRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the patient.
+   */
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+
+/*
+ * Response message for listing vaccines.
+ */
+message ListVaccinesResponse {
+  /*
+   * List of vaccines.
+   */
+  repeated cdx.opencdx.grpc.data.Vaccine vaccine = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * DeleteUserProfileRequest is the message format for the request to delete a user profile.
+ * It contains a user_id to identify the user whose profile needs to be deleted.
+ */
+message DeleteUserProfileRequest {
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+}
+
+/*
+ * DeleteUserProfileResponse is the message format for the response following a request to delete a user profile.
+ * It contains a boolean success which will be true if the delete operation was successful.
+ */
+message DeleteUserProfileResponse {
+  /*
+   * Indicates whether the delete was successful
+   */
+  bool success = 1;
+}
+
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateHeightMeasurementRequest {
+  /*
+   * The Height Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetHeightMeasurementRequest {
+  /*
+   * The Height Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Height Measurements info.
+ */
+message GetHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateHeightMeasurementRequest {
+  /*
+   * The Height Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteHeightMeasurementRequest {
+  /*
+   * The Height Measurement id
+   */
+  string id = 1;
+}
+
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListHeightMeasurementsRequest {
+  oneof height_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the Height Measurement
+ */
+message ListHeightMeasurementsResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of Height Measurement.
+  */
+  repeated cdx.opencdx.grpc.data.HeightMeasurement height_Measurement = 2;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message CreateWeightMeasurementRequest {
+  /*
+   * The Weight Measurement
+   */
+  optional cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info for weight.
+ */
+message CreateWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message GetWeightMeasurementRequest {
+  /*
+   * The Weight Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Weight Measurements info.
+ */
+message GetWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info for weight
+ */
+message UpdateWeightMeasurementRequest {
+  /*
+   * The Weight Measurement
+   */
+  optional cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for weight.
+ */
+message UpdateWeightMeasurementResponse {
+  /*
+   * The Weight Measurement
+   */
+  optional cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info for weight.
+ */
+message DeleteWeightMeasurementRequest {
+  /*
+   * The Weight Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info for weight.
+ */
+message ListWeightMeasurementsRequest {
+  oneof weight_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the Weight Measurement
+ */
+message ListWeightMeasurementsResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of Height Measurement.
+  */
+  repeated cdx.opencdx.grpc.data.WeightMeasurement weight_Measurement = 2;
+}
+
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateBPMRequest {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional cdx.opencdx.grpc.data.BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateBPMResponse {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional cdx.opencdx.grpc.data.BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetBPMRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the BPM info.
+ */
+message GetBPMResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateBPMRequest {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.BPM bpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateBPMResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.BPM bpm_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteBPMRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListBPMRequest {
+  oneof bpm_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the BPM
+ */
+message ListBPMResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of BPM.
+  */
+  repeated cdx.opencdx.grpc.data.BPM bpm_Measurement = 2;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateHeartRPMRequest {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateHeartRPMResponse {
+  /*
+   * The Blood Pressure Measurement
+   */
+  optional cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the HeartRPM info.
+ */
+message GetHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateHeartRPMRequest {
+  /*
+   * The HeartRPM
+   */
+  optional cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateHeartRPMResponse {
+  /*
+   * The HeartRPM
+   */
+  optional cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteHeartRPMRequest {
+  /*
+   * The HeartRPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListHeartRPMRequest {
+  oneof heart_rpm_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the HeartRPM
+ */
+message ListHeartRPMResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of HeartRPM.
+  */
+  repeated cdx.opencdx.grpc.data.HeartRPM heart_rpm_Measurement = 2;
+}
+
+
+
+
+/*
+ * GetProviderRequest and GetProviderResponse message pair is used for fetching a provider's information.
+ */
+message GetProviderRequest {
+  /*
+   * Provider Number as the unique lookup key.
+   */
+  string provider_number = 1;
+}
+
+/*
+ * GetProviderResponse returns the information fetched for a healthcare provider.
+ */
+message GetProviderResponse {
+  /*
+   * Object containing all information of the healthcare provider requested for.
+   */
+  cdx.opencdx.grpc.data.Provider provider = 1;
+}
+
+/*
+ * EditProviderRequest and EditProviderResponse message pair is used for modifying a provider's details.
+ */
+message EditProviderRequest {
+  /*
+   * Current state of the provider object that needs to be updated.
+   */
+  cdx.opencdx.grpc.data.Provider provider = 1;
+}
+
+/*
+ * EditProviderResponse is empty as it is only used to acknowledge successful receipt of editing request.
+ */
+message EditProviderResponse {}
+
+/*
+ * DeleteProviderRequest enables deletion of a provider using the provider_id as the unique key.
+ */
+message DeleteProviderRequest {
+  /*
+   * Uniquely identifies the healthcare provider to be deleted.
+   */
+  string provider_id = 1;
+}
+
+/*
+ * LoadProviderRequest and LoadProviderResponse pair is used to load a specific provider's information based on user_id and provider_number.
+ */
+message LoadProviderRequest{
+  /*
+   * User ID of the healthcare provider.
+   */
+  optional string user_id = 1;
+
+  /*
+   * Provider number used to fetch the details of a healthcare provider.
+   */
+  string provider_number = 2;
+}
+
+/*
+ * LoadProviderResponse returns the details of a healthcare provider based on the LoadProviderRequest message.
+ */
+message LoadProviderResponse{
+  /*
+   * Object containing all details of the loaded healthcare provider.
+   */
+  cdx.opencdx.grpc.data.Provider provider = 1;
+}
+
+
+/*
+ * `ListProvidersResponse` message is used to represent the response when retrieving a list of providers.
+ */
+message ListProvidersResponse {
+  /*
+   * The total number of providers information returned in the response.
+   */
+  int32 result_count = 1;
+  /*
+   * The list of provider's details.
+   */
+  repeated cdx.opencdx.grpc.data.Provider results = 2;
+}
+
+/*
+ * DeleteProviderResponse is empty and is used to acknowledge the successful deletion of a provider.
+ */
+message DeleteProviderResponse {}
+
+/*
+ * ListProvidersRequest is used to fetch a list of all healthcare providers.
+ */
+message ListProvidersRequest {}
+
+
+
+
+/*
+ * Indicates whether the operation was successful.
+ */
+message SuccessResponse{
+  /*
+   * Indication of success. If true, the operation was successful. If false, the operation failed.
+   */
+  bool success = 1;
+}
+
+/**
+ * The ConnectedLabService provides methods to manage connected labs.
+ */
+service ConnectedLabService {
+  /**
+   * Submit lab findings for a connected test submission.
+   */
+  rpc SubmitLabFindings(cdx.opencdx.grpc.data.LabFindings) returns (LabFindingsResponse);
+
+  /**
+   * Create a connected lab.
+   */
+  rpc CreateConnectedLab(CreateConnectedLabRequest) returns (CreateConnectedLabResponse);
+  /**
+   * Get a connected lab.
+   */
+  rpc GetConnectedLab(GetConnectedLabRequest) returns (GetConnectedLabResponse);
+  /**
+   * Update a connected lab.
+   */
+  rpc UpdateConnectedLab(UpdateConnectedLabRequest) returns (UpdateConnectedLabResponse);
+  /**
+   * Delete a connected lab.
+   */
+  rpc DeleteConnectedLab(DeleteConnectedLabRequest) returns (DeleteConnectedLabResponse);
+  /**
+   * List connected labs.
+   */
+  rpc ListConnectedLabs(ListConnectedLabsRequest) returns (ListConnectedLabsResponse);
+}
+
+
+/*
+ * The HealthcareService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Test related information from connected Tests.
+ */
+service HealthcareService {
+  /*
+   * The RPC method to submit a new test. It takes a ConnectedTest message as input and returns a TestSubmissionResponse message.
+   */
+  rpc SubmitTest(cdx.opencdx.grpc.data.ConnectedTest) returns (TestSubmissionResponse);
+  /*
+   * The RPC method to get test details by ID. It takes a TestIdRequest message as input and returns a ConnectedTest message.
+   */
+  rpc GetTestDetailsById(TestIdRequest) returns (cdx.opencdx.grpc.data.ConnectedTest);
+  /*
+   * Retrieves a list of connected tests by user ID. It takes a ConnectedTestListRequest as input and returns a ConnectedTestListResponse.
+   */
+  rpc ListConnectedTests(ConnectedTestListRequest) returns (ConnectedTestListResponse);
+  /*
+   * Retrieves a list of connected tests by national health ID. It takes a ConnectedTestListByNHIDRequest as input and returns a ConnectedTestListByNHIDResponse.
+   */
+  rpc ListConnectedTestsByNHID(ConnectedTestListByNHIDRequest) returns (ConnectedTestListByNHIDResponse);
+}
+
+
+/*
+ * Service for tracking medication prescriptions and administration.
+ */
+service MedicationService {
+  /*
+   * Prescribes a new medication for a patient.
+   */
+  rpc Prescribing(cdx.opencdx.grpc.data.Medication) returns (cdx.opencdx.grpc.data.Medication);
+
+  /*
+   * Ends a medication for a patient.
+   */
+  rpc Ending(EndMedicationRequest) returns (cdx.opencdx.grpc.data.Medication);
+
+  /*
+   * Lists all medications for a given patient ID.
+   */
+  rpc ListAllMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Lists current medications for a given patient ID.
+   */
+  rpc ListCurrentMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Search medications by brand name, responses will include generics.
+   */
+  rpc SearchMedications(SearchMedicationsRequest) returns (ListMedicationsResponse);
+}
+
+
+service MedicationAdministrationService {
+  /*
+   * Tracks when medication is given to a patient.
+   */
+  rpc TrackMedicationAdministration(cdx.opencdx.grpc.data.MedicationAdministration) returns (cdx.opencdx.grpc.data.MedicationAdministration);
+
+  /*
+   * Retrieve medication information by ID.
+   */
+  rpc GetMedicationById(GetMedicationByIdRequest) returns (cdx.opencdx.grpc.data.Medication);
+
+  /*
+   * Retrieve medication information by patient ID within a date range.
+   */
+  rpc ListMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
+}
+
+/*
+ * UserProfileService is the service definition for User Profile operations
+ */
+service UserProfileService {
+  /*
+   * GetUserProfile is an RPC method that retrieves a user profile based on the provided user ID in the UserProfileRequest
+   */
+  rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
+
+  /*
+   * UpdateUserProfile is an RPC method that updates a user profile with the provided updated profile details in the UpdateUserProfileRequest
+   */
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+
+  /*
+  * CreateUserProfile is an RPC method that creates a user profile based on UserProfileRequest
+  */
+  rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse);
+
+  /*
+   * DeleteUserProfile is an RPC method that deletes a user profile based on the provided user ID in the DeleteUserProfileRequest
+   */
+  rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
+}
+
+
+/*
+ * gRPC services and operations for managing healthcare data.
+ */
+service RoutineSystemService {
+  /*
+   * RPC service for creating a new entity in the healthcare routine.
+   */
+  rpc CreateRoutine(RoutineRequest) returns (RoutineResponse);
+  /*
+   * RPC service for retrieving information about a specified entity in the healthcare routine.
+   */
+  rpc GetRoutine(RoutineRequest) returns (RoutineResponse);
+  /*
+   * RPC service for creating new clinical protocol execution entity.
+   */
+  rpc CreateClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
+  /*
+   * RPC service for retrieving data about a specific clinical protocol execution entity.
+   */
+  rpc GetClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
+  /*
+   * RPC service for creating a new lab order entity.
+   */
+  rpc CreateLabOrder(LabOrderRequest) returns (LabOrderResponse);
+  /*
+   * RPC service for retrieving information about a specific lab order entity.
+   */
+  rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
+  /*
+   * RPC service for creating a new diagnosis entity.
+   */
+  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+   * RPC service for retrieving information about a specific diagnosis entity.
+   */
+  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+   * RPC service for creating a new suspected diagnosis entity.
+   */
+  rpc CreateSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+  /*
+   * RPC service for retrieving information about a suspected diagnosis entity.
+   */
+  rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+  /*
+   * RPC service for creating a new lab result entity.
+   */
+  rpc CreateLabResult(LabResultRequest) returns (LabResultResponse);
+  /*
+   * RPC service for retrieving data about a specific lab result entity.
+   */
+  rpc GetLabResult(LabResultRequest) returns (LabResultResponse);
+}
+
+
+/*
+ * Service for tracking vaccine and administration.
+ */
+service VaccineService {
+  /*
+    * Tracks when vaccine is given to a patient.
+    */
+  rpc TrackVaccineAdministration(cdx.opencdx.grpc.data.Vaccine) returns (cdx.opencdx.grpc.data.Vaccine);
+  /*
+   * Retrieve vaccine information by ID.
+   */
+  rpc GetVaccineById(GetVaccineByIdRequest) returns (cdx.opencdx.grpc.data.Vaccine);
+
+  /*
+   * Retrieve vaccine information by patient ID within a date range.
+   */
+  rpc ListVaccines(ListVaccinesRequest) returns (ListVaccinesResponse);
+}
+
+/*
+ * The HeightVitalsService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Height Measurements related information.
+ */
+service HeightMeasurementService {
+
+  /**
+   * Create a HeightMeasurement.
+   */
+  rpc CreateHeightMeasurement(CreateHeightMeasurementRequest) returns (CreateHeightMeasurementResponse);
+  /**
+   * Get a HeightMeasurement.
+   */
+  rpc GetHeightMeasurement(GetHeightMeasurementRequest) returns (GetHeightMeasurementResponse);
+  /**
+   * Update a HeightMeasurement.
+   */
+  rpc UpdateHeightMeasurement(UpdateHeightMeasurementRequest) returns (UpdateHeightMeasurementResponse);
+  /**
+   * Delete a HeightMeasurement.
+   */
+  rpc DeleteHeightMeasurement(DeleteHeightMeasurementRequest) returns (SuccessResponse);
+  /**
+   * List HeightMeasurement.
+   */
+  rpc ListHeightMeasurements(ListHeightMeasurementsRequest) returns (ListHeightMeasurementsResponse);
+}
+
+
+/*
+ * The WeightMeasurementService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Weight Measurements related information.
+ */
+service WeightMeasurementService {
+
+  /**
+   * Create a WeightMeasurement.
+   */
+  rpc CreateWeightMeasurement(CreateWeightMeasurementRequest) returns (CreateWeightMeasurementResponse);
+  /**
+   * Get a WeightMeasurement.
+   */
+  rpc GetWeightMeasurement(GetWeightMeasurementRequest) returns (GetWeightMeasurementResponse);
+  /**
+   * Update a WeightMeasurement.
+   */
+  rpc UpdateWeightMeasurement(UpdateWeightMeasurementRequest) returns (UpdateWeightMeasurementResponse);
+  /**
+   * Delete a WeightMeasurement.
+   */
+  rpc DeleteWeightMeasurement(DeleteWeightMeasurementRequest) returns (SuccessResponse);
+  /**
+   * List WeightMeasurement.
+   */
+  rpc ListWeightMeasurements(ListWeightMeasurementsRequest) returns (ListWeightMeasurementsResponse);
+}
+
+/*
+ * The HeartRPMService provides remote procedure call (RPC) methods to manipulate and fetch
+ * HeartRPM related information.
+ */
+service HeartRPMService {
+
+  /**
+   * Create a HeartRPM.
+   */
+  rpc CreateHeartRPMMeasurement(CreateHeartRPMRequest) returns (CreateHeartRPMResponse);
+  /**
+   * Get a HeartRPM.
+   */
+  rpc GetHeartRPMMeasurement(GetHeartRPMRequest) returns (GetHeartRPMResponse);
+  /**
+   * Update a HeartRPM.
+   */
+  rpc UpdateHeartRPMMeasurement(UpdateHeartRPMRequest) returns (UpdateHeartRPMResponse);
+  /**
+   * Delete a HeartRPM.
+   */
+  rpc DeleteHeartRPMMeasurement(DeleteHeartRPMRequest) returns (SuccessResponse);
+  /**
+   * List HeartRPM.
+   */
+  rpc ListHeartRPMMeasurements(ListHeartRPMRequest) returns (ListHeartRPMResponse);
+}
+
+
+/*
+ * The BPMService provides remote procedure call (RPC) methods to manipulate and fetch
+ * BPM related information.
+ */
+service BPMService {
+
+  /**
+   * Create a BPM.
+   */
+  rpc CreateBPMMeasurement(CreateBPMRequest) returns (CreateBPMResponse);
+  /**
+   * Get a BPM.
+   */
+  rpc GetBPMMeasurement(GetBPMRequest) returns (GetBPMResponse);
+  /**
+   * Update a BPM.
+   */
+  rpc UpdateBPMMeasurement(UpdateBPMRequest) returns (UpdateBPMResponse);
+  /**
+   * Delete a BPM.
+   */
+  rpc DeleteBPMMeasurement(DeleteBPMRequest) returns (SuccessResponse);
+  /**
+   * List BPM.
+   */
+  rpc ListBPMMeasurements(ListBPMRequest) returns (ListBPMResponse);
+}
+
+
+
+/*
+ * Service definitions in ProviderService to Get, Delete, List and Load healthcare providers.
+ */
+service ProviderService {
+  /*
+   * RPC to retrieve a provider by their number.
+   */
+  rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse);
+
+  /*
+  * RPC to remove a provider.
+  */
+  rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
+
+  /*
+  * RPC to retrieve a list of all providers.
+  */
+  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
+
+  /*
+   * RPC to load a specific healthcare provider.
+   */
+  rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+}

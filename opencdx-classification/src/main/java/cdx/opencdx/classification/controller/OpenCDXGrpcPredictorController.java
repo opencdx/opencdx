@@ -16,9 +16,9 @@
 package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.service.OpenCDXPredictorService;
-import cdx.opencdx.grpc.neural.predictor.NeuralPredictorServiceGrpc;
-import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
-import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
+import cdx.opencdx.grpc.service.classification.NeuralPredictorServiceGrpc;
+import cdx.opencdx.grpc.service.classification.PredictorRequest;
+import cdx.opencdx.grpc.service.classification.PredictorResponse;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

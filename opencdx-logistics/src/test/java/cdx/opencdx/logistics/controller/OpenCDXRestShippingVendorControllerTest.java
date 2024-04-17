@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.shipping.DeliveryTracking;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.shipping.Order;
-import cdx.opencdx.grpc.shipping.ShippingRequest;
+import cdx.opencdx.grpc.data.DeliveryTracking;
+import cdx.opencdx.grpc.data.Order;
+import cdx.opencdx.grpc.service.logistics.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.service.logistics.ShippingRequest;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
 import cdx.opencdx.logistics.service.OpenCDXShippingVendorService;
 import cdx.opencdx.logistics.service.impl.OpenCDXShippingVendorServiceImpl;

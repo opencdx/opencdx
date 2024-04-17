@@ -17,7 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.data.Shipping;
+import cdx.opencdx.grpc.service.logistics.*;
 
 /**
  * Interface for communicating with the Shipping Service.

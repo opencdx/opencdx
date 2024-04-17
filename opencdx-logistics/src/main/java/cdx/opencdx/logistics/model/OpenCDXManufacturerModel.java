@@ -17,10 +17,10 @@ package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
-import cdx.opencdx.grpc.common.ContactInfo;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.inventory.Manufacturer;
+import cdx.opencdx.grpc.data.ContactInfo;
+import cdx.opencdx.grpc.data.EmailAddress;
+import cdx.opencdx.grpc.data.Manufacturer;
+import cdx.opencdx.grpc.data.PhoneNumber;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

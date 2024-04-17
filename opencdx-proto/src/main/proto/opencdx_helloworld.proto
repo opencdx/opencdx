@@ -1,9 +1,10 @@
 /*
- * This constitutes our primary building block, defining the Greeter service. It offers a straightforward gRPC API to transmit greetings.
+ * Proto file for maintaining the list of services implemented by OpenCDx Helloworld.
  */
 syntax = "proto3";
 option java_multiple_files = true;
-package cdx.opencdx.grpc.helloworld;
+package cdx.opencdx.grpc.service.helloworld;
+import "opencdx_data.proto";
 service Greeter {
   /*
    * Defines the SayHello rpc method for the Greeter service.

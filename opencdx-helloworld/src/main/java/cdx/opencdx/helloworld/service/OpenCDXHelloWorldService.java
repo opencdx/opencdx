@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.helloworld.service;
 
-import cdx.opencdx.grpc.helloworld.HelloRequest;
+import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 
 /**
  * Interface for the HelloWorldService

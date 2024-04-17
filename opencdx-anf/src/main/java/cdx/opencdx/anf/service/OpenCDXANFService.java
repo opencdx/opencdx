@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.anf.service;
 
-import cdx.opencdx.grpc.anf.AnfStatement;
+import cdx.opencdx.grpc.data.ANFIdentifier;
+import cdx.opencdx.grpc.data.ANFStatement;
 
 /**
  * Interface for the ANF Service
@@ -26,24 +27,24 @@ public interface OpenCDXANFService {
      * @param request the request to create the statement
      * @return the identifier of the statement
      */
-    AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request);
+    ANFIdentifier createANFStatement(ANFStatement request);
     /**
      * Get an ANF Statement
      *
      * @param request the request to get the statement
      * @return the statement
      */
-    AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request);
+    ANFStatement getANFStatement(ANFIdentifier request);
     /**
      * Update an ANF Statement
      * @param request the request to update the statement
      * @return the identifier of the statement
      */
-    AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request);
+    ANFIdentifier updateANFStatement(ANFStatement request);
     /**
      * Delete an ANF Statement
      * @param request the request to delete the statement
      * @return the identifier of the statement
      */
-    AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request);
+    ANFIdentifier deleteANFStatement(ANFIdentifier request);
 }

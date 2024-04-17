@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -23,8 +22,9 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.health.*;
+import cdx.opencdx.grpc.data.HeightMeasurement;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.health.model.OpenCDXHeightMeasurementModel;
 import cdx.opencdx.health.repository.OpenCDXHeightMeasurementRepository;
 import cdx.opencdx.health.service.OpenCDXHeightMeasurementService;

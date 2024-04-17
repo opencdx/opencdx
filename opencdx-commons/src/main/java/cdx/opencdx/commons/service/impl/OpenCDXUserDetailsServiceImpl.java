@@ -19,7 +19,7 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.dto.OpenCDXUserDetails;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import cdx.opencdx.grpc.iam.IamUserStatus;
+import cdx.opencdx.grpc.types.IamUserStatus;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
