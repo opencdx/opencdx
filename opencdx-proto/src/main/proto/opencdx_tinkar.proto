@@ -4,9 +4,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.service.tinkar;
-import "opencdx_data.proto";
-
-
 
 /*
  * TinkarQueryRequest Message: Represents the user's request to search the tinkar db.

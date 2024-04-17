@@ -41,7 +41,7 @@ public class LogisticsChangeSet {
     private static final String OCEANIA = "OCEANIA";
     private static final String NORTH_AMERICA = "NORTH_AMERICA";
     private static final String SOUTH_AMERICA = "SOUTH_AMERICA";
-    public static final String ASIA = "ASIA";
+    private static final String ASIA = "ASIA";
 
     /**
      * Default Constructor
