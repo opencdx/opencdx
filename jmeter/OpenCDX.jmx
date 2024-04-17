@@ -3777,7 +3777,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;provider_number&quot;: &quot;&quot;,
     &quot;is_prescription&quot;: true,
     &quot;is_generic&quot;: false,
-    &quot;product_ndc&quot;: &quot;57844-140&quot;
+    &quot;product_ndc&quot;: &quot;57844-140&quot;,
+    &quot;package_ndc&quot;: &quot;57844-140-56&quot;
   },</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree>
@@ -9936,7 +9937,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
  &quot;isPrescription&quot;: false,&#xd;
  &quot;isGeneric&quot;: true,&#xd;
  &quot;otherDosageForm&quot;: &quot;TABLET, EXTENDED RELEASE&quot;,&#xd;
- &quot;productNdc&quot;: &quot;50580-783&quot;&#xd;
+ &quot;productNdc&quot;: &quot;50580-783&quot;,&#xd;
+ &quot;packageNdc&quot;: &quot;57844-140-56&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>

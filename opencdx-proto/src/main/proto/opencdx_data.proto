@@ -2108,9 +2108,14 @@ message Medication {
   optional string other_dosage_form = 24;
 
   /*
-   * The National Drug Code (NDC) for the medication
+   * The Product National Drug Code (NDC) for the medication
    */
   optional string product_ndc= 25;
+
+  /*
+   * The Package National Drug Code (NDC) for the medication
+   */
+  optional string package_ndc= 26;
 }
 
 
