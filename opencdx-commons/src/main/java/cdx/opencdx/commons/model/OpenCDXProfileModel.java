@@ -17,7 +17,6 @@ package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
-import cdx.opencdx.grpc.types.Gender;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -50,14 +49,11 @@ public class OpenCDXProfileModel {
     private String nationalHealthId;
 
     private List<ContactInfo> contactInfo;
-    private Gender gender;
     private Instant dateOfBirth;
     private PlaceOfBirth placeOfBirth;
     private List<Address> addresses;
     private byte[] photo;
-    private Preferences communication;
     private Demographics demographics;
-    private Education education;
     private EmployeeIdentity employeeIdentity;
     private ContactInfo primaryContactInfo;
     private EmergencyContact emergencyContact;
@@ -83,7 +79,6 @@ public class OpenCDXProfileModel {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
-        this.gender = userProfile.getGender();
 
         if (userProfile.hasUserId()) {
             this.userId = new OpenCDXIdentifier(userProfile.getUserId());
@@ -97,9 +92,7 @@ public class OpenCDXProfileModel {
         this.isActive = userProfile.getIsActive();
         this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();
-        this.communication = userProfile.getCommunication();
         this.demographics = userProfile.getDemographics();
-        this.education = userProfile.getEducation();
         this.employeeIdentity = userProfile.getEmployeeIdentity();
         this.primaryContactInfo = userProfile.getPrimaryContactInfo();
         this.emergencyContact = userProfile.getEmergencyContact();
@@ -151,9 +144,6 @@ public class OpenCDXProfileModel {
         if (this.contactInfo != null) {
             builder.addAllContacts(this.contactInfo);
         }
-        if (this.gender != null) {
-            builder.setGender(this.gender);
-        }
         if (this.dateOfBirth != null) {
 
             builder.setDateOfBirth(Timestamp.newBuilder()
@@ -170,14 +160,8 @@ public class OpenCDXProfileModel {
         if (this.photo != null && this.photo.length > 0) {
             builder.setPhoto(ByteString.copyFrom(this.photo));
         }
-        if (this.communication != null) {
-            builder.setCommunication(this.communication);
-        }
         if (this.demographics != null) {
             builder.setDemographics(this.demographics);
-        }
-        if (this.education != null) {
-            builder.setEducation(this.education);
         }
         if (this.employeeIdentity != null) {
             builder.setEmployeeIdentity(this.employeeIdentity);

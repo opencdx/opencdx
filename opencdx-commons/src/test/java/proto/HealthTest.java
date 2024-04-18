@@ -19,9 +19,7 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
 import cdx.opencdx.grpc.service.health.UpdateUserProfileRequest;
-import cdx.opencdx.grpc.types.EmailType;
-import cdx.opencdx.grpc.types.Gender;
-import cdx.opencdx.grpc.types.PhoneType;
+import cdx.opencdx.grpc.types.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -95,7 +93,6 @@ class HealthTest {
                                                         .setType(PhoneType.PHONE_TYPE_MOBILE)
                                                         .build()))
                                                 .build()))
-                                        .setGender(Gender.GENDER_MALE)
                                         .setDateOfBirth(Timestamp.newBuilder()
                                                 .setSeconds(1696733104)
                                                 .build())
@@ -112,24 +109,22 @@ class HealthTest {
                                                 .setPostalCode("12345")
                                                 .setAddress1("101 Main Street")
                                                 .build()))
-                                        .setCommunication(Preferences.newBuilder()
-                                                .setPreferred(true)
-                                                .setLanguage("EN")
-                                                .setTimeZone("EST")
-                                                .build())
                                         .setDemographics(Demographics.newBuilder()
-                                                .setEthnicity("Ethnicity")
                                                 .setGender(Gender.GENDER_MALE)
+                                                .setMaritalStatus(MaritalStatus.MARRIED)
+                                                .setEthnicity(Ethnicity.ETHNICITY_CAUCASIAN)
+                                                .setLanguage("English")
+                                                .setIncomeLevel(IncomeLevel.INCOME_LEVEL_MIDDLE_CLASS)
                                                 .setNationality("USA")
                                                 .setRace("Race")
-                                                .build())
-                                        .setEducation(Education.newBuilder()
-                                                .addAllEntries(List.of(EducationEntry.newBuilder()
-                                                        .setDegree("BA")
-                                                        .setInstitution("University")
-                                                        .setStartDate("1992/08/01")
-                                                        .setCompletionDate("1996/05/30")
-                                                        .build()))
+                                                .setEducation(Education.newBuilder()
+                                                        .addAllEntries(List.of(EducationEntry.newBuilder()
+                                                                .setDegree("BA")
+                                                                .setInstitution("University")
+                                                                .setStartDate("1992/08/01")
+                                                                .setCompletionDate("1996/05/30")
+                                                                .build()))
+                                                        .build())
                                                 .build())
                                         .setEmployeeIdentity(EmployeeIdentity.newBuilder()
                                                 .setEmployeeId("employeeID")

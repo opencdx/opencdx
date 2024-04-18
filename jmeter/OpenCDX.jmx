@@ -1317,7 +1317,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
       } ]
     } ],
-    &quot;gender&quot; : &quot;GENDER_MALE&quot;,
     &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,
     &quot;placeOfBirth&quot; : {
       &quot;country&quot; : &quot;${countryId}&quot;,
@@ -1331,18 +1330,18 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;timeZone&quot; : &quot;EST&quot;
     },
     &quot;demographics&quot; : {
-      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,
+      &quot;ethnicity&quot; : &quot;ETHNICITY_CAUCASIAN&quot;,
       &quot;race&quot; : &quot;Race&quot;,
       &quot;nationality&quot; : &quot;USA&quot;,
-      &quot;gender&quot; : &quot;GENDER_MALE&quot;
-    },
-    &quot;education&quot; : {
-      &quot;entries&quot; : [ {
-        &quot;degree&quot; : &quot;BA&quot;,
-        &quot;institution&quot; : &quot;University&quot;,
-        &quot;startDate&quot; : &quot;1992/08/01&quot;,
-        &quot;completionDate&quot; : &quot;1996/05/30&quot;
-      } ]
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;,
+      &quot;education&quot; : {
+		 &quot;entries&quot; : [ {
+		   &quot;degree&quot; : &quot;BA&quot;,
+		   &quot;institution&quot; : &quot;University&quot;,
+		   &quot;startDate&quot; : &quot;1992/08/01&quot;,
+		   &quot;completionDate&quot; : &quot;1996/05/30&quot;
+		 } ]
+		}
     },
     &quot;employeeIdentity&quot; : {
       &quot;organizationId&quot; : &quot;${organization_g}&quot;,
@@ -1501,7 +1500,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
       } ]
     } ],
-    &quot;gender&quot; : &quot;GENDER_MALE&quot;,
     &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,
     &quot;placeOfBirth&quot; : {
       &quot;country&quot; : &quot;${countryId}&quot;,
@@ -1515,18 +1513,18 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;timeZone&quot; : &quot;EST&quot;
     },
     &quot;demographics&quot; : {
-      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,
+      &quot;ethnicity&quot; : &quot;ETHNICITY_CAUCASIAN&quot;,
       &quot;race&quot; : &quot;Race&quot;,
       &quot;nationality&quot; : &quot;USA&quot;,
-      &quot;gender&quot; : &quot;GENDER_MALE&quot;
-    },
-    &quot;education&quot; : {
-      &quot;entries&quot; : [ {
-        &quot;degree&quot; : &quot;BA&quot;,
-        &quot;institution&quot; : &quot;University&quot;,
-        &quot;startDate&quot; : &quot;1992/08/01&quot;,
-        &quot;completionDate&quot; : &quot;1996/05/30&quot;
-      } ]
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;,
+      &quot;education&quot; : {
+		 &quot;entries&quot; : [ {
+		   &quot;degree&quot; : &quot;BA&quot;,
+		   &quot;institution&quot; : &quot;University&quot;,
+		   &quot;startDate&quot; : &quot;1992/08/01&quot;,
+		   &quot;completionDate&quot; : &quot;1996/05/30&quot;
+		 } ]
+		}
     },
     &quot;employeeIdentity&quot; : {
       &quot;organizationId&quot; : &quot;${organization_g}&quot;,
@@ -3779,7 +3777,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;provider_number&quot;: &quot;&quot;,
     &quot;is_prescription&quot;: true,
     &quot;is_generic&quot;: false,
-    &quot;product_ndc&quot;: &quot;57844-140&quot;
+    &quot;product_ndc&quot;: &quot;57844-140&quot;,
+    &quot;package_ndc&quot;: &quot;57844-140-56&quot;
   },</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree>
@@ -4380,7 +4379,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.requestJson">{
   &quot;diagnosis&quot; : {
     &quot;diagnosisId&quot; : &quot;6581e5157e001111d3736b44&quot;,
-    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,
+    &quot;diagnosisCode&quot; : {
+      &quot;tinkarCode&quot; : &quot;&quot;,
+      &quot;valueMap&quot; : { },
+      &quot;providerId&quot; : &quot;&quot;
+    },
     &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
@@ -4404,7 +4407,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.requestJson">{
   &quot;suspectedDiagnosis&quot; : {
     &quot;suspectedDiagnosisId&quot; : &quot;6581e5157e001111d3736b56&quot;,
-    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,
+    &quot;diagnosisCode&quot; : {
+      &quot;tinkarCode&quot; : &quot;&quot;,
+      &quot;valueMap&quot; : { },
+      &quot;providerId&quot; : &quot;&quot;
+    },
     &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
@@ -4428,7 +4435,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.requestJson">{
   &quot;labResult&quot; : {
     &quot;resultId&quot; : &quot;6581e5147e001111d3736b3e&quot;,
-    &quot;resultValue&quot; : &quot;Result Value&quot;,
+    &quot;result&quot; : {
+      &quot;tinkarCode&quot; : &quot;&quot;,
+      &quot;valueMap&quot; : { },
+      &quot;providerId&quot; : &quot;&quot;
+    },
     &quot;resultDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
@@ -5822,7 +5833,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="TinkarQueryService / GetEntity" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="TinkarQueryService / GetEntity" enabled="false">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -5836,8 +5847,10 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
-	&quot;nid&quot;:-2144684618
-}</stringProp>
+	&quot;concept_id&quot;:&quot;b1348460-9a12-45c2-b680-3de4a82650c2&quot;
+}
+
+</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
@@ -7419,7 +7432,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
     } ],&#xd;
-    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
     &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
     &quot;placeOfBirth&quot; : {&#xd;
       &quot;country&quot; : &quot;${countryId}&quot;,&#xd;
@@ -7427,24 +7439,19 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;city&quot; : &quot;City&quot;&#xd;
     },&#xd;
     &quot;photo&quot; : &quot;&quot;,&#xd;
-    &quot;communication&quot; : {&#xd;
-      &quot;language&quot; : &quot;EN&quot;,&#xd;
-      &quot;preferred&quot; : true,&#xd;
-      &quot;timeZone&quot; : &quot;EST&quot;&#xd;
-    },&#xd;
     &quot;demographics&quot; : {&#xd;
-      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,&#xd;
+      &quot;ethnicity&quot; : &quot;ETHNICITY_CAUCASIAN&quot;,&#xd;
       &quot;race&quot; : &quot;Race&quot;,&#xd;
       &quot;nationality&quot; : &quot;USA&quot;,&#xd;
-      &quot;gender&quot; : &quot;GENDER_MALE&quot;&#xd;
-    },&#xd;
-    &quot;education&quot; : {&#xd;
-      &quot;entries&quot; : [ {&#xd;
-        &quot;degree&quot; : &quot;BA&quot;,&#xd;
-        &quot;institution&quot; : &quot;University&quot;,&#xd;
-        &quot;startDate&quot; : &quot;1992/08/01&quot;,&#xd;
-        &quot;completionDate&quot; : &quot;1996/05/30&quot;&#xd;
-      } ]&#xd;
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+      &quot;education&quot; : {&#xd;
+	      &quot;entries&quot; : [ {&#xd;
+	        &quot;degree&quot; : &quot;BA&quot;,&#xd;
+	        &quot;institution&quot; : &quot;University&quot;,&#xd;
+	        &quot;startDate&quot; : &quot;1992/08/01&quot;,&#xd;
+	        &quot;completionDate&quot; : &quot;1996/05/30&quot;&#xd;
+	      } ]&#xd;
+	    }&#xd;
     },&#xd;
     &quot;employeeIdentity&quot; : {&#xd;
       &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
@@ -7612,7 +7619,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
     } ],&#xd;
-    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
     &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
     &quot;placeOfBirth&quot; : {&#xd;
       &quot;country&quot; : &quot;${countryId}&quot;,&#xd;
@@ -7620,24 +7626,19 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;city&quot; : &quot;City&quot;&#xd;
     },&#xd;
     &quot;photo&quot; : &quot;&quot;,&#xd;
-    &quot;communication&quot; : {&#xd;
-      &quot;language&quot; : &quot;EN&quot;,&#xd;
-      &quot;preferred&quot; : true,&#xd;
-      &quot;timeZone&quot; : &quot;EST&quot;&#xd;
-    },&#xd;
     &quot;demographics&quot; : {&#xd;
-      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,&#xd;
+      &quot;ethnicity&quot; : &quot;ETHNICITY_CAUCASIAN&quot;,&#xd;
       &quot;race&quot; : &quot;Race&quot;,&#xd;
       &quot;nationality&quot; : &quot;USA&quot;,&#xd;
-      &quot;gender&quot; : &quot;GENDER_MALE&quot;&#xd;
-    },&#xd;
-    &quot;education&quot; : {&#xd;
-      &quot;entries&quot; : [ {&#xd;
-        &quot;degree&quot; : &quot;BA&quot;,&#xd;
-        &quot;institution&quot; : &quot;University&quot;,&#xd;
-        &quot;startDate&quot; : &quot;1992/08/01&quot;,&#xd;
-        &quot;completionDate&quot; : &quot;1996/05/30&quot;&#xd;
-      } ]&#xd;
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+      &quot;education&quot; : {&#xd;
+	      &quot;entries&quot; : [ {&#xd;
+	        &quot;degree&quot; : &quot;BA&quot;,&#xd;
+	        &quot;institution&quot; : &quot;University&quot;,&#xd;
+	        &quot;startDate&quot; : &quot;1992/08/01&quot;,&#xd;
+	        &quot;completionDate&quot; : &quot;1996/05/30&quot;&#xd;
+	      } ]&#xd;
+	    }&#xd;
     },&#xd;
     &quot;employeeIdentity&quot; : {&#xd;
       &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
@@ -9948,7 +9949,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
  &quot;isPrescription&quot;: false,&#xd;
  &quot;isGeneric&quot;: true,&#xd;
  &quot;otherDosageForm&quot;: &quot;TABLET, EXTENDED RELEASE&quot;,&#xd;
- &quot;productNdc&quot;: &quot;50580-783&quot;&#xd;
+ &quot;productNdc&quot;: &quot;50580-783&quot;,&#xd;
+ &quot;packageNdc&quot;: &quot;57844-140-56&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -11075,7 +11077,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;diagnosis&quot; : {&#xd;
     &quot;diagnosisId&quot; : &quot;6581e5157e001111d3736b44&quot;,&#xd;
-    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,&#xd;
+    &quot;diagnosisCode&quot; : {&#xd;
+      &quot;tinkarCode&quot; : &quot;&quot;,&#xd;
+      &quot;valueMap&quot; : { },&#xd;
+      &quot;providerId&quot; : &quot;&quot;&#xd;
+    },&#xd;
     &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
     &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
@@ -11108,7 +11114,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;suspectedDiagnosis&quot; : {&#xd;
     &quot;suspectedDiagnosisId&quot; : &quot;6581e5157e001111d3736b56&quot;,&#xd;
-    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,&#xd;
+    &quot;diagnosisCode&quot; : {&#xd;
+      &quot;tinkarCode&quot; : &quot;&quot;,&#xd;
+      &quot;valueMap&quot; : { },&#xd;
+      &quot;providerId&quot; : &quot;&quot;&#xd;
+    },&#xd;
     &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
     &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
@@ -11141,7 +11151,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;labResult&quot; : {&#xd;
     &quot;resultId&quot; : &quot;6581e5147e001111d3736b3e&quot;,&#xd;
-    &quot;resultValue&quot; : &quot;Result Value&quot;,&#xd;
+    &quot;result&quot; : {&#xd;
+      &quot;tinkarCode&quot; : &quot;&quot;,&#xd;
+      &quot;valueMap&quot; : { },&#xd;
+      &quot;providerId&quot; : &quot;&quot;&#xd;
+    },&#xd;
     &quot;resultDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
     &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;

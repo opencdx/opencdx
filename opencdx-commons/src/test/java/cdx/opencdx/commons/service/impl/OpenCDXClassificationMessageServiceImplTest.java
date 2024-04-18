@@ -27,6 +27,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.grpc.data.Demographics;
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import cdx.opencdx.grpc.types.Gender;
 import java.time.Instant;
@@ -61,7 +62,8 @@ class OpenCDXClassificationMessageServiceImplTest {
         // Constructs user model
         OpenCDXProfileModel userModel = new OpenCDXProfileModel();
         userModel.setId(userId);
-        userModel.setGender(Gender.GENDER_FEMALE);
+        userModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
 
         // Sets behavior for mock objects
         Mockito.when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.of(userModel));
@@ -99,7 +101,8 @@ class OpenCDXClassificationMessageServiceImplTest {
 
         OpenCDXProfileModel userModel = new OpenCDXProfileModel();
         userModel.setId(userId);
-        userModel.setGender(Gender.GENDER_FEMALE);
+        userModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
         userModel.setDateOfBirth(Instant.now());
 
         Mockito.when(openCDXCurrentUser.getCurrentUser())

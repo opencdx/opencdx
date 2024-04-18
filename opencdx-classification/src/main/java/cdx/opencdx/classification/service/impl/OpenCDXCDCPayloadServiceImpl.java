@@ -332,9 +332,13 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
             patient.setTelecom(telecomList);
         }
 
-        if (patientInfo.getGender() != null) {
-            patient.setGender(Enumerations.AdministrativeGender.fromCode(
-                    patientInfo.getGender().name().replace("GENDER_", "").toLowerCase()));
+        if (patientInfo.getDemographics().getGender() != null) {
+            patient.setGender(Enumerations.AdministrativeGender.fromCode(patientInfo
+                    .getDemographics()
+                    .getGender()
+                    .name()
+                    .replace("GENDER_", "")
+                    .toLowerCase()));
         }
 
         if (patientInfo.getAddresses() != null && !patientInfo.getAddresses().isEmpty()) {

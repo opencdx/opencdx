@@ -1408,3 +1408,525 @@ enum ProviderStatus {
    */
   DELETED = 1;
 }
+
+/**
+ * Enum representing various ethnicities for demographic categorization.
+ * <p>
+ * This enum provides a standardized list of ethnicities commonly used for demographic
+ * data collection and analysis in various fields such as healthcare, sociology, and
+ * public policy. It is important to note that ethnicity is a complex and multifaceted
+ * concept that can include cultural, linguistic, religious, and ancestral factors.
+ * <p>
+ * When collecting ethnicity data, it's essential to allow individuals to self-identify
+ * and to recognize the diversity and fluidity of ethnic identities.
+ */ enum Ethnicity {
+  /**
+   * The ethnicity is unspecified or unknown.
+   */
+    ETHNICITY_UNSPECIFIED = 0;
+
+  /**
+   * Caucasian or White ethnicity.
+   */
+    ETHNICITY_CAUCASIAN = 1;
+
+  /**
+   * African American or Black ethnicity.
+   */
+    ETHNICITY_AFRICAN_AMERICAN = 2;
+
+  /**
+   * Hispanic or Latino ethnicity.
+   */
+    ETHNICITY_HISPANIC_LATINO = 3;
+
+  /**
+   * Asian ethnicity.
+   */
+    ETHNICITY_ASIAN = 4;
+
+  /**
+   * Native American or Alaska Native ethnicity.
+   */
+    ETHNICITY_NATIVE_AMERICAN = 5;
+
+  /**
+   * Pacific Islander ethnicity.
+   */
+    ETHNICITY_PACIFIC_ISLANDER = 6;
+
+  /**
+   * Middle Eastern ethnicity.
+   */
+    ETHNICITY_MIDDLE_EASTERN = 7;
+
+  /**
+   * South Asian ethnicity.
+   */
+    ETHNICITY_SOUTH_ASIAN = 8;
+
+  /**
+   * Other or unspecified ethnicity not covered by the specified options.
+   */
+    ETHNICITY_OTHER = 9;
+}
+
+/*
+  *Enum defining different income levels.
+ */
+enum IncomeLevel {
+  /*
+   * Unspecified income level.
+   */
+  INCOME_LEVEL_UNSPECIFIED = 0;
+
+  /*
+   * Lower class: less than or equal to $30,000
+   */
+  INCOME_LEVEL_LOWER_CLASS = 1;
+
+  /*
+   * Lower-middle class: $30,001 – $58,020
+   */
+  INCOME_LEVEL_LOWER_MIDDLE_CLASS = 2;
+
+  /*
+   * Middle class: $58,021 – $94,000
+   */
+  INCOME_LEVEL_MIDDLE_CLASS = 3;
+
+  /*
+   * Upper-middle class: $94,001 – $153,000
+   */
+  INCOME_LEVEL_UPPER_MIDDLE_CLASS = 4;
+
+  /*
+   * Upper class: greater than $153,000
+   */
+  INCOME_LEVEL_UPPER_CLASS = 5;
+
+  /*
+   * Elite class: greater than $500,000
+   */
+  INCOME_LEVEL_ELITE_CLASS = 6;
+}
+
+/*
+ * Enum defining different marital statuses.
+ */
+enum MaritalStatus {
+  /*
+   * Unspecified marital status.
+   */
+  MARITAL_STATUS_UNSPECIFIED = 0;
+
+  /*
+   * Single marital status.
+   */
+  SINGLE = 1;
+
+  /*
+   * Married marital status.
+   */
+  MARRIED = 2;
+
+  /*
+   * Divorced marital status.
+   */
+  DIVORCED = 3;
+
+  /*
+   * Widowed marital status.
+   */
+  WIDOWED = 4;
+
+  /*
+   * Separated marital status.
+   */
+  SEPARATED = 5;
+}
+
+/*
+ * Enum defining different religions
+ */
+enum Religion {
+  /*
+   * Unspecified religious category.
+   */
+  RELIGION_UNDEFINED = 0;
+
+  /*
+   * Advent Christian.
+   */
+  RELIGION_ADVENT_CHRISTIAN = 1;
+
+  /*
+   * Agnostic.
+   */
+  RELIGION_AGNOSTIC = 2;
+
+  /*
+   * American Indian.
+   */
+  RELIGION_AMERICAN_INDIAN = 3;
+
+  /*
+   * Anglican.
+   */
+  RELIGION_ANGLICAN = 4;
+
+  /*
+   * Armenian Catholic.
+   */
+  RELIGION_ARMENIAN_CATHOLIC = 5;
+
+  /*
+   * Assembly of God.
+   */
+  RELIGION_ASSEMBLY_OF_GOD = 6;
+
+  /*
+   * Atheist.
+   */
+  RELIGION_ATHEIST = 7;
+
+  /*
+   * Bahai.
+   */
+  RELIGION_BAHAISM = 8;
+
+  /*
+   * Baptist.
+   */
+  RELIGION_BAPTIST = 9;
+
+  /*
+   * Buddhist.
+   */
+  RELIGION_BUDDHIST = 10;
+
+  /*
+   * Catholic.
+   */
+  RELIGION_CATHOLIC = 11;
+
+  /*
+   * Charismatic.
+   */
+  RELIGION_CHARISMATIC = 12;
+
+  /*
+   * Christian.
+   */
+  RELIGION_CHRISTIAN = 13;
+
+  /*
+   * Christian Orthodox.
+   */
+  RELIGION_CHRISTIAN_ORTHODOX = 14;
+
+  /*
+   * Christian Scientist.
+   */
+  RELIGION_CHRISTIAN_SCIENTIST = 15;
+
+  /*
+   * Church of England.
+   */
+  RELIGION_CHURCH_OF_ENGLAND = 16;
+
+  /*
+   * Church of God.
+   */
+  RELIGION_CHURCH_OF_GOD = 17;
+
+  /*
+   * Congregational.
+   */
+  RELIGION_CONGREGATIONAL = 18;
+
+  /*
+   * Deferred.
+   */
+  RELIGION_DEFERRED = 19;
+
+  /*
+   * Disciples Of Christ.
+   */
+  RELIGION_DISCIPLES_OF_CHRIST = 20;
+
+  /*
+   * Eastern Orthodox.
+   */
+  RELIGION_EASTERN_ORTHODOX = 21;
+
+  /*
+   * Episcopal.
+   */
+  RELIGION_EPISCOPAL = 22;
+
+  /*
+   * Evangelical Christian.
+   */
+  RELIGION_EVANGELICAL_CHRISTIAN = 23;
+
+  /*
+   * Greek Orthodox.
+   */
+  RELIGION_GREEK_ORTHODOX = 24;
+
+  /*
+   * Hindu.
+   */
+  RELIGION_HINDU = 25;
+
+  /*
+   * Islamic.
+   */
+  RELIGION_ISLAMIC = 26;
+
+  /*
+   * Jehovah's Witness.
+   */
+  RELIGION_JEHOVAHS_WITNESS = 27;
+
+  /*
+   * Jewish.
+   */
+  RELIGION_JEWISH = 28;
+
+  /*
+   * Lutheran.
+   */
+  RELIGION_LUTHERAN = 29;
+
+  /*
+   * Maronite Catholic.
+   */
+  RELIGION_MARONITE_CATHOLIC = 30;
+
+  /*
+   * Melkite Catholic.
+   */
+  RELIGION_MELKITE_CATHOLIC = 31;
+
+  /*
+   * Mennonite.
+   */
+  RELIGION_MENNONITE = 32;
+
+  /*
+   * Methodist.
+   */
+  RELIGION_METHODIST = 33;
+
+  /*
+   * Mormon.
+   */
+  RELIGION_MORMON = 34;
+
+  /*
+   * Moslem.
+   */
+  RELIGION_MOSLEM = 35;
+
+  /*
+   * Muslim.
+   */
+  RELIGION_MUSLIM = 36;
+
+  /*
+   * Nazarene.
+   */
+  RELIGION_NAZARENE = 37;
+
+  /*
+   * No Answer.
+   */
+  RELIGION_NO_ANSWER = 38;
+
+  /*
+   * Non-denominational.
+   */
+  RELIGION_NON_DENOMINATIONAL = 39;
+
+  /*
+   * None.
+   */
+  RELIGION_NONE = 40;
+
+  /*
+   * No Preference.
+   */
+  RELIGION_NO_PREFERENCE = 41;
+
+  /*
+   * Not Affiliated.
+   */
+  RELIGION_NOT_AFFILIATED = 42;
+
+  /*
+   * Not Recorded.
+   */
+  RELIGION_NOT_RECORDED = 43;
+
+  /*
+   * No Visit.
+   */
+  RELIGION_NO_VISIT = 44;
+
+  /*
+   * Orthodox.
+   */
+  RELIGION_ORTHODOX = 45;
+
+  /*
+   * Orthodox Christian.
+   */
+  RELIGION_ORTHODOX_CHRISTIAN = 46;
+
+  /*
+   * Other.
+   */
+  RELIGION_OTHER = 47;
+
+  /*
+   * Pentecostal.
+   */
+  RELIGION_PENTECOSTAL = 48;
+
+  /*
+   * Presbyterian.
+   */
+  RELIGION_PRESBYTERIAN = 49;
+
+  /*
+   * Protestant.
+   */
+  RELIGION_PROTESTANT = 50;
+
+  /*
+   * Quaker.
+   */
+  RELIGION_QUAKER = 51;
+
+  /*
+   * Refused.
+   */
+  RELIGION_REFUSED = 52;
+
+  /*
+   * Religious Science.
+   */
+  RRELIGION_ELIGIOUS_SCIENCE = 53;
+
+  /*
+   * Roman Catholic.
+   */
+  RELIGION_ROMAN_CATHOLIC = 54;
+
+  /*
+   * Russian Orthodox.
+   */
+  RELIGION_RUSSIAN_ORTHODOX = 55;
+
+  /*
+   * Salvation Army.
+   */
+  RELIGION_SALVATION_ARMY = 56;
+
+  /*
+   * Scientology.
+   */
+  RELIGION_SCIENTOLOGY = 57;
+
+  /*
+   * Seventh Day Adventist.
+   */
+  RELIGION_SEVENTH_DAY_ADVENTIST = 58;
+
+  /*
+   * Sikh.
+   */
+  RELIGION_SIKH = 59;
+
+  /*
+   * Southern Baptist.
+   */
+  RELIGION_SOUTHERN_BAPTIST = 60;
+
+  /*
+   * Spiritualist.
+   */
+  RELIGION_SPIRITUALIST = 61;
+
+  /*
+   * Swedenborgian.
+   */
+  RELIGION_SWEDENBORGIAN = 62;
+
+  /*
+   * Unaffiliated.
+   */
+  RELIGION_UNAFFILIATED = 63;
+
+  /*
+   * Unitarian.
+   */
+  RELIGION_UNITARIAN = 64;
+
+  /*
+   * Unitarian Universalist.
+   */
+  RELIGION_UNITARIAN_UNIVERSALIST = 65;
+
+  /*
+   * United Church of Christ.
+   */
+  RELIGION_UNITED_CHURCH_OF_CHRIST = 66;
+
+  /*
+   * Unknown.
+   */
+  RELIGION_UNKNOWN = 67;
+
+  /*
+   * Wiccan.
+   */
+  RELIGION_WICCAN = 68;
+
+  /*
+   * Zoroastrian.
+   */
+  RELIGION_ZOROASTRIAN = 69;
+}
+
+/*
+ * Enum defining current vital status of a patient.
+ */
+enum VitalStatus {
+  /*
+   * Unspecified vital status.
+   */
+  VITAL_STATUS_UNSPECIFIED = 0;
+
+  /*
+   * Alive vital status.
+   */
+  ALIVE = 1;
+
+  /*
+   * Deceased vital status.
+   */
+  DECEASED = 2;
+
+  /*
+   * Unknown vital status.
+   */
+  UNKNOWN = 3;
+
+  /*
+   * Other vital status.
+   */
+  OTHER = 4;
+}

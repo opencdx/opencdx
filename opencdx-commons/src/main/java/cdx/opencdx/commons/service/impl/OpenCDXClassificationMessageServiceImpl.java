@@ -120,8 +120,8 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
         UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 
         builder.setSubmittingUserId(openCDXCurrentUser.getCurrentUser().getId().toHexString());
-        if (patient.getGender() != null) {
-            builder.setGender(patient.getGender());
+        if (patient.getDemographics() != null) {
+            builder.setGender(patient.getDemographics().getGender());
         }
 
         if (patient.getDateOfBirth() != null) {
