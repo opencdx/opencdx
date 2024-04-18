@@ -471,6 +471,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.data.DiagnosisCode"><span class="badge">M</span>DiagnosisCode</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.data.DiagnosisCode.ValueMapEntry"><span class="badge">M</span>DiagnosisCode.ValueMapEntry</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.data.Duration"><span class="badge">M</span>Duration</a>
                 </li>
               
@@ -680,10 +688,6 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.data.PredictorOutput"><span class="badge">M</span>PredictorOutput</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.data.Preferences"><span class="badge">M</span>Preferences</a>
                 </li>
               
                 <li>
@@ -915,6 +919,10 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.types.Ethnicity"><span class="badge">E</span>Ethnicity</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.types.Gender"><span class="badge">E</span>Gender</a>
                 </li>
               
@@ -931,11 +939,19 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.types.IncomeLevel"><span class="badge">E</span>IncomeLevel</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.types.LabFindingStatus"><span class="badge">E</span>LabFindingStatus</a>
                 </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.types.LabTestType"><span class="badge">E</span>LabTestType</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.types.MaritalStatus"><span class="badge">E</span>MaritalStatus</a>
                 </li>
               
                 <li>
@@ -995,6 +1011,10 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.types.Religion"><span class="badge">E</span>Religion</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.types.RoutineStatus"><span class="badge">E</span>RoutineStatus</a>
                 </li>
               
@@ -1028,6 +1048,10 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.types.TestFormat"><span class="badge">E</span>TestFormat</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.types.VitalStatus"><span class="badge">E</span>VitalStatus</a>
                 </li>
               
                 <li>
@@ -4143,6 +4167,13 @@ the type of category. </p></td>
                   <td><p>Classification type </p></td>
                 </tr>
               
+                <tr>
+                  <td>diagnosis</td>
+                  <td><a href="#cdx.opencdx.grpc.data.DiagnosisCode">DiagnosisCode</a></td>
+                  <td></td>
+                  <td><p>The Diagnosis of the classification. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -4966,9 +4997,16 @@ This field is also optional. </p></td>
               
                 <tr>
                   <td>ethnicity</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#cdx.opencdx.grpc.types.Ethnicity">cdx.opencdx.grpc.types.Ethnicity</a></td>
                   <td></td>
                   <td><p>The user&#39;s ethnicity </p></td>
+                </tr>
+              
+                <tr>
+                  <td>ethnicity_other</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Other Ethnicity is selected </p></td>
                 </tr>
               
                 <tr>
@@ -4990,6 +5028,55 @@ This field is also optional. </p></td>
                   <td><a href="#cdx.opencdx.grpc.types.Gender">cdx.opencdx.grpc.types.Gender</a></td>
                   <td></td>
                   <td><p>The user&#39;s gender </p></td>
+                </tr>
+              
+                <tr>
+                  <td>education</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Education">Education</a></td>
+                  <td></td>
+                  <td><p>The education qualification details about the user. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>language</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Preferred language for communication (e.g., English, Spanish, etc.) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>time_zone</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The user&#39;s preferred time zone (e.g., EST, PST, etc.) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>income_level</td>
+                  <td><a href="#cdx.opencdx.grpc.types.IncomeLevel">cdx.opencdx.grpc.types.IncomeLevel</a></td>
+                  <td></td>
+                  <td><p>Income Level of the patient </p></td>
+                </tr>
+              
+                <tr>
+                  <td>marital_status</td>
+                  <td><a href="#cdx.opencdx.grpc.types.MaritalStatus">cdx.opencdx.grpc.types.MaritalStatus</a></td>
+                  <td></td>
+                  <td><p>Marital Status of patient </p></td>
+                </tr>
+              
+                <tr>
+                  <td>religion</td>
+                  <td><a href="#cdx.opencdx.grpc.types.Religion">cdx.opencdx.grpc.types.Religion</a></td>
+                  <td></td>
+                  <td><p>Religion of the patient </p></td>
+                </tr>
+              
+                <tr>
+                  <td>vital_status</td>
+                  <td><a href="#cdx.opencdx.grpc.types.VitalStatus">cdx.opencdx.grpc.types.VitalStatus</a></td>
+                  <td></td>
+                  <td><p>Vital status of patient </p></td>
                 </tr>
               
             </tbody>
@@ -5353,8 +5440,8 @@ This field is also optional. </p></td>
               
                 <tr>
                   <td>diagnosis_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
+                  <td><a href="#cdx.opencdx.grpc.data.DiagnosisCode">DiagnosisCode</a></td>
+                  <td></td>
                   <td><p>This represents the diagnosis code assigned to the diagnosis </p></td>
                 </tr>
               
@@ -5377,6 +5464,82 @@ This field is also optional. </p></td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Entities that are related to this diagnosis (e.g., Patients, Practitioners) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.data.DiagnosisCode">DiagnosisCode</h3>
+        <p>This represents the diagnosis code</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>anf_statement</td>
+                  <td><a href="#cdx.opencdx.grpc.data.ANFStatement">ANFStatement</a></td>
+                  <td></td>
+                  <td><p>This is the Tinkar code expressed in Analysis Normal Form (ANF) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>tinkar_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>This is the Tinkar Concept Code. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_map</td>
+                  <td><a href="#cdx.opencdx.grpc.data.DiagnosisCode.ValueMapEntry">DiagnosisCode.ValueMapEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>This is a map set of one or more values to this diagnosis code. Used for lab results, or other associated data. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>provider_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Provider who made the diagnosis </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.data.DiagnosisCode.ValueMapEntry">DiagnosisCode.ValueMapEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -6579,9 +6742,9 @@ This field is also optional. </p></td>
                 </tr>
               
                 <tr>
-                  <td>result_value</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
+                  <td>result</td>
+                  <td><a href="#cdx.opencdx.grpc.data.DiagnosisCode">DiagnosisCode</a></td>
+                  <td></td>
                   <td><p>This represents the value of the lab result </p></td>
                 </tr>
               
@@ -7208,7 +7371,14 @@ Can be one or more, hence marked as repeated. </p></td>
                   <td>product_ndc</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The National Drug Code (NDC) for the medication </p></td>
+                  <td><p>The Product National Drug Code (NDC) for the medication </p></td>
+                </tr>
+              
+                <tr>
+                  <td>package_ndc</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The Package National Drug Code (NDC) for the medication </p></td>
                 </tr>
               
             </tbody>
@@ -8702,44 +8872,6 @@ This field is also optional. </p></td>
 
         
       
-        <h3 id="cdx.opencdx.grpc.data.Preferences">Preferences</h3>
-        <p>Describes the user's communication preferences including preferred language and time zone,</p><p>and a boolean flag for preferred mode of communication.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>language</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Preferred language for communication (e.g., English, Spanish, etc.) </p></td>
-                </tr>
-              
-                <tr>
-                  <td>preferred</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>Flag indicating whether the user prefers this mode of communication </p></td>
-                </tr>
-              
-                <tr>
-                  <td>time_zone</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The user&#39;s preferred time zone (e.g., EST, PST, etc.) </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.data.PrivacyProtectionData">PrivacyProtectionData</h3>
         <p>The PrivacyProtectionData message is a Protocol Buffers (protobuf) message</p><p>that contains information pertinent to privacy protection of user data.</p><p>It includes specifics such as the type of data, anonymized form of data,</p><p>encryption details, retention policy, data sharing agreement status,</p><p>and the purpose of data collection.</p>
 
@@ -10124,8 +10256,8 @@ for possible values. </p></td>
               
                 <tr>
                   <td>diagnosis_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
+                  <td><a href="#cdx.opencdx.grpc.data.DiagnosisCode">DiagnosisCode</a></td>
+                  <td></td>
                   <td><p>This represents the diagnosis code assigned to the suspected diagnosis </p></td>
                 </tr>
               
@@ -11194,13 +11326,6 @@ outcomes if the current behavior is not addressed. </p></td>
                 </tr>
               
                 <tr>
-                  <td>gender</td>
-                  <td><a href="#cdx.opencdx.grpc.types.Gender">cdx.opencdx.grpc.types.Gender</a></td>
-                  <td></td>
-                  <td><p>The gender of the user. </p></td>
-                </tr>
-              
-                <tr>
                   <td>date_of_birth</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
@@ -11222,24 +11347,10 @@ outcomes if the current behavior is not addressed. </p></td>
                 </tr>
               
                 <tr>
-                  <td>communication</td>
-                  <td><a href="#cdx.opencdx.grpc.data.Preferences">Preferences</a></td>
-                  <td></td>
-                  <td><p>The user&#39;s communication preferences. </p></td>
-                </tr>
-              
-                <tr>
                   <td>demographics</td>
                   <td><a href="#cdx.opencdx.grpc.data.Demographics">Demographics</a></td>
                   <td></td>
                   <td><p>The demographic information about the user. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>education</td>
-                  <td><a href="#cdx.opencdx.grpc.data.Education">Education</a></td>
-                  <td></td>
-                  <td><p>The education qualification details about the user. </p></td>
                 </tr>
               
                 <tr>
@@ -12751,6 +12862,77 @@ statement pertaining to the question.</p></td>
           </tbody>
         </table>
       
+        <h3 id="cdx.opencdx.grpc.types.Ethnicity">Ethnicity</h3>
+        <p>Enum representing various ethnicities for demographic categorization.</p><p><p></p><p>This enum provides a standardized list of ethnicities commonly used for demographic</p><p>data collection and analysis in various fields such as healthcare, sociology, and</p><p>public policy. It is important to note that ethnicity is a complex and multifaceted</p><p>concept that can include cultural, linguistic, religious, and ancestral factors.</p><p><p></p><p>When collecting ethnicity data, it's essential to allow individuals to self-identify</p><p>and to recognize the diversity and fluidity of ethnic identities.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ETHNICITY_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>The ethnicity is unspecified or unknown.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_CAUCASIAN</td>
+                <td>1</td>
+                <td><p>Caucasian or White ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_AFRICAN_AMERICAN</td>
+                <td>2</td>
+                <td><p>African American or Black ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_HISPANIC_LATINO</td>
+                <td>3</td>
+                <td><p>Hispanic or Latino ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_ASIAN</td>
+                <td>4</td>
+                <td><p>Asian ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_NATIVE_AMERICAN</td>
+                <td>5</td>
+                <td><p>Native American or Alaska Native ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_PACIFIC_ISLANDER</td>
+                <td>6</td>
+                <td><p>Pacific Islander ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_MIDDLE_EASTERN</td>
+                <td>7</td>
+                <td><p>Middle Eastern ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_SOUTH_ASIAN</td>
+                <td>8</td>
+                <td><p>South Asian ethnicity.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ETHNICITY_OTHER</td>
+                <td>9</td>
+                <td><p>Other or unspecified ethnicity not covered by the specified options.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="cdx.opencdx.grpc.types.Gender">Gender</h3>
         <p>Gender defines a range of identities that do not necessarily align</p><p>with established ideas of male and female.</p>
         <table class="enum-table">
@@ -12891,6 +13073,59 @@ statement pertaining to the question.</p></td>
           </tbody>
         </table>
       
+        <h3 id="cdx.opencdx.grpc.types.IncomeLevel">IncomeLevel</h3>
+        <p>Enum defining different income levels.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>INCOME_LEVEL_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified income level.</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_LOWER_CLASS</td>
+                <td>1</td>
+                <td><p>Lower class: less than or equal to $30,000</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_LOWER_MIDDLE_CLASS</td>
+                <td>2</td>
+                <td><p>Lower-middle class: $30,001 – $58,020</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_MIDDLE_CLASS</td>
+                <td>3</td>
+                <td><p>Middle class: $58,021 – $94,000</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_UPPER_MIDDLE_CLASS</td>
+                <td>4</td>
+                <td><p>Upper-middle class: $94,001 – $153,000</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_UPPER_CLASS</td>
+                <td>5</td>
+                <td><p>Upper class: greater than $153,000</p></td>
+              </tr>
+            
+              <tr>
+                <td>INCOME_LEVEL_ELITE_CLASS</td>
+                <td>6</td>
+                <td><p>Elite class: greater than $500,000</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="cdx.opencdx.grpc.types.LabFindingStatus">LabFindingStatus</h3>
         <p>The status of a LabFinding.</p>
         <table class="enum-table">
@@ -12938,6 +13173,53 @@ statement pertaining to the question.</p></td>
                 <td>LAB_TEST_TYPE_URINE_TEST</td>
                 <td>2</td>
                 <td><p>Represents a Urine Lab Test.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="cdx.opencdx.grpc.types.MaritalStatus">MaritalStatus</h3>
+        <p>Enum defining different marital statuses.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>MARITAL_STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified marital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>SINGLE</td>
+                <td>1</td>
+                <td><p>Single marital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>MARRIED</td>
+                <td>2</td>
+                <td><p>Married marital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>DIVORCED</td>
+                <td>3</td>
+                <td><p>Divorced marital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>WIDOWED</td>
+                <td>4</td>
+                <td><p>Widowed marital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>SEPARATED</td>
+                <td>5</td>
+                <td><p>Separated marital status.</p></td>
               </tr>
             
           </tbody>
@@ -13637,6 +13919,437 @@ statement pertaining to the question.</p></td>
           </tbody>
         </table>
       
+        <h3 id="cdx.opencdx.grpc.types.Religion">Religion</h3>
+        <p>Enum defining different religions</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>RELIGION_UNDEFINED</td>
+                <td>0</td>
+                <td><p>Unspecified religious category.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ADVENT_CHRISTIAN</td>
+                <td>1</td>
+                <td><p>Advent Christian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_AGNOSTIC</td>
+                <td>2</td>
+                <td><p>Agnostic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_AMERICAN_INDIAN</td>
+                <td>3</td>
+                <td><p>American Indian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ANGLICAN</td>
+                <td>4</td>
+                <td><p>Anglican.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ARMENIAN_CATHOLIC</td>
+                <td>5</td>
+                <td><p>Armenian Catholic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ASSEMBLY_OF_GOD</td>
+                <td>6</td>
+                <td><p>Assembly of God.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ATHEIST</td>
+                <td>7</td>
+                <td><p>Atheist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_BAHAISM</td>
+                <td>8</td>
+                <td><p>Bahai.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_BAPTIST</td>
+                <td>9</td>
+                <td><p>Baptist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_BUDDHIST</td>
+                <td>10</td>
+                <td><p>Buddhist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CATHOLIC</td>
+                <td>11</td>
+                <td><p>Catholic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHARISMATIC</td>
+                <td>12</td>
+                <td><p>Charismatic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHRISTIAN</td>
+                <td>13</td>
+                <td><p>Christian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHRISTIAN_ORTHODOX</td>
+                <td>14</td>
+                <td><p>Christian Orthodox.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHRISTIAN_SCIENTIST</td>
+                <td>15</td>
+                <td><p>Christian Scientist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHURCH_OF_ENGLAND</td>
+                <td>16</td>
+                <td><p>Church of England.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CHURCH_OF_GOD</td>
+                <td>17</td>
+                <td><p>Church of God.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_CONGREGATIONAL</td>
+                <td>18</td>
+                <td><p>Congregational.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_DEFERRED</td>
+                <td>19</td>
+                <td><p>Deferred.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_DISCIPLES_OF_CHRIST</td>
+                <td>20</td>
+                <td><p>Disciples Of Christ.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_EASTERN_ORTHODOX</td>
+                <td>21</td>
+                <td><p>Eastern Orthodox.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_EPISCOPAL</td>
+                <td>22</td>
+                <td><p>Episcopal.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_EVANGELICAL_CHRISTIAN</td>
+                <td>23</td>
+                <td><p>Evangelical Christian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_GREEK_ORTHODOX</td>
+                <td>24</td>
+                <td><p>Greek Orthodox.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_HINDU</td>
+                <td>25</td>
+                <td><p>Hindu.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ISLAMIC</td>
+                <td>26</td>
+                <td><p>Islamic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_JEHOVAHS_WITNESS</td>
+                <td>27</td>
+                <td><p>Jehovah&#39;s Witness.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_JEWISH</td>
+                <td>28</td>
+                <td><p>Jewish.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_LUTHERAN</td>
+                <td>29</td>
+                <td><p>Lutheran.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MARONITE_CATHOLIC</td>
+                <td>30</td>
+                <td><p>Maronite Catholic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MELKITE_CATHOLIC</td>
+                <td>31</td>
+                <td><p>Melkite Catholic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MENNONITE</td>
+                <td>32</td>
+                <td><p>Mennonite.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_METHODIST</td>
+                <td>33</td>
+                <td><p>Methodist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MORMON</td>
+                <td>34</td>
+                <td><p>Mormon.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MOSLEM</td>
+                <td>35</td>
+                <td><p>Moslem.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_MUSLIM</td>
+                <td>36</td>
+                <td><p>Muslim.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NAZARENE</td>
+                <td>37</td>
+                <td><p>Nazarene.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NO_ANSWER</td>
+                <td>38</td>
+                <td><p>No Answer.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NON_DENOMINATIONAL</td>
+                <td>39</td>
+                <td><p>Non-denominational.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NONE</td>
+                <td>40</td>
+                <td><p>None.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NO_PREFERENCE</td>
+                <td>41</td>
+                <td><p>No Preference.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NOT_AFFILIATED</td>
+                <td>42</td>
+                <td><p>Not Affiliated.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NOT_RECORDED</td>
+                <td>43</td>
+                <td><p>Not Recorded.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_NO_VISIT</td>
+                <td>44</td>
+                <td><p>No Visit.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ORTHODOX</td>
+                <td>45</td>
+                <td><p>Orthodox.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ORTHODOX_CHRISTIAN</td>
+                <td>46</td>
+                <td><p>Orthodox Christian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_OTHER</td>
+                <td>47</td>
+                <td><p>Other.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_PENTECOSTAL</td>
+                <td>48</td>
+                <td><p>Pentecostal.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_PRESBYTERIAN</td>
+                <td>49</td>
+                <td><p>Presbyterian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_PROTESTANT</td>
+                <td>50</td>
+                <td><p>Protestant.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_QUAKER</td>
+                <td>51</td>
+                <td><p>Quaker.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_REFUSED</td>
+                <td>52</td>
+                <td><p>Refused.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RRELIGION_ELIGIOUS_SCIENCE</td>
+                <td>53</td>
+                <td><p>Religious Science.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ROMAN_CATHOLIC</td>
+                <td>54</td>
+                <td><p>Roman Catholic.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_RUSSIAN_ORTHODOX</td>
+                <td>55</td>
+                <td><p>Russian Orthodox.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SALVATION_ARMY</td>
+                <td>56</td>
+                <td><p>Salvation Army.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SCIENTOLOGY</td>
+                <td>57</td>
+                <td><p>Scientology.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SEVENTH_DAY_ADVENTIST</td>
+                <td>58</td>
+                <td><p>Seventh Day Adventist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SIKH</td>
+                <td>59</td>
+                <td><p>Sikh.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SOUTHERN_BAPTIST</td>
+                <td>60</td>
+                <td><p>Southern Baptist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SPIRITUALIST</td>
+                <td>61</td>
+                <td><p>Spiritualist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_SWEDENBORGIAN</td>
+                <td>62</td>
+                <td><p>Swedenborgian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_UNAFFILIATED</td>
+                <td>63</td>
+                <td><p>Unaffiliated.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_UNITARIAN</td>
+                <td>64</td>
+                <td><p>Unitarian.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_UNITARIAN_UNIVERSALIST</td>
+                <td>65</td>
+                <td><p>Unitarian Universalist.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_UNITED_CHURCH_OF_CHRIST</td>
+                <td>66</td>
+                <td><p>United Church of Christ.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_UNKNOWN</td>
+                <td>67</td>
+                <td><p>Unknown.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_WICCAN</td>
+                <td>68</td>
+                <td><p>Wiccan.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RELIGION_ZOROASTRIAN</td>
+                <td>69</td>
+                <td><p>Zoroastrian.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="cdx.opencdx.grpc.types.RoutineStatus">RoutineStatus</h3>
         <p>Defines the enumeration for various statuses that a routine operation may exist in.</p><p>E.g., Scheduled, In progress, Completed, etc.</p>
         <table class="enum-table">
@@ -14073,6 +14786,47 @@ statement pertaining to the question.</p></td>
                 <td>TEST_FORMAT_COVID_19</td>
                 <td>4</td>
                 <td><p>Represents a COVID-19 test format.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="cdx.opencdx.grpc.types.VitalStatus">VitalStatus</h3>
+        <p>Enum defining current vital status of a patient.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>VITAL_STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified vital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ALIVE</td>
+                <td>1</td>
+                <td><p>Alive vital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>DECEASED</td>
+                <td>2</td>
+                <td><p>Deceased vital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UNKNOWN</td>
+                <td>3</td>
+                <td><p>Unknown vital status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>OTHER</td>
+                <td>4</td>
+                <td><p>Other vital status.</p></td>
               </tr>
             
           </tbody>

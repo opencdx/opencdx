@@ -27,11 +27,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 @Slf4j
 class RoutineTest {
