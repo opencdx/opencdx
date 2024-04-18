@@ -27,10 +27,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 @Slf4j
 class RoutineTest {
@@ -123,7 +124,7 @@ class RoutineTest {
         DiagnosisRequest item = DiagnosisRequest.newBuilder()
                 .setDiagnosis(Diagnosis.newBuilder()
                         .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
-                        .setDiagnosisCode("Diagnosis Code")
+                        .setDiagnosisCode(DiagnosisCode.getDefaultInstance())
                         .setDiagnosisDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
@@ -140,7 +141,7 @@ class RoutineTest {
         SuspectedDiagnosisRequest item = SuspectedDiagnosisRequest.newBuilder()
                 .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
                         .setSuspectedDiagnosisId(OpenCDXIdentifier.get().toHexString())
-                        .setDiagnosisCode("Diagnosis Code")
+                        .setDiagnosisCode(DiagnosisCode.getDefaultInstance())
                         .setDiagnosisDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(
@@ -157,7 +158,7 @@ class RoutineTest {
         LabResultRequest item = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder()
                         .setResultId(OpenCDXIdentifier.get().toHexString())
-                        .setResultValue("Result Value")
+                        .setResult(DiagnosisCode.getDefaultInstance())
                         .setResultDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setMatchedValueSet("Matched Value Set")
                         .addAllRelatedEntities(List.of(

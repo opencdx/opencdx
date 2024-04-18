@@ -791,6 +791,11 @@ message Classification {
    * Classification type
    */
   cdx.opencdx.grpc.types.ClassificationType type = 13;
+
+  /*
+   * The Diagnosis of the classification.
+   */
+    DiagnosisCode diagnosis = 14;
 }
 
 /*
@@ -2724,7 +2729,7 @@ message Diagnosis {
   /*
    * This represents the diagnosis code assigned to the diagnosis
    */
-  optional string diagnosis_code = 2;
+  DiagnosisCode diagnosis_code = 2;
 
   /*
    * This indicates when the diagnosis was made
@@ -2741,6 +2746,28 @@ message Diagnosis {
    */
   repeated string related_entities = 5;
 }
+/*
+ * This represents the diagnosis code
+ */
+message DiagnosisCode {
+  /*
+   * This is the Tinkar code expressed in Analysis Normal Form (ANF)
+   */
+  ANFStatement anf_statement = 1;
+
+  /*
+   * This is the Tinkar Concept Code.
+   */
+  string tinkar_code = 2;
+  /*
+   * This is a map set of one or more values to this diagnosis code. Used for lab results, or other associated data.
+   */
+  map<string, string> value_map = 3;
+  /*
+   * Provider who made the diagnosis
+   */
+  string provider_id = 4;
+}
 
 /*
  * This message represents a Suspected Diagnosis entity.
@@ -2755,7 +2782,7 @@ message SuspectedDiagnosis {
   /*
    * This represents the diagnosis code assigned to the suspected diagnosis
    */
-  optional string diagnosis_code = 2;
+  DiagnosisCode diagnosis_code = 2;
 
   /*
    * This indicates the time when the suspected diagnosis was made
@@ -2786,7 +2813,7 @@ message LabResult {
   /*
    * This represents the value of the lab result
    */
-  optional string result_value = 2;
+  DiagnosisCode result = 2;
 
   /*
    * This indicates when the lab result was generated
