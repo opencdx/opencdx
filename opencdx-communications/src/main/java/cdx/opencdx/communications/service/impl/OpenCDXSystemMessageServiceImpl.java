@@ -27,7 +27,7 @@ import cdx.opencdx.communications.model.OpenCDXMessageModel;
 import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
-import cdx.opencdx.communications.service.OpenCDXMessageService;
+import cdx.opencdx.communications.service.OpenCDXSystemMessageService;
 import cdx.opencdx.grpc.data.MessageTemplate;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.communications.*;
@@ -55,7 +55,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
+public class OpenCDXSystemMessageServiceImpl implements OpenCDXSystemMessageService {
 
     private static final String OBJECT = "Object";
     private static final String DOMAIN = "OpenCDXMessageServiceImpl";
@@ -77,7 +77,7 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
      * @param openCDXCurrentUser Current User
      */
     @Autowired
-    public OpenCDXMessageServiceImpl(
+    public OpenCDXSystemMessageServiceImpl(
             OpenCDXDocumentValidator openCDXDocumentValidator,
             OpenCDXAuditService openCDXAuditService,
             ObjectMapper objectMapper,

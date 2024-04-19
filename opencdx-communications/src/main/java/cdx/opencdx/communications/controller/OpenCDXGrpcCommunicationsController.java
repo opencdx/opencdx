@@ -17,8 +17,8 @@ package cdx.opencdx.communications.controller;
 
 import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
 import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
-import cdx.opencdx.communications.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
+import cdx.opencdx.communications.service.OpenCDXSystemMessageService;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.communications.*;
 import io.grpc.stub.StreamObserver;
@@ -40,7 +40,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
-    private final OpenCDXMessageService openCDXMessageService;
+    private final OpenCDXSystemMessageService openCDXMessageService;
 
     /**
      * Constructor using the gRPC Communications Controller.
@@ -54,7 +54,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
-            OpenCDXMessageService openCDXMessageService) {
+            OpenCDXSystemMessageService openCDXMessageService) {
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;

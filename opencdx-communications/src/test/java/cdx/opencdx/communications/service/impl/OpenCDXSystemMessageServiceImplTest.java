@@ -46,10 +46,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXMessageServiceImplTest {
+class OpenCDXSystemMessageServiceImplTest {
 
     @Mock
-    OpenCDXMessageServiceImpl openCDXMessageService;
+    OpenCDXSystemMessageServiceImpl openCDXMessageService;
 
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
@@ -84,7 +84,7 @@ class OpenCDXMessageServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        this.openCDXMessageService = new OpenCDXMessageServiceImpl(
+        this.openCDXMessageService = new OpenCDXSystemMessageServiceImpl(
                 openCDXDocumentValidator,
                 this.openCDXAuditService,
                 objectMapper,

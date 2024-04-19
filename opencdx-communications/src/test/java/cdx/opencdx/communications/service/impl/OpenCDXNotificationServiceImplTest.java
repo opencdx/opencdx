@@ -110,7 +110,7 @@ class OpenCDXNotificationServiceImplTest {
     OpenCDXMessageRepository openCDXMessageRepository;
 
     @Mock
-    OpenCDXMessageService openCDXMessageService;
+    OpenCDXSystemMessageService openCDXMessageService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {

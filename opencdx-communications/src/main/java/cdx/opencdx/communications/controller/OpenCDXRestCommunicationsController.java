@@ -17,8 +17,8 @@ package cdx.opencdx.communications.controller;
 
 import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
 import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
-import cdx.opencdx.communications.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
+import cdx.opencdx.communications.service.OpenCDXSystemMessageService;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.communications.*;
 import io.micrometer.observation.annotation.Observed;
@@ -42,7 +42,7 @@ public class OpenCDXRestCommunicationsController {
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
-    private final OpenCDXMessageService openCDXMessageService;
+    private final OpenCDXSystemMessageService openCDXMessageService;
 
     /**
      * Constructor that takes a OpenCDXNotificationService, OpenCDXCommunicationSmsService, OpenCDXCommunicationEmailService
@@ -56,7 +56,7 @@ public class OpenCDXRestCommunicationsController {
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
-            OpenCDXMessageService openCDXMessageService) {
+            OpenCDXSystemMessageService openCDXMessageService) {
         log.info("OpenCDXRestCommunicationsController created");
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;

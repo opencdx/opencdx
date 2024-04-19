@@ -25,7 +25,7 @@ import cdx.opencdx.grpc.service.communications.*;
 /**
  * Interface for the OpenCDXMessageService
  */
-public interface OpenCDXMessageService {
+public interface OpenCDXSystemMessageService {
 
     /**
      * Create a MessageTemplate

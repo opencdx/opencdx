@@ -28,8 +28,8 @@ import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
-import cdx.opencdx.communications.service.impl.OpenCDXMessageServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXSystemMessageServiceImpl;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.communications.*;
 import cdx.opencdx.grpc.types.MessageStatus;
@@ -79,7 +79,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
     OpenCDXEmailService openCDXEmailService;
 
     @Autowired
-    OpenCDXMessageService openCDXMessageService;
+    OpenCDXSystemMessageService openCDXMessageService;
 
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
@@ -213,7 +213,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 this.openCDXDocumentValidator,
                 openCDXProfileRepository,
                 openCDXMessageRepository);
-        this.openCDXMessageService = new OpenCDXMessageServiceImpl(
+        this.openCDXMessageService = new OpenCDXSystemMessageServiceImpl(
                 this.openCDXDocumentValidator,
                 this.openCDXAuditService,
                 objectMapper,
