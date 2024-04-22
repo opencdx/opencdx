@@ -15,11 +15,9 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import io.netty.handler.ssl.SslContextBuilder;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientBuilderCustomizer;
@@ -31,9 +29,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import reactor.netty.http.client.HttpClient;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Configuration for WebClient
  */
+@ExcludeFromJacocoGeneratedReport
 @AutoConfiguration
 @Configuration
 @Slf4j
@@ -51,6 +54,7 @@ public class WebClientConfig {
      * @return ZipkinWebClientBuilderCustomizer
      */
     @Bean
+    @ExcludeFromJacocoGeneratedReport
     ZipkinWebClientBuilderCustomizer myCustomizer(@Value("${opencdx.client.trustStore}") String trustStore) {
         return webClientBuilder -> {
             final HttpClient httpClient = HttpClient.create().secure(ssl -> {
