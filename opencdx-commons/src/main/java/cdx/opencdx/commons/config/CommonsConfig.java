@@ -89,6 +89,7 @@ public class CommonsConfig {
      * @return Connection Listener
      */
     @Bean
+    @ExcludeFromJacocoGeneratedReport
     public ConnectionListener createConnectionListener() {
         return (conn, type) -> log.error(
                 "Connection Event: {}  Connection: {}", type, conn.getStatus().name());
@@ -162,6 +163,7 @@ public class CommonsConfig {
      */
     @Profile("mongo")
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @ExcludeFromJacocoGeneratedReport
     @Bean
     public MongoTemplate mongoTemplate(MongoDatabaseFactory databaseFactory, MappingMongoConverter converter) {
         log.trace("Creating Mongo Template");
