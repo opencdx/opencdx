@@ -15,18 +15,13 @@
  */
 package cdx.opencdx.commons.security;
 
-import static java.lang.String.format;
-
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import java.util.Date;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Date;
+
+import static java.lang.String.format;
 
 /**
  * Utility for JWT Tokens
@@ -38,11 +33,13 @@ public class JwtTokenUtil {
     private static final String JWT_SECRET =
             "mDRM4yJevI7le6eo3PIMM2spJD0IgGcl/Hc5jtqMNQ24oOtv3lkAbyvteyD9yepbd/6ALk0af0YxlQUFm2Lm2g==";
     private static final String JWT_ISSUER = "opencdx.cdx";
+
+    private JwtParser jwtParser;
     /**
      * Default Constructor
      */
     public JwtTokenUtil() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+        this.jwtParser = Jwts.parser().setSigningKey(JWT_SECRET.getBytes()).build();
     }
 
     /**
@@ -112,7 +109,7 @@ public class JwtTokenUtil {
      */
     public boolean validate(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET.getBytes()).build().parseClaimsJws(token);
+            this.jwtParser.parse(token);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature - {}", ex.getMessage());
