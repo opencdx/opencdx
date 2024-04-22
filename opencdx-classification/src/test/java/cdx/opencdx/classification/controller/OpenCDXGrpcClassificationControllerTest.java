@@ -29,6 +29,8 @@ import cdx.opencdx.commons.service.*;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.grpc.types.EmailType;
@@ -40,6 +42,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -277,6 +280,21 @@ class OpenCDXGrpcClassificationControllerTest {
         this.openCDXGrpcClassificationController.classify(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ClassificationResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getRuleSets() {
+        StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        RuleSetsRequest request = RuleSetsRequest.newBuilder()
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        this.openCDXGrpcClassificationController.getRuleSets(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(RuleSetsResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

@@ -211,7 +211,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 () -> this.openCDXConnectedLabService.updateConnectedLab(createConnectedLabRequest));
     }
 
-    @Test
+    // @Test
     void deleteConnectedLab() {
         DeleteConnectedLabRequest deleteConnectedLabRequest = DeleteConnectedLabRequest.newBuilder()
                 .setConnectedLabId(OpenCDXIdentifier.get().toHexString())

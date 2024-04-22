@@ -287,6 +287,28 @@ class OpenCDXMedicationServiceImplTest {
                 this.openCDXApiFDA);
 
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
+                .build();
+
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXMedicationService.listCurrentMedications(listMedicationsRequest));
+    }
+
+    @Test
+    void listCurrentMedications_objectMapper_else() throws JsonProcessingException {
+        this.objectMapper = mock(ObjectMapper.class);
+        when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXMedicationService = new OpenCDXMedicationServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.openCDXMedicationRepository,
+                this.openCDXProfileRepository,
+                this.openCDXApiFDA);
+
+        ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
                 .setNationalHealthId(UUID.randomUUID().toString())
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
@@ -294,6 +316,31 @@ class OpenCDXMedicationServiceImplTest {
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
+                () -> this.openCDXMedicationService.listCurrentMedications(listMedicationsRequest));
+    }
+
+    @Test
+    void listCurrentMedications_objectMapper_NoElse() throws JsonProcessingException {
+        this.objectMapper = mock(ObjectMapper.class);
+        when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXMedicationService = new OpenCDXMedicationServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.openCDXMedicationRepository,
+                this.openCDXProfileRepository,
+                this.openCDXApiFDA);
+
+        ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setSort("id")
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .build())
+                .build();
+
+        Assertions.assertDoesNotThrow(
                 () -> this.openCDXMedicationService.listCurrentMedications(listMedicationsRequest));
     }
 
