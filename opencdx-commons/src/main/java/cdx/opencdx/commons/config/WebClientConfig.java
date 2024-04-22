@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import io.netty.handler.ssl.SslContextBuilder;
 import java.io.FileInputStream;
@@ -34,6 +35,7 @@ import reactor.netty.http.client.HttpClient;
 /**
  * Configuration for WebClient
  */
+@ExcludeFromJacocoGeneratedReport
 @AutoConfiguration
 @Configuration
 @Slf4j
@@ -51,6 +53,7 @@ public class WebClientConfig {
      * @return ZipkinWebClientBuilderCustomizer
      */
     @Bean
+    @ExcludeFromJacocoGeneratedReport
     ZipkinWebClientBuilderCustomizer myCustomizer(@Value("${opencdx.client.trustStore}") String trustStore) {
         return webClientBuilder -> {
             final HttpClient httpClient = HttpClient.create().secure(ssl -> {

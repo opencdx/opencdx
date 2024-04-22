@@ -19,6 +19,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientBuilderCustomizer;
@@ -34,6 +35,7 @@ import reactor.netty.http.client.HttpClient;
  */
 @Configuration
 @Slf4j
+@Generated
 public class WebClientConfig {
 
     /**

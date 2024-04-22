@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.commons.security;
 
+import static java.lang.String.format;
+
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Date;
-
-import static java.lang.String.format;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility for JWT Tokens
