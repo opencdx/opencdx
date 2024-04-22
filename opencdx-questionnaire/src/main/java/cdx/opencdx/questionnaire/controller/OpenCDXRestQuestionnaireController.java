@@ -19,6 +19,7 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.questionnaire.*;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Post Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PostMapping(value = "/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -59,7 +60,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Update Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PutMapping(value = "/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -70,19 +71,23 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Questionnaire Rest API
-     * @param questionnaireId GetQuestionnaireRequest indicating questionnaire realted data
+     * @param questionnaireId GetQuestionnaireRequest indicating questionnaire related data
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/questionnaire/{Id}")
-    public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable(value = "Id") String questionnaireId) {
-        Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(
-                GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build());
+    public ResponseEntity<Questionnaire> getQuestionnaire(
+            @PathVariable(value = "Id") String questionnaireId, @RequestParam Optional<Boolean> updateAnswers) {
+        Questionnaire questionnaire =
+                openCDXQuestionnaireService.getSubmittedQuestionnaire(GetQuestionnaireRequest.newBuilder()
+                        .setId(questionnaireId)
+                        .setUpdateAnswers(updateAnswers.orElse(false))
+                        .build());
         return new ResponseEntity<>(questionnaire, HttpStatus.OK);
     }
 
     /**
      * Get Questionnaires Response Rest API
-     * @param request GetSubmittedQuestionnaireList indicating questionnaire realted data
+     * @param request GetSubmittedQuestionnaireList indicating questionnaire related data
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/questionnaire/list")
@@ -124,7 +129,7 @@ public class OpenCDXRestQuestionnaireController {
     // System Questionnaire API's
     /**
      * Post Create Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PostMapping(value = "/system/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -142,7 +147,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Post Update Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PutMapping(value = "/system/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -173,7 +178,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Questionnaires Response Rest API
-     * @param request GetQuestionnaireListRequest indicating questionnaire realted data
+     * @param request GetQuestionnaireListRequest indicating questionnaire related data
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/system/questionnaire/list")
@@ -204,7 +209,7 @@ public class OpenCDXRestQuestionnaireController {
     // Client Questionnaire API's
     /**
      * Post Create Client Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PostMapping(value = "/client/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -223,7 +228,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Post Update Client Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PutMapping(value = "/client/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -255,7 +260,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Client Questionnaires Response Rest API
-     * @param request GetClientQuestionnaireListRequest indicating questionnaire realted data
+     * @param request GetClientQuestionnaireListRequest indicating questionnaire related data
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/client/questionnaire/list")
@@ -280,7 +285,7 @@ public class OpenCDXRestQuestionnaireController {
     // User Questionnaire API's
     /**
      * Post Create User Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @param request QuestionnaireRequest indicating questionnaire related data
      * @return SubmissionResponse with the message.
      */
     @PostMapping(value = "/user/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -305,7 +310,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get User Questionnaires Response Rest API
-     * @param request GetUserQuestionnaireListRequest indicating questionnaire realted data
+     * @param request GetUserQuestionnaireListRequest indicating questionnaire related data
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/user/questionnaire/list")

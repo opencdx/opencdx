@@ -123,9 +123,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     public Questionnaire createQuestionnaire(QuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = new OpenCDXQuestionnaireModel(request.getQuestionnaire());
 
-        populateQuestionChoices(model);
-
-        model = this.openCDXQuestionnaireRepository.save(model);
+        model = this.openCDXQuestionnaireRepository.save(populateQuestionChoices(model));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -185,6 +183,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public Questionnaire getSubmittedQuestionnaire(GetQuestionnaireRequest request) {
+        if (request.getUpdateAnswers()) {
+            return refreshQuestionnaire(request);
+        }
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
@@ -202,8 +203,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
 
-        populateQuestionChoices(model);
-        model = this.openCDXQuestionnaireRepository.save(model);
+        model = this.openCDXQuestionnaireRepository.save(populateQuestionChoices(model));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -243,6 +243,20 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     request.getPagination().getPageSize());
         }
         Page<OpenCDXQuestionnaireModel> all = this.openCDXQuestionnaireRepository.findAll(pageable);
+        if (request.getUpdateAnswers()) {
+            List<Questionnaire> questionnaires = new ArrayList<>();
+            for (OpenCDXQuestionnaireModel questionnaire : all.getContent()) {
+                questionnaires.add(populateQuestionChoices(questionnaire).getProtobufMessage());
+            }
+
+            return Questionnaires.newBuilder()
+                    .setPagination(Pagination.newBuilder(request.getPagination())
+                            .setTotalPages(all.getTotalPages())
+                            .setTotalRecords(all.getTotalElements())
+                            .build())
+                    .addAllQuestionnaires(questionnaires)
+                    .build();
+        }
         return Questionnaires.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())
@@ -593,7 +607,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .build();
     }
 
-    private void populateQuestionChoices(OpenCDXQuestionnaireModel model) {
+    private OpenCDXQuestionnaireModel populateQuestionChoices(OpenCDXQuestionnaireModel model) {
         if (model.getItems() != null) {
             List<QuestionnaireItem> questions = new ArrayList<>();
 
@@ -615,6 +629,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
 
             model.setItems(questions);
         }
+
+        return model;
     }
 
     @SuppressWarnings("java:S1172")
