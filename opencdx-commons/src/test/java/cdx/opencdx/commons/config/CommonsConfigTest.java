@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.commons.config;
 
+import static org.mockito.Mockito.mock;
+
 import cdx.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.Actor;
@@ -30,8 +32,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -48,7 +51,7 @@ class CommonsConfigTest {
 
     @BeforeEach
     void setUp() {
-        this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
+        this.openCDXCurrentUser = mock(OpenCDXCurrentUser.class);
         this.commonsConfig = new CommonsConfig();
     }
 
@@ -77,5 +80,21 @@ class CommonsConfigTest {
     @Test
     void nullCheck() {
         Assertions.assertNotNull(this.commonsConfig);
+    }
+
+    @Test
+    void test() {
+        CommonsConfig commonsConfig = new CommonsConfig();
+        commonsConfig.createConnectionListener();
+        Assertions.assertNotNull(this.openCDXCurrentUser);
+    }
+
+    @Test
+    void test2() {
+        MongoDatabaseFactory databaseFactory = mock(MongoDatabaseFactory.class);
+        MappingMongoConverter converter = mock(MappingMongoConverter.class);
+        CommonsConfig commonsConfig = new CommonsConfig();
+        Assertions.assertThrows(
+                IllegalArgumentException.class, () -> commonsConfig.mongoTemplate(databaseFactory, converter));
     }
 }

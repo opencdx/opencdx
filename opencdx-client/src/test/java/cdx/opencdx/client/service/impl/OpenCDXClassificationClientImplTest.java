@@ -18,9 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXClassificationClient;
-import cdx.opencdx.grpc.service.classification.ClassificationRequest;
-import cdx.opencdx.grpc.service.classification.ClassificationResponse;
-import cdx.opencdx.grpc.service.classification.ClassificationServiceGrpc;
+import cdx.opencdx.grpc.service.classification.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -70,5 +68,27 @@ class OpenCDXClassificationClientImplTest {
                 ClassificationResponse.getDefaultInstance(),
                 this.openCDXClassificationClient.classify(
                         ClassificationRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void getRuleSets() {
+        Mockito.when(this.classificationServiceBlockingStub.getRuleSets(Mockito.any(RuleSetsRequest.class)))
+                .thenReturn(RuleSetsResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                RuleSetsResponse.getDefaultInstance(),
+                this.openCDXClassificationClient.getRuleSets(
+                        RuleSetsRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void getRuleSetsException() {
+        Mockito.when(this.classificationServiceBlockingStub.getRuleSets(Mockito.any(RuleSetsRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        RuleSetsRequest request = RuleSetsRequest.getDefaultInstance();
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXClassificationClient.getRuleSets(request, openCDXCallCredentials));
     }
 }

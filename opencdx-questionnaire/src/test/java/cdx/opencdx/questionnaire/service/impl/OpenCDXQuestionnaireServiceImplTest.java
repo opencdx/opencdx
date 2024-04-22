@@ -16,6 +16,7 @@
 package cdx.opencdx.questionnaire.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -618,5 +619,254 @@ class OpenCDXQuestionnaireServiceImplTest {
 
         Assertions.assertEquals(
                 answer, response.getItem(0).getAnswerOption(0).getValueCoding().getDisplay());
+    }
+
+    @Test
+    void testRefreshQuestionnaireCatch() throws JsonProcessingException {
+        String code = "123-abc";
+        String answer = "Answer 1";
+        ObjectMapper mapper2 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper2.writeValueAsString(Mockito.any(OpenCDXQuestionnaireModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                        .setType("choice")
+                        .build()))
+                .build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model));
+
+        Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
+                        Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(TinkarGetResponse.newBuilder()
+                        .addResults(TinkarGetResult.newBuilder().setDescription(answer))
+                        .build());
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper2,
+                openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.refreshQuestionnaire(request));
+    }
+
+    @Test
+    void testRefreshQuestionnaireOpenCDXNotFound() throws JsonProcessingException {
+        String code = "123-abc";
+        String answer = "Answer 1";
+        ObjectMapper mapper2 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper2.writeValueAsString(Mockito.any(OpenCDXQuestionnaireModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXQuestionnaireModel>>() {
+                    @Override
+                    public Optional<OpenCDXQuestionnaireModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+
+        OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkar"))
+                        .setType("choice")
+                        .build()))
+                .build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model));
+
+        Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
+                        Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenThrow(OpenCDXClientException.class);
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper2,
+                openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.refreshQuestionnaire(request));
+    }
+
+    @Test
+    void testRefreshQuestionnaireOpenCDXNotFoundCode() throws JsonProcessingException {
+        String code = "123-abc";
+        String answer = "Answer 1";
+        ObjectMapper mapper2 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper2.writeValueAsString(Mockito.any(OpenCDXQuestionnaireModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXQuestionnaireModel>>() {
+                    @Override
+                    public Optional<OpenCDXQuestionnaireModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXQuestionnaireModel.builder()
+                                .id(argument)
+                                .items(List.of(QuestionnaireItem.newBuilder()
+                                        .setType("choice")
+                                        .addAllCode(List.of(Code.newBuilder().build()))
+                                        .build()))
+                                .build());
+                    }
+                });
+
+        OpenCDXQuestionnaireModel model = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(QuestionnaireItem.newBuilder()
+                        .addCode(Code.newBuilder().setCode(code).setSystem("tinkars"))
+                        .setType("choice")
+                        .build()))
+                .build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model));
+
+        Mockito.when(openCDXTinkarClient.getTinkarChildConcepts(
+                        Mockito.any(TinkarGetRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenThrow(OpenCDXClientException.class);
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper2,
+                openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.refreshQuestionnaire(request));
+
+        OpenCDXQuestionnaireModel model2 = OpenCDXQuestionnaireModel.builder()
+                .items(Collections.singletonList(
+                        QuestionnaireItem.newBuilder().setType("choice").build()))
+                .build();
+
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(model2));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.refreshQuestionnaire(request));
+    }
+
+    @Test
+    void testCreateUserQuestionnaireDataHasIdOpenCDX() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setId("65bb9634ab091e2343ff7ef7")
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.createUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataOpenCDXNotFound() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        // Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXProfileRepository,
+                this.openCDXTinkarClient);
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> questionnaireService.getUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataSortId() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSort("id")
+                        .setSortAscending(true)
+                        .build())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        UserQuestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
+
+        Assertions.assertEquals(1, response.getListList().size());
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataSortIdDesc() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSort("id")
+                        .setSortAscending(false)
+                        .build())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        UserQuestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
+
+        Assertions.assertEquals(1, response.getListList().size());
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataNotFound() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSort("id")
+                        .setSortAscending(false)
+                        .build())
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
     }
 }

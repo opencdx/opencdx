@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.client.config;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.ObservationRegistry;
 import java.io.IOException;
+import javax.net.ssl.SSLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -60,7 +59,21 @@ class ClientConfigTest {
         clientConfig.openCDXMedicationAdministrationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXHeartRPMClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXVaccineClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXLabConnectedClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Test
+    void openCDXANFClientCatch() throws IOException {
+        this.observationGrpcClientInterceptor = Mockito.mock(ObservationGrpcClientInterceptor.class);
+        ClientConfig clientConfig = new ClientConfig();
+        String server = "server";
+        Integer port = 9090;
+        String trustStore = "../certs/opencdx.pem";
+        Assertions.assertThrows(
+                SSLException.class,
+                () -> clientConfig.openCDXLabConnectedClient(
+                        server, port, "../certs", observationGrpcClientInterceptor));
     }
 }
