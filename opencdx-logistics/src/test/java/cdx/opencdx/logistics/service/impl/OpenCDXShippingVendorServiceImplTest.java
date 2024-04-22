@@ -28,6 +28,8 @@ import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.model.OpenCDXShippingModel;
 import cdx.opencdx.logistics.repository.OpenCDXShippingRepository;
+import cdx.opencdx.logistics.service.OpenCDXShippingVendor;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -43,6 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -190,5 +193,156 @@ class OpenCDXShippingVendorServiceImplTest {
                 openCDXShippingVendorServiceImpl.getDeliveryTracking(deliveryTrackingRequest);
 
         Assertions.assertEquals("789", response.getDeliveryTracking().getTrackingId());
+    }
+
+    @Test
+    void getShippingVendorsExce() {
+        HashMap<String, OpenCDXShippingVendor> hashMap = new HashMap<String, OpenCDXShippingVendor>();
+        OpenCDXShippingVendor openCDXShippingVendor = Mockito.mock(OpenCDXShippingVendor.class);
+        // Mapping string values to int keys
+        hashMap.put("vendor1", openCDXShippingVendor);
+        ReflectionTestUtils.setField(openCDXShippingVendorServiceImpl, "vendors", hashMap);
+        ShippingRequest shippingRequest = ShippingRequest.newBuilder()
+                .setDeclaredValue(Math.random() * 100)
+                .setRequireSignature(Math.random() > 0.5)
+                .setPackageDetails(Order.getDefaultInstance())
+                .setSenderAddress(Address.getDefaultInstance())
+                .setRecipientAddress(Address.getDefaultInstance())
+                .build();
+        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.getShippingVendors(shippingRequest));
+    }
+
+    @Test
+    void createDeliveryTrackingNotificationMobileListEmpty() {
+        OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
+        Order order = Mockito.mock(Order.class);
+        Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
+        Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
+        Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
+        Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
+                .thenReturn(Optional.of(shippingModel));
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("first")
+                                .setLastName("last")
+                                .build())
+                        .addresses(List.of(Address.newBuilder()
+                                .setAddress1("address1")
+                                .setAddress2("address2")
+                                .setAddress3("address3")
+                                .setCity("address3")
+                                .setPostalCode("address4")
+                                .setState("address5")
+                                .setCountryId("countryId")
+                                .build()))
+                        .primaryContactInfo(ContactInfo.newBuilder()
+                                .addAllEmails(List.of(EmailAddress.newBuilder()
+                                        .setType(EmailType.EMAIL_TYPE_WORK)
+                                        .setEmail("ab@safehealth.me")
+                                        .build()))
+                                .build())
+                        .build()));
+        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(DeliveryTracking.newBuilder()
+                        .setTrackingId("60f1e6b1f075a901a94d3762")
+                        .build())
+                .build();
+
+        Assertions.assertEquals(
+                DeliveryTrackingResponse.newBuilder()
+                        .setDeliveryTracking(deliveryTrackingRequest.getDeliveryTracking())
+                        .build(),
+                openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
+    }
+
+    @Test
+    void createDeliveryTrackingNotificationEmailListEmpty() {
+        OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
+        Order order = Mockito.mock(Order.class);
+        Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
+        Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
+        Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
+        Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
+                .thenReturn(Optional.of(shippingModel));
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("first")
+                                .setLastName("last")
+                                .build())
+                        .addresses(List.of(Address.newBuilder()
+                                .setAddress1("address1")
+                                .setAddress2("address2")
+                                .setAddress3("address3")
+                                .setCity("address3")
+                                .setPostalCode("address4")
+                                .setState("address5")
+                                .setCountryId("countryId")
+                                .build()))
+                        .primaryContactInfo(ContactInfo.newBuilder()
+                                .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                        .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                        .setNumber("1234567890")
+                                        .build()))
+                                .build())
+                        .build()));
+        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(DeliveryTracking.newBuilder()
+                        .setTrackingId("60f1e6b1f075a901a94d3762")
+                        .build())
+                .build();
+
+        Assertions.assertEquals(
+                DeliveryTrackingResponse.newBuilder()
+                        .setDeliveryTracking(deliveryTrackingRequest.getDeliveryTracking())
+                        .build(),
+                openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
+    }
+
+    @Test
+    void createDeliveryTrackingOpenCDXNotFound() {
+        OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
+        Order order = Mockito.mock(Order.class);
+        Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
+        Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
+        Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
+        Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
+                .thenReturn(Optional.of(shippingModel));
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.empty());
+        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(DeliveryTracking.newBuilder()
+                        .setTrackingId("60f1e6b1f075a901a94d3762")
+                        .build())
+                .build();
+
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
+    }
+
+    @Test
+    void createDeliveryTrackingNoID() {
+        OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
+        Order order = Mockito.mock(Order.class);
+        Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
+        Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
+        Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
+        Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
+                .thenReturn(Optional.of(shippingModel));
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.empty());
+        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(DeliveryTracking.newBuilder().build())
+                .build();
+
+        Assertions.assertNotNull(openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
     }
 }

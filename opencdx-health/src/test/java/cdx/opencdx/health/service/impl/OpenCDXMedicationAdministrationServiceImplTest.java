@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -233,5 +234,35 @@ class OpenCDXMedicationAdministrationServiceImplTest {
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXMedicationAdministrationService.listMedications(request));
+    }
+
+    @Test
+    void getMedicationById_OpenCDXNotFound() {
+        Mockito.when(this.openCDXMedicationAdministrationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicationAdministrationModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicationAdministrationModel> answer(InvocationOnMock invocation)
+                            throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        GetMedicationByIdRequest request = GetMedicationByIdRequest.newBuilder()
+                .setMedicationId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> openCDXMedicationAdministrationService.getMedicationById(request));
+    }
+
+    @Test
+    void listMedicationsSortNotAscendingNoSort() {
+        ListMedicationsRequest request = ListMedicationsRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> openCDXMedicationAdministrationService.listMedications(request));
     }
 }

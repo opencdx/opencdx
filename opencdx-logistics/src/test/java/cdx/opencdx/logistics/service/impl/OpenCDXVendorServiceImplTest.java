@@ -54,6 +54,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+@SuppressWarnings("java:S5778")
 class OpenCDXVendorServiceImplTest {
 
     @Autowired
@@ -259,5 +260,46 @@ class OpenCDXVendorServiceImplTest {
         Assertions.assertEquals(
                 "Vendor: " + vendorIdRequest.getVendorId() + " is in use.",
                 this.openCDXVendorService.deleteVendor(vendorIdRequest).getMessage());
+    }
+
+    @Test
+    void deleteVendorOpenCDXNotFound() {
+        Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.empty());
+        VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.openCDXVendorService.deleteVendor(vendorIdRequest).getMessage());
+    }
+
+    @Test
+    void deleteVendorOpenCDXNotAcceptable() throws JsonProcessingException {
+        Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXVendorModel.builder().id(OpenCDXIdentifier.get()).build()));
+        VendorIdRequest vendorIdRequest = VendorIdRequest.newBuilder()
+                .setVendorId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        ObjectMapper mapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper1.writeValueAsString(Mockito.any(OpenCDXVendorModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXVendorServiceImpl openCDXVendorService1 = new OpenCDXVendorServiceImpl(
+                this.openCDXVendorRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper1,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> openCDXVendorService1.deleteVendor(vendorIdRequest).getMessage());
     }
 }

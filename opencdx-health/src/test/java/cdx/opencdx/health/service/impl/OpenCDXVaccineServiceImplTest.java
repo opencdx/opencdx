@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -198,5 +199,42 @@ class OpenCDXVaccineServiceImplTest {
                         .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXVaccineService.listVaccines(request));
+    }
+
+    @Test
+    void getVaccineById_OpenCDXNotFound() {
+        Mockito.when(this.openCDXVaccineRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXVaccineModel>>() {
+                    @Override
+                    public Optional<OpenCDXVaccineModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        GetVaccineByIdRequest request = GetVaccineByIdRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> openCDXVaccineService.getVaccineById(request));
+    }
+
+    @Test
+    void listVaccinesOpenCDXNotAcceptable_Sort() {
+        Mockito.when(this.openCDXVaccineRepository.findAllByPatientId(
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXVaccineModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        ListVaccinesRequest request = ListVaccinesRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXVaccineService.listVaccines(request));
     }
 }

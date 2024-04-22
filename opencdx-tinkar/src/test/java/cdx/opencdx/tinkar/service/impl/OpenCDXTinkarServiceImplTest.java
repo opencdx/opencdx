@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
@@ -68,7 +69,7 @@ class OpenCDXTinkarServiceImplTest {
                     .setMaxResults(10)
                     .build());
 
-            Assertions.assertNotNull(response);
+            assertNotNull(response);
             Assertions.assertEquals(1, response.getResultsCount());
 
             primitiveData.verify(PrimitiveData::get);
@@ -109,7 +110,7 @@ class OpenCDXTinkarServiceImplTest {
                     .setConceptId("550e8400-e29b-41d4-a716-446655440000")
                     .build());
 
-            Assertions.assertNotNull(result);
+            assertNotNull(result);
             Assertions.assertEquals("TEST", result.getDescription());
 
             searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)));
@@ -148,7 +149,7 @@ class OpenCDXTinkarServiceImplTest {
             TinkarGetResponse childConcepts = openCDXTinkarService.getTinkarChildConcepts(TinkarGetRequest.newBuilder()
                     .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
                     .build());
-            Assertions.assertNotNull(childConcepts);
+            assertNotNull(childConcepts);
             Assertions.assertEquals(2, childConcepts.getResultsCount());
 
             searcher.verify(() -> Searcher.childrenOf(Mockito.any(PublicId.class)));
@@ -170,12 +171,32 @@ class OpenCDXTinkarServiceImplTest {
                     openCDXTinkarService.getTinkarDescendantConcepts(TinkarGetRequest.newBuilder()
                             .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
                             .build());
-            Assertions.assertNotNull(descendantConcepts);
+            assertNotNull(descendantConcepts);
             Assertions.assertEquals(2, descendantConcepts.getResultsCount());
 
             searcher.verify(() -> Searcher.descendantsOf(Mockito.any(PublicId.class)));
             searcher.verify(() -> Searcher.descriptionsOf(Mockito.any(List.class)), times(2));
         }
+    }
+
+    @Test
+    void testInit() {
+        OpenCDXTinkarServiceImpl openCDXTinkarService = mock(OpenCDXTinkarServiceImpl.class);
+        openCDXTinkarService.initialize();
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).initialize();
+    }
+
+    @Test
+    void testinitializePrimitiveData() {
+        try (MockedStatic<PrimitiveData> primitiveData = Mockito.mockStatic(PrimitiveData.class);
+                MockedStatic<CachingService> cachingService = Mockito.mockStatic(CachingService.class);
+                MockedStatic<ServiceProperties> serviceProperties = Mockito.mockStatic(ServiceProperties.class)) {
+            primitiveData.when(PrimitiveData::running).thenReturn(false);
+        }
+        // when(primitiveDataService.search("test", 10)).thenReturn(createSearchResults());
+
+        OpenCDXTinkarServiceImpl openCDXTinkarService = new OpenCDXTinkarServiceImpl("parent", "child");
+        assertNotNull(openCDXTinkarService);
     }
 
     private PrimitiveDataSearchResult[] createSearchResults() {

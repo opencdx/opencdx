@@ -29,6 +29,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.ClassificationRequest;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.grpc.types.EmailType;
@@ -247,6 +248,19 @@ class OpenCDXRestClassificationControllerTest {
                                                 OpenCDXIdentifier.get().toHexString())
                                         .setGender(Gender.GENDER_MALE)
                                         .setAge(30))
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    void testGetRuleSets() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/ruleset/list")
+                        .content(this.objectMapper.writeValueAsString(RuleSetsRequest.newBuilder()
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

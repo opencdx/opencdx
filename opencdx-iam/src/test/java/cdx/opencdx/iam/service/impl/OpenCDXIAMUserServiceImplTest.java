@@ -576,4 +576,28 @@ class OpenCDXIAMUserServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.currentUser(currentUserRequest));
     }
+
+    @Test
+    void changePasswordPatientEmpty() {
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        when(this.openCDXIAMUserRepository.findById(any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .password("{noop}pass")
+                        .username("username")
+                        .build()));
+        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setNewPassword("newpass")
+                .setOldPassword("pass")
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMUserService.changePassword(request));
+    }
 }
