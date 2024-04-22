@@ -19,6 +19,7 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.questionnaire.*;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,9 +75,13 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/questionnaire/{Id}")
-    public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable(value = "Id") String questionnaireId) {
-        Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(
-                GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build());
+    public ResponseEntity<Questionnaire> getQuestionnaire(
+            @PathVariable(value = "Id") String questionnaireId, @RequestParam Optional<Boolean> updateAnswers) {
+        Questionnaire questionnaire =
+                openCDXQuestionnaireService.getSubmittedQuestionnaire(GetQuestionnaireRequest.newBuilder()
+                        .setId(questionnaireId)
+                        .setUpdateAnswers(updateAnswers.orElse(false))
+                        .build());
         return new ResponseEntity<>(questionnaire, HttpStatus.OK);
     }
 

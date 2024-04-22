@@ -41,6 +41,10 @@ message GetQuestionnaireRequest {
    * The respective pagination information and sorting details.
    */
   cdx.opencdx.grpc.data.Pagination pagination = 2;
+  /*
+   * If the answer choices should be refreshed
+   */
+  optional bool update_answers = 3;
 }
 
 /*
@@ -55,6 +59,10 @@ message GetQuestionnaireListRequest {
    * The respective pagination information and sorting details.
    */
   cdx.opencdx.grpc.data.Pagination pagination = 2;
+  /*
+   * If the answer choices should be refreshed
+   */
+  optional bool update_answers = 3;
 }
 
 /*
