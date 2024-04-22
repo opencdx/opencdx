@@ -754,6 +754,13 @@ done
 
 export version=$(generate_version_number)
 
+if command -v yq &> /dev/null
+then
+    echo "yq is installed."
+else
+    echo "'yq' command is not available. Please install it"
+fi
+
 # Check for the required JDK version
 java_version=$(java -version 2>&1 | grep version | awk -F\" '{print $2}')
 if [[ "$java_version" == *"$required_jdk_version"* ]]; then
