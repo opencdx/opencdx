@@ -19,14 +19,20 @@ required_jdk_version="21"
 # Specify the desired Node.js version
 node_version="20.0.0"
 
+# Keytool version
+keytool_version="20.0.1"
+
+# openssl version
+openssl_version="3.0.8"
+
 # Function to handle errors
 # Parameters: $1 - Error message
 handle_error() {
     if [ -t 1 ]; then
         # Check if stdout is a terminal
-        echo -e "${RED}Error: $1${NC}"
+        echo -e "${RED}Error: $@${NC}"
     else
-        echo "Error: $1"
+        echo "Error: $@"
     fi
     exit 1
 }
@@ -34,11 +40,11 @@ handle_error() {
 handle_warn() {
     if [ -t 1 ]; then
         # Check if stdout is a terminal
-        echo -e "${RED}$1${NC}"
+        echo -e "${RED}$@${NC}"
         echo -e "${GREEN}Press any key to continue...${NC}"
         read -n 1  # waits for one character of input
     else
-        echo "$1"
+        echo "$@"
         echo "Press any key to continue..."
         read -n 1  # waits for one character of input
     fi
@@ -48,9 +54,9 @@ handle_warn() {
 handle_info() {
     if [ -t 1 ]; then
         # Check if stdout is a terminal
-        echo -e "${YELLOW}$1${NC}"
+        echo -e "${YELLOW}$@${NC}"
     else
-        echo "$1"
+        echo "$@"
     fi
 }
 
@@ -63,6 +69,77 @@ handle_menu() {
       fi
 }
 
+required_software() {
+  yq_installed=false
+  java_installed=false
+  docker_installed=false
+  open_installed=false
+  tinkar_installed=false
+  openssl_installed=false
+  keytool_installed=false
+
+  if command -v yq &> /dev/null
+  then
+      yq_installed=true
+  fi
+
+  # Check for the required JDK version
+  java_version=$(java -version 2>&1 | grep version | awk -F\" '{print $2}')
+  if [[ "$java_version" == *"$required_jdk_version"* ]]; then
+      java_installed=true
+  fi
+
+  # Check for Docker
+  if command -v docker &> /dev/null; then
+      docker_installed=true
+  fi
+
+  # Check for 'open' command (for macOS)
+  if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]] && command -v open &> /dev/null; then
+      open_installed=true
+  fi
+
+  # Check tinkar directory
+  dir="./data/solor-us-tinkar.sa"
+  if [[ -d "$dir" ]]; then
+    tinkar_installed=true
+  fi
+
+  # Check for OpenSSL
+  if command -v openssl &> /dev/null; then
+   local current_openssl_version=$(openssl version | awk '{print $2}')
+     if [ "$(printf '%s\n' "$openssl_version" "$current_openssl_version" | sort -V | head -n1)" == "$openssl_version" ]; then
+         openssl_installed=true
+     fi
+  fi
+
+ # Check for Keytool
+  if  command -v keytool &> /dev/null; then
+        local current_keytool_version=$(keytool -version | awk '{print $2}')
+        if [ "$(printf '%s\n' "$keytool_version" "$current_keytool_version" | sort -V | head -n1)" == "$keytool_version" ]; then
+            keytool_installed=true
+        fi
+  fi
+
+  # Display the status of required software
+  handle_info "Required Software:"
+  handle_info "  Java: $java_installed Required Version: $java_version"
+  handle_info "  OpenSSL: $openssl_installed Minimum Version: $openssl_version"
+  handle_info "  Keytool: $keytool_installed Minimum Version: $keytool_version"
+  handle_info "  Docker: $docker_installed"
+  handle_info "  Tinkar: $tinkar_installed"
+  handle_info "  open: $open_installed"
+  handle_info "  yq: $yq_installed"
+
+  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed )
+  then
+    handle_error "Required software is not installed. Please install missing required software."
+  else
+    handle_info "All dependencies are installed."
+  fi
+}
+
+required_software
 
 git_info() {
     # Check if the current directory is a Git repository
@@ -102,13 +179,6 @@ delete_except() {
       rm -rf "$file"
     fi
   done
-}
-
-check_tinkar_directory() {
-  dir="./data/solor-us-tinkar.sa"
-  if [[ ! -d "$dir" ]]; then
-    handle_warn "Error: Directory $dir does not exist. Please copy solor-us-tinkar.sa to the data directory, for opencdx-tinkar to function."
-  fi
 }
 
 generate_version_number() {
@@ -753,29 +823,6 @@ done
 
 
 export version=$(generate_version_number)
-
-# Check for the required JDK version
-java_version=$(java -version 2>&1 | grep version | awk -F\" '{print $2}')
-if [[ "$java_version" == *"$required_jdk_version"* ]]; then
-    handle_info "JDK $required_jdk_version is installed."
-else
-    handle_error "JDK $required_jdk_version is required. Please install the required JDK version."
-fi
-# Check for Tinkar Directory
-check_tinkar_directory
-
-# Check for Docker
-if ! command -v docker &> /dev/null; then
-    handle_error "Docker is not installed. Please install Docker and try again."
-fi
-
-# Check for 'open' command (for macOS)
-if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]] && ! command -v open &> /dev/null; then
-    handle_error "'open' command is not available. Please install it or use an appropriate alternative."
-fi
-
-
-handle_info "All dependencies are installed."
 
 sleep 2
 
