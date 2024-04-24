@@ -601,6 +601,19 @@ class OpenCDXIAMProfileServiceImplTest {
                 .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .build());
 
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(OpenCDXIdentifier.get())
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXProfileRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         Mockito.when(this.openCDXProfileRepository.existsByNationalHealthId(Mockito.any(String.class)))
@@ -779,6 +792,88 @@ class OpenCDXIAMProfileServiceImplTest {
 
         CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
                 .setUserProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.createUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_9() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(OpenCDXIdentifier.get())
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                        .build());
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setUserId(OpenCDXIdentifier.get().toHexString());
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder()
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
+                        .build(),
+                Address.newBuilder()
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
+                        .build(),
+                Address.newBuilder()
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
+                        .build()));
+        builder.setEmergencyContact(EmergencyContact.newBuilder()
+                .setContactInfo(ContactInfo.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCity("City")
+                                .setCountryId(OpenCDXIdentifier.get().toHexString())
+                                .setState("CA")
+                                .setPostalCode("12345")
+                                .setAddress1("101 Main Street")
+                                .build()))
+                        .addAllEmails(List.of(EmailAddress.newBuilder()
+                                .setEmail("email@email.com")
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setNumber("1234567890")
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .build()))
+                        .build())
+                .build());
+        builder.setPharmacyDetails(Pharmacy.newBuilder()
+                .setPharmacyAddress(Address.newBuilder()
+                        .setCountryId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(OpenCDXIdentifier.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                .build());
+
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(UserProfile.newBuilder().build())
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.createUserProfile(request));
     }

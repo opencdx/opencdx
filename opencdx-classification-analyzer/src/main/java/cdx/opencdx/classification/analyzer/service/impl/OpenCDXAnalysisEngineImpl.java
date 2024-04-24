@@ -229,8 +229,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     }
 
     private void runRules(UserQuestionnaireData userQuestionnaireData, Classification.Builder builder) {
-        if (userQuestionnaireData != null
-                && userQuestionnaireData.getQuestionnaireDataCount() > 0
+        if (userQuestionnaireData.getQuestionnaireDataCount() > 0
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isEmpty()
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isBlank()
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
@@ -264,8 +263,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     }
 
     private Object getResponse(UserQuestionnaireData userQuestionnaireData) {
-        if (userQuestionnaireData != null
-                && userQuestionnaireData.getQuestionnaireDataCount() > 0
+        if (userQuestionnaireData.getQuestionnaireDataCount() > 0
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
             String questionId = userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionId(0);
 

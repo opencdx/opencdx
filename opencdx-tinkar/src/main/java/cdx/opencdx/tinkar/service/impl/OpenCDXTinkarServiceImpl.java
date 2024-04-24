@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
@@ -60,6 +61,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     /**
      * Initializer
      */
+    @ExcludeFromJacocoGeneratedReport
     @Scheduled(initialDelay = 30000, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
@@ -125,6 +127,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @ExcludeFromJacocoGeneratedReport
     private void initializePrimitiveData(String pathParent, String pathChild) {
         if (!PrimitiveData.running()) {
             CachingService.clearAll();

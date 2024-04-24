@@ -89,6 +89,9 @@ public class OpenCDXProfileModel {
                     userProfile.getDateOfBirth().getSeconds(),
                     userProfile.getDateOfBirth().getNanos());
         }
+        if (userProfile.hasPlaceOfBirth()) {
+            this.placeOfBirth = userProfile.getPlaceOfBirth();
+        }
         this.isActive = userProfile.getIsActive();
         this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();

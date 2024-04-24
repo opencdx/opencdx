@@ -195,40 +195,6 @@ class OpenCDXAnalysisEngineImplTest {
     }
 
     @Test
-    void analyzeQuestionnaireIsNull() {
-        this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
-        this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
-        this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
-        RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
-        UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
-                .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
-                        .setRuleId(" ")
-                        .addAllRuleQuestionId(List.of("q1", "q2"))
-                        .build()))
-                .build();
-
-        Media media = Media.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setMimeType("text/plain")
-                .build();
-        ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
-        when(responseEntity.getBody()).thenReturn(Mockito.mock(Resource.class));
-        when(openCDXMediaUpDownClient.download(anyString(), anyString(), anyString()))
-                .thenReturn(responseEntity);
-        when(openCDXCurrentUser.getCurrentUserAccessToken()).thenReturn("token");
-        TestCaseListResponse testCaseListResponse =
-                TestCaseListResponse.newBuilder().build();
-        when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
-        OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
-        when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
-    }
-
-    @Test
     void analyzeQuestionnaireBloodPressureCatch() throws IOException {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
@@ -740,6 +706,90 @@ class OpenCDXAnalysisEngineImplTest {
                 .addAllItem(List.of(QuestionnaireItem.newBuilder()
                         .setLinkId("q3")
                         .setType("boolean")
+                        .build()))
+                .addAllAnswer(
+                        List.of(AnswerValue.newBuilder().setValueBoolean(true).build()))
+                .build();
+        UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
+                        .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
+                        .addAllItem(List.of(questionnaireItem, questionnaireItem2))
+                        .build()))
+                .build();
+
+        Media media = Media.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setMimeType("text/plain")
+                .build();
+        ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
+        when(responseEntity.getBody()).thenReturn(Mockito.mock(Resource.class));
+        when(openCDXMediaUpDownClient.download(anyString(), anyString(), anyString()))
+                .thenReturn(responseEntity);
+        when(openCDXCurrentUser.getCurrentUserAccessToken()).thenReturn("token");
+        TestCaseListResponse testCaseListResponse =
+                TestCaseListResponse.newBuilder().build();
+        when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
+        OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
+        when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
+        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        KnowledgeService knowledgeService = mock(KnowledgeService.class);
+
+        Knowledge knowledge = mock(Knowledge.class);
+        when(knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRules.class))
+                .thenReturn(knowledge);
+        StatelessSession statelessSession = mock(StatelessSession.class);
+        RuleResult result = mock(RuleResult.class);
+        result.setType(ClassificationType.BACTERIAL);
+        result.setTestKit(TestKit.newBuilder().build());
+        doAnswer(new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocation) throws Throwable {
+                        RuleResult argument = invocation.getArgument(2);
+                        argument.setType(ClassificationType.BACTERIAL);
+                        argument.setTestKit(TestKit.newBuilder().build());
+                        return null;
+                    }
+                })
+                .when(statelessSession)
+                .insertAndFire(anyBoolean(), Mockito.any(RuleResult.class));
+        when(knowledge.newStatelessSession()).thenReturn(statelessSession);
+
+        statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
+        when(knowledge.newStatelessSession()).thenReturn(statelessSession);
+        Assertions.assertDoesNotThrow(
+                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        UserQuestionnaireData userQuestionnaireData2 = UserQuestionnaireData.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertDoesNotThrow(
+                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData2));
+    }
+
+    @Test
+    void analyzeQuestionnaireBloodPressureQuesIDCountZeroDefaultSwitch() throws IOException {
+        this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
+        this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
+        this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
+        OpenCDXAnalysisEngineImpl engine =
+                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
+                .setLinkId("q1")
+                .setType("string")
+                .addAllItem(List.of(QuestionnaireItem.newBuilder()
+                        .setLinkId("q1")
+                        .setType("string")
+                        .build()))
+                .addAllAnswer(
+                        List.of(AnswerValue.newBuilder().setValueBoolean(true).build()))
+                .build();
+        QuestionnaireItem questionnaireItem2 = QuestionnaireItem.newBuilder()
+                .setLinkId("q2")
+                .setType("string")
+                .addAllItem(List.of(QuestionnaireItem.newBuilder()
+                        .setLinkId("q3")
+                        .setType("string")
                         .build()))
                 .addAllAnswer(
                         List.of(AnswerValue.newBuilder().setValueBoolean(true).build()))

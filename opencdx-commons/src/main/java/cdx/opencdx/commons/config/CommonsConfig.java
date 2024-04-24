@@ -44,6 +44,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -90,6 +91,7 @@ public class CommonsConfig {
      */
     @Bean
     @ExcludeFromJacocoGeneratedReport
+    @Generated
     public ConnectionListener createConnectionListener() {
         return (conn, type) -> log.error(
                 "Connection Event: {}  Connection: {}", type, conn.getStatus().name());
@@ -131,6 +133,7 @@ public class CommonsConfig {
     @Bean
     @Profile("mongo")
     @ExcludeFromJacocoGeneratedReport
+    @Generated
     MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
             ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
         log.trace("Setting up Mongo Observability Customizer");

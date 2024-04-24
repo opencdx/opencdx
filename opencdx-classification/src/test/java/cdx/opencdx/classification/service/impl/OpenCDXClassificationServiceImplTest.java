@@ -579,6 +579,49 @@ class OpenCDXClassificationServiceImplTest {
     }
 
     @Test
+    void testSubmitMailingShippingNull() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(OpenCDXIdentifier.get());
+                            argument.setPatient(OpenCDXProfileModel.builder()
+                                    .id(OpenCDXIdentifier.get())
+                                    .fullName(FullName.newBuilder()
+                                            .setFirstName("John")
+                                            .setLastName("doe")
+                                            .build())
+                                    .addresses(List.of())
+                                    .primaryContactInfo(ContactInfo.newBuilder()
+                                            .addAllEmails(List.of())
+                                            .build())
+                                    .build());
+                        }
+                        return argument;
+                    }
+                });
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setMediaId(OpenCDXIdentifier.get().toHexString())
+                        .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                        .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build();
+
+        // Assertions.assertThrows(NullPointerException.class, () -> this.classificationService.classify(request));
+        Assertions.assertDoesNotThrow(() -> this.classificationService.classify(request));
+    }
+
+    @Test
     void testSubmitClassificationFail() throws JsonProcessingException {
         // Mock the ObjectMapper
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -894,51 +937,8 @@ class OpenCDXClassificationServiceImplTest {
         Assertions.assertDoesNotThrow(() -> this.classificationService.classify(request));
     }
 
-    // @Test
-    void testSubmitClassificationProcessClassificationMailing() {
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
-                    @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
-                        if (argument.getId() == null) {
-                            argument.setId(OpenCDXIdentifier.get());
-                            argument.setPatient(OpenCDXProfileModel.builder()
-                                    .id(OpenCDXIdentifier.get())
-                                    .fullName(FullName.newBuilder()
-                                            .setFirstName("John")
-                                            .setLastName("doe")
-                                            .build())
-                                    .addresses(List.of())
-                                    .primaryContactInfo(ContactInfo.newBuilder()
-                                            .addAllEmails(List.of())
-                                            .build())
-                                    .build());
-                        }
-                        return argument;
-                    }
-                });
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
-
-        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        ClassificationRequest request = ClassificationRequest.newBuilder()
-                .setUserAnswer(UserAnswer.newBuilder()
-                        .setPatientId(OpenCDXIdentifier.get().toHexString())
-                        .setMediaId(OpenCDXIdentifier.get().toHexString())
-                        .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
-                        .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
-                        .build())
-                .build();
-
-        // Assertions.assertThrows(NullPointerException.class, () -> this.classificationService.classify(request));
-        Assertions.assertDoesNotThrow(() -> this.classificationService.classify(request));
-    }
-
     @Test
-    void testSubmitClassificationOpenCDXNotFound2() {
+    void testSubmitOpenCDXNotFound2() {
         Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXClassificationModel>() {
                     @Override

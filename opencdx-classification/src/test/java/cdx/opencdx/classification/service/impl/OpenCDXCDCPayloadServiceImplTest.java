@@ -555,4 +555,117 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .build();
     }
+
+    @Test
+    void testSendCDCPayloadMessageOrderableTestResultsListIsEmpty() {
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
+
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setId(testId)
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .setPatientId(patientId)
+                        .build())
+                .setTestDetails(
+                        TestDetails.newBuilder().setDeviceIdentifier(deviceId).build())
+                .build();
+
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
+        openCDXProfileModel.setId(new OpenCDXIdentifier(patientId));
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
+        openCDXProfileModel.setActive(true);
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        Manufacturer manufacturerInfo = Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build();
+        when(openCDXCurrentUser.getCurrentUserAccessToken()).thenReturn("ACCESS_TOKEN");
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(manufacturerInfo);
+
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(model);
+
+        verify(openCDXCurrentUser).getCurrentUserAccessToken();
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+    }
+
+    @Test
+    void testSendCDCPayloadMessageOrderableTestResultsListIsEmpty2() {
+        String testId = OpenCDXIdentifier.get().toHexString();
+        String patientId = OpenCDXIdentifier.get().toHexString();
+        String deviceId = OpenCDXIdentifier.get().toHexString();
+        String manufacturerId = OpenCDXIdentifier.get().toHexString();
+        String vendorId = OpenCDXIdentifier.get().toHexString();
+        String countryId = OpenCDXIdentifier.get().toHexString();
+
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setId(testId)
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .setPatientId(patientId)
+                        .build())
+                .setTestDetails(
+                        TestDetails.newBuilder().setDeviceIdentifier(deviceId).build())
+                .build();
+
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
+        openCDXProfileModel.setId(new OpenCDXIdentifier(patientId));
+        openCDXProfileModel.setDemographics(
+                Demographics.newBuilder().setGender(Gender.GENDER_FEMALE).build());
+        openCDXProfileModel.setAddresses(List.of());
+        openCDXProfileModel.setActive(true);
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        Manufacturer manufacturerInfo = Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build();
+        when(openCDXCurrentUser.getCurrentUserAccessToken()).thenReturn("ACCESS_TOKEN");
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(manufacturerInfo);
+
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(model);
+
+        verify(openCDXCurrentUser).getCurrentUserAccessToken();
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+    }
 }
