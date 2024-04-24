@@ -19,6 +19,7 @@ required_jdk_version="21"
 # Specify the desired Node.js version
 node_version="20.0.0"
 
+
 # Keytool version
 keytool_version="20.0.1"
 
@@ -77,6 +78,7 @@ required_software() {
   tinkar_installed=false
   openssl_installed=false
   keytool_installed=false
+  node_installed=false
 
   if command -v yq &> /dev/null
   then
@@ -121,17 +123,33 @@ required_software() {
         fi
   fi
 
+
+# Check if Node.js is installed
+if command -v node &> /dev/null; then
+  # Get the installed Node.js version
+  installed_version=$(node -v | cut -c 2-)
+
+  # Compare the installed version with the desired version
+  if [ "$(printf '%s\n' "$installed_version" "$node_version" | sort -V | head -n 1)" == "$node_version" ]; then
+    node_installed=true
+  fi
+fi
+
+
+
   # Display the status of required software
   handle_info "Required Software:"
-  handle_info "  Java: $java_installed Required Version: $java_version"
-  handle_info "  OpenSSL: $openssl_installed Minimum Version: $openssl_version"
-  handle_info "  Keytool: $keytool_installed Minimum Version: $keytool_version"
-  handle_info "  Docker: $docker_installed"
-  handle_info "  Tinkar: $tinkar_installed"
-  handle_info "  open: $open_installed"
-  handle_info "  yq: $yq_installed"
+  handle_info " Software\tInstalled\tRequired Version\tMinimum Version"
+  handle_info "  Java\t\t$java_installed\t\t$java_version"
+  handle_info "  OpenSSL\t$openssl_installed\t\t\t\t\t$openssl_version"
+  handle_info "  Keytool\t$keytool_installed\t\t\t\t\t$keytool_version"
+  handle_info "  Node.js\t$node_installed\t\t\t\t\t$node_version"
+  handle_info "  Docker\t$docker_installed"
+  handle_info "  Tinkar\t$tinkar_installed"
+  handle_info "  open\t\t$open_installed"
+  handle_info "  yq\t\t$yq_installed"
 
-  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed )
+  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed )
   then
     handle_error "Required software is not installed. Please install missing required software."
   else
