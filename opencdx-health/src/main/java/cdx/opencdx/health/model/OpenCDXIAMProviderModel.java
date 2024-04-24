@@ -22,10 +22,6 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.types.AddressPurpose;
 import cdx.opencdx.grpc.types.ProviderStatus;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
-import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +29,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Model for Provider in Mongo. Features conversions to/from Protobuf messages.
@@ -72,6 +72,7 @@ public class OpenCDXIAMProviderModel {
      * @param openCDXCountryRepository Country Repository
      */
     public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result, OpenCDXCountryRepository openCDXCountryRepository) {
+        this.id = new OpenCDXIdentifier();
         this.created_epoch = result.getCreatedEpoch();
         this.enumeration_type = result.getEnumerationType();
         this.last_updated_epoch = result.getLastUpdatedEpoch();
@@ -226,24 +227,6 @@ public class OpenCDXIAMProviderModel {
         }
         if (this.otherNames != null) {
             builder.addAllOtherNames(this.otherNames);
-        }
-        if (created != null) {
-            builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(created.getEpochSecond())
-                    .setNanos(created.getNano())
-                    .build());
-        }
-        if (modified != null) {
-            builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(modified.getEpochSecond())
-                    .setNanos(modified.getNano())
-                    .build());
-        }
-        if (creator != null) {
-            builder.setCreator(creator.toHexString());
-        }
-        if (modifier != null) {
-            builder.setModifier(modifier.toHexString());
         }
         return builder.build();
     }

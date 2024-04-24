@@ -15,10 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -37,9 +33,6 @@ import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,6 +48,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -413,5 +414,31 @@ class OpenCDXMedicationServiceImplTest {
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXMedicationService.ending(endMedicationRequest));
+    }
+
+    @Test
+    void listAllMedications_Sort() throws JsonProcessingException {
+        this.objectMapper = mock(ObjectMapper.class);
+        when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXMedicationService = new OpenCDXMedicationServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.openCDXMedicationRepository,
+                this.openCDXProfileRepository,
+                this.openCDXApiFDA);
+
+        ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
+                .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
     }
 }

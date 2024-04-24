@@ -476,4 +476,43 @@ class OpenCDXConnectedLabServiceImplTest {
                 OpenCDXNotFound.class,
                 () -> this.openCDXConnectedLabService.deleteConnectedLab(deleteConnectedLabRequest));
     }
+
+    @Test
+    void submitLabFindings_ModelEmpty() throws Exception {
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.empty());
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
+                    @Override
+                    public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+
+                        return Optional.of(OpenCDXConnectedLabModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .identifier("default")
+                                .created(Instant.now())
+                                .modified(Instant.now())
+                                .creator(OpenCDXIdentifier.get())
+                                .modifier(OpenCDXIdentifier.get())
+                                .build());
+                    }
+                });
+        //        Mockito.when(openCDXLabConnectionFactoryBean.getConnection(Mockito.any(String.class)))
+        //                .thenThrow(OpenCDXServiceUnavailable.class);
+        this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXConnectedLabRepository,
+                openCDXLabConnectionFactoryBean);
+        LabFindings labFindings = LabFindings.newBuilder()
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertDoesNotThrow(() -> this.openCDXConnectedLabService.submitLabFindings(labFindings));
+    }
 }

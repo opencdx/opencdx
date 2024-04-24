@@ -294,8 +294,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         sendTestResults(model);
 
-        if (model.getClassificationResponse() != null
-                && model.getClassificationResponse().getClassification().hasTestKit()) {
+        if (model.getClassificationResponse().getClassification().hasTestKit()) {
             orderTestCase(model);
         }
 
@@ -357,18 +356,18 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     shippingAddress = addressOptional.get();
                 }
             }
+            if (shippingAddress != null) {
+                Order.Builder builder = Order.newBuilder();
+                builder.setShippingName(model.getPatient().getFullName());
+                builder.setPatientId(model.getPatient().getId().toHexString());
+                builder.setShippingAddress(shippingAddress);
+                builder.setTestCaseId(model.getClassificationResponse()
+                        .getClassification()
+                        .getTestKit()
+                        .getTestCaseId());
 
-            Order.Builder builder = Order.newBuilder();
-            builder.setShippingName(model.getPatient().getFullName());
-            builder.setPatientId(model.getPatient().getId().toHexString());
-            builder.setShippingAddress(shippingAddress);
-            builder.setTestCaseId(model.getClassificationResponse()
-                    .getClassification()
-                    .getTestKit()
-                    .getTestCaseId());
-
-            this.openCDXOrderMessageService.submitOrder(builder.build());
-
+                this.openCDXOrderMessageService.submitOrder(builder.build());
+            }
         } catch (OpenCDXNotFound e) {
             log.error(
                     "Failed to find test case: {}",

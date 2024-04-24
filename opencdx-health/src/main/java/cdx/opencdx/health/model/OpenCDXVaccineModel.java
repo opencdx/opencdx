@@ -63,9 +63,7 @@ public class OpenCDXVaccineModel {
      * @param vaccine Protobuf message to generate from
      */
     public OpenCDXVaccineModel(Vaccine vaccine) {
-        if (vaccine.hasId()) {
-            this.id = new OpenCDXIdentifier(vaccine.getId());
-        }
+        this.id = new OpenCDXIdentifier(vaccine.getId());
         this.patientId = new OpenCDXIdentifier(vaccine.getPatientId());
         this.nationalHealthId = vaccine.getNationalHealthId();
         this.administrationDate = Instant.ofEpochSecond(
@@ -101,9 +99,7 @@ public class OpenCDXVaccineModel {
      */
     public Vaccine getProtobufMessage() {
         Vaccine.Builder builder = Vaccine.newBuilder();
-        if (this.id != null) {
-            builder.setId(this.id.toHexString());
-        }
+        builder.setId(this.id.toHexString());
         builder.setPatientId(this.patientId.toHexString());
         builder.setNationalHealthId(this.nationalHealthId);
         if (this.administrationDate != null) {
