@@ -22,6 +22,9 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.types.AddressPurpose;
 import cdx.opencdx.grpc.types.ProviderStatus;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +32,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Model for Provider in Mongo. Features conversions to/from Protobuf messages.

@@ -15,15 +15,14 @@
  */
 package cdx.opencdx.health.model;
 
-import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
-import cdx.opencdx.health.dto.npi.*;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
+import cdx.opencdx.health.dto.npi.*;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class OpenCDXIAMProviderModelTest {
 
