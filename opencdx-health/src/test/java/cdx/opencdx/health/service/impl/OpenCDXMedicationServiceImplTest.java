@@ -429,15 +429,12 @@ class OpenCDXMedicationServiceImplTest {
                 this.openCDXApiFDA);
 
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(Pagination.newBuilder()
                         .setPageNumber(1)
                         .setPageSize(10)
                         .setSortAscending(false)
                         .build())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
     }
 }

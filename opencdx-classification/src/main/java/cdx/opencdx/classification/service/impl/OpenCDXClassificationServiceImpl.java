@@ -325,57 +325,48 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                         .getClassification()
                         .getTestKit()
                         .getTestCaseId());
-        try {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "testcases",
-                    new OpenCDXIdentifier(model.getClassificationResponse()
-                            .getClassification()
-                            .getTestKit()
-                            .getTestCaseId()));
-            Address shippingAddress = null;
 
-            Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
-                    .filter(address -> address.getAddressPurposeValue() == AddressPurpose.SHIPPING_VALUE)
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "testcases",
+                new OpenCDXIdentifier(model.getClassificationResponse()
+                        .getClassification()
+                        .getTestKit()
+                        .getTestCaseId()));
+        Address shippingAddress = null;
+
+        Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
+                .filter(address -> address.getAddressPurposeValue() == AddressPurpose.SHIPPING_VALUE)
+                .findFirst();
+        if (addressOptional.isPresent()) {
+            shippingAddress = addressOptional.get();
+        }
+
+        if (shippingAddress == null) {
+            addressOptional = model.getPatient().getAddresses().stream()
+                    .filter(address -> address.getAddressPurposeValue() == AddressPurpose.PRIMARY_VALUE)
                     .findFirst();
             if (addressOptional.isPresent()) {
                 shippingAddress = addressOptional.get();
             }
+        }
 
-            if (shippingAddress == null) {
-                addressOptional = model.getPatient().getAddresses().stream()
-                        .filter(address -> address.getAddressPurposeValue() == AddressPurpose.PRIMARY_VALUE)
-                        .findFirst();
-                if (addressOptional.isPresent()) {
-                    shippingAddress = addressOptional.get();
-                }
+        if (shippingAddress == null) {
+            addressOptional = model.getPatient().getAddresses().stream().findFirst();
+            if (addressOptional.isPresent()) {
+                shippingAddress = addressOptional.get();
             }
+        }
+        if (shippingAddress != null) {
+            Order.Builder builder = Order.newBuilder();
+            builder.setShippingName(model.getPatient().getFullName());
+            builder.setPatientId(model.getPatient().getId().toHexString());
+            builder.setShippingAddress(shippingAddress);
+            builder.setTestCaseId(model.getClassificationResponse()
+                    .getClassification()
+                    .getTestKit()
+                    .getTestCaseId());
 
-            if (shippingAddress == null) {
-                addressOptional = model.getPatient().getAddresses().stream().findFirst();
-                if (addressOptional.isPresent()) {
-                    shippingAddress = addressOptional.get();
-                }
-            }
-            if (shippingAddress != null) {
-                Order.Builder builder = Order.newBuilder();
-                builder.setShippingName(model.getPatient().getFullName());
-                builder.setPatientId(model.getPatient().getId().toHexString());
-                builder.setShippingAddress(shippingAddress);
-                builder.setTestCaseId(model.getClassificationResponse()
-                        .getClassification()
-                        .getTestKit()
-                        .getTestCaseId());
-
-                this.openCDXOrderMessageService.submitOrder(builder.build());
-            }
-        } catch (OpenCDXNotFound e) {
-            log.error(
-                    "Failed to find test case: {}",
-                    model.getClassificationResponse()
-                            .getClassification()
-                            .getTestKit()
-                            .getTestCaseId(),
-                    e);
+            this.openCDXOrderMessageService.submitOrder(builder.build());
         }
     }
 
