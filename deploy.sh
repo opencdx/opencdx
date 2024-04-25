@@ -135,7 +135,12 @@ if command -v node &> /dev/null; then
   fi
 fi
 
-
+if [[ "$OSTYPE" == "msys" ]] ; then
+  open_installed=true
+fi
+if [[ "$OSTYPE" == "linux-gnu" ]] ; then
+  open_installed=true
+fi
 
   # Display the status of required software
   handle_info "Required Software:"
@@ -146,7 +151,9 @@ fi
   handle_info "  Node.js\t$node_installed\t\t\t\t\t$node_version"
   handle_info "  Docker\t$docker_installed"
   handle_info "  Tinkar\t$tinkar_installed"
-  handle_info "  open\t\t$open_installed"
+  if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]]; then
+    handle_info "  open\t\t$open_installed"
+  fi
   handle_info "  yq\t\t$yq_installed"
 
   if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed )
