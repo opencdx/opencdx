@@ -265,4 +265,22 @@ class OpenCDXMedicationAdministrationServiceImplTest {
                 .build();
         Assertions.assertDoesNotThrow(() -> openCDXMedicationAdministrationService.listMedications(request));
     }
+
+    @Test
+    void getMedicationById_OpenCDXNotAcceptable() {
+        Mockito.when(this.openCDXMedicationRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicationAdministrationModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicationAdministrationModel> answer(InvocationOnMock invocation)
+                            throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        GetMedicationByIdRequest request = GetMedicationByIdRequest.newBuilder()
+                .setMedicationId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> openCDXMedicationAdministrationService.getMedicationById(request));
+    }
 }

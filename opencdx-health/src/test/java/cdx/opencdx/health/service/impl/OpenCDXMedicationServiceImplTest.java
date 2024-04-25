@@ -414,4 +414,30 @@ class OpenCDXMedicationServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXMedicationService.ending(endMedicationRequest));
     }
+
+    @Test
+    void listAllMedications_Sort() throws JsonProcessingException {
+        this.objectMapper = mock(ObjectMapper.class);
+        when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXMedicationService = new OpenCDXMedicationServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.openCDXMedicationRepository,
+                this.openCDXProfileRepository,
+                this.openCDXApiFDA);
+
+        ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
+                .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
+    }
 }

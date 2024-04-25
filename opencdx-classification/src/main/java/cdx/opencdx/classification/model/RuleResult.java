@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.grpc.data.TestKit;
 import cdx.opencdx.grpc.types.ClassificationType;
 import lombok.Data;
@@ -23,6 +24,7 @@ import lombok.Data;
  * Model for Rule Result
  */
 @Data
+@ExcludeFromJacocoGeneratedReport
 public class RuleResult {
     /**
      * Constructor for RuleResult

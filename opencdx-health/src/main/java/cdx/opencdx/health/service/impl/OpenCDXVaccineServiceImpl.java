@@ -141,10 +141,7 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXVaccineModel vaccine = this.openCDXVaccineRepository
-                .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotAcceptable(this.getClass().getName(), 1, "Vaccine not found"));
-        return vaccine.getProtobufMessage();
+        return model.getProtobufMessage();
     }
 
     /**

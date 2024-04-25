@@ -869,4 +869,37 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
     }
+
+    @Test
+    void testGetSubmittedQuestionnaireUpdatedAnswer() {
+        Mockito.when(openCDXQuestionnaireRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXQuestionnaireModel>>() {
+                    @Override
+                    public Optional<OpenCDXQuestionnaireModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setUpdateAnswers(true)
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getSubmittedQuestionnaire(request));
+    }
+
+    @Test
+    void testGetSubmittedQuestionnaireListUpdatesAnswers() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
+                .setUpdateAnswers(true)
+                .build();
+        Questionnaires response = this.questionnaireService.getSubmittedQuestionnaireList(request);
+
+        Assertions.assertEquals(1, response.getQuestionnairesCount());
+    }
 }
