@@ -19,13 +19,14 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.questionnaire.*;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * Controller for the /questionnaire api's
@@ -72,6 +73,7 @@ public class OpenCDXRestQuestionnaireController {
     /**
      * Get Questionnaire Rest API
      * @param questionnaireId GetQuestionnaireRequest indicating questionnaire related data
+     * @param updateAnswers Optional parameter to update answers.
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/questionnaire/{Id}")
