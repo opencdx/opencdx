@@ -333,16 +333,30 @@ class OpenCDXIAMProviderServiceImplTest {
 
     @Test
     void getProviderByNumberOpenCDXNotAcceptable() throws JsonProcessingException {
-        //        Mockito.when(this.openCDXIAMProviderRepository.findByNpiNumber(Mockito.any(String.class)))
-        //                .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
-        //                    @Override
-        //                    public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws
-        // Throwable {
-        //                        OpenCDXIdentifier argument = invocation.getArgument(0);
-        //                        return Optional.of(
-        //                                OpenCDXIAMProviderModel.builder().id(argument).build());
-        //                    }
-        //                });
+        Mockito.reset(this.openCDXIAMProviderRepository);
+        OpenCDXIAMProviderRepository repository = mock(OpenCDXIAMProviderRepository.class);
+        Mockito.when(repository.findByNpiNumber(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMProviderModel.builder()
+                                .npiNumber("123")
+                                .id(OpenCDXIdentifier.get())
+                                .build());
+                    }
+                });
+        when(repository.save(any(OpenCDXIAMProviderModel.class))).thenAnswer(new Answer<OpenCDXIAMProviderModel>() {
+            @Override
+            public OpenCDXIAMProviderModel answer(InvocationOnMock invocation) throws Throwable {
+                OpenCDXIAMProviderModel argument = invocation.getArgument(0);
+                if (argument.getId() == null) {
+                    argument.setId(OpenCDXIdentifier.get());
+                    argument.setNpiNumber("456");
+                }
+                return argument;
+            }
+        });
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
         this.openCDXCurrentUser = mock(OpenCDXCurrentUser.class);
@@ -355,7 +369,7 @@ class OpenCDXIAMProviderServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
-                this.openCDXIAMProviderRepository,
+                repository,
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
@@ -365,20 +379,35 @@ class OpenCDXIAMProviderServiceImplTest {
                 .setProviderNumber(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.getProviderByNumber(request));
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProviderService.getProviderByNumber(request));
     }
 
-    // @Test
+    @Test
     void deleteProviderOpenCDXNotAcceptable() throws JsonProcessingException {
-        Mockito.when(this.openCDXIAMProviderRepository.findByNpiNumber(Mockito.any(String.class)))
+        Mockito.reset(this.openCDXIAMProviderRepository);
+        OpenCDXIAMProviderRepository repository = mock(OpenCDXIAMProviderRepository.class);
+        Mockito.when(repository.findByNpiNumber(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
                     @Override
                     public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXIdentifier argument = invocation.getArgument(0);
-                        return Optional.of(
-                                OpenCDXIAMProviderModel.builder().id(argument).build());
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMProviderModel.builder()
+                                .npiNumber("123")
+                                .id(OpenCDXIdentifier.get())
+                                .build());
                     }
                 });
+        when(repository.save(any(OpenCDXIAMProviderModel.class))).thenAnswer(new Answer<OpenCDXIAMProviderModel>() {
+            @Override
+            public OpenCDXIAMProviderModel answer(InvocationOnMock invocation) throws Throwable {
+                OpenCDXIAMProviderModel argument = invocation.getArgument(0);
+                if (argument.getId() == null) {
+                    argument.setId(OpenCDXIdentifier.get());
+                    argument.setNpiNumber("456");
+                }
+                return argument;
+            }
+        });
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
         this.openCDXCurrentUser = mock(OpenCDXCurrentUser.class);
@@ -391,7 +420,7 @@ class OpenCDXIAMProviderServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
-                this.openCDXIAMProviderRepository,
+                repository,
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
@@ -404,7 +433,7 @@ class OpenCDXIAMProviderServiceImplTest {
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
     }
 
-    // @Test
+    @Test
     void loadProvidersTestJsonException2() throws JsonProcessingException {
         when(this.openCDXIAMProviderRepository.findAll())
                 .thenReturn(List.of(OpenCDXIAMProviderModel.builder()
@@ -430,11 +459,20 @@ class OpenCDXIAMProviderServiceImplTest {
                 .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
                     @Override
                     public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXIdentifier argument = invocation.getArgument(0);
-                        return Optional.of(
-                                OpenCDXIAMProviderModel.builder().id(argument).build());
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMProviderModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .build());
                     }
                 });
+        //        OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = mock(OpenCDXDtoNpiJsonResponse.class);
+        //        ResponseEntity<OpenCDXDtoNpiJsonResponse> responseEntity = mock(ResponseEntity.class);
+        //        when(responseEntity.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
+        //        when(openCDXNpiRegistryClient.getProviderInfo(Mockito.any(String.class), Mockito.any(String.class)))
+        //                .thenReturn(responseEntity);
+        //        when(openCDXNpiRegistryClient.getProviderInfo(Mockito.any(String.class), Mockito.any(String.class)))
+        //                .thenReturn(responseEntity);
+
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
                 openCDXIAMProviderRepository1,
                 this.openCDXAuditService,
@@ -446,6 +484,6 @@ class OpenCDXIAMProviderServiceImplTest {
                 LoadProviderRequest.newBuilder().setProviderNumber("123").build();
         LoadProviderRequest loadProviderRequest1 =
                 LoadProviderRequest.newBuilder().setUserId("&%").build();
-        this.openCDXIAMProviderService.loadProvider(loadProviderRequest);
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest));
     }
 }
