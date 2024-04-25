@@ -249,12 +249,9 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                             request.getUserProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        if (request.getUserProfile().hasUserId()
-                && this.openCDXProfileRepository.existsById(
-                        new OpenCDXIdentifier(request.getUserProfile().getUserId()))
-                && this.openCDXProfileRepository.existsByNationalHealthId(
-                        request.getUserProfile().getNationalHealthId())) {
-            throw new OpenCDXConflict(DOMAIN, 3, "User Profile exist" + request.getUserProfile());
+        if (this.openCDXProfileRepository.existsByNationalHealthId(
+                request.getUserProfile().getNationalHealthId())) {
+            throw new OpenCDXConflict(DOMAIN, 3, "Profile exist with NHID " + request.getUserProfile());
         }
 
         OpenCDXProfileModel model = new OpenCDXProfileModel(request.getUserProfile());

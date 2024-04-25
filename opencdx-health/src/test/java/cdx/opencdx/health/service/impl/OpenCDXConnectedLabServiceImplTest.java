@@ -18,6 +18,7 @@ package cdx.opencdx.health.service.impl;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -479,6 +480,42 @@ class OpenCDXConnectedLabServiceImplTest {
 
     @Test
     void submitLabFindings_ModelEmpty() throws Exception {
+        Mockito.reset(this.openCDXConnectedLabRepository);
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(Optional.empty());
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
+                    @Override
+                    public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+
+                        return Optional.empty();
+                    }
+                });
+        //        Mockito.when(openCDXLabConnectionFactoryBean.getConnection(Mockito.any(String.class)))
+        //                .thenThrow(OpenCDXServiceUnavailable.class);
+        this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXConnectedLabRepository,
+                openCDXLabConnectionFactoryBean);
+        LabFindings labFindings = LabFindings.newBuilder()
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXConnectedLabService.submitLabFindings(labFindings));
+    }
+
+    @Test
+    void submitLabFindings_ModelEmptyTestCatch() throws Exception {
+        Mockito.reset(this.openCDXConnectedLabRepository);
+        OpenCDXLabConnectionFactoryBean countryBean = Mockito.mock(OpenCDXLabConnectionFactoryBean.class);
         Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
                         Mockito.any(OpenCDXIdentifier.class), Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
@@ -498,14 +535,9 @@ class OpenCDXConnectedLabServiceImplTest {
                                 .build());
                     }
                 });
-        //        Mockito.when(openCDXLabConnectionFactoryBean.getConnection(Mockito.any(String.class)))
-        //                .thenThrow(OpenCDXServiceUnavailable.class);
+        Mockito.when(countryBean.getConnection(Mockito.any(String.class))).thenThrow(OpenCDXServiceUnavailable.class);
         this.openCDXConnectedLabService = new OpenCDXConnectedLabServiceImpl(
-                openCDXCurrentUser,
-                openCDXAuditService,
-                objectMapper,
-                openCDXConnectedLabRepository,
-                openCDXLabConnectionFactoryBean);
+                openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXConnectedLabRepository, countryBean);
         LabFindings labFindings = LabFindings.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setOrganizationId(OpenCDXIdentifier.get().toHexString())
@@ -513,6 +545,7 @@ class OpenCDXConnectedLabServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow(() -> this.openCDXConnectedLabService.submitLabFindings(labFindings));
+        Assertions.assertThrows(
+                OpenCDXServiceUnavailable.class, () -> this.openCDXConnectedLabService.submitLabFindings(labFindings));
     }
 }

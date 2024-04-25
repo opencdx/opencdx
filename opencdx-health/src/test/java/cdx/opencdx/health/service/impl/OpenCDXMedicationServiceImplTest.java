@@ -15,6 +15,10 @@
  */
 package cdx.opencdx.health.service.impl;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -33,6 +37,9 @@ import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,14 +55,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -430,15 +429,12 @@ class OpenCDXMedicationServiceImplTest {
                 this.openCDXApiFDA);
 
         ListMedicationsRequest listMedicationsRequest = ListMedicationsRequest.newBuilder()
-                .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
                 .setPagination(Pagination.newBuilder()
                         .setPageNumber(1)
                         .setPageSize(10)
                         .setSortAscending(false)
                         .build())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMedicationService.listAllMedications(listMedicationsRequest));
     }
 }

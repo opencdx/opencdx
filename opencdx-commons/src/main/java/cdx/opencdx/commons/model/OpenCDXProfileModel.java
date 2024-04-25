@@ -92,6 +92,9 @@ public class OpenCDXProfileModel {
         if (userProfile.hasPlaceOfBirth()) {
             this.placeOfBirth = userProfile.getPlaceOfBirth();
         }
+        this.dependents = userProfile.getDependentIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
         this.isActive = userProfile.getIsActive();
         this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();
