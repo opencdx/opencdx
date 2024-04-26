@@ -33,19 +33,37 @@ check_keytool() {
 generate_certificate() {
     local SERVICE_NAME=$1
 
+    # Create a Certificate Signing Request (CSR)
     if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
-        openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:${SERVICE_NAME}"
+        openssl req -new -nodes -out "${SERVICE_NAME}-cert.csr" -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost"
     else
-        openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:${SERVICE_NAME}"
+        openssl req -new -nodes -out "${SERVICE_NAME}-cert.csr" -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost"
     fi
 
-    # Sign by the CA
-    openssl -req -x509 -in "${SERVICE_NAME}-cert.pem" -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out "${SERVICE_NAME}-cert.pem" -days 4096 -sha256 -extfile "${SERVICE_NAME}-v3.ext"
+    # shellcheck disable=SC1073
+    cat > "${SERVICE_NAME}.v3.ext" << EOF
+    authorityKeyIdentifier=keyid,issuer
+    basicConstraints=CA:FALSE
+    keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+    subjectAltName = @alt_names
 
-    openssl pkcs12 -export -in "${SERVICE_NAME}-cert.pem" -inkey "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-keystore.p12" -name "${SERVICE_NAME}" -passin pass:opencdx -passout pass:opencdx
+    [alt_names]
+    DNS.1 = localhost
+    DNS.2 = ${SERVICE_NAME}
+EOF
 
+    # Sign the CSR by the CA and generate the certificate
+    openssl x509 -req -in "${SERVICE_NAME}-cert.csr" -days 3650 -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out "${SERVICE_NAME}-cert.pem" -sha256 -extfile "${SERVICE_NAME}.v3.ext" -passin pass:opencdx
+
+    # Create an intermediate keystore with the certificate and the key
+    openssl pkcs12 -export -in "${SERVICE_NAME}-cert.pem" -inkey "${SERVICE_NAME}-key.pem" -name "${SERVICE_NAME}" -out "${SERVICE_NAME}-keystore.p12" -passout pass:opencdx
+
+    # Import the intermediate keystore into the application keystore
     keytool -importkeystore -noprompt -srckeystore "${SERVICE_NAME}-keystore.p12" -destkeystore opencdx-keystore.p12 -srcstorepass opencdx -deststorepass opencdx
 
+    # Remove the csr, ext and intermediate keystore
+    rm "${SERVICE_NAME}.v3.ext"
+    rm "${SERVICE_NAME}-cert.csr"
     rm "${SERVICE_NAME}-keystore.p12"
 }
 
@@ -55,7 +73,11 @@ generate_ca_certificate() {
 
     openssl genrsa -aes256 -out "${SERVICE_NAME}-key.pem" -passout pass:opencdx 4096
 
-    openssl req -x509 -new -key "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 10000 -nodes -passin pass:opencdx -passout pass:opencdx -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:${SERVICE_NAME}"
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
+        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost" -passin pass:opencdx
+    else
+        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost" -passin pass:opencdx
+    fi
 
     echo "Certificate Authority (CA) certificate generated successfully."
     echo "CA Key: $CA_KEY_FILE"
