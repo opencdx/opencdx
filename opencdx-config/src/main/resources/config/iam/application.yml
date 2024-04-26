@@ -10,10 +10,6 @@ mongock:
   max-tries: 5
   service-identifier: ${spring.application.name}
 
-logging:
-  level:
-    org.springframework.security: trace
-
 opencdx:
   iam:
     verificationUrl: "https://localhost:8680/verify"
