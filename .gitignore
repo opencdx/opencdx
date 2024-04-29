@@ -63,6 +63,7 @@ Thumbs.db
 /opencdx-media/uploads/
 /data
 
+/certs/*.srl
 /certs/*.pem
 /certs/*.p12
 /last_docker_compose_filename.txt

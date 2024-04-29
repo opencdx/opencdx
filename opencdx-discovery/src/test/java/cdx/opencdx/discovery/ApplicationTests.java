@@ -26,7 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {"opencdx.client.trustStore=../certs/opencdx-clients.pem"})
 class ApplicationTests {
 
     @BeforeEach
