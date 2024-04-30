@@ -46,8 +46,8 @@ public class OpenCDXAllergyModel {
     private String allergen;
     private String reaction;
     private boolean isSevere;
-    private String onsetDate;
-    private String lastOccurrence;
+    private Instant onsetDate;
+    private Instant lastOccurrence;
     private String notes;
     private Instant created;
     private Instant modified;
@@ -67,8 +67,12 @@ public class OpenCDXAllergyModel {
         this.allergen = knownAllergy.getAllergen();
         this.reaction = knownAllergy.getReaction();
         this.isSevere = knownAllergy.getIsSevere();
-        this.onsetDate = knownAllergy.getOnsetDate();
-        this.lastOccurrence = knownAllergy.getLastOccurrence();
+        this.onsetDate = Instant.ofEpochSecond(
+                knownAllergy.getOnsetDate().getSeconds(),
+                knownAllergy.getOnsetDate().getNanos());
+        this.lastOccurrence = Instant.ofEpochSecond(
+                knownAllergy.getLastOccurrence().getSeconds(),
+                knownAllergy.getLastOccurrence().getNanos());
         this.notes = knownAllergy.getNotes();
         if (knownAllergy.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -104,8 +108,14 @@ public class OpenCDXAllergyModel {
         builder.setAllergen(this.allergen);
         builder.setReaction(this.reaction);
         builder.setIsSevere(this.isSevere);
-        builder.setOnsetDate(this.onsetDate);
-        builder.setLastOccurrence(this.lastOccurrence);
+        builder.setOnsetDate(Timestamp.newBuilder()
+                .setSeconds(this.onsetDate.getEpochSecond())
+                .setNanos(this.onsetDate.getNano())
+                .build());
+        builder.setLastOccurrence(Timestamp.newBuilder()
+                .setSeconds(this.lastOccurrence.getEpochSecond())
+                .setNanos(this.lastOccurrence.getNano())
+                .build());
         builder.setNotes(this.notes);
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

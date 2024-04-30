@@ -2592,11 +2592,11 @@ message KnownAllergy {
   /*
    * The date when the allergic reaction first occurred
    */
-  string onset_date = 7;
+  optional google.protobuf.Timestamp onset_date = 7;
   /*
    * The date of the most recent occurrence of the allergic reaction
    */
-  string last_occurrence = 8;
+  optional google.protobuf.Timestamp last_occurrence = 8;
   /*
    * Additional information about the allergy
    */

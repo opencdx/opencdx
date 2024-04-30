@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.health.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.KnownAllergy;
@@ -33,8 +33,8 @@ class OpenCDXAllergyModelTest {
                 .setAllergen("allergen")
                 .setReaction("reaction")
                 .setIsSevere(true)
-                .setOnsetDate("onsetDate")
-                .setLastOccurrence("lastOccurrence")
+                .setOnsetDate(Timestamp.getDefaultInstance())
+                .setLastOccurrence(Timestamp.getDefaultInstance())
                 .setNotes("notes")
                 .build();
         OpenCDXAllergyModel model = new OpenCDXAllergyModel(knownAllergy);

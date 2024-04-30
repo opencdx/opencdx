@@ -34,6 +34,7 @@ import cdx.opencdx.health.service.OpenCDXAllergyService;
 import cdx.opencdx.health.service.impl.OpenCDXAllergyServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -127,8 +128,8 @@ class OpenCDXAllergyRestControllerTest {
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
-                                .onsetDate("onSet")
-                                .lastOccurrence("lastOccurrence")
+                                .onsetDate(Instant.now())
+                                .lastOccurrence(Instant.now())
                                 .notes("notes")
                                 .build());
                     }
@@ -141,8 +142,8 @@ class OpenCDXAllergyRestControllerTest {
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
-                                .onsetDate("onSet")
-                                .lastOccurrence("lastOccurrence")
+                                .onsetDate(Instant.now())
+                                .lastOccurrence(Instant.now())
                                 .notes("notes")
                                 .build()),
                         PageRequest.of(1, 10),

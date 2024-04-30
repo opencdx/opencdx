@@ -1154,10 +1154,6 @@ message GetAllergyRequest {
    * The id of the allergy to search for.
    */
   string id = 1;
-  /*
-   * Pagination information.
-   */
-  cdx.opencdx.grpc.data.Pagination pagination = 2;
 }
 
 /*

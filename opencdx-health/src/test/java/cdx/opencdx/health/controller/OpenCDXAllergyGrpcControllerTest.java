@@ -31,6 +31,7 @@ import cdx.opencdx.health.service.OpenCDXAllergyService;
 import cdx.opencdx.health.service.impl.OpenCDXAllergyServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -105,8 +106,8 @@ class OpenCDXAllergyGrpcControllerTest {
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
-                                .onsetDate("onSet")
-                                .lastOccurrence("lastOccurrence")
+                                .onsetDate(Instant.now())
+                                .lastOccurrence(Instant.now())
                                 .notes("notes")
                                 .build());
                     }
@@ -120,8 +121,8 @@ class OpenCDXAllergyGrpcControllerTest {
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
-                                .onsetDate("onSet")
-                                .lastOccurrence("lastOccurrence")
+                                .onsetDate(Instant.now())
+                                .lastOccurrence(Instant.now())
                                 .notes("notes")
                                 .build()),
                         PageRequest.of(1, 10),
@@ -134,8 +135,8 @@ class OpenCDXAllergyGrpcControllerTest {
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
-                                .onsetDate("onSet")
-                                .lastOccurrence("lastOccurrence")
+                                .onsetDate(Instant.now())
+                                .lastOccurrence(Instant.now())
                                 .notes("notes")
                                 .build()),
                         PageRequest.of(1, 10),
