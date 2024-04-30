@@ -1126,6 +1126,116 @@ message DeleteProviderResponse {}
 message ListProvidersRequest {}
 
 
+/*
+ * This message contains the details required for creating a Known Allergy.
+ */
+message CreateAllergyRequest {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the response after creating a Known Allergy.
+ */
+message CreateAllergyResponse {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the details required for creating a Known Allergy.
+ */
+message GetAllergyRequest {
+  /*
+   * The id of the allergy to search for.
+   */
+  string id = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * This message contains the response of a Known Allergy.
+ */
+message GetAllergyResponse {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the details required for updating a allergy
+ */
+message UpdateAllergyRequest {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the response of a known allergy update.
+ */
+message UpdateAllergyResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteAllergyRequest {
+  /*
+   * The Known Allergy id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing allergy
+ */
+message ListAllergyRequest {
+  oneof allergy_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the BPM
+ */
+message ListAllergyResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of BPM.
+  */
+  repeated cdx.opencdx.grpc.data.KnownAllergy known_allergy = 2;
+}
+
 
 
 /*
@@ -1481,4 +1591,34 @@ service ProviderService {
    * RPC to load a specific healthcare provider.
    */
   rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+}
+
+/*
+ * Service definitions in KnownAllergy to Create, Get, Update, Delete, List known allergies.
+ */
+service KnownAllergyService {
+  /*
+   * RPC to create an allergy.
+   */
+  rpc CreateAllergy(CreateAllergyRequest) returns (CreateAllergyResponse);
+
+  /*
+  * RPC to get an allergy.
+  */
+  rpc GetAllergy(GetAllergyRequest) returns (GetAllergyResponse);
+
+  /*
+  * RPC to update an allergy
+  */
+  rpc UpdateAllergy(UpdateAllergyRequest) returns (UpdateAllergyResponse);
+
+  /*
+   * RPC to remove an allergy
+   */
+  rpc DeleteAllergy(DeleteAllergyRequest) returns (SuccessResponse);
+
+  /*
+   * RPC to list the allergies
+   */
+  rpc ListAllergies(ListAllergyRequest) returns (ListAllergyResponse);
 }
