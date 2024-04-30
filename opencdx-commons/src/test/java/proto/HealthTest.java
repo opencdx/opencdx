@@ -26,11 +26,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 class HealthTest {
@@ -220,8 +221,12 @@ class HealthTest {
                                                 .setAllergen("Evergreen Trees")
                                                 .setReaction("Respiratory Distress")
                                                 .setIsSevere(true)
-                                                .setOnsetDate("1975/12/20")
-                                                .setLastOccurrence("1976/12/25")
+                                                .setOnsetDate(Timestamp.newBuilder()
+                                                        .setSeconds(1696733104)
+                                                        .build())
+                                                .setLastOccurrence(Timestamp.newBuilder()
+                                                        .setSeconds(1696733104)
+                                                        .build())
                                                 .setNotes("Christmas Trees")
                                                 .build()))
                                         .build())

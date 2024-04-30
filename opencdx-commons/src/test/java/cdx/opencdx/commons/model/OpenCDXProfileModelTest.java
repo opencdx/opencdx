@@ -177,8 +177,10 @@ class OpenCDXProfileModelTest {
                         .setAllergen("Evergreen Trees")
                         .setReaction("Respiratory Distress")
                         .setIsSevere(true)
-                        .setOnsetDate("1975/12/20")
-                        .setLastOccurrence("1976/12/25")
+                        .setOnsetDate(
+                                Timestamp.newBuilder().setSeconds(1696733104).build())
+                        .setLastOccurrence(
+                                Timestamp.newBuilder().setSeconds(1696733104).build())
                         .setNotes("Christmas Trees")
                         .build()))
                 .setPlaceOfBirth(PlaceOfBirth.newBuilder()
