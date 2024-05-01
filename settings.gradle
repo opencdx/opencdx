@@ -28,7 +28,6 @@ include('opencdx-helloworld',
         'opencdx-classification-analyzer',
         'opencdx-gateway',
         'opencdx-discovery',
-        'opencdx-anf',
         'opencdx-logistics'
 )
 

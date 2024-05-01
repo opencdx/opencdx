@@ -40,7 +40,6 @@ class ClientConfigTest {
         Integer port = 9090;
         String trustStore = "../certs/opencdx-clients.pem";
         clientConfig.observationGrpcClientInterceptor(observationRegistry);
-        clientConfig.openCDXANFClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXAuditClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXClassificationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXCommunicationClient(server, port, trustStore, observationGrpcClientInterceptor);

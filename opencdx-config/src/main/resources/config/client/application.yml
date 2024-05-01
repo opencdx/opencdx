@@ -3,9 +3,6 @@ opencdx:
     trustStore: /certs/opencdx-clients.pem
     tracing:
       enabled: true
-    anf:
-      server: anf
-      port: 9090
     audit:
       server: audit
       port: 9090

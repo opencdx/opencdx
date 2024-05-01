@@ -51,9 +51,6 @@ class AnfTest {
     @Test
     void testAnfStatement() throws JsonProcessingException {
         ANFStatement anfStatement = ANFStatement.newBuilder()
-                .setId(ANFIdentifier.newBuilder()
-                        .setId(OpenCDXIdentifier.get().toHexString())
-                        .build())
                 .setTime(Measure.newBuilder()
                         .setUpperBound("100")
                         .setLowerBound("0.0")
