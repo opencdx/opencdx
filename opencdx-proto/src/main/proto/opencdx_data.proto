@@ -2566,29 +2566,57 @@ message SystemSettings {
  */
 message KnownAllergy {
   /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string nationalHealthId = 3;
+  /*
    * The substance that causes the allergic reaction
    */
-  string allergen = 1;
+  string allergen = 4;
   /*
    * Description of what happens when the user is exposed to the allergen
    */
-  string reaction = 2;
+  string reaction = 5;
   /*
    * A flag indicating the severity of the allergic reaction
    */
-  bool is_severe = 3;
+  bool is_severe = 6;
   /*
    * The date when the allergic reaction first occurred
    */
-  string onset_date = 4;
+  optional google.protobuf.Timestamp onset_date = 7;
   /*
    * The date of the most recent occurrence of the allergic reaction
    */
-  string last_occurrence = 5;
+  optional google.protobuf.Timestamp last_occurrence = 8;
   /*
    * Additional information about the allergy
    */
-  string notes = 6;
+  string notes = 9;
+  /*
+  * Creation timestamp of the data.
+  */
+  optional google.protobuf.Timestamp created = 10;
+  /*
+   * Modification timestamp of the data.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 12;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 13;
 }
 
 
