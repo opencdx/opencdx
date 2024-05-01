@@ -474,7 +474,7 @@ build_docker() {
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/health" "opencdx/iam"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/logistics"
-    "opencdx/discovery" "opencdx/anf" "opencdx/graphql")
+    "opencdx/discovery" "opencdx/graphql")
 
   selected_components=()
 

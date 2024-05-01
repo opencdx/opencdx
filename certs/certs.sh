@@ -118,7 +118,6 @@ services=(  "audit"
             "gateway"
             "discovery"
             "questionnaire"
-            "anf"
             "mongodb"
             "nats"
             "classification"
@@ -144,7 +143,7 @@ done
 cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
 # Concatenate client certs into a client truststore
-cat admin-cert.pem anf-cert.pem audit-cert.pem classification-cert.pem communications-cert.pem config-cert.pem health-cert.pem discovery-cert.pem config-cert.pem helloworld-cert.pem iam-cert.pem media-cert.pem prometheus-cert.pem questionnaire-cert.pem tinkar-cert.pem logistics-cert.pem zipkin-cert.pem > opencdx-clients.pem
+cat admin-cert.pem audit-cert.pem classification-cert.pem communications-cert.pem config-cert.pem health-cert.pem discovery-cert.pem config-cert.pem helloworld-cert.pem iam-cert.pem media-cert.pem prometheus-cert.pem questionnaire-cert.pem tinkar-cert.pem logistics-cert.pem zipkin-cert.pem > opencdx-clients.pem
 
 #Regenerating the JKS Keystore will require re-generating the encrypted password/passcodes in the configuration.
 #keytool -genkeypair -alias config-server-key -keyalg RSA -keysize 2048 -dname 'C=US,ST=CA,L=SanDiego,O=SafeHealth,OU=OpenCDx,CN=Config' -keypass opencdx -keystore config-server.jks -storepass opencdx

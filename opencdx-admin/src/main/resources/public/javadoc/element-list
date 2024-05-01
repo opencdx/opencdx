@@ -1,13 +1,5 @@
 cdx.opencdx.admin
 cdx.opencdx.admin.config
-cdx.opencdx.anf
-cdx.opencdx.anf.config
-cdx.opencdx.anf.controller
-cdx.opencdx.anf.model
-cdx.opencdx.anf.repository
-cdx.opencdx.anf.security
-cdx.opencdx.anf.service
-cdx.opencdx.anf.service.impl
 cdx.opencdx.audit
 cdx.opencdx.audit.config
 cdx.opencdx.audit.controller
@@ -62,6 +54,7 @@ cdx.opencdx.communications.service.impl
 cdx.opencdx.communications.tasks
 cdx.opencdx.config
 cdx.opencdx.discovery
+cdx.opencdx.discovery.config
 cdx.opencdx.gateway
 cdx.opencdx.gateway.config
 cdx.opencdx.gateway.filter

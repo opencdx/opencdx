@@ -429,31 +429,27 @@ message CircumstanceChoice {
  */
 message ANFStatement {
   /*
-   * Uniquely identifies the ANFStatement.
-   */
-  ANFIdentifier id = 1;
-  /*
    * Denotes the timestamp of the statement, adhering to the rule: Timing - past, present, or future.
    * For the "Performance of Action", Timing could denote a past or current timestamp.
    * For the "Request of Action", Timing would always denote a future timestamp.
    */
-  Measure time = 2;
+  Measure time = 1;
   /*
    * Identifies the subject of the record, which is typically the patient.
    */
-  Participant subject_of_record = 3;
+  Participant subject_of_record = 2;
   /*
    * Identifies all authors behind this statement.
    */
-  repeated Practitioner authors = 4;
+  repeated Practitioner authors = 3;
   /*
    * Refers to the subject or topic of the incorporated information.
    */
-  string subject_of_information = 5;
+  string subject_of_information = 4;
   /*
    * Refers to any related statements or conditions.
    */
-  repeated AssociatedStatement associated_statement = 6;
+  repeated AssociatedStatement associated_statement = 5;
   /*
    * Denotes the topic of the statement, and includes rules for different types of observations, procedures and test:
    * - Simple observation statements use the "Observation" procedure to symbolize the topic.
@@ -461,35 +457,35 @@ message ANFStatement {
    * - Laboratory test statements use the "Laboratory Procedure" concept.
    * - Imaging Procedure statements use the "Imaging Procedure" concept.
    */
-  string topic = 7;
+  string topic = 6;
   /*
    * Specifies the type category of the statement such as "Request", "Performance", etc.
    */
-  string type = 8;
+  string type = 7;
   /*
    * Circumstance choice
    */
-  CircumstanceChoice circumstance_choice = 9;
+  CircumstanceChoice circumstance_choice = 8;
   /*
    * Timestamp when this ANFStatement was created.
    */
-  optional google.protobuf.Timestamp created = 10;
+  optional google.protobuf.Timestamp created = 9;
   /*
    * Timestamp when modifications were done to this ANFStatement.
    */
-  optional google.protobuf.Timestamp modified = 12;
+  optional google.protobuf.Timestamp modified = 10;
   /*
    * Specifies the unique identifier of the creator of this ANFStatement.
    */
-  optional string creator = 13;
+  optional string creator = 11;
   /*
    * Specifies the unique identifier of the modifier of this ANFStatement.
    */
-  optional string modifier = 14;
+  optional string modifier = 12;
   /*
    * Specifies the current status of the ANFStatement.
    */
-  cdx.opencdx.grpc.types.Status status = 15;
+  cdx.opencdx.grpc.types.Status status = 13;
 }
 
 /*

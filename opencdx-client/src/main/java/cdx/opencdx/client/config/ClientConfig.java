@@ -75,17 +75,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.anf", name = "enabled", havingValue = "true")
-    OpenCDXANFClient openCDXANFClient(
-            @Value("${opencdx.client.anf.server}") String server,
-            @Value("${opencdx.client.anf.port}") Integer port,
-            @Value("${opencdx.client.trustStore}") String trustStore,
-            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        return new OpenCDXANFClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.audit", name = "enabled", havingValue = "true")
     OpenCDXAuditClient openCDXAuditClient(
             @Value("${opencdx.client.audit.server}") String server,

@@ -26,6 +26,7 @@ public interface OpenCDXAllergyClient {
     /**
      * Method to create Known Allergy.
      * @param request CreateAllergyRequest for allergy.
+     * @param openCDXCallCredentials OpenCDXCallCredentials for authentication.
      * @return CreateAllergyResponse with allergy.
      */
     CreateAllergyResponse createAllergy(CreateAllergyRequest request, OpenCDXCallCredentials openCDXCallCredentials)
@@ -34,6 +35,7 @@ public interface OpenCDXAllergyClient {
     /**
      * Method to get Allergy.
      * @param request GetAllergyRequest for allergy.
+     * @param openCDXCallCredentials OpenCDXCallCredentials for authentication.
      * @return GetAllergyResponse with allergy.
      */
     GetAllergyResponse getAllergy(GetAllergyRequest request, OpenCDXCallCredentials openCDXCallCredentials)
@@ -42,6 +44,7 @@ public interface OpenCDXAllergyClient {
     /**
      * Method to update Allergy.
      * @param request UpdateAllergyRequest for allergy.
+     * @param openCDXCallCredentials OpenCDXCallCredentials for authentication.
      * @return UpdateAllergyResponse with allergy.
      */
     UpdateAllergyResponse updateAllergy(UpdateAllergyRequest request, OpenCDXCallCredentials openCDXCallCredentials)
@@ -50,6 +53,7 @@ public interface OpenCDXAllergyClient {
     /**
      * Method to delete Allergy.
      * @param request DeleteAllergyRequest for allergy.
+     * @param openCDXCallCredentials OpenCDXCallCredentials for authentication.
      * @return SuccessResponse with allergy.
      */
     SuccessResponse deleteAllergy(DeleteAllergyRequest request, OpenCDXCallCredentials openCDXCallCredentials)
@@ -58,6 +62,7 @@ public interface OpenCDXAllergyClient {
     /**
      * Method to list Known Allergy.
      * @param request ListAllergyRequest for allergy.
+     * @param openCDXCallCredentials OpenCDXCallCredentials for authentication.
      * @return ListAllergyResponse with allergy.
      */
     ListAllergyResponse listAllergies(ListAllergyRequest request, OpenCDXCallCredentials openCDXCallCredentials)
