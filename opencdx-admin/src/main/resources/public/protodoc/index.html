@@ -175,21 +175,6 @@
         
           
           <li>
-            <a href="#opencdx_anf.proto">opencdx_anf.proto</a>
-            <ul>
-              
-              
-              
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.service.anf.ANFService"><span class="badge">S</span>ANFService</a>
-                </li>
-              
-            </ul>
-          </li>
-        
-          
-          <li>
             <a href="#opencdx_audit.proto">opencdx_audit.proto</a>
             <ul>
               
@@ -1093,6 +1078,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.service.health.CreateAllergyRequest"><span class="badge">M</span>CreateAllergyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.CreateAllergyResponse"><span class="badge">M</span>CreateAllergyResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.service.health.CreateBPMRequest"><span class="badge">M</span>CreateBPMRequest</a>
                 </li>
               
@@ -1138,6 +1131,10 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.service.health.CreateWeightMeasurementResponse"><span class="badge">M</span>CreateWeightMeasurementResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.DeleteAllergyRequest"><span class="badge">M</span>DeleteAllergyRequest</a>
                 </li>
               
                 <li>
@@ -1198,6 +1195,14 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.service.health.EndMedicationRequest"><span class="badge">M</span>EndMedicationRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.GetAllergyRequest"><span class="badge">M</span>GetAllergyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.GetAllergyResponse"><span class="badge">M</span>GetAllergyResponse</a>
                 </li>
               
                 <li>
@@ -1274,6 +1279,14 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.service.health.LabResultResponse"><span class="badge">M</span>LabResultResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.ListAllergyRequest"><span class="badge">M</span>ListAllergyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.ListAllergyResponse"><span class="badge">M</span>ListAllergyResponse</a>
                 </li>
               
                 <li>
@@ -1381,6 +1394,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.service.health.UpdateAllergyRequest"><span class="badge">M</span>UpdateAllergyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.UpdateAllergyResponse"><span class="badge">M</span>UpdateAllergyResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.service.health.UpdateBPMRequest"><span class="badge">M</span>UpdateBPMRequest</a>
                 </li>
               
@@ -1457,6 +1478,10 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.service.health.HeightMeasurementService"><span class="badge">S</span>HeightMeasurementService</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.health.KnownAllergyService"><span class="badge">S</span>KnownAllergyService</a>
                 </li>
               
                 <li>
@@ -2020,60 +2045,6 @@
       </ul>
     </div>
 
-    
-      
-      <div class="file-heading">
-        <h2 id="opencdx_anf.proto">opencdx_anf.proto</h2><a href="#title">Top</a>
-      </div>
-      <p>Proto file for maintaining the list of services implemented by OpenCDx ANF.</p>
-
-      
-
-      
-
-      
-
-      
-        <h3 id="cdx.opencdx.grpc.service.anf.ANFService">ANFService</h3>
-        <p>Service interface for operations related to ANF Statement instances.</p><p>It provides create, retrieve, update, and delete (CRUD) operations for instances of ANFStatement.</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>CreateANFStatement</td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFStatement">.cdx.opencdx.grpc.data.ANFStatement</a></td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">.cdx.opencdx.grpc.data.ANFIdentifier</a></td>
-                <td><p>Creates a new ANF Statement instance and returns its identifier.</p></td>
-              </tr>
-            
-              <tr>
-                <td>GetANFStatement</td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">.cdx.opencdx.grpc.data.ANFIdentifier</a></td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFStatement">.cdx.opencdx.grpc.data.ANFStatement</a></td>
-                <td><p>Retrieves an existing ANF Statement using its identifier.</p></td>
-              </tr>
-            
-              <tr>
-                <td>UpdateANFStatement</td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFStatement">.cdx.opencdx.grpc.data.ANFStatement</a></td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">.cdx.opencdx.grpc.data.ANFIdentifier</a></td>
-                <td><p>Updates an existing ANF Statement instance and returns its identifier.</p></td>
-              </tr>
-            
-              <tr>
-                <td>DeleteANFStatement</td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">.cdx.opencdx.grpc.data.ANFIdentifier</a></td>
-                <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">.cdx.opencdx.grpc.data.ANFIdentifier</a></td>
-                <td><p>Deletes an ANF Statement instance using its identifier and &gt;returns the identifier of the deleted item.</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-
-        
     
       
       <div class="file-heading">
@@ -2955,13 +2926,6 @@ and returns a PredictorResponse message that contains the output of the predicti
               <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
             </thead>
             <tbody>
-              
-                <tr>
-                  <td>id</td>
-                  <td><a href="#cdx.opencdx.grpc.data.ANFIdentifier">ANFIdentifier</a></td>
-                  <td></td>
-                  <td><p>Uniquely identifies the ANFStatement. </p></td>
-                </tr>
               
                 <tr>
                   <td>time</td>
@@ -6499,6 +6463,27 @@ This field is also optional. </p></td>
             <tbody>
               
                 <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>patient_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Patient ID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>nationalHealthId</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>National Health Identifier </p></td>
+                </tr>
+              
+                <tr>
                   <td>allergen</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
@@ -6521,15 +6506,15 @@ This field is also optional. </p></td>
               
                 <tr>
                   <td>onset_date</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
                   <td><p>The date when the allergic reaction first occurred </p></td>
                 </tr>
               
                 <tr>
                   <td>last_occurrence</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
                   <td><p>The date of the most recent occurrence of the allergic reaction </p></td>
                 </tr>
               
@@ -6538,6 +6523,34 @@ This field is also optional. </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Additional information about the allergy </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Creation timestamp of the data. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Modification timestamp of the data. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Identifier of the creator of this record. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The user who last modified the Message. </p></td>
                 </tr>
               
             </tbody>
@@ -15045,6 +15058,54 @@ statement pertaining to the question.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.service.health.CreateAllergyRequest">CreateAllergyRequest</h3>
+        <p>This message contains the details required for creating a Known Allergy.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>optional</td>
+                  <td><p>The Known Allergy </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.CreateAllergyResponse">CreateAllergyResponse</h3>
+        <p>This message contains the response after creating a Known Allergy.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>optional</td>
+                  <td><p>The Known Allergy </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.service.health.CreateBPMRequest">CreateBPMRequest</h3>
         <p>This message contains the details required for creating a health vitals info.</p>
 
@@ -15324,6 +15385,30 @@ statement pertaining to the question.</p></td>
                   <td><a href="#cdx.opencdx.grpc.data.WeightMeasurement">cdx.opencdx.grpc.data.WeightMeasurement</a></td>
                   <td>optional</td>
                   <td><p>The Weight Measurement </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.DeleteAllergyRequest">DeleteAllergyRequest</h3>
+        <p>This request to delete health vitals info.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The Known Allergy id </p></td>
                 </tr>
               
             </tbody>
@@ -15657,6 +15742,54 @@ statement pertaining to the question.</p></td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
                   <td><p>The date when the medication stopped being taken </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.GetAllergyRequest">GetAllergyRequest</h3>
+        <p>This message contains the details required for creating a Known Allergy.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the allergy to search for. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.GetAllergyResponse">GetAllergyResponse</h3>
+        <p>This message contains the response of a Known Allergy.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>optional</td>
+                  <td><p>The Known Allergy </p></td>
                 </tr>
               
             </tbody>
@@ -16134,6 +16267,75 @@ statement pertaining to the question.</p></td>
                   <td><a href="#cdx.opencdx.grpc.data.LabResult">cdx.opencdx.grpc.data.LabResult</a></td>
                   <td></td>
                   <td><p>Created lab result data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.ListAllergyRequest">ListAllergyRequest</h3>
+        <p>This message contains the details required for listing allergy</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>patient_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The ID of the patient. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>national_health_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The national health identifier </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.ListAllergyResponse">ListAllergyResponse</h3>
+        <p>This is the response of the BPM</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>repeated</td>
+                  <td><p>The list of BPM. </p></td>
                 </tr>
               
             </tbody>
@@ -16974,6 +17176,54 @@ statement pertaining to the question.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.service.health.UpdateAllergyRequest">UpdateAllergyRequest</h3>
+        <p>This message contains the details required for updating a allergy</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>optional</td>
+                  <td><p>The BPM </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.health.UpdateAllergyResponse">UpdateAllergyResponse</h3>
+        <p>This message contains the response of a known allergy update.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>known_allergy</td>
+                  <td><a href="#cdx.opencdx.grpc.data.KnownAllergy">cdx.opencdx.grpc.data.KnownAllergy</a></td>
+                  <td>optional</td>
+                  <td><p>The BPM </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.service.health.UpdateBPMRequest">UpdateBPMRequest</h3>
         <p>This message contains the details required for updating a health vitals info.</p>
 
@@ -17552,6 +17802,53 @@ statement pertaining to the question.</p></td>
                 <td><a href="#cdx.opencdx.grpc.service.health.ListHeightMeasurementsRequest">ListHeightMeasurementsRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.service.health.ListHeightMeasurementsResponse">ListHeightMeasurementsResponse</a></td>
                 <td><p>List HeightMeasurement.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+        <h3 id="cdx.opencdx.grpc.service.health.KnownAllergyService">KnownAllergyService</h3>
+        <p>Service definitions in KnownAllergy to Create, Get, Update, Delete, List known allergies.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>CreateAllergy</td>
+                <td><a href="#cdx.opencdx.grpc.service.health.CreateAllergyRequest">CreateAllergyRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.health.CreateAllergyResponse">CreateAllergyResponse</a></td>
+                <td><p>RPC to create an allergy.</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetAllergy</td>
+                <td><a href="#cdx.opencdx.grpc.service.health.GetAllergyRequest">GetAllergyRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.health.GetAllergyResponse">GetAllergyResponse</a></td>
+                <td><p>RPC to get an allergy.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateAllergy</td>
+                <td><a href="#cdx.opencdx.grpc.service.health.UpdateAllergyRequest">UpdateAllergyRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.health.UpdateAllergyResponse">UpdateAllergyResponse</a></td>
+                <td><p>RPC to update an allergy</p></td>
+              </tr>
+            
+              <tr>
+                <td>DeleteAllergy</td>
+                <td><a href="#cdx.opencdx.grpc.service.health.DeleteAllergyRequest">DeleteAllergyRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.health.SuccessResponse">SuccessResponse</a></td>
+                <td><p>RPC to remove an allergy</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListAllergies</td>
+                <td><a href="#cdx.opencdx.grpc.service.health.ListAllergyRequest">ListAllergyRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.health.ListAllergyResponse">ListAllergyResponse</a></td>
+                <td><p>RPC to list the allergies</p></td>
               </tr>
             
           </tbody>
