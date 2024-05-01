@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -1428,14 +1428,6 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
       }
     },
     &quot;dependentId&quot; : [ &quot;${user_id_g}&quot; ],
-    &quot;knownAllergies&quot; : [ {
-      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,
-      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,
-      &quot;isSevere&quot; : true,
-      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,
-      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
-      &quot;notes&quot; : &quot;Christmas Trees&quot;
-    } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
     &quot;phone&quot; : [ ],
@@ -1611,14 +1603,6 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
       }
     },
     &quot;dependentId&quot; : [ &quot;${user_id_g}&quot; ],
-    &quot;knownAllergies&quot; : [ {
-      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,
-      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,
-      &quot;isSevere&quot; : true,
-      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,
-      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
-      &quot;notes&quot; : &quot;Christmas Trees&quot;
-    } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
     &quot;phone&quot; : [ ],
@@ -2075,6 +2059,88 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
 		&quot;page_size&quot;:10,
 		&quot;sort_ascending&quot;:true
 	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Allergy / Create" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.health.KnownAllergyService/CreateAllergy</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;known_allergy&quot;:{
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;nationalHealthId&quot;:&quot;${nationalHealthID_g}&quot;,
+		&quot;allergen&quot;:&quot;Mold&quot;,
+		&quot;reaction&quot;:&quot;Sinus Congestion&quot;,
+		&quot;is_severe&quot;:true,
+		&quot;onset_date&quot;:&quot;2023-10-08T02:45:04Z&quot;,
+		&quot;last_occurrence&quot;:&quot;2023-10-08T02:45:04Z&quot;,
+		&quot;notes&quot;:&quot;This would be a note from a doctor on this allergy if needed.&quot;
+		
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Allergy ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">allergy_id_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.known_allergy.id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Allergy / Get" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.health.KnownAllergyService/GetAllergy</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${allergy_id_g}&quot;
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Allergy / Update" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.health.KnownAllergyService/UpdateAllergy</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;known_allergy&quot;: {
+    &quot;id&quot;: &quot;${allergy_id_g}&quot;,
+    &quot;patient_id&quot;: &quot;${patient_id_g}&quot;,
+    &quot;nationalHealthId&quot;: &quot;${nationalHealthID_g}&quot;,
+    &quot;allergen&quot;: &quot;Mold&quot;,
+    &quot;reaction&quot;: &quot;Sinus Congestion&quot;,
+    &quot;is_severe&quot;: true,
+    &quot;onset_date&quot;: &quot;2023-10-08T02:45:04Z&quot;,
+    &quot;last_occurrence&quot;: &quot;2023-11-09T02:45:04Z&quot;,
+    &quot;notes&quot;: &quot;Updated Notes&quot;
+  }
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
@@ -7541,14 +7607,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
       }&#xd;
     },&#xd;
     &quot;dependentId&quot; : [ &quot;${user_id_r}&quot; ],&#xd;
-    &quot;knownAllergies&quot; : [ {&#xd;
-      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,&#xd;
-      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,&#xd;
-      &quot;isSevere&quot; : true,&#xd;
-      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,&#xd;
-      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
-      &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
-    } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
     &quot;phone&quot; : [ ],&#xd;
@@ -7728,14 +7786,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
       }&#xd;
     },&#xd;
     &quot;dependentId&quot; : [  &quot;${user_id_r}&quot; ],&#xd;
-    &quot;knownAllergies&quot; : [ {&#xd;
-      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,&#xd;
-      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,&#xd;
-      &quot;isSevere&quot; : true,&#xd;
-      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,&#xd;
-      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
-      &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
-    } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
     &quot;phone&quot; : [ ],&#xd;
@@ -10530,6 +10580,106 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             </elementProp>
             <stringProp name="HTTPSampler.path">/health/vitals/heartrpm/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/allergy [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;knownAllergy&quot;: {&#xd;
+    &quot;patientId&quot;: &quot;${patient_id_r}&quot;,&#xd;
+    &quot;nationalhealthid&quot;: &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;allergen&quot;: &quot;Mold&quot;,&#xd;
+    &quot;reaction&quot;: &quot;Sinus Congestion&quot;,&#xd;
+    &quot;isSevere&quot;: true,&#xd;
+    &quot;onsetDate&quot;: &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;lastOccurrence&quot;: &quot;2023-11-09T02:45:04Z&quot;,&#xd;
+    &quot;notes&quot;: &quot;Updated Notes&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/allergy</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Allergy ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">allergy_id_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.knownAllergy.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/allergy [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/allergy/${allergy_id_r}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/allergy [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;knownAllergy&quot;: {&#xd;
+  	&quot;id&quot;:&quot;${allergy_id_r}&quot;,&#xd;
+    &quot;patientId&quot;: &quot;${patient_id_r}&quot;,&#xd;
+    &quot;nationalhealthid&quot;: &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;allergen&quot;: &quot;Mold&quot;,&#xd;
+    &quot;reaction&quot;: &quot;Sinus Congestion&quot;,&#xd;
+    &quot;isSevere&quot;: true,&#xd;
+    &quot;onsetDate&quot;: &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;lastOccurrence&quot;: &quot;2023-10-10T02:45:04Z&quot;,&#xd;
+    &quot;notes&quot;: &quot;Updated Notes&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/allergy</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
