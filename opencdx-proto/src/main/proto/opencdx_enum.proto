@@ -431,10 +431,15 @@ enum MedicationFrequency {
    * Once a year.
    */
   ONCE_YEARLY = 17;
+
+  /*
+   * Immediatley
+   */
+  NOW = 18;
   /*
    * Other frequency not listed here.
    */
-  OTHER_FREQUENCY = 18;
+  OTHER_FREQUENCY = 19;
 }
 
 /*
@@ -983,6 +988,33 @@ enum Gender {
    */
   GENDER_OTHER = 4;
 }
+
+/*
+ * Risk of a health condition or disease
+ */
+enum HealthRisk {
+
+  /*
+   * Represents an unknown health risk.
+   */
+  HEALTH_RISK_UNKNOWN = 0;
+  /*
+   * Represents a low health risk.
+   */
+  HEALTH_RISK_LOW = 1;
+  /*
+   * Represents a moderate health risk.
+   */
+  HEALTH_RISK_NORMAL = 2;
+  /*
+    * Represents a high health risk.
+   */
+  HEALTH_RISK_HIGH = 3;
+  /*
+   * Represents a critical health risk.
+   */
+  HEALTH_RISK_CRITICAL = 4;
+}
 /*
  * DurationType defines the units for periods of time.
  */
@@ -1115,14 +1147,19 @@ enum Status {
    */
   STATUS_DELETED = 2;
 }
+/*
+ * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified
+ */
+enum CircumstancePriority {
 
-enum CircumstanceType {
-
-  PERFORMANCE_CIRCUMSTANCE = 0;
-
-  REQUEST_CIRCUMSTANCE = 1;
-
-  NARRATIVE_CIRCUMSTANCE = 2;
+  /*
+   * Indicates that the requested action is of normal priority and needs to be carried out when available.
+   */
+  ROUTINE = 0;
+  /*
+   * Indicates that the requested action is of high priority and needs to be carried out immediately.
+   */
+  STAT = 1;
 }
 
 /*
@@ -1913,20 +1950,20 @@ enum VitalStatus {
   /*
    * Alive vital status.
    */
-  ALIVE = 1;
+  VITAL_STATUS_ALIVE = 1;
 
   /*
    * Deceased vital status.
    */
-  DECEASED = 2;
+  VITAL_STATUS_DECEASED = 2;
 
   /*
    * Unknown vital status.
    */
-  UNKNOWN = 3;
+  VITAL_STATUS_UNKNOWN = 3;
 
   /*
    * Other vital status.
    */
-  OTHER = 4;
+  VITAL_STATUS_OTHER = 4;
 }

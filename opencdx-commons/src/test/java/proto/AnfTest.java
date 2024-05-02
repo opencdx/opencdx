@@ -17,15 +17,15 @@ package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
-import cdx.opencdx.grpc.types.CircumstanceType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 @Slf4j
 class AnfTest {
@@ -73,8 +73,21 @@ class AnfTest {
                         .build()))
                 .setTopic("Topic")
                 .setType("Type")
-                .setCircumstanceChoice(CircumstanceChoice.newBuilder()
-                        .setCircumstanceType(CircumstanceType.NARRATIVE_CIRCUMSTANCE)
+                .setPerformanceCircumstance(PerformanceCircumstance.newBuilder()
+                        .setStatus(
+                                "{\"expressionType\":\"simple\",\"expressionLanguage\":\"local\",\"expressionValue\":\"performed\",\"expressionDescription\":\"Measurement action has been performed.\"}")
+                        .setHealthRisk("${{rules.engine.calculated[circumstanceChoice.result]}}")
+                        .setResult(Measure.newBuilder()
+                                .setLowerBound("90")
+                                .setIncludeLowerBound(false)
+                                .setSemantic("")
+                                .setResolution("{{REPLACE_3079919224534}}")
+                                .setUpperBound("120")
+                                .setIncludeUpperBound(false)
+                                .build())
+                        .setNormalRange(Measure.getDefaultInstance())
+                        .setTiming(Measure.getDefaultInstance())
+                        .addAllParticipant(List.of(Participant.getDefaultInstance()))
                         .build())
                 .build();
 
