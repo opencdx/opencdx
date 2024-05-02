@@ -150,6 +150,7 @@ class OpenCDXMedicationServiceImplTest {
                         return Optional.of(OpenCDXMedicationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build());
                     }
                 });
@@ -160,6 +161,7 @@ class OpenCDXMedicationServiceImplTest {
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -180,6 +182,7 @@ class OpenCDXMedicationServiceImplTest {
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

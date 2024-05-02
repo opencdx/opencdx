@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Medication;
 import cdx.opencdx.grpc.data.MedicationAdministration;
 import cdx.opencdx.grpc.data.Pagination;
@@ -107,8 +108,10 @@ public class OpenCDXMedicationAdministrationServiceImpl implements OpenCDXMedica
                     currentUser.getAgentType(),
                     "Medication Prescribed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     MEDICATION + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -141,8 +144,10 @@ public class OpenCDXMedicationAdministrationServiceImpl implements OpenCDXMedica
                     currentUser.getAgentType(),
                     "Medication Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     MEDICATION + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -207,8 +212,10 @@ public class OpenCDXMedicationAdministrationServiceImpl implements OpenCDXMedica
                         currentUser.getAgentType(),
                         "Medication Accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        model.getPatientId().toHexString(),
-                        model.getNationalHealthId(),
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
                         MEDICATION + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {

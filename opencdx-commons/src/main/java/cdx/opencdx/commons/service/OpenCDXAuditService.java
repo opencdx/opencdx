@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.service;
 
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 
@@ -58,22 +59,20 @@ public interface OpenCDXAuditService {
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      *
      */
-    void userAccessChange(String actor, AgentType agentType, String purpose, String patientId, String patientNhiId);
+    void userAccessChange(String actor, AgentType agentType, String purpose, AuditEntity entity);
 
     /**
      * Record user password changed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      *
      */
-    void passwordChange(String actor, AgentType agentType, String purpose, String patientId, String patientNhiId);
+    void passwordChange(String actor, AgentType agentType, String purpose, AuditEntity entity);
 
     /**
      * Record User PII information accessed to audit log.
@@ -81,8 +80,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -92,8 +90,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -103,8 +100,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -114,8 +110,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -125,8 +120,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -136,8 +130,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -147,8 +140,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -158,8 +150,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -169,8 +160,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -180,8 +170,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -191,8 +180,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -202,8 +190,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -213,8 +200,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -224,8 +210,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -235,8 +220,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -246,8 +230,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 
@@ -257,8 +240,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
-     * @param patientId User that data was accessed in the system or modified.
-     * @param patientNhiId National Health Id of the patient
+     * @param entity User that data was accessed in the system or modified.
      * @param resource Communication Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      *
@@ -268,8 +250,7 @@ public interface OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String patientId,
-            String patientNhiId,
+            AuditEntity entity,
             String resource,
             String jsonRecord);
 

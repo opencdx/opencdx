@@ -557,6 +557,11 @@ message AuditEntity {
    * Non-Standard ID
    */
   optional string non_standard_id = 4;
+
+  /*
+   * Provider Number
+   */
+  optional string provider_number = 5;
 }
 /*
  * Audit Event information to record.

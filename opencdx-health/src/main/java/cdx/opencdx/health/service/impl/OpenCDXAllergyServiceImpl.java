@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -83,7 +84,7 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
     public CreateAllergyResponse createAllergy(CreateAllergyRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getKnownAllergy().getPatientId()));
-        OpenCDXAllergyModel openCDXAllergyModel =
+        OpenCDXAllergyModel model =
                 this.openCDXAllergyRepository.save(new OpenCDXAllergyModel(request.getKnownAllergy()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -92,19 +93,21 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                     currentUser.getAgentType(),
                     "Allergy created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXAllergyModel.getPatientId().toHexString(),
-                    openCDXAllergyModel.getNationalHealthId(),
-                    ALLERGY + openCDXAllergyModel.getId(),
-                    this.objectMapper.writeValueAsString(openCDXAllergyModel));
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    ALLERGY + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_ALLERGY, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXAllergyModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
         return CreateAllergyResponse.newBuilder()
-                .setKnownAllergy(openCDXAllergyModel.getProtobufMessage())
+                .setKnownAllergy(model.getProtobufMessage())
                 .build();
     }
 
@@ -121,8 +124,10 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                     currentUser.getAgentType(),
                     "Allergy Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     ALLERGY + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -152,8 +157,10 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                     currentUser.getAgentType(),
                     "Allergy Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     ALLERGY + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -184,8 +191,10 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                     currentUser.getAgentType(),
                     "Allergy Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     ALLERGY + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -222,7 +231,7 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
         }
         log.trace("found database results");
 
-        all.get().forEach(openCDXAllergyModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -230,15 +239,17 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                         currentUser.getAgentType(),
                         "Allergy accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXAllergyModel.getPatientId().toHexString(),
-                        openCDXAllergyModel.getNationalHealthId(),
-                        ALLERGY + openCDXAllergyModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXAllergyModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getPatientId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
+                        ALLERGY + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_ALLERGY, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXAllergyModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });
