@@ -543,11 +543,20 @@ message AuditEntity {
   /*
    * Patient ID
    */
-  string patient_id = 1;
+  optional string patient_id = 1;
   /*
    * National Health Identifier
    */
-  string nationalHealthId = 2;
+  optional string nationalHealthId = 2;
+  /*
+   * User ID
+   */
+  optional string user_id = 3;
+
+  /*
+   * Non-Standard ID
+   */
+  optional string non_standard_id = 4;
 }
 /*
  * Audit Event information to record.
