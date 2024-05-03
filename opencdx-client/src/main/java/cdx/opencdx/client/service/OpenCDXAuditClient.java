@@ -16,6 +16,7 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 
@@ -65,7 +66,7 @@ public interface OpenCDXAuditClient {
             String actor,
             AgentType agentType,
             String purpose,
-            String auditEntity,
+            AuditEntity auditEntity,
             OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
@@ -80,7 +81,7 @@ public interface OpenCDXAuditClient {
             String actor,
             AgentType agentType,
             String purpose,
-            String auditEntity,
+            AuditEntity auditEntity,
             OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
@@ -99,7 +100,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -120,7 +121,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -141,7 +142,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -162,7 +163,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -183,7 +184,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -204,7 +205,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -225,7 +226,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -246,7 +247,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);
@@ -267,7 +268,7 @@ public interface OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials);

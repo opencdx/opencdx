@@ -349,21 +349,20 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
         openCDXDocumentValidator.validateDocumentOrLog(
                 "users", new OpenCDXIdentifier(event.getActor().getIdentity()));
         if (event.hasAuditEntity()) {
-            log.debug("Validating Audit Entity: {}", event.getAuditEntity().getPatientId());
-            if (!event.getAuditEntity().getPatientId().isEmpty()) {
-                String userIdSearch = "USER ID: ";
-                String providerSearch = "PROVIDER NUMBER: ";
-                if (event.getAuditEntity().getPatientId().contains(userIdSearch)) {
-                    String userId = event.getAuditEntity()
-                            .getPatientId()
-                            .substring(event.getAuditEntity().getPatientId().indexOf(userIdSearch)
-                                    + userIdSearch.length());
-                    openCDXDocumentValidator.validateDocumentOrLog("users", new OpenCDXIdentifier(userId));
-                } else if (!event.getAuditEntity().getPatientId().contains(providerSearch)) {
-                    openCDXDocumentValidator.validateDocumentOrLog(
-                            "profiles",
-                            new OpenCDXIdentifier(event.getAuditEntity().getPatientId()));
-                }
+            if (event.getAuditEntity().hasNationalHealthId()
+                    && !openCDXDocumentValidator.profileWithNationalHealthId(
+                            event.getAuditEntity().getNationalHealthId())) {
+                log.warn(
+                        "Profile with National Health ID: {} does not exist in collection profiles",
+                        event.getAuditEntity().getNationalHealthId());
+            }
+            if (event.getAuditEntity().hasUserId()) {
+                openCDXDocumentValidator.validateDocumentOrLog(
+                        "users", new OpenCDXIdentifier(event.getAuditEntity().getUserId()));
+            }
+            if (event.getAuditEntity().hasPatientId()) {
+                openCDXDocumentValidator.validateDocumentOrLog(
+                        "profiles", new OpenCDXIdentifier(event.getAuditEntity().getPatientId()));
             }
         }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
