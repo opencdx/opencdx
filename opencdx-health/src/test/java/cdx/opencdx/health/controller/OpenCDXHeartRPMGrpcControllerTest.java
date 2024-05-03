@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -102,6 +103,7 @@ class OpenCDXHeartRPMGrpcControllerTest {
                         return Optional.of(OpenCDXHeartRPMModel.builder()
                                 .id(argument)
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build());
@@ -114,6 +116,7 @@ class OpenCDXHeartRPMGrpcControllerTest {
                         List.of(OpenCDXHeartRPMModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)

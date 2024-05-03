@@ -175,8 +175,10 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     currentUser.getAgentType(),
                     "Classification Record and Results",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatient().getId().toHexString(),
-                    model.getPatient().getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatient().getId().toHexString())
+                            .setNationalHealthId(model.getPatient().getNationalHealthId())
+                            .build(),
                     "CLASSIFICATION: " + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {

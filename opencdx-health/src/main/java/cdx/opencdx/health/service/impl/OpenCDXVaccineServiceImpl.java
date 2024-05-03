@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.data.Vaccine;
 import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
@@ -98,8 +99,10 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
                     currentUser.getAgentType(),
                     "Vaccine Prescribed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     VACCINE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -130,8 +133,10 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
                     currentUser.getAgentType(),
                     "Vaccine Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     VACCINE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -193,8 +198,10 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
                         currentUser.getAgentType(),
                         "Vaccine Accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        model.getPatientId().toHexString(),
-                        model.getNationalHealthId(),
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
                         VACCINE + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {

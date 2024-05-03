@@ -35,6 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +97,7 @@ class OpenCDXAllergyServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXAllergyModel.builder()
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
@@ -195,6 +197,7 @@ class OpenCDXAllergyServiceImplTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAllergyModel.builder()
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)

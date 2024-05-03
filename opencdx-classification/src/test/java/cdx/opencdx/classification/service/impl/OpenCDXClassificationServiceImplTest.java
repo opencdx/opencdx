@@ -863,6 +863,7 @@ class OpenCDXClassificationServiceImplTest {
                             argument.setId(OpenCDXIdentifier.get());
                             argument.setPatient(OpenCDXProfileModel.builder()
                                     .id(OpenCDXIdentifier.get())
+                                    .nationalHealthId(UUID.randomUUID().toString())
                                     .fullName(FullName.newBuilder()
                                             .setFirstName("John")
                                             .setLastName("doe")

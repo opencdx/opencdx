@@ -106,6 +106,7 @@ class OpenCDXVaccineServiceImplTest {
                         return Optional.of(OpenCDXVaccineModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build());
                     }
                 });
@@ -116,6 +117,7 @@ class OpenCDXVaccineServiceImplTest {
                         List.of(OpenCDXVaccineModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -186,6 +188,7 @@ class OpenCDXVaccineServiceImplTest {
                         List.of(OpenCDXVaccineModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

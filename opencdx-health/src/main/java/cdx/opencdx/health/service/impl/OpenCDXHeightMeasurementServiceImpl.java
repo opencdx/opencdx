@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -89,7 +90,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     public CreateHeightMeasurementResponse createHeightMeasurement(CreateHeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
-        OpenCDXHeightMeasurementModel openCDXHeightMeasurementModel = this.openCDXHeightMeasurementRepository.save(
+        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository.save(
                 new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -98,19 +99,21 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                     currentUser.getAgentType(),
                     "Heights created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXHeightMeasurementModel.getPatientId().toHexString(),
-                    openCDXHeightMeasurementModel.getNationalHealthId(),
-                    HEIGHT_MEASUREMENTS + openCDXHeightMeasurementModel.getId(),
-                    this.objectMapper.writeValueAsString(openCDXHeightMeasurementModel));
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    HEIGHT_MEASUREMENTS + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXHeightMeasurementModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
         return CreateHeightMeasurementResponse.newBuilder()
-                .setHeightMeasurement(openCDXHeightMeasurementModel.getProtobufMessage())
+                .setHeightMeasurement(model.getProtobufMessage())
                 .build();
     }
 
@@ -133,8 +136,10 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                     currentUser.getAgentType(),
                     "Heights Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     HEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -170,8 +175,10 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                     currentUser.getAgentType(),
                     "Height Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     HEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -208,8 +215,10 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                     currentUser.getAgentType(),
                     "Height Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     HEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -253,7 +262,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
         }
         log.trace("found database results");
 
-        all.get().forEach(openCDXHeightMeasurementModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -261,15 +270,17 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                         currentUser.getAgentType(),
                         "height accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXHeightMeasurementModel.getPatientId().toHexString(),
-                        openCDXHeightMeasurementModel.getNationalHealthId(),
-                        HEIGHT_MEASUREMENTS + openCDXHeightMeasurementModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXHeightMeasurementModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getPatientId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
+                        HEIGHT_MEASUREMENTS + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_HEIGHT_MEASUREMENTS, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXHeightMeasurementModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });

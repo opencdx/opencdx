@@ -26,6 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.data.Address;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -93,8 +94,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -167,8 +170,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -268,8 +273,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -287,13 +294,13 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
 
     @Override
     public DeleteUserProfileResponse deleteUserProfile(DeleteUserProfileRequest request) {
-        OpenCDXProfileModel userModel = this.openCDXProfileRepository
+        OpenCDXProfileModel model = this.openCDXProfileRepository
                 .findById(new OpenCDXIdentifier(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_USER + request.getUserId()));
 
-        userModel.setActive(false);
+        model.setActive(false);
 
-        userModel = this.openCDXProfileRepository.save(userModel);
+        model = this.openCDXProfileRepository.save(model);
         log.trace("Deleted User: {}", request.getUserId());
 
         try {
@@ -303,10 +310,12 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     currentUser.getAgentType(),
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    userModel.getId().toHexString(),
-                    userModel.getNationalHealthId(),
-                    IAM_USER + userModel.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(userModel));
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    IAM_USER + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);

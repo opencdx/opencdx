@@ -37,6 +37,7 @@ import io.nats.client.Connection;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,6 +126,7 @@ class OpenCDXAllergyRestControllerTest {
                         return Optional.of(OpenCDXAllergyModel.builder()
                                 .id(argument)
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
@@ -139,6 +141,7 @@ class OpenCDXAllergyRestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAllergyModel.builder()
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)

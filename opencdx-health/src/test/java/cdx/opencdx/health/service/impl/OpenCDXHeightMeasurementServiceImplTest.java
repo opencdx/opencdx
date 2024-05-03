@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +97,7 @@ class OpenCDXHeightMeasurementServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXHeightMeasurementModel.builder()
                                 .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .patientId(argument)
                                 .build());
                     }
