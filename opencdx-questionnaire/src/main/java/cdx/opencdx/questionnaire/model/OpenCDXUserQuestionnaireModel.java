@@ -24,6 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -37,6 +38,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXUserQuestionnaireModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier patientId;
 

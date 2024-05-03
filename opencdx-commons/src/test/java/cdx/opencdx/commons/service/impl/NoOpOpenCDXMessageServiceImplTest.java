@@ -15,25 +15,20 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import cdx.opencdx.commons.config.CommonsConfig;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles({"noop", "test"})
-@SpringBootTest(classes = {CommonsConfig.class, ObservationAutoConfiguration.class})
-@ExtendWith(SpringExtension.class)
 class NoOpOpenCDXMessageServiceImplTest {
 
-    @Autowired
     OpenCDXMessageService openCDXMessageService;
+
+    @BeforeEach
+    void setUp() {
+        this.openCDXMessageService = new NoOpOpenCDXMessageServiceImpl();
+    }
 
     @Test
     void subscribe() {

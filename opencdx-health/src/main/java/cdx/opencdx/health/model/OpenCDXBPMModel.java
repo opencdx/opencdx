@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -44,6 +44,9 @@ public class OpenCDXBPMModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     CuffSize cuffSize;
@@ -54,10 +57,18 @@ public class OpenCDXBPMModel {
     private boolean sittingPositionFiveMinutes;
     private boolean urinatedThirtyMinutesPrior;
     private Instant timeOfMeasurement;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
-    private String creator;
-    private String modifier;
+
+    @CreatedBy
+    private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message bpm
@@ -89,10 +100,10 @@ public class OpenCDXBPMModel {
                     bpm.getModified().getSeconds(), bpm.getModified().getNanos());
         }
         if (bpm.hasCreator()) {
-            this.creator = bpm.getCreator();
+            this.creator = new OpenCDXIdentifier(bpm.getCreator());
         }
         if (bpm.hasModifier()) {
-            this.modifier = bpm.getModifier();
+            this.modifier = new OpenCDXIdentifier(bpm.getModifier());
         }
     }
 
@@ -136,10 +147,10 @@ public class OpenCDXBPMModel {
                     .build());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator);
+            builder.setCreator(this.creator.toHexString());
         }
         if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }

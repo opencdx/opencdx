@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -40,6 +40,9 @@ public class OpenCDXConnectedLabModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private String identifier;
     private OpenCDXIdentifier organizationId;
@@ -52,9 +55,17 @@ public class OpenCDXConnectedLabModel {
     private String labDescription;
     private List<String> labCertifications;
     private LabMetaDataProcessor labProcessor;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**

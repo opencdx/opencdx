@@ -18,13 +18,12 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import io.micrometer.observation.annotation.Observed;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * OpenCDX MongoAudit to ensure Creator/Created and Modifier/Modified are set on each and every

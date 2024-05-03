@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -44,6 +44,9 @@ public class OpenCDXIAMOrganizationModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private String description;
     private Instant foundingDate;
@@ -56,9 +59,17 @@ public class OpenCDXIAMOrganizationModel {
     private String missionStatement;
     private String visionStatement;
     private List<ContactInfo> contactInfo;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**

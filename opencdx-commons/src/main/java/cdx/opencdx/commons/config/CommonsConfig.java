@@ -21,6 +21,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.converters.OpenCDXIdentifierCodec;
+import cdx.opencdx.commons.data.AuditorAwareImpl;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -59,7 +60,9 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.observability.ContextProviderFactory;
@@ -75,6 +78,7 @@ import org.springframework.util.PathMatcher;
  */
 @Slf4j
 @EnableCaching
+@EnableMongoAuditing
 @AutoConfiguration
 @Configuration
 public class CommonsConfig {
@@ -83,6 +87,16 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * OpenCDXCurrentUser Bean
+     * @param openCDXCurrentUser Helper to find current user.
+     * @return AuditorAware<OpenCDXIdentifier> for use by the system.
+     */
+    @Bean
+    public AuditorAware<OpenCDXIdentifier> auditorProvider(OpenCDXCurrentUser openCDXCurrentUser) {
+        return new AuditorAwareImpl(openCDXCurrentUser);
     }
 
     /**

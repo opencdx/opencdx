@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -39,6 +39,9 @@ public class OpenCDXTestCaseModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier manufacturerId;
     private OpenCDXIdentifier vendorId;
     private List<OpenCDXIdentifier> deviceIds;
@@ -52,9 +55,17 @@ public class OpenCDXTestCaseModel {
     private String userInstructions;
     private String limitations;
     private String lidrId;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**

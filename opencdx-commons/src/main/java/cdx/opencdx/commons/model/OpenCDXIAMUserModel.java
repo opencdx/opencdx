@@ -28,7 +28,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document("users")
 public class OpenCDXIAMUserModel {
+    @Version
+    private long version;
+
     @Id
     private OpenCDXIdentifier id;
 
@@ -63,9 +66,16 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Method to identify AgentType for Audit

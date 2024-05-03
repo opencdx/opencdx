@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.health.model;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.KnownAllergy;
 import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OpenCDXAllergyModelTest {
 
@@ -46,9 +46,9 @@ class OpenCDXAllergyModelTest {
         KnownAllergy knownAllergy = KnownAllergy.newBuilder()
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
-                .setCreator("creator")
+                .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.getDefaultInstance())
-                .setModifier("modifier")
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXAllergyModel model = new OpenCDXAllergyModel(knownAllergy);
         assertNotNull(model.getProtobufMessage());

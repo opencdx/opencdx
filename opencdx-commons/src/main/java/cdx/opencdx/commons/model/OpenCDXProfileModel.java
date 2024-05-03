@@ -26,7 +26,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,6 +42,9 @@ public class OpenCDXProfileModel {
 
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier userId;
 
@@ -62,9 +65,17 @@ public class OpenCDXProfileModel {
 
     private List<OpenCDXIdentifier> dependents;
     private List<KnownAllergy> allergies;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**

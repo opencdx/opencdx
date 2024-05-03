@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -39,6 +40,9 @@ public class Person {
 
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private String name;
 }

@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ public class OpenCDXAllergyModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private String allergen;
@@ -49,10 +52,18 @@ public class OpenCDXAllergyModel {
     private Instant onsetDate;
     private Instant lastOccurrence;
     private String notes;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
-    private String creator;
-    private String modifier;
+
+    @CreatedBy
+    private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message knownAllergy
@@ -85,10 +96,10 @@ public class OpenCDXAllergyModel {
                     knownAllergy.getModified().getNanos());
         }
         if (knownAllergy.hasCreator()) {
-            this.creator = knownAllergy.getCreator();
+            this.creator = new OpenCDXIdentifier(knownAllergy.getCreator());
         }
         if (knownAllergy.hasModifier()) {
-            this.modifier = knownAllergy.getModifier();
+            this.modifier = new OpenCDXIdentifier(knownAllergy.getModifier());
         }
     }
 
@@ -130,10 +141,10 @@ public class OpenCDXAllergyModel {
                     .build());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator);
+            builder.setCreator(this.creator.toHexString());
         }
         if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }

@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,6 +43,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXNotificationModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier patientId;
 
@@ -69,9 +72,16 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<OpenCDXIdentifier> recipients;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Constructor taking a Notification and generating the Model

@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,14 +43,24 @@ public class OpenCDXEmailTemplateModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private TemplateType templateType;
     private String subject;
     private String content;
     private List<String> variables;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
