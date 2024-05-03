@@ -23,6 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.logistics.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -101,8 +102,10 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                     currentUser.getAgentType(),
                     "Creating Order",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     ORDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -134,8 +137,10 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                     currentUser.getAgentType(),
                     ACCESSING_ORDER,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     ORDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -173,8 +178,10 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                     currentUser.getAgentType(),
                     ACCESSING_ORDER,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     ORDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -210,8 +217,10 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                     currentUser.getAgentType(),
                     ACCESSING_ORDER,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     ORDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -262,8 +271,10 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                         currentUser.getAgentType(),
                         ACCESSING_ORDER,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        patient.getId().toHexString(),
-                        patient.getNationalHealthId(),
+                        AuditEntity.newBuilder()
+                                .setPatientId(patient.getId().toHexString())
+                                .setNationalHealthId(patient.getNationalHealthId())
+                                .build(),
                         ORDER + order.getId().toHexString(),
                         this.objectMapper.writeValueAsString(order));
             } catch (JsonProcessingException e) {

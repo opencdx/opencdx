@@ -34,6 +34,7 @@ import io.grpc.stub.StreamObserver;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -103,6 +104,7 @@ class OpenCDXAllergyGrpcControllerTest {
                         return Optional.of(OpenCDXAllergyModel.builder()
                                 .id(argument)
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
@@ -118,6 +120,7 @@ class OpenCDXAllergyGrpcControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAllergyModel.builder()
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)
@@ -132,6 +135,7 @@ class OpenCDXAllergyGrpcControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAllergyModel.builder()
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .allergen("allergen")
                                 .reaction("reaction")
                                 .isSevere(true)

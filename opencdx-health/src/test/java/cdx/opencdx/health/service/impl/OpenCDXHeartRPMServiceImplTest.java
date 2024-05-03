@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,6 +96,7 @@ class OpenCDXHeartRPMServiceImplTest {
                         return Optional.of(OpenCDXHeartRPMModel.builder()
                                 .id(argument)
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .measurementTakenOverInSeconds(60)
                                 .sittingPositionFiveMinutes(true)
                                 .build());

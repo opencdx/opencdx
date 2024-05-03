@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -89,8 +90,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
     public CreateBPMResponse createBPMMeasurement(CreateBPMRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getBpmMeasurement().getPatientId()));
-        OpenCDXBPMModel openCDXBPMModel =
-                this.openCDXBPMRepository.save(new OpenCDXBPMModel(request.getBpmMeasurement()));
+        OpenCDXBPMModel model = this.openCDXBPMRepository.save(new OpenCDXBPMModel(request.getBpmMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
@@ -98,18 +98,20 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     currentUser.getAgentType(),
                     "BPM created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXBPMModel.getPatientId().toHexString(),
-                    openCDXBPMModel.getNationalHealthId(),
-                    BPM + openCDXBPMModel.getId(),
-                    this.objectMapper.writeValueAsString(openCDXBPMModel));
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    BPM + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_BPM, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXBPMModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
         return CreateBPMResponse.newBuilder()
-                .setBpmMeasurement(openCDXBPMModel.getProtobufMessage())
+                .setBpmMeasurement(model.getProtobufMessage())
                 .build();
     }
 
@@ -132,8 +134,10 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     currentUser.getAgentType(),
                     "BPM Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -167,8 +171,10 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     currentUser.getAgentType(),
                     "BPM Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -204,8 +210,10 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                     currentUser.getAgentType(),
                     "BPM Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     BPM + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -246,7 +254,7 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
         }
         log.trace("found database results");
 
-        all.get().forEach(openCDXBPMModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -254,15 +262,17 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
                         currentUser.getAgentType(),
                         "bpm accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXBPMModel.getPatientId().toHexString(),
-                        openCDXBPMModel.getNationalHealthId(),
-                        BPM + openCDXBPMModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXBPMModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getPatientId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
+                        BPM + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_BPM, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXBPMModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });

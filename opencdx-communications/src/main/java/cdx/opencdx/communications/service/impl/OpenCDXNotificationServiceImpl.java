@@ -358,17 +358,16 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, OpenCDXIdentifier patientId) {
 
-        String nationalHealthId = "N/A";
-        String patientIdString = patientId.toHexString();
-
         Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findById(patientId);
+        AuditEntity.Builder builder = AuditEntity.newBuilder();
 
         if (patient.isPresent()) {
-            nationalHealthId = patient.get().getNationalHealthId();
+            builder.setNationalHealthId(patient.get().getNationalHealthId());
+            builder.setPatientId(patient.get().getId().toHexString());
         }
 
         if (patient.isEmpty()) {
-            patientIdString = "USER ID: " + patientId.toHexString();
+            builder.setUserId(patientId.toHexString());
         }
 
         try {
@@ -378,8 +377,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    patientIdString,
-                    nationalHealthId,
+                    builder.build(),
                     NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {

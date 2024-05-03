@@ -70,4 +70,15 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
     public void validateDocumentsOrThrow(List<OpenCDXIdentifier> documentIds) {
         // Explicitly do nothing
     }
+
+    /**
+     * Check if a profile exists with a national health ID
+     *
+     * @param nationalHealthId National Health ID
+     * @return True if the profile exists, false otherwise
+     */
+    @Override
+    public boolean profileWithNationalHealthId(String nationalHealthId) {
+        return true;
+    }
 }

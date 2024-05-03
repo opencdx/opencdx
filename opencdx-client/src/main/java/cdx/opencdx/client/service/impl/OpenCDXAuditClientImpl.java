@@ -132,7 +132,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             String actor,
             AgentType agentType,
             String purpose,
-            String auditEntity,
+            AuditEntity auditEntity,
             OpenCDXCallCredentials openCDXCallCredentials) {
         this.sendMessage(
                 AuditEvent.newBuilder()
@@ -140,7 +140,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setCreated(this.getTimeStamp(Instant.now()))
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -151,7 +151,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             String actor,
             AgentType agentType,
             String purpose,
-            String auditEntity,
+            AuditEntity auditEntity,
             OpenCDXCallCredentials openCDXCallCredentials) {
         this.sendMessage(
                 AuditEvent.newBuilder()
@@ -159,7 +159,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setCreated(this.getTimeStamp(Instant.now()))
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -171,7 +171,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -182,7 +182,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -194,7 +194,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -205,7 +205,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -217,7 +217,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -228,7 +228,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -240,7 +240,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -251,7 +251,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -263,7 +263,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -273,7 +273,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setCreated(this.getTimeStamp(Instant.now()))
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setPurposeOfUse(purpose)
                         .build(),
@@ -286,7 +286,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -296,7 +296,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setCreated(this.getTimeStamp(Instant.now()))
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setPurposeOfUse(purpose)
                         .build(),
@@ -309,7 +309,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -320,7 +320,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -332,7 +332,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -343,7 +343,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .build(),
                 openCDXCallCredentials);
@@ -355,7 +355,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            AuditEntity auditEntity,
             String resource,
             String jsonRecord,
             OpenCDXCallCredentials openCDXCallCredentials) {
@@ -365,7 +365,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
                         .setCreated(this.getTimeStamp(Instant.now()))
                         .setAuditSource(this.getAuditSource(this.applicationName))
                         .setActor(this.getActor(actor, agentType))
-                        .setAuditEntity(this.getAuditEntity(auditEntity))
+                        .setAuditEntity(auditEntity)
                         .setPurposeOfUse(purpose)
                         .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                         .build(),
@@ -406,10 +406,6 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
 
     private Actor getActor(String actor, AgentType agentType) {
         return Actor.newBuilder().setIdentity(actor).setAgentType(agentType).build();
-    }
-
-    private AuditEntity getAuditEntity(String auditEntity) {
-        return AuditEntity.newBuilder().setPatientId(auditEntity).build();
     }
 
     private DataObject getDataObject(String jsonRecord, String resource, SensitivityLevel sensitivityLevel) {

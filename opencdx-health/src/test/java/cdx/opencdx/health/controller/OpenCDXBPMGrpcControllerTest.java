@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,6 +107,7 @@ class OpenCDXBPMGrpcControllerTest {
                         return Optional.of(OpenCDXBPMModel.builder()
                                 .id(argument)
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .cuffSize(CuffSize.CUFF_SIZE_UNSPECIFIED)
                                 .armUsed(ArmUsed.ARM_USED_UNSPECIFIED)
                                 .systolic(80)
@@ -123,6 +125,7 @@ class OpenCDXBPMGrpcControllerTest {
                         List.of(OpenCDXBPMModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .nationalHealthId(OpenCDXIdentifier.get().toHexString())
                                 .cuffSize(CuffSize.CUFF_SIZE_UNSPECIFIED)
                                 .armUsed(ArmUsed.ARM_USED_UNSPECIFIED)

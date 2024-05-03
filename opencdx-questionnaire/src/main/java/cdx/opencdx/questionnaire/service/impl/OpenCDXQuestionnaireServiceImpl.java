@@ -490,8 +490,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "CreateUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     "QUESTIONNAIR-USER: " + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -521,7 +523,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .orElseThrow(
                         () -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find user questionnaire: " + request.getId()))
                 .getProtobufMessage();
-        OpenCDXProfileModel user = this.openCDXProfileRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(new OpenCDXIdentifier(data.getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getPatientId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -531,8 +533,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "GetUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    user.getId().toHexString(),
-                    user.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     "QUESTIONNAIRE-USER: " + data.getId(),
                     this.objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
@@ -571,7 +575,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         List<UserQuestionnaireData> list = all.get()
                 .peek(model -> {
-                    OpenCDXProfileModel user = this.openCDXProfileRepository
+                    OpenCDXProfileModel patient = this.openCDXProfileRepository
                             .findById(model.getPatientId())
                             .orElseThrow(() -> new OpenCDXNotFound(
                                     DOMAIN,
@@ -583,8 +587,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                                 currentUser.getAgentType(),
                                 "GetUserQuestionnaireDataList [User Level]",
                                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                                user.getId().toHexString(),
-                                user.getNationalHealthId(),
+                                AuditEntity.newBuilder()
+                                        .setPatientId(patient.getId().toHexString())
+                                        .setNationalHealthId(patient.getNationalHealthId())
+                                        .build(),
                                 "QUESTIONNAIRE-USER: " + model.getId(),
                                 this.objectMapper.writeValueAsString(model));
                     } catch (JsonProcessingException e) {

@@ -21,6 +21,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.service.OpenCDXCDCMessageService;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
@@ -135,8 +136,9 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
                     currentUser.getAgentType(),
                     "CDC Notification",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    currentUser.getId().toHexString(),
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(currentUser.getId().toHexString())
+                            .build(),
                     NOTIFICATION_EVENT + ": CDC MESSAGE",
                     (new CDCMessage(requestString, responseMessage)).toString());
 
