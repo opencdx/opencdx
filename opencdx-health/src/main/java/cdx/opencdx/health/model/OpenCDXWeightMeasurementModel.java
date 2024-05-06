@@ -16,17 +16,18 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.WeightMeasurement;
 import cdx.opencdx.grpc.types.WeightUnits;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Weight Measurement in Mongo. Features conversions to/from Protobuf messages.
@@ -36,7 +37,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("weights")
+@OpenCDXRecord(value="weights")
+//@Document(value="weights")
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXWeightMeasurementModel {
     @Id

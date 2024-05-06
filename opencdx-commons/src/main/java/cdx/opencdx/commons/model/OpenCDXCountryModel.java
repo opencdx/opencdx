@@ -16,18 +16,19 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.ContinentEnum;
 import cdx.opencdx.grpc.data.Country;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Model for Country in Mongo. Features conversions to/from Protobuf messages.
@@ -37,7 +38,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("country")
+@OpenCDXRecord(value="country")
+//@Document(value="country")
 public class OpenCDXCountryModel {
 
     @Id

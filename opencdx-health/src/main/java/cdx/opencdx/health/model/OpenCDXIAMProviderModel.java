@@ -16,22 +16,23 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.types.AddressPurpose;
 import cdx.opencdx.grpc.types.ProviderStatus;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Model for Provider in Mongo. Features conversions to/from Protobuf messages.
@@ -41,7 +42,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("provider")
+@OpenCDXRecord(value="provider")
+//@Document(value="provider")
 @SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXIAMProviderModel {
     @Id

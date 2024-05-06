@@ -16,20 +16,21 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.service.iam.SignUpRequest;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * User Record for IAM
@@ -39,7 +40,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document("users")
+@OpenCDXRecord(value="users")
+//@Document(value="users")
 public class OpenCDXIAMUserModel {
     @Id
     private OpenCDXIdentifier id;

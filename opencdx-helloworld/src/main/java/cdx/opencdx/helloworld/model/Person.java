@@ -16,11 +16,11 @@
 package cdx.opencdx.helloworld.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Person record from database.
@@ -28,7 +28,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @Builder
-@Document("persons")
+@OpenCDXRecord(value="persons")
+//@Document(value="persons")
 public class Person {
     /**
      * Default Constructor

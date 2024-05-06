@@ -16,16 +16,17 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.*;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Connected Test in Mongo.  Features conversions
@@ -36,7 +37,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("connected-test")
+@OpenCDXRecord(value="connected-test")
+//@Document(value="connected-test")
 public class OpenCDXConnectedTestModel {
 
     @Id

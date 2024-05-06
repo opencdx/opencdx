@@ -16,15 +16,16 @@
 package cdx.opencdx.questionnaire.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.Questionnaire;
 import cdx.opencdx.grpc.data.UserQuestionnaireData;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 /**
  * The OpenCDXUserQuestionnaireModel class represents a user questionnaire data model in the OpenCDX system.
@@ -33,7 +34,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("questionnaire-user")
+@OpenCDXRecord(value="questionnaire-user")
+//@Document(value="questionnaire-user")
 public class OpenCDXUserQuestionnaireModel {
     @Id
     private OpenCDXIdentifier id;

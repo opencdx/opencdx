@@ -16,19 +16,20 @@
 package cdx.opencdx.logistics.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.Address;
 import cdx.opencdx.grpc.data.FullName;
 import cdx.opencdx.grpc.data.Order;
 import cdx.opencdx.grpc.types.ShippingStatus;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Order in Mongo. Features conversions to/from Protobuf messages.
@@ -38,7 +39,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("order")
+@OpenCDXRecord(value="order")
+//@Document(value="order")
 public class OpenCDXOrderModel {
 
     @Id

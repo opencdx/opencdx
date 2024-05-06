@@ -16,18 +16,19 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.data.Medication;
 import cdx.opencdx.grpc.data.Vaccine;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Vaccine in Mongo.  Features conversions
@@ -38,7 +39,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("vaccine")
+@OpenCDXRecord(value="vaccine")
+//@Document(value="vaccine")
 public class OpenCDXVaccineModel {
     @Id
     private OpenCDXIdentifier id;

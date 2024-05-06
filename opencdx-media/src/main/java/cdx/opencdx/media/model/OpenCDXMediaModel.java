@@ -16,19 +16,20 @@
 package cdx.opencdx.media.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.Media;
 import cdx.opencdx.grpc.types.MediaStatus;
 import cdx.opencdx.grpc.types.MediaType;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * OpenCDXMediaModel for the Protobuf Media class, translation between types.
@@ -37,7 +38,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("media")
+@OpenCDXRecord(value="media")
+//@Document(value="media")
 public class OpenCDXMediaModel {
     @Id
     private OpenCDXIdentifier id;

@@ -16,18 +16,19 @@
 package cdx.opencdx.communications.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRecord;
 import cdx.opencdx.grpc.data.SMSTemplate;
 import cdx.opencdx.grpc.types.TemplateType;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Model for OpecCDXSMSTemplate in Mongo.  Features conversions
@@ -37,7 +38,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("sms-template")
+@OpenCDXRecord(value="sms-template")
+//@Document(value="sms-template")
 public class OpenCDXSMSTemplateModel {
 
     @Id
