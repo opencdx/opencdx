@@ -194,7 +194,7 @@ public class OpenCDXCountryModel {
         return builder.build();
     }
 
-    public void update(Country country) {
+    public OpenCDXCountryModel update(Country country) {
         this.name = country.getName();
         this.iso2 = country.getIso2();
         this.iso3 = country.getIso3();
@@ -204,5 +204,7 @@ public class OpenCDXCountryModel {
         this.languageCodes = country.getLanguageCodesList();
         this.phoneCode = country.getPhoneCode();
         this.topLevelInternetDomain = country.getTopLevelInternetDomain();
+
+        return this;
     }
 }

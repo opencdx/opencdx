@@ -57,6 +57,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     private static final String COUNTRY = "COUNTRY: ";
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL = "Failed to convert OpenCDXCountryModel";
+    public static final String FAILED_TO_FIND_COUNTRY = "Failed to find country: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
@@ -97,7 +98,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     public Country getCountryById(CountryIdRequest request) {
         return this.openCDXCountryRepository
                 .findById(new OpenCDXIdentifier(request.getCountryId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find country: " + request.getCountryId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_COUNTRY + request.getCountryId()))
                 .getProtobufMessage();
     }
 
@@ -125,7 +126,11 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     @Override
     public Country updateCountry(Country request) {
-        OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository.save(new OpenCDXCountryModel(request));
+        OpenCDXCountryModel model = this.openCDXCountryRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_COUNTRY + request.getId()));
+
+        model = this.openCDXCountryRepository.save(model.update(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -133,16 +138,16 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     currentUser.getAgentType(),
                     "Updating Country",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    COUNTRY + openCDXCountryModel.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(openCDXCountryModel));
+                    COUNTRY + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXCountryModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXCountryModel.getProtobufMessage();
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -160,7 +165,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
         OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository
                 .findById(countryId)
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find country: " + request.getCountryId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_COUNTRY + request.getCountryId()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
