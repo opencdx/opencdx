@@ -160,4 +160,17 @@ public class OpenCDXManufacturerModel {
 
         return builder.build();
     }
+
+    public void update(Manufacturer manufacturer) {
+        this.setName(manufacturer.getName());
+        if (manufacturer.hasManufacturerAddress()) {
+            this.address = new OpenCDXAddressModel(manufacturer.getManufacturerAddress());
+        }
+        this.setContact(manufacturer.getManufacturerContact());
+        this.setEmail(manufacturer.getManufacturerEmail());
+        this.setPhone(manufacturer.getManufacturerPhone());
+        this.setWebsite(manufacturer.getManufacturerWebsite());
+        this.setDescription(manufacturer.getManufacturerDescription());
+        this.setCertifications(manufacturer.getManufacturerCertificationsList());
+    }
 }

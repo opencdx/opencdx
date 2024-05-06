@@ -188,4 +188,24 @@ public class OpenCDXIAMWorkspaceModel {
 
         return builder.build();
     }
+
+    public void update(Workspace workspace) {
+        this.name = workspace.getName();
+        this.description = workspace.getDescription();
+        if (workspace.hasCreatedDate()) {
+            this.createDate = Instant.ofEpochSecond(
+                    workspace.getCreatedDate().getSeconds(),
+                    workspace.getCreatedDate().getNanos());
+        }
+        this.location = workspace.getLocation();
+        this.manager = workspace.getManager();
+        this.capacity = workspace.getCapacity();
+        this.facilities = workspace.getFacilitiesList();
+        this.workspaceType = workspace.getWorkspaceType();
+        this.workspaceImageUrls = workspace.getWorkspaceImageUrlsList();
+        this.usagePolicy = workspace.getUsagePolicy();
+        this.availabilitySchedule = workspace.getAvailabilitySchedule();
+        this.departments = workspace.getDepartmentsList();
+        this.organization = new OpenCDXIdentifier(workspace.getOrganizationId());
+    }
 }

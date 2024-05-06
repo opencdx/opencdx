@@ -198,4 +198,33 @@ public class OpenCDXTestCaseModel {
 
         return builder.build();
     }
+
+    public void update(TestCase testCase) {
+        if (testCase.hasManufacturerId()) {
+            this.manufacturerId = new OpenCDXIdentifier(testCase.getManufacturerId());
+        }
+        if (testCase.hasVendorId()) {
+            this.vendorId = new OpenCDXIdentifier(testCase.getVendorId());
+        }
+        if (testCase.hasPackagingDate()) {
+            this.packagingDate = Instant.ofEpochSecond(
+                    testCase.getPackagingDate().getSeconds(),
+                    testCase.getPackagingDate().getNanos());
+        }
+        this.lidrId = testCase.getLidrId();
+        if (testCase.hasExpiryDate()) {
+            this.expiryDate = Instant.ofEpochSecond(
+                    testCase.getExpiryDate().getSeconds(),
+                    testCase.getExpiryDate().getNanos());
+        }
+        this.deviceIds =
+                testCase.getDeviceIdsList().stream().map(OpenCDXIdentifier::new).toList();
+        this.nunberOftests = testCase.getNumberOfTests();
+        this.batchNumber = testCase.getBatchNumber();
+        this.serialNumber = testCase.getSerialNumber();
+        this.storageRequirements = testCase.getStorageRequirements();
+        this.safety = testCase.getSafety();
+        this.userInstructions = testCase.getUserInstructions();
+        this.limitations = testCase.getLimitations();
+    }
 }

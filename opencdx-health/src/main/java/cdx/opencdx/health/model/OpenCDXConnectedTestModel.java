@@ -149,4 +149,15 @@ public class OpenCDXConnectedTestModel {
         }
         return builder.build();
     }
+
+    public void update(ConnectedTest connectedTest) {
+        this.patientId = new OpenCDXIdentifier(connectedTest.getBasicInfo().getPatientId());
+        this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();
+        this.basicInfo = connectedTest.getBasicInfo();
+        this.orderInfo = connectedTest.getOrderInfo();
+        this.testNotes = connectedTest.getTestNotes();
+        this.paymentDetails = connectedTest.getPaymentDetails();
+        this.providerInfo = connectedTest.getProviderInfo();
+        this.testDetails = connectedTest.getTestDetails();
+    }
 }

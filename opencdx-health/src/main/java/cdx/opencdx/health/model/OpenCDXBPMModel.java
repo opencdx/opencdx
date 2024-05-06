@@ -154,4 +154,23 @@ public class OpenCDXBPMModel {
         }
         return builder.build();
     }
+
+    public void update(BPM bpm) {
+        if (bpm.hasId()) {
+            this.id = new OpenCDXIdentifier(bpm.getId());
+        }
+        this.patientId = new OpenCDXIdentifier(bpm.getPatientId());
+        this.nationalHealthId = bpm.getNationalHealthId();
+        this.cuffSize = bpm.getCuffSize();
+        this.armUsed = bpm.getArmUsed();
+        this.systolic = bpm.getSystolic();
+        this.diastolic = bpm.getDiastolic();
+        this.bpmUnits = bpm.getUnit();
+        this.sittingPositionFiveMinutes = bpm.getSittingPosition5Minutes();
+        this.urinatedThirtyMinutesPrior = bpm.getUrinated30MinutesPrior();
+        if (bpm.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    bpm.getCreated().getSeconds(), bpm.getCreated().getNanos());
+        }
+    }
 }

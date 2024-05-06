@@ -142,4 +142,16 @@ public class OpenCDXHeightMeasurementModel {
         }
         return builder.build();
     }
+
+    public void update(HeightMeasurement heightMeasurement) {
+        this.patientId = new OpenCDXIdentifier(heightMeasurement.getPatientId());
+        this.nationalHealthId = heightMeasurement.getNationalHealthId();
+        this.height = heightMeasurement.getHeight();
+        this.unitsOfMeasure = heightMeasurement.getUnitsOfMeasure();
+        if (heightMeasurement.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    heightMeasurement.getCreated().getSeconds(),
+                    heightMeasurement.getCreated().getNanos());
+        }
+    }
 }

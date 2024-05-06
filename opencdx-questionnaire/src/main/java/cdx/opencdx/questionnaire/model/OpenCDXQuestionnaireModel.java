@@ -178,4 +178,17 @@ public class OpenCDXQuestionnaireModel {
 
         return builder.build();
     }
+
+    public void update(Questionnaire questionnaire) {
+        this.resourceType = questionnaire.getResourceType();
+        this.title = questionnaire.getTitle();
+        this.status = QuestionnaireStatus.active;
+        this.description = questionnaire.getDescription();
+        if (questionnaire.hasRuleId()) {
+            this.ruleId = questionnaire.getRuleId();
+        }
+        this.items = questionnaire.getItemList();
+
+        this.ruleQuestionId = questionnaire.getRuleQuestionIdList();
+    }
 }

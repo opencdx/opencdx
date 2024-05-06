@@ -143,4 +143,35 @@ public class OpenCDXVaccineModel {
         }
         return builder.build();
     }
+
+    public void update(Vaccine vaccine) {
+        this.id = new OpenCDXIdentifier(vaccine.getId());
+        this.patientId = new OpenCDXIdentifier(vaccine.getPatientId());
+        this.nationalHealthId = vaccine.getNationalHealthId();
+        this.administrationDate = Instant.ofEpochSecond(
+                vaccine.getAdministrationDate().getSeconds(),
+                vaccine.getAdministrationDate().getNanos());
+        this.fips = vaccine.getFips();
+        if (vaccine.hasLocation()) {
+            this.location = new OpenCDXAddressModel(vaccine.getLocation());
+        }
+        this.healthDistrict = vaccine.getHealthDistrict();
+        this.facilityType = vaccine.getFacilityType();
+        this.vaccine = vaccine.getVaccine();
+        this.doseNumber = vaccine.getDoseNumber();
+        if (vaccine.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    vaccine.getCreated().getSeconds(), vaccine.getCreated().getNanos());
+        }
+        if (vaccine.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    vaccine.getModified().getSeconds(), vaccine.getModified().getNanos());
+        }
+        if (vaccine.hasCreator()) {
+            this.creator = new OpenCDXIdentifier(vaccine.getCreator());
+        }
+        if (vaccine.hasModifier()) {
+            this.modifier = new OpenCDXIdentifier(vaccine.getModifier());
+        }
+    }
 }

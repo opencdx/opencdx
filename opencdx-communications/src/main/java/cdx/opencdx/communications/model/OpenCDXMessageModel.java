@@ -130,4 +130,12 @@ public class OpenCDXMessageModel {
 
         return builder.build();
     }
+
+    public void update(Message message) {
+        this.patientId = new OpenCDXIdentifier(message.getPatientId());
+        this.title = message.getTitle();
+        this.message = message.getMessage();
+        this.messageType = message.getType();
+        this.messageStatus = message.getStatus();
+    }
 }

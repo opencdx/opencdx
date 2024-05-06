@@ -142,4 +142,16 @@ public class OpenCDXWeightMeasurementModel {
         }
         return builder.build();
     }
+
+    public void update(WeightMeasurement weightMeasurement) {
+        this.patientId = new OpenCDXIdentifier(weightMeasurement.getPatientId());
+        this.nationalHealthId = weightMeasurement.getNationalHealthId();
+        this.weight = weightMeasurement.getWeight();
+        this.unitsOfMeasure = weightMeasurement.getUnitsOfMeasure();
+        if (weightMeasurement.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    weightMeasurement.getCreated().getSeconds(),
+                    weightMeasurement.getCreated().getNanos());
+        }
+    }
 }

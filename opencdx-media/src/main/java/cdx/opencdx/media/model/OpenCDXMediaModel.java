@@ -190,4 +190,25 @@ public class OpenCDXMediaModel {
         }
         return builder.build();
     }
+
+    public void update(Media media) {
+        if (media.hasUpdatedAt()) {
+            this.updated = Instant.ofEpochSecond(
+                    media.getUpdatedAt().getSeconds(), media.getUpdatedAt().getNanos());
+        } else {
+            this.updated = Instant.now();
+        }
+
+        this.organization = new OpenCDXIdentifier(media.getOrganizationId());
+        this.workspace = new OpenCDXIdentifier(media.getWorkspaceId());
+        this.name = media.getName();
+        this.shortDescription = media.getShortDescription();
+        this.description = media.getDescription();
+        this.mediaType = media.getType();
+        this.labels = new ArrayList<>(media.getLabelsList());
+        this.mimeType = media.getMimeType();
+        this.size = media.getSize();
+        this.location = media.getLocation();
+        this.endpoint = media.getEndpoint();
+    }
 }

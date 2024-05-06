@@ -130,4 +130,10 @@ public class OpenCDXSMSTemplateModel {
 
         return builder.build();
     }
+
+    public void update(SMSTemplate template) {
+        this.templateType = template.getTemplateType();
+        this.message = template.getMessage();
+        this.variables = new ArrayList<>(template.getVariablesList());
+    }
 }

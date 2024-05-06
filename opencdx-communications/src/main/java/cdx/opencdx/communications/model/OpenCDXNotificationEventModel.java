@@ -169,4 +169,23 @@ public class OpenCDXNotificationEventModel {
         }
         return builder.build();
     }
+
+    public void update(NotificationEvent event) {
+        this.eventName = event.getEventName();
+        this.eventDescription = event.getEventDescription();
+        if (event.hasEmailTemplateId()) {
+            this.emailTemplateId = new OpenCDXIdentifier(event.getEmailTemplateId());
+        }
+        if (event.hasSmsTemplateId()) {
+            this.smsTemplateId = new OpenCDXIdentifier(event.getSmsTemplateId());
+        }
+        if (event.hasMessageTemplateId()) {
+            this.messageTemplateId = new OpenCDXIdentifier(event.getMessageTemplateId());
+        }
+        this.parameters = event.getEventParametersList();
+        this.sensitivityLevel = event.getSensitivity();
+        this.priority = event.getPriority();
+        this.smsRetry = event.getSmsRetry();
+        this.emailRetry = event.getEmailRetry();
+    }
 }

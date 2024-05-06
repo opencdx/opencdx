@@ -219,4 +219,35 @@ public class OpenCDXProfileModel {
         }
         return builder.build();
     }
+
+    public void update(UserProfile userProfile) {
+        this.nationalHealthId = userProfile.getNationalHealthId();
+        this.fullName = userProfile.getFullName();
+        this.contactInfo = userProfile.getContactsList();
+
+        if (userProfile.hasUserId()) {
+            this.userId = new OpenCDXIdentifier(userProfile.getUserId());
+        }
+
+        if (userProfile.hasDateOfBirth()) {
+            this.dateOfBirth = Instant.ofEpochSecond(
+                    userProfile.getDateOfBirth().getSeconds(),
+                    userProfile.getDateOfBirth().getNanos());
+        }
+        if (userProfile.hasPlaceOfBirth()) {
+            this.placeOfBirth = userProfile.getPlaceOfBirth();
+        }
+        this.dependents = userProfile.getDependentIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
+        this.isActive = userProfile.getIsActive();
+        this.addresses = userProfile.getAddressList();
+        this.photo = userProfile.getPhoto().toByteArray();
+        this.demographics = userProfile.getDemographics();
+        this.employeeIdentity = userProfile.getEmployeeIdentity();
+        this.primaryContactInfo = userProfile.getPrimaryContactInfo();
+        this.emergencyContact = userProfile.getEmergencyContact();
+        this.pharmacyDetails = userProfile.getPharmacyDetails();
+        this.allergies = userProfile.getKnownAllergiesList();
+    }
 }

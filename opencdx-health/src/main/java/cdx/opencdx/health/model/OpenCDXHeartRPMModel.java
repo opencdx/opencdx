@@ -136,4 +136,15 @@ public class OpenCDXHeartRPMModel {
         }
         return builder.build();
     }
+
+    public void update(HeartRPM heartRPM) {
+        this.patientId = new OpenCDXIdentifier(heartRPM.getPatientId());
+        this.nationalHealthId = heartRPM.getNationalHealthId();
+        this.measurementTakenOverInSeconds = heartRPM.getMeasurementTakenOverInSeconds();
+        this.sittingPositionFiveMinutes = heartRPM.getSittingPosition5Minutes();
+        if (heartRPM.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    heartRPM.getCreated().getSeconds(), heartRPM.getCreated().getNanos());
+        }
+    }
 }

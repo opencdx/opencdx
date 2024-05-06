@@ -136,4 +136,11 @@ public class OpenCDXMessageTemplateModel {
 
         return builder.build();
     }
+
+    public void update(MessageTemplate template) {
+        this.variables = new ArrayList<>(template.getVariablesList());
+        this.title = template.getTitle();
+        this.content = template.getContent();
+        this.messageType = template.getType();
+    }
 }

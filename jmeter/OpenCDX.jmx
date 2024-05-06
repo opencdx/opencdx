@@ -320,8 +320,20 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
-	&quot;id&quot;:&quot;${countryId}&quot;,
-	&quot;name&quot;:&quot;Canada&quot;
+  &quot;id&quot;: &quot;${countryId}&quot;,
+  &quot;name&quot;: &quot;Canada&quot;,
+  &quot;iso2&quot;: &quot;&quot;,
+  &quot;iso3&quot;: &quot;&quot;,
+  &quot;continent&quot;: &quot;AFRICA&quot;,
+  &quot;fips&quot;: &quot;&quot;,
+  &quot;isoNumeric&quot;: 0,
+  &quot;languageCodes&quot;: [],
+  &quot;phoneCode&quot;: &quot;&quot;,
+  &quot;topLevelInternetDomain&quot;: &quot;&quot;,
+  &quot;created&quot;: &quot;2024-05-03T21:28:36.957Z&quot;,
+  &quot;modified&quot;: &quot;2024-05-03T21:28:36.957Z&quot;,
+  &quot;creator&quot;: &quot;66355703347e2837c732186d&quot;,
+  &quot;modifier&quot;: &quot;66355703347e2837c732186d&quot;
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>

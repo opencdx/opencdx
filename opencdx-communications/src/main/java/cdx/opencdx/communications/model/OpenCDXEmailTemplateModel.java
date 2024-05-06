@@ -134,4 +134,12 @@ public class OpenCDXEmailTemplateModel {
         }
         return builder.build();
     }
+
+    public void update(EmailTemplate template) {
+        this.templateType = template.getTemplateType();
+        this.subject = template.getSubject();
+        this.content = template.getContent();
+
+        this.variables = new ArrayList<>(template.getVariablesList());
+    }
 }

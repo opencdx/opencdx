@@ -185,4 +185,23 @@ public class OpenCDXIAMOrganizationModel {
 
         return builder.build();
     }
+
+    public void update(Organization organization) {
+        this.name = organization.getName();
+        this.description = organization.getDescription();
+        if (organization.hasFoundingDate()) {
+            this.foundingDate = Instant.ofEpochSecond(
+                    organization.getFoundingDate().getSeconds(),
+                    organization.getFoundingDate().getNanos());
+        }
+        this.address = organization.getAddress();
+        this.website = organization.getWebsite();
+        this.industry = organization.getIndustry();
+        this.revenue = organization.getRevenue();
+        this.logoUrl = organization.getLogoUrl();
+        this.socialMediaLinks = organization.getSocialMediaLinksList();
+        this.missionStatement = organization.getMissionStatement();
+        this.visionStatement = organization.getVisionStatement();
+        this.contactInfo = organization.getContactsList();
+    }
 }

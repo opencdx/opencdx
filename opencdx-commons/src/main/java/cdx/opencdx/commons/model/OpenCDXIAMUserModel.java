@@ -182,4 +182,13 @@ public class OpenCDXIAMUserModel {
         }
         return builder.build();
     }
+
+    public void update(IamUser iamUser) {
+        this.systemName = iamUser.getSystemName();
+
+        this.username = iamUser.getUsername();
+        this.emailVerified = iamUser.getEmailVerified();
+        this.status = iamUser.getStatus();
+        this.type = iamUser.getType();
+    }
 }

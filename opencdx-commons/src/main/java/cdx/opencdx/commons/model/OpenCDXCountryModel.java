@@ -193,4 +193,16 @@ public class OpenCDXCountryModel {
         }
         return builder.build();
     }
+
+    public void update(Country country) {
+        this.name = country.getName();
+        this.iso2 = country.getIso2();
+        this.iso3 = country.getIso3();
+        this.continent = country.getContinent();
+        this.fips = country.getFips();
+        this.isoNumeric = country.getIsoNumeric();
+        this.languageCodes = country.getLanguageCodesList();
+        this.phoneCode = country.getPhoneCode();
+        this.topLevelInternetDomain = country.getTopLevelInternetDomain();
+    }
 }

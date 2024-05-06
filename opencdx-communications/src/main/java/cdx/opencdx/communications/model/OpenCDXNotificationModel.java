@@ -192,4 +192,40 @@ public class OpenCDXNotificationModel {
 
         return builder.build();
     }
+
+    public void update(Notification notification) {
+        this.emailFailCount = 0;
+        this.smsFailCount = 0;
+        this.patientId = new OpenCDXIdentifier(notification.getPatientId());
+
+        this.eventId = new OpenCDXIdentifier(notification.getEventId());
+        if (notification.hasSmsStatus()) {
+            this.smsStatus = notification.getSmsStatus();
+        } else {
+            this.smsStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasEmailStatus()) {
+            this.emailStatus = notification.getEmailStatus();
+        } else {
+            this.emailStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasTimestamp()) {
+            this.timestamp = Instant.ofEpochSecond(
+                    notification.getTimestamp().getSeconds(),
+                    notification.getTimestamp().getNanos());
+        } else {
+            this.timestamp = Instant.now();
+        }
+
+        this.customData = notification.getCustomDataMap();
+        this.toEmail = notification.getToEmailList();
+        this.ccEmail = notification.getCcEmailList();
+        this.bccEmail = notification.getBccEmailList();
+        this.attachments = notification.getEmailAttachmentsList();
+        this.phoneNumbers = notification.getToPhoneNumberList();
+        this.variables = notification.getVariablesMap();
+        this.recipients = notification.getRecipientsIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
+    }
 }

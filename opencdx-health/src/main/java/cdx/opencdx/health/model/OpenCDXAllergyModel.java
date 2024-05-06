@@ -148,4 +148,19 @@ public class OpenCDXAllergyModel {
         }
         return builder.build();
     }
+
+    public void update(KnownAllergy knownAllergy) {
+        this.patientId = new OpenCDXIdentifier(knownAllergy.getPatientId());
+        this.nationalHealthId = knownAllergy.getNationalHealthId();
+        this.allergen = knownAllergy.getAllergen();
+        this.reaction = knownAllergy.getReaction();
+        this.isSevere = knownAllergy.getIsSevere();
+        this.onsetDate = Instant.ofEpochSecond(
+                knownAllergy.getOnsetDate().getSeconds(),
+                knownAllergy.getOnsetDate().getNanos());
+        this.lastOccurrence = Instant.ofEpochSecond(
+                knownAllergy.getLastOccurrence().getSeconds(),
+                knownAllergy.getLastOccurrence().getNanos());
+        this.notes = knownAllergy.getNotes();
+    }
 }

@@ -181,4 +181,27 @@ public class OpenCDXConnectedLabModel {
 
         return builder.build();
     }
+
+    public void update(ConnectedLab lab) {
+        this.name = lab.getName();
+        this.identifier = lab.getIdentifier();
+        this.organizationId = new OpenCDXIdentifier(lab.getOrganizationId());
+        this.workspaceId = new OpenCDXIdentifier(lab.getWorkspaceId());
+        this.contactInfo = lab.getContactInfo();
+        if (lab.hasLabAddress()) {
+            this.labAddress = lab.getLabAddress();
+        }
+        if (lab.hasLabEmail()) {
+            this.labEmail = lab.getLabEmail();
+        }
+        if (lab.hasLabPhone()) {
+            this.labPhone = lab.getLabPhone();
+        }
+        this.labWebsite = lab.getLabWebsite();
+        this.labDescription = lab.getLabDescription();
+        this.labCertifications = lab.getLabCertificationsList();
+        if (lab.hasLabProcessor()) {
+            this.labProcessor = lab.getLabProcessor();
+        }
+    }
 }
