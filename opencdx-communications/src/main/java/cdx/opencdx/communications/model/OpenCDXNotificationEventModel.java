@@ -170,7 +170,7 @@ public class OpenCDXNotificationEventModel {
         return builder.build();
     }
 
-    public void update(NotificationEvent event) {
+    public OpenCDXNotificationEventModel update(NotificationEvent event) {
         this.eventName = event.getEventName();
         this.eventDescription = event.getEventDescription();
         if (event.hasEmailTemplateId()) {
@@ -187,5 +187,6 @@ public class OpenCDXNotificationEventModel {
         this.priority = event.getPriority();
         this.smsRetry = event.getSmsRetry();
         this.emailRetry = event.getEmailRetry();
+        return this;
     }
 }

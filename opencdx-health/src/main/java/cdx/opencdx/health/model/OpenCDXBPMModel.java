@@ -155,7 +155,7 @@ public class OpenCDXBPMModel {
         return builder.build();
     }
 
-    public void update(BPM bpm) {
+    public OpenCDXBPMModel update(BPM bpm) {
         if (bpm.hasId()) {
             this.id = new OpenCDXIdentifier(bpm.getId());
         }
@@ -172,5 +172,7 @@ public class OpenCDXBPMModel {
             this.timeOfMeasurement = Instant.ofEpochSecond(
                     bpm.getCreated().getSeconds(), bpm.getCreated().getNanos());
         }
+
+        return this;
     }
 }

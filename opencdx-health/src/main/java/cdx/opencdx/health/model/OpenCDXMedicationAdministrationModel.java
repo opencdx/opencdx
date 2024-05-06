@@ -138,7 +138,7 @@ public class OpenCDXMedicationAdministrationModel {
         return builder.build();
     }
 
-    public void update(MedicationAdministration medicationAdministration) {
+    public OpenCDXMedicationAdministrationModel update(MedicationAdministration medicationAdministration) {
         this.medicationId = new OpenCDXIdentifier(medicationAdministration.getMedicationId());
         this.patientId = new OpenCDXIdentifier(medicationAdministration.getPatientId());
         this.nationalHealthId = medicationAdministration.getNationalHealthId();
@@ -147,5 +147,6 @@ public class OpenCDXMedicationAdministrationModel {
                 medicationAdministration.getAdministrationTime().getNanos());
         this.administratedBy = medicationAdministration.getAdministratedBy();
         this.administrationNotes = medicationAdministration.getAdministrationNotes();
+        return this;
     }
 }

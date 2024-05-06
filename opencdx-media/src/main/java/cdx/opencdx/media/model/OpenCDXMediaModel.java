@@ -191,7 +191,7 @@ public class OpenCDXMediaModel {
         return builder.build();
     }
 
-    public void update(Media media) {
+    public OpenCDXMediaModel update(Media media) {
         if (media.hasUpdatedAt()) {
             this.updated = Instant.ofEpochSecond(
                     media.getUpdatedAt().getSeconds(), media.getUpdatedAt().getNanos());
@@ -210,5 +210,6 @@ public class OpenCDXMediaModel {
         this.size = media.getSize();
         this.location = media.getLocation();
         this.endpoint = media.getEndpoint();
+        return this;
     }
 }

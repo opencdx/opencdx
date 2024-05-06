@@ -159,7 +159,7 @@ public class OpenCDXVendorModel {
         return builder.build();
     }
 
-    public void update(Vendor vendor) {
+    public OpenCDXVendorModel update(Vendor vendor) {
         this.setName(vendor.getVendorName());
         if (vendor.hasVendorAddress()) {
             this.address = new OpenCDXAddressModel(vendor.getVendorAddress());
@@ -170,5 +170,7 @@ public class OpenCDXVendorModel {
         this.setWebsite(vendor.getVendorWebsite());
         this.setDescription(vendor.getVendorDescription());
         this.setCertifications(vendor.getVendorCertificationsList());
+
+        return this;
     }
 }

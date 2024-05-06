@@ -186,7 +186,7 @@ public class OpenCDXIAMOrganizationModel {
         return builder.build();
     }
 
-    public void update(Organization organization) {
+    public OpenCDXIAMOrganizationModel update(Organization organization) {
         this.name = organization.getName();
         this.description = organization.getDescription();
         if (organization.hasFoundingDate()) {
@@ -203,5 +203,7 @@ public class OpenCDXIAMOrganizationModel {
         this.missionStatement = organization.getMissionStatement();
         this.visionStatement = organization.getVisionStatement();
         this.contactInfo = organization.getContactsList();
+
+        return this;
     }
 }

@@ -137,7 +137,7 @@ public class OpenCDXHeartRPMModel {
         return builder.build();
     }
 
-    public void update(HeartRPM heartRPM) {
+    public OpenCDXHeartRPMModel update(HeartRPM heartRPM) {
         this.patientId = new OpenCDXIdentifier(heartRPM.getPatientId());
         this.nationalHealthId = heartRPM.getNationalHealthId();
         this.measurementTakenOverInSeconds = heartRPM.getMeasurementTakenOverInSeconds();
@@ -146,5 +146,7 @@ public class OpenCDXHeartRPMModel {
             this.timeOfMeasurement = Instant.ofEpochSecond(
                     heartRPM.getCreated().getSeconds(), heartRPM.getCreated().getNanos());
         }
+
+        return this;
     }
 }

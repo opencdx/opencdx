@@ -189,7 +189,7 @@ public class OpenCDXIAMWorkspaceModel {
         return builder.build();
     }
 
-    public void update(Workspace workspace) {
+    public OpenCDXIAMWorkspaceModel update(Workspace workspace) {
         this.name = workspace.getName();
         this.description = workspace.getDescription();
         if (workspace.hasCreatedDate()) {
@@ -207,5 +207,6 @@ public class OpenCDXIAMWorkspaceModel {
         this.availabilitySchedule = workspace.getAvailabilitySchedule();
         this.departments = workspace.getDepartmentsList();
         this.organization = new OpenCDXIdentifier(workspace.getOrganizationId());
+        return this;
     }
 }

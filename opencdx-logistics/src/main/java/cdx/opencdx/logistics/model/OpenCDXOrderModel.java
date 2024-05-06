@@ -140,7 +140,7 @@ public class OpenCDXOrderModel {
         return builder.build();
     }
 
-    public void update(Order order) {
+    public OpenCDXOrderModel update(Order order) {
         if (order.hasStatus()) {
             this.status = order.getStatus();
         }
@@ -150,5 +150,6 @@ public class OpenCDXOrderModel {
         this.patientId = new OpenCDXIdentifier(order.getPatientId());
         this.shippingAddress = order.getShippingAddress();
         this.testCaseID = new OpenCDXIdentifier(order.getTestCaseId());
+        return this;
     }
 }

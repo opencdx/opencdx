@@ -199,7 +199,7 @@ public class OpenCDXTestCaseModel {
         return builder.build();
     }
 
-    public void update(TestCase testCase) {
+    public OpenCDXTestCaseModel update(TestCase testCase) {
         if (testCase.hasManufacturerId()) {
             this.manufacturerId = new OpenCDXIdentifier(testCase.getManufacturerId());
         }
@@ -226,5 +226,6 @@ public class OpenCDXTestCaseModel {
         this.safety = testCase.getSafety();
         this.userInstructions = testCase.getUserInstructions();
         this.limitations = testCase.getLimitations();
+        return this;
     }
 }

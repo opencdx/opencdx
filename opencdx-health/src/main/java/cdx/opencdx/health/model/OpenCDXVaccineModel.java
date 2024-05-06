@@ -144,7 +144,7 @@ public class OpenCDXVaccineModel {
         return builder.build();
     }
 
-    public void update(Vaccine vaccine) {
+    public OpenCDXVaccineModel update(Vaccine vaccine) {
         this.id = new OpenCDXIdentifier(vaccine.getId());
         this.patientId = new OpenCDXIdentifier(vaccine.getPatientId());
         this.nationalHealthId = vaccine.getNationalHealthId();
@@ -173,5 +173,7 @@ public class OpenCDXVaccineModel {
         if (vaccine.hasModifier()) {
             this.modifier = new OpenCDXIdentifier(vaccine.getModifier());
         }
+
+        return this;
     }
 }

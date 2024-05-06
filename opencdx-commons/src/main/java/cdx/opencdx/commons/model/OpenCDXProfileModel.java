@@ -220,7 +220,7 @@ public class OpenCDXProfileModel {
         return builder.build();
     }
 
-    public void update(UserProfile userProfile) {
+    public OpenCDXProfileModel update(UserProfile userProfile) {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
@@ -249,5 +249,6 @@ public class OpenCDXProfileModel {
         this.emergencyContact = userProfile.getEmergencyContact();
         this.pharmacyDetails = userProfile.getPharmacyDetails();
         this.allergies = userProfile.getKnownAllergiesList();
+        return this;
     }
 }

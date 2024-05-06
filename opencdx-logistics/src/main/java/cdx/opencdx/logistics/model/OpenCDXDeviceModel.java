@@ -294,7 +294,7 @@ public class OpenCDXDeviceModel {
         return builder.build();
     }
 
-    public void update(Device device) {
+    public OpenCDXDeviceModel update(Device device) {
         this.type = device.getType();
         this.model = device.getModel();
         this.manufacturerId = new OpenCDXIdentifier(device.getManufacturerId());
@@ -338,5 +338,7 @@ public class OpenCDXDeviceModel {
         this.name = device.getName();
         this.shortDescription = device.getShortDescription();
         this.description = device.getDescription();
+
+        return this;
     }
 }

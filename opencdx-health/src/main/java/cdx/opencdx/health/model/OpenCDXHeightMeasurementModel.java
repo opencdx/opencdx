@@ -143,7 +143,7 @@ public class OpenCDXHeightMeasurementModel {
         return builder.build();
     }
 
-    public void update(HeightMeasurement heightMeasurement) {
+    public OpenCDXHeightMeasurementModel update(HeightMeasurement heightMeasurement) {
         this.patientId = new OpenCDXIdentifier(heightMeasurement.getPatientId());
         this.nationalHealthId = heightMeasurement.getNationalHealthId();
         this.height = heightMeasurement.getHeight();
@@ -153,5 +153,7 @@ public class OpenCDXHeightMeasurementModel {
                     heightMeasurement.getCreated().getSeconds(),
                     heightMeasurement.getCreated().getNanos());
         }
+
+        return this;
     }
 }

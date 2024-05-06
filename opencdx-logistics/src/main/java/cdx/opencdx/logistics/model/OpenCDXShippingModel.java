@@ -105,10 +105,12 @@ public class OpenCDXShippingModel {
      * Update this model from this protobuf message
      * @param response Protobuf message to update from
      */
-    public void update(OpenCDXShippingResponse response) {
+    public OpenCDXShippingModel update(OpenCDXShippingResponse response) {
         this.trackingNumber = response.getTrackingNumber();
         this.status = response.getStatus();
         this.estimatedDelivery = response.getEstimatedDelivery();
+
+        return this;
     }
 
     /**

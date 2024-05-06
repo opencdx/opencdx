@@ -182,7 +182,7 @@ public class OpenCDXConnectedLabModel {
         return builder.build();
     }
 
-    public void update(ConnectedLab lab) {
+    public OpenCDXConnectedLabModel update(ConnectedLab lab) {
         this.name = lab.getName();
         this.identifier = lab.getIdentifier();
         this.organizationId = new OpenCDXIdentifier(lab.getOrganizationId());
@@ -203,5 +203,7 @@ public class OpenCDXConnectedLabModel {
         if (lab.hasLabProcessor()) {
             this.labProcessor = lab.getLabProcessor();
         }
+
+        return this;
     }
 }

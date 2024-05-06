@@ -77,10 +77,12 @@ public class OpenCDXUserQuestionnaireModel {
         return builder.build();
     }
 
-    public void update(UserQuestionnaireData data) {
+    public OpenCDXUserQuestionnaireModel update(UserQuestionnaireData data) {
 
         this.patientId = new OpenCDXIdentifier(data.getPatientId());
 
         this.list = data.getQuestionnaireDataList();
+
+        return this;
     }
 }

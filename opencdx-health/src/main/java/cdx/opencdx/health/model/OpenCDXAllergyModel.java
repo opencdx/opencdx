@@ -149,7 +149,7 @@ public class OpenCDXAllergyModel {
         return builder.build();
     }
 
-    public void update(KnownAllergy knownAllergy) {
+    public OpenCDXAllergyModel update(KnownAllergy knownAllergy) {
         this.patientId = new OpenCDXIdentifier(knownAllergy.getPatientId());
         this.nationalHealthId = knownAllergy.getNationalHealthId();
         this.allergen = knownAllergy.getAllergen();
@@ -162,5 +162,7 @@ public class OpenCDXAllergyModel {
                 knownAllergy.getLastOccurrence().getSeconds(),
                 knownAllergy.getLastOccurrence().getNanos());
         this.notes = knownAllergy.getNotes();
+
+        return this;
     }
 }

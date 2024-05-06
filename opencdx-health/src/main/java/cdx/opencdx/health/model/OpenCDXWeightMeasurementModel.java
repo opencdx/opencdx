@@ -143,7 +143,7 @@ public class OpenCDXWeightMeasurementModel {
         return builder.build();
     }
 
-    public void update(WeightMeasurement weightMeasurement) {
+    public OpenCDXWeightMeasurementModel update(WeightMeasurement weightMeasurement) {
         this.patientId = new OpenCDXIdentifier(weightMeasurement.getPatientId());
         this.nationalHealthId = weightMeasurement.getNationalHealthId();
         this.weight = weightMeasurement.getWeight();
@@ -153,5 +153,7 @@ public class OpenCDXWeightMeasurementModel {
                     weightMeasurement.getCreated().getSeconds(),
                     weightMeasurement.getCreated().getNanos());
         }
+
+        return this;
     }
 }

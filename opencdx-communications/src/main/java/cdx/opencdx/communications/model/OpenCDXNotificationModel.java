@@ -193,7 +193,7 @@ public class OpenCDXNotificationModel {
         return builder.build();
     }
 
-    public void update(Notification notification) {
+    public OpenCDXNotificationModel update(Notification notification) {
         this.emailFailCount = 0;
         this.smsFailCount = 0;
         this.patientId = new OpenCDXIdentifier(notification.getPatientId());
@@ -227,5 +227,7 @@ public class OpenCDXNotificationModel {
         this.recipients = notification.getRecipientsIdList().stream()
                 .map(OpenCDXIdentifier::new)
                 .toList();
+
+        return this;
     }
 }
