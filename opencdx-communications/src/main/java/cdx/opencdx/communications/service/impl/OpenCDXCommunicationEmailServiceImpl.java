@@ -38,6 +38,7 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -47,8 +48,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for processing Email Communications Requests.
@@ -140,8 +139,10 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         EmailTemplate emailTemplate =
                 EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
 
-        OpenCDXEmailTemplateModel model = this.openCDXEmailTemplateRepository.findById(new OpenCDXIdentifier(emailTemplate.getTemplateId()))
-                .orElseThrow( () -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find email template: " + rawEmailTemplate.getTemplateId()));
+        OpenCDXEmailTemplateModel model = this.openCDXEmailTemplateRepository
+                .findById(new OpenCDXIdentifier(emailTemplate.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find email template: " + rawEmailTemplate.getTemplateId()));
 
         model = this.openCDXEmailTemplateRepository.save(model.update(emailTemplate));
         try {
