@@ -143,7 +143,7 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 PROFILES, new OpenCDXIdentifier(request.getDoctorNotes().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "allergy", new OpenCDXIdentifier(request.getDoctorNotes().getId()));
+                "doctor-notes", new OpenCDXIdentifier(request.getDoctorNotes().getId()));
         OpenCDXDoctorNotesModel model =
                 this.openCDXDoctorNotesRepository.save(new OpenCDXDoctorNotesModel(request.getDoctorNotes()));
         try {
@@ -176,14 +176,14 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_DOCTOR_NOTES + request.getId()));
 
         this.openCDXDoctorNotesRepository.deleteById(model.getId());
-        log.info("Deleted Allergy: {}", request.getId());
+        log.info("Deleted Doctor Notes: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiDeleted(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Allergy Deleted",
+                    "Doctor Notes Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getPatientId().toHexString(),
                     model.getNationalHealthId(),
