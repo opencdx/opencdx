@@ -18,8 +18,6 @@ package cdx.opencdx.health.model;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.DoctorNotes;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +25,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Model for Doctor Notes in Mongo. Features conversions to/from Protobuf messages.
@@ -126,5 +127,19 @@ public class OpenCDXDoctorNotesModel {
             builder.setModifier(this.modifier);
         }
         return builder.build();
+    }
+
+    public OpenCDXDoctorNotesModel update(DoctorNotes doctorNotes) {
+
+        this.patientId = new OpenCDXIdentifier(doctorNotes.getPatientId());
+        this.nationalHealthId = doctorNotes.getNationalHealthId();
+        this.providerNumber = doctorNotes.getProviderNumber();
+        this.tags = doctorNotes.getTagsList();
+        this.noteDatetime = Instant.ofEpochSecond(
+                doctorNotes.getNoteDatetime().getSeconds(),
+                doctorNotes.getNoteDatetime().getNanos());
+        this.notes = doctorNotes.getNotes();
+
+        return this;
     }
 }
