@@ -909,7 +909,7 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
 
-    if ./gradlew clean spotlessApply 7build publish --parallel; then
+    if ./gradlew clean spotlessApply build publish --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
