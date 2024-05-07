@@ -36,6 +36,7 @@ import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,6 +98,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         return Optional.of(OpenCDXDoctorNotesModel.builder()
                                 .id(argument)
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -192,6 +194,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         return Optional.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -224,6 +227,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -256,6 +260,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -295,6 +300,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -330,6 +336,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -359,6 +366,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())
@@ -391,6 +399,7 @@ class OpenCDXDoctorNotesServiceImplTest {
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .providerNumber("providerNumber")
                                 .tags(List.of("tags"))
                                 .noteDatetime(Instant.now())

@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -31,13 +32,14 @@ import cdx.opencdx.health.service.OpenCDXDoctorNotesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for processing doctor notes
@@ -93,8 +95,10 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     currentUser.getAgentType(),
                     "Doctor Notes created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXDoctorNotesModel.getPatientId().toHexString(),
-                    openCDXDoctorNotesModel.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(openCDXDoctorNotesModel.getPatientId().toHexString())
+                            .setNationalHealthId(openCDXDoctorNotesModel.getNationalHealthId())
+                            .build(),
                     DOCTOR_NOTES + openCDXDoctorNotesModel.getId(),
                     this.objectMapper.writeValueAsString(openCDXDoctorNotesModel));
         } catch (JsonProcessingException e) {
@@ -122,8 +126,10 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     currentUser.getAgentType(),
                     "Doctor Notes Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     DOCTOR_NOTES + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -153,8 +159,10 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     currentUser.getAgentType(),
                     "Doctor Notes Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     DOCTOR_NOTES + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -185,8 +193,10 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     currentUser.getAgentType(),
                     "Doctor Notes Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     DOCTOR_NOTES + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -251,8 +261,11 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                         currentUser.getAgentType(),
                         "Doctor Notes accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXDoctorNotesModel.getPatientId().toHexString(),
-                        openCDXDoctorNotesModel.getNationalHealthId(),
+                        AuditEntity.newBuilder()
+                                .setPatientId(
+                                        openCDXDoctorNotesModel.getPatientId().toHexString())
+                                .setNationalHealthId(openCDXDoctorNotesModel.getNationalHealthId())
+                                .build(),
                         DOCTOR_NOTES + openCDXDoctorNotesModel.getId(),
                         this.objectMapper.writeValueAsString(openCDXDoctorNotesModel.getProtobufMessage()));
             } catch (JsonProcessingException e) {
