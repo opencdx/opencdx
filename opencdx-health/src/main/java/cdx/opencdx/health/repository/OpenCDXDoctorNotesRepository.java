@@ -18,8 +18,8 @@ package cdx.opencdx.health.repository;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXDoctorNotesModel;
-import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
+import java.time.Instant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -49,8 +49,8 @@ public interface OpenCDXDoctorNotesRepository extends OpenCDXRepository<OpenCDXD
      * @param pageable Pageable for pagination
      * @return the list of doctor notes
      */
-    Page<OpenCDXDoctorNotesModel> findAllByPatientIdAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-            OpenCDXIdentifier patientId, Timestamp startDate, Timestamp endDate, Pageable pageable);
+    Page<OpenCDXDoctorNotesModel> findAllByPatientIdAndNoteDatetimeBetween(
+            OpenCDXIdentifier patientId, Instant startDate, Instant endDate, Pageable pageable);
 
     /**
      * Find all doctor notes by Patient ID, Tags and Date Range.
@@ -61,8 +61,8 @@ public interface OpenCDXDoctorNotesRepository extends OpenCDXRepository<OpenCDXD
      * @param pageable Pageable for pagination
      * @return the list of doctor notes
      */
-    Page<OpenCDXDoctorNotesModel> findAllByPatientIdAndTagsAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-            OpenCDXIdentifier patientId, String tags, Timestamp startDate, Timestamp endDate, Pageable pageable);
+    Page<OpenCDXDoctorNotesModel> findAllByPatientIdAndTagsContainingAndNoteDatetimeBetween(
+            OpenCDXIdentifier patientId, String tags, Instant startDate, Instant endDate, Pageable pageable);
 
     /**
      * Find all Doctor Notes by patient id.

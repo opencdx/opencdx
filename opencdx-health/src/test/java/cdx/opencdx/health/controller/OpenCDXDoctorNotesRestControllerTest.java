@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -33,12 +30,7 @@ import cdx.opencdx.health.repository.OpenCDXDoctorNotesRepository;
 import cdx.opencdx.health.service.OpenCDXDoctorNotesService;
 import cdx.opencdx.health.service.impl.OpenCDXDoctorNotesServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +55,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -177,13 +177,12 @@ class OpenCDXDoctorNotesRestControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndTagsAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(String.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndTagsContainingAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(String.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
@@ -197,12 +196,11 @@ class OpenCDXDoctorNotesRestControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())

@@ -32,13 +32,15 @@ import cdx.opencdx.health.service.OpenCDXDoctorNotesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.HashMap;
 
 /**
  * Service for processing doctor notes
@@ -228,24 +230,27 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
         Page<OpenCDXDoctorNotesModel> all;
 
         if (!request.getTags().isEmpty() && request.hasStartDate() && request.hasEndDate()) {
-            all = this.openCDXDoctorNotesRepository
-                    .findAllByPatientIdAndTagsAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                            new OpenCDXIdentifier(request.getPatientId()),
-                            request.getTags(),
-                            request.getStartDate(),
-                            request.getEndDate(),
-                            pageable);
+
+            Instant start = Instant.ofEpochSecond(
+                    request.getStartDate().getSeconds(), request.getStartDate().getNanos());
+
+            Instant end = Instant.ofEpochSecond(
+                    request.getEndDate().getSeconds(), request.getEndDate().getNanos());
+
+            all = this.openCDXDoctorNotesRepository.findAllByPatientIdAndTagsContainingAndNoteDatetimeBetween(
+                    new OpenCDXIdentifier(request.getPatientId()), request.getTags(), start, end, pageable);
         } else if (!request.getTags().isEmpty()) {
             all = this.openCDXDoctorNotesRepository.findAllByPatientIdAndTags(
                     new OpenCDXIdentifier(request.getPatientId()), request.getTags(), pageable);
         } else if (request.hasStartDate() && request.hasEndDate()) {
-            all =
-                    this.openCDXDoctorNotesRepository
-                            .findAllByPatientIdAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                    new OpenCDXIdentifier(request.getPatientId()),
-                                    request.getStartDate(),
-                                    request.getEndDate(),
-                                    pageable);
+            Instant start = Instant.ofEpochSecond(
+                    request.getStartDate().getSeconds(), request.getStartDate().getNanos());
+
+            Instant end = Instant.ofEpochSecond(
+                    request.getEndDate().getSeconds(), request.getEndDate().getNanos());
+
+            all = this.openCDXDoctorNotesRepository.findAllByPatientIdAndNoteDatetimeBetween(
+                    new OpenCDXIdentifier(request.getPatientId()), start, end, pageable);
         } else {
             all = this.openCDXDoctorNotesRepository.findAllByPatientId(
                     new OpenCDXIdentifier(request.getPatientId()), pageable);

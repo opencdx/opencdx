@@ -30,7 +30,6 @@ import cdx.opencdx.health.repository.OpenCDXDoctorNotesRepository;
 import cdx.opencdx.health.service.OpenCDXDoctorNotesService;
 import cdx.opencdx.health.service.impl.OpenCDXDoctorNotesServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import java.time.Instant;
 import java.util.List;
@@ -143,13 +142,12 @@ class OpenCDXDoctorNotesGrpcControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndTagsAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(String.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndTagsContainingAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(String.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
@@ -163,12 +161,11 @@ class OpenCDXDoctorNotesGrpcControllerTest {
                         PageRequest.of(1, 10),
                         1));
 
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())

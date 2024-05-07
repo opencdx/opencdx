@@ -250,12 +250,11 @@ class OpenCDXDoctorNotesServiceImplTest {
 
     @Test
     void listDoctorNotesSortNotAscending() {
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
@@ -289,13 +288,12 @@ class OpenCDXDoctorNotesServiceImplTest {
 
     @Test
     void listDoctorNotesSortNotAscendingTagandDate() {
-        Mockito.when(this.openCDXDoctorNotesRepository
-                        .findAllByPatientIdAndTagsAndNoteDatetimeGreaterThanEqualAndNoteDatetimeLessThanEqual(
-                                Mockito.any(OpenCDXIdentifier.class),
-                                Mockito.any(String.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Timestamp.class),
-                                Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndTagsContainingAndNoteDatetimeBetween(
+                        Mockito.any(OpenCDXIdentifier.class),
+                        Mockito.any(String.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Instant.class),
+                        Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())
