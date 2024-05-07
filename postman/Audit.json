@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI Audit",
+        "title": "OpenCDx Audit Service",
         "version": "v0"
     },
     "servers": [
@@ -76,10 +76,10 @@
             "AuditEntity": {
                 "type": "object",
                 "properties": {
-                    "patientIdentifier": {
+                    "patientId": {
                         "type": "string"
                     },
-                    "userIdentifier": {
+                    "nationalHealthId": {
                         "type": "string"
                     }
                 }
@@ -198,6 +198,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "name": "bearerAuth",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
