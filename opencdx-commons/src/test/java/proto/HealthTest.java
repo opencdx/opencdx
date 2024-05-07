@@ -26,11 +26,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 class HealthTest {
@@ -44,6 +45,24 @@ class HealthTest {
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
         this.writer = mapper.writerWithDefaultPrettyPrinter();
+    }
+
+    @Test
+    void doctorsNotes() throws JsonProcessingException {
+        DoctorNotes doctorNotes = DoctorNotes.newBuilder()
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .setNationalHealthId(UUID.randomUUID().toString())
+                .setProviderNumber("Provider Number")
+                .addAllTags(List.of("tag1", "tag2"))
+                .setNoteDatetime(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setNotes("Notes")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setModified(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setCreator("Creator")
+                .setModifier("Modifier")
+                .build();
+
+        log.info("DoctorNotes: \n {}", this.writer.withDefaultPrettyPrinter().writeValueAsString(doctorNotes));
     }
 
     @Test
@@ -231,4 +250,6 @@ class HealthTest {
                                         .build())
                                 .build()));
     }
+
+
 }
