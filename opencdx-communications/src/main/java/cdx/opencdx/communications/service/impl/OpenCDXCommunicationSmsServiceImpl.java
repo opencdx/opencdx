@@ -38,7 +38,6 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -48,6 +47,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for processing Communications Requests.
@@ -131,12 +132,19 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     @Override
     public SMSTemplate updateSMSTemplate(SMSTemplate rawSmsTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
+        if (!rawSmsTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
+        }
         String sanity = openCDXHtmlSanitizer.sanitize(rawSmsTemplate.getMessage());
         SMSTemplate smsTemplate =
                 SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
-        if (!smsTemplate.hasTemplateId()) {
-            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
-        }
+        OpenCDXSMSTemplateModel model = this.openCDXSMSTemplateRespository.findById(new OpenCDXIdentifier(smsTemplate.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 3, "Failed to find sms template: " + smsTemplate.getTemplateId()));
+
+        model = this.openCDXSMSTemplateRespository.save(model.update(smsTemplate));
+
+
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -144,17 +152,15 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
                     currentUser.getAgentType(),
                     "Updating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    SMS_TEMPLATE + smsTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(smsTemplate));
+                    SMS_TEMPLATE + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 5, "Failed to convert SMSTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXSMSTemplateModel model =
-                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
 
         log.trace("Updated SMS Template: {}", model.getId());
         return model.getProtobufMessage();

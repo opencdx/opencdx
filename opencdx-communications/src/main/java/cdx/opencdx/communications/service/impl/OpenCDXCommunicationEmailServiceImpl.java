@@ -38,7 +38,6 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -48,6 +47,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for processing Email Communications Requests.
@@ -132,12 +133,17 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate rawEmailTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
+        if (!rawEmailTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
+        }
         String sanity = openCDXHtmlSanitizer.sanitize(rawEmailTemplate.getContent());
         EmailTemplate emailTemplate =
                 EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
-        if (!emailTemplate.hasTemplateId()) {
-            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
-        }
+
+        OpenCDXEmailTemplateModel model = this.openCDXEmailTemplateRepository.findById(new OpenCDXIdentifier(emailTemplate.getTemplateId()))
+                .orElseThrow( () -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find email template: " + rawEmailTemplate.getTemplateId()));
+
+        model = this.openCDXEmailTemplateRepository.save(model.update(emailTemplate));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -145,17 +151,15 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
                     currentUser.getAgentType(),
                     "Updating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    EMAIL_TEMPLATE + emailTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(emailTemplate));
+                    EMAIL_TEMPLATE + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert EmailTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXEmailTemplateModel model =
-                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
         log.trace("Updated Email Template: {}", model.getId());
         return model.getProtobufMessage();

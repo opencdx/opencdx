@@ -36,9 +36,6 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -48,6 +45,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Service for Messages.
@@ -162,6 +163,10 @@ public class OpenCDXSystemMessageServiceImpl implements OpenCDXSystemMessageServ
         if (!messageTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
         }
+
+        OpenCDXMessageTemplateModel messageTemplateModel = this.openCDXMessageTemplateRepository.findById(new OpenCDXIdentifier(messageTemplate.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find message template: " + messageTemplate.getTemplateId()));
+        messageTemplateModel = this.openCDXMessageTemplateRepository.save(messageTemplateModel.update(messageTemplate));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -169,17 +174,15 @@ public class OpenCDXSystemMessageServiceImpl implements OpenCDXSystemMessageServ
                     currentUser.getAgentType(),
                     "Updating Message Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    DOMAIN + messageTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(messageTemplate));
+                    DOMAIN + messageTemplateModel.getId(),
+                    this.objectMapper.writeValueAsString(messageTemplateModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 7, "Failed to convert MessageTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, messageTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, messageTemplateModel.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXMessageTemplateModel messageTemplateModel =
-                this.openCDXMessageTemplateRepository.save(new OpenCDXMessageTemplateModel(messageTemplate));
         log.trace("Updated Message Template: {}", messageTemplateModel.getId());
         return messageTemplateModel.getProtobufMessage();
     }
