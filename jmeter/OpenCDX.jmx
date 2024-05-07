@@ -26,8 +26,8 @@
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Properties Details" enabled="true">
-          <stringProp name="BeanShellSampler.query">log.info(&quot;Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Duration: &quot; + ${__P(durationSec,1)});
-System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Duration: &quot; + ${__P(durationSec,60)} + &quot; seconds  Server: &quot; + ${__P(serverName,localhost)} + &quot; Port: &quot; + ${__P(serverPort,8080)});</stringProp>
+          <stringProp name="BeanShellSampler.query">log.info(&quot;Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)});
+System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Server: &quot; + ${__P(serverName,localhost)} + &quot; Port: &quot; + ${__P(serverPort,8080)});</stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
@@ -5892,7 +5892,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
             <stringProp name="HTTPSampler.port">${__P(serverPort,8080)}</stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
-            <stringProp name="HTTPSampler.connect_timeout">1000</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout">2000</stringProp>
             <stringProp name="HTTPSampler.response_timeout">1000</stringProp>
           </ConfigTestElement>
           <hashTree/>
