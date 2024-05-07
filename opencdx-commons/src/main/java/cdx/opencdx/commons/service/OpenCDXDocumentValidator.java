@@ -89,4 +89,11 @@ public interface OpenCDXDocumentValidator {
      * @param documentIds List of document IDs
      */
     void validateDocumentsOrThrow(List<OpenCDXIdentifier> documentIds);
+
+    /**
+     * Check if a profile exists with a national health ID
+     * @param nationalHealthId National Health ID
+     * @return True if the profile exists, false otherwise
+     */
+    boolean profileWithNationalHealthId(String nationalHealthId);
 }

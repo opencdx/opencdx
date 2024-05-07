@@ -63,6 +63,11 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
+    public boolean profileWithNationalHealthId(String nationalHealthId) {
+        return this.mongoTemplate.exists(
+                new Query(Criteria.where("nationalHealthId").is(nationalHealthId)), "profiles");
+    }
+
     @Override
     public boolean documentExists(String collectionName, OpenCDXIdentifier documentId) {
         if (collectionName.equals("users")) {

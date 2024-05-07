@@ -304,17 +304,7 @@ message ANFIdentifier {
 
 
 /*
- * The `Measure` message encapsulates a quantifiable attribute such as time duration or test results.
- * It defines an upper and lower bound for the measure, clarification if these bounds are inclusive,
- * the semantic interpretation of the measure, and optionally, the resolution or accuracy of the measure.
- *
- * Following are some examples of measures for clarification:
- * "Presence" denotes a measure where a certain quantity is existent. The `upper_bound` is set to INF, `lower_bound` is greater than 0 with `include_lower_bound` set based on context.
- * "Absence" denotes a measure where a certain quantity is non-existent. Both `upper_bound` and `lower_bound` are set to 0 with `include_lower_bound` and `include_upper_bound` set to true.
- * "Indeterminate" indicates a measure that can range from 0 to some value greater than 0.
- * "Exact Value" signifies a measure where a certain quantity is a precise value. Both `upper_bound` and `lower_bound` are set to this exact value with `include_lower_bound` and `include_upper_bound` set to true.
- * "Ranges" represent a measure that falls within a particular range. The `upper_bound` and `lower_bound` are set to the extremities of this range with `include_lower_bound` and `include_upper_bound` set based on context.
- * `semantic` describes the semantical sense of the measure, e.g., "Countable quantity".
+ * This data element describes when the statement was documented. Is its expressed as a Measure
  */
 message Measure {
   /*
@@ -337,6 +327,9 @@ message Measure {
    */
   bool include_lower_bound = 4;
 
+  /*
+   * The `semantic` field signifies the meaning of the measure.
+   */
   string semantic = 5;
 
   /*
@@ -404,52 +397,181 @@ message Reference {
   string type = 2;
 }
 
-message CircumstanceChoice {
+/*
+ * This class describes the circumstances associated with a statement. It is used when an action or observation are performed and specifies the result of intervention using both as a measure and a coded status.
+ */
+message PerformanceCircumstance {
+  /*
+   * WHEN a requested action should be performed or WHEN an observed finding or disorder was present or absent.
+   */
+  Measure timing = 1;
 
-  cdx.opencdx.grpc.types.CircumstanceType circumstance_type = 1;
+  /*
+   * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
+   */
+  repeated string purpose = 2;
 
-  string status = 2;
+  /*
+   * This is a coded value representing the current status of the intervention (e.g. "completed"). This data element is not intended as a substitute for workflow specification.
+   */
+  string status = 3;
 
-  Measure result = 3;
+  /*
+   * Intervention result as a measure.
+   */
+  Measure result = 4;
 
-  string health_risk = 4;
+  /*
+   * This optional data element is used to flag a result with coded values such as 'low', 'normal', high', and 'critical'
+   */
+  optional string health_risk = 5;
 
-  Measure normal_range = 5;
+  /*
+   * This optional data element is the interval of values that are normal for the observation/finding described by the "topic" for this "subject". It refers to "normal" for the patient/subject with these conditions.
+   */
+  optional Measure normal_range = 6;
 
-  Participant circumstance = 6;
+  /*
+   * This optional data element identifies the practitioner(s) responsible for the results reported.
+   */
+  repeated Participant participant = 7;
+}
+/*
+ * A Request for Action clinical statement describes a request made by a clinician.
+ */
+message RequestCircumstance {
+  /*
+   * WHEN a requested action should be performed or WHEN an observed finding or disorder was present or absent.
+   */
+  Measure timing = 1;
 
-  Measure timing = 7;
+  /*
+   * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
+   */
+  repeated string purpose = 2;
 
-  Participant participant = 8;
+  /*
+   * Attribute This data element is used to represent a condition, or set of conditions that must exist in order for Request to be executed.
+   */
+  repeated AssociatedStatement conditional_trigger = 3;
 
+  /*
+   * This data element is an optional list of either specific persons or roles who perform an action, assist in performing an action or are targets of an action.
+   */
+  repeated Participant requested_participant = 4;
+
+  /*
+   * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified.
+   */
+  cdx.opencdx.grpc.types.CircumstancePriority priority = 5;
+
+  /*
+   * This data element specifies the measurable result.
+   */
+  Measure requested_result = 6;
+
+  /*
+   * This data element describes when an action is requested for more than a single occurrence using the Measure data structure:
+   */
+  Repetition repetition = 7;
 }
 
 /*
- * The ANFStatement message is the main representation of an ANFStatement. It defines the necessary fields required to represent it.
+ * This data element describes when an action is requested for more than a single occurrence using the Measure data structure:
+ */
+message Repetition {
+
+  /*
+   * When the repeated action should begin
+   */
+  google.protobuf.Timestamp period_start = 1;
+
+  /*
+   * How long the repetitions should persist
+   */
+  uint32 period_duration = 2;
+
+  /*
+   * The unit of time for the period duration
+   */
+  cdx.opencdx.grpc.types.DurationType period_duration_type = 3;
+
+  /*
+   * How often the action should occur
+   */
+  uint32 event_frequency = 4;
+
+  /*
+   * The unit of time for the event frequency
+   */
+  cdx.opencdx.grpc.types.DurationType event_frequency_type = 5;
+
+  /*
+   * How long between actions
+   */
+  uint32 event_separation = 6;
+
+  /*
+   * The unit of time for the event separation
+   */
+  cdx.opencdx.grpc.types.DurationType event_separation_type = 7;
+
+  /*
+   * How long every action should last
+   */
+  uint32 event_duration = 8;
+
+  /*
+   * The unit of time for the event duration
+   */
+  cdx.opencdx.grpc.types.DurationType event_duration_type = 9;
+}
+/*
+ * This class is used to describe the circumstances of a clinical statement using natural language/text rather than a structure
+ */
+message NarrativeCircumstance {
+  /*
+   * WHEN a requested action should be performed or WHEN an observed finding or disorder was present or absent.
+   */
+  Measure timing = 1;
+
+  /*
+   * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
+   */
+  repeated string purpose = 2;
+  /*
+   * Text description of circumstances
+   */
+  string text = 3;
+}
+/*
+ * This is the main class which describes a clinical statement. Most importantly it contains the 'topic' which describes what this statement is about, and the 'circumstance' which will contain either request or result information regarding the 'topic'.
  */
 message ANFStatement {
   /*
-   * Denotes the timestamp of the statement, adhering to the rule: Timing - past, present, or future.
-   * For the "Performance of Action", Timing could denote a past or current timestamp.
-   * For the "Request of Action", Timing would always denote a future timestamp.
+   * Unique identifier for the statement.
    */
-  Measure time = 1;
+  string id = 1;
   /*
-   * Identifies the subject of the record, which is typically the patient.
+   * This data element describes when the statement was documented.
    */
-  Participant subject_of_record = 2;
+  Measure time = 2;
   /*
-   * Identifies all authors behind this statement.
+   * A patient's clinical record will contain many statements. The subjectOfRecord is a reference to the patient clinical record in which this statement is contained
    */
-  repeated Practitioner authors = 3;
+  Participant subject_of_record = 3;
+  /*
+   * List of identified authoring practitioners
+   */
+  repeated Practitioner authors = 4;
   /*
    * Refers to the subject or topic of the incorporated information.
    */
-  string subject_of_information = 4;
+  string subject_of_information = 5;
   /*
    * Refers to any related statements or conditions.
    */
-  repeated AssociatedStatement associated_statement = 5;
+  repeated AssociatedStatement associated_statement = 6;
   /*
    * Denotes the topic of the statement, and includes rules for different types of observations, procedures and test:
    * - Simple observation statements use the "Observation" procedure to symbolize the topic.
@@ -457,35 +579,39 @@ message ANFStatement {
    * - Laboratory test statements use the "Laboratory Procedure" concept.
    * - Imaging Procedure statements use the "Imaging Procedure" concept.
    */
-  string topic = 6;
+  string topic = 7;
   /*
    * Specifies the type category of the statement such as "Request", "Performance", etc.
    */
-  string type = 7;
+  string type = 8;
   /*
    * Circumstance choice
    */
-  CircumstanceChoice circumstance_choice = 8;
+  oneof circumstance_choice {
+    PerformanceCircumstance performance_circumstance = 9;
+    RequestCircumstance request_circumstance = 10;
+    NarrativeCircumstance narrative_circumstance = 11;
+  }
   /*
    * Timestamp when this ANFStatement was created.
    */
-  optional google.protobuf.Timestamp created = 9;
+  optional google.protobuf.Timestamp created = 12;
   /*
    * Timestamp when modifications were done to this ANFStatement.
    */
-  optional google.protobuf.Timestamp modified = 10;
+  optional google.protobuf.Timestamp modified = 13;
   /*
    * Specifies the unique identifier of the creator of this ANFStatement.
    */
-  optional string creator = 11;
+  optional string creator = 14;
   /*
    * Specifies the unique identifier of the modifier of this ANFStatement.
    */
-  optional string modifier = 12;
+  optional string modifier = 15;
   /*
    * Specifies the current status of the ANFStatement.
    */
-  cdx.opencdx.grpc.types.Status status = 13;
+  cdx.opencdx.grpc.types.Status status = 16;
 }
 
 /*
@@ -543,11 +669,25 @@ message AuditEntity {
   /*
    * Patient ID
    */
-  string patient_id = 1;
+  optional string patient_id = 1;
   /*
    * National Health Identifier
    */
-  string nationalHealthId = 2;
+  optional string nationalHealthId = 2;
+  /*
+   * User ID
+   */
+  optional string user_id = 3;
+
+  /*
+   * Non-Standard ID
+   */
+  optional string non_standard_id = 4;
+
+  /*
+   * Provider Number
+   */
+  optional string provider_number = 5;
 }
 /*
  * Audit Event information to record.
@@ -2613,6 +2753,54 @@ message KnownAllergy {
    * The user who last modified the Message.
    */
   optional string modifier = 13;
+}
+
+
+message DoctorNotes {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string nationalHealthId = 3;
+  /*
+   * The provider number
+   */
+  string providerNumber = 4;
+  /*
+   * Tags to identify the reason for visit
+   */
+  repeated string tags = 5;
+  /*
+   * This indicates when the docotors note was written
+   */
+  google.protobuf.Timestamp note_datetime = 6;
+  /*
+   * Notes information
+   */
+  string notes = 7;
+  /*
+  * Creation timestamp of the data.
+  */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Modification timestamp of the data.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 10;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 11;
 }
 
 

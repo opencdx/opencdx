@@ -150,6 +150,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
                         return Optional.of(OpenCDXMedicationAdministrationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .medicationId(OpenCDXIdentifier.get())
                                 .administratedBy("Doctor")
                                 .administrationNotes("notes")
@@ -166,6 +167,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
                         return Optional.of(OpenCDXMedicationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build());
                     }
                 });
@@ -176,6 +178,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
                         List.of(OpenCDXMedicationModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

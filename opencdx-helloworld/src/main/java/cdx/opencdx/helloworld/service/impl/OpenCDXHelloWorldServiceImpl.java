@@ -18,6 +18,7 @@ package cdx.opencdx.helloworld.service.impl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.helloworld.model.Person;
@@ -70,8 +71,9 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
                 currentUser.getAgentType(),
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                currentUser.getId().toHexString(),
-                "",
+                AuditEntity.newBuilder()
+                        .setUserId(currentUser.getId().toHexString())
+                        .build(),
                 "Persons:" + person.getId().toHexString(),
                 "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());

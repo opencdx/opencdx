@@ -17,6 +17,7 @@ package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import java.util.UUID;
@@ -46,8 +47,10 @@ class OpenCDXAuditServiceImplTest {
                 OpenCDXIdentifier.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "Access Change",
-                OpenCDXIdentifier.get().toHexString(),
-                UUID.randomUUID().toString()));
+                AuditEntity.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .build()));
     }
 
     @Test
@@ -57,8 +60,10 @@ class OpenCDXAuditServiceImplTest {
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Updated",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                OpenCDXIdentifier.get().toHexString(),
-                UUID.randomUUID().toString(),
+                AuditEntity.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .build(),
                 "resource",
                 "jsonRecord"));
     }
@@ -70,8 +75,10 @@ class OpenCDXAuditServiceImplTest {
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                OpenCDXIdentifier.get().toHexString(),
-                UUID.randomUUID().toString(),
+                AuditEntity.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .build(),
                 "resource",
                 "jsonRecord"));
     }
@@ -83,8 +90,10 @@ class OpenCDXAuditServiceImplTest {
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                null,
-                UUID.randomUUID().toString(),
+                AuditEntity.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .build(),
                 "resource",
                 "jsonRecord"));
     }

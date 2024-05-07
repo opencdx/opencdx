@@ -182,6 +182,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
@@ -338,6 +339,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
@@ -384,6 +386,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")

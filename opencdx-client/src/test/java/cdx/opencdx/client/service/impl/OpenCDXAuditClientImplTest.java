@@ -17,9 +17,10 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.AuditEvent;
 import cdx.opencdx.grpc.data.AuditStatus;
-import cdx.opencdx.grpc.service.audit.*;
+import cdx.opencdx.grpc.service.audit.AuditServiceGrpc;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.google.rpc.Code;
@@ -116,7 +117,9 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     openCDXCallCredentials);
         });
     }
@@ -128,7 +131,9 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     openCDXCallCredentials);
         });
     }
@@ -141,7 +146,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -156,7 +163,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -171,7 +180,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -186,7 +197,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -201,7 +214,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -216,7 +231,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -231,7 +248,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -246,7 +265,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
@@ -261,7 +282,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString(),
+                    AuditEntity.newBuilder()
+                            .setUserId(UUID.randomUUID().toString())
+                            .build(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}",
                     openCDXCallCredentials);
