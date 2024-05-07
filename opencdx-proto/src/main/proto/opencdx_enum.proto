@@ -1967,3 +1967,49 @@ enum VitalStatus {
    */
   VITAL_STATUS_OTHER = 4;
 }
+
+/*
+ * Enum defining blood type of a patient.
+ */
+enum BloodType {
+
+  /*
+   * Donors with O- blood type can donate to anyone.
+   */
+  O_NEGATIVE = 0;
+
+  /*
+  * Donors with O+ blood type can donate to anyone with Rh factor.
+  */
+  O_POSITIVE = 1;
+
+  /*
+   * Donors with A- blood type can donate to A-, AB-, and possibly O- recipients.
+   */
+  A_NEGATIVE = 2;
+
+  /*
+   * Donors with A+ blood type can donate to A+, AB+, A-, and AB- recipients.
+   */
+  A_POSITIVE = 3;
+
+  /*
+   * Donors with B- blood type can donate to B-, AB-, and possibly O- recipients.
+   */
+  B_NEGATIVE = 4;
+
+  /*
+   * Donors with B+ blood type can donate to B+, AB+, B-, and AB- recipients.
+   */
+  B_POSITIVE = 5;
+
+  /*
+   * Donors with AB- blood type can donate to AB- recipients and possibly O- recipients.
+   */
+  AB_NEGATIVE = 6;
+
+  /*
+   * Donors with AB+ blood type can donate to AB+ recipients and anyone with Rh factor.
+   */
+  AB_POSITIVE = 7;
+}
