@@ -397,6 +397,18 @@ public class ClientConfig {
         return new OpenCDXAllergyClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXDoctorNotesClient openCDXDoctorNotesClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXDoctorNotesClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
     private ManagedChannel createChannel(
             String server,
             Integer port,
