@@ -60,6 +60,7 @@ class ClientConfigTest {
         clientConfig.openCDXVaccineClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXLabConnectedClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXAllergyClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXDoctorNotesClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }

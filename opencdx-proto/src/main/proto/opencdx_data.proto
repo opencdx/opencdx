@@ -2762,6 +2762,54 @@ message KnownAllergy {
 }
 
 
+message DoctorNotes {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string nationalHealthId = 3;
+  /*
+   * The provider number
+   */
+  string providerNumber = 4;
+  /*
+   * Tags to identify the reason for visit
+   */
+  repeated string tags = 5;
+  /*
+   * This indicates when the docotors note was written
+   */
+  google.protobuf.Timestamp note_datetime = 6;
+  /*
+   * Notes information
+   */
+  string notes = 7;
+  /*
+  * Creation timestamp of the data.
+  */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Modification timestamp of the data.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 10;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 11;
+}
+
+
 /*
  * Defines entities for the Routine System.
  * The main categories specified here are routines and their statuses.
