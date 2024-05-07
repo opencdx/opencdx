@@ -2478,6 +2478,12 @@ message UserProfile {
    * The identifier of the entity that last modified the user's profile.
    */
   optional string modifier = 23;
+
+  /*
+   * The blood type of user.
+   */
+  cdx.opencdx.grpc.types.BloodType  bloodType =24;
+
 }
 /*
  * Contains the emergency contact's relationship to the user and contact information.
