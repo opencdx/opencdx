@@ -17,6 +17,7 @@ package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.types.BloodType;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -77,6 +78,7 @@ public class OpenCDXProfileModel {
 
     @LastModifiedBy
     private OpenCDXIdentifier modifier;
+    private BloodType bloodType;
 
     /**
      * Method to update the data with a protobuf UserProfile
@@ -132,6 +134,7 @@ public class OpenCDXProfileModel {
         if (userProfile.hasModifier()) {
             this.modifier = new OpenCDXIdentifier(userProfile.getModifier());
         }
+        this.bloodType = userProfile.getBloodType();
     }
 
     /**
