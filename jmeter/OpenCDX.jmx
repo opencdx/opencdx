@@ -7876,7 +7876,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-	&quot;patientId&quot;:&quot;${patient_id_g}&quot;,&#xd;
+	&quot;patientId&quot;:&quot;${patient_id_r}&quot;,&#xd;
 	&quot;startDate&quot;:&quot;2022-09-08T02:45:04Z&quot;,&#xd;
 	&quot;endDate&quot;:&quot;2024-11-08T02:45:04Z&quot;,&#xd;
 	&quot;pagination&quot;:{&#xd;
@@ -10048,6 +10048,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
               <boolProp name="HTTPSampler.md5">false</boolProp>
               <intProp name="HTTPSampler.ipSourceType">0</intProp>
+              <stringProp name="HTTPSampler.connect_timeout">2500</stringProp>
+              <stringProp name="HTTPSampler.response_timeout">2500</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton [POST]]" enabled="true">
