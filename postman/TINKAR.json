@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI definition",
+        "title": "OpenCDx TINKAR Service",
         "version": "v0"
     },
     "servers": [
@@ -16,43 +16,12 @@
         }
     ],
     "paths": {
-        "/nid": {
+        "/search": {
             "get": {
                 "tags": [
                     "open-cdx-rest-tinkar-search-controller"
                 ],
-                "operationId": "getEntity",
-                "parameters": [
-                    {
-                        "name": "nid",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TinkarQueryResult"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/": {
-            "get": {
-                "tags": [
-                    "open-cdx-rest-tinkar-search-controller"
-                ],
-                "operationId": "search_1",
+                "operationId": "search",
                 "parameters": [
                     {
                         "name": "query",
@@ -78,7 +47,97 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TinkarQueryResponse"
+                                    "$ref": "#/components/schemas/TinkarSearchQueryResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/descendants/conceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getTinkarDescendantConcepts",
+                "parameters": [
+                    {
+                        "name": "conceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getEntity",
+                "parameters": [
+                    {
+                        "name": "conceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/children/conceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getTinkarChildConcepts",
+                "parameters": [
+                    {
+                        "name": "conceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResponse"
                                 }
                             }
                         }
@@ -89,7 +148,18 @@
     },
     "components": {
         "schemas": {
-            "TinkarQueryResult": {
+            "TinkarSearchQueryResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TinkarSearchQueryResult"
+                        }
+                    }
+                }
+            },
+            "TinkarSearchQueryResult": {
                 "type": "object",
                 "properties": {
                     "nid": {
@@ -117,14 +187,25 @@
                     }
                 }
             },
-            "TinkarQueryResponse": {
+            "TinkarGetResponse": {
                 "type": "object",
                 "properties": {
                     "results": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/TinkarQueryResult"
+                            "$ref": "#/components/schemas/TinkarGetResult"
                         }
+                    }
+                }
+            },
+            "TinkarGetResult": {
+                "type": "object",
+                "properties": {
+                    "conceptId": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
                     }
                 }
             }
@@ -132,6 +213,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "name": "bearerAuth",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }

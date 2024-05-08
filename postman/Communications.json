@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI Communication",
+        "title": "OpenCDx Communications Service",
         "version": "v0"
     },
     "servers": [
@@ -67,6 +67,64 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SMSTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/message": {
+            "put": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "updateMessageTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MessageTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "createMessageTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MessageTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageTemplate"
                                 }
                             }
                         }
@@ -250,6 +308,126 @@
                 }
             }
         },
+        "/messages": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "getMessages",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetMessagesRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetMessagesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/message/unread": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "markMessageAsUnread",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MarkMessagesAsUnreadRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarkMessagesAsUnreadResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/message/read": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "markMessageAsRead",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MarkMessagesAsReadRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarkMessagesAsReadResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/message/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "listMessageTemplates",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Pagination"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageTemplateListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/event/list": {
             "post": {
                 "tags": [
@@ -368,6 +546,36 @@
                 }
             }
         },
+        "/messageTemplate": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "getMessageTemplate",
+                "parameters": [
+                    {
+                        "name": "templateRequest",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/TemplateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/event/{id}": {
             "get": {
                 "tags": [
@@ -460,6 +668,36 @@
                     "open-cdx-rest-communications-controller"
                 ],
                 "operationId": "deleteEmailTemplate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/message/{id}": {
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "deleteMessageTemplate",
                 "parameters": [
                     {
                         "name": "id",
@@ -585,6 +823,91 @@
                     }
                 }
             },
+            "MessageTemplate": {
+                "type": "object",
+                "properties": {
+                    "templateId": {
+                        "type": "string"
+                    },
+                    "variables": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "UNSPECIFIED_MESSAGE_TYPE",
+                            "INFO",
+                            "WARNING",
+                            "ERROR",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
             "NotificationEvent": {
                 "type": "object",
                 "properties": {
@@ -601,6 +924,9 @@
                         "type": "string"
                     },
                     "smsTemplateId": {
+                        "type": "string"
+                    },
+                    "messageTemplateId": {
                         "type": "string"
                     },
                     "eventParameters": {
@@ -783,39 +1109,46 @@
                     }
                 }
             },
-            "SMSTemplateListRequest": {
+            "Pagination": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
+                    "pageNumber": {
                         "type": "integer",
                         "format": "int32"
                     },
-                    "pageNumber": {
+                    "pageSize": {
                         "type": "integer",
                         "format": "int32"
                     },
                     "sortAscending": {
                         "type": "boolean"
+                    },
+                    "sort": {
+                        "type": "string"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalRecords": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "SMSTemplateListRequest": {
+                "type": "object",
+                "properties": {
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     }
                 }
             },
             "SMSTemplateListResponse": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
-                    },
-                    "pageCount": {
-                        "type": "integer",
-                        "format": "int32"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     },
                     "templates": {
                         "type": "array",
@@ -857,6 +1190,9 @@
                         "type": "string"
                     },
                     "eventId": {
+                        "type": "string"
+                    },
+                    "patientId": {
                         "type": "string"
                     },
                     "smsStatus": {
@@ -1171,39 +1507,236 @@
                     }
                 }
             },
+            "GetMessagesRequest": {
+                "type": "object",
+                "properties": {
+                    "patientId": {
+                        "type": "string"
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    }
+                }
+            },
+            "GetMessagesResponse": {
+                "type": "object",
+                "properties": {
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
+                        }
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    }
+                }
+            },
+            "Message": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "patientId": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "UNSPECIFIED_MESSAGE_TYPE",
+                            "INFO",
+                            "WARNING",
+                            "ERROR",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "UNSPECIFIED_MESSAGE_STATUS",
+                            "READ",
+                            "UNREAD",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "MarkMessagesAsUnreadRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "MarkMessagesAsUnreadResponse": {
+                "type": "object",
+                "properties": {
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
+                        }
+                    }
+                }
+            },
+            "MarkMessagesAsReadRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "MarkMessagesAsReadResponse": {
+                "type": "object",
+                "properties": {
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
+                        }
+                    }
+                }
+            },
+            "MessageTemplateListResponse": {
+                "type": "object",
+                "properties": {
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageTemplate"
+                        }
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    }
+                }
+            },
             "NotificationEventListRequest": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     }
                 }
             },
             "NotificationEventListResponse": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
-                    },
-                    "pageCount": {
-                        "type": "integer",
-                        "format": "int32"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     },
                     "templates": {
                         "type": "array",
@@ -1216,36 +1749,16 @@
             "EmailTemplateListRequest": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     }
                 }
             },
             "EmailTemplateListResponse": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
-                    },
-                    "pageCount": {
-                        "type": "integer",
-                        "format": "int32"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     },
                     "templates": {
                         "type": "array",
@@ -1254,11 +1767,20 @@
                         }
                     }
                 }
+            },
+            "TemplateRequest": {
+                "type": "object",
+                "properties": {
+                    "templateId": {
+                        "type": "string"
+                    }
+                }
             }
         },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "name": "bearerAuth",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
