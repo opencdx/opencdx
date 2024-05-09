@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenCDx TINKAR Service",
+        "title": "OpenAPI definition",
         "version": "v0"
     },
     "servers": [
@@ -48,6 +48,66 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TinkarSearchQueryResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/result-conformances/lidrRecordConceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getResultConformanceConceptsFromLIDRRecord",
+                "parameters": [
+                    {
+                        "name": "lidrRecordConceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lidr-records/testKitConceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getLIDRRecordConceptsFromTestKit",
+                "parameters": [
+                    {
+                        "name": "testKitConceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResponse"
                                 }
                             }
                         }
@@ -124,6 +184,36 @@
                 "parameters": [
                     {
                         "name": "conceptId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TinkarGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allowed-results/resultConformanceConceptId": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-tinkar-search-controller"
+                ],
+                "operationId": "getAllowedResultConceptsFromResultConformance",
+                "parameters": [
+                    {
+                        "name": "resultConformanceConceptId",
                         "in": "query",
                         "required": true,
                         "schema": {

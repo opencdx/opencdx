@@ -53,4 +53,28 @@ public interface OpenCDXTinkarService {
      * @return TinkarGetResponse
      */
     TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request);
+
+    /**
+     * Method to search for LIDR record concepts for a given Test Kit public UUID
+     *
+     * @param request TinkarGetRequest containing the public UUID of the Test Kit to search
+     * @return TinkarGetResponse
+     */
+    TinkarGetResponse getLIDRRecordConceptsFromTestKit(TinkarGetRequest request);
+
+    /**
+     * Method to search for Result Conformance concepts for a given LIDR record public UUID
+     *
+     * @param request TinkarGetRequest containing the public UUID of the LIDR record to search
+     * @return TinkarGetResponse
+     */
+    TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request);
+
+    /**
+     * Method to search for Allowed Result concepts for a given LIDR record public UUID
+     *
+     * @param request TinkarGetRequest containing the public UUID of the Result Conformance to search
+     * @return TinkarGetResponse
+     */
+    TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request);
 }
