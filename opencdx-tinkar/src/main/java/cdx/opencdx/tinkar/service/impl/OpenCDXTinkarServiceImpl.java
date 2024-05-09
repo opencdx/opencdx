@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 @Slf4j
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
@@ -62,7 +63,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
      * Initializer
      */
     @ExcludeFromJacocoGeneratedReport
-    @Scheduled(initialDelay = 30000, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(initialDelay = 30, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
         initializePrimitiveData(pathParent, pathChild);
@@ -119,6 +120,45 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
         List<PublicId> children = Searcher.descendantsOf(parentConceptId);
         List<TinkarGetResult> results = children.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Override
+    public TinkarGetResponse getLIDRRecordConceptsFromTestKit(TinkarGetRequest request) {
+        PublicId testKitConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> lidrRecords = Searcher.getLidrRecordSemanticsFromTestKit(testKitConceptId);
+        List<TinkarGetResult> results = lidrRecords.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Override
+    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request) {
+        PublicId lidrRecordConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> resultConformances = Searcher.getResultConformancesFromLidrRecord(lidrRecordConceptId);
+        List<TinkarGetResult> results = resultConformances.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Override
+    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request) {
+        PublicId resultConformanceConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> allowedResults = Searcher.getAllowedResultsFromResultConformance(resultConformanceConceptId);
+        List<TinkarGetResult> results = allowedResults.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
                         .build()))

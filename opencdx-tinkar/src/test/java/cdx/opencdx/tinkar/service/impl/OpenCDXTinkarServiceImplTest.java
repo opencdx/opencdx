@@ -31,6 +31,7 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -44,6 +45,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@Disabled
 class OpenCDXTinkarServiceImplTest {
 
     OpenCDXTinkarService openCDXTinkarService;

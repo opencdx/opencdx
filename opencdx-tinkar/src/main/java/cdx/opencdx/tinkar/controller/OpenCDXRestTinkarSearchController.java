@@ -90,4 +90,41 @@ public class OpenCDXRestTinkarSearchController {
         return openCDXTinkarService.getTinkarDescendantConcepts(
                 TinkarGetRequest.newBuilder().setConceptId(conceptId).build());
     }
+
+    /**
+     * Method to look up lidr record concepts for a test kit concept public ID
+     * @param testKitConceptId String representing a test kit concept ID.
+     * @return TinkarGetResponse representing the entity.
+     */
+    @GetMapping("/lidr-records/testKitConceptId")
+    public TinkarGetResponse getLIDRRecordConceptsFromTestKit(
+            @RequestParam("testKitConceptId") String testKitConceptId) {
+        return openCDXTinkarService.getLIDRRecordConceptsFromTestKit(
+                TinkarGetRequest.newBuilder().setConceptId(testKitConceptId).build());
+    }
+
+    /**
+     * Method to look up result conformances for a LIDR record concept public ID
+     * @param lidrRecordConceptId String representing a LIDR record concept ID.
+     * @return TinkarGetResponse representing the entity.
+     */
+    @GetMapping("/result-conformances/lidrRecordConceptId")
+    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(
+            @RequestParam("lidrRecordConceptId") String lidrRecordConceptId) {
+        return openCDXTinkarService.getResultConformanceConceptsFromLIDRRecord(
+                TinkarGetRequest.newBuilder().setConceptId(lidrRecordConceptId).build());
+    }
+
+    /**
+     * Method to look up allowed results for a result conformance concept public ID
+     * @param resultConformanceConceptId String representing a result conformance concept ID.
+     * @return TinkarGetResponse representing the entity.
+     */
+    @GetMapping("/allowed-results/resultConformanceConceptId")
+    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(
+            @RequestParam("resultConformanceConceptId") String resultConformanceConceptId) {
+        return openCDXTinkarService.getAllowedResultConceptsFromResultConformance(TinkarGetRequest.newBuilder()
+                .setConceptId(resultConformanceConceptId)
+                .build());
+    }
 }
