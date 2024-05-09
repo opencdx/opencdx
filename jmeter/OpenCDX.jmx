@@ -4317,7 +4317,7 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <hashTree/>
             </hashTree>
             <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-              <stringProp name="ConstantTimer.delay">5</stringProp>
+              <stringProp name="ConstantTimer.delay">${__P(testDelay,10)}</stringProp>
             </ConstantTimer>
             <hashTree/>
           </hashTree>
@@ -5939,7 +5939,7 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
             <hashTree/>
           </hashTree>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">25</stringProp>
+            <stringProp name="ConstantTimer.delay">${__P(threadDelay,50)}</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
@@ -11035,7 +11035,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <hashTree/>
             </hashTree>
             <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-              <stringProp name="ConstantTimer.delay">5</stringProp>
+              <stringProp name="ConstantTimer.delay">${__P(testDelay,10)}</stringProp>
             </ConstantTimer>
             <hashTree/>
           </hashTree>
@@ -13300,7 +13300,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             <hashTree/>
           </hashTree>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">25</stringProp>
+            <stringProp name="ConstantTimer.delay">${__P(threadDelay,50)}</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
