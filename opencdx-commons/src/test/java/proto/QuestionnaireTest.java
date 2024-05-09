@@ -17,6 +17,7 @@ package proto;
 
 import cdx.opencdx.grpc.data.Questionnaire;
 import cdx.opencdx.grpc.data.UserQuestionnaireData;
+import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.questionnaire.QuestionnaireRequest;
 import cdx.opencdx.grpc.service.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -58,6 +59,17 @@ class QuestionnaireTest {
 
         log.info(
                 "UserQuestionnaireDataRequest: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
+    }
+    @Test
+    void testRuleSetsRequest() throws JsonProcessingException {
+        RuleSetsRequest request = RuleSetsRequest.newBuilder()
+                .setOrganizationId("orgId")
+                .setWorkspaceId("workspaceId")
+                .build();
+
+        log.info(
+                "RuleSetsRequest: {}",
                 this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
     }
 }

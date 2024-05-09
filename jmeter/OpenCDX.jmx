@@ -4687,7 +4687,10 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;organization_id&quot;:&quot;${organization_g}&quot;,
+	&quot;workspace_id&quot;:&quot;${workspace_g}&quot;
+}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree>
               <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet ID" enabled="true">
@@ -11509,7 +11512,11 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{}</stringProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
+  &quot;workspaceId&quot; : &quot;${workspace_r}&quot;&#xd;
+}&#xd;
+</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
                 </collectionProp>
