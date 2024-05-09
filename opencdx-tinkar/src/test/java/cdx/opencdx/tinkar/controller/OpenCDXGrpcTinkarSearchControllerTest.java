@@ -121,6 +121,66 @@ class OpenCDXGrpcTinkarSearchControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
+    @Test
+    void testGetLIDRRecordConceptsFromTestKit() {
+        StreamObserver<TinkarGetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarGetRequest request = TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build();
+        TinkarGetResult result =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
+        TinkarGetResponse response =
+                TinkarGetResponse.newBuilder().addResults(result).build();
+
+        when(openCDXTinkarService.getLIDRRecordConceptsFromTestKit(request)).thenReturn(response);
+
+        openCDXGrpcTinkarSearchController.getLIDRRecordConceptsFromTestKit(request, responseObserver);
+
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getLIDRRecordConceptsFromTestKit(request);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void testGetResultConformanceConceptsFromLIDRRecord() {
+        StreamObserver<TinkarGetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarGetRequest request = TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build();
+        TinkarGetResult result =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
+        TinkarGetResponse response =
+                TinkarGetResponse.newBuilder().addResults(result).build();
+
+        when(openCDXTinkarService.getResultConformanceConceptsFromLIDRRecord(request)).thenReturn(response);
+
+        openCDXGrpcTinkarSearchController.getResultConformanceConceptsFromLIDRRecord(request, responseObserver);
+
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getResultConformanceConceptsFromLIDRRecord(request);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void testGetAllowedResultConceptsFromResultConformance() {
+        StreamObserver<TinkarGetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        TinkarGetRequest request = TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build();
+        TinkarGetResult result =
+                TinkarGetResult.newBuilder().setDescription("TEST").build();
+        TinkarGetResponse response =
+                TinkarGetResponse.newBuilder().addResults(result).build();
+
+        when(openCDXTinkarService.getAllowedResultConceptsFromResultConformance(request)).thenReturn(response);
+
+        openCDXGrpcTinkarSearchController.getAllowedResultConceptsFromResultConformance(request, responseObserver);
+
+        Mockito.verify(openCDXTinkarService, Mockito.times(1)).getAllowedResultConceptsFromResultConformance(request);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(response);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
     private TinkarSearchQueryResult createResult() {
         return TinkarSearchQueryResult.newBuilder()
                 .setNid(-2144684618)
