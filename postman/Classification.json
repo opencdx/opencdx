@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Classification",
+    "title": "OpenCDx Classification Service",
     "version": "v0"
   },
   "servers": [
@@ -16,6 +16,66 @@
     }
   ],
   "paths": {
+    "/ruleset/list": {
+      "post": {
+        "tags": [
+          "open-cdx-rest-classification-controller"
+        ],
+        "operationId": "getRuleSets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleSetsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleSetsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict": {
+      "post": {
+        "tags": [
+          "open-cdx-rest-predictor-controller"
+        ],
+        "operationId": "predict",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/classify": {
       "post": {
         "tags": [
@@ -49,14 +109,132 @@
   },
   "components": {
     "schemas": {
-      "ByteString": {
+      "RuleSetsRequest": {
         "type": "object",
         "properties": {
-          "empty": {
-            "type": "boolean"
+          "organizationId": {
+            "type": "string"
           },
-          "validUtf8": {
-            "type": "boolean"
+          "workspaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "RuleSet": {
+        "type": "object",
+        "properties": {
+          "ruleId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "RuleSetsResponse": {
+        "type": "object",
+        "properties": {
+          "ruleSets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleSet"
+            }
+          }
+        }
+      },
+      "PredictorInput": {
+        "type": "object",
+        "properties": {
+          "encounterId": {
+            "type": "string"
+          },
+          "testId": {
+            "type": "string"
+          },
+          "testFeatures": {
+            "type": "array",
+            "properties": {
+              "underlyingElements": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "unmodifiableView": {
+                "type": "array",
+                "properties": {
+                  "underlyingElements": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "empty": {
+                    "type": "boolean"
+                  },
+                  "first": {
+                    "type": "string"
+                  },
+                  "last": {
+                    "type": "string"
+                  }
+                },
+                "items": {
+                  "type": "string"
+                }
+              },
+              "empty": {
+                "type": "boolean"
+              },
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "modifiable": {
+                "type": "boolean"
+              }
+            },
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PredictorRequest": {
+        "type": "object",
+        "properties": {
+          "predictorInput": {
+            "$ref": "#/components/schemas/PredictorInput"
+          }
+        }
+      },
+      "PredictorOutput": {
+        "type": "object",
+        "properties": {
+          "encounterId": {
+            "type": "string"
+          },
+          "predictedValue": {
+            "type": "string"
+          }
+        }
+      },
+      "PredictorResponse": {
+        "type": "object",
+        "properties": {
+          "predictorOutput": {
+            "$ref": "#/components/schemas/PredictorOutput"
           }
         }
       },
@@ -65,6 +243,30 @@
         "properties": {
           "userAnswer": {
             "$ref": "#/components/schemas/UserAnswer"
+          }
+        }
+      },
+      "Duration": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DURATION_TYPE_NOT_SPECIFIED",
+              "DURATION_TYPE_MILLISECONDS",
+              "DURATION_TYPE_SECONDS",
+              "DURATION_TYPE_MINUTES",
+              "DURATION_TYPE_HOURS",
+              "DURATION_TYPE_DAYS",
+              "DURATION_TYPE_WEEKS",
+              "DURATION_TYPE_MONTHS",
+              "DURATION_TYPE_YEARS",
+              "UNRECOGNIZED"
+            ]
           }
         }
       },
@@ -90,9 +292,10 @@
           "severity": {
             "type": "string",
             "enum": [
-              "LOW",
-              "MEDIUM",
-              "HIGH",
+              "UNSPECIFIED_SEVERITY_LEVEL",
+              "SEVERITY_LEVEL_LOW",
+              "SEVERITY_LEVEL_MEDIUM",
+              "SEVERITY_LEVEL_HIGH",
               "UNRECOGNIZED"
             ]
           },
@@ -100,8 +303,7 @@
             "$ref": "#/components/schemas/Timestamp"
           },
           "duration": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/Duration"
           },
           "additionalDetails": {
             "type": "string"
@@ -124,9 +326,14 @@
       "UserAnswer": {
         "type": "object",
         "properties": {
-          "testKitId": {
-            "type": "integer",
-            "format": "int32"
+          "patientId": {
+            "type": "string"
+          },
+          "connectedTestId": {
+            "type": "string"
+          },
+          "userQuestionnaireId": {
+            "type": "string"
           },
           "symptoms": {
             "type": "array",
@@ -139,13 +346,21 @@
             "format": "int32"
           },
           "gender": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "GENDER_NOT_SPECIFIED",
+              "GENDER_MALE",
+              "GENDER_FEMALE",
+              "GENDER_NON_BINARY",
+              "GENDER_OTHER",
+              "UNRECOGNIZED"
+            ]
           },
           "medicalConditions": {
             "type": "string"
           },
           "pregnancyStatus": {
-            "type": "string"
+            "type": "boolean"
           },
           "languagePreference": {
             "type": "string"
@@ -153,19 +368,124 @@
           "userLocation": {
             "$ref": "#/components/schemas/Location"
           },
-          "imageData": {
-            "$ref": "#/components/schemas/ByteString"
+          "submittingUserId": {
+            "type": "string"
+          },
+          "mediaId": {
+            "type": "string"
           },
           "textResult": {
             "type": "string"
           }
         }
       },
-      "ClassificationResponse": {
+      "ANFStatement": {
         "type": "object",
         "properties": {
-          "testKitName": {
+          "time": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "subjectOfRecord": {
+            "$ref": "#/components/schemas/Participant"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Practitioner"
+            }
+          },
+          "subjectOfInformation": {
             "type": "string"
+          },
+          "associatedStatement": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociatedStatement"
+            }
+          },
+          "topic": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "circumstanceChoice": {
+            "$ref": "#/components/schemas/CircumstanceChoice"
+          },
+          "created": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "modified": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "creator": {
+            "type": "string"
+          },
+          "modifier": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "STATUS_UNSPECIFIED",
+              "STATUS_ACTIVE",
+              "STATUS_DELETED",
+              "UNRECOGNIZED"
+            ]
+          }
+        }
+      },
+      "AssociatedStatement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "semantic": {
+            "type": "string"
+          }
+        }
+      },
+      "CircumstanceChoice": {
+        "type": "object",
+        "properties": {
+          "circumstanceType": {
+            "type": "string",
+            "enum": [
+              "PERFORMANCE_CIRCUMSTANCE",
+              "REQUEST_CIRCUMSTANCE",
+              "NARRATIVE_CIRCUMSTANCE",
+              "UNRECOGNIZED"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "healthRisk": {
+            "type": "string"
+          },
+          "normalRange": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "circumstance": {
+            "$ref": "#/components/schemas/Participant"
+          },
+          "timing": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "participant": {
+            "$ref": "#/components/schemas/Participant"
+          }
+        }
+      },
+      "Classification": {
+        "type": "object",
+        "properties": {
+          "testKit": {
+            "$ref": "#/components/schemas/TestKit"
           },
           "confidence": {
             "type": "number",
@@ -200,7 +520,53 @@
           "timestamp": {
             "$ref": "#/components/schemas/Timestamp"
           },
-          "userId": {
+          "patientId": {
+            "type": "string"
+          },
+          "notifyCdc": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNSPECIFIED_CLASSIFICATION_TYPE",
+              "BACTERIAL",
+              "VIRAL",
+              "INJURY",
+              "UNRECOGNIZED"
+            ]
+          },
+          "diagnosis": {
+            "$ref": "#/components/schemas/DiagnosisCode"
+          }
+        }
+      },
+      "ClassificationResponse": {
+        "type": "object",
+        "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          }
+        }
+      },
+      "DiagnosisCode": {
+        "type": "object",
+        "properties": {
+          "anfStatement": {
+            "$ref": "#/components/schemas/ANFStatement"
+          },
+          "tinkarCode": {
+            "type": "string"
+          },
+          "valueMap": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "deprecated": true
+            },
+            "deprecated": true
+          },
+          "providerId": {
             "type": "string"
           }
         }
@@ -226,6 +592,57 @@
           }
         }
       },
+      "Measure": {
+        "type": "object",
+        "properties": {
+          "upperBound": {
+            "type": "string"
+          },
+          "lowerBound": {
+            "type": "string"
+          },
+          "includeUpperBound": {
+            "type": "boolean"
+          },
+          "includeLowerBound": {
+            "type": "boolean"
+          },
+          "semantic": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string"
+          }
+        }
+      },
+      "Participant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "practitionerValue": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "Practitioner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "practitionerValue": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
       "TestKit": {
         "type": "object",
         "properties": {
@@ -238,9 +655,10 @@
           "specimenType": {
             "type": "string",
             "enum": [
-              "BLOOD",
-              "SWAB",
-              "URINE",
+              "SPECIMEN_TYPE_UNSPECIFIED",
+              "SPECIMEN_TYPE_BLOOD",
+              "SPECIMEN_TYPE_URINE",
+              "SPECIMEN_TYPE_SALIVA",
               "UNRECOGNIZED"
             ]
           },
@@ -263,6 +681,9 @@
           "testDuration": {
             "type": "integer",
             "format": "int32"
+          },
+          "testCaseId": {
+            "type": "string"
           }
         }
       }
@@ -270,6 +691,7 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
+        "name": "bearerAuth",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }

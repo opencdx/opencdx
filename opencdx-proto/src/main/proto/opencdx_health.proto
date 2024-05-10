@@ -1028,6 +1028,119 @@ message ListHeartRPMResponse {
 }
 
 
+/*
+ * This message contains the details required for creating a doctor notes.
+ */
+message CreateDoctorNotesRequest {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the response after creating a Doctor Notes.
+ */
+message CreateDoctorNotesResponse {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Doctor Notes.
+ */
+message GetDoctorNotesRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the response for Doctor Notes.
+ */
+message GetDoctorNotesResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the details required for updating the Doctor Notes.
+ */
+message UpdateDoctorNotesRequest {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the response of updated Doctor Notes.
+ */
+message UpdateDoctorNotesResponse {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This request to delete Doctor Notes.
+ */
+message DeleteDoctorNotesRequest {
+  /*
+   * The Doctor Notes id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing Doctor Notes.
+ */
+message ListDoctorNotesRequest {
+ /*
+   * The ID of the patient.
+   */
+  string patient_id = 1;
+
+  /*
+   * Tags
+   */
+  string tags = 3;
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 4;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 5;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 6;
+}
+
+/*
+ * This is the response of the Doctor Notes
+ */
+message ListDoctorNotesResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of Doctor Notes.
+  */
+  repeated cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 2;
+}
 
 
 /*
@@ -1704,6 +1817,34 @@ service ProviderService {
    * RPC to load a specific healthcare provider.
    */
   rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+}
+
+/*
+ * The DoctorNotesService provides remote procedure call (RPC) methods to manipulate and fetch
+ * doctor's notes related information.
+ */
+service DoctorNotesService {
+
+  /**
+   * Create a Doctors Note.
+   */
+  rpc CreateDoctorNotes(CreateDoctorNotesRequest) returns (CreateDoctorNotesResponse);
+  /**
+   * Get a Doctors Note.
+   */
+  rpc GetDoctorNotes(GetDoctorNotesRequest) returns (GetDoctorNotesResponse);
+  /**
+   * Update a Doctors Note.
+   */
+  rpc UpdateDoctorNotes(UpdateDoctorNotesRequest) returns (UpdateDoctorNotesResponse);
+  /**
+   * Delete a Doctors Note.
+   */
+  rpc DeleteDoctorNotes(DeleteDoctorNotesRequest) returns (SuccessResponse);
+  /**
+   * List Doctors Note by Patient ID and Tag.
+   */
+  rpc ListAllByPatientId(ListDoctorNotesRequest) returns (ListDoctorNotesResponse);
 }
 
 /*

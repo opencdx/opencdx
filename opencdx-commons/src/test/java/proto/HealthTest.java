@@ -47,6 +47,24 @@ class HealthTest {
     }
 
     @Test
+    void doctorsNotes() throws JsonProcessingException {
+        DoctorNotes doctorNotes = DoctorNotes.newBuilder()
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .setNationalHealthId(UUID.randomUUID().toString())
+                .setProviderNumber("Provider Number")
+                .addAllTags(List.of("tag1", "tag2"))
+                .setNoteDatetime(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setNotes("Notes")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setModified(Timestamp.newBuilder().setSeconds(1696733104).build())
+                .setCreator("Creator")
+                .setModifier("Modifier")
+                .build();
+
+        log.info("DoctorNotes: \n {}", this.writer.withDefaultPrettyPrinter().writeValueAsString(doctorNotes));
+    }
+
+    @Test
     void searchMedicationsRequest() throws JsonProcessingException {
         SearchMedicationsRequest searchMedicationsRequest = SearchMedicationsRequest.newBuilder()
                 .setBrandName("Adipex")

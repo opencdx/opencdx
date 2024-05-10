@@ -75,18 +75,37 @@ message TinkarGetResponse {
 service TinkarQueryService {
   /*
    * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   * Accepts a search query and returns a list of results
    */
   rpc searchTinkar(TinkarSearchQueryRequest) returns (TinkarSearchQueryResponse) {}
   /*
    * `getTinkarEntity` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResult`.
+   * Accepts a Tinkar Concept PublicID and returns the name
    */
   rpc getTinkarEntity(TinkarGetRequest) returns (TinkarGetResult) {}
   /*
    * `getTinkarChildConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   * Accepts a Tinkar Concept PublicID and returns the child concepts
    */
   rpc getTinkarChildConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
   /*
    * `getTinkarDescendantConcepts` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   * Accepts a Tinkar Concept PublicID and returns the descendant concepts
    */
   rpc getTinkarDescendantConcepts(TinkarGetRequest) returns (TinkarGetResponse) {}
+  /*
+   * `getLIDRRecordConceptsFromTestKit` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   * Accepts a Test Kit Tinkar Concept PublicID and returns the LIDR Record concepts
+   */
+  rpc getLIDRRecordConceptsFromTestKit(TinkarGetRequest) returns (TinkarGetResponse) {}
+  /*
+   * `getResultConformanceConceptsFromLIDRRecord` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   * Accepts a LIDR Record Tinkar Concept PublicID and returns the Result Conformance concepts
+   */
+  rpc getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest) returns (TinkarGetResponse) {}
+  /*
+   * `getAllowedResultConceptsFromResultConformance` RPC method, which expects a `TinkarGetRequest` and returns a `TinkarGetResponse`.
+   * Accepts a Result Conformance Tinkar Concept PublicID and returns the Allowed Result concepts
+   */
+  rpc getAllowedResultConceptsFromResultConformance(TinkarGetRequest) returns (TinkarGetResponse) {}
 }

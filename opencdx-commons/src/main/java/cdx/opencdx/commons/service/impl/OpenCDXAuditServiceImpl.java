@@ -25,11 +25,10 @@ import cdx.opencdx.grpc.types.AuditEventType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
+import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 
 /**
  * This class is an implementation of the OpenCDXAuditService interface.
