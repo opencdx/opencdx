@@ -19,7 +19,6 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXMedicationClient;
 import cdx.opencdx.grpc.data.Medication;
-import cdx.opencdx.grpc.data.MedicationAdministration;
 import cdx.opencdx.grpc.service.health.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
@@ -33,10 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
-    private static final String OPEN_CDX_MEDICATION_CLIENT_IMPL =
-            "OpenCDXMedicationClientImpl";
-    private final MedicationServiceGrpc.MedicationServiceBlockingStub
-            medicationServiceBlockingStub;
+    private static final String OPEN_CDX_MEDICATION_CLIENT_IMPL = "OpenCDXMedicationClientImpl";
+    private final MedicationServiceGrpc.MedicationServiceBlockingStub medicationServiceBlockingStub;
 
     /**
      * Constructor for the Medication client implementation.
@@ -51,8 +48,7 @@ public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
      * @param medicationServiceBlockingStub gRPC Blocking Stub for Provider.
      */
     public OpenCDXMedicationClientImpl(
-            MedicationServiceGrpc.MedicationServiceBlockingStub
-                    medicationServiceBlockingStub) {
+            MedicationServiceGrpc.MedicationServiceBlockingStub medicationServiceBlockingStub) {
         this.medicationServiceBlockingStub = medicationServiceBlockingStub;
     }
 
@@ -114,7 +110,8 @@ public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
      * @return Message response.
      */
     @Override
-    public ListMedicationsResponse listAllMedications(ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public ListMedicationsResponse listAllMedications(
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -139,7 +136,8 @@ public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
      * @return Message response.
      */
     @Override
-    public ListMedicationsResponse listCurrentMedications(ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public ListMedicationsResponse listCurrentMedications(
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -164,7 +162,8 @@ public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
      * @return Message response.
      */
     @Override
-    public ListMedicationsResponse searchMedications(SearchMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public ListMedicationsResponse searchMedications(
+            SearchMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)

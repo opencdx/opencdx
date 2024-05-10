@@ -363,6 +363,7 @@ public class ClientConfig {
         return new OpenCDXMedicationAdministrationClientImpl(
                 createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
+
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
     OpenCDXMedicationClient openCDXMedicationClient(

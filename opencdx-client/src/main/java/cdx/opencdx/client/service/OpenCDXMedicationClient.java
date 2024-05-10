@@ -17,8 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.*;
 
 /**
  * Interface for communicating with the Medication service.
@@ -30,8 +30,8 @@ public interface OpenCDXMedicationClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    Medication prescribing(
-            Medication request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+    Medication prescribing(Medication request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call Medication Service listAllMedications() api.
@@ -39,8 +39,8 @@ public interface OpenCDXMedicationClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    Medication ending(
-            EndMedicationRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+    Medication ending(EndMedicationRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call Medication Service listAllMedications() api.
@@ -49,7 +49,8 @@ public interface OpenCDXMedicationClient {
      * @return Message response.
      */
     ListMedicationsResponse listAllMedications(
-            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call Medication Service listCurrentMedications() api.
@@ -58,7 +59,8 @@ public interface OpenCDXMedicationClient {
      * @return Message response.
      */
     ListMedicationsResponse listCurrentMedications(
-            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * Method to gRPC Call Medication Service searchMedications() api.
@@ -67,5 +69,6 @@ public interface OpenCDXMedicationClient {
      * @return Message response.
      */
     ListMedicationsResponse searchMedications(
-            SearchMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+            SearchMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 }
