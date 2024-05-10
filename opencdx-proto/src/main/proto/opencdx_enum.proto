@@ -1930,3 +1930,69 @@ enum VitalStatus {
    */
   OTHER = 4;
 }
+
+  /*
+   * Enum defining relationship to Patient
+   */
+enum Relationship {
+  /*
+   * Mother
+   */
+  MOTHER = 0;
+
+  /*
+   * Father
+   */
+  FATHER = 1;
+
+  /*
+   * Sister
+   */
+  SISTER = 2;
+
+  /*
+   * Brother
+   */
+  BROTHER = 3;
+
+  /*
+   * Aunt
+   */
+  AUNT = 4;
+
+  /*
+   * Uncle
+   */
+  UNCLE = 5;
+
+  /*
+   * Grandmother
+   */
+  GRANDMOTHER = 6;
+
+  /*
+   * Grandfather
+   */
+  GRANDFATHER = 7;
+
+}
+
+/*
+ * Enum defining relationship to Family Line
+ */
+enum RelationshipFamilyLine {
+  /*
+   * Maternal
+   */
+  MATERNAL = 0;
+
+  /*
+   * Paternal
+   */
+  PATERNAL = 1;
+
+  /*
+  * Immediate
+  */
+  IMMEDIATE = 2;
+}
