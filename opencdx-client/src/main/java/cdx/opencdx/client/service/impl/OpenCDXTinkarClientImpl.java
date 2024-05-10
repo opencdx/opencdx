@@ -114,6 +114,28 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
         }
     }
 
+    @Override
+    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+        try {
+            return tinkarQueryServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getResultConformanceConceptsFromLIDRRecord(request);
+        } catch (StatusRuntimeException e) {
+            throw createClientException(e);
+        }
+    }
+
+    @Override
+    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+        try {
+            return tinkarQueryServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getAllowedResultConceptsFromResultConformance(request);
+        } catch (StatusRuntimeException e) {
+            throw createClientException(e);
+        }
+    }
+
     private OpenCDXClientException createClientException(StatusRuntimeException e) {
         com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
         return new OpenCDXClientException(
