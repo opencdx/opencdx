@@ -70,6 +70,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private static final String QUESTION_TYPE_CHOICE = "choice";
     private static final String CODE_TINKAR = "tinkar";
+    private static final String CODE_LIDR_RESULT_CONFORM = "lidr-result-conformances";
+    private static final String CODE_LIDR_ALLOWED_RESULTS = "lidr-allowed-results";
     private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
@@ -620,13 +622,15 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             for (QuestionnaireItem question : model.getItems()) {
                 if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
                     Optional<Code> tinkarCode = question.getCodeList().stream()
-                            .filter(code -> code.getSystem().equals(CODE_TINKAR))
+                            .filter(code -> code.getSystem().equals(CODE_TINKAR)
+                                    || code.getSystem().equals(CODE_LIDR_ALLOWED_RESULTS)
+                                    || code.getSystem().equals(CODE_LIDR_RESULT_CONFORM))
                             .findFirst();
                     if (tinkarCode.isPresent()) {
                         question = QuestionnaireItem.newBuilder(question)
                                 .clearAnswerOption()
                                 .addAllAnswerOption(
-                                        getAnswerOptions(tinkarCode.get().getCode()))
+                                        getAnswerOptions(tinkarCode.get().getCode(), tinkarCode.get().getSystem()))
                                 .build();
                     }
                 }
@@ -640,15 +644,34 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     @SuppressWarnings("java:S1172")
-    private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
+    private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id, String system) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
         try {
-            TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
-                    TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+            TinkarGetResponse response = TinkarGetResponse.newBuilder().build();
+            switch (system) {
+                case CODE_TINKAR:
+                    response = openCDXTinkarClient.getTinkarChildConcepts(
+                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+                    break;
+                case CODE_LIDR_RESULT_CONFORM:
+                    response = openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+                    break;
+                case CODE_LIDR_ALLOWED_RESULTS:
+                    response = openCDXTinkarClient.getAllowedResultConceptsFromResultConformance(
+                            TinkarGetRequest.newBuilder().setConceptId(
+                                    openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials)
+                                            .getResultsList().getFirst().getConceptId()).build(), openCDXCallCredentials);
+                    break;
+                default:
+                    break;
+
+            }
 
             for (TinkarGetResult result : response.getResultsList()) {
                 Coding coding =
