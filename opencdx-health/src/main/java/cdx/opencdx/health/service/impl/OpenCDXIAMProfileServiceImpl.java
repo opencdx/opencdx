@@ -34,10 +34,11 @@ import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Service for processing IAM Profile Requests
@@ -160,8 +161,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                             request.getUpdatedProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        OpenCDXProfileModel model =
-                this.openCDXProfileRepository.save(new OpenCDXProfileModel(request.getUpdatedProfile()));
+        OpenCDXProfileModel model = this.openCDXProfileRepository
+                .findById(new OpenCDXIdentifier(request.getUpdatedProfile().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_USER + request.getUserId()));
+        model = this.openCDXProfileRepository.save(model.update(request.getUpdatedProfile()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

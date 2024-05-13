@@ -167,16 +167,15 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
 
     @Override
     public UpdateConnectedLabResponse updateConnectedLab(UpdateConnectedLabRequest request) {
-        if (!this.openCDXConnectedLabRepository.existsById(
-                new OpenCDXIdentifier(request.getConnectedLab().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    2,
-                    FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLab().getId());
-        }
 
-        OpenCDXConnectedLabModel model =
-                this.openCDXConnectedLabRepository.save(new OpenCDXConnectedLabModel(request.getConnectedLab()));
+        OpenCDXConnectedLabModel model = this.openCDXConnectedLabRepository
+                .findById(new OpenCDXIdentifier(request.getConnectedLab().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        2,
+                        FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLab().getId()));
+
+        model = this.openCDXConnectedLabRepository.save(model.update(request.getConnectedLab()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

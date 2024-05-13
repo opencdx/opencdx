@@ -148,10 +148,13 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
     public UpdateDoctorNotesResponse updateDoctorNotes(UpdateDoctorNotesRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 PROFILES, new OpenCDXIdentifier(request.getDoctorNotes().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "doctor-notes", new OpenCDXIdentifier(request.getDoctorNotes().getId()));
-        OpenCDXDoctorNotesModel model =
-                this.openCDXDoctorNotesRepository.save(new OpenCDXDoctorNotesModel(request.getDoctorNotes()));
+        OpenCDXDoctorNotesModel model = this.openCDXDoctorNotesRepository
+                .findById(new OpenCDXIdentifier(request.getDoctorNotes().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_DOCTOR_NOTES + request.getDoctorNotes().getId()));
+        model = this.openCDXDoctorNotesRepository.save(model.update(request.getDoctorNotes()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(

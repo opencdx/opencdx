@@ -148,8 +148,13 @@ public class OpenCDXAllergyServiceImpl implements OpenCDXAllergyService {
                 "profiles", new OpenCDXIdentifier(request.getKnownAllergy().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "allergy", new OpenCDXIdentifier(request.getKnownAllergy().getId()));
-        OpenCDXAllergyModel model =
-                this.openCDXAllergyRepository.save(new OpenCDXAllergyModel(request.getKnownAllergy()));
+        OpenCDXAllergyModel model = this.openCDXAllergyRepository
+                .findById(new OpenCDXIdentifier(request.getKnownAllergy().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_ALLERGY + request.getKnownAllergy().getId()));
+        model = this.openCDXAllergyRepository.save(model.update(request.getKnownAllergy()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(

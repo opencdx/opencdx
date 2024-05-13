@@ -161,9 +161,13 @@ public class OpenCDXBPMServiceImpl implements OpenCDXBPMService {
     public UpdateBPMResponse updateBPMMeasurement(UpdateBPMRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getBpmMeasurement().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "bpm", new OpenCDXIdentifier(request.getBpmMeasurement().getId()));
-        OpenCDXBPMModel model = this.openCDXBPMRepository.save(new OpenCDXBPMModel(request.getBpmMeasurement()));
+        OpenCDXBPMModel model = this.openCDXBPMRepository
+                .findById(new OpenCDXIdentifier(request.getBpmMeasurement().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_BPM + request.getBpmMeasurement().getId()));
+        model = this.openCDXBPMRepository.save(model.update(request.getBpmMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(

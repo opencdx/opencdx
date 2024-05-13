@@ -164,10 +164,14 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
     public UpdateHeightMeasurementResponse updateHeightMeasurement(UpdateHeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getHeightMeasurement().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "heights", new OpenCDXIdentifier(request.getHeightMeasurement().getId()));
-        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository.save(
-                new OpenCDXHeightMeasurementModel(request.getHeightMeasurement()));
+
+        OpenCDXHeightMeasurementModel model = this.openCDXHeightMeasurementRepository
+                .findById(new OpenCDXIdentifier(request.getHeightMeasurement().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_HEIGHT + request.getHeightMeasurement().getId()));
+        model = this.openCDXHeightMeasurementRepository.save(model.update(request.getHeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
