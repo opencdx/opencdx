@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         log.info("OpenCDXTinkarServiceImpl initialized");
     }
 
+    @Cacheable(value = "search")
     @Override
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
@@ -87,6 +89,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         }
     }
 
+    @Cacheable(value = "getEntity")
     @Override
     public TinkarGetResult getEntity(TinkarGetRequest request) {
         try {
@@ -102,6 +105,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         }
     }
 
+    @Cacheable(value = "getTinkarChildConcepts")
     @Override
     public TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
@@ -115,6 +119,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @Cacheable(value = "getTinkarDescendantConcepts")
     @Override
     public TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
@@ -128,6 +133,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @Cacheable(value = "getLIDRRecordConceptsFromTestKit")
     @Override
     public TinkarGetResponse getLIDRRecordConceptsFromTestKit(TinkarGetRequest request) {
         PublicId testKitConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
@@ -141,6 +147,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @Cacheable(value = "getResultConformanceConceptsFromLIDRRecord")
     @Override
     public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request) {
         PublicId lidrRecordConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
@@ -154,6 +161,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @Cacheable(value = "getAllowedResultConceptsFromResultConformance")
     @Override
     public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request) {
         PublicId resultConformanceConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
