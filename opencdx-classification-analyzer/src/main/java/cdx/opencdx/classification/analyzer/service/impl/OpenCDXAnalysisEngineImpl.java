@@ -43,6 +43,7 @@ import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.evrete.KnowledgeService;
 import org.evrete.api.Knowledge;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param request the ClientRulesRequest object containing the request data
      * @return the RuleSetsResponse object representing the rule sets response
      */
+    @Cacheable("ruleSets")
     @Override
     public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
         return RuleSetsResponse.newBuilder()
