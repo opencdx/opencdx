@@ -77,4 +77,31 @@ class OpenCDXRestTinkarSearchControllerTest {
                 .andExpect(status().is(200))
                 .andReturn();
     }
+
+    @Test
+    void testGetLIDRRecordConceptsFromTestKit() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/lidr-records/testKitConceptId")
+                        .param("testKitConceptId", "550e8400-e29b-41d4-a716-446655440000"))
+                .andExpect(status().is(200))
+                .andReturn();
+    }
+
+    @Test
+    void testGetResultConformanceConceptsFromLIDRRecord() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/result-conformances/lidrRecordConceptId")
+                        .param("lidrRecordConceptId", "550e8400-e29b-41d4-a716-446655440000"))
+                .andExpect(status().is(200))
+                .andReturn();
+    }
+
+    @Test
+    void testGetAllowedResultConceptsFromResultConformanced() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/allowed-results/resultConformanceConceptId")
+                        .param("resultConformanceConceptId", "550e8400-e29b-41d4-a716-446655440000"))
+                .andExpect(status().is(200))
+                .andReturn();
+    }
 }

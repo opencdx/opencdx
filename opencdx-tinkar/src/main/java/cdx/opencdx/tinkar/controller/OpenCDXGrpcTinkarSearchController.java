@@ -91,4 +91,43 @@ public class OpenCDXGrpcTinkarSearchController extends TinkarQueryServiceGrpc.Ti
         responseObserver.onNext(this.openCDXTinkarService.getTinkarDescendantConcepts(request));
         responseObserver.onCompleted();
     }
+
+    /**
+     * Method to search Tinkar for LIDR records
+     * @param request TinkarGetRequest submitted.
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getLIDRRecordConceptsFromTestKit(
+            TinkarGetRequest request, StreamObserver<TinkarGetResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTinkarService.getLIDRRecordConceptsFromTestKit(request));
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Method to search Tinkar for Result conformances
+     * @param request TinkarGetRequest submitted.
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getResultConformanceConceptsFromLIDRRecord(
+            TinkarGetRequest request, StreamObserver<TinkarGetResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTinkarService.getResultConformanceConceptsFromLIDRRecord(request));
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Method to search Tinkar for Allowed Results
+     * @param request TinkarGetRequest submitted.
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getAllowedResultConceptsFromResultConformance(
+            TinkarGetRequest request, StreamObserver<TinkarGetResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTinkarService.getAllowedResultConceptsFromResultConformance(request));
+        responseObserver.onCompleted();
+    }
 }

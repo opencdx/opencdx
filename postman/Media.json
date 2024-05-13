@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI Media",
+        "title": "OpenCDx Media Service",
         "version": "v0"
     },
     "servers": [
@@ -485,36 +485,43 @@
             "ListMediaRequest": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    }
+                }
+            },
+            "Pagination": {
+                "type": "object",
+                "properties": {
+                    "pageNumber": {
                         "type": "integer",
                         "format": "int32"
                     },
-                    "pageNumber": {
+                    "pageSize": {
                         "type": "integer",
                         "format": "int32"
                     },
                     "sortAscending": {
                         "type": "boolean"
+                    },
+                    "sort": {
+                        "type": "string"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalRecords": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
             "ListMediaResponse": {
                 "type": "object",
                 "properties": {
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sortAscending": {
-                        "type": "boolean"
-                    },
-                    "pageCount": {
-                        "type": "integer",
-                        "format": "int32"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     },
                     "templates": {
                         "type": "array",
@@ -630,6 +637,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "name": "bearerAuth",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }

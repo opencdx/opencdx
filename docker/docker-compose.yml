@@ -145,6 +145,7 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
+      - ../data/uploads:/uploads
   health:
     deploy:
       restart_policy:

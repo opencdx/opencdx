@@ -59,4 +59,22 @@ public interface OpenCDXTinkarClient {
      */
     TinkarGetResponse getTinkarDescendantConcepts(
             TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Tinkar Service getResultConformanceConceptsFromLIDRRecord() api.
+     * @param request TinkarGetRequest request to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return TinkarGetResult
+     */
+    TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Tinkar Service getAllowedResultConceptsFromResultConformance() api.
+     * @param request TinkarGetRequest request to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return TinkarGetResult
+     */
+    TinkarGetResponse getAllowedResultConceptsFromResultConformance(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
 }

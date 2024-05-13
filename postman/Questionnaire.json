@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI Questionnaire",
+        "title": "OpenCDx Questionnaire Service",
         "version": "v0"
     },
     "servers": [
@@ -16,68 +16,8 @@
         }
     ],
     "paths": {
-        "/questionnaire/user/updatequestionnaire": {
-            "post": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "updateUserQuestionnaireData",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserQuestionnaireDataRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/user/createquestionnaire": {
-            "post": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "createUserQuestionnaireData",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserQuestionnaireDataRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/system/updatequestionnaire": {
-            "post": {
+        "/system/questionnaire": {
+            "put": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
@@ -104,9 +44,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/questionnaire/system/createquestionnaire": {
+            },
             "post": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
@@ -136,12 +74,12 @@
                 }
             }
         },
-        "/questionnaire/submitquestionnaire": {
-            "post": {
+        "/questionnaire": {
+            "put": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
-                "operationId": "submitQuestionnaire",
+                "operationId": "updateQuestionnaire",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -158,7 +96,35 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
+                                    "$ref": "#/components/schemas/Questionnaire"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "createQuestionnaire",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuestionnaireRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Questionnaire"
                                 }
                             }
                         }
@@ -166,8 +132,8 @@
                 }
             }
         },
-        "/questionnaire/client/updatequestionnaire": {
-            "post": {
+        "/client/questionnaire": {
+            "put": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
@@ -194,9 +160,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/questionnaire/client/createquestionnaire": {
+            },
             "post": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
@@ -226,22 +190,112 @@
                 }
             }
         },
-        "/questionnaire/user/questionnaires": {
-            "get": {
+        "/user/questionnaire": {
+            "post": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
-                "operationId": "getUserQuestionnaires",
-                "parameters": [
-                    {
-                        "name": "request",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
+                "operationId": "createUserQuestionnaireData",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserQuestionnaireDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubmissionResponse"
+                                }
+                            }
                         }
                     }
+                }
+            }
+        },
+        "/user/questionnaire/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
                 ],
+                "operationId": "getUserQuestionnaireDataList",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetQuestionnaireListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserQuestionnaireDataResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system/questionnaire/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "getQuestionnaireDataList",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetQuestionnaireListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemQuestionnaireData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/questionnaire/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "getQuestionnaires",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetQuestionnaireListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -256,7 +310,37 @@
                 }
             }
         },
-        "/questionnaire/user/questionnaire/{Id}": {
+        "/client/questionnaire/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "getClientQuestionnaireDataList",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetQuestionnaireListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientQuestionnaireData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/questionnaire/{Id}": {
             "get": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
@@ -264,11 +348,11 @@
                 "operationId": "getUserQuestionnaire",
                 "parameters": [
                     {
-                        "name": "request",
-                        "in": "query",
+                        "name": "Id",
+                        "in": "path",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
+                            "type": "string"
                         }
                     }
                 ],
@@ -278,7 +362,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Questionnaire"
+                                    "$ref": "#/components/schemas/UserQuestionnaireData"
                                 }
                             }
                         }
@@ -286,37 +370,7 @@
                 }
             }
         },
-        "/questionnaire/system/questionnaires": {
-            "get": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "getSystemQuestionnaires",
-                "parameters": [
-                    {
-                        "name": "request",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Questionnaires"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/system/questionnaire/{Id}": {
+        "/system/questionnaire/{Id}": {
             "get": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
@@ -324,11 +378,77 @@
                 "operationId": "getSystemQuestionnaire",
                 "parameters": [
                     {
-                        "name": "request",
-                        "in": "query",
+                        "name": "Id",
+                        "in": "path",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemQuestionnaireData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "deleteSystemQuestionnaire",
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubmissionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/questionnaire/{Id}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-questionnaire-controller"
+                ],
+                "operationId": "getQuestionnaire",
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "updateAnswers",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
                 ],
@@ -344,21 +464,19 @@
                         }
                     }
                 }
-            }
-        },
-        "/questionnaire/submittedquestionnaires": {
-            "get": {
+            },
+            "delete": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
-                "operationId": "getQuestionnaires",
+                "operationId": "deleteQuestionnaire",
                 "parameters": [
                     {
-                        "name": "request",
-                        "in": "query",
+                        "name": "Id",
+                        "in": "path",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
+                            "type": "string"
                         }
                     }
                 ],
@@ -368,7 +486,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Questionnaires"
+                                    "$ref": "#/components/schemas/SubmissionResponse"
                                 }
                             }
                         }
@@ -376,12 +494,12 @@
                 }
             }
         },
-        "/questionnaire/submittedquestionnaire/{Id}": {
+        "/questionnaire/refresh/{Id}": {
             "get": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
-                "operationId": "getQuestionnaire",
+                "operationId": "refreshQuestionnaire",
                 "parameters": [
                     {
                         "name": "Id",
@@ -406,37 +524,7 @@
                 }
             }
         },
-        "/questionnaire/client/questionnaires": {
-            "get": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "getClientQuestionnaires",
-                "parameters": [
-                    {
-                        "name": "request",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Questionnaires"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/client/questionnaire/{Id}": {
+        "/client/questionnaire/{Id}": {
             "get": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
@@ -444,11 +532,11 @@
                 "operationId": "getClientQuestionnaire",
                 "parameters": [
                     {
-                        "name": "request",
-                        "in": "query",
+                        "name": "Id",
+                        "in": "path",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/GetQuestionnaireRequest"
+                            "type": "string"
                         }
                     }
                 ],
@@ -458,120 +546,28 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Questionnaire"
+                                    "$ref": "#/components/schemas/ClientQuestionnaireData"
                                 }
                             }
                         }
                     }
                 }
-            }
-        },
-        "/questionnaire/user/deletequestionnaire/{Id}": {
-            "delete": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "deleteUserQuestionnaire",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DeleteQuestionnaireRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/system/deletequestionnaire/{Id}": {
-            "delete": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "deleteSystemQuestionnaire",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DeleteQuestionnaireRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/deletequestionnaire/{Id}": {
-            "delete": {
-                "tags": [
-                    "open-cdx-rest-questionnaire-controller"
-                ],
-                "operationId": "deleteQuestionnaire",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DeleteQuestionnaireRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SubmissionResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/questionnaire/client/deletequestionnaire/{Id}": {
+            },
             "delete": {
                 "tags": [
                     "open-cdx-rest-questionnaire-controller"
                 ],
                 "operationId": "deleteClientQuestionnaire",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DeleteQuestionnaireRequest"
-                            }
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
-                    },
-                    "required": true
-                },
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -612,35 +608,17 @@
                     },
                     "rulesEngineConfig": {
                         "type": "string"
-                    }
-                }
-            },
-            "UserQuestionnaireData": {
-                "type": "object",
-                "properties": {
-                    "questionnaireData": {
-                        "$ref": "#/components/schemas/QuestionnaireData"
                     },
-                    "userId": {
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
                         "type": "string"
-                    }
-                }
-            },
-            "UserQuestionnaireDataRequest": {
-                "type": "object",
-                "properties": {
-                    "userQuestionnaireData": {
-                        "$ref": "#/components/schemas/UserQuestionnaireData"
-                    }
-                }
-            },
-            "SubmissionResponse": {
-                "type": "object",
-                "properties": {
-                    "success": {
-                        "type": "boolean"
                     },
-                    "message": {
+                    "modifier": {
                         "type": "string"
                     }
                 }
@@ -653,29 +631,197 @@
                     }
                 }
             },
-            "Any": {
+            "Timestamp": {
                 "type": "object",
                 "properties": {
-                    "typeUrl": {
+                    "seconds": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nanos": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "SubmissionResponse": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
                         "type": "string"
                     },
-                    "value": {
-                        "$ref": "#/components/schemas/ByteString"
+                    "id": {
+                        "type": "string"
                     }
                 }
             },
-            "ByteString": {
+            "ANFStatement": {
                 "type": "object",
                 "properties": {
-                    "empty": {
-                        "type": "boolean"
+                    "time": {
+                        "$ref": "#/components/schemas/Measure"
                     },
-                    "validUtf8": {
-                        "type": "boolean"
+                    "subjectOfRecord": {
+                        "$ref": "#/components/schemas/Participant"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Practitioner"
+                        }
+                    },
+                    "subjectOfInformation": {
+                        "type": "string"
+                    },
+                    "associatedStatement": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AssociatedStatement"
+                        }
+                    },
+                    "topic": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "circumstanceChoice": {
+                        "$ref": "#/components/schemas/CircumstanceChoice"
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "STATUS_UNSPECIFIED",
+                            "STATUS_ACTIVE",
+                            "STATUS_DELETED",
+                            "UNRECOGNIZED"
+                        ]
                     }
                 }
             },
-            "Coding": {
+            "AnfStatementConnector": {
+                "type": "object",
+                "properties": {
+                    "anfStatement": {
+                        "$ref": "#/components/schemas/ANFStatement"
+                    },
+                    "anfStatementType": {
+                        "type": "string",
+                        "enum": [
+                            "ANF_STATEMENT_TYPE_UNSPECIFIED",
+                            "ANF_STATEMENT_TYPE_MAIN",
+                            "ANF_STATEMENT_TYPE_ASSOCIATED",
+                            "ANF_STATEMENT_USER_QUESTION",
+                            "ANF_STATEMENT_TYPE_NOT_APPLICABLE",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "anfOperatorType": {
+                        "type": "string",
+                        "enum": [
+                            "ANF_OPERATOR_TYPE_UNSPECIFIED",
+                            "ANF_OPERATOR_TYPE_EQUAL",
+                            "ANF_OPERATOR_TYPE_NOT_EQUAL",
+                            "ANF_OPERATOR_TYPE_GREATER_THAN",
+                            "ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL",
+                            "ANF_OPERATOR_TYPE_LESS_THAN",
+                            "ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL",
+                            "ANF_OPERATOR_TYPE_CONTAINS",
+                            "ANF_OPERATOR_TYPE_NOT_CONTAINS",
+                            "ANF_OPERATOR_TYPE_IN",
+                            "ANF_OPERATOR_TYPE_NOT_IN",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "operatorValue": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AnswerValue": {
+                "type": "object",
+                "properties": {
+                    "valueInteger": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "valueDouble": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "valueString": {
+                        "type": "string"
+                    },
+                    "valueBoolean": {
+                        "type": "boolean"
+                    },
+                    "valueCoding": {
+                        "$ref": "#/components/schemas/Coding"
+                    }
+                }
+            },
+            "AssociatedStatement": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "semantic": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CircumstanceChoice": {
+                "type": "object",
+                "properties": {
+                    "circumstanceType": {
+                        "type": "string",
+                        "enum": [
+                            "PERFORMANCE_CIRCUMSTANCE",
+                            "REQUEST_CIRCUMSTANCE",
+                            "NARRATIVE_CIRCUMSTANCE",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/Measure"
+                    },
+                    "healthRisk": {
+                        "type": "string"
+                    },
+                    "normalRange": {
+                        "$ref": "#/components/schemas/Measure"
+                    },
+                    "circumstance": {
+                        "$ref": "#/components/schemas/Participant"
+                    },
+                    "timing": {
+                        "$ref": "#/components/schemas/Measure"
+                    },
+                    "participant": {
+                        "$ref": "#/components/schemas/Participant"
+                    }
+                }
+            },
+            "Code": {
                 "type": "object",
                 "properties": {
                     "system": {
@@ -683,8 +829,91 @@
                     },
                     "code": {
                         "type": "string"
+                    }
+                }
+            },
+            "Coding": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "system": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
                     },
                     "display": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Extension": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "valueDecimal": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "valueCodeableConcept": {
+                        "$ref": "#/components/schemas/Coding"
+                    }
+                }
+            },
+            "Measure": {
+                "type": "object",
+                "properties": {
+                    "upperBound": {
+                        "type": "string"
+                    },
+                    "lowerBound": {
+                        "type": "string"
+                    },
+                    "includeUpperBound": {
+                        "type": "boolean"
+                    },
+                    "includeLowerBound": {
+                        "type": "boolean"
+                    },
+                    "semantic": {
+                        "type": "string"
+                    },
+                    "resolution": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Participant": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "practitionerValue": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Practitioner": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "practitionerValue": {
+                        "type": "string"
+                    },
+                    "code": {
                         "type": "string"
                     }
                 }
@@ -702,9 +931,19 @@
                         "type": "string"
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "draft",
+                            "active",
+                            "retired",
+                            "unknown",
+                            "UNRECOGNIZED"
+                        ]
                     },
                     "description": {
+                        "type": "string"
+                    },
+                    "purpose": {
                         "type": "string"
                     },
                     "item": {
@@ -712,6 +951,95 @@
                         "items": {
                             "$ref": "#/components/schemas/QuestionnaireItem"
                         }
+                    },
+                    "ruleId": {
+                        "type": "string"
+                    },
+                    "ruleQuestionId": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "QuestionnaireEnableWhen": {
+                "type": "object",
+                "properties": {
+                    "question": {
+                        "type": "string"
+                    },
+                    "operator": {
+                        "type": "string"
+                    },
+                    "answerCoding": {
+                        "$ref": "#/components/schemas/Coding"
+                    },
+                    "answerInteger": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "answerDouble": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "answerBoolean": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -727,6 +1055,15 @@
                     "text": {
                         "type": "string"
                     },
+                    "enableWhen": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionnaireEnableWhen"
+                        }
+                    },
+                    "enableBehavior": {
+                        "type": "string"
+                    },
                     "required": {
                         "type": "boolean"
                     },
@@ -735,6 +1072,12 @@
                     },
                     "readOnly": {
                         "type": "boolean"
+                    },
+                    "code": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Code"
+                        }
                     },
                     "extension": {
                         "type": "array",
@@ -754,8 +1097,17 @@
                             "$ref": "#/components/schemas/QuestionnaireItemInitial"
                         }
                     },
-                    "userResponse": {
-                        "$ref": "#/components/schemas/Any"
+                    "anfStatementConnector": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AnfStatementConnector"
+                        }
+                    },
+                    "answer": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AnswerValue"
+                        }
                     }
                 }
             },
@@ -763,10 +1115,16 @@
                 "type": "object",
                 "properties": {
                     "valueCoding": {
-                        "$ref": "#/components/schemas/ValueCoding"
+                        "$ref": "#/components/schemas/Coding"
                     },
                     "initialSelected": {
                         "type": "boolean"
+                    },
+                    "extension": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Extension"
+                        }
                     }
                 }
             },
@@ -778,6 +1136,17 @@
                     },
                     "valueCodeableConcept": {
                         "$ref": "#/components/schemas/ValueCodeableConcept"
+                    },
+                    "valueCoding": {
+                        "$ref": "#/components/schemas/Coding"
+                    },
+                    "valueInteger": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "valueDecimal": {
+                        "type": "number",
+                        "format": "double"
                     }
                 }
             },
@@ -785,7 +1154,15 @@
                 "type": "object",
                 "properties": {
                     "valueBoolean": {
-                        "$ref": "#/components/schemas/ValueBoolean"
+                        "type": "boolean"
+                    },
+                    "valueInteger": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "valueDecimal": {
+                        "type": "number",
+                        "format": "double"
                     }
                 }
             },
@@ -794,14 +1171,6 @@
                 "properties": {
                     "questionnaire": {
                         "$ref": "#/components/schemas/Questionnaire"
-                    }
-                }
-            },
-            "ValueBoolean": {
-                "type": "object",
-                "properties": {
-                    "valueBoolean": {
-                        "type": "boolean"
                     }
                 }
             },
@@ -819,24 +1188,22 @@
                     }
                 }
             },
-            "ValueCoding": {
-                "type": "object",
-                "properties": {
-                    "display": {
-                        "type": "string"
-                    }
-                }
-            },
             "ClientQuestionnaireData": {
                 "type": "object",
                 "properties": {
                     "questionnaireData": {
-                        "$ref": "#/components/schemas/QuestionnaireData"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionnaireData"
+                        }
                     },
-                    "orgnizationId": {
+                    "organizationId": {
                         "type": "string"
                     },
                     "workspaceId": {
+                        "type": "string"
+                    },
+                    "ruleId": {
                         "type": "string"
                     }
                 }
@@ -849,20 +1216,94 @@
                     }
                 }
             },
-            "GetQuestionnaireRequest": {
+            "UserQuestionnaireData": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "string"
                     },
-                    "orgnizationId": {
+                    "patientId": {
                         "type": "string"
                     },
-                    "workspaceId": {
+                    "questionnaireData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Questionnaire"
+                        }
+                    }
+                }
+            },
+            "UserQuestionnaireDataRequest": {
+                "type": "object",
+                "properties": {
+                    "userQuestionnaireData": {
+                        "$ref": "#/components/schemas/UserQuestionnaireData"
+                    }
+                }
+            },
+            "GetQuestionnaireListRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
                         "type": "string"
                     },
-                    "userId": {
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    },
+                    "updateAnswers": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Pagination": {
+                "type": "object",
+                "properties": {
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    },
+                    "sort": {
                         "type": "string"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalRecords": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "UserQuestionnaireDataResponse": {
+                "type": "object",
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserQuestionnaireData"
+                        }
+                    },
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
+                    }
+                }
+            },
+            "SystemQuestionnaireData": {
+                "type": "object",
+                "properties": {
+                    "questionnaireData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionnaireData"
+                        }
                     }
                 }
             },
@@ -874,23 +1315,9 @@
                         "items": {
                             "$ref": "#/components/schemas/Questionnaire"
                         }
-                    }
-                }
-            },
-            "DeleteQuestionnaireRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
                     },
-                    "orgnizationId": {
-                        "type": "string"
-                    },
-                    "workspaceId": {
-                        "type": "string"
-                    },
-                    "userId": {
-                        "type": "string"
+                    "pagination": {
+                        "$ref": "#/components/schemas/Pagination"
                     }
                 }
             }
@@ -898,6 +1325,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "name": "bearerAuth",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
