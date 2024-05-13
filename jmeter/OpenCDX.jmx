@@ -4501,10 +4501,10 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.classification.NeuralPredictorService/Predict</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
+              <stringProp name="GRPCSampler.deadline">4000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">4000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
@@ -4681,10 +4681,10 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.classification.ClassificationService/GetRuleSets</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
+              <stringProp name="GRPCSampler.deadline">4000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">4000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{}</stringProp>
@@ -5567,17 +5567,17 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="true">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="false">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
               <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.classification.ClassificationService/Classify</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
+              <stringProp name="GRPCSampler.deadline">4000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">4000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
@@ -5941,6 +5941,43 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">${__P(threadDelay,50)}</stringProp>
           </ConstantTimer>
+          <hashTree/>
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
           <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run REST Test?" enabled="true">
@@ -11296,6 +11333,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
               <boolProp name="HTTPSampler.md5">false</boolProp>
               <intProp name="HTTPSampler.ipSourceType">0</intProp>
+              <stringProp name="HTTPSampler.connect_timeout">4000</stringProp>
+              <stringProp name="HTTPSampler.response_timeout">4000</stringProp>
             </HTTPSamplerProxy>
             <hashTree>
               <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ANF ID" enabled="true">
@@ -11526,6 +11565,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
               <boolProp name="HTTPSampler.md5">false</boolProp>
               <intProp name="HTTPSampler.ipSourceType">0</intProp>
+              <stringProp name="HTTPSampler.connect_timeout">4000</stringProp>
+              <stringProp name="HTTPSampler.response_timeout">4000</stringProp>
             </HTTPSamplerProxy>
             <hashTree>
               <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet ID" enabled="true">
@@ -12774,7 +12815,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -12822,7 +12863,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
               <boolProp name="HTTPSampler.md5">false</boolProp>
               <intProp name="HTTPSampler.ipSourceType">0</intProp>
-              <stringProp name="HTTPSampler.connect_timeout">1000</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout">4000</stringProp>
+              <stringProp name="HTTPSampler.response_timeout">4000</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
@@ -13302,6 +13344,43 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">${__P(threadDelay,50)}</stringProp>
           </ConstantTimer>
+          <hashTree/>
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
           <hashTree/>
         </hashTree>
       </hashTree>
