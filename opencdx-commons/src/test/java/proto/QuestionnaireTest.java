@@ -61,6 +61,7 @@ class QuestionnaireTest {
                 "UserQuestionnaireDataRequest: {}",
                 this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
     }
+
     @Test
     void testRuleSetsRequest() throws JsonProcessingException {
         RuleSetsRequest request = RuleSetsRequest.newBuilder()

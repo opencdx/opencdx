@@ -152,7 +152,8 @@ class OpenCDXGrpcTinkarSearchControllerTest {
         TinkarGetResponse response =
                 TinkarGetResponse.newBuilder().addResults(result).build();
 
-        when(openCDXTinkarService.getResultConformanceConceptsFromLIDRRecord(request)).thenReturn(response);
+        when(openCDXTinkarService.getResultConformanceConceptsFromLIDRRecord(request))
+                .thenReturn(response);
 
         openCDXGrpcTinkarSearchController.getResultConformanceConceptsFromLIDRRecord(request, responseObserver);
 
@@ -172,7 +173,8 @@ class OpenCDXGrpcTinkarSearchControllerTest {
         TinkarGetResponse response =
                 TinkarGetResponse.newBuilder().addResults(result).build();
 
-        when(openCDXTinkarService.getAllowedResultConceptsFromResultConformance(request)).thenReturn(response);
+        when(openCDXTinkarService.getAllowedResultConceptsFromResultConformance(request))
+                .thenReturn(response);
 
         openCDXGrpcTinkarSearchController.getAllowedResultConceptsFromResultConformance(request, responseObserver);
 
