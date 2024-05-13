@@ -78,6 +78,7 @@ public class OpenCDXProfileModel {
 
     @LastModifiedBy
     private OpenCDXIdentifier modifier;
+
     private BloodType bloodType;
 
     /**

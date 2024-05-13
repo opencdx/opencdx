@@ -629,8 +629,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     if (tinkarCode.isPresent()) {
                         question = QuestionnaireItem.newBuilder(question)
                                 .clearAnswerOption()
-                                .addAllAnswerOption(
-                                        getAnswerOptions(tinkarCode.get().getCode(), tinkarCode.get().getSystem()))
+                                .addAllAnswerOption(getAnswerOptions(
+                                        tinkarCode.get().getCode(),
+                                        tinkarCode.get().getSystem()))
                                 .build();
                     }
                 }
@@ -663,14 +664,21 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     break;
                 case CODE_LIDR_ALLOWED_RESULTS:
                     response = openCDXTinkarClient.getAllowedResultConceptsFromResultConformance(
-                            TinkarGetRequest.newBuilder().setConceptId(
-                                    openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
-                                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials)
-                                            .getResultsList().getFirst().getConceptId()).build(), openCDXCallCredentials);
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(openCDXTinkarClient
+                                            .getResultConformanceConceptsFromLIDRRecord(
+                                                    TinkarGetRequest.newBuilder()
+                                                            .setConceptId(id)
+                                                            .build(),
+                                                    openCDXCallCredentials)
+                                            .getResultsList()
+                                            .getFirst()
+                                            .getConceptId())
+                                    .build(),
+                            openCDXCallCredentials);
                     break;
                 default:
                     break;
-
             }
 
             for (TinkarGetResult result : response.getResultsList()) {

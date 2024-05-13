@@ -115,7 +115,8 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
     }
 
     @Override
-    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
         try {
             return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -126,7 +127,8 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
     }
 
     @Override
-    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(
+            TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
         try {
             return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
