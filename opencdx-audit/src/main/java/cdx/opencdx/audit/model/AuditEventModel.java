@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,15 +41,26 @@ public class AuditEventModel {
     @Id
     private OpenCDXIdentifier id;
 
-    private Instant created;
+    @Version
+    private long version;
+
     private AuditEventType eventType;
     private Actor actor;
     private DataObject dataObject;
     private String purposeOfUse;
     private AuditSource auditSource;
     private AuditEntity auditEntity;
+
+    @CreatedDate
+    private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**

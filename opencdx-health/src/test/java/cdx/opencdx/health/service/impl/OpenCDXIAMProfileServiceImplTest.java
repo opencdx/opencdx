@@ -252,6 +252,10 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
+                .setUpdatedProfile(UserProfile.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
+                        .build())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
@@ -270,6 +274,10 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
+                .setUpdatedProfile(UserProfile.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setNationalHealthId(OpenCDXIdentifier.get().toHexString())
+                        .build())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
@@ -362,7 +370,9 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXDocumentValidator);
 
-        UserProfile.Builder builder = UserProfile.newBuilder();
+        UserProfile.Builder builder = UserProfile.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setNationalHealthId(OpenCDXIdentifier.get().toHexString());
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
         builder.addAllAddress(List.of(
@@ -427,7 +437,9 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXDocumentValidator);
 
-        UserProfile.Builder builder = UserProfile.newBuilder();
+        UserProfile.Builder builder = UserProfile.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .setNationalHealthId(OpenCDXIdentifier.get().toHexString());
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
         builder.addAllAddress(List.of(

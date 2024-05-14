@@ -27,6 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +42,9 @@ public class OpenCDXShippingModel {
 
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private FullName shippingName;
     private Address senderAddress;
@@ -100,11 +104,14 @@ public class OpenCDXShippingModel {
     /**
      * Update this model from this protobuf message
      * @param response Protobuf message to update from
+     * @return Updated model
      */
-    public void update(OpenCDXShippingResponse response) {
+    public OpenCDXShippingModel update(OpenCDXShippingResponse response) {
         this.trackingNumber = response.getTrackingNumber();
         this.status = response.getStatus();
         this.estimatedDelivery = response.getEstimatedDelivery();
+
+        return this;
     }
 
     /**

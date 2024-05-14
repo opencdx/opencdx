@@ -23,7 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
+import cdx.opencdx.communications.model.*;
 import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
 import cdx.opencdx.grpc.data.MessageTemplate;
@@ -83,6 +83,14 @@ class OpenCDXSystemMessageServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
                         .build());
+
+        Mockito.when(this.openCDXMessageTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXMessageTemplateModel model = OpenCDXMessageTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
 
         this.openCDXMessageService = new OpenCDXSystemMessageServiceImpl(
                 openCDXDocumentValidator,
@@ -164,10 +172,8 @@ class OpenCDXSystemMessageServiceImplTest {
     @Test
     void updateMessageTemplateException() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        MessageTemplate messageTemplate = MessageTemplate.newBuilder()
-                .setTemplateId(OpenCDXIdentifier.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
+        MessageTemplate messageTemplate = MessageTemplate.getDefaultInstance();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.openCDXMessageService.updateMessageTemplate(messageTemplate);
         });
     }

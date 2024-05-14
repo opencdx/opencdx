@@ -25,7 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,15 +42,26 @@ public class OpenCDXHeightMeasurementModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private double height;
     HeightUnits unitsOfMeasure;
     private Instant timeOfMeasurement;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
-    private String creator;
-    private String modifier;
+
+    @CreatedBy
+    private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message HeightMeasurement
@@ -80,10 +91,10 @@ public class OpenCDXHeightMeasurementModel {
                     heightMeasurement.getModified().getNanos());
         }
         if (heightMeasurement.hasCreator()) {
-            this.creator = heightMeasurement.getCreator();
+            this.creator = new OpenCDXIdentifier(heightMeasurement.getCreator());
         }
         if (heightMeasurement.hasModifier()) {
-            this.modifier = heightMeasurement.getModifier();
+            this.modifier = new OpenCDXIdentifier(heightMeasurement.getModifier());
         }
     }
 
@@ -124,11 +135,31 @@ public class OpenCDXHeightMeasurementModel {
                     .build());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator);
+            builder.setCreator(this.creator.toHexString());
         }
         if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXHeightMeasurementModel with the provided HeightMeasurement.
+     *
+     * @param heightMeasurement The HeightMeasurement object containing the data to update.
+     * @return The updated OpenCDXHeightMeasurementModel.
+     */
+    public OpenCDXHeightMeasurementModel update(HeightMeasurement heightMeasurement) {
+        this.patientId = new OpenCDXIdentifier(heightMeasurement.getPatientId());
+        this.nationalHealthId = heightMeasurement.getNationalHealthId();
+        this.height = heightMeasurement.getHeight();
+        this.unitsOfMeasure = heightMeasurement.getUnitsOfMeasure();
+        if (heightMeasurement.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    heightMeasurement.getCreated().getSeconds(),
+                    heightMeasurement.getCreated().getNanos());
+        }
+
+        return this;
     }
 }

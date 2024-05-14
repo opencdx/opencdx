@@ -127,8 +127,10 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
 
     @Override
     public TestCase updateTestCase(TestCase request) {
-        OpenCDXTestCaseModel openCDXTestCaseModel =
-                this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
+        OpenCDXTestCaseModel openCDXTestCaseModel = this.openCDXTestCaseRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find TestCase: " + request.getId()));
+        openCDXTestCaseModel = this.openCDXTestCaseRepository.save(openCDXTestCaseModel.update(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(

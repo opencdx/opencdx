@@ -33,7 +33,7 @@ public class JwtTokenUtil {
             "mDRM4yJevI7le6eo3PIMM2spJD0IgGcl/Hc5jtqMNQ24oOtv3lkAbyvteyD9yepbd/6ALk0af0YxlQUFm2Lm2g==";
     private static final String JWT_ISSUER = "opencdx.cdx";
 
-    private JwtParser jwtParser;
+    private final JwtParser jwtParser;
     /**
      * Default Constructor
      */

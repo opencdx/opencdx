@@ -25,7 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -40,6 +40,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXDeviceModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private String type;
     private String model;
@@ -73,9 +76,16 @@ public class OpenCDXDeviceModel {
     private String shortDescription;
     private String description;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -282,5 +292,59 @@ public class OpenCDXDeviceModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXDeviceModel object with the properties from the given Device object.
+     *
+     * @param device The Device object containing the updated properties.
+     * @return The updated OpenCDXDeviceModel object.
+     */
+    public OpenCDXDeviceModel update(Device device) {
+        this.type = device.getType();
+        this.model = device.getModel();
+        this.manufacturerId = new OpenCDXIdentifier(device.getManufacturerId());
+        this.manufacturerCountryId = new OpenCDXIdentifier(device.getManufacturerCountryId());
+        this.vendorId = new OpenCDXIdentifier(device.getVendorId());
+        this.vendorCountryId = new OpenCDXIdentifier(device.getVendorCountryId());
+        this.lidrId = device.getLidrId();
+        if (device.hasManufactureDate()) {
+            this.manufacturerDate = Instant.ofEpochSecond(
+                    device.getManufactureDate().getSeconds(),
+                    device.getManufactureDate().getNanos());
+        }
+        if (device.hasExpiryDate()) {
+            this.expiryDate = Instant.ofEpochSecond(
+                    device.getExpiryDate().getSeconds(), device.getExpiryDate().getNanos());
+        }
+        this.batchNumber = device.getBatchNumber();
+        this.serialNumber = device.getSerialNumber();
+        this.testTypeId = device.getTestTypeId();
+        this.testSensitivity = device.getTestSensitivity();
+        this.testSpecificity = device.getTestSpecificity();
+        this.storageRequirements = device.getStorageRequirements();
+        if (device.hasTestValidationDate()) {
+            this.testValidationDate = Instant.ofEpochSecond(
+                    device.getTestValidationDate().getSeconds(),
+                    device.getTestValidationDate().getNanos());
+        }
+        this.approvalStatus = device.getApprovalStatus();
+        this.url = device.getUrl();
+        this.notes = device.getNotes();
+        this.safety = device.getSafety();
+        this.userInstructions = device.getUserInstructions();
+        this.limitations = device.getLimitations();
+        this.warrantyInfo = device.getWarrantyInfo();
+        this.intendedUseAge = device.getIntendedUseAge();
+        this.fdaAuthorized = device.getIsFdaAuthorized();
+        this.deviceStatus = device.getDeviceStatus();
+        this.associatedSoftwareVersion = device.getAssociatedSoftwareVersion();
+        this.testCaseIds =
+                device.getTestCaseIdsList().stream().map(OpenCDXIdentifier::new).toList();
+        this.name = device.getName();
+        this.shortDescription = device.getShortDescription();
+        this.description = device.getDescription();
+
+        return this;
     }
 }

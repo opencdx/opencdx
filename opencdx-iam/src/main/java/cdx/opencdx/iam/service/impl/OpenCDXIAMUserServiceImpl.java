@@ -273,11 +273,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, FAILED_TO_FIND_USER + request.getIamUser().getId()));
 
-        model.setUsername(request.getIamUser().getUsername());
-        model.setSystemName(request.getIamUser().getSystemName());
-        model.setType(request.getIamUser().getType());
-
-        model = this.openCDXIAMUserRepository.save(model);
+        model = this.openCDXIAMUserRepository.save(model.update(request.getIamUser()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(model);

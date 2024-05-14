@@ -30,6 +30,7 @@ import cdx.opencdx.grpc.data.SMSTemplate;
 import cdx.opencdx.grpc.service.communications.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +70,22 @@ class OpenCDXCommunicationSmsServiceImplTest {
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
         this.openCDXCommunicationSmsService = Mockito.mock(OpenCDXCommunicationSmsService.class);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationEventModel model = OpenCDXNotificationEventModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXSMSTemplateModel model = OpenCDXSMSTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())

@@ -73,6 +73,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String CODE_LIDR_RESULT_CONFORM = "lidr-result-conformances";
     private static final String CODE_LIDR_ALLOWED_RESULTS = "lidr-allowed-results";
     private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
+    private static final String FAILED_TO_FIND_QUESTIONNAIRE = "Failed to find Questionnaire: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -151,15 +152,14 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public Questionnaire updateQuestionnaire(QuestionnaireRequest request) {
-        if (!this.openCDXQuestionnaireRepository.existsById(
-                new OpenCDXIdentifier(request.getQuestionnaire().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    2,
-                    "FAILED_TO_FIND_ORGANIZATION" + request.getQuestionnaire().getId());
-        }
-        OpenCDXQuestionnaireModel model =
-                this.openCDXQuestionnaireRepository.save(new OpenCDXQuestionnaireModel(request.getQuestionnaire()));
+        OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
+                .findById(new OpenCDXIdentifier(request.getQuestionnaire().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        2,
+                        FAILED_TO_FIND_QUESTIONNAIRE
+                                + request.getQuestionnaire().getId()));
+        model = this.openCDXQuestionnaireRepository.save(model.update(request.getQuestionnaire()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -190,7 +190,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_QUESTIONNAIRE + request.getId()));
         return model.getProtobufMessage();
     }
 
@@ -203,7 +203,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     public Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_QUESTIONNAIRE + request.getId()));
 
         model = this.openCDXQuestionnaireRepository.save(populateQuestionChoices(model));
 
@@ -629,8 +629,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     if (tinkarCode.isPresent()) {
                         question = QuestionnaireItem.newBuilder(question)
                                 .clearAnswerOption()
-                                .addAllAnswerOption(
-                                        getAnswerOptions(tinkarCode.get().getCode(), tinkarCode.get().getSystem()))
+                                .addAllAnswerOption(getAnswerOptions(
+                                        tinkarCode.get().getCode(),
+                                        tinkarCode.get().getSystem()))
                                 .build();
                     }
                 }
@@ -663,14 +664,21 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     break;
                 case CODE_LIDR_ALLOWED_RESULTS:
                     response = openCDXTinkarClient.getAllowedResultConceptsFromResultConformance(
-                            TinkarGetRequest.newBuilder().setConceptId(
-                                    openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
-                                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials)
-                                            .getResultsList().getFirst().getConceptId()).build(), openCDXCallCredentials);
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(openCDXTinkarClient
+                                            .getResultConformanceConceptsFromLIDRRecord(
+                                                    TinkarGetRequest.newBuilder()
+                                                            .setConceptId(id)
+                                                            .build(),
+                                                    openCDXCallCredentials)
+                                            .getResultsList()
+                                            .getFirst()
+                                            .getConceptId())
+                                    .build(),
+                            openCDXCallCredentials);
                     break;
                 default:
                     break;
-
             }
 
             for (TinkarGetResult result : response.getResultsList()) {

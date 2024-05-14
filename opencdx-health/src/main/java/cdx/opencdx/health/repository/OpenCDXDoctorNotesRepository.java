@@ -20,6 +20,7 @@ import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXDoctorNotesModel;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -39,7 +40,7 @@ public interface OpenCDXDoctorNotesRepository extends OpenCDXRepository<OpenCDXD
      * @return the list of doctor notes
      */
     Page<OpenCDXDoctorNotesModel> findAllByPatientIdAndTags(
-            OpenCDXIdentifier patientId, String tags, Pageable pageable);
+            OpenCDXIdentifier patientId, List<String> tags, Pageable pageable);
 
     /**
      * Find all Doctor Notes by Patient ID and Date Range

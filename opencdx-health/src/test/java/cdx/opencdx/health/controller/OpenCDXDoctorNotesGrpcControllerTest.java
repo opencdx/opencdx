@@ -128,7 +128,7 @@ class OpenCDXDoctorNotesGrpcControllerTest {
                         PageRequest.of(1, 10),
                         1));
         Mockito.when(this.openCDXDoctorNotesRepository.findAllByPatientIdAndTags(
-                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(String.class), Mockito.any(Pageable.class)))
+                        Mockito.any(OpenCDXIdentifier.class), Mockito.any(), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXDoctorNotesModel.builder()
                                 .id(OpenCDXIdentifier.get())

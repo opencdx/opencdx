@@ -43,6 +43,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -159,7 +161,14 @@ class OpenCDXGrpcManufacturerControllerTest {
         Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(openCDXManufacturerModel));
+                .thenAnswer(new Answer<Optional<OpenCDXManufacturerModel>>() {
+                    @Override
+                    public Optional<OpenCDXManufacturerModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXManufacturerModel.builder().id(argument).build());
+                    }
+                });
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerContact(ContactInfo.newBuilder().build())

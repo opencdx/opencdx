@@ -101,8 +101,10 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
         }
 
         if (openCDXConnectedLabModel.isEmpty()) {
-            log.error("Failed to find connected lab for organizationId: " + organizationId + " and workspaceId: "
-                    + workspaceId);
+            log.error(
+                    "Failed to find connected lab for organizationId: {} and workspaceId: {}",
+                    organizationId,
+                    workspaceId);
             throw new OpenCDXNotFound(
                     DOMAIN,
                     7,
@@ -117,7 +119,7 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
             return connection.submitLabFindings(openCDXConnectedLabModel.get(), request);
 
         } catch (Exception e) {
-            log.error("Failed to load lab: " + openCDXConnectedLabModel.get().getIdentifier(), e);
+            log.error("Failed to load lab: {}", openCDXConnectedLabModel.get().getIdentifier(), e);
             throw new OpenCDXServiceUnavailable(
                     DOMAIN,
                     8,
@@ -167,16 +169,15 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
 
     @Override
     public UpdateConnectedLabResponse updateConnectedLab(UpdateConnectedLabRequest request) {
-        if (!this.openCDXConnectedLabRepository.existsById(
-                new OpenCDXIdentifier(request.getConnectedLab().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    2,
-                    FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLab().getId());
-        }
 
-        OpenCDXConnectedLabModel model =
-                this.openCDXConnectedLabRepository.save(new OpenCDXConnectedLabModel(request.getConnectedLab()));
+        OpenCDXConnectedLabModel model = this.openCDXConnectedLabRepository
+                .findById(new OpenCDXIdentifier(request.getConnectedLab().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        2,
+                        FAILED_TO_FIND_CONNECTED_LAB + request.getConnectedLab().getId()));
+
+        model = this.openCDXConnectedLabRepository.save(model.update(request.getConnectedLab()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

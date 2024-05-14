@@ -26,10 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the /health  api's
@@ -64,13 +61,16 @@ public class OpenCDXMedicationAdministrationRestController {
 
     /**
      * Method to get Medication Administration by ID
-     * @param request Medication Administration.
+     * @param id Medication Administration.
      * @return Response Medication.
      */
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Medication> getMedicationById(@RequestBody GetMedicationByIdRequest request) {
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Medication> getMedicationById(@PathVariable String id) {
         return new ResponseEntity<>(
-                this.openCDXMedicationAdministrationService.getMedicationById(request), HttpStatus.OK);
+                this.openCDXMedicationAdministrationService.getMedicationById(GetMedicationByIdRequest.newBuilder()
+                        .setMedicationId(id)
+                        .build()),
+                HttpStatus.OK);
     }
 
     /**
