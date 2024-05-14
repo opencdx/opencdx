@@ -36,6 +36,11 @@ public class AnalyzerConfig {
         log.info("Classification Analyzer Configuration Initializing.");
     }
 
+    /**
+     * Knowledge Service Bean
+     *
+     * @return KnowledgeService
+     */
     @Bean
     public KnowledgeService knowledgeService() {
         return new KnowledgeService();
