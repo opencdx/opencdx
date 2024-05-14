@@ -41,10 +41,7 @@ import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,10 +65,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
-    private static final String QUESTION_TYPE_CHOICE = "choice";
+    private static final String QUESTION_TYPE_OPEN_CHOICE = "open-choice";
     private static final String CODE_TINKAR = "tinkar";
+    private static final String CODE_LIDR_RECORDS = "lidr-records";
     private static final String CODE_LIDR_RESULT_CONFORM = "lidr-result-conformances";
     private static final String CODE_LIDR_ALLOWED_RESULTS = "lidr-allowed-results";
+    private static final String LIDR_QUESTION = "What was the result of the test?";
     private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
@@ -619,25 +618,34 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         if (model.getItems() != null) {
             List<QuestionnaireItem> questions = new ArrayList<>();
 
-            for (QuestionnaireItem question : model.getItems()) {
-                if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
-                    Optional<Code> tinkarCode = question.getCodeList().stream()
-                            .filter(code -> code.getSystem().equals(CODE_TINKAR)
-                                    || code.getSystem().equals(CODE_LIDR_ALLOWED_RESULTS)
-                                    || code.getSystem().equals(CODE_LIDR_RESULT_CONFORM))
-                            .findFirst();
-                    if (tinkarCode.isPresent()) {
-                        question = QuestionnaireItem.newBuilder(question)
-                                .clearAnswerOption()
-                                .addAllAnswerOption(
-                                        getAnswerOptions(tinkarCode.get().getCode(), tinkarCode.get().getSystem()))
-                                .build();
-                    }
-                }
-                questions.add(question);
-            }
+            if (model.getItems().size() == 1) {
 
-            model.setItems(questions);
+                model.setItems(populateLidrDevice(model.getItems().getFirst()));
+
+                return model;
+            } else {
+
+                for (QuestionnaireItem question : model.getItems()) {
+                    if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
+                        Optional<Code> tinkarCode = question.getCodeList().stream()
+                                .filter(code -> code.getSystem().equals(CODE_TINKAR)
+                                        || code.getSystem().equals(CODE_LIDR_ALLOWED_RESULTS)
+                                        || code.getSystem().equals(CODE_LIDR_RESULT_CONFORM))
+                                .findFirst();
+                        if (tinkarCode.isPresent()) {
+                            question = QuestionnaireItem.newBuilder(question)
+                                    .clearAnswerOption()
+                                    .addAllAnswerOption(getAnswerOptions(
+                                            tinkarCode.get().getCode(),
+                                            tinkarCode.get().getSystem()))
+                                    .build();
+                        }
+                    }
+                    questions.add(question);
+                }
+
+                model.setItems(questions);
+            }
         }
 
         return model;
@@ -657,20 +665,44 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     response = openCDXTinkarClient.getTinkarChildConcepts(
                             TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
                     break;
+                case CODE_LIDR_RECORDS:
+                    response = openCDXTinkarClient.getLIDRRecordConceptsFromTestKit(
+                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+
+                    for (TinkarGetResult result : response.getResultsList()) {
+                        TinkarGetResponse responseWithDescription = openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                                TinkarGetRequest.newBuilder().setConceptId(result.getConceptId()).build(), openCDXCallCredentials);
+
+                        Coding coding =
+                                Coding.newBuilder().setDisplay(responseWithDescription
+                                        .getResultsList().getFirst().getDescription()).build();
+                        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                                .setValueCoding(coding)
+                                .build());
+                    }
+
+                    return answerOptions;
                 case CODE_LIDR_RESULT_CONFORM:
                     response = openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
                             TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
                     break;
                 case CODE_LIDR_ALLOWED_RESULTS:
                     response = openCDXTinkarClient.getAllowedResultConceptsFromResultConformance(
-                            TinkarGetRequest.newBuilder().setConceptId(
-                                    openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
-                                            TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials)
-                                            .getResultsList().getFirst().getConceptId()).build(), openCDXCallCredentials);
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(openCDXTinkarClient
+                                            .getResultConformanceConceptsFromLIDRRecord(
+                                                    TinkarGetRequest.newBuilder()
+                                                            .setConceptId(id)
+                                                            .build(),
+                                                    openCDXCallCredentials)
+                                            .getResultsList()
+                                            .getFirst()
+                                            .getConceptId())
+                                    .build(),
+                            openCDXCallCredentials);
                     break;
                 default:
                     break;
-
             }
 
             for (TinkarGetResult result : response.getResultsList()) {
@@ -685,5 +717,64 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
 
         return answerOptions;
+    }
+
+    private List<QuestionnaireItem> populateLidrDevice(QuestionnaireItem question) {
+        List<QuestionnaireItem> questions = new ArrayList<>();
+
+        if (question.getCodeCount() > 0) {
+            Optional<Code> tinkarCode = question.getCodeList().stream()
+                    .filter(code -> code.getSystem().equals(CODE_LIDR_RECORDS))
+                    .findFirst();
+            if (tinkarCode.isPresent()) {
+                question = QuestionnaireItem.newBuilder(question)
+                        .clearAnswerOption()
+                        .addAllAnswerOption(getAnswerOptions(
+                                tinkarCode.get().getCode(),
+                                tinkarCode.get().getSystem()))
+                        .build();
+                questions.add(question);
+
+                OpenCDXCallCredentials openCDXCallCredentials =
+                        new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+                TinkarGetResponse response = openCDXTinkarClient.getLIDRRecordConceptsFromTestKit(
+                        TinkarGetRequest.newBuilder()
+                                .setConceptId(tinkarCode.get().getCode())
+                                .build(),
+                        openCDXCallCredentials);
+                for (TinkarGetResult result : response.getResultsList()) {
+                    Random random = new Random();
+                    long linkId = random.nextLong(9000000000000L) + 1000000000000L;
+
+                    TinkarGetResponse responseWithDescription = openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                            TinkarGetRequest.newBuilder().setConceptId(result.getConceptId()).build(), openCDXCallCredentials);
+
+                    QuestionnaireItem resultsQuestion = QuestionnaireItem.newBuilder()
+                            .setLinkId(Long.toString(linkId))
+                            .setText(LIDR_QUESTION)
+                            .addCode(Code.newBuilder()
+                                    .setSystem(CODE_LIDR_ALLOWED_RESULTS)
+                                    .setCode(result.getConceptId())
+                                    .build())
+                            .addEnableWhen(QuestionnaireEnableWhen.newBuilder()
+                                    .setQuestion(question.getLinkId())
+                                    .setOperator("=")
+                                    .setAnswerCoding(Coding.newBuilder()
+                                            .setDisplay(responseWithDescription.getResultsList().getFirst().getDescription())
+                                            .build())
+                                    .build())
+                            .setType(QUESTION_TYPE_OPEN_CHOICE)
+                            .build();
+                    resultsQuestion = QuestionnaireItem.newBuilder(resultsQuestion)
+                            .addAllAnswerOption(getAnswerOptions(
+                                    tinkarCode.get().getCode(),
+                                    tinkarCode.get().getSystem()))
+                            .build();
+                    questions.add(resultsQuestion);
+                }
+            }
+        }
+
+        return questions;
     }
 }
