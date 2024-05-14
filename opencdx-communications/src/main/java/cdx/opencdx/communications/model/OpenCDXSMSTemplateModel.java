@@ -131,6 +131,13 @@ public class OpenCDXSMSTemplateModel {
         return builder.build();
     }
 
+    /**
+     * Updates the fields of the OpenCDXSMSTemplateModel object with the values from the provided
+     * SMSTemplate object.
+     *
+     * @param template The SMSTemplate object containing the updated values.
+     * @return The updated OpenCDXSMSTemplateModel object.
+     */
     public OpenCDXSMSTemplateModel update(SMSTemplate template) {
         this.templateType = template.getTemplateType();
         this.message = template.getMessage();

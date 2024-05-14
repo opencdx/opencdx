@@ -191,6 +191,12 @@ public class OpenCDXMediaModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXMediaModel with the values from the given Media object.
+     *
+     * @param media The Media object containing the updated values.
+     * @return The updated OpenCDXMediaModel.
+     */
     public OpenCDXMediaModel update(Media media) {
         if (media.hasUpdatedAt()) {
             this.updated = Instant.ofEpochSecond(

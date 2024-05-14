@@ -294,6 +294,12 @@ public class OpenCDXDeviceModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXDeviceModel object with the properties from the given Device object.
+     *
+     * @param device The Device object containing the updated properties.
+     * @return The updated OpenCDXDeviceModel object.
+     */
     public OpenCDXDeviceModel update(Device device) {
         this.type = device.getType();
         this.model = device.getModel();

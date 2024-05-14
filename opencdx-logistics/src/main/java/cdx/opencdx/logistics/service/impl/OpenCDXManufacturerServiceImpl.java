@@ -37,13 +37,14 @@ import cdx.opencdx.logistics.service.OpenCDXManufacturerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for Manufacturer Protobuf Messages
@@ -58,7 +59,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     private static final String FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL =
             "Failed to convert OpenCDXManufacturerModel";
     private static final String OBJECT = "OBJECT";
-    public static final String FAILED_TO_FIND_MANUFACTURER = "Failed to find manufacturer: ";
+    private static final String FAILED_TO_FIND_MANUFACTURER = "Failed to find manufacturer: ";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;

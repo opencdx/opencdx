@@ -20,7 +20,6 @@ import cdx.opencdx.commons.model.OpenCDXAddressModel;
 import cdx.opencdx.grpc.data.Medication;
 import cdx.opencdx.grpc.data.Vaccine;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Vaccine in Mongo.  Features conversions
@@ -144,6 +145,12 @@ public class OpenCDXVaccineModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXVaccineModel object with the data from the given Vaccine object.
+     *
+     * @param vaccine The Vaccine object containing the updated data.
+     * @return The updated OpenCDXVaccineModel object.
+     */
     public OpenCDXVaccineModel update(Vaccine vaccine) {
         this.id = new OpenCDXIdentifier(vaccine.getId());
         this.patientId = new OpenCDXIdentifier(vaccine.getPatientId());

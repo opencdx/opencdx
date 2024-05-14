@@ -77,6 +77,12 @@ public class OpenCDXUserQuestionnaireModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXUserQuestionnaireModel with the given UserQuestionnaireData.
+     *
+     * @param data The UserQuestionnaireData object containing the data to update the model.
+     * @return The updated OpenCDXUserQuestionnaireModel instance.
+     */
     public OpenCDXUserQuestionnaireModel update(UserQuestionnaireData data) {
 
         this.patientId = new OpenCDXIdentifier(data.getPatientId());

@@ -143,6 +143,12 @@ public class OpenCDXHeightMeasurementModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXHeightMeasurementModel with the provided HeightMeasurement.
+     *
+     * @param heightMeasurement The HeightMeasurement object containing the data to update.
+     * @return The updated OpenCDXHeightMeasurementModel.
+     */
     public OpenCDXHeightMeasurementModel update(HeightMeasurement heightMeasurement) {
         this.patientId = new OpenCDXIdentifier(heightMeasurement.getPatientId());
         this.nationalHealthId = heightMeasurement.getNationalHealthId();

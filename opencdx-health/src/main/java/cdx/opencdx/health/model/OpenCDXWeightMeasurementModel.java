@@ -143,6 +143,12 @@ public class OpenCDXWeightMeasurementModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXWeightMeasurementModel with the given WeightMeasurement object.
+     *
+     * @param weightMeasurement The WeightMeasurement object to update the model with.
+     * @return The updated OpenCDXWeightMeasurementModel instance.
+     */
     public OpenCDXWeightMeasurementModel update(WeightMeasurement weightMeasurement) {
         this.patientId = new OpenCDXIdentifier(weightMeasurement.getPatientId());
         this.nationalHealthId = weightMeasurement.getNationalHealthId();

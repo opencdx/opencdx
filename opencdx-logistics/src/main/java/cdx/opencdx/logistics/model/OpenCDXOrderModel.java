@@ -140,6 +140,12 @@ public class OpenCDXOrderModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXOrderModel instance with the values from the given Order object.
+     *
+     * @param order The Order object containing the updated values.
+     * @return The updated OpenCDXOrderModel instance.
+     */
     public OpenCDXOrderModel update(Order order) {
 
         this.shippingName = order.getShippingName();

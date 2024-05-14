@@ -150,6 +150,12 @@ public class OpenCDXConnectedTestModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXConnectedTestModel object with the values provided by the ConnectedTest object.
+     *
+     * @param connectedTest the ConnectedTest object with updated values
+     * @return the updated OpenCDXConnectedTestModel object
+     */
     public OpenCDXConnectedTestModel update(ConnectedTest connectedTest) {
         this.patientId = new OpenCDXIdentifier(connectedTest.getBasicInfo().getPatientId());
         this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();

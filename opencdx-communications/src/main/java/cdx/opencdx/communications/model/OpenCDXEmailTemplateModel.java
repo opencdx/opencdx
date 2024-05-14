@@ -135,6 +135,12 @@ public class OpenCDXEmailTemplateModel {
         return builder.build();
     }
 
+    /**
+     * Updates the current OpenCDXEmailTemplateModel with the values from the given EmailTemplate.
+     *
+     * @param template The EmailTemplate containing the values to update the model with.
+     * @return The updated OpenCDXEmailTemplateModel.
+     */
     public OpenCDXEmailTemplateModel update(EmailTemplate template) {
         this.templateType = template.getTemplateType();
         this.subject = template.getSubject();

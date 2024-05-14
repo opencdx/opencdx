@@ -161,6 +161,12 @@ public class OpenCDXManufacturerModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXManufacturerModel with the information provided in the Manufacturer object.
+     *
+     * @param manufacturer the Manufacturer object containing the updated information
+     * @return the updated OpenCDXManufacturerModel
+     */
     public OpenCDXManufacturerModel update(Manufacturer manufacturer) {
         this.setName(manufacturer.getName());
         if (manufacturer.hasManufacturerAddress()) {

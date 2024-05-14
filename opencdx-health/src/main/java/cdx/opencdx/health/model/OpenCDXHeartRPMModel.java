@@ -137,6 +137,12 @@ public class OpenCDXHeartRPMModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXHeartRPMModel with the provided HeartRPM data.
+     *
+     * @param heartRPM the HeartRPM instance containing the data to update the OpenCDXHeartRPMModel
+     * @return the updated OpenCDXHeartRPMModel instance
+     */
     public OpenCDXHeartRPMModel update(HeartRPM heartRPM) {
         this.patientId = new OpenCDXIdentifier(heartRPM.getPatientId());
         this.nationalHealthId = heartRPM.getNationalHealthId();

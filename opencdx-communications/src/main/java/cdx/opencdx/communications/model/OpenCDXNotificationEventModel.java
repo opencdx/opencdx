@@ -170,6 +170,12 @@ public class OpenCDXNotificationEventModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXNotificationEventModel with the information from a given NotificationEvent.
+     *
+     * @param event The NotificationEvent object containing the updated information.
+     * @return The updated OpenCDXNotificationEventModel.
+     */
     public OpenCDXNotificationEventModel update(NotificationEvent event) {
         this.eventName = event.getEventName();
         this.eventDescription = event.getEventDescription();

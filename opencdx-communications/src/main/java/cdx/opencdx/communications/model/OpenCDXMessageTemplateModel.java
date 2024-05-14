@@ -137,6 +137,12 @@ public class OpenCDXMessageTemplateModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXMessageTemplateModel with the values from the given MessageTemplate.
+     *
+     * @param template The MessageTemplate object containing the updated values.
+     * @return The updated OpenCDXMessageTemplateModel.
+     */
     public OpenCDXMessageTemplateModel update(MessageTemplate template) {
         this.variables = new ArrayList<>(template.getVariablesList());
         this.title = template.getTitle();

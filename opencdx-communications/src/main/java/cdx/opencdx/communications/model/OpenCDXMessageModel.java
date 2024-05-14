@@ -131,6 +131,12 @@ public class OpenCDXMessageModel {
         return builder.build();
     }
 
+    /**
+     * Updates the fields of the OpenCDXMessageModel object based on the provided Message.
+     *
+     * @param message The Message object containing the updated data.
+     * @return This OpenCDXMessageModel object, with the fields updated based on the provided Message.
+     */
     public OpenCDXMessageModel update(Message message) {
         this.patientId = new OpenCDXIdentifier(message.getPatientId());
         this.title = message.getTitle();

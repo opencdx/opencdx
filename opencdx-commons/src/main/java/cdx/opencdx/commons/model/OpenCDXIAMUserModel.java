@@ -183,6 +183,12 @@ public class OpenCDXIAMUserModel {
         return builder.build();
     }
 
+    /**
+     * Updates the fields of the OpenCDXIAMUserModel object with the values from the given IamUser object.
+     *
+     * @param iamUser The IamUser object containing the updated field values.
+     * @return The updated OpenCDXIAMUserModel object.
+     */
     public OpenCDXIAMUserModel update(IamUser iamUser) {
         this.systemName = iamUser.getSystemName();
 

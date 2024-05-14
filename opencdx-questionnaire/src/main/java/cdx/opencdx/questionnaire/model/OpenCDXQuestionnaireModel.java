@@ -179,6 +179,12 @@ public class OpenCDXQuestionnaireModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXQuestionnaireModel with the information from the given Questionnaire object.
+     *
+     * @param questionnaire the Questionnaire object to update the OpenCDXQuestionnaireModel with
+     * @return the updated OpenCDXQuestionnaireModel
+     */
     public OpenCDXQuestionnaireModel update(Questionnaire questionnaire) {
         this.resourceType = questionnaire.getResourceType();
         this.title = questionnaire.getTitle();

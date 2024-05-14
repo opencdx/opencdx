@@ -182,6 +182,12 @@ public class OpenCDXConnectedLabModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXConnectedLabModel with the given ConnectedLab object.
+     *
+     * @param lab the ConnectedLab object containing the updated lab information
+     * @return the updated OpenCDXConnectedLabModel object
+     */
     public OpenCDXConnectedLabModel update(ConnectedLab lab) {
         this.name = lab.getName();
         this.identifier = lab.getIdentifier();

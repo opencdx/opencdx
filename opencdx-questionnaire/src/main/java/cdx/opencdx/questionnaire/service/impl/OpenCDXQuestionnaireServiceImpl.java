@@ -74,7 +74,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String CODE_LIDR_RESULT_CONFORM = "lidr-result-conformances";
     private static final String CODE_LIDR_ALLOWED_RESULTS = "lidr-allowed-results";
     private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
-    public static final String FAILED_TO_FIND_QUESTIONNAIRE = "Failed to find Questionnaire: ";
+    private static final String FAILED_TO_FIND_QUESTIONNAIRE = "Failed to find Questionnaire: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;

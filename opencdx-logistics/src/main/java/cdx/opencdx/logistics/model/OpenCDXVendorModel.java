@@ -159,6 +159,12 @@ public class OpenCDXVendorModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXVendorModel with the provided Vendor information.
+     *
+     * @param vendor the Vendor object containing the updated information
+     * @return the updated OpenCDXVendorModel object
+     */
     public OpenCDXVendorModel update(Vendor vendor) {
         this.setName(vendor.getVendorName());
         if (vendor.hasVendorAddress()) {

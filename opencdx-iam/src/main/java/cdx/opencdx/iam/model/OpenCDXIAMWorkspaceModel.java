@@ -189,6 +189,12 @@ public class OpenCDXIAMWorkspaceModel {
         return builder.build();
     }
 
+    /**
+     * Updates an OpenCDXIAMWorkspaceModel object with the given Workspace object's information.
+     *
+     * @param workspace the Workspace object containing the updated information
+     * @return the updated OpenCDXIAMWorkspaceModel object
+     */
     public OpenCDXIAMWorkspaceModel update(Workspace workspace) {
         this.name = workspace.getName();
         this.description = workspace.getDescription();

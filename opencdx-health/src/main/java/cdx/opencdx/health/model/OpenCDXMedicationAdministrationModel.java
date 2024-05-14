@@ -138,6 +138,12 @@ public class OpenCDXMedicationAdministrationModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXMedicationAdministrationModel with the given MedicationAdministration object.
+     *
+     * @param medicationAdministration The MedicationAdministration object to update the model with.
+     * @return The updated OpenCDXMedicationAdministrationModel object.
+     */
     public OpenCDXMedicationAdministrationModel update(MedicationAdministration medicationAdministration) {
         this.medicationId = new OpenCDXIdentifier(medicationAdministration.getMedicationId());
         this.patientId = new OpenCDXIdentifier(medicationAdministration.getPatientId());

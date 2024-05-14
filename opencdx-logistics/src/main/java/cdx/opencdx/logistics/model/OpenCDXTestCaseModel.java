@@ -199,6 +199,12 @@ public class OpenCDXTestCaseModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXTestCaseModel with the given TestCase.
+     *
+     * @param testCase The TestCase to update the OpenCDXTestCaseModel with.
+     * @return The updated OpenCDXTestCaseModel instance.
+     */
     public OpenCDXTestCaseModel update(TestCase testCase) {
         if (testCase.hasManufacturerId()) {
             this.manufacturerId = new OpenCDXIdentifier(testCase.getManufacturerId());

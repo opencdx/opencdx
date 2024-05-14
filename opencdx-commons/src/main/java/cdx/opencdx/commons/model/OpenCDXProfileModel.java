@@ -224,6 +224,12 @@ public class OpenCDXProfileModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXProfileModel with the data from the given UserProfile.
+     *
+     * @param userProfile The UserProfile object containing the updated data.
+     * @return The updated OpenCDXProfileModel object.
+     */
     public OpenCDXProfileModel update(UserProfile userProfile) {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();

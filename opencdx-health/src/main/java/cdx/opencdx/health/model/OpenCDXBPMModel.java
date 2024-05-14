@@ -155,6 +155,12 @@ public class OpenCDXBPMModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXBPMModel object with the data from the provided BPM object.
+     *
+     * @param bpm The BPM object containing the data to update the OpenCDXBPMModel with.
+     * @return The updated OpenCDXBPMModel.
+     */
     public OpenCDXBPMModel update(BPM bpm) {
         if (bpm.hasId()) {
             this.id = new OpenCDXIdentifier(bpm.getId());

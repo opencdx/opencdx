@@ -193,6 +193,12 @@ public class OpenCDXNotificationModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXNotificationModel with the information from the given Notification.
+     *
+     * @param notification The Notification object containing the updated information.
+     * @return The updated OpenCDXNotificationModel.
+     */
     public OpenCDXNotificationModel update(Notification notification) {
         this.emailFailCount = 0;
         this.smsFailCount = 0;

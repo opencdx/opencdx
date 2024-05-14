@@ -37,13 +37,14 @@ import cdx.opencdx.logistics.service.OpenCDXCountryService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for Country Protobuf messages
@@ -57,7 +58,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     private static final String COUNTRY = "COUNTRY: ";
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL = "Failed to convert OpenCDXCountryModel";
-    public static final String FAILED_TO_FIND_COUNTRY = "Failed to find country: ";
+    private static final String FAILED_TO_FIND_COUNTRY = "Failed to find country: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;

@@ -194,6 +194,12 @@ public class OpenCDXCountryModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXCountryModel with information from the given Country object.
+     *
+     * @param country the Country object containing the updated information
+     * @return the updated OpenCDXCountryModel object
+     */
     public OpenCDXCountryModel update(Country country) {
         this.name = country.getName();
         this.iso2 = country.getIso2();

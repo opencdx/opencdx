@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.commons.config;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.converters.OpenCDXIdentifierCodec;
@@ -73,6 +70,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
 /**
  * Autoconfiguraiton class for opencdx-commons.
  */
@@ -92,7 +92,7 @@ public class CommonsConfig {
     /**
      * OpenCDXCurrentUser Bean
      * @param openCDXCurrentUser Helper to find current user.
-     * @return AuditorAware<OpenCDXIdentifier> for use by the system.
+     * @return AuditorAware for use by the system.
      */
     @Bean
     public AuditorAware<OpenCDXIdentifier> auditorProvider(OpenCDXCurrentUser openCDXCurrentUser) {

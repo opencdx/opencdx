@@ -149,6 +149,12 @@ public class OpenCDXAllergyModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXAllergyModel with the information from the given KnownAllergy object.
+     *
+     * @param knownAllergy the KnownAllergy object to update the OpenCDXAllergyModel with
+     * @return the updated OpenCDXAllergyModel
+     */
     public OpenCDXAllergyModel update(KnownAllergy knownAllergy) {
         this.patientId = new OpenCDXIdentifier(knownAllergy.getPatientId());
         this.nationalHealthId = knownAllergy.getNationalHealthId();

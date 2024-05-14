@@ -186,6 +186,12 @@ public class OpenCDXIAMOrganizationModel {
         return builder.build();
     }
 
+    /**
+     * Updates the OpenCDXIAMOrganizationModel with the given organization details.
+     *
+     * @param organization the Organization object containing the updated information
+     * @return the updated OpenCDXIAMOrganizationModel
+     */
     public OpenCDXIAMOrganizationModel update(Organization organization) {
         this.name = organization.getName();
         this.description = organization.getDescription();
