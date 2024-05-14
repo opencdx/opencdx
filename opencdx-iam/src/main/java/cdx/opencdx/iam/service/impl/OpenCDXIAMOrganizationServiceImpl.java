@@ -128,15 +128,14 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     @Override
     public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request) {
 
-        if (!this.openCDXIAMOrganizationRepository.existsById(
-                new OpenCDXIdentifier(request.getOrganization().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    3,
-                    "FAILED_TO_FIND_ORGANIZATION" + request.getOrganization().getId());
-        }
-        OpenCDXIAMOrganizationModel model =
-                this.openCDXIAMOrganizationRepository.save(new OpenCDXIAMOrganizationModel(request.getOrganization()));
+        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository
+                .findById(new OpenCDXIdentifier(request.getOrganization().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        4,
+                        "FAILED_TO_FIND_ORGANIZATION"
+                                + request.getOrganization().getId()));
+        model = this.openCDXIAMOrganizationRepository.save(model.update(request.getOrganization()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
