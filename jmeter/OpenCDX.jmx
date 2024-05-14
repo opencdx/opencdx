@@ -978,7 +978,7 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId_g}&quot; ]}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${deviceId_g}&quot;,&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId_g}&quot; ]}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
             <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Logistics /  Get Device" enabled="true">

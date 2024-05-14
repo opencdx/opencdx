@@ -45,6 +45,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -162,7 +164,15 @@ class OpenCDXGrpcTestCaseControllerTest {
         Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(openCDXTestCaseModel));
+                .thenAnswer(new Answer<Optional<OpenCDXTestCaseModel>>() {
+                    @Override
+                    public Optional<OpenCDXTestCaseModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXTestCaseModel.builder().id(argument).build());
+                    }
+                });
+        ;
         TestCase testCase = TestCase.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .setManufacturerId(OpenCDXIdentifier.get().toHexString())

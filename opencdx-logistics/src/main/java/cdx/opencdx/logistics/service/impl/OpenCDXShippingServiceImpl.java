@@ -166,10 +166,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                 .findById(model.getPatientId())
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 7, FAILED_TO_FIND_PROFILE + patientId));
 
-        model.setShippingAddress(request.getOrder().getShippingAddress());
-        model.setTestCaseID(new OpenCDXIdentifier(request.getOrder().getTestCaseId()));
-
-        model = this.openCDXOrderRepository.save(model);
+        model = this.openCDXOrderRepository.save(model.update(request.getOrder()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

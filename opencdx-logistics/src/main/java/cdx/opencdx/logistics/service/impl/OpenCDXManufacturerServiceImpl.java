@@ -58,6 +58,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     private static final String FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL =
             "Failed to convert OpenCDXManufacturerModel";
     private static final String OBJECT = "OBJECT";
+    public static final String FAILED_TO_FIND_MANUFACTURER = "Failed to find manufacturer: ";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
@@ -98,8 +99,8 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
         return this.openCDXManufacturerRepository
                 .findById(new OpenCDXIdentifier(request.getManufacturerId()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()))
+                .orElseThrow(
+                        () -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_MANUFACTURER + request.getManufacturerId()))
                 .getProtobufMessage();
     }
 
@@ -139,8 +140,10 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     "country",
                     new OpenCDXIdentifier(request.getManufacturerAddress().getCountryId()));
         }
-        OpenCDXManufacturerModel openCDXManufacturerModel =
-                this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
+        OpenCDXManufacturerModel openCDXManufacturerModel = this.openCDXManufacturerRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_MANUFACTURER + request.getId()));
+        openCDXManufacturerModel = this.openCDXManufacturerRepository.save(openCDXManufacturerModel.update(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -175,7 +178,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
         OpenCDXManufacturerModel openCDXManufacturerModel = this.openCDXManufacturerRepository
                 .findById(openCDXIdentifier)
                 .orElseThrow(() ->
-                        new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()));
+                        new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_MANUFACTURER + request.getManufacturerId()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
