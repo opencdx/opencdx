@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.classification.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import cdx.opencdx.classification.analyzer.service.impl.OpenCDXAnalysisEngineImpl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
@@ -48,9 +45,7 @@ import cdx.opencdx.grpc.types.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import org.evrete.KnowledgeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -70,6 +65,13 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -128,6 +130,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Mock
     OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Autowired
+    KnowledgeService knowledgeService;
 
     @BeforeEach
     void beforeEach() {
@@ -289,7 +294,10 @@ class OpenCDXClassificationServiceImplTest {
                         .build());
 
         this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
-                this.openCDXMediaUpDownClient, this.openCDXTestCaseClient, this.openCDXCurrentUser);
+                this.openCDXMediaUpDownClient,
+                this.openCDXTestCaseClient,
+                this.openCDXCurrentUser,
+                this.knowledgeService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,

@@ -33,10 +33,6 @@ import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
 import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
 import io.micrometer.observation.annotation.Observed;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
@@ -47,6 +43,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 /**
  * Demonstration implementation of the OpenCDXAnalysisEngine class. This class is responsible for analyzing the patient's questionnaire and connected test data,
@@ -76,16 +77,18 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param openCDXMediaUpDownClient the OpenCDXMediaUpDownClient object to download media
      * @param openCDXTestCaseClient the OpenCDXTestCaseClient object to get test cases
      * @param openCDXCurrentUser the OpenCDXCurrentUser object to get the current user
+     * @param knowledgeService the KnowledgeService object to create rules knowledge
      */
     public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXTestCaseClient openCDXTestCaseClient,
-            OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXCurrentUser openCDXCurrentUser,
+            KnowledgeService knowledgeService) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.random = new Random();
-        this.knowledgeService = new KnowledgeService();
+        this.knowledgeService = knowledgeService;
     }
 
     /**
