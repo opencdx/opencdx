@@ -28,7 +28,9 @@ import io.micrometer.tracing.Span;
 import io.micrometer.tracing.TraceContext;
 import io.micrometer.tracing.Tracer;
 import io.nats.client.*;
-import io.nats.client.api.*;
+import io.nats.client.api.StorageType;
+import io.nats.client.api.StreamConfiguration;
+import io.nats.client.api.StreamInfo;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
@@ -94,8 +96,9 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
             StreamInfo streamInfo = jetStreamManagement.addStream(configuration);
 
             if (streamInfo != null) {
-                log.info("JetStream created successfully: "
-                        + streamInfo.getConfiguration().getName());
+                log.info(
+                        "JetStream created successfully: {}",
+                        streamInfo.getConfiguration().getName());
             } else {
                 throw new OpenCDXInternal(DOMAIN, 3, "Failed to create JetStream");
             }

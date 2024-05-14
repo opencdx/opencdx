@@ -99,7 +99,7 @@ public class OpenCDXMedicationModel {
         try {
             this.dosageForm = DosageForm.valueOf(product.getDosage_form().toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Invalid dosage form: " + product.getDosage_form());
+            log.error("Invalid dosage form: {}", product.getDosage_form());
             this.dosageForm = DosageForm.OTHER_DOSAGE_FORM;
             this.otherDosageForm = product.getDosage_form();
         }
@@ -123,7 +123,7 @@ public class OpenCDXMedicationModel {
             this.administrationRoute =
                     MedicationAdministrationRoute.valueOf(product.getRoute().toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Invalid route of administration: " + product.getRoute());
+            log.error("Invalid route of administration: {}", product.getRoute());
             this.administrationRoute = MedicationAdministrationRoute.OTHER_ROUTE;
             this.otherAdministrationRoute = product.getRoute();
         }

@@ -24,7 +24,7 @@ import org.springframework.data.domain.AuditorAware;
  */
 public class AuditorAwareImpl implements AuditorAware<OpenCDXIdentifier> {
 
-    OpenCDXCurrentUser openCDXCurrentUser;
+    final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Constructor for AuditorAwareImpl

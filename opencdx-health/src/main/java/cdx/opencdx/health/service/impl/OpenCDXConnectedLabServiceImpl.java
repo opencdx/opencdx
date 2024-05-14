@@ -101,8 +101,10 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
         }
 
         if (openCDXConnectedLabModel.isEmpty()) {
-            log.error("Failed to find connected lab for organizationId: " + organizationId + " and workspaceId: "
-                    + workspaceId);
+            log.error(
+                    "Failed to find connected lab for organizationId: {} and workspaceId: {}",
+                    organizationId,
+                    workspaceId);
             throw new OpenCDXNotFound(
                     DOMAIN,
                     7,
@@ -117,7 +119,7 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
             return connection.submitLabFindings(openCDXConnectedLabModel.get(), request);
 
         } catch (Exception e) {
-            log.error("Failed to load lab: " + openCDXConnectedLabModel.get().getIdentifier(), e);
+            log.error("Failed to load lab: {}", openCDXConnectedLabModel.get().getIdentifier(), e);
             throw new OpenCDXServiceUnavailable(
                     DOMAIN,
                     8,

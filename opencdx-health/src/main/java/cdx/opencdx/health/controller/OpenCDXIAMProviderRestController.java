@@ -44,22 +44,28 @@ public class OpenCDXIAMProviderRestController {
 
     /**
      * Get a Provider by number.
-     * @param request for the provider.
+     * @param id for the provider.
      * @return Response with the organization.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<GetProviderResponse> getProviderByNumber(@RequestBody GetProviderRequest request) {
-        return new ResponseEntity<>(this.openCDXIAMProviderService.getProviderByNumber(request), HttpStatus.OK);
+    public ResponseEntity<GetProviderResponse> getProviderByNumber(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXIAMProviderService.getProviderByNumber(
+                        GetProviderRequest.newBuilder().setProviderNumber(id).build()),
+                HttpStatus.OK);
     }
 
     /**
      * Method to delete a provider.
-     * @param request Number of the provider to delete.
+     * @param id Number of the provider to delete.
      * @return Response with the deleted provider.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteProviderResponse> deleteProvider(@RequestBody DeleteProviderRequest request) {
-        return new ResponseEntity<>(this.openCDXIAMProviderService.deleteProvider(request), HttpStatus.OK);
+    public ResponseEntity<DeleteProviderResponse> deleteProvider(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXIAMProviderService.deleteProvider(
+                        DeleteProviderRequest.newBuilder().setProviderId(id).build()),
+                HttpStatus.OK);
     }
 
     /**

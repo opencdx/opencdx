@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -243,7 +244,7 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     new OpenCDXIdentifier(request.getPatientId()), request.getTags(), start, end, pageable);
         } else if (!request.getTags().isEmpty()) {
             all = this.openCDXDoctorNotesRepository.findAllByPatientIdAndTags(
-                    new OpenCDXIdentifier(request.getPatientId()), request.getTags(), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), List.of(request.getTags()), pageable);
         } else if (request.hasStartDate() && request.hasEndDate()) {
             Instant start = Instant.ofEpochSecond(
                     request.getStartDate().getSeconds(), request.getStartDate().getNanos());
