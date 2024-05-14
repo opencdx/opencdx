@@ -16,7 +16,9 @@
 package cdx.opencdx.classification.analyzer.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.evrete.KnowledgeService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -32,5 +34,10 @@ public class AnalyzerConfig {
     public AnalyzerConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
         log.info("Classification Analyzer Configuration Initializing.");
+    }
+
+    @Bean
+    public KnowledgeService knowledgeService() {
+        return new KnowledgeService();
     }
 }
