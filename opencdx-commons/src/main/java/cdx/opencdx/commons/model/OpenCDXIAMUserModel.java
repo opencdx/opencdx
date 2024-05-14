@@ -28,7 +28,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document("users")
 public class OpenCDXIAMUserModel {
+    @Version
+    private long version;
+
     @Id
     private OpenCDXIdentifier id;
 
@@ -63,9 +66,16 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Method to identify AgentType for Audit
@@ -171,5 +181,21 @@ public class OpenCDXIAMUserModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the fields of the OpenCDXIAMUserModel object with the values from the given IamUser object.
+     *
+     * @param iamUser The IamUser object containing the updated field values.
+     * @return The updated OpenCDXIAMUserModel object.
+     */
+    public OpenCDXIAMUserModel update(IamUser iamUser) {
+        this.systemName = iamUser.getSystemName();
+
+        this.username = iamUser.getUsername();
+        this.emailVerified = iamUser.getEmailVerified();
+        this.status = iamUser.getStatus();
+        this.type = iamUser.getType();
+        return this;
     }
 }

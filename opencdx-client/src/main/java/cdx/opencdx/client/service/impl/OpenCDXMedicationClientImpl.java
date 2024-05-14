@@ -17,62 +17,59 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.client.service.OpenCDXVendorClient;
-import cdx.opencdx.grpc.data.Vendor;
-import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.client.service.OpenCDXMedicationClient;
+import cdx.opencdx.grpc.data.Medication;
+import cdx.opencdx.grpc.service.health.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
-import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Implementation of the Vendor gRPC Client.
+ * Implementation of the Medication Administration gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
-
-    private static final String OPEN_CDX_VENDOR_CLIENT_IMPL = "OpenCDXVendorClientImpl";
-    private final VendorServiceGrpc.VendorServiceBlockingStub vendorServiceBlockingStub;
+public class OpenCDXMedicationClientImpl implements OpenCDXMedicationClient {
+    private static final String OPEN_CDX_MEDICATION_CLIENT_IMPL = "OpenCDXMedicationClientImpl";
+    private final MedicationServiceGrpc.MedicationServiceBlockingStub medicationServiceBlockingStub;
 
     /**
-     * Default Constructor used for normal operation.
-     * @param channel ManagedChannel for the gRPC Service invocations.
+     * Constructor for the Medication client implementation.
+     * @param channel gRPC Blocking Stub for Provider.
      */
-    @Generated
-    public OpenCDXVendorClientImpl(ManagedChannel channel) {
-        this.vendorServiceBlockingStub = VendorServiceGrpc.newBlockingStub(channel);
-    }
-    /**
-     * Constructor for creating the Vendor client implementation.
-     * @param vendorServiceBlockingStub gRPC Blocking Stub for Country.
-     */
-    public OpenCDXVendorClientImpl(VendorServiceGrpc.VendorServiceBlockingStub vendorServiceBlockingStub) {
-        this.vendorServiceBlockingStub = vendorServiceBlockingStub;
+    public OpenCDXMedicationClientImpl(ManagedChannel channel) {
+        this.medicationServiceBlockingStub = MedicationServiceGrpc.newBlockingStub(channel);
     }
 
     /**
-     * Method to gRPC Call Vendor Service getVendorById() api.
+     * Constructor for the Medication client implementation.
+     * @param medicationServiceBlockingStub gRPC Blocking Stub for Provider.
+     */
+    public OpenCDXMedicationClientImpl(
+            MedicationServiceGrpc.MedicationServiceBlockingStub medicationServiceBlockingStub) {
+        this.medicationServiceBlockingStub = medicationServiceBlockingStub;
+    }
+
+    /**
+     * Method to gRPC Call Medication prescribing() api.
      *
-     * @param request Client Rules request
+     * @param request                Medication to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public Vendor getVendorById(VendorIdRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+    public Medication prescribing(Medication request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            return vendorServiceBlockingStub
+            return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .getVendorById(request);
-
+                    .prescribing(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
-                    OPEN_CDX_VENDOR_CLIENT_IMPL,
+                    OPEN_CDX_MEDICATION_CLIENT_IMPL,
                     1,
                     status.getMessage(),
                     status.getDetailsList(),
@@ -81,26 +78,24 @@ public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
     }
 
     /**
-     * Method to gRPC Call Vendor Service addVendor() api.
+     * Method to gRPC Call Medication Service listAllMedications() api.
      *
-     * @param request Client Rules request
+     * @param request                EndMedicationRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public Vendor addVendor(Vendor request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+    public Medication ending(EndMedicationRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            return vendorServiceBlockingStub
+            return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .addVendor(request);
-
+                    .ending(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
-                    OPEN_CDX_VENDOR_CLIENT_IMPL,
-                    2,
+                    OPEN_CDX_MEDICATION_CLIENT_IMPL,
+                    1,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -108,26 +103,25 @@ public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
     }
 
     /**
-     * Method to gRPC Call Vendor Service updateVendor() api.
+     * Method to gRPC Call Medication Service listAllMedications() api.
      *
-     * @param request Client Rules request
+     * @param request                UpdateHeartRPMRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public Vendor updateVendor(Vendor request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+    public ListMedicationsResponse listAllMedications(
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            return vendorServiceBlockingStub
+            return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .updateVendor(request);
-
+                    .listAllMedications(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
-                    OPEN_CDX_VENDOR_CLIENT_IMPL,
-                    3,
+                    OPEN_CDX_MEDICATION_CLIENT_IMPL,
+                    1,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -135,26 +129,25 @@ public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
     }
 
     /**
-     * Method to gRPC Call Vendor Service deleteVendor() api.
+     * Method to gRPC Call Medication Service listCurrentMedications() api.
      *
-     * @param request Client Rules request
+     * @param request                ListMedicationsRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public DeleteResponse deleteVendor(VendorIdRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+    public ListMedicationsResponse listCurrentMedications(
+            ListMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            return vendorServiceBlockingStub
+            return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .deleteVendor(request);
-
+                    .listCurrentMedications(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
-                    OPEN_CDX_VENDOR_CLIENT_IMPL,
-                    4,
+                    OPEN_CDX_MEDICATION_CLIENT_IMPL,
+                    1,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -162,26 +155,25 @@ public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
     }
 
     /**
-     * Method to gRPC Call Vendor Service listVendors() api.
+     * Method to gRPC Call Medication Service searchMedications() api.
      *
-     * @param request Client Rules request
+     * @param request                SearchMedicationsRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public VendorsListResponse listVendors(VendorsListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
+    public ListMedicationsResponse searchMedications(
+            SearchMedicationsRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            return vendorServiceBlockingStub
+            return medicationServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .listVendors(request);
-
+                    .searchMedications(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
-                    OPEN_CDX_VENDOR_CLIENT_IMPL,
-                    5,
+                    OPEN_CDX_MEDICATION_CLIENT_IMPL,
+                    1,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);

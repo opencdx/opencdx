@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -39,6 +39,9 @@ public class OpenCDXTestCaseModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier manufacturerId;
     private OpenCDXIdentifier vendorId;
     private List<OpenCDXIdentifier> deviceIds;
@@ -52,9 +55,17 @@ public class OpenCDXTestCaseModel {
     private String userInstructions;
     private String limitations;
     private String lidrId;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -186,5 +197,41 @@ public class OpenCDXTestCaseModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXTestCaseModel with the given TestCase.
+     *
+     * @param testCase The TestCase to update the OpenCDXTestCaseModel with.
+     * @return The updated OpenCDXTestCaseModel instance.
+     */
+    public OpenCDXTestCaseModel update(TestCase testCase) {
+        if (testCase.hasManufacturerId()) {
+            this.manufacturerId = new OpenCDXIdentifier(testCase.getManufacturerId());
+        }
+        if (testCase.hasVendorId()) {
+            this.vendorId = new OpenCDXIdentifier(testCase.getVendorId());
+        }
+        if (testCase.hasPackagingDate()) {
+            this.packagingDate = Instant.ofEpochSecond(
+                    testCase.getPackagingDate().getSeconds(),
+                    testCase.getPackagingDate().getNanos());
+        }
+        this.lidrId = testCase.getLidrId();
+        if (testCase.hasExpiryDate()) {
+            this.expiryDate = Instant.ofEpochSecond(
+                    testCase.getExpiryDate().getSeconds(),
+                    testCase.getExpiryDate().getNanos());
+        }
+        this.deviceIds =
+                testCase.getDeviceIdsList().stream().map(OpenCDXIdentifier::new).toList();
+        this.nunberOftests = testCase.getNumberOfTests();
+        this.batchNumber = testCase.getBatchNumber();
+        this.serialNumber = testCase.getSerialNumber();
+        this.storageRequirements = testCase.getStorageRequirements();
+        this.safety = testCase.getSafety();
+        this.userInstructions = testCase.getUserInstructions();
+        this.limitations = testCase.getLimitations();
+        return this;
     }
 }

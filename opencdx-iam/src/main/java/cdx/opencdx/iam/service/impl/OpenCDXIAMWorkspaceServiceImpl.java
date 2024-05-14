@@ -135,15 +135,13 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
      */
     @Override
     public UpdateWorkspaceResponse updateWorkspace(UpdateWorkspaceRequest request) {
-        if (!this.openCDXIAMWorkspaceRepository.existsById(
-                new OpenCDXIdentifier(request.getWorkspace().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    3,
-                    "FAILED_TO_FIND_WORKSPACE" + request.getWorkspace().getId());
-        }
-        OpenCDXIAMWorkspaceModel model =
-                this.openCDXIAMWorkspaceRepository.save(new OpenCDXIAMWorkspaceModel(request.getWorkspace()));
+        OpenCDXIAMWorkspaceModel model = this.openCDXIAMWorkspaceRepository
+                .findById(new OpenCDXIdentifier(request.getWorkspace().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        "FAILED_TO_FIND_WORKSPACE" + request.getWorkspace().getId()));
+        model = this.openCDXIAMWorkspaceRepository.save(model.update(request.getWorkspace()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(

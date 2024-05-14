@@ -126,6 +126,44 @@ class OpenCDXGrpcCommunicationsControllerTest {
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
         this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
 
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXEmailTemplateModel model = OpenCDXEmailTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationEventModel model = OpenCDXNotificationEventModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXSMSTemplateModel model = OpenCDXSMSTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationModel model = OpenCDXNotificationModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
+        Mockito.when(this.openCDXMessageTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXMessageTemplateModel model = OpenCDXMessageTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
@@ -158,17 +196,10 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
                         .build()));
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(new OpenCDXSMSTemplateModel()));
 
         OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
         eventModel.setEmailTemplateId(OpenCDXIdentifier.get());
         eventModel.setSmsTemplateId(OpenCDXIdentifier.get());
-
-        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(eventModel));
 
         Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));

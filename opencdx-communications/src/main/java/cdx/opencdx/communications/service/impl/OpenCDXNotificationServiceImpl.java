@@ -186,6 +186,11 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         if (!notificationEvent.hasEventId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
         }
+        OpenCDXNotificationEventModel model = this.openCDXNotificationEventRepository
+                .findById(new OpenCDXIdentifier(notificationEvent.getEventId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 2, "Failed to find event notification: " + notificationEvent.getEventId()));
+        model = this.openCDXNotificationEventRepository.save(model.update(notificationEvent));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -202,8 +207,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXNotificationEventModel model =
-                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
         log.trace("Updated Notification Event: {}", model.getId());
         return model.getProtobufMessage();

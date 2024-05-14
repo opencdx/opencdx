@@ -49,15 +49,17 @@ class OpenCDXAnalysisEngineImplTest {
     OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     OpenCDXTestCaseClient openCDXTestCaseClient;
     OpenCDXCurrentUser openCDXCurrentUser;
+    KnowledgeService knowledgeService;
 
     @Test
     void getRuleSets() {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         Assertions.assertNotNull(engine.getRuleSets(request));
     }
 
@@ -66,9 +68,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -97,9 +100,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -129,9 +133,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
@@ -164,9 +169,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
@@ -199,9 +205,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
@@ -232,8 +239,7 @@ class OpenCDXAnalysisEngineImplTest {
         //                OpenCDXInternal.class,
         //                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media,
         // userQuestionnaireData));
-        Assertions.assertThrows(
-                NullPointerException.class,
+        Assertions.assertDoesNotThrow(
                 () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
     }
 
@@ -242,9 +248,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
@@ -284,9 +291,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -364,9 +372,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -444,9 +453,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -515,8 +525,7 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertThrows(
-                NullPointerException.class,
+        Assertions.assertDoesNotThrow(
                 () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
     }
 
@@ -525,9 +534,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -596,8 +606,7 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertThrows(
-                NullPointerException.class,
+        Assertions.assertDoesNotThrow(
                 () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
     }
 
@@ -606,9 +615,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -677,8 +687,7 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertThrows(
-                NullPointerException.class,
+        Assertions.assertDoesNotThrow(
                 () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
     }
 
@@ -687,9 +696,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("boolean")
@@ -771,9 +781,10 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
         this.openCDXTestCaseClient = Mockito.mock(OpenCDXTestCaseClient.class);
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
+        this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine =
-                new OpenCDXAnalysisEngineImpl(openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser);
+        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+                openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
                 .setType("string")

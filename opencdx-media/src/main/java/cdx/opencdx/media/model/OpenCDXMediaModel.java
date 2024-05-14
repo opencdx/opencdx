@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXMediaModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     Instant updated;
     OpenCDXIdentifier organization;
@@ -57,9 +60,16 @@ public class OpenCDXMediaModel {
     String endpoint;
     MediaStatus status;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -179,5 +189,33 @@ public class OpenCDXMediaModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXMediaModel with the values from the given Media object.
+     *
+     * @param media The Media object containing the updated values.
+     * @return The updated OpenCDXMediaModel.
+     */
+    public OpenCDXMediaModel update(Media media) {
+        if (media.hasUpdatedAt()) {
+            this.updated = Instant.ofEpochSecond(
+                    media.getUpdatedAt().getSeconds(), media.getUpdatedAt().getNanos());
+        } else {
+            this.updated = Instant.now();
+        }
+
+        this.organization = new OpenCDXIdentifier(media.getOrganizationId());
+        this.workspace = new OpenCDXIdentifier(media.getWorkspaceId());
+        this.name = media.getName();
+        this.shortDescription = media.getShortDescription();
+        this.description = media.getDescription();
+        this.mediaType = media.getType();
+        this.labels = new ArrayList<>(media.getLabelsList());
+        this.mimeType = media.getMimeType();
+        this.size = media.getSize();
+        this.location = media.getLocation();
+        this.endpoint = media.getEndpoint();
+        return this;
     }
 }

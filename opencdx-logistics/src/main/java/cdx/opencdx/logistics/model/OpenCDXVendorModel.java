@@ -29,7 +29,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -46,6 +46,9 @@ public class OpenCDXVendorModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private OpenCDXAddressModel address;
     private ContactInfo contact;
@@ -54,9 +57,17 @@ public class OpenCDXVendorModel {
     private String website;
     private String description;
     private List<String> certifications;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -146,5 +157,26 @@ public class OpenCDXVendorModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXVendorModel with the provided Vendor information.
+     *
+     * @param vendor the Vendor object containing the updated information
+     * @return the updated OpenCDXVendorModel object
+     */
+    public OpenCDXVendorModel update(Vendor vendor) {
+        this.setName(vendor.getVendorName());
+        if (vendor.hasVendorAddress()) {
+            this.address = new OpenCDXAddressModel(vendor.getVendorAddress());
+        }
+        this.setContact(vendor.getVendorContact());
+        this.setEmail(vendor.getVendorEmail());
+        this.setPhone(vendor.getVendorPhone());
+        this.setWebsite(vendor.getVendorWebsite());
+        this.setDescription(vendor.getVendorDescription());
+        this.setCertifications(vendor.getVendorCertificationsList());
+
+        return this;
     }
 }

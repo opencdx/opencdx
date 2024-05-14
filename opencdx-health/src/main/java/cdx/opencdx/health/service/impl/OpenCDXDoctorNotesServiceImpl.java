@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -148,10 +149,13 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
     public UpdateDoctorNotesResponse updateDoctorNotes(UpdateDoctorNotesRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 PROFILES, new OpenCDXIdentifier(request.getDoctorNotes().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "doctor-notes", new OpenCDXIdentifier(request.getDoctorNotes().getId()));
-        OpenCDXDoctorNotesModel model =
-                this.openCDXDoctorNotesRepository.save(new OpenCDXDoctorNotesModel(request.getDoctorNotes()));
+        OpenCDXDoctorNotesModel model = this.openCDXDoctorNotesRepository
+                .findById(new OpenCDXIdentifier(request.getDoctorNotes().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_DOCTOR_NOTES + request.getDoctorNotes().getId()));
+        model = this.openCDXDoctorNotesRepository.save(model.update(request.getDoctorNotes()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
@@ -240,7 +244,7 @@ public class OpenCDXDoctorNotesServiceImpl implements OpenCDXDoctorNotesService 
                     new OpenCDXIdentifier(request.getPatientId()), request.getTags(), start, end, pageable);
         } else if (!request.getTags().isEmpty()) {
             all = this.openCDXDoctorNotesRepository.findAllByPatientIdAndTags(
-                    new OpenCDXIdentifier(request.getPatientId()), request.getTags(), pageable);
+                    new OpenCDXIdentifier(request.getPatientId()), List.of(request.getTags()), pageable);
         } else if (request.hasStartDate() && request.hasEndDate()) {
             Instant start = Instant.ofEpochSecond(
                     request.getStartDate().getSeconds(), request.getStartDate().getNanos());

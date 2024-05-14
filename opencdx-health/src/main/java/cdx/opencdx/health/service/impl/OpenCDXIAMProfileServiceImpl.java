@@ -160,8 +160,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                             request.getUpdatedProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        OpenCDXProfileModel model =
-                this.openCDXProfileRepository.save(new OpenCDXProfileModel(request.getUpdatedProfile()));
+        OpenCDXProfileModel model = this.openCDXProfileRepository
+                .findById(new OpenCDXIdentifier(request.getUpdatedProfile().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_USER + request.getUserId()));
+        model = this.openCDXProfileRepository.save(model.update(request.getUpdatedProfile()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

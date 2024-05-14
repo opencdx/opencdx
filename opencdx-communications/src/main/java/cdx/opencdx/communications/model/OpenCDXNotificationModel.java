@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,6 +43,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXNotificationModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier patientId;
 
@@ -69,9 +72,16 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<OpenCDXIdentifier> recipients;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Constructor taking a Notification and generating the Model
@@ -181,5 +191,49 @@ public class OpenCDXNotificationModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXNotificationModel with the information from the given Notification.
+     *
+     * @param notification The Notification object containing the updated information.
+     * @return The updated OpenCDXNotificationModel.
+     */
+    public OpenCDXNotificationModel update(Notification notification) {
+        this.emailFailCount = 0;
+        this.smsFailCount = 0;
+        this.patientId = new OpenCDXIdentifier(notification.getPatientId());
+
+        this.eventId = new OpenCDXIdentifier(notification.getEventId());
+        if (notification.hasSmsStatus()) {
+            this.smsStatus = notification.getSmsStatus();
+        } else {
+            this.smsStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasEmailStatus()) {
+            this.emailStatus = notification.getEmailStatus();
+        } else {
+            this.emailStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasTimestamp()) {
+            this.timestamp = Instant.ofEpochSecond(
+                    notification.getTimestamp().getSeconds(),
+                    notification.getTimestamp().getNanos());
+        } else {
+            this.timestamp = Instant.now();
+        }
+
+        this.customData = notification.getCustomDataMap();
+        this.toEmail = notification.getToEmailList();
+        this.ccEmail = notification.getCcEmailList();
+        this.bccEmail = notification.getBccEmailList();
+        this.attachments = notification.getEmailAttachmentsList();
+        this.phoneNumbers = notification.getToPhoneNumberList();
+        this.variables = notification.getVariablesMap();
+        this.recipients = notification.getRecipientsIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
+
+        return this;
     }
 }

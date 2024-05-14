@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXNotificationEventModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private String eventName;
     private String eventDescription;
@@ -57,9 +60,16 @@ public class OpenCDXNotificationEventModel {
     @Builder.Default
     private Integer smsRetry = 0;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -158,5 +168,31 @@ public class OpenCDXNotificationEventModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXNotificationEventModel with the information from a given NotificationEvent.
+     *
+     * @param event The NotificationEvent object containing the updated information.
+     * @return The updated OpenCDXNotificationEventModel.
+     */
+    public OpenCDXNotificationEventModel update(NotificationEvent event) {
+        this.eventName = event.getEventName();
+        this.eventDescription = event.getEventDescription();
+        if (event.hasEmailTemplateId()) {
+            this.emailTemplateId = new OpenCDXIdentifier(event.getEmailTemplateId());
+        }
+        if (event.hasSmsTemplateId()) {
+            this.smsTemplateId = new OpenCDXIdentifier(event.getSmsTemplateId());
+        }
+        if (event.hasMessageTemplateId()) {
+            this.messageTemplateId = new OpenCDXIdentifier(event.getMessageTemplateId());
+        }
+        this.parameters = event.getEventParametersList();
+        this.sensitivityLevel = event.getSensitivity();
+        this.priority = event.getPriority();
+        this.smsRetry = event.getSmsRetry();
+        this.emailRetry = event.getEmailRetry();
+        return this;
     }
 }

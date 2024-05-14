@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -40,6 +40,9 @@ public class OpenCDXConnectedLabModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private String identifier;
     private OpenCDXIdentifier organizationId;
@@ -52,9 +55,17 @@ public class OpenCDXConnectedLabModel {
     private String labDescription;
     private List<String> labCertifications;
     private LabMetaDataProcessor labProcessor;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -169,5 +180,36 @@ public class OpenCDXConnectedLabModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXConnectedLabModel with the given ConnectedLab object.
+     *
+     * @param lab the ConnectedLab object containing the updated lab information
+     * @return the updated OpenCDXConnectedLabModel object
+     */
+    public OpenCDXConnectedLabModel update(ConnectedLab lab) {
+        this.name = lab.getName();
+        this.identifier = lab.getIdentifier();
+        this.organizationId = new OpenCDXIdentifier(lab.getOrganizationId());
+        this.workspaceId = new OpenCDXIdentifier(lab.getWorkspaceId());
+        this.contactInfo = lab.getContactInfo();
+        if (lab.hasLabAddress()) {
+            this.labAddress = lab.getLabAddress();
+        }
+        if (lab.hasLabEmail()) {
+            this.labEmail = lab.getLabEmail();
+        }
+        if (lab.hasLabPhone()) {
+            this.labPhone = lab.getLabPhone();
+        }
+        this.labWebsite = lab.getLabWebsite();
+        this.labDescription = lab.getLabDescription();
+        this.labCertifications = lab.getLabCertificationsList();
+        if (lab.hasLabProcessor()) {
+            this.labProcessor = lab.getLabProcessor();
+        }
+
+        return this;
     }
 }

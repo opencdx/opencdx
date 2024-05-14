@@ -26,7 +26,7 @@ import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -53,6 +53,9 @@ public class OpenCDXClassificationModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXProfileModel patient;
     private UserAnswer userAnswer;
     private ClassificationResponse classificationResponse;
@@ -61,8 +64,15 @@ public class OpenCDXClassificationModel {
     private UserQuestionnaireData userQuestionnaireData;
     private Media testDetailsMedia;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 }

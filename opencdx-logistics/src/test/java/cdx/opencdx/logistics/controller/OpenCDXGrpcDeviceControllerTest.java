@@ -44,6 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -169,7 +171,14 @@ class OpenCDXGrpcDeviceControllerTest {
         Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(openCDXDeviceModel));
+                .thenAnswer(new Answer<Optional<OpenCDXDeviceModel>>() {
+                    @Override
+                    public Optional<OpenCDXDeviceModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXDeviceModel.builder().id(argument).build());
+                    }
+                });
         Device device = Device.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .setBatchNumber("10")

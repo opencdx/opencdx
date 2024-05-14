@@ -164,10 +164,13 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     public UpdateWeightMeasurementResponse updateWeightMeasurement(UpdateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "weights", new OpenCDXIdentifier(request.getWeightMeasurement().getId()));
-        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository.save(
-                new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
+                .findById(new OpenCDXIdentifier(request.getWeightMeasurement().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        1,
+                        FAILED_TO_FIND_WEIGHT + request.getWeightMeasurement().getId()));
+        model = this.openCDXWeightMeasurementRepository.save(model.update(request.getWeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
