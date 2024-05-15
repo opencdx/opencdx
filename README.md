@@ -23,25 +23,20 @@ OpenCDX is a platform for the management of clinical data exchange. It is design
 ## Modules
 
 - [OpenCdx Admin](opencdx-admin/README.md)
-- [OpenCdx Anf](opencdx-anf/README.md)
 - [OpenCdx Audit](opencdx-audit/README.md)
 - [OpenCdx Classification](opencdx-classification/README.md)
+- [OpenCdx Classification Analyzer](opencdx-classification-analyzer/README.md)
 - [OpenCdx Client](opencdx-client/README.md)
 - [OpenCdx Commons](opencdx-commons/README.md)
 - [OpenCDx Communications](opencdx-communications/README.md)
 - [OpenCdx Config](opencdx-config/README.md)
-- [OpenCdx Connected Lab](opencdx-connected-lab/README.md)
-- [OpenCdx Connected Tests](opencdx-connected-test/README.md)
 - [OpenCdx Discovery](opencdx-discovery/README.md)
 - [OpenCdx Gateway](opencdx-gateway/README.md)
 - [OpenCdx IAM](opencdx-iam/README.md)
+- [OpenCdx Logistics](opencdx-logistics/README.md)
 - [OpenCdx Media](opencdx-media/README.md)
-- [OpenCdx Predictor](opencdx-predictor/README.md)
-- [OpenCDX Protector](opencdx-protector/README.md)
 - [OpenCdx Proto](opencdx-proto/README.md)
 - [openCdx Questionnaire](opencdx-questionnaire/README.md)
-- [OpenCdx Routine](opencdx-routine/README.md)
-- [OpenCdx Shipping](opencdx-shipping/README.md)
 - [OpenCdx Tinkar](opencdx-tinkar/README.md)
 
 

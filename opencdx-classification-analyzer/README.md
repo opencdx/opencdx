@@ -1,5 +1,7 @@
 # OpenCDX Commons Library
-> This module enables the autoconfiguration of various OpenCDX commons components. 
+> This module enables the autoconfiguration of a default Analysis Engine for the OpenCDX project. The Analysis Engine
+> is the Black Box for Rules Engines, Machine Learning Models, and other classification algorithms. The engine is
+> responsible for the classification of the data and the generation of the classification results.
 
 ## Links
 _**Links are part of the build not available from GitHub.**_
@@ -8,14 +10,4 @@ _**Links are part of the build not available from GitHub.**_
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
 
 ## Interfaces
-**OpenCDXMessageService** - Interface for messaging services.  Provides a consistent messaging service across all OpenCDX modules. Currently two instances of this exist. 
- 1. **NoOpOpenCDXMessageServiceImpl** - A no operation instances of OpenCDXMessageService.  This is loaded if not other OpenCDXMessageService is loaded.
-2. **NatsOpenCDXMessageServiceImpl** - A NATS based instance of OpenCDXMessageService.  This is loaded if nats.spring.server property is set.
-
-**OpenCDXAuditService** - Interface for submitting Audit messages for record keeping.  Implements an instances that uses the OpenCDXMessageService to submit audit messages to the [OpenCDX-Audit](../opencdx-audit/README.md) microservice.
-
-**OpenCDXMessageHandler** - Interface for implementing subscribers to the OpenCDXMessageService.
-
-**OpenCDXHtmlSanitizer** - Interface for implementing an HTML sanitizer. Current implementaiton is based on owasp-java-html-sanitizer.
-
-**OpenCDXNationalHealthIdentifier** - Interface for generating the National Health Id.  Current implementation is based on Email address.
+*OpenCDXAnalysisEngine** - Implements the interface for the analysis engine. Implementation of the default Analysis Engine.
