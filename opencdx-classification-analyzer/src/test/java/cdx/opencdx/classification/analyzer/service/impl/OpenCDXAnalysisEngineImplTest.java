@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.classification.analyzer.service.impl;
 
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 import cdx.opencdx.classification.analyzer.dto.RuleResult;
 import cdx.opencdx.classification.analyzer.rules.BloodPressureRules;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
@@ -27,6 +30,8 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
+import java.io.IOException;
+import java.util.List;
 import org.evrete.KnowledgeService;
 import org.evrete.api.Knowledge;
 import org.evrete.api.StatelessSession;
@@ -37,12 +42,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 @SuppressWarnings("java:S5976")
 class OpenCDXAnalysisEngineImplTest {
