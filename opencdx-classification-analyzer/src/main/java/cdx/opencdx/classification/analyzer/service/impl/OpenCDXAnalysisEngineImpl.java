@@ -76,16 +76,18 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param openCDXMediaUpDownClient the OpenCDXMediaUpDownClient object to download media
      * @param openCDXTestCaseClient the OpenCDXTestCaseClient object to get test cases
      * @param openCDXCurrentUser the OpenCDXCurrentUser object to get the current user
+     * @param knowledgeService the KnowledgeService object to create rules knowledge
      */
     public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXTestCaseClient openCDXTestCaseClient,
-            OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXCurrentUser openCDXCurrentUser,
+            KnowledgeService knowledgeService) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.random = new Random();
-        this.knowledgeService = new KnowledgeService();
+        this.knowledgeService = knowledgeService;
     }
 
     /**
