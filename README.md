@@ -197,6 +197,17 @@ The NVD API Key is optional and can be specified in your local environment by en
 
 ```export NVD_API_KEY=<your-api-key>```
 
+
+## Team Members
+
+[Ravinder Singh (rsdeosi@gmail.com)](mailto:rsdeosi@gmail.com)   
+[Jeff Miller (jeff.miller@safehealth.me)](mailto:jeff.miller@safehealth.me)   
+[Ranga Lakshminarayanan (ranga.lakshminarayanan@safehealth.me)](mailto:ranga.lakshminarayanan@safehealth.me)   
+[Patrick Chou (patrick.chou@safehealth.me)](mailto:patrick.chou@safehealth.me)   
+[Karthick Rajamurugan (karthick.rajamurugan@safehealth.me)](mailto:karthick.rajamurugan@safehealth.me)   
+[Gaurav Mishra (gaurav.mishra@safehealth.me)](mailto:gaurav.mishra@safehealth.me)   
+    
 ## Support Team
 
 [Avengers (cs@safehealth.me)](mailto:cs@safehealth.me)
+
