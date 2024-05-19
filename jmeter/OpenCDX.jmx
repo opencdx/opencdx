@@ -57,6 +57,24 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
             <stringProp name="BeanShellSampler.query">String jMUUID = &quot;${__UUID}&quot;;
 vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));
 vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
+
+vars.put(&quot;firstName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;lastName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;middleName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+
+vars.put(&quot;contact_firstName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;contact_lastName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;contact_middleName_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+
+vars.put(&quot;city_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(4) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;state_g&quot;,&quot;${__RandomString(2,abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;postal_g&quot;,&quot;${__RandomString(5,1234567890,)}&quot;);
+
+vars.put(&quot;phone_g&quot;,&quot;${__RandomString(10,1234567890,)}&quot;);
+
+vars.put(&quot;address_1_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(2) + 2)},1234567890,)} ${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;address_2_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(2) + 2)},1234567890,)} ${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
+vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().nextInt(2) + 2)},1234567890,)} ${__RandomString(${__groovy(new Random().nextInt(6) + 5)},abcdefghijklmnopqrstuvwxyz,)}&quot;);
 </stringProp>
             <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
           </BeanShellSampler>
@@ -99,7 +117,7 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
               <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;type&quot;:1,&quot;first_name&quot;:&quot;Open&quot;,&quot;last_name&quot;:&quot;Cdx&quot;,&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;,&quot;system&quot;:&quot;opencdx-test&quot;}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;type&quot;:1,&quot;first_name&quot;:&quot;${firstName_g}&quot;,&quot;last_name&quot;:&quot;${lastName_g}&quot;,&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;,&quot;system&quot;:&quot;opencdx-test&quot;}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree>
               <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
@@ -1308,22 +1326,22 @@ vars.put(&quot;nationalHealthID_g&quot;,jMUUID);
     &quot;nationalHealthId&quot; : &quot;${nationalHealthID_g}&quot;,
     &quot;fullName&quot; : {
       &quot;title&quot; : &quot;&quot;,
-      &quot;firstName&quot; : &quot;First&quot;,
-      &quot;middleName&quot; : &quot;Middle&quot;,
-      &quot;lastName&quot; : &quot;last&quot;,
+      &quot;firstName&quot; : &quot;${firstName_g}&quot;,
+      &quot;middleName&quot; : &quot;${middleName_g}&quot;,
+      &quot;lastName&quot; : &quot;${lastName_g}&quot;,
       &quot;suffix&quot; : &quot;&quot;
     },
     &quot;contacts&quot; : [ {
       &quot;addresses&quot; : [ {
         &quot;countryId&quot; : &quot;${countryId}&quot;,
         &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-        &quot;address1&quot; : &quot;101 Main Street&quot;,
-        &quot;city&quot; : &quot;City&quot;,
-        &quot;state&quot; : &quot;CA&quot;,
-        &quot;postalCode&quot; : &quot;12345&quot;
+        &quot;address1&quot; : &quot;${address_1_g}&quot;,
+        &quot;city&quot; : &quot;${city_g}&quot;,
+        &quot;state&quot; : &quot;${state_g}&quot;,
+        &quot;postalCode&quot; : &quot;${postal_g}&quot;
       } ],
       &quot;phoneNumbers&quot; : [ {
-        &quot;number&quot; : &quot;1234567890&quot;,
+        &quot;number&quot; : &quot;${phone_g}&quot;,
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
       } ],
       &quot;email&quot; : [ {
