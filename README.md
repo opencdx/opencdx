@@ -1,4 +1,4 @@
-# OpenCDx
+# OpenCDx: A Reference Implementation   
 
 ## Repository Name: [opencdx/opencdx](https://github.com/opencdx/opencdx)
 
