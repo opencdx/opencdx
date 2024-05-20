@@ -49,6 +49,10 @@ public class OpenCDXNotificationModel {
 
     private OpenCDXIdentifier patientId;
 
+    private OpenCDXIdentifier organizationId;
+
+    private OpenCDXIdentifier workspaceId;
+
     private OpenCDXIdentifier eventId;
     private NotificationStatus smsStatus;
 
@@ -114,6 +118,12 @@ public class OpenCDXNotificationModel {
             this.timestamp = Instant.now();
         }
 
+        if (notification.hasOrgnaizationId()) {
+            this.organizationId = new OpenCDXIdentifier(notification.getOrgnaizationId());
+        }
+        if (notification.hasWorkspaceId()) {
+            this.workspaceId = new OpenCDXIdentifier(notification.getWorkspaceId());
+        }
         this.customData = notification.getCustomDataMap();
         this.toEmail = notification.getToEmailList();
         this.ccEmail = notification.getCcEmailList();
@@ -152,6 +162,13 @@ public class OpenCDXNotificationModel {
         builder.setQueueId(this.id.toHexString());
 
         builder.setPatientId(this.patientId.toHexString());
+
+        if (this.organizationId != null) {
+            builder.setOrgnaizationId(this.organizationId.toHexString());
+        }
+        if (this.workspaceId != null) {
+            builder.setWorkspaceId(this.workspaceId.toHexString());
+        }
 
         builder.setEventId(this.eventId.toHexString());
         builder.setSmsStatus(this.smsStatus);
