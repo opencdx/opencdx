@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -27,8 +28,8 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.IamUserType;
+import cdx.opencdx.iam.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;
@@ -217,8 +218,8 @@ class OpenCDXIAMUserRestControllerTest {
     void updateIamUser() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/user")
-                        .content(this.objectMapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
-                                .setIamUser(IamUser.newBuilder()
+                        .content(this.objectMapper.writeValueAsString(UpdateIamUserRequest.builder()
+                                .iamUser(IamUser.newBuilder()
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
@@ -233,8 +234,10 @@ class OpenCDXIAMUserRestControllerTest {
     void signUp() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/user/signup")
-                        .content(this.objectMapper.writeValueAsString(
-                                SignUpRequest.newBuilder().build()))
+                        .content(this.objectMapper.writeValueAsString(SignUpRequest.builder()
+                                .username("test@opencdx.org")
+                                .password("password")
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -249,8 +252,8 @@ class OpenCDXIAMUserRestControllerTest {
 
         MvcResult result = this.mockMvc
                 .perform(post("/user/list")
-                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
-                                .setPagination(Pagination.newBuilder()
+                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.builder()
+                                .pagination(Pagination.newBuilder()
                                         .setPageNumber(1)
                                         .setPageSize(10)
                                         .setSortAscending(true)
@@ -273,8 +276,8 @@ class OpenCDXIAMUserRestControllerTest {
 
         MvcResult result = this.mockMvc
                 .perform(post("/user/list")
-                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
-                                .setPagination(Pagination.newBuilder()
+                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.builder()
+                                .pagination(Pagination.newBuilder()
                                         .setPageNumber(1)
                                         .setPageSize(10)
                                         .setSortAscending(true)
@@ -291,10 +294,10 @@ class OpenCDXIAMUserRestControllerTest {
     void changePassword() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/user/password")
-                        .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.newBuilder()
-                                .setId(OpenCDXIdentifier.get().toHexString())
-                                .setOldPassword("pass")
-                                .setNewPassword("newpass")
+                        .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.builder()
+                                .id(OpenCDXIdentifier.get().toHexString())
+                                .oldPassword("pass")
+                                .newPassword("newpass")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -307,8 +310,8 @@ class OpenCDXIAMUserRestControllerTest {
     void userExists() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/user/exists")
-                        .content(this.objectMapper.writeValueAsString(UserExistsRequest.newBuilder()
-                                .setId(OpenCDXIdentifier.get().toHexString())
+                        .content(this.objectMapper.writeValueAsString(UserExistsRequest.builder()
+                                .id(OpenCDXIdentifier.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -346,9 +349,9 @@ class OpenCDXIAMUserRestControllerTest {
                 });
         MvcResult result = this.mockMvc
                 .perform(post("/user/login")
-                        .content(this.objectMapper.writeValueAsString(LoginRequest.newBuilder()
-                                .setUserName("username")
-                                .setPassword("password")
+                        .content(this.objectMapper.writeValueAsString(LoginRequest.builder()
+                                .userName("username")
+                                .password("password")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

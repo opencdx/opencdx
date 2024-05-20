@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -34,9 +35,9 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.IamUserType;
 import cdx.opencdx.iam.config.AppProperties;
+import cdx.opencdx.iam.dto.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -195,22 +196,25 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void signUp() {
-        SignUpRequest request = SignUpRequest.newBuilder().build();
+        SignUpRequest request = SignUpRequest.builder()
+                .username("test@opencdx.org")
+                .password("password")
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.signUp(request));
     }
 
     @Test
     void getIamUser() {
-        GetIamUserRequest request = GetIamUserRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        GetIamUserRequest request = GetIamUserRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.getIamUser(request));
     }
 
     @Test
     void updateIamUser() {
-        UpdateIamUserRequest request = UpdateIamUserRequest.newBuilder()
-                .setIamUser(IamUser.newBuilder()
+        UpdateIamUserRequest request = UpdateIamUserRequest.builder()
+                .iamUser(IamUser.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
@@ -219,26 +223,26 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void deleteIamUser() {
-        DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        DeleteIamUserRequest request = DeleteIamUserRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
     }
 
     @Test
     void userExists() {
-        UserExistsRequest request = UserExistsRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        UserExistsRequest request = UserExistsRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.userExists(request));
     }
 
     @Test
     void changePassword() {
-        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setNewPassword("newpass")
-                .setOldPassword("pass")
+        ChangePasswordRequest request = ChangePasswordRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .newPassword("newpass")
+                .oldPassword("pass")
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.changePassword(request));
     }
@@ -250,10 +254,10 @@ class OpenCDXIAMUserServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .password("{noop}pass")
                         .build()));
-        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setNewPassword("newpass")
-                .setOldPassword("password")
+        ChangePasswordRequest request = ChangePasswordRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .newPassword("newpass")
+                .oldPassword("password")
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.changePassword(request));
     }
@@ -277,8 +281,8 @@ class OpenCDXIAMUserServiceImplTest {
                 OpenCDXIAMUserModel.builder().id(OpenCDXIdentifier.get()).build();
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
-        ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
+        ListIamUsersRequest request = ListIamUsersRequest.builder()
+                .pagination(Pagination.newBuilder()
                         .setPageNumber(1)
                         .setPageSize(10)
                         .setSortAscending(true)
@@ -289,8 +293,8 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void getIamUsersCatch() throws JsonProcessingException {
-        GetIamUserRequest request = GetIamUserRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        GetIamUserRequest request = GetIamUserRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -315,8 +319,8 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void updateIamUserCatch() throws JsonProcessingException {
-        UpdateIamUserRequest request = UpdateIamUserRequest.newBuilder()
-                .setIamUser(IamUser.newBuilder()
+        UpdateIamUserRequest request = UpdateIamUserRequest.builder()
+                .iamUser(IamUser.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
@@ -343,8 +347,8 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void deleteIamUserCatch() throws JsonProcessingException {
-        DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        DeleteIamUserRequest request = DeleteIamUserRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -369,8 +373,8 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void userExistsCatch() throws JsonProcessingException {
-        UserExistsRequest request = UserExistsRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
+        UserExistsRequest request = UserExistsRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -401,19 +405,15 @@ class OpenCDXIAMUserServiceImplTest {
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
                         .build()));
-        LoginRequest request = LoginRequest.newBuilder()
-                .setUserName("username")
-                .setPassword("password")
-                .build();
+        LoginRequest request =
+                LoginRequest.builder().userName("username").password("password").build();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> this.openCDXIAMUserService.login(request));
     }
 
     @Test
     void loginElse() {
-        LoginRequest request = LoginRequest.newBuilder()
-                .setUserName("username")
-                .setPassword("password")
-                .build();
+        LoginRequest request =
+                LoginRequest.builder().userName("username").password("password").build();
         Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
     }
 
@@ -425,10 +425,8 @@ class OpenCDXIAMUserServiceImplTest {
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(BadCredentialsException.class);
-        LoginRequest request = LoginRequest.newBuilder()
-                .setUserName("username")
-                .setPassword("password")
-                .build();
+        LoginRequest request =
+                LoginRequest.builder().userName("username").password("password").build();
         Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
     }
 
@@ -440,10 +438,8 @@ class OpenCDXIAMUserServiceImplTest {
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(LockedException.class);
-        LoginRequest request = LoginRequest.newBuilder()
-                .setUserName("username")
-                .setPassword("password")
-                .build();
+        LoginRequest request =
+                LoginRequest.builder().userName("username").password("password").build();
         Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
     }
 
@@ -455,10 +451,8 @@ class OpenCDXIAMUserServiceImplTest {
                         .emailVerified(true)
                         .build()));
         when(authenticationManager.authenticate(any())).thenThrow(DisabledException.class);
-        LoginRequest request = LoginRequest.newBuilder()
-                .setUserName("username")
-                .setPassword("password")
-                .build();
+        LoginRequest request =
+                LoginRequest.builder().userName("username").password("password").build();
         Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
     }
 
@@ -550,10 +544,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXProfileRepository);
         Assertions.assertEquals(
                 id.toHexString(),
-                this.openCDXIAMUserService
-                        .currentUser(CurrentUserRequest.newBuilder().build())
-                        .getIamUser()
-                        .getId());
+                this.openCDXIAMUserService.currentUser().getIamUser().getId());
     }
 
     @Test
@@ -572,9 +563,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCommunicationService,
                 this.openCDXProfileRepository);
 
-        CurrentUserRequest currentUserRequest = CurrentUserRequest.newBuilder().build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.currentUser(currentUserRequest));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.currentUser());
     }
 
     @Test
@@ -593,10 +582,10 @@ class OpenCDXIAMUserServiceImplTest {
                         .password("{noop}pass")
                         .username("username")
                         .build()));
-        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setNewPassword("newpass")
-                .setOldPassword("pass")
+        ChangePasswordRequest request = ChangePasswordRequest.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .newPassword("newpass")
+                .oldPassword("pass")
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMUserService.changePassword(request));
     }

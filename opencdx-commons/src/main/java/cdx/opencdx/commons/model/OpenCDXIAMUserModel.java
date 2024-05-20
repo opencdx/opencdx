@@ -16,8 +16,8 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.grpc.data.IamUser;
-import cdx.opencdx.grpc.service.iam.SignUpRequest;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
