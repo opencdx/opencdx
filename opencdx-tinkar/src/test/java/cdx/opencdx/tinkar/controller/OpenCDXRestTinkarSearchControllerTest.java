@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -31,6 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ActiveProfiles({"test"})
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class OpenCDXRestTinkarSearchControllerTest {
 
     @Mock

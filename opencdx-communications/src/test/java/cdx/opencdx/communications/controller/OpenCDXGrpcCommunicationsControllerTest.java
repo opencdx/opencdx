@@ -498,7 +498,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
         Notification notification = Notification.newBuilder()
                 .setEventId(OpenCDXIdentifier.get().toHexString())
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
-                .setOrgnaizationId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setLanguage("en")
                 .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .build();
         this.openCDXGrpcCommunicationsController.sendNotification(notification, responseObserver);
