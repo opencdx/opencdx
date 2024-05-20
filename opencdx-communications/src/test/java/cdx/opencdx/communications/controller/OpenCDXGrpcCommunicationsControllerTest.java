@@ -493,6 +493,21 @@ class OpenCDXGrpcCommunicationsControllerTest {
     }
 
     @Test
+    void sendNotificationOrganizationWorkspace() {
+        StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Notification notification = Notification.newBuilder()
+                .setEventId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .setOrgnaizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        this.openCDXGrpcCommunicationsController.sendNotification(notification, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
     void listSMSTemplates() {
         StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder()

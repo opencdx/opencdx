@@ -1346,25 +1346,35 @@ message Notification {
    */
   string patient_id = 3;
 
+  /**
+   * The unique identifier for the organization that this notification is intended for.
+   */
+  optional string orgnaization_id = 4;
+
+  /**
+   * The unique identifier for the workspace that this notification is intended for.
+   */
+  optional string workspace_id = 5;
+
   /*
    * The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
    */
-  optional cdx.opencdx.grpc.types.NotificationStatus sms_status = 4;
+  optional cdx.opencdx.grpc.types.NotificationStatus sms_status = 6;
 
   /*
    * The status of the EMAIL notification which could also be 'pending', 'sent', or 'failed'.
    */
-  optional cdx.opencdx.grpc.types.NotificationStatus email_status = 5;
+  optional cdx.opencdx.grpc.types.NotificationStatus email_status = 7;
 
   /*
    * The timestamp when the notification was added to the queue.
    */
-  optional google.protobuf.Timestamp timestamp = 6;
+  optional google.protobuf.Timestamp timestamp = 8;
 
   /*
    * Custom data associated with the notification. The purpose of this data varies based on the specific use case.
    */
-  map<string, string> custom_data = 7;
+  map<string, string> custom_data = 9;
 
   /*
    * Email-specific attributes.
@@ -1372,22 +1382,22 @@ message Notification {
   /*
    * The email addresses of the primary recipients.
    */
-  repeated string to_email = 8;
+  repeated string to_email = 10;
 
   /*
    * The email addresses to which the notification should be carbon copied(Cc).
    */
-  repeated string cc_email = 9;
+  repeated string cc_email = 11;
 
   /*
    * The email addresses to which the notification should be blind carbon copied(Bcc).
    */
-  repeated string bcc_email = 10;
+  repeated string bcc_email = 12;
 
   /*
    * Any files that need to be attached to the email notification.
    */
-  repeated Attachment email_attachments = 11;
+  repeated Attachment email_attachments = 13;
 
   /*
    * SMS-specific attributes.
@@ -1395,37 +1405,37 @@ message Notification {
   /*
    * The phone numbers to which the SMS notification should be sent.
    */
-  repeated string to_phone_number = 12;
+  repeated string to_phone_number = 14;
 
   /*
    * Variables or placeholders that can be replaced in the notification's content.
    */
-  map<string, string> variables = 13;
+  map<string, string> variables = 15;
 
   /*
    * The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.
    */
-  repeated string recipients_id = 14;
+  repeated string recipients_id = 16;
 
   /*
    * The timestamp at which this event was created.
    */
-  optional google.protobuf.Timestamp created = 15;
+  optional google.protobuf.Timestamp created = 17;
 
   /*
    * The timestamp at which this event was last modified.
    */
-  optional google.protobuf.Timestamp modified = 16;
+  optional google.protobuf.Timestamp modified = 18;
 
   /*
    * The unique identifier of the user or system that created this event.
    */
-  optional string creator = 17;
+  optional string creator = 19;
 
   /*
    * The unique identifier of the user or system that last modified this event.
    */
-  optional string modifier = 18;
+  optional string modifier = 21;
 }
 
 /*
