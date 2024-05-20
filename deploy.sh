@@ -906,20 +906,31 @@ if [ "$fast_build" = true ]; then
     fi
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean --parallel || handle_error "Failed to clean the project."
-elif [ "$clean" = true ] && [ "$skip" = false ]; then
+elif [ "$skip" = false ]; then
     git_info
+    if [ "$clean" = true ]; then
+        handle_info  "Cleaning the project"
+        if ./gradlew clean --parallel; then
+            # Build Completed Successfully
+            handle_info "Clean completed successfully"
+        else
+            # Build Failed
+            handle_error "Build failed. Please review output to determine the issue."
+        fi
+    fi
 
-    if ./gradlew clean spotlessApply build publish --parallel; then
+    handle_info "Running Spotless"
+
+    if ./gradlew spotlessApply; then
         # Build Completed Successfully
-        handle_info "Build & Clean completed successfully"
+        handle_info "Spotless completed successfully"
     else
         # Build Failed
-        handle_error "Build failed. Please review output to determine the issue."
+        handle_error "Spotless failed. Please review output to determine the issue."
     fi
-elif [ "$clean" = false ] && [ "$skip" = false ]; then
-    git_info
 
-    if ./gradlew spotlessApply build publish --parallel; then
+    handle_info "Running Parallel Build"
+    if ./gradlew build publish --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
@@ -930,7 +941,6 @@ fi
 
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
-    handle_info "TODO: Fix dependencyCheckAggregate"
     ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"
