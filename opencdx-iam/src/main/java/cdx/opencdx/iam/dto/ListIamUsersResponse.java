@@ -21,13 +21,21 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Response to list IAM users.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ListIamUsersResponse {
     private Pagination pagination;
     private List<IamUser> iamUsers;
+
+    /**
+     * Default constructor.
+     */
+    public ListIamUsersResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

@@ -19,12 +19,20 @@ import cdx.opencdx.commons.dto.IamUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Response to sign up.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SignUpResponse {
     private IamUser iamUser;
+
+    /**
+     * Default constructor.
+     */
+    public SignUpResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

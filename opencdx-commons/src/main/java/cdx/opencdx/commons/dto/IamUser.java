@@ -20,12 +20,13 @@ import cdx.opencdx.grpc.types.IamUserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Represents a user in the system.
+ */
 @Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class IamUser {
 
     /**
@@ -87,4 +88,11 @@ public class IamUser {
      * The ID of the user who last modified this user.
      */
     private String modifier;
+
+    /**
+     * The default constructor.
+     */
+    public IamUser() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

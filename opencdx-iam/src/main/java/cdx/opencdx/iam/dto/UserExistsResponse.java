@@ -19,12 +19,20 @@ import cdx.opencdx.commons.dto.IamUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Response to check if user exists.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class UserExistsResponse {
     private IamUser iamUser;
+
+    /**
+     * Default constructor.
+     */
+    public UserExistsResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

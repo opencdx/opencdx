@@ -18,13 +18,21 @@ package cdx.opencdx.iam.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to login.
+ */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
     private String userName;
     private String password;
+
+    /**
+     * Default constructor.
+     */
+    public LoginRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

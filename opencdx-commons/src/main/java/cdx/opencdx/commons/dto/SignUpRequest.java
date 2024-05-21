@@ -19,13 +19,11 @@ import cdx.opencdx.grpc.types.IamUserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * DTO for Sign Up Request
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SignUpRequest {
@@ -37,4 +35,11 @@ public class SignUpRequest {
     private String password;
     private String organizationId;
     private String workspaceId;
+
+    /**
+     * Default constructor.
+     */
+    public SignUpRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

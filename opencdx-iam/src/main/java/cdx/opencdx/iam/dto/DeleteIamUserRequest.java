@@ -18,12 +18,20 @@ package cdx.opencdx.iam.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to delete a user.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class DeleteIamUserRequest {
     private String id;
+
+    /**
+     * Default constructor.
+     */
+    public DeleteIamUserRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

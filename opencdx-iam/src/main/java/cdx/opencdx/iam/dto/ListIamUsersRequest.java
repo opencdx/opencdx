@@ -19,12 +19,20 @@ import cdx.opencdx.grpc.data.Pagination;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to list IAM users.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ListIamUsersRequest {
     private Pagination pagination;
+
+    /**
+     * Default constructor.
+     */
+    public ListIamUsersRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

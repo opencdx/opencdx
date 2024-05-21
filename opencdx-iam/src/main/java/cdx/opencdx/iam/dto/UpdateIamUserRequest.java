@@ -19,12 +19,20 @@ import cdx.opencdx.commons.dto.IamUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to Update User
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class UpdateIamUserRequest {
     private IamUser iamUser;
+
+    /**
+     * Default constructor.
+     */
+    public UpdateIamUserRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

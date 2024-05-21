@@ -18,10 +18,11 @@ package cdx.opencdx.iam.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to change password for a user.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ChangePasswordRequest {
@@ -29,4 +30,11 @@ public class ChangePasswordRequest {
     private String oldPassword;
     private String newPassword;
     private String newPasswordConfirmation;
+
+    /**
+     * Default constructor.
+     */
+    public ChangePasswordRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

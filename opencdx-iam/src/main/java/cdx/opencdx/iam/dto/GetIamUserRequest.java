@@ -18,12 +18,20 @@ package cdx.opencdx.iam.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Request to get a user.
+ */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class GetIamUserRequest {
     private String id;
+
+    /**
+     * Default constructor.
+     */
+    public GetIamUserRequest() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

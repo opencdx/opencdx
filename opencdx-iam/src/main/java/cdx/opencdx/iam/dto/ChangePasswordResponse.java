@@ -19,12 +19,20 @@ import cdx.opencdx.commons.dto.IamUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * Response to change password for a user.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ChangePasswordResponse {
     private IamUser iamUser;
+
+    /**
+     * Default constructor.
+     */
+    public ChangePasswordResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }
