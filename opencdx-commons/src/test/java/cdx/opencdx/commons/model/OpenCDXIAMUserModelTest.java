@@ -15,14 +15,13 @@
  */
 package cdx.opencdx.commons.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.commons.dto.IamUser;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
-import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,17 +29,13 @@ class OpenCDXIAMUserModelTest {
 
     @Test
     void getProtobufMessage_1() {
-        IamUser user = IamUser.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setUsername("email")
-                .setSystemName("system")
-                .setEmailVerified(false)
-                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                .setCreated(Timestamp.getDefaultInstance())
-                .setModified(Timestamp.getDefaultInstance())
-                .setCreator(OpenCDXIdentifier.get().toHexString())
-                .setModifier(OpenCDXIdentifier.get().toHexString())
+        IamUser user = IamUser.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .username("email")
+                .systemName("system")
+                .emailVerified(false)
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .type(IamUserType.IAM_USER_TYPE_REGULAR)
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -50,12 +45,12 @@ class OpenCDXIAMUserModelTest {
 
     @Test
     void getProtobufMessage_2() {
-        IamUser user = IamUser.newBuilder()
-                .setUsername("email")
-                .setSystemName("system")
-                .setEmailVerified(false)
-                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+        IamUser user = IamUser.builder()
+                .username("email")
+                .systemName("system")
+                .emailVerified(false)
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .type(IamUserType.IAM_USER_TYPE_REGULAR)
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -73,12 +68,12 @@ class OpenCDXIAMUserModelTest {
 
     @Test
     void getProtobufMessage_4() {
-        IamUser user = IamUser.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setUsername("email")
-                .setSystemName("system")
-                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
+        IamUser user = IamUser.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .username("email")
+                .systemName("system")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -88,10 +83,10 @@ class OpenCDXIAMUserModelTest {
 
     @Test
     void getProtobufMessage_5() {
-        IamUser user = IamUser.newBuilder()
-                .setId(OpenCDXIdentifier.get().toHexString())
-                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
+        IamUser user = IamUser.builder()
+                .id(OpenCDXIdentifier.get().toHexString())
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);

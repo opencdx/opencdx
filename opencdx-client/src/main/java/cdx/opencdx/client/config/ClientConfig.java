@@ -181,17 +181,6 @@ public class ClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
-    OpenCDXIAMUserClient openCDXIAMUserClient(
-            @Value("${opencdx.client.iam.server}") String server,
-            @Value("${opencdx.client.iam.port}") Integer port,
-            @Value("${opencdx.client.trustStore}") String trustStore,
-            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        return new OpenCDXIAMUserClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMWorkspaceClient openCDXIAMWorkspaceClient(
             @Value("${opencdx.client.iam.server}") String server,
             @Value("${opencdx.client.iam.port}") Integer port,

@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.iam.service;
 
-import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.commons.dto.SignUpRequest;
+import cdx.opencdx.iam.dto.*;
 
 /**
  * Interface for the OpenCDXIAMUserService
@@ -80,11 +81,9 @@ public interface OpenCDXIAMUserService {
 
     /**
      * Method to fetch current user.
-     *
-     * @param request Request to fetch current user
      * @return Response is the current user.
      */
-    CurrentUserResponse currentUser(CurrentUserRequest request);
+    CurrentUserResponse currentUser();
 
     /**
      * Method to verify user email.

@@ -46,7 +46,6 @@ class ClientConfigTest {
         clientConfig.openCDXHelloworldClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMOrganizationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMProfileClient(server, port, trustStore, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMUserClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMWorkspaceClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXPredictorClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXProtectorClient(server, port, trustStore, observationGrpcClientInterceptor);
