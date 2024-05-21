@@ -21,6 +21,7 @@ import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,8 +29,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
 
 /**
  * User Record for IAM
@@ -49,6 +48,9 @@ public class OpenCDXIAMUserModel {
 
     private String username;
     private String systemName;
+
+    private OpenCDXIdentifier organizationId;
+    private OpenCDXIdentifier workspaceId;
 
     @Builder.Default
     private Boolean emailVerified = false;
@@ -105,6 +107,12 @@ public class OpenCDXIAMUserModel {
         this.username = request.getUsername();
         this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
         this.type = request.getType();
+        if (request.getOrganizationId() != null) {
+            this.organizationId = new OpenCDXIdentifier(request.getOrganizationId());
+        }
+        if (request.getWorkspaceId() != null) {
+            this.workspaceId = new OpenCDXIdentifier(request.getWorkspaceId());
+        }
     }
     /**
      * Constructor to convert in an IamUser
@@ -121,6 +129,12 @@ public class OpenCDXIAMUserModel {
         this.emailVerified = iamUser.isEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
+        if (iamUser.getOrganizationId() != null) {
+            this.organizationId = new OpenCDXIdentifier(iamUser.getOrganizationId());
+        }
+        if (iamUser.getWorkspaceId() != null) {
+            this.workspaceId = new OpenCDXIdentifier(iamUser.getWorkspaceId());
+        }
     }
 
     /**
@@ -133,6 +147,13 @@ public class OpenCDXIAMUserModel {
 
         if (this.id != null) {
             builder.id(this.id.toHexString());
+        }
+
+        if (this.organizationId != null) {
+            builder.organizationId(this.organizationId.toHexString());
+        }
+        if (this.workspaceId != null) {
+            builder.workspaceId(this.workspaceId.toHexString());
         }
 
         if (this.username != null) {

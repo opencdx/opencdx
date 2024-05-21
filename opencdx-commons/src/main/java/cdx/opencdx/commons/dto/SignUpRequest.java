@@ -35,4 +35,6 @@ public class SignUpRequest {
     private String systemName;
     private String username;
     private String password;
+    private String organizationId;
+    private String workspaceId;
 }

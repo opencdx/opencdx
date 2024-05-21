@@ -59,6 +59,16 @@ public class IamUser {
     private IamUserType type;
 
     /**
+     * The organization ID of the user.
+     */
+    private String organizationId;
+
+    /**
+     * The workspace ID of the user.
+     */
+    private String workspaceId;
+
+    /**
      * The timestamp when the user was created.
      */
     private String created;
