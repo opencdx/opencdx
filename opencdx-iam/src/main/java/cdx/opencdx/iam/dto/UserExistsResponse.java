@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.dto;
 
-import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.commons.dto.IamUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

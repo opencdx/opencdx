@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.IamUser;
 import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -33,7 +34,6 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.types.IamUserType;
 import cdx.opencdx.iam.config.AppProperties;
@@ -214,8 +214,8 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void updateIamUser() {
         UpdateIamUserRequest request = UpdateIamUserRequest.builder()
-                .iamUser(IamUser.newBuilder()
-                        .setId(OpenCDXIdentifier.get().toHexString())
+                .iamUser(IamUser.builder()
+                        .id(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.updateIamUser(request));
@@ -320,8 +320,8 @@ class OpenCDXIAMUserServiceImplTest {
     @Test
     void updateIamUserCatch() throws JsonProcessingException {
         UpdateIamUserRequest request = UpdateIamUserRequest.builder()
-                .iamUser(IamUser.newBuilder()
-                        .setId(OpenCDXIdentifier.get().toHexString())
+                .iamUser(IamUser.builder()
+                        .id(OpenCDXIdentifier.get().toHexString())
                         .build())
                 .build();
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);

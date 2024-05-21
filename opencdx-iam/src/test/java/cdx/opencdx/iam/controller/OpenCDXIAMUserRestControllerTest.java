@@ -20,13 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.IamUser;
 import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.types.IamUserType;
 import cdx.opencdx.iam.dto.*;
@@ -219,8 +219,8 @@ class OpenCDXIAMUserRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(put("/user")
                         .content(this.objectMapper.writeValueAsString(UpdateIamUserRequest.builder()
-                                .iamUser(IamUser.newBuilder()
-                                        .setId(OpenCDXIdentifier.get().toHexString())
+                                .iamUser(IamUser.builder()
+                                        .id(OpenCDXIdentifier.get().toHexString())
                                         .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

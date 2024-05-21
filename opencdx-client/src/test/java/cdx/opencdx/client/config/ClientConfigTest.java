@@ -17,13 +17,12 @@ package cdx.opencdx.client.config;
 
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.ObservationRegistry;
+import java.io.IOException;
+import javax.net.ssl.SSLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import javax.net.ssl.SSLException;
-import java.io.IOException;
 
 class ClientConfigTest {
 

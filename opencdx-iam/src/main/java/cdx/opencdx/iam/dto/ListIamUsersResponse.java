@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.dto;
 
-import cdx.opencdx.grpc.data.IamUser;
+import cdx.opencdx.commons.dto.IamUser;
 import cdx.opencdx.grpc.data.Pagination;
 import java.util.List;
 import lombok.AllArgsConstructor;

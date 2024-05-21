@@ -16,13 +16,11 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.IamUser;
 import cdx.opencdx.commons.dto.SignUpRequest;
-import cdx.opencdx.grpc.data.IamUser;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
-import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +28,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * User Record for IAM
@@ -53,7 +53,9 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private Boolean emailVerified = false;
 
-    private IamUserStatus status;
+    @Builder.Default
+    private IamUserStatus status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
+
     private IamUserType type;
     private String password;
 
@@ -110,29 +112,15 @@ public class OpenCDXIAMUserModel {
      */
     public OpenCDXIAMUserModel(IamUser iamUser) {
         log.trace("Creating user from IAM User");
-        if (iamUser.hasId()) {
+        if (iamUser.getId() != null) {
             this.id = new OpenCDXIdentifier(iamUser.getId());
         }
         this.systemName = iamUser.getSystemName();
 
         this.username = iamUser.getUsername();
-        this.emailVerified = iamUser.getEmailVerified();
+        this.emailVerified = iamUser.isEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
-        if (iamUser.hasCreated()) {
-            this.created = Instant.ofEpochSecond(
-                    iamUser.getCreated().getSeconds(), iamUser.getCreated().getNanos());
-        }
-        if (iamUser.hasModified()) {
-            this.modified = Instant.ofEpochSecond(
-                    iamUser.getModified().getSeconds(), iamUser.getModified().getNanos());
-        }
-        if (iamUser.hasCreator()) {
-            this.creator = new OpenCDXIdentifier(iamUser.getCreator());
-        }
-        if (iamUser.hasModifier()) {
-            this.modifier = new OpenCDXIdentifier(iamUser.getModifier());
-        }
     }
 
     /**
@@ -141,44 +129,38 @@ public class OpenCDXIAMUserModel {
      */
     public IamUser getIamUserProtobufMessage() {
         log.trace("Creating IAM User from user");
-        IamUser.Builder builder = IamUser.newBuilder();
+        IamUser.IamUserBuilder builder = IamUser.builder();
 
         if (this.id != null) {
-            builder.setId(this.id.toHexString());
+            builder.id(this.id.toHexString());
         }
 
         if (this.username != null) {
-            builder.setUsername(this.username);
+            builder.username(this.username);
         }
         if (this.systemName != null) {
-            builder.setSystemName(this.systemName);
+            builder.systemName(this.systemName);
         }
         if (this.emailVerified != null) {
-            builder.setEmailVerified(this.emailVerified);
+            builder.emailVerified(this.emailVerified);
         }
         if (this.status != null) {
-            builder.setStatus(this.status);
+            builder.status(this.status);
         }
         if (this.type != null) {
-            builder.setType(this.type);
+            builder.type(this.type);
         }
         if (this.created != null) {
-            builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(this.created.getEpochSecond())
-                    .setNanos(this.created.getNano())
-                    .build());
+            builder.created(this.created.toString());
         }
         if (this.modified != null) {
-            builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(this.modified.getEpochSecond())
-                    .setNanos(this.modified.getNano())
-                    .build());
+            builder.modified(this.modified.toString());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator.toHexString());
+            builder.creator(this.creator.toHexString());
         }
         if (this.modified != null) {
-            builder.setModifier(this.modifier.toHexString());
+            builder.modifier(this.modifier.toHexString());
         }
         return builder.build();
     }
@@ -193,7 +175,7 @@ public class OpenCDXIAMUserModel {
         this.systemName = iamUser.getSystemName();
 
         this.username = iamUser.getUsername();
-        this.emailVerified = iamUser.getEmailVerified();
+        this.emailVerified = iamUser.isEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
         return this;
