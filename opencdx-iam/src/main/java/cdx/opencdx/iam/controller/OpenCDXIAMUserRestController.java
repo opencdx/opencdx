@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.commons.dto.SignUpRequest;
+import cdx.opencdx.iam.dto.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class OpenCDXIAMUserRestController {
     public ResponseEntity<GetIamUserResponse> getIamUser(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXIAMUserService.getIamUser(
-                        GetIamUserRequest.newBuilder().setId(id).build()),
+                        GetIamUserRequest.builder().id(id).build()),
                 HttpStatus.OK);
     }
 
@@ -69,7 +70,7 @@ public class OpenCDXIAMUserRestController {
     public ResponseEntity<DeleteIamUserResponse> deleteIamUser(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXIAMUserService.deleteIamUser(
-                        DeleteIamUserRequest.newBuilder().setId(id).build()),
+                        DeleteIamUserRequest.builder().id(id).build()),
                 HttpStatus.OK);
     }
 
@@ -155,9 +156,6 @@ public class OpenCDXIAMUserRestController {
      */
     @GetMapping("/current")
     public ResponseEntity<CurrentUserResponse> currentUser() {
-        return new ResponseEntity<>(
-                this.openCDXIAMUserService.currentUser(
-                        CurrentUserRequest.newBuilder().build()),
-                HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXIAMUserService.currentUser(), HttpStatus.OK);
     }
 }

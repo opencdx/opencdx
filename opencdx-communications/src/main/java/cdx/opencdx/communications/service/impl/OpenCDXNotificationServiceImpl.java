@@ -186,6 +186,11 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         if (!notificationEvent.hasEventId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
         }
+        OpenCDXNotificationEventModel model = this.openCDXNotificationEventRepository
+                .findById(new OpenCDXIdentifier(notificationEvent.getEventId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 2, "Failed to find event notification: " + notificationEvent.getEventId()));
+        model = this.openCDXNotificationEventRepository.save(model.update(notificationEvent));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -202,8 +207,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXNotificationEventModel model =
-                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
         log.trace("Updated Notification Event: {}", model.getId());
         return model.getProtobufMessage();
@@ -358,17 +361,16 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, OpenCDXIdentifier patientId) {
 
-        String nationalHealthId = "N/A";
-        String patientIdString = patientId.toHexString();
-
         Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findById(patientId);
+        AuditEntity.Builder builder = AuditEntity.newBuilder();
 
         if (patient.isPresent()) {
-            nationalHealthId = patient.get().getNationalHealthId();
+            builder.setNationalHealthId(patient.get().getNationalHealthId());
+            builder.setPatientId(patient.get().getId().toHexString());
         }
 
         if (patient.isEmpty()) {
-            patientIdString = "USER ID: " + patientId.toHexString();
+            builder.setUserId(patientId.toHexString());
         }
 
         try {
@@ -378,8 +380,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    patientIdString,
-                    nationalHealthId,
+                    builder.build(),
                     NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {

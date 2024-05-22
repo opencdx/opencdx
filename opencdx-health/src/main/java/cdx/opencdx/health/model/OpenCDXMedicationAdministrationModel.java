@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,6 +41,9 @@ public class OpenCDXMedicationAdministrationModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier medicationId;
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
@@ -48,9 +51,16 @@ public class OpenCDXMedicationAdministrationModel {
     private String administratedBy;
     private String administrationNotes;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -126,5 +136,23 @@ public class OpenCDXMedicationAdministrationModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXMedicationAdministrationModel with the given MedicationAdministration object.
+     *
+     * @param medicationAdministration The MedicationAdministration object to update the model with.
+     * @return The updated OpenCDXMedicationAdministrationModel object.
+     */
+    public OpenCDXMedicationAdministrationModel update(MedicationAdministration medicationAdministration) {
+        this.medicationId = new OpenCDXIdentifier(medicationAdministration.getMedicationId());
+        this.patientId = new OpenCDXIdentifier(medicationAdministration.getPatientId());
+        this.nationalHealthId = medicationAdministration.getNationalHealthId();
+        this.administrationTime = Instant.ofEpochSecond(
+                medicationAdministration.getAdministrationTime().getSeconds(),
+                medicationAdministration.getAdministrationTime().getNanos());
+        this.administratedBy = medicationAdministration.getAdministratedBy();
+        this.administrationNotes = medicationAdministration.getAdministrationNotes();
+        return this;
     }
 }

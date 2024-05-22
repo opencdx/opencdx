@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -89,7 +90,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     public CreateWeightMeasurementResponse createWeightMeasurement(CreateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
-        OpenCDXWeightMeasurementModel openCDXWeightMeasurementModel = this.openCDXWeightMeasurementRepository.save(
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository.save(
                 new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -98,19 +99,21 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
                     currentUser.getAgentType(),
                     "Weights created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXWeightMeasurementModel.getPatientId().toHexString(),
-                    openCDXWeightMeasurementModel.getNationalHealthId(),
-                    WEIGHT_MEASUREMENTS + openCDXWeightMeasurementModel.getId(),
-                    this.objectMapper.writeValueAsString(openCDXWeightMeasurementModel));
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    WEIGHT_MEASUREMENTS + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXWeightMeasurementModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
         return CreateWeightMeasurementResponse.newBuilder()
-                .setWeightMeasurement(openCDXWeightMeasurementModel.getProtobufMessage())
+                .setWeightMeasurement(model.getProtobufMessage())
                 .build();
     }
 
@@ -133,8 +136,10 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
                     currentUser.getAgentType(),
                     "Weights Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -159,10 +164,13 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
     public UpdateWeightMeasurementResponse updateWeightMeasurement(UpdateWeightMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getWeightMeasurement().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "weights", new OpenCDXIdentifier(request.getWeightMeasurement().getId()));
-        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository.save(
-                new OpenCDXWeightMeasurementModel(request.getWeightMeasurement()));
+        OpenCDXWeightMeasurementModel model = this.openCDXWeightMeasurementRepository
+                .findById(new OpenCDXIdentifier(request.getWeightMeasurement().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        1,
+                        FAILED_TO_FIND_WEIGHT + request.getWeightMeasurement().getId()));
+        model = this.openCDXWeightMeasurementRepository.save(model.update(request.getWeightMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
@@ -170,8 +178,10 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
                     currentUser.getAgentType(),
                     "Weight Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -208,8 +218,10 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
                     currentUser.getAgentType(),
                     "Weight Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getPatientId().toHexString(),
-                    model.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getPatientId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
                     WEIGHT_MEASUREMENTS + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -253,7 +265,7 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
         }
         log.trace("found database results");
 
-        all.get().forEach(openCDXWeightMeasurementModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -261,15 +273,17 @@ public class OpenCDXWeightMeasurementServiceImpl implements OpenCDXWeightMeasure
                         currentUser.getAgentType(),
                         "weight accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXWeightMeasurementModel.getPatientId().toHexString(),
-                        openCDXWeightMeasurementModel.getNationalHealthId(),
-                        WEIGHT_MEASUREMENTS + openCDXWeightMeasurementModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXWeightMeasurementModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getPatientId().toHexString())
+                                .setNationalHealthId(model.getNationalHealthId())
+                                .build(),
+                        WEIGHT_MEASUREMENTS + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 5, FAILED_TO_CONVERT_WEIGHT_MEASUREMENTS, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXWeightMeasurementModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });

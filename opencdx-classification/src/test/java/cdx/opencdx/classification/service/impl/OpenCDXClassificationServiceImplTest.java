@@ -51,6 +51,7 @@ import com.google.protobuf.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.evrete.KnowledgeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -128,6 +129,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Mock
     OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Autowired
+    KnowledgeService knowledgeService;
 
     @BeforeEach
     void beforeEach() {
@@ -289,7 +293,10 @@ class OpenCDXClassificationServiceImplTest {
                         .build());
 
         this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
-                this.openCDXMediaUpDownClient, this.openCDXTestCaseClient, this.openCDXCurrentUser);
+                this.openCDXMediaUpDownClient,
+                this.openCDXTestCaseClient,
+                this.openCDXCurrentUser,
+                this.knowledgeService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
@@ -863,6 +870,7 @@ class OpenCDXClassificationServiceImplTest {
                             argument.setId(OpenCDXIdentifier.get());
                             argument.setPatient(OpenCDXProfileModel.builder()
                                     .id(OpenCDXIdentifier.get())
+                                    .nationalHealthId(UUID.randomUUID().toString())
                                     .fullName(FullName.newBuilder()
                                             .setFirstName("John")
                                             .setLastName("doe")

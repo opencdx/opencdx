@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 @Slf4j
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
@@ -62,13 +64,14 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
      * Initializer
      */
     @ExcludeFromJacocoGeneratedReport
-    @Scheduled(initialDelay = 30000, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(initialDelay = 30, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
         initializePrimitiveData(pathParent, pathChild);
         log.info("OpenCDXTinkarServiceImpl initialized");
     }
 
+    @Cacheable(value = "search")
     @Override
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
@@ -86,6 +89,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         }
     }
 
+    @Cacheable(value = "getEntity")
     @Override
     public TinkarGetResult getEntity(TinkarGetRequest request) {
         try {
@@ -101,6 +105,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         }
     }
 
+    @Cacheable(value = "getTinkarChildConcepts")
     @Override
     public TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
@@ -114,11 +119,54 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
+    @Cacheable(value = "getTinkarDescendantConcepts")
     @Override
     public TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
         List<PublicId> children = Searcher.descendantsOf(parentConceptId);
         List<TinkarGetResult> results = children.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Cacheable(value = "getLIDRRecordConceptsFromTestKit")
+    @Override
+    public TinkarGetResponse getLIDRRecordConceptsFromTestKit(TinkarGetRequest request) {
+        PublicId testKitConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> lidrRecords = Searcher.getLidrRecordSemanticsFromTestKit(testKitConceptId);
+        List<TinkarGetResult> results = lidrRecords.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Cacheable(value = "getResultConformanceConceptsFromLIDRRecord")
+    @Override
+    public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request) {
+        PublicId lidrRecordConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> resultConformances = Searcher.getResultConformancesFromLidrRecord(lidrRecordConceptId);
+        List<TinkarGetResult> results = resultConformances.stream()
+                .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
+                        .setConceptId(d.asUuidArray()[0].toString())
+                        .build()))
+                .toList();
+
+        return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    @Cacheable(value = "getAllowedResultConceptsFromResultConformance")
+    @Override
+    public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request) {
+        PublicId resultConformanceConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
+        List<PublicId> allowedResults = Searcher.getAllowedResultsFromResultConformance(resultConformanceConceptId);
+        List<TinkarGetResult> results = allowedResults.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
                         .build()))

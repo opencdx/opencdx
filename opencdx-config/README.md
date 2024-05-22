@@ -13,7 +13,7 @@ _**Links are part of the build not available from GitHub.**_
 ## Interfaces
 
 ## Encrypt sensitive information
-_**Followoing API to be used to encrypt sensitive information.**_
+_**Following API to be used to encrypt sensitive information.**_
 
 - Url: https://localhost:8888/encrypt
 - Method: POST

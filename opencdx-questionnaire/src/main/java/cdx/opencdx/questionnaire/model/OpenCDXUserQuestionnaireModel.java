@@ -24,6 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -37,6 +38,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXUserQuestionnaireModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier patientId;
 
@@ -71,5 +75,20 @@ public class OpenCDXUserQuestionnaireModel {
         builder.addAllQuestionnaireData(this.list);
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXUserQuestionnaireModel with the given UserQuestionnaireData.
+     *
+     * @param data The UserQuestionnaireData object containing the data to update the model.
+     * @return The updated OpenCDXUserQuestionnaireModel instance.
+     */
+    public OpenCDXUserQuestionnaireModel update(UserQuestionnaireData data) {
+
+        this.patientId = new OpenCDXIdentifier(data.getPatientId());
+
+        this.list = data.getQuestionnaireDataList();
+
+        return this;
     }
 }

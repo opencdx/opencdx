@@ -1028,6 +1028,119 @@ message ListHeartRPMResponse {
 }
 
 
+/*
+ * This message contains the details required for creating a doctor notes.
+ */
+message CreateDoctorNotesRequest {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the response after creating a Doctor Notes.
+ */
+message CreateDoctorNotesResponse {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Doctor Notes.
+ */
+message GetDoctorNotesRequest {
+  /*
+   * The BPM id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the response for Doctor Notes.
+ */
+message GetDoctorNotesResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the details required for updating the Doctor Notes.
+ */
+message UpdateDoctorNotesRequest {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This message contains the response of updated Doctor Notes.
+ */
+message UpdateDoctorNotesResponse {
+  /*
+   * The Doctor Notes
+   */
+  optional cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 1;
+}
+
+/*
+ * This request to delete Doctor Notes.
+ */
+message DeleteDoctorNotesRequest {
+  /*
+   * The Doctor Notes id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing Doctor Notes.
+ */
+message ListDoctorNotesRequest {
+ /*
+   * The ID of the patient.
+   */
+  string patient_id = 1;
+
+  /*
+   * Tags
+   */
+  string tags = 3;
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 4;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 5;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 6;
+}
+
+/*
+ * This is the response of the Doctor Notes
+ */
+message ListDoctorNotesResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of Doctor Notes.
+  */
+  repeated cdx.opencdx.grpc.data.DoctorNotes doctor_notes = 2;
+}
 
 
 /*
@@ -1125,6 +1238,112 @@ message DeleteProviderResponse {}
  */
 message ListProvidersRequest {}
 
+
+/*
+ * This message contains the details required for creating a Known Allergy.
+ */
+message CreateAllergyRequest {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the response after creating a Known Allergy.
+ */
+message CreateAllergyResponse {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the details required for creating a Known Allergy.
+ */
+message GetAllergyRequest {
+  /*
+   * The id of the allergy to search for.
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the response of a Known Allergy.
+ */
+message GetAllergyResponse {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the details required for updating a allergy
+ */
+message UpdateAllergyRequest {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This message contains the response of a known allergy update.
+ */
+message UpdateAllergyResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.KnownAllergy known_allergy = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteAllergyRequest {
+  /*
+   * The Known Allergy id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing allergy
+ */
+message ListAllergyRequest {
+  oneof allergy_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the BPM
+ */
+message ListAllergyResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of BPM.
+  */
+  repeated cdx.opencdx.grpc.data.KnownAllergy known_allergy = 2;
+}
 
 
 
@@ -1481,4 +1700,62 @@ service ProviderService {
    * RPC to load a specific healthcare provider.
    */
   rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+}
+
+/*
+ * The DoctorNotesService provides remote procedure call (RPC) methods to manipulate and fetch
+ * doctor's notes related information.
+ */
+service DoctorNotesService {
+
+  /**
+   * Create a Doctors Note.
+   */
+  rpc CreateDoctorNotes(CreateDoctorNotesRequest) returns (CreateDoctorNotesResponse);
+  /**
+   * Get a Doctors Note.
+   */
+  rpc GetDoctorNotes(GetDoctorNotesRequest) returns (GetDoctorNotesResponse);
+  /**
+   * Update a Doctors Note.
+   */
+  rpc UpdateDoctorNotes(UpdateDoctorNotesRequest) returns (UpdateDoctorNotesResponse);
+  /**
+   * Delete a Doctors Note.
+   */
+  rpc DeleteDoctorNotes(DeleteDoctorNotesRequest) returns (SuccessResponse);
+  /**
+   * List Doctors Note by Patient ID and Tag.
+   */
+  rpc ListAllByPatientId(ListDoctorNotesRequest) returns (ListDoctorNotesResponse);
+}
+
+/*
+ * Service definitions in KnownAllergy to Create, Get, Update, Delete, List known allergies.
+ */
+service KnownAllergyService {
+  /*
+   * RPC to create an allergy.
+   */
+  rpc CreateAllergy(CreateAllergyRequest) returns (CreateAllergyResponse);
+
+  /*
+  * RPC to get an allergy.
+  */
+  rpc GetAllergy(GetAllergyRequest) returns (GetAllergyResponse);
+
+  /*
+  * RPC to update an allergy
+  */
+  rpc UpdateAllergy(UpdateAllergyRequest) returns (UpdateAllergyResponse);
+
+  /*
+   * RPC to remove an allergy
+   */
+  rpc DeleteAllergy(DeleteAllergyRequest) returns (SuccessResponse);
+
+  /*
+   * RPC to list the allergies
+   */
+  rpc ListAllergies(ListAllergyRequest) returns (ListAllergyResponse);
 }

@@ -79,6 +79,7 @@ required_software() {
   openssl_installed=false
   keytool_installed=false
   node_installed=false
+  curl_installed=false
 
   if command -v yq &> /dev/null
   then
@@ -105,6 +106,10 @@ required_software() {
   dir="./data/solor-us-tinkar.sa"
   if [[ -d "$dir" ]]; then
     tinkar_installed=true
+  fi
+
+  if command -v curl &> /dev/null; then
+    curl_installed=true
   fi
 
   # Check for OpenSSL
@@ -151,12 +156,13 @@ fi
   handle_info "  Node.js\t$node_installed\t\t\t\t\t$node_version"
   handle_info "  Docker\t$docker_installed"
   handle_info "  Tinkar\t$tinkar_installed"
+  handle_info "  Curl\t\t$curl_installed"
   if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]]; then
     handle_info "  open\t\t$open_installed"
   fi
   handle_info "  yq\t\t$yq_installed"
 
-  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed )
+  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed || ! $curl_installed);
   then
     handle_error "Required software is not installed. Please install missing required software."
   else
@@ -350,6 +356,23 @@ check_container_status() {
         read -n 1 -s -r -p "Press any key to continue..."
 }
 
+# Function to download a file from a URL and save it to a specified location
+download_file() {
+    local url="$1"
+    local output_path="$2"
+
+    # Use curl to download the file
+    curl -k -o "$output_path" "$url"
+
+    # Check if the download was successful
+    if [[ $? -eq 0 ]]; then
+        handle_info "File downloaded successfully to $output_path"
+    else
+        handle_error "Failed to download the file from $url"
+    fi
+}
+
+
 # Function to open reports and documentation
 # Parameters: $1 - Type of report or documentation to open
 open_reports() {
@@ -413,6 +436,15 @@ open_reports() {
 
         mv build/reports/jmeter ./opencdx-admin/src/main/resources/public
 
+        download_file "https://localhost:8080/audit/api-docs" "./postman/Audit.json"
+        download_file "https://localhost:8080/classification/api-docs" "./postman/Classification.json"
+        download_file "https://localhost:8080/health/api-docs" "./postman/Health.json"
+        download_file "https://localhost:8080/iam/api-docs" "./postman/IAM.json"
+        download_file "https://localhost:8080/logistics/api-docs" "./postman/Logistics.json"
+        download_file "https://localhost:8080/media/api-docs" "./postman/Media.json"
+        download_file "https://localhost:8080/questionnaire/api-docs" "./postman/Questionnaire.json"
+        download_file "https://localhost:8080/tinkar/api-docs" "./postman/TINKAR.json"
+
         ;;
     proto)
         handle_info "Opening Proto Doc..."
@@ -451,9 +483,9 @@ print_usage() {
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
     echo "  --check         Perform build and check all requirements"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
-    echo "  --smoke        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
-    echo "  --performance   Will Start JMeter Performance test 60 seconds after deployment. 1 hour duration"
-    echo "  --soak          Will Start JMeter Soak test 60 seconds after deployment. 8 hour duration"
+    echo "  --smoke         Will Start JMeter Smoke test 10 users with 10 loops ~3 minutes"
+    echo "  --performance   Will Start JMeter Performance 10 users with 100 loops NO gRPC ~30 minutes"
+    echo "  --soak          Will Start JMeter Soak test 10 user 1000 loops NO gRPC ~3.5 hours"
     echo "  --fast          Will perform a fast build skipping tests."
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
@@ -474,7 +506,7 @@ build_docker() {
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/health" "opencdx/iam"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/logistics"
-    "opencdx/discovery" "opencdx/anf" "opencdx/graphql")
+    "opencdx/discovery" "opencdx/graphql")
 
   selected_components=()
 
@@ -906,8 +938,21 @@ if [ "$fast_build" = true ]; then
     fi
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean --parallel || handle_error "Failed to clean the project."
-elif [ "$clean" = true ] && [ "$skip" = false ]; then
+elif [ "$skip" = false ]; then
     git_info
+    if [ "$clean" = true ]; then
+        handle_info  "Cleaning the project"
+        if ./gradlew clean --parallel; then
+            # Build Completed Successfully
+            handle_info "Clean completed successfully"
+        else
+            # Build Failed
+            handle_error "Build failed. Please review output to determine the issue."
+        fi
+    fi
+
+    handle_info "Running Spotless"
+
     if ./gradlew spotlessApply; then
         # Build Completed Successfully
         handle_info "Spotless completed successfully"
@@ -915,48 +960,19 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Spotless failed. Please review output to determine the issue."
     fi
-    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest -x spotlessApply --parallel; then
-        # Build Completed Successfully
-        handle_info "Build & Clean completed successfully"
-    else
-        # Build Failed
-        handle_error "Build failed. Please review output to determine the issue."
-    fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-        # Build Completed Successfully
-        handle_info "Sonarlint completed successfully"
-    else
-        # Build Failed
-        handle_error "Sonarlint failed. Please review output to determine the issue."
-    fi
-elif [ "$clean" = false ] && [ "$skip" = false ]; then
-    git_info
-    if ./gradlew spotlessApply; then
-        # Build Completed Successfully
-        handle_info "Spotless completed successfully"
-    else
-        # Build Failed
-        handle_error "Spotless failed. Please review output to determine the issue."
-    fi
-    if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
+
+    handle_info "Running Parallel Build"
+    if ./gradlew build publish --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-            # Build Completed Successfully
-            handle_info "Sonarlint completed successfully"
-        else
-            # Build Failed
-            handle_error "Sonarlint failed. Please review output to determine the issue."
-        fi
 fi
 
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
-    handle_info "TODO: Fix dependencyCheckAggregate"
     ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"

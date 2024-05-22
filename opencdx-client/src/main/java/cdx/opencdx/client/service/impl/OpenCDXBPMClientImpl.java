@@ -19,7 +19,6 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXBPMClient;
 import cdx.opencdx.grpc.service.health.*;
-import cdx.opencdx.grpc.service.health.BPMServiceGrpc;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;

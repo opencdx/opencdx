@@ -40,14 +40,12 @@ class ClientConfigTest {
         Integer port = 9090;
         String trustStore = "../certs/opencdx-clients.pem";
         clientConfig.observationGrpcClientInterceptor(observationRegistry);
-        clientConfig.openCDXANFClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXAuditClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXClassificationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXCommunicationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXHelloworldClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMOrganizationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMProfileClient(server, port, trustStore, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMUserClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMWorkspaceClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXPredictorClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXProtectorClient(server, port, trustStore, observationGrpcClientInterceptor);
@@ -60,6 +58,8 @@ class ClientConfigTest {
         clientConfig.openCDXHeartRPMClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXVaccineClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXLabConnectedClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXAllergyClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXDoctorNotesClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }

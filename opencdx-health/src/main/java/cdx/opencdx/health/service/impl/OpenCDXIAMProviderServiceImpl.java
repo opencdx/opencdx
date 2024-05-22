@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.ProviderStatus;
 import cdx.opencdx.grpc.types.SensitivityLevel;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +53,6 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService {
 
     private static final String DOMAIN = "OpenCDXIAMProviderServiceImpl";
-    private static final String PROVIDER_NUMBER = "PROVIDER NUMBER: ";
     private static final String PROVIDER = "PROVIDER ";
     private static final String PROVIDER_ACCESSED = "Provider accessed";
     private static final String FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL =
@@ -110,8 +111,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    PROVIDER_NUMBER + model.getNpiNumber(),
-                    PROVIDER_NUMBER + model.getNpiNumber(),
+                    AuditEntity.newBuilder()
+                            .setProviderNumber(model.getNpiNumber())
+                            .build(),
                     PROVIDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -134,13 +136,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      */
     @Override
     public DeleteProviderResponse deleteProvider(DeleteProviderRequest request) {
-        OpenCDXIAMProviderModel providerModel = this.openCDXIAMProviderRepository
+        OpenCDXIAMProviderModel model = this.openCDXIAMProviderRepository
                 .findByNpiNumber(request.getProviderId())
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 8, "FAILED_TO_FIND_USER" + request.getProviderId()));
 
-        providerModel.setStatus(ProviderStatus.DELETED);
+        model.setStatus(ProviderStatus.DELETED);
 
-        providerModel = this.openCDXIAMProviderRepository.save(providerModel);
+        model = this.openCDXIAMProviderRepository.save(model);
         log.info("Deleted User: {}", request.getProviderId());
 
         try {
@@ -150,10 +152,11 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     "Provider deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    PROVIDER_NUMBER + providerModel.getNpiNumber(),
-                    PROVIDER_NUMBER + providerModel.getNpiNumber(),
-                    PROVIDER + providerModel.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(providerModel));
+                    AuditEntity.newBuilder()
+                            .setProviderNumber(model.getNpiNumber())
+                            .build(),
+                    PROVIDER + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 3, "FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL", e);
@@ -180,8 +183,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                         currentUser.getAgentType(),
                         PROVIDER_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        PROVIDER_NUMBER + model.getNpiNumber(),
-                        PROVIDER_NUMBER + model.getNpiNumber(),
+                        AuditEntity.newBuilder()
+                                .setProviderNumber(model.getNpiNumber())
+                                .build(),
                         PROVIDER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -205,6 +209,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      * @param request LoadProvider request
      * @return LoadProviderResponse with all the providers.
      */
+    @Cacheable(value = "providers", key = "#request.getProviderNumber()")
     @Override
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
         Optional<OpenCDXIAMProviderModel> provider =
@@ -260,8 +265,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    PROVIDER_NUMBER + openCDXIAMProviderModel.getNpiNumber(),
-                    PROVIDER_NUMBER + openCDXIAMProviderModel.getNpiNumber(),
+                    AuditEntity.newBuilder()
+                            .setProviderNumber(openCDXIAMProviderModel.getNpiNumber())
+                            .build(),
                     PROVIDER + openCDXIAMProviderModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXIAMProviderModel));
         } catch (JsonProcessingException e) {

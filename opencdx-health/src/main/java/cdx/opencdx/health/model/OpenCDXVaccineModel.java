@@ -26,7 +26,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,6 +43,9 @@ public class OpenCDXVaccineModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private Instant administrationDate;
@@ -53,9 +56,16 @@ public class OpenCDXVaccineModel {
     Medication vaccine;
     private int doseNumber;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -132,5 +142,44 @@ public class OpenCDXVaccineModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXVaccineModel object with the data from the given Vaccine object.
+     *
+     * @param vaccine The Vaccine object containing the updated data.
+     * @return The updated OpenCDXVaccineModel object.
+     */
+    public OpenCDXVaccineModel update(Vaccine vaccine) {
+        this.id = new OpenCDXIdentifier(vaccine.getId());
+        this.patientId = new OpenCDXIdentifier(vaccine.getPatientId());
+        this.nationalHealthId = vaccine.getNationalHealthId();
+        this.administrationDate = Instant.ofEpochSecond(
+                vaccine.getAdministrationDate().getSeconds(),
+                vaccine.getAdministrationDate().getNanos());
+        this.fips = vaccine.getFips();
+        if (vaccine.hasLocation()) {
+            this.location = new OpenCDXAddressModel(vaccine.getLocation());
+        }
+        this.healthDistrict = vaccine.getHealthDistrict();
+        this.facilityType = vaccine.getFacilityType();
+        this.vaccine = vaccine.getVaccine();
+        this.doseNumber = vaccine.getDoseNumber();
+        if (vaccine.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    vaccine.getCreated().getSeconds(), vaccine.getCreated().getNanos());
+        }
+        if (vaccine.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    vaccine.getModified().getSeconds(), vaccine.getModified().getNanos());
+        }
+        if (vaccine.hasCreator()) {
+            this.creator = new OpenCDXIdentifier(vaccine.getCreator());
+        }
+        if (vaccine.hasModifier()) {
+            this.modifier = new OpenCDXIdentifier(vaccine.getModifier());
+        }
+
+        return this;
     }
 }

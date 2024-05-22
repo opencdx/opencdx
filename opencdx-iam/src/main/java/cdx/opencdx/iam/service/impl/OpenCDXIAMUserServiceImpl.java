@@ -16,6 +16,7 @@
 package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -28,13 +29,14 @@ import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.data.Notification;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.iam.config.AppProperties;
+import cdx.opencdx.iam.dto.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -152,8 +154,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     "User record Created: ",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    "",
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -163,8 +166,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return SignUpResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return SignUpResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -197,8 +200,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                         currentUser.getAgentType(),
                         USER_RECORD_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        "",
-                        "",
+                        AuditEntity.newBuilder()
+                                .setUserId(model.getId().toHexString())
+                                .build(),
                         IAM_USER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -210,12 +214,12 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             }
         });
 
-        return ListIamUsersResponse.newBuilder()
-                .setPagination(Pagination.newBuilder(request.getPagination())
+        return ListIamUsersResponse.builder()
+                .pagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())
                         .setTotalRecords(all.getTotalElements())
                         .build())
-                .addAllIamUsers(all.get()
+                .iamUsers(all.get()
                         .map(OpenCDXIAMUserModel::getIamUserProtobufMessage)
                         .toList())
                 .build();
@@ -240,8 +244,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    "",
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -251,8 +256,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return GetIamUserResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return GetIamUserResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -269,11 +274,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, FAILED_TO_FIND_USER + request.getIamUser().getId()));
 
-        model.setUsername(request.getIamUser().getUsername());
-        model.setSystemName(request.getIamUser().getSystemName());
-        model.setType(request.getIamUser().getType());
-
-        model = this.openCDXIAMUserRepository.save(model);
+        model = this.openCDXIAMUserRepository.save(model.update(request.getIamUser()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(model);
@@ -282,8 +283,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    "",
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -293,8 +295,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return UpdateIamUserResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return UpdateIamUserResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -335,18 +337,21 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "User Password Change",
-                    patient.get().getId().toHexString(),
-                    patient.get().getNationalHealthId());
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.get().getId().toHexString())
+                            .setNationalHealthId(patient.get().getNationalHealthId())
+                            .build());
         } else {
             this.openCDXAuditService.passwordChange(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "User Password Change",
-                    model.getId().toHexString(),
-                    "No National Health Id");
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build());
         }
-        return ChangePasswordResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return ChangePasswordResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -374,8 +379,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    userModel.getId().toHexString(),
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(userModel.getId().toHexString())
+                            .build(),
                     IAM_USER + userModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(userModel));
         } catch (JsonProcessingException e) {
@@ -385,8 +391,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return DeleteIamUserResponse.newBuilder()
-                .setIamUser(userModel.getIamUserProtobufMessage())
+        return DeleteIamUserResponse.builder()
+                .iamUser(userModel.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -411,8 +417,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -422,8 +429,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return UserExistsResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return UserExistsResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -455,8 +462,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "User email verification",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -492,7 +500,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 this.openCDXAuditService.userLoginSucceed(
                         userModel.getId().toHexString(), userModel.getAgentType(), "Successful Login");
 
-                return LoginResponse.newBuilder().setToken(token).build();
+                return LoginResponse.builder().token(token).build();
             } else {
                 this.openCDXAuditService.userLoginFailure(
                         userModel.getId().toHexString(), userModel.getAgentType(), "Emailed not verified");
@@ -521,12 +529,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
     /**
      * Method to fetch current user.
-     *
-     * @param request Request to fetch current user
      * @return Response is the current user.
      */
     @Override
-    public CurrentUserResponse currentUser(CurrentUserRequest request) {
+    public CurrentUserResponse currentUser() {
         OpenCDXIAMUserModel model = this.openCDXCurrentUser.getCurrentUser();
 
         try {
@@ -536,19 +542,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    "",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 8, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return CurrentUserResponse.newBuilder()
-                .setIamUser(model.getIamUserProtobufMessage())
+        return CurrentUserResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 }

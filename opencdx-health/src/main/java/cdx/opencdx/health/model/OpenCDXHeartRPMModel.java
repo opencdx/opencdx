@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,15 +41,26 @@ public class OpenCDXHeartRPMModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private Integer measurementTakenOverInSeconds;
     private boolean sittingPositionFiveMinutes;
     private Instant timeOfMeasurement;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
-    private String creator;
-    private String modifier;
+
+    @CreatedBy
+    private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message heartRPM
@@ -76,10 +87,10 @@ public class OpenCDXHeartRPMModel {
                     heartRPM.getModified().getSeconds(), heartRPM.getModified().getNanos());
         }
         if (heartRPM.hasCreator()) {
-            this.creator = heartRPM.getCreator();
+            this.creator = new OpenCDXIdentifier(heartRPM.getCreator());
         }
         if (heartRPM.hasModifier()) {
-            this.modifier = heartRPM.getModifier();
+            this.modifier = new OpenCDXIdentifier(heartRPM.getModifier());
         }
     }
 
@@ -118,11 +129,30 @@ public class OpenCDXHeartRPMModel {
                     .build());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator);
+            builder.setCreator(this.creator.toHexString());
         }
         if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXHeartRPMModel with the provided HeartRPM data.
+     *
+     * @param heartRPM the HeartRPM instance containing the data to update the OpenCDXHeartRPMModel
+     * @return the updated OpenCDXHeartRPMModel instance
+     */
+    public OpenCDXHeartRPMModel update(HeartRPM heartRPM) {
+        this.patientId = new OpenCDXIdentifier(heartRPM.getPatientId());
+        this.nationalHealthId = heartRPM.getNationalHealthId();
+        this.measurementTakenOverInSeconds = heartRPM.getMeasurementTakenOverInSeconds();
+        this.sittingPositionFiveMinutes = heartRPM.getSittingPosition5Minutes();
+        if (heartRPM.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    heartRPM.getCreated().getSeconds(), heartRPM.getCreated().getNanos());
+        }
+
+        return this;
     }
 }

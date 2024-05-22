@@ -41,10 +41,7 @@ import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,9 +65,16 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
-    private static final String QUESTION_TYPE_CHOICE = "choice";
+    private static final String QUESTION_TYPE_OPEN_CHOICE = "open-choice";
     private static final String CODE_TINKAR = "tinkar";
+    private static final String CODE_LIDR_DEVICES = "lidr-devices";
+    private static final String CODE_LIDR_RECORDS = "lidr-records";
+    private static final String CODE_LIDR_RESULT_CONFORM = "lidr-result-conformances";
+    private static final String CODE_LIDR_ALLOWED_RESULTS = "lidr-allowed-results";
+    private static final String LIDR_QUESTION = "What was the result of the test?";
     private static final String FAILED_TO_CONVERT = "Failed to convert OpenCDXQuestionnaireModel";
+    private static final Random random = new Random();
+    private static final String FAILED_TO_FIND_QUESTIONNAIRE = "Failed to find Questionnaire: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -149,15 +153,14 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public Questionnaire updateQuestionnaire(QuestionnaireRequest request) {
-        if (!this.openCDXQuestionnaireRepository.existsById(
-                new OpenCDXIdentifier(request.getQuestionnaire().getId()))) {
-            throw new OpenCDXNotFound(
-                    DOMAIN,
-                    2,
-                    "FAILED_TO_FIND_ORGANIZATION" + request.getQuestionnaire().getId());
-        }
-        OpenCDXQuestionnaireModel model =
-                this.openCDXQuestionnaireRepository.save(new OpenCDXQuestionnaireModel(request.getQuestionnaire()));
+        OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
+                .findById(new OpenCDXIdentifier(request.getQuestionnaire().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        2,
+                        FAILED_TO_FIND_QUESTIONNAIRE
+                                + request.getQuestionnaire().getId()));
+        model = this.openCDXQuestionnaireRepository.save(model.update(request.getQuestionnaire()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -188,7 +191,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_QUESTIONNAIRE + request.getId()));
         return model.getProtobufMessage();
     }
 
@@ -201,7 +204,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     public Questionnaire refreshQuestionnaire(GetQuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = this.openCDXQuestionnaireRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find Questionnaire: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_QUESTIONNAIRE + request.getId()));
 
         model = this.openCDXQuestionnaireRepository.save(populateQuestionChoices(model));
 
@@ -490,8 +493,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "CreateUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     "QUESTIONNAIR-USER: " + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -521,7 +526,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .orElseThrow(
                         () -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find user questionnaire: " + request.getId()))
                 .getProtobufMessage();
-        OpenCDXProfileModel user = this.openCDXProfileRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(new OpenCDXIdentifier(data.getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getPatientId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -531,8 +536,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "GetUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    user.getId().toHexString(),
-                    user.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     "QUESTIONNAIRE-USER: " + data.getId(),
                     this.objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
@@ -571,7 +578,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         List<UserQuestionnaireData> list = all.get()
                 .peek(model -> {
-                    OpenCDXProfileModel user = this.openCDXProfileRepository
+                    OpenCDXProfileModel patient = this.openCDXProfileRepository
                             .findById(model.getPatientId())
                             .orElseThrow(() -> new OpenCDXNotFound(
                                     DOMAIN,
@@ -583,8 +590,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                                 currentUser.getAgentType(),
                                 "GetUserQuestionnaireDataList [User Level]",
                                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                                user.getId().toHexString(),
-                                user.getNationalHealthId(),
+                                AuditEntity.newBuilder()
+                                        .setPatientId(patient.getId().toHexString())
+                                        .setNationalHealthId(patient.getNationalHealthId())
+                                        .build(),
                                 "QUESTIONNAIRE-USER: " + model.getId(),
                                 this.objectMapper.writeValueAsString(model));
                     } catch (JsonProcessingException e) {
@@ -611,38 +620,111 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         if (model.getItems() != null) {
             List<QuestionnaireItem> questions = new ArrayList<>();
 
-            for (QuestionnaireItem question : model.getItems()) {
-                if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
-                    Optional<Code> tinkarCode = question.getCodeList().stream()
-                            .filter(code -> code.getSystem().equals(CODE_TINKAR))
-                            .findFirst();
-                    if (tinkarCode.isPresent()) {
+            if (!model.getItems().isEmpty()
+                    && model.getItems().getFirst().getCodeList().stream()
+                            .anyMatch(code -> code.getSystem().equals(CODE_LIDR_DEVICES))) {
+                model.setItems(populateLidrDevices(model.getItems().getFirst()));
+
+                return model;
+            } else {
+
+                for (QuestionnaireItem question : model.getItems()) {
+                    if (question.getCodeCount() > 0) {
+                        List<Code> tinkarCode = question.getCodeList().stream()
+                                .filter(code -> code.getSystem().equals(CODE_TINKAR)
+                                        || code.getSystem().equals(CODE_LIDR_ALLOWED_RESULTS)
+                                        || code.getSystem().equals(CODE_LIDR_RESULT_CONFORM))
+                                .toList();
                         question = QuestionnaireItem.newBuilder(question)
                                 .clearAnswerOption()
-                                .addAllAnswerOption(
-                                        getAnswerOptions(tinkarCode.get().getCode()))
+                                .addAllAnswerOption(getAnswerOptions(tinkarCode))
                                 .build();
                     }
+                    questions.add(question);
                 }
-                questions.add(question);
-            }
 
-            model.setItems(questions);
+                model.setItems(questions);
+            }
         }
 
         return model;
     }
 
     @SuppressWarnings("java:S1172")
-    private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
+    private List<QuestionnaireItemAnswerOption> getAnswerOptions(List<Code> codes) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
         try {
-            TinkarGetResponse response = openCDXTinkarClient.getTinkarChildConcepts(
-                    TinkarGetRequest.newBuilder().setConceptId(id).build(), openCDXCallCredentials);
+            TinkarGetResponse response = TinkarGetResponse.newBuilder().build();
+            switch (codes.getFirst().getSystem()) {
+                case CODE_TINKAR:
+                    response = openCDXTinkarClient.getTinkarChildConcepts(
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(codes.getFirst().getCode())
+                                    .build(),
+                            openCDXCallCredentials);
+                    break;
+                case CODE_LIDR_RECORDS:
+                    response = openCDXTinkarClient.getLIDRRecordConceptsFromTestKit(
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(codes.getFirst().getCode())
+                                    .build(),
+                            openCDXCallCredentials);
+
+                    for (int i = 1; i < codes.size(); i++) {
+                        response = TinkarGetResponse.newBuilder(response)
+                                .addAllResults(openCDXTinkarClient
+                                        .getLIDRRecordConceptsFromTestKit(
+                                                TinkarGetRequest.newBuilder()
+                                                        .setConceptId(
+                                                                codes.get(i).getCode())
+                                                        .build(),
+                                                openCDXCallCredentials)
+                                        .getResultsList())
+                                .build();
+                    }
+
+                    for (TinkarGetResult result : response.getResultsList()) {
+                        TinkarGetResponse responseWithDescription =
+                                openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                                        TinkarGetRequest.newBuilder()
+                                                .setConceptId(result.getConceptId())
+                                                .build(),
+                                        openCDXCallCredentials);
+
+                        Coding coding = Coding.newBuilder()
+                                .setDisplay(responseWithDescription
+                                        .getResultsList()
+                                        .getFirst()
+                                        .getDescription())
+                                .setCode(result.getConceptId())
+                                .build();
+                        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                                .setValueCoding(coding)
+                                .build());
+                    }
+
+                    return answerOptions;
+                case CODE_LIDR_RESULT_CONFORM:
+                    response = openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(codes.getFirst().getCode())
+                                    .build(),
+                            openCDXCallCredentials);
+                    break;
+                case CODE_LIDR_ALLOWED_RESULTS:
+                    response = openCDXTinkarClient.getAllowedResultConceptsFromResultConformance(
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(codes.getFirst().getCode())
+                                    .build(),
+                            openCDXCallCredentials);
+                    break;
+                default:
+                    break;
+            }
 
             for (TinkarGetResult result : response.getResultsList()) {
                 Coding coding =
@@ -656,5 +738,92 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
 
         return answerOptions;
+    }
+
+    private List<QuestionnaireItem> populateLidrDevices(QuestionnaireItem question) {
+        List<QuestionnaireItem> questions = new ArrayList<>();
+
+        if (question.getCodeCount() > 0) {
+            Optional<Code> tinkarCodes = question.getCodeList().stream()
+                    .filter(code -> code.getSystem().equals(CODE_LIDR_DEVICES))
+                    .findFirst();
+            if (tinkarCodes.isPresent()) {
+                OpenCDXCallCredentials openCDXCallCredentials =
+                        new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+                TinkarGetResponse devices = openCDXTinkarClient.getTinkarChildConcepts(
+                        TinkarGetRequest.newBuilder()
+                                .setConceptId(tinkarCodes.get().getCode())
+                                .build(),
+                        openCDXCallCredentials);
+
+                List<QuestionnaireItemAnswerOption> deviceAnswers = new ArrayList<>();
+
+                for (TinkarGetResult result : devices.getResultsList()) {
+                    TinkarGetResponse deviceRecord = openCDXTinkarClient.getLIDRRecordConceptsFromTestKit(
+                            TinkarGetRequest.newBuilder()
+                                    .setConceptId(result.getConceptId())
+                                    .build(),
+                            openCDXCallCredentials);
+
+                    if (!deviceRecord.getResultsList().isEmpty()) {
+                        deviceAnswers.add(QuestionnaireItemAnswerOption.newBuilder()
+                                .setValueCoding(Coding.newBuilder()
+                                        .setDisplay(result.getDescription())
+                                        .setCode(deviceRecord
+                                                .getResultsList()
+                                                .getFirst()
+                                                .getConceptId()))
+                                .build());
+                    }
+                }
+
+                question = QuestionnaireItem.newBuilder(question)
+                        .clearAnswerOption()
+                        .addAllAnswerOption(deviceAnswers)
+                        .build();
+                questions.add(question);
+
+                for (QuestionnaireItemAnswerOption answer : question.getAnswerOptionList()) {
+                    long linkId = random.nextLong(9000000000000L) + 1000000000000L;
+
+                    TinkarGetResponse resultConformance =
+                            openCDXTinkarClient.getResultConformanceConceptsFromLIDRRecord(
+                                    TinkarGetRequest.newBuilder()
+                                            .setConceptId(
+                                                    answer.getValueCoding().getCode())
+                                            .build(),
+                                    openCDXCallCredentials);
+
+                    QuestionnaireItem resultsQuestion = QuestionnaireItem.newBuilder()
+                            .setLinkId(Long.toString(linkId))
+                            .setText(LIDR_QUESTION)
+                            .addCode(Code.newBuilder()
+                                    .setSystem(CODE_LIDR_ALLOWED_RESULTS)
+                                    .setCode(answer.getValueCoding().getCode())
+                                    .build())
+                            .addEnableWhen(QuestionnaireEnableWhen.newBuilder()
+                                    .setQuestion(question.getLinkId())
+                                    .setOperator("=")
+                                    .setAnswerCoding(Coding.newBuilder()
+                                            .setDisplay(answer.getValueCoding().getDisplay())
+                                            .build())
+                                    .build())
+                            .setType(QUESTION_TYPE_OPEN_CHOICE)
+                            .build();
+                    resultsQuestion = QuestionnaireItem.newBuilder(resultsQuestion)
+                            .addAllAnswerOption(getAnswerOptions(List.of(Code.newBuilder()
+                                    .setCode(resultConformance
+                                            .getResultsList()
+                                            .getFirst()
+                                            .getConceptId())
+                                    .setSystem(CODE_LIDR_ALLOWED_RESULTS)
+                                    .build())))
+                            .build();
+                    questions.add(resultsQuestion);
+                }
+            }
+        }
+
+        return questions;
     }
 }

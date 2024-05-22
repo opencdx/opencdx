@@ -30,6 +30,7 @@ import cdx.opencdx.grpc.data.EmailTemplate;
 import cdx.opencdx.grpc.service.communications.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +70,23 @@ class OpenCDXCommunicationEmailServiceImplTest {
         this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailService.class);
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXEmailTemplateModel model = OpenCDXEmailTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationEventModel model = OpenCDXNotificationEventModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 

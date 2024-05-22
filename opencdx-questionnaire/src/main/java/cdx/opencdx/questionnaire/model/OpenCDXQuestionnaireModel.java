@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -62,6 +62,9 @@ public class OpenCDXQuestionnaireModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String resourceType;
     private String title;
     private QuestionnaireStatus status;
@@ -71,9 +74,16 @@ public class OpenCDXQuestionnaireModel {
     private String ruleId;
     private List<String> ruleQuestionId;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -167,5 +177,26 @@ public class OpenCDXQuestionnaireModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXQuestionnaireModel with the information from the given Questionnaire object.
+     *
+     * @param questionnaire the Questionnaire object to update the OpenCDXQuestionnaireModel with
+     * @return the updated OpenCDXQuestionnaireModel
+     */
+    public OpenCDXQuestionnaireModel update(Questionnaire questionnaire) {
+        this.resourceType = questionnaire.getResourceType();
+        this.title = questionnaire.getTitle();
+        this.status = QuestionnaireStatus.active;
+        this.description = questionnaire.getDescription();
+        if (questionnaire.hasRuleId()) {
+            this.ruleId = questionnaire.getRuleId();
+        }
+        this.items = questionnaire.getItemList();
+
+        this.ruleQuestionId = questionnaire.getRuleQuestionIdList();
+
+        return this;
     }
 }

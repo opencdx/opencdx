@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,15 +43,25 @@ public class OpenCDXMessageTemplateModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private List<String> variables;
     private String title;
     private String content;
 
     private MessageType messageType;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -125,5 +135,19 @@ public class OpenCDXMessageTemplateModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXMessageTemplateModel with the values from the given MessageTemplate.
+     *
+     * @param template The MessageTemplate object containing the updated values.
+     * @return The updated OpenCDXMessageTemplateModel.
+     */
+    public OpenCDXMessageTemplateModel update(MessageTemplate template) {
+        this.variables = new ArrayList<>(template.getVariablesList());
+        this.title = template.getTitle();
+        this.content = template.getContent();
+        this.messageType = template.getType();
+        return this;
     }
 }

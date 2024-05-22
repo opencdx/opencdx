@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,6 +42,9 @@ public class OpenCDXConnectedTestModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
 
@@ -52,9 +55,16 @@ public class OpenCDXConnectedTestModel {
     private ProviderInfo providerInfo;
     private TestDetails testDetails;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -138,5 +148,23 @@ public class OpenCDXConnectedTestModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXConnectedTestModel object with the values provided by the ConnectedTest object.
+     *
+     * @param connectedTest the ConnectedTest object with updated values
+     * @return the updated OpenCDXConnectedTestModel object
+     */
+    public OpenCDXConnectedTestModel update(ConnectedTest connectedTest) {
+        this.patientId = new OpenCDXIdentifier(connectedTest.getBasicInfo().getPatientId());
+        this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();
+        this.basicInfo = connectedTest.getBasicInfo();
+        this.orderInfo = connectedTest.getOrderInfo();
+        this.testNotes = connectedTest.getTestNotes();
+        this.paymentDetails = connectedTest.getPaymentDetails();
+        this.providerInfo = connectedTest.getProviderInfo();
+        this.testDetails = connectedTest.getTestDetails();
+        return this;
     }
 }

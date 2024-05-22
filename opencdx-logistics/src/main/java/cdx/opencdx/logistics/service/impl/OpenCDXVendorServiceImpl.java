@@ -134,7 +134,12 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "country", new OpenCDXIdentifier(request.getVendorAddress().getCountryId()));
         }
-        OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
+        OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find Vendor: " + request.getId()));
+
+        openCDXVendorModel = this.openCDXVendorRepository.save(openCDXVendorModel.update(request));
+
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(

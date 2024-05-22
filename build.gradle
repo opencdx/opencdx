@@ -128,7 +128,6 @@ otsSwInfo {
 
 def exportedProjects = [
         ":opencdx-admin",
-        ":opencdx-anf",
         ":opencdx-audit",
         ":opencdx-classification",
         ":opencdx-classification-analyzer",
@@ -247,6 +246,7 @@ allprojects {
             }
         }
     }
+
 
     check.dependsOn jacocoTestCoverageVerification
 

@@ -132,8 +132,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     "Connected Test Submitted.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    patient.getId().toHexString(),
-                    patient.getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.getId().toHexString())
+                            .setNationalHealthId(patient.getNationalHealthId())
+                            .build(),
                     CONNECTED_TEST + submittedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
@@ -205,8 +207,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     CONNECTED_TEST_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    connectedTest.getBasicInfo().getPatientId(),
-                    connectedTest.getBasicInfo().getNationalHealthId(),
+                    AuditEntity.newBuilder()
+                            .setPatientId(connectedTest.getBasicInfo().getPatientId())
+                            .setNationalHealthId(connectedTest.getBasicInfo().getNationalHealthId())
+                            .build(),
                     CONNECTED_TEST + connectedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {
@@ -243,7 +247,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 this.openCDXConnectedTestRepository.findAllByPatientId(openCDXIdentifier, pageable);
         log.trace("found database results");
 
-        all.get().forEach(openCDXConnectedTestModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -251,15 +255,17 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
-                        openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
-                        CONNECTED_TEST + openCDXConnectedTestModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getBasicInfo().getPatientId())
+                                .setNationalHealthId(model.getBasicInfo().getNationalHealthId())
+                                .build(),
+                        CONNECTED_TEST + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 5, FAILED_TO_CONVERT_CONNECTED_TEST, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXConnectedTestModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });
@@ -303,7 +309,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 this.openCDXConnectedTestRepository.findAllByNationalHealthId(nationalHealthId, pageable);
         log.trace("found database results");
 
-        all.get().forEach(openCDXConnectedTestModel -> {
+        all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.phiAccessed(
@@ -311,15 +317,17 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
-                        openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
-                        CONNECTED_TEST + openCDXConnectedTestModel.getId(),
-                        this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
+                        AuditEntity.newBuilder()
+                                .setPatientId(model.getBasicInfo().getPatientId())
+                                .setNationalHealthId(model.getBasicInfo().getNationalHealthId())
+                                .build(),
+                        CONNECTED_TEST + model.getId(),
+                        this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
                         new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_CONNECTED_TEST, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
-                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXConnectedTestModel.toString());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
                 throw openCDXNotAcceptable;
             }
         });

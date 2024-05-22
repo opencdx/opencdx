@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -44,15 +44,25 @@ public class OpenCDXOrderModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private FullName shippingName;
     private Address shippingAddress;
     private OpenCDXIdentifier testCaseID;
     private ShippingStatus status;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -128,5 +138,19 @@ public class OpenCDXOrderModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXOrderModel instance with the values from the given Order object.
+     *
+     * @param order The Order object containing the updated values.
+     * @return The updated OpenCDXOrderModel instance.
+     */
+    public OpenCDXOrderModel update(Order order) {
+
+        this.shippingName = order.getShippingName();
+        this.shippingAddress = order.getShippingAddress();
+        this.testCaseID = new OpenCDXIdentifier(order.getTestCaseId());
+        return this;
     }
 }

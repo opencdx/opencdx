@@ -29,7 +29,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -46,6 +46,9 @@ public class OpenCDXManufacturerModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private OpenCDXAddressModel address;
     private ContactInfo contact;
@@ -54,9 +57,17 @@ public class OpenCDXManufacturerModel {
     private String website;
     private String description;
     private List<String> certifications;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -148,5 +159,25 @@ public class OpenCDXManufacturerModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXManufacturerModel with the information provided in the Manufacturer object.
+     *
+     * @param manufacturer the Manufacturer object containing the updated information
+     * @return the updated OpenCDXManufacturerModel
+     */
+    public OpenCDXManufacturerModel update(Manufacturer manufacturer) {
+        this.setName(manufacturer.getName());
+        if (manufacturer.hasManufacturerAddress()) {
+            this.address = new OpenCDXAddressModel(manufacturer.getManufacturerAddress());
+        }
+        this.setContact(manufacturer.getManufacturerContact());
+        this.setEmail(manufacturer.getManufacturerEmail());
+        this.setPhone(manufacturer.getManufacturerPhone());
+        this.setWebsite(manufacturer.getManufacturerWebsite());
+        this.setDescription(manufacturer.getManufacturerDescription());
+        this.setCertifications(manufacturer.getManufacturerCertificationsList());
+        return this;
     }
 }

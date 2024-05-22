@@ -44,6 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -163,7 +165,15 @@ class OpenCDXGrpcVendorControllerTest {
         Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(openCDXVendorModel));
+                .thenAnswer(new Answer<Optional<OpenCDXVendorModel>>() {
+                    @Override
+                    public Optional<OpenCDXVendorModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXVendorModel.builder().id(argument).build());
+                    }
+                });
+        ;
         Vendor vendor = Vendor.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .setVendorContact(ContactInfo.newBuilder().build())

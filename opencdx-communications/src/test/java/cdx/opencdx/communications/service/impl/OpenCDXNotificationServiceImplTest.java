@@ -157,10 +157,35 @@ class OpenCDXNotificationServiceImplTest {
                     }
                 });
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(OpenCDXIdentifier.get())
-                        .build()));
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXEmailTemplateModel model = OpenCDXEmailTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationEventModel model = OpenCDXNotificationEventModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXSMSTemplateModel model = OpenCDXSMSTemplateModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
+        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXNotificationModel model = OpenCDXNotificationModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(model);
+                });
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))

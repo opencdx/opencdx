@@ -16,19 +16,18 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.data.IamUser;
-import cdx.opencdx.grpc.service.iam.SignUpRequest;
+import cdx.opencdx.commons.dto.IamUser;
+import cdx.opencdx.commons.dto.SignUpRequest;
 import cdx.opencdx.grpc.types.AgentType;
 import cdx.opencdx.grpc.types.IamUserStatus;
 import cdx.opencdx.grpc.types.IamUserType;
-import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -41,16 +40,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document("users")
 public class OpenCDXIAMUserModel {
+    @Version
+    private long version;
+
     @Id
     private OpenCDXIdentifier id;
 
     private String username;
     private String systemName;
 
+    private OpenCDXIdentifier organizationId;
+    private OpenCDXIdentifier workspaceId;
+
     @Builder.Default
     private Boolean emailVerified = false;
 
-    private IamUserStatus status;
+    @Builder.Default
+    private IamUserStatus status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
+
     private IamUserType type;
     private String password;
 
@@ -63,9 +70,16 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Method to identify AgentType for Audit
@@ -93,6 +107,12 @@ public class OpenCDXIAMUserModel {
         this.username = request.getUsername();
         this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
         this.type = request.getType();
+        if (request.getOrganizationId() != null) {
+            this.organizationId = new OpenCDXIdentifier(request.getOrganizationId());
+        }
+        if (request.getWorkspaceId() != null) {
+            this.workspaceId = new OpenCDXIdentifier(request.getWorkspaceId());
+        }
     }
     /**
      * Constructor to convert in an IamUser
@@ -100,28 +120,20 @@ public class OpenCDXIAMUserModel {
      */
     public OpenCDXIAMUserModel(IamUser iamUser) {
         log.trace("Creating user from IAM User");
-        if (iamUser.hasId()) {
+        if (iamUser.getId() != null) {
             this.id = new OpenCDXIdentifier(iamUser.getId());
         }
         this.systemName = iamUser.getSystemName();
 
         this.username = iamUser.getUsername();
-        this.emailVerified = iamUser.getEmailVerified();
+        this.emailVerified = iamUser.isEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
-        if (iamUser.hasCreated()) {
-            this.created = Instant.ofEpochSecond(
-                    iamUser.getCreated().getSeconds(), iamUser.getCreated().getNanos());
+        if (iamUser.getOrganizationId() != null) {
+            this.organizationId = new OpenCDXIdentifier(iamUser.getOrganizationId());
         }
-        if (iamUser.hasModified()) {
-            this.modified = Instant.ofEpochSecond(
-                    iamUser.getModified().getSeconds(), iamUser.getModified().getNanos());
-        }
-        if (iamUser.hasCreator()) {
-            this.creator = new OpenCDXIdentifier(iamUser.getCreator());
-        }
-        if (iamUser.hasModifier()) {
-            this.modifier = new OpenCDXIdentifier(iamUser.getModifier());
+        if (iamUser.getWorkspaceId() != null) {
+            this.workspaceId = new OpenCDXIdentifier(iamUser.getWorkspaceId());
         }
     }
 
@@ -131,45 +143,62 @@ public class OpenCDXIAMUserModel {
      */
     public IamUser getIamUserProtobufMessage() {
         log.trace("Creating IAM User from user");
-        IamUser.Builder builder = IamUser.newBuilder();
+        IamUser.IamUserBuilder builder = IamUser.builder();
 
         if (this.id != null) {
-            builder.setId(this.id.toHexString());
+            builder.id(this.id.toHexString());
+        }
+
+        if (this.organizationId != null) {
+            builder.organizationId(this.organizationId.toHexString());
+        }
+        if (this.workspaceId != null) {
+            builder.workspaceId(this.workspaceId.toHexString());
         }
 
         if (this.username != null) {
-            builder.setUsername(this.username);
+            builder.username(this.username);
         }
         if (this.systemName != null) {
-            builder.setSystemName(this.systemName);
+            builder.systemName(this.systemName);
         }
         if (this.emailVerified != null) {
-            builder.setEmailVerified(this.emailVerified);
+            builder.emailVerified(this.emailVerified);
         }
         if (this.status != null) {
-            builder.setStatus(this.status);
+            builder.status(this.status);
         }
         if (this.type != null) {
-            builder.setType(this.type);
+            builder.type(this.type);
         }
         if (this.created != null) {
-            builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(this.created.getEpochSecond())
-                    .setNanos(this.created.getNano())
-                    .build());
+            builder.created(this.created.toString());
         }
         if (this.modified != null) {
-            builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(this.modified.getEpochSecond())
-                    .setNanos(this.modified.getNano())
-                    .build());
+            builder.modified(this.modified.toString());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator.toHexString());
+            builder.creator(this.creator.toHexString());
         }
         if (this.modified != null) {
-            builder.setModifier(this.modifier.toHexString());
+            builder.modifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the fields of the OpenCDXIAMUserModel object with the values from the given IamUser object.
+     *
+     * @param iamUser The IamUser object containing the updated field values.
+     * @return The updated OpenCDXIAMUserModel object.
+     */
+    public OpenCDXIAMUserModel update(IamUser iamUser) {
+        this.systemName = iamUser.getSystemName();
+
+        this.username = iamUser.getUsername();
+        this.emailVerified = iamUser.isEmailVerified();
+        this.status = iamUser.getStatus();
+        this.type = iamUser.getType();
+        return this;
     }
 }

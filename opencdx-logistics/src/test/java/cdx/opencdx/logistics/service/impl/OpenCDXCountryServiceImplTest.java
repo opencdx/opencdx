@@ -137,6 +137,13 @@ class OpenCDXCountryServiceImplTest {
 
     @Test
     void updateCountry() throws JsonProcessingException {
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(invocation -> {
+                    OpenCDXCountryModel openCDXCountryModel = OpenCDXCountryModel.builder()
+                            .id(invocation.getArgument(0))
+                            .build();
+                    return Optional.of(openCDXCountryModel);
+                });
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Country country = Country.newBuilder()

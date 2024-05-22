@@ -26,7 +26,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,6 +42,9 @@ public class OpenCDXIAMWorkspaceModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private String name;
     private String description;
     private Instant createDate;
@@ -55,9 +58,17 @@ public class OpenCDXIAMWorkspaceModel {
     private String availabilitySchedule;
     private List<Department> departments;
     private OpenCDXIdentifier organization;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -176,5 +187,32 @@ public class OpenCDXIAMWorkspaceModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates an OpenCDXIAMWorkspaceModel object with the given Workspace object's information.
+     *
+     * @param workspace the Workspace object containing the updated information
+     * @return the updated OpenCDXIAMWorkspaceModel object
+     */
+    public OpenCDXIAMWorkspaceModel update(Workspace workspace) {
+        this.name = workspace.getName();
+        this.description = workspace.getDescription();
+        if (workspace.hasCreatedDate()) {
+            this.createDate = Instant.ofEpochSecond(
+                    workspace.getCreatedDate().getSeconds(),
+                    workspace.getCreatedDate().getNanos());
+        }
+        this.location = workspace.getLocation();
+        this.manager = workspace.getManager();
+        this.capacity = workspace.getCapacity();
+        this.facilities = workspace.getFacilitiesList();
+        this.workspaceType = workspace.getWorkspaceType();
+        this.workspaceImageUrls = workspace.getWorkspaceImageUrlsList();
+        this.usagePolicy = workspace.getUsagePolicy();
+        this.availabilitySchedule = workspace.getAvailabilitySchedule();
+        this.departments = workspace.getDepartmentsList();
+        this.organization = new OpenCDXIdentifier(workspace.getOrganizationId());
+        return this;
     }
 }

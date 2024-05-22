@@ -75,17 +75,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.anf", name = "enabled", havingValue = "true")
-    OpenCDXANFClient openCDXANFClient(
-            @Value("${opencdx.client.anf.server}") String server,
-            @Value("${opencdx.client.anf.port}") Integer port,
-            @Value("${opencdx.client.trustStore}") String trustStore,
-            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        return new OpenCDXANFClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.audit", name = "enabled", havingValue = "true")
     OpenCDXAuditClient openCDXAuditClient(
             @Value("${opencdx.client.audit.server}") String server,
@@ -188,17 +177,6 @@ public class ClientConfig {
             throws SSLException {
         return new OpenCDXIAMProfileClientImpl(
                 createChannel(server, port, trustStore, observationGrpcClientInterceptor));
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
-    OpenCDXIAMUserClient openCDXIAMUserClient(
-            @Value("${opencdx.client.iam.server}") String server,
-            @Value("${opencdx.client.iam.port}") Integer port,
-            @Value("${opencdx.client.trustStore}") String trustStore,
-            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        return new OpenCDXIAMUserClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -377,6 +355,18 @@ public class ClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXMedicationClient openCDXMedicationClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXMedicationClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
     OpenCDXHeartRPMClient openCDXHeartRPMClient(
             @Value("${opencdx.client.health.server}") String server,
             @Value("${opencdx.client.health.port}") Integer port,
@@ -395,6 +385,29 @@ public class ClientConfig {
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXVaccineClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXAllergyClient openCDXAllergyClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXAllergyClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXDoctorNotesClient openCDXDoctorNotesClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXDoctorNotesClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     private ManagedChannel createChannel(

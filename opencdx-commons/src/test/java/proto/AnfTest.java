@@ -17,7 +17,6 @@ package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
-import cdx.opencdx.grpc.types.CircumstanceType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -51,9 +50,6 @@ class AnfTest {
     @Test
     void testAnfStatement() throws JsonProcessingException {
         ANFStatement anfStatement = ANFStatement.newBuilder()
-                .setId(ANFIdentifier.newBuilder()
-                        .setId(OpenCDXIdentifier.get().toHexString())
-                        .build())
                 .setTime(Measure.newBuilder()
                         .setUpperBound("100")
                         .setLowerBound("0.0")
@@ -76,8 +72,21 @@ class AnfTest {
                         .build()))
                 .setTopic("Topic")
                 .setType("Type")
-                .setCircumstanceChoice(CircumstanceChoice.newBuilder()
-                        .setCircumstanceType(CircumstanceType.NARRATIVE_CIRCUMSTANCE)
+                .setPerformanceCircumstance(PerformanceCircumstance.newBuilder()
+                        .setStatus(
+                                "{\"expressionType\":\"simple\",\"expressionLanguage\":\"local\",\"expressionValue\":\"performed\",\"expressionDescription\":\"Measurement action has been performed.\"}")
+                        .setHealthRisk("${{rules.engine.calculated[circumstanceChoice.result]}}")
+                        .setResult(Measure.newBuilder()
+                                .setLowerBound("90")
+                                .setIncludeLowerBound(false)
+                                .setSemantic("")
+                                .setResolution("{{REPLACE_3079919224534}}")
+                                .setUpperBound("120")
+                                .setIncludeUpperBound(false)
+                                .build())
+                        .setNormalRange(Measure.getDefaultInstance())
+                        .setTiming(Measure.getDefaultInstance())
+                        .addAllParticipant(List.of(Participant.getDefaultInstance()))
                         .build())
                 .build();
 

@@ -30,7 +30,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -47,6 +47,9 @@ public class OpenCDXIAMProviderModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier userId;
     private String created_epoch;
     private String enumeration_type;
@@ -59,10 +62,19 @@ public class OpenCDXIAMProviderModel {
     private List<Identifier> identifiers;
     private List<String> endpoints;
     private List<String> otherNames;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
+
     private ProviderStatus status;
 
     /**
