@@ -15,9 +15,12 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXMedicationAdministrationModel;
 import io.micrometer.observation.annotation.Observed;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,4 +29,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXMedicationAdministrationRepository
-        extends OpenCDXRepository<OpenCDXMedicationAdministrationModel> {}
+        extends OpenCDXRepository<OpenCDXMedicationAdministrationModel> {
+    /**
+     * Find all medications by patient id.
+     * @param patientId the patient id
+     * @param pageable the pageable
+     * @return the Page of medications
+     */
+    Page<OpenCDXMedicationAdministrationModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
+}

@@ -13,17 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.service;
+package cdx.opencdx.commons.repository;
 
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import io.micrometer.observation.annotation.Observed;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
- * Interface for the OpenCDXCDCPayloadService
+ * Repository for protobuf Classification and OpenCDXClassificationModel.
  */
-public interface OpenCDXCDCPayloadService {
-    /**
-     * Prepares a payload to be sent to CDC for a connected test.
-     * @param model OpenCDXClassificationModel for this classification of the test.
-     */
-    void sendCDCPayloadMessage(OpenCDXClassificationModel model);
+@Repository
+@Observed(name = "opencdx")
+public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationModel> {
+
+    @Query( value = "{ 'patient.id' : ?0 }")
+    List<OpenCDXClassificationModel> findAllByPatientId(OpenCDXIdentifier id);
 }

@@ -63,6 +63,11 @@ public interface OpenCDXMessageService {
     String CONNECTED_LAB_FINDINGS = "opencdx.connected.lab.findings";
 
     /**
+     * OpenCDXMessage Subject for Medical Record messages
+     */
+    String MEDICAL_RECORD_MESSAGE = "opencdx.medical.record.message";
+
+    /**
      * List of all the subjects.
      */
     List<String> SUBJECTS = List.of(
@@ -72,7 +77,8 @@ public interface OpenCDXMessageService {
             CDC_MESSAGE_SUBJECT,
             ORDER_MESSAGE_SUBJECT,
             DELIVERY_TRACKING_MESSAGE_SUBJECT,
-            CONNECTED_LAB_FINDINGS);
+            CONNECTED_LAB_FINDINGS,
+            MEDICAL_RECORD_MESSAGE);
 
     /**
      * Subscribe to a message subject and the handlers for received those messages

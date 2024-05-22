@@ -1969,6 +1969,28 @@ enum VitalStatus {
 }
 
 /*
+ * Enum defining possible Medical record
+ */
+enum MedicalRecordStatus {
+  /*
+   * Default or unspecified Medical record.
+   */
+  MEDICAL_RECORD_STATUS_UNSPECIFIED = 0;
+  /*
+   * Medical record exported.
+   */
+  MEDICAL_RECORD_STATUS_EXPORT = 1;
+  /*
+   * Medical record imported.
+   */
+  MEDICAL_RECORD_STATUS_IMPORT = 2;
+  /*
+   * Medical record complete.
+   */
+  MEDICAL_RECORD_STATUS_COMPLETE = 3;
+}
+
+/*
  * Enum defining blood type of a patient.
  */
 enum BloodType {
