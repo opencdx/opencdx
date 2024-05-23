@@ -264,60 +264,6 @@ public class OpenCDXRoutineClientImpl implements OpenCDXRoutineClient {
     }
 
     /**
-     * Method to gRPC Call Routine Service createSuspectedDiagnosis() api.
-     *
-     * @param request                Suspected Diagnosis request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Suspected Diagnosis response.
-     */
-    @Override
-    public SuspectedDiagnosisResponse createSuspectedDiagnosis(
-            SuspectedDiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
-        try {
-            return routineSystemServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .createSuspectedDiagnosis(request);
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_ROUTINE_CLIENT_IMPL,
-                    11,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    /**
-     * Method to gRPC Call Routine Service getSuspectedDiagnosis() api.
-     *
-     * @param request                Suspected Diagnosis request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Suspected Diagnosis response.
-     */
-    @Override
-    public SuspectedDiagnosisResponse getSuspectedDiagnosis(
-            SuspectedDiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException {
-        try {
-            return routineSystemServiceBlockingStub
-                    .withCallCredentials(openCDXCallCredentials)
-                    .getSuspectedDiagnosis(request);
-        } catch (StatusRuntimeException e) {
-            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(
-                    Code.forNumber(status.getCode()),
-                    OPEN_CDX_ROUTINE_CLIENT_IMPL,
-                    12,
-                    status.getMessage(),
-                    status.getDetailsList(),
-                    e);
-        }
-    }
-
-    /**
      * Method to gRPC Call Routine Service createLabResult() api.
      *
      * @param request                Lab Result request

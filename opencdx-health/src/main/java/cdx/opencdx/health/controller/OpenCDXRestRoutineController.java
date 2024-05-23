@@ -154,36 +154,6 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Suspected Diagnosis
-    /**
-     * Post Suspected Diagnosis Rest API
-     * @param request SuspectedDiagnosisRequest indicating input.
-     * @return SuspectedDiagnosisResponse with the data.
-     */
-    @PostMapping(value = "/suspectedDiagnosis", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SuspectedDiagnosisResponse> triggerSuspectedDiagnosis(
-            @RequestBody SuspectedDiagnosisRequest request) {
-        SuspectedDiagnosisResponse response = openCDXRoutineService.triggerSuspectedDiagnosis(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * Get Suspected Diagnosis using GET method
-     * @param suspectedDiagnosisId The ID of the suspected diagnosis to retrieve.
-     * @return SuspectedDiagnosisResponse with the data.
-     */
-    @GetMapping("/suspectedDiagnosis/{suspectedDiagnosisId}")
-    public ResponseEntity<SuspectedDiagnosisResponse> getSuspectedDiagnosis(
-            @PathVariable(value = "suspectedDiagnosisId") String suspectedDiagnosisId) {
-        SuspectedDiagnosisRequest request = SuspectedDiagnosisRequest.newBuilder()
-                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId(suspectedDiagnosisId)
-                        .build())
-                .build();
-        SuspectedDiagnosisResponse response = openCDXRoutineService.getSuspectedDiagnosis(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     // Lab Result
     /**
      * Post Lab Result Rest API

@@ -171,32 +171,6 @@ class OpenCDXRoutineServiceImplTest {
     }
 
     @Test
-    void triggerSuspectedDiagnosis() {
-        SuspectedDiagnosisRequest suspectedDiagnosisRequest = SuspectedDiagnosisRequest.newBuilder()
-                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId("789")
-                        .build())
-                .build();
-
-        SuspectedDiagnosisResponse response = routineService.triggerSuspectedDiagnosis(suspectedDiagnosisRequest);
-
-        Assertions.assertEquals("789", response.getSuspectedDiagnosis().getSuspectedDiagnosisId());
-    }
-
-    @Test
-    void getSuspectedDiagnosis() {
-        SuspectedDiagnosisRequest suspectedDiagnosisRequest = SuspectedDiagnosisRequest.newBuilder()
-                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId("789")
-                        .build())
-                .build();
-
-        SuspectedDiagnosisResponse response = routineService.getSuspectedDiagnosis(suspectedDiagnosisRequest);
-
-        Assertions.assertEquals("789", response.getSuspectedDiagnosis().getSuspectedDiagnosisId());
-    }
-
-    @Test
     void triggerLabResult() {
         LabResultRequest labResultRequest = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder().setResultId("789").build())

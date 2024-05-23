@@ -230,54 +230,6 @@ class OpenCDXRoutineClientImplTest {
     }
 
     @Test
-    void createSuspectedDiagnosis() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createSuspectedDiagnosis(
-                        Mockito.any(SuspectedDiagnosisRequest.class)))
-                .thenReturn(SuspectedDiagnosisResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                SuspectedDiagnosisResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.createSuspectedDiagnosis(
-                        SuspectedDiagnosisRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void createSuspectedDiagnosisException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createSuspectedDiagnosis(
-                        Mockito.any(SuspectedDiagnosisRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        SuspectedDiagnosisRequest request = SuspectedDiagnosisRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.createSuspectedDiagnosis(request, openCDXCallCredentials));
-    }
-
-    @Test
-    void getSuspectedDiagnosis() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getSuspectedDiagnosis(
-                        Mockito.any(SuspectedDiagnosisRequest.class)))
-                .thenReturn(SuspectedDiagnosisResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                SuspectedDiagnosisResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.getSuspectedDiagnosis(
-                        SuspectedDiagnosisRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void getSuspectedDiagnosisException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getSuspectedDiagnosis(
-                        Mockito.any(SuspectedDiagnosisRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        SuspectedDiagnosisRequest request = SuspectedDiagnosisRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.getSuspectedDiagnosis(request, openCDXCallCredentials));
-    }
-
-    @Test
     void createLabResult() {
         Mockito.when(this.routineSystemServiceBlockingStub.createLabResult(Mockito.any(LabResultRequest.class)))
                 .thenReturn(LabResultResponse.getDefaultInstance());

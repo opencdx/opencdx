@@ -2978,6 +2978,20 @@ message Diagnosis {
    * Entities that are related to this diagnosis (e.g., Patients, Practitioners)
    */
   repeated string related_entities = 5;
+  /*
+  * National Health Identifier
+  */
+  string national_health_id = 6;
+
+  /*
+  * Patient ID
+  */
+  string patient_id = 7;
+
+  /*
+  * Diagnosis Status
+  */
+  cdx.opencdx.grpc.types.DiagnosisStatus DiagnosisStatus = 8;
 }
 /*
  * This represents the diagnosis code
@@ -3000,37 +3014,6 @@ message DiagnosisCode {
    * Provider who made the diagnosis
    */
   string provider_id = 4;
-}
-
-/*
- * This message represents a Suspected Diagnosis entity.
- * It includes both required and optional fields.
- */
-message SuspectedDiagnosis {
-  /*
-   * This is a unique identifier for suspected diagnosis
-   */
-  optional string suspected_diagnosis_id = 1;
-
-  /*
-   * This represents the diagnosis code assigned to the suspected diagnosis
-   */
-  DiagnosisCode diagnosis_code = 2;
-
-  /*
-   * This indicates the time when the suspected diagnosis was made
-   */
-  google.protobuf.Timestamp diagnosis_datetime = 3;
-
-  /*
-   * This refers to the value set that triggered the creation of the eICR
-   */
-  optional string matched_value_set = 4;
-
-  /*
-   * Entities that are related to this suspected diagnosis (e.g., Patients, Practitioners)
-   */
-  repeated string related_entities = 5;
 }
 
 /*

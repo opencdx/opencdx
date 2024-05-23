@@ -87,22 +87,6 @@ public interface OpenCDXRoutineService {
     DiagnosisResponse getDiagnosis(DiagnosisRequest request);
 
     /**
-     * Triggers a suspected diagnosis based on the provided SuspectedDiagnosisRequest.
-     *
-     * @param request The SuspectedDiagnosisRequest for triggering a suspected diagnosis.
-     * @return A SuspectedDiagnosisResponse indicating the status of the suspected diagnosis triggering.
-     */
-    SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request);
-
-    /**
-     * Retrieves information about a suspected diagnosis based on the provided SuspectedDiagnosisRequest.
-     *
-     * @param request The SuspectedDiagnosisRequest for retrieving suspected diagnosis information.
-     * @return A SuspectedDiagnosisResponse containing information about the requested suspected diagnosis.
-     */
-    SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request);
-
-    /**
      * Triggers a lab result based on the provided LabResultRequest.
      *
      * @param request The LabResultRequest for triggering a lab result.

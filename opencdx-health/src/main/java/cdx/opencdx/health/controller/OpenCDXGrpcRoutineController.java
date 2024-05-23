@@ -154,34 +154,6 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
     }
 
     /**
-     * gRPC Service Call to createSuspectedDiagnosis.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void createSuspectedDiagnosis(
-            SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
-        SuspectedDiagnosisResponse response = openCDXRoutineService.triggerSuspectedDiagnosis(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-
-    /**
-     * gRPC Service Call to getSuspectedDiagnosis.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void getSuspectedDiagnosis(
-            SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
-        SuspectedDiagnosisResponse response = openCDXRoutineService.getSuspectedDiagnosis(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-
-    /**
      * gRPC Service Call to createLabResult.
      * @param request Request to process.
      * @param responseObserver Observer to process the response.

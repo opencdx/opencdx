@@ -451,26 +451,6 @@ message DiagnosisResponse {
 }
 
 /*
- * Message for Requesting a new Suspected Diagnosis record.
- */
-message SuspectedDiagnosisRequest {
-  /*
-   * Data structure for suspected diagnosis
-   */
-  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
-}
-
-/*
- * Response message after Suspected Diagnosis operation.
- */
-message SuspectedDiagnosisResponse {
-  /*
-   * The suspected diagnosis data that was created
-   */
-  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
-}
-
-/*
  * Request message for Lab Result operation which requires all necessary information to create Lab Result data.
  */
 message LabResultRequest {
@@ -1523,14 +1503,6 @@ service RoutineSystemService {
    * RPC service for retrieving information about a specific diagnosis entity.
    */
   rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
-  /*
-   * RPC service for creating a new suspected diagnosis entity.
-   */
-  rpc CreateSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
-  /*
-   * RPC service for retrieving information about a suspected diagnosis entity.
-   */
-  rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
   /*
    * RPC service for creating a new lab result entity.
    */
