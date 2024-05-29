@@ -16,6 +16,9 @@
 
 ℹ️ Specific version not required, but the latest version is recommended.
 
+## Software Installation
+To Install the above required software to run OpenCDx, please refer to the installation instructions as detailed [here](INSTALL.md)
+
 ## Description
 
 OpenCDX is a platform for the management of clinical data exchange. It is designed to be a secure, scalable, and interoperable platform for the exchange of clinical data. 
