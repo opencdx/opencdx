@@ -15,10 +15,6 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -35,9 +31,6 @@ import cdx.opencdx.health.service.impl.OpenCDXVaccineServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -62,6 +55,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -190,6 +190,25 @@ class OpenCDXVaccineRestControllerTest {
     void trackVaccine() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/vaccine")
+                        .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
+                                .setNationalHealthId(ObjectId.get().toHexString())
+                                .setFips("fips")
+                                .setHealthDistrict("district")
+                                .setDoseNumber(2)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void updateVaccine() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(put("/vaccine")
                         .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setPatientId(ObjectId.get().toHexString())

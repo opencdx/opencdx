@@ -1742,7 +1742,10 @@ service VaccineService {
    * Retrieve vaccine information by ID.
    */
   rpc GetVaccineById(GetVaccineByIdRequest) returns (cdx.opencdx.grpc.data.Vaccine);
-
+  /*
+   * Update vaccine information.
+   */
+  rpc UpdateVaccine(cdx.opencdx.grpc.data.Vaccine) returns (cdx.opencdx.grpc.data.Vaccine);
   /*
    * Retrieve vaccine information by patient ID within a date range.
    */

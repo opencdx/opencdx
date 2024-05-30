@@ -27,6 +27,7 @@ public interface OpenCDXMedicalRecordMessageService {
 
     /**
      * Method to send a Notificaiton to opencdx-communication
+     * @param medicalRecord The Medical Record to send.
      */
     void sendMedicalRecord(MedicalRecord medicalRecord);
 }

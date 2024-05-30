@@ -37,9 +37,10 @@ import cdx.opencdx.health.service.OpenCDXMedicalRecordService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for processing Medical Record
@@ -71,6 +72,8 @@ public class OpenCDXMedicalRecordServiceImpl implements OpenCDXMedicalRecordServ
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      * @param openCDXDocumentValidator       Validator for documents
      * @param openCDXMedicalRecordRepository Mongo Repository for OpenCDXMedicalRecord
+     * @param openCDXProfileRepository       Mongo Repository for OpenCDXProfile
+     * @param openCDXMedicalRecordMessageService Service for sending messages
      */
     public OpenCDXMedicalRecordServiceImpl(
             OpenCDXAuditService openCDXAuditService,

@@ -33,9 +33,6 @@ import cdx.opencdx.health.service.impl.OpenCDXVaccineServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +49,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -178,6 +179,23 @@ class OpenCDXVaccineGrpcControllerTest {
     void trackVaccineAdministration() {
         StreamObserver<Vaccine> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXVaccineGrpcController.trackVaccineAdministration(
+                Vaccine.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setNationalHealthId(ObjectId.get().toHexString())
+                        .setFips("fips")
+                        .setHealthDistrict("district")
+                        .setDoseNumber(2)
+                        .build(),
+                responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Vaccine.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateVaccine() {
+        StreamObserver<Vaccine> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXVaccineGrpcController.updateVaccine(
                 Vaccine.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .setPatientId(ObjectId.get().toHexString())

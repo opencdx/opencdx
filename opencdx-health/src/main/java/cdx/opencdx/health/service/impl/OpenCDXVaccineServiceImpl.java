@@ -35,13 +35,14 @@ import cdx.opencdx.health.service.OpenCDXVaccineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for Vaccine
@@ -132,6 +133,39 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "Vaccine Accessed",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    VACCINE + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, FAILED_TO_CONVERT_OPEN_CDX_VACCINE_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+        return model.getProtobufMessage();
+    }
+
+    @Override
+    public Vaccine updateVaccine(Vaccine request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(PROFILES, new OpenCDXIdentifier(request.getPatientId()));
+        OpenCDXVaccineModel vaccineModel = this.openCDXVaccineRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        "FAILED_TO_FIND_VACCINE" + request.getId()));
+        OpenCDXVaccineModel model = this.openCDXVaccineRepository.save(vaccineModel.update(request));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Vaccine Prescribed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     AuditEntity.newBuilder()
                             .setPatientId(model.getId().toHexString())

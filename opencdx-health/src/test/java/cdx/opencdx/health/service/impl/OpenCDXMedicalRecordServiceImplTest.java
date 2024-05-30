@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.health.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXForbidden;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -37,9 +34,6 @@ import cdx.opencdx.health.repository.OpenCDXMedicalRecordRepository;
 import cdx.opencdx.health.service.OpenCDXMedicalRecordService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +46,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -320,6 +321,63 @@ class OpenCDXMedicalRecordServiceImplTest {
     }
 
     @Test
+    void testGetMedicalRecordStatusNotFound() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+        Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicalRecordModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        MedicalRecordByIdRequest request = MedicalRecordByIdRequest.newBuilder()
+                .setMedicalRecordId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        this.openCDXMedicalRecordService = new OpenCDXMedicalRecordServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper,
+                this.openCDXDocumentValidator,
+                this.openCDXMedicalRecordRepository,
+                this.openCDXProfileRepository,
+                this.openCDXMedicalRecordMessageService);
+        assertThrows(OpenCDXNotFound.class, () -> openCDXMedicalRecordService.getMedicalRecordStatus(request));
+    }
+
+    @Test
+    void testGetMedicalRecordStatusJsonException() throws JsonProcessingException {
+
+        Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXMedicalRecordModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        // OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
+                                .userId(OpenCDXIdentifier.get())
+                                .build());
+                    }
+                });
+        MedicalRecordByIdRequest request = MedicalRecordByIdRequest.newBuilder()
+                .setMedicalRecordId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        this.openCDXMedicalRecordService = new OpenCDXMedicalRecordServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper,
+                this.openCDXDocumentValidator,
+                this.openCDXMedicalRecordRepository,
+                this.openCDXProfileRepository,
+                this.openCDXMedicalRecordMessageService);
+        assertThrows(OpenCDXNotAcceptable.class, () -> openCDXMedicalRecordService.getMedicalRecordStatus(request));
+    }
+
+    @Test
     void testGetMedicalRecordStatusNotComplete() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
         Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
@@ -442,6 +500,31 @@ class OpenCDXMedicalRecordServiceImplTest {
     }
 
     @Test
+    void testGetMedicalRecordByIdNotFound() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+        Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicalRecordModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        MedicalRecordByIdRequest request = MedicalRecordByIdRequest.newBuilder()
+                .setMedicalRecordId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        this.openCDXMedicalRecordService = new OpenCDXMedicalRecordServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper,
+                this.openCDXDocumentValidator,
+                this.openCDXMedicalRecordRepository,
+                this.openCDXProfileRepository,
+                this.openCDXMedicalRecordMessageService);
+        assertThrows(OpenCDXNotFound.class, () ->openCDXMedicalRecordService.getMedicalRecordById(request));
+    }
+
+    @Test
     void testGetMedicalRecordByIdJSON() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXMedicalRecordModel.class)))
                 .thenThrow(JsonProcessingException.class);
@@ -499,6 +582,61 @@ class OpenCDXMedicalRecordServiceImplTest {
     }
 
     @Test
+    void testGetMedicalRecordByIdJSONException() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXMedicalRecordModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicalRecordModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXMedicalRecordModel.builder()
+                                .id(argument)
+                                .status(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE)
+                                .userProfile(UserProfile.newBuilder()
+                                        .setId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .build())
+                                .classificationsList(List.of(Classification.newBuilder()
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .build()))
+                                .medicationList(List.of(Medication.newBuilder().build()))
+                                .medicationAdministrationList(List.of(
+                                        MedicationAdministration.newBuilder().build()))
+                                .knownAllergyList(
+                                        List.of(KnownAllergy.newBuilder().build()))
+                                .doctorNotesList(
+                                        List.of(DoctorNotes.newBuilder().build()))
+                                .vaccineList(List.of(Vaccine.newBuilder().build()))
+                                .heightMeasurementList(
+                                        List.of(HeightMeasurement.newBuilder().build()))
+                                .weightMeasurementList(
+                                        List.of(WeightMeasurement.newBuilder().build()))
+                                .bpmList(List.of(BPM.newBuilder().build()))
+                                .heartRPMList(List.of(HeartRPM.newBuilder().build()))
+                                .userQuestionnaireDataList(List.of(
+                                        UserQuestionnaireData.newBuilder().build()))
+                                .connectedTestList(
+                                        List.of(ConnectedTest.newBuilder().build()))
+                                .build());
+                    }
+                });
+        MedicalRecordByIdRequest request = MedicalRecordByIdRequest.newBuilder()
+                .setMedicalRecordId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        this.openCDXMedicalRecordService = new OpenCDXMedicalRecordServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper,
+                this.openCDXDocumentValidator,
+                this.openCDXMedicalRecordRepository,
+                this.openCDXProfileRepository,
+                this.openCDXMedicalRecordMessageService);
+        assertThrows(OpenCDXNotAcceptable.class, () -> openCDXMedicalRecordService.getMedicalRecordById(request));
+    }
+
+    @Test
     void testGetMedicalRecordByIdException() {
         Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
@@ -549,5 +687,91 @@ class OpenCDXMedicalRecordServiceImplTest {
                 this.openCDXProfileRepository,
                 this.openCDXMedicalRecordMessageService);
         assertThrows(OpenCDXForbidden.class, () -> openCDXMedicalRecordService.getMedicalRecordById(request));
+    }
+
+    @Test
+    void testCreateMedicalRecordJSONException() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXMedicalRecordModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        Mockito.when(this.openCDXMedicalRecordRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
+                    @Override
+                    public Optional<OpenCDXMedicalRecordModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXMedicalRecordModel.builder()
+                                .id(argument)
+                                .status(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE)
+                                .userProfile(UserProfile.newBuilder()
+                                        .setId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .build())
+                                .classificationsList(List.of(Classification.newBuilder()
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .build()))
+                                .medicationList(List.of(Medication.newBuilder().build()))
+                                .medicationAdministrationList(List.of(
+                                        MedicationAdministration.newBuilder().build()))
+                                .knownAllergyList(
+                                        List.of(KnownAllergy.newBuilder().build()))
+                                .doctorNotesList(
+                                        List.of(DoctorNotes.newBuilder().build()))
+                                .vaccineList(List.of(Vaccine.newBuilder().build()))
+                                .heightMeasurementList(
+                                        List.of(HeightMeasurement.newBuilder().build()))
+                                .weightMeasurementList(
+                                        List.of(WeightMeasurement.newBuilder().build()))
+                                .bpmList(List.of(BPM.newBuilder().build()))
+                                .heartRPMList(List.of(HeartRPM.newBuilder().build()))
+                                .userQuestionnaireDataList(List.of(
+                                        UserQuestionnaireData.newBuilder().build()))
+                                .connectedTestList(
+                                        List.of(ConnectedTest.newBuilder().build()))
+                                .build());
+                    }
+                });
+        CreateMedicalRecordRequest request = CreateMedicalRecordRequest.newBuilder()
+                .setMedicalRecord(MedicalRecord.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_EXPORT)
+                        .setUserProfile(UserProfile.newBuilder()
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .build())
+                        .addAllClassification(List.of(Classification.newBuilder()
+                                .setPatientId(
+                                        OpenCDXIdentifier.get().toHexString())
+                                .build()))
+                        .addAllMedication(
+                                List.of(Medication.newBuilder().build()))
+                        .addAllMedicationAdministration(List.of(MedicationAdministration.newBuilder()
+                                .build()))
+                        .addAllKnownAllergy(List.of(
+                                KnownAllergy.newBuilder().build()))
+                        .addAllDoctorNotes(
+                                List.of(DoctorNotes.newBuilder().build()))
+                        .addAllVaccine(
+                                List.of(Vaccine.newBuilder().build()))
+                        .addAllHeightMeasurement(List.of(
+                                HeightMeasurement.newBuilder().build()))
+                        .addAllWeightMeasurement(List.of(
+                                WeightMeasurement.newBuilder().build()))
+                        .addAllBpm(List.of(BPM.newBuilder().build()))
+                        .addAllHeartRPM(
+                                List.of(HeartRPM.newBuilder().build()))
+                        .addAllUserQuestionnaireData(List.of(UserQuestionnaireData.newBuilder()
+                                .build()))
+                        .addAllConnectedTest(List.of(
+                                ConnectedTest.newBuilder().build()))
+                        .build())
+                .build();
+        this.openCDXMedicalRecordService = new OpenCDXMedicalRecordServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper,
+                this.openCDXDocumentValidator,
+                this.openCDXMedicalRecordRepository,
+                this.openCDXProfileRepository,
+                this.openCDXMedicalRecordMessageService);
+        assertThrows(OpenCDXNotAcceptable.class, () -> openCDXMedicalRecordService.createMedicalRecord(request));
     }
 }

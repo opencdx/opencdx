@@ -31,6 +31,11 @@ import java.util.List;
 @Observed(name = "opencdx")
 public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationModel> {
 
+    /**
+     * Find all classification by patient id.
+     * @param id identifier.
+     * @return List of classification.
+     */
     @Query( value = "{ 'patient.id' : ?0 }")
     List<OpenCDXClassificationModel> findAllByPatientId(OpenCDXIdentifier id);
 }

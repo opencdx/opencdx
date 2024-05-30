@@ -38,7 +38,7 @@ public class OpenCDXMedicalRecordHandler implements OpenCDXMessageHandler {
     /**
      * Constructor for OpenCDXMedicalRecordHandler
      * @param openCDXMessageService Service for handling messages
-     * @param openCDXMedicalRecordService Service for processing connected lab requests
+     * @param openCDXMedicalRecordProcessService Service for processing connected lab requests
      * @param objectMapper Object Mapper for processing JSON
      */
     public OpenCDXMedicalRecordHandler(
