@@ -142,9 +142,9 @@ using option 13 in the deploy menu while deploying the application
 
 ### protoc-gen-doc: 1.5.1
 - Download the protoc-gen-doc from the following locations based on your OS type
-  > [AMD64](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_windows_amd64.tar.gz)
+  > [Intel / AMD64](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_windows_amd64.tar.gz)
   > 
-  > [X64 (Intel)](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_windows_arm64.tar.gz)
+  > [ARM (AArch64)](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_windows_arm64.tar.gz)
 - Unzip the downloaded file to a location of your choice. This location of the exec can be used to generate the proto documentation
   using option 13 in the deploy menu while deploying the application
 
@@ -241,8 +241,8 @@ docker --version
 
 ### protoc-gen-doc: 1.5.1
 - Download the protoc-gen-doc from the following locations based on your OS type
-  > [AMD64](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_amd64.tar.gz)
+  > [Intel / AMD64](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_amd64.tar.gz)
   >
-  > [X64 (Intel)](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_arm64.tar.gz)
+  > [ARM (AArch64)](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_arm64.tar.gz)
 - Unzip the downloaded file to a location of your choice. This location of the exec can be used to generate the proto documentation
   using option 13 in the deploy menu while deploying the application
