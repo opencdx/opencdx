@@ -80,24 +80,6 @@ public interface OpenCDXRoutineClient {
             throws OpenCDXClientException;
 
     /**
-     * Method to gRPC Call Routine Service createDiagnosis() api.
-     * @param request Diagnosis request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Diagnosis response.
-     */
-    DiagnosisResponse createDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
-
-    /**
-     * Method to gRPC Call Routine Service getDiagnosis() api.
-     * @param request Diagnosis request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Diagnosis response.
-     */
-    DiagnosisResponse getDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
-
-    /**
      * Method to gRPC Call Routine Service createLabResult() api.
      * @param request Lab Result request
      * @param openCDXCallCredentials Call Credentials to use for send.

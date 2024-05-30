@@ -128,32 +128,6 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Diagnosis
-    /**
-     * Post Diagnosis Rest API
-     * @param request DiagnosisRequest indicating input.
-     * @return DiagnosisResponse with the data.
-     */
-    @PostMapping(value = "/diagnosis", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DiagnosisResponse> triggerDiagnosis(@RequestBody DiagnosisRequest request) {
-        DiagnosisResponse response = openCDXRoutineService.triggerDiagnosis(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * Get Diagnosis using GET method
-     * @param diagnosisId The ID of the diagnosis to retrieve.
-     * @return DiagnosisResponse with the data.
-     */
-    @GetMapping("/diagnosis/{diagnosisId}")
-    public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable(value = "diagnosisId") String diagnosisId) {
-        DiagnosisRequest request = DiagnosisRequest.newBuilder()
-                .setDiagnosis(Diagnosis.newBuilder().setDiagnosisId(diagnosisId).build())
-                .build();
-        DiagnosisResponse response = openCDXRoutineService.getDiagnosis(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     // Lab Result
     /**
      * Post Lab Result Rest API

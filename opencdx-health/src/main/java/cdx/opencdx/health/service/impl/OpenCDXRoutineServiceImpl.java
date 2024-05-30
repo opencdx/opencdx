@@ -117,35 +117,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     }
 
     /**
-     * Trigger a diagnosis based on the provided DiagnosisRequest.
-     * @param request The DiagnosisRequest to be processed
-     * @return Message indicating the completion of the diagnosis triggering
-     */
-    @Override
-    public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
-        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getDiagnosis().getRelatedEntitiesList().stream()
-                .map(OpenCDXIdentifier::new)
-                .toList());
-
-        return DiagnosisResponse.newBuilder()
-                .setDiagnosis(request.getDiagnosis())
-                .build();
-    }
-
-    /**
-     * Retrieve diagnosis information from the provided DiagnosisRequest.
-     * @param request The DiagnosisRequest for retrieving diagnosis details
-     * @return Message containing details of the requested diagnosis
-     */
-    @Override
-    public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
-
-        return DiagnosisResponse.newBuilder()
-                .setDiagnosis(request.getDiagnosis())
-                .build();
-    }
-
-    /**
      * Trigger a lab result based on the provided LabResultRequest.
      * @param request The LabResultRequest to be processed
      * @return Message indicating the completion of the lab result triggering

@@ -451,6 +451,41 @@ message DiagnosisResponse {
 }
 
 /*
+ * Request message for listing diagnosis by patient ID or national health ID.
+ */
+message ListDiagnosisRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the patient.
+   */
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+/*
+ * Response message for listing diagnosis.
+ */
+message ListDiagnosisResponse {
+  /*
+   * List of diagnosis.
+   */
+  repeated cdx.opencdx.grpc.data.Diagnosis diagnosis = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
  * Request message for Lab Result operation which requires all necessary information to create Lab Result data.
  */
 message LabResultRequest {
@@ -1466,7 +1501,31 @@ service UserProfileService {
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
 }
 
-
+/*
+ * gRPC services and operations for managing medical conditions data.
+ */
+service MedicalConditionsService {
+  /*
+ * RPC service for creating a new diagnosis entity.
+ */
+  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+  * RPC service for updating a diagnosis entity.
+  */
+  rpc UpdateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+  * RPC service for deleting a diagnosis entity.
+  */
+  rpc DeleteDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+   * RPC service for retrieving information about a specific diagnosis entity.
+   */
+  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+  * Retrieve diagnosis information by patient ID or national health id.
+  */
+  rpc ListDiagnosis(ListDiagnosisRequest) returns (ListDiagnosisResponse);
+}
 /*
  * gRPC services and operations for managing healthcare data.
  */
@@ -1495,14 +1554,7 @@ service RoutineSystemService {
    * RPC service for retrieving information about a specific lab order entity.
    */
   rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
-  /*
-   * RPC service for creating a new diagnosis entity.
-   */
-  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
-  /*
-   * RPC service for retrieving information about a specific diagnosis entity.
-   */
-  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+
   /*
    * RPC service for creating a new lab result entity.
    */

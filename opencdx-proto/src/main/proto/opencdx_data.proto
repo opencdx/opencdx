@@ -2978,6 +2978,7 @@ message Diagnosis {
    * Entities that are related to this diagnosis (e.g., Patients, Practitioners)
    */
   repeated string related_entities = 5;
+
   /*
   * National Health Identifier
   */
@@ -2992,6 +2993,23 @@ message Diagnosis {
   * Diagnosis Status
   */
   cdx.opencdx.grpc.types.DiagnosisStatus DiagnosisStatus = 8;
+
+  /*
+ * Creation timestamp of the data.
+ */
+  optional google.protobuf.Timestamp created = 9;
+  /*
+   * Modification timestamp of the data.
+   */
+  optional google.protobuf.Timestamp modified = 10;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 11;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 12;
 }
 /*
  * This represents the diagnosis code

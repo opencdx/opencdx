@@ -155,33 +155,6 @@ class OpenCDXGrpcRoutineControllerTest {
     }
 
     @Test
-    void testCreateDiagnosis() {
-        StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.createDiagnosis(
-                DiagnosisRequest.newBuilder(DiagnosisRequest.getDefaultInstance())
-                        .setDiagnosis(
-                                Diagnosis.newBuilder().setDiagnosisId("789").build())
-                        .build(),
-                responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DiagnosisResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void testGetDiagnosis() {
-        StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.getDiagnosis(
-                DiagnosisRequest.newBuilder()
-                        .setDiagnosis(
-                                Diagnosis.newBuilder().setDiagnosisId("789").build())
-                        .build(),
-                responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DiagnosisResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
     void testCreateLabResult() {
         StreamObserver<LabResultResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXGrpcRoutineController.createLabResult(
