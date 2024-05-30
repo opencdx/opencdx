@@ -162,7 +162,7 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
         OpenCDXVaccineModel model = this.openCDXVaccineRepository.save(vaccineModel.update(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.phiCreated(
+            this.openCDXAuditService.phiUpdated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "Vaccine Prescribed",

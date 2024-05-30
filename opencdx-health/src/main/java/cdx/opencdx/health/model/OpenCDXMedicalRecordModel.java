@@ -20,8 +20,6 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.types.MedicalRecordStatus;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +27,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Model for Medical Record in Mongo. Features conversions to/from Protobuf messages.
@@ -83,7 +84,6 @@ public class OpenCDXMedicalRecordModel {
         this.bpmList = medicalRecord.getBpmList();
         this.heartRPMList = medicalRecord.getHeartRPMList();
         this.userQuestionnaireDataList = medicalRecord.getUserQuestionnaireDataList();
-        // this.userAnswerList = medicalRecord.getUserAnswerList();
         this.connectedTestList = medicalRecord.getConnectedTestList();
 
         if (medicalRecord.hasCreated()) {
@@ -134,7 +134,6 @@ public class OpenCDXMedicalRecordModel {
         builder.addAllBpm(this.bpmList);
         builder.addAllHeartRPM(this.heartRPMList);
         builder.addAllUserQuestionnaireData(this.userQuestionnaireDataList);
-        // builder.addAllUserAnswer(this.userAnswerList);
         builder.addAllConnectedTest(this.connectedTestList);
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

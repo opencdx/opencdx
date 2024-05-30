@@ -26,19 +26,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXMedicalRecordRepository extends OpenCDXRepository<OpenCDXMedicalRecordModel> {
-    //    /**
-    //     * Find all Medical Record by patient id.
-    //     * @param patientId the patient id
-    //     * @param pageable Pageable for pagination
-    //     * @return the list of bpm
-    //     */
-    //    Page<OpenCDXMedicalRecordModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
-    //
-    //    /**
-    //     * Find all Medical Record by NHID.
-    //     * @param nationalHealthId the NHID
-    //     * @param pageable Pageable for pagination
-    //     * @return the list of bpm
-    //     */
-    //    Page<OpenCDXMedicalRecordModel> findAllByNationalHealthId(String nationalHealthId, Pageable pageable);
 }

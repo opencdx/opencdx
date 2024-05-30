@@ -18,12 +18,13 @@ package cdx.opencdx.commons.model;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model class for OpenCDX Classification Model.
@@ -79,10 +80,7 @@ public class OpenCDXClassificationModel {
      */
     public Classification getProtobufMessage() {
         Classification.Builder builder = Classification.newBuilder();
-
         builder.setPatientId(this.patient.getId().toHexString());
-        // builder.setConfidence(this.));
-
         return builder.build();
     }
 }

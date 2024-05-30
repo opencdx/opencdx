@@ -41,11 +41,10 @@ import java.util.Optional;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
+@SuppressWarnings({"java:S3776", "java:S1117", "java:S3923"})
 public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRecordProcessService {
 
-    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXMedicalRecordRepository openCDXMedicalRecordRepository;
-    //private final OpenCDXMedicalRecordService openCDXMedicalRecordService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXIAMProfileService openCDXIAMProfileService;
     private final OpenCDXMedicationRepository openCDXMedicationRepository;
@@ -66,9 +65,7 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     private final OpenCDXBPMService openCDXBPMService;
     private final OpenCDXHeartRPMRepository openCDXHeartRPMRepository;
     private final OpenCDXHeartRPMService openCDXHeartRPMService;
-    // private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
     private final OpenCDXClassificationRepository openCDXClassificationRepository;
-    private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
     private final OpenCDXConnectedTestService openCDXConnectedTestService;
 
@@ -130,12 +127,9 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXMedicalRecordService openCDXMedicalRecordService,
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXConnectedTestService openCDXConnectedTestService) {
-        // OpenCDXQuestionnaireClient openCDXQuestionnaireClient) {
-        this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXIAMProfileService = openCDXIAMProfileService;
         this.openCDXClassificationRepository = openCDXClassificationRepository;
-        this.openCDXClassificationMessageService = openCDXClassificationMessageService;
         this.openCDXMedicalRecordRepository = openCDXMedicalRecordRepository;
         this.openCDXMedicationRepository = openCDXMedicationRepository;
         this.openCDXMedicationService = openCDXMedicationService;
@@ -157,7 +151,6 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
         this.openCDXHeartRPMService = openCDXHeartRPMService;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXConnectedTestService = openCDXConnectedTestService;
-        // this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
     }
 
     @Override
@@ -176,18 +169,7 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
 
     private void processExport(OpenCDXMedicalRecordModel medicalRecordModel) {
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-
-        //        OpenCDXCallCredentials openCDXCallCredentials =
-        //                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
-
-        //        medicalRecordModel.setUserQuestionnaireDataList(
-        //
-        // openCDXQuestionnaireClient.getUserQuestionnaireDataList(GetQuestionnaireListRequest.newBuilder()
-        //                        .setId(medicalRecordModel.getUserProfile().getId()).build(),
-        // openCDXCallCredentials).getListList());
-        //        medicalRecordModel.setClassificationsList(
         openCDXClassificationRepository.findAllByPatientId(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()));
-
 
         medicalRecordModel.setMedicationList(
                 openCDXMedicationRepository

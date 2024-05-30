@@ -51,11 +51,9 @@ import java.util.HashMap;
 public class OpenCDXMedicalRecordServiceImpl implements OpenCDXMedicalRecordService {
 
     private static final String OBJECT = "OBJECT";
-    private static final String DOMAIN = "OpenCDXMedicalRecordServiceImpl";
     private static final String MEDICAL_RECORD = "Medical Record: ";
     private static final String FAILED_TO_CONVERT_OPEN_CDX_MEDICAL_RECORD_MODEL =
             "failed to convert OpenCDXMedicalRecordModel";
-    private static final String PROFILES = "profiles";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
@@ -205,22 +203,22 @@ public class OpenCDXMedicalRecordServiceImpl implements OpenCDXMedicalRecordServ
                 "profiles",
                 new OpenCDXIdentifier(
                         request.getMedicalRecord().getUserProfile().getId()));
-        MedicalRecord record = request.getMedicalRecord();
+        MedicalRecord medicalRecord = request.getMedicalRecord();
         OpenCDXMedicalRecordModel medicalRecordModel = OpenCDXMedicalRecordModel.builder()
-                .id(new OpenCDXIdentifier(record.getId()))
+                .id(new OpenCDXIdentifier(medicalRecord.getId()))
                 .status(MedicalRecordStatus.MEDICAL_RECORD_STATUS_IMPORT)
-                .userProfile(record.getUserProfile())
-                .classificationsList(record.getClassificationList())
-                .medicationList(record.getMedicationList())
-                .medicationAdministrationList(record.getMedicationAdministrationList())
-                .knownAllergyList(record.getKnownAllergyList())
-                .doctorNotesList(record.getDoctorNotesList())
-                .vaccineList(record.getVaccineList())
-                .heightMeasurementList(record.getHeightMeasurementList())
-                .weightMeasurementList(record.getWeightMeasurementList())
-                .bpmList(record.getBpmList())
-                .heartRPMList(record.getHeartRPMList())
-                .userQuestionnaireDataList(record.getUserQuestionnaireDataList())
+                .userProfile(medicalRecord.getUserProfile())
+                .classificationsList(medicalRecord.getClassificationList())
+                .medicationList(medicalRecord.getMedicationList())
+                .medicationAdministrationList(medicalRecord.getMedicationAdministrationList())
+                .knownAllergyList(medicalRecord.getKnownAllergyList())
+                .doctorNotesList(medicalRecord.getDoctorNotesList())
+                .vaccineList(medicalRecord.getVaccineList())
+                .heightMeasurementList(medicalRecord.getHeightMeasurementList())
+                .weightMeasurementList(medicalRecord.getWeightMeasurementList())
+                .bpmList(medicalRecord.getBpmList())
+                .heartRPMList(medicalRecord.getHeartRPMList())
+                .userQuestionnaireDataList(medicalRecord.getUserQuestionnaireDataList())
                 .build();
         medicalRecordModel = openCDXMedicalRecordRepository.save(medicalRecordModel);
         try {
