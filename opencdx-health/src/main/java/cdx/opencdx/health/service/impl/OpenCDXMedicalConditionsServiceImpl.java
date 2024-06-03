@@ -19,13 +19,16 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.data.AuditEntity;
-import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.types.EmailType;
+import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.health.model.OpenCDXMedicalConditionsModel;
 import cdx.opencdx.health.repository.OpenCDXMedicalConditionsRepository;
@@ -34,7 +37,7 @@ import cdx.opencdx.health.service.OpenCDXMedicalConditionsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -59,6 +62,7 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXApiFDA openCDXApiFDA;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
+    private final OpenCDXCommunicationService openCDXCommunicationService;
 
     /**
      * Constructor that takes a ObjectMapper, OpenCDXAuditService, OpenCDXCurrentUser, and OpenCDXDocumentValidator
@@ -76,7 +80,8 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
-            OpenCDXApiFDA openCDXApiFDA) {
+            OpenCDXApiFDA openCDXApiFDA,
+            OpenCDXCommunicationService openCDXCommunicationService) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -84,6 +89,7 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXApiFDA = openCDXApiFDA;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXCommunicationService = openCDXCommunicationService;
     }
 
     /**
@@ -119,6 +125,45 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
+        OpenCDXProfileModel patient =
+                this.openCDXProfileRepository.findByUserId(model.getPatientId()).get();
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", patient.getFullName().getFirstName());
+        map.put("lastName", patient.getFullName().getLastName());
+        map.put("diagnosis-status", model.getDiagnosisStatus().toString());
+
+        Notification.Builder builder = Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.DIAGNOSIS_STATUS)
+                .putAllVariables(map);
+        builder.setPatientId(patient.getId().toHexString());
+
+        EmailAddress emailAddress = null;
+        if (!patient.getPrimaryContactInfo().getEmailsList().isEmpty()) {
+            emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+        }
+        if (emailAddress != null) {
+            builder.addAllToEmail(List.of(emailAddress.getEmail()));
+        }
+        List<String> mobileList = Collections.emptyList();
+
+        if (!patient.getPrimaryContactInfo().getPhoneNumbersList().isEmpty()) {
+            mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+        }
+        if (!mobileList.isEmpty()) {
+            builder.addAllToPhoneNumber(mobileList);
+        }
+        this.openCDXCommunicationService.sendNotification(builder.build());
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(model.getProtobufMessage())
                 .build();
@@ -201,6 +246,45 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
+        OpenCDXProfileModel patient = this.openCDXProfileRepository.findByUserId(model.getPatientId()).get();
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", patient.getFullName().getFirstName());
+        map.put("lastName", patient.getFullName().getLastName());
+        map.put("diagnosis-status", model.getDiagnosisStatus().toString());
+
+
+        Notification.Builder builder = Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.DIAGNOSIS_STATUS)
+                .putAllVariables(map);
+        builder.setPatientId(patient.getId().toHexString());
+
+        EmailAddress emailAddress = null;
+        if (!patient.getPrimaryContactInfo().getEmailsList().isEmpty()) {
+            emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+        }
+        if (emailAddress != null) {
+            builder.addAllToEmail(List.of(emailAddress.getEmail()));
+        }
+        List<String> mobileList = Collections.emptyList();
+
+        if (!patient.getPrimaryContactInfo().getPhoneNumbersList().isEmpty()) {
+            mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+        }
+        if (!mobileList.isEmpty()) {
+            builder.addAllToPhoneNumber(mobileList);
+        }
+        this.openCDXCommunicationService.sendNotification(builder.build());
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(model.getProtobufMessage())
                 .build();

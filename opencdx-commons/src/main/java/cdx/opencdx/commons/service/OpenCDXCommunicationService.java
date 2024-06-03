@@ -51,6 +51,10 @@ public interface OpenCDXCommunicationService {
      */
     String TEST_RESULT = "60f1e6b1f075a361a94d3770";
     /**
+     * ID to create test diagnosis status event.
+     */
+    String DIAGNOSIS_STATUS = "60f1e6b1f075a361a94d3774";
+    /**
      * Method to send a Notificaiton to opencdx-communication
      * @param notification Notificaiton to send.
      */
