@@ -5344,3 +5344,54 @@ message CategoryType {
    */
   string type = 2;
 }
+
+/*
+ * Represents Temperature Measurement information.
+ */
+message TemperatureMeasurement {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Temperature of the patient
+   */
+  double temperature_value = 4;
+  /*
+   * The scale of measurement for temperature. The value is an enum defined by the `TemperatureScale` message.
+   */
+  cdx.opencdx.grpc.types.TemperatureScale temperature_scale = 5;
+  /*
+   * The method used for temperature. The value is an enum defined by the `TemperatureMethod` message.
+   */
+  cdx.opencdx.grpc.types.TemperatureMethod temperature_method = 6;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 7;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 10;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 11;
+
+}

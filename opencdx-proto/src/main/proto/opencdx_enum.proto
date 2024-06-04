@@ -2013,3 +2013,27 @@ enum BloodType {
    */
   AB_POSITIVE = 7;
 }
+
+/*
+ * Temperature scale
+ */
+enum TemperatureScale {
+    CELSIUS = 0;
+    FAHRENHEIT = 1;
+    KELVIN = 2;
+    RANKINE = 3;
+    NEWTON = 4;
+}
+
+/*
+ * Temperature method
+ */
+enum TemperatureMethod {
+  ORAL_METHOD = 0;
+  RECTAL_METHOD = 1;
+  ARMPIT = 2;
+  EAR = 3;
+  TEMPORAL = 4;
+  INFRARED = 5;
+  INGESTIBLE = 6;
+}

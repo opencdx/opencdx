@@ -22,10 +22,6 @@ import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.ObservationRegistry;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -33,6 +29,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.net.ssl.SSLException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
@@ -407,6 +408,18 @@ public class ClientConfig {
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXDoctorNotesClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
+    OpenCDXTemperatureMeasurementClient openCDXTemperatureMeasurementClient(
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXTemperatureMeasurementClientImpl(
                 createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
