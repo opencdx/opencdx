@@ -4989,6 +4989,11 @@ message Questionnaire {
    * The identifier of the individual or system who last modified the questionnaire.
    */
   optional string modifier = 13;
+
+  /*
+   * The identifier used for the version of the questionnaire
+   */
+  optional string version = 14;
 }
 
 /*
