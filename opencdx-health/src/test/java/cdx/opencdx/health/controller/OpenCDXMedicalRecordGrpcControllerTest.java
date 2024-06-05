@@ -20,6 +20,7 @@ import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -29,16 +30,13 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.service.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.types.MedicalRecordStatus;
-import cdx.opencdx.health.model.OpenCDXMedicalRecordModel;
+import cdx.opencdx.health.model.*;
 import cdx.opencdx.health.repository.OpenCDXMedicalRecordRepository;
 import cdx.opencdx.health.service.OpenCDXMedicalRecordService;
 import cdx.opencdx.health.service.impl.OpenCDXMedicalRecordServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +50,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -110,27 +112,24 @@ class OpenCDXMedicalRecordGrpcControllerTest {
                                 .userProfile(UserProfile.newBuilder()
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
-                                .classificationsList(List.of(Classification.newBuilder()
-                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
-                                        .build()))
-                                .medicationList(List.of(Medication.newBuilder().build()))
+                                .medicationList(List.of(new OpenCDXMedicationModel(Medication.newBuilder().build())))
                                 .medicationAdministrationList(List.of(
-                                        MedicationAdministration.newBuilder().build()))
+                                        new OpenCDXMedicationAdministrationModel(MedicationAdministration.newBuilder().build())))
                                 .knownAllergyList(
-                                        List.of(KnownAllergy.newBuilder().build()))
+                                        List.of(new OpenCDXAllergyModel(KnownAllergy.newBuilder().build())))
                                 .doctorNotesList(
-                                        List.of(DoctorNotes.newBuilder().build()))
-                                .vaccineList(List.of(Vaccine.newBuilder().build()))
+                                        List.of(new OpenCDXDoctorNotesModel(DoctorNotes.newBuilder().build())))
+                                .vaccineList(List.of(new OpenCDXVaccineModel(Vaccine.newBuilder().build())))
                                 .heightMeasurementList(
-                                        List.of(HeightMeasurement.newBuilder().build()))
+                                        List.of(new OpenCDXHeightMeasurementModel(HeightMeasurement.newBuilder().build())))
                                 .weightMeasurementList(
-                                        List.of(WeightMeasurement.newBuilder().build()))
-                                .bpmList(List.of(BPM.newBuilder().build()))
-                                .heartRPMList(List.of(HeartRPM.newBuilder().build()))
+                                        List.of(new OpenCDXWeightMeasurementModel(WeightMeasurement.newBuilder().build())))
+                                .bpmList(List.of(new OpenCDXBPMModel(BPM.newBuilder().build())))
+                                .heartRPMList(List.of(new OpenCDXHeartRPMModel(HeartRPM.newBuilder().build())))
                                 .userQuestionnaireDataList(List.of(
-                                        UserQuestionnaireData.newBuilder().build()))
+                                        new OpenCDXUserQuestionnaireModel(UserQuestionnaireData.newBuilder().build())))
                                 .connectedTestList(
-                                        List.of(ConnectedTest.newBuilder().build()))
+                                        List.of(new OpenCDXConnectedTestModel(ConnectedTest.newBuilder().build())))
                                 .build());
                     }
                 });
@@ -161,27 +160,25 @@ class OpenCDXMedicalRecordGrpcControllerTest {
                                 .userProfile(UserProfile.newBuilder()
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
-                                .classificationsList(List.of(Classification.newBuilder()
-                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
-                                        .build()))
-                                .medicationList(List.of(Medication.newBuilder().build()))
+
+                                .medicationList(List.of(new OpenCDXMedicationModel(Medication.newBuilder().build())))
                                 .medicationAdministrationList(List.of(
-                                        MedicationAdministration.newBuilder().build()))
+                                        new OpenCDXMedicationAdministrationModel(MedicationAdministration.newBuilder().build())))
                                 .knownAllergyList(
-                                        List.of(KnownAllergy.newBuilder().build()))
+                                        List.of(new OpenCDXAllergyModel(KnownAllergy.newBuilder().build())))
                                 .doctorNotesList(
-                                        List.of(DoctorNotes.newBuilder().build()))
-                                .vaccineList(List.of(Vaccine.newBuilder().build()))
+                                        List.of(new OpenCDXDoctorNotesModel(DoctorNotes.newBuilder().build())))
+                                .vaccineList(List.of(new OpenCDXVaccineModel(Vaccine.newBuilder().build())))
                                 .heightMeasurementList(
-                                        List.of(HeightMeasurement.newBuilder().build()))
+                                        List.of(new OpenCDXHeightMeasurementModel(HeightMeasurement.newBuilder().build())))
                                 .weightMeasurementList(
-                                        List.of(WeightMeasurement.newBuilder().build()))
-                                .bpmList(List.of(BPM.newBuilder().build()))
-                                .heartRPMList(List.of(HeartRPM.newBuilder().build()))
+                                        List.of(new OpenCDXWeightMeasurementModel(WeightMeasurement.newBuilder().build())))
+                                .bpmList(List.of(new OpenCDXBPMModel(BPM.newBuilder().build())))
+                                .heartRPMList(List.of(new OpenCDXHeartRPMModel(HeartRPM.newBuilder().build())))
                                 .userQuestionnaireDataList(List.of(
-                                        UserQuestionnaireData.newBuilder().build()))
+                                        new OpenCDXUserQuestionnaireModel(UserQuestionnaireData.newBuilder().build())))
                                 .connectedTestList(
-                                        List.of(ConnectedTest.newBuilder().build()))
+                                        List.of(new OpenCDXConnectedTestModel(ConnectedTest.newBuilder().build())))
                                 .build();
                     }
                 });
@@ -268,27 +265,24 @@ class OpenCDXMedicalRecordGrpcControllerTest {
                                 .userProfile(UserProfile.newBuilder()
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())
-                                .classificationsList(List.of(Classification.newBuilder()
-                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
-                                        .build()))
-                                .medicationList(List.of(Medication.newBuilder().build()))
+                                .medicationList(List.of(new OpenCDXMedicationModel(Medication.newBuilder().build())))
                                 .medicationAdministrationList(List.of(
-                                        MedicationAdministration.newBuilder().build()))
+                                        new OpenCDXMedicationAdministrationModel(MedicationAdministration.newBuilder().build())))
                                 .knownAllergyList(
-                                        List.of(KnownAllergy.newBuilder().build()))
+                                        List.of(new OpenCDXAllergyModel(KnownAllergy.newBuilder().build())))
                                 .doctorNotesList(
-                                        List.of(DoctorNotes.newBuilder().build()))
-                                .vaccineList(List.of(Vaccine.newBuilder().build()))
+                                        List.of(new OpenCDXDoctorNotesModel(DoctorNotes.newBuilder().build())))
+                                .vaccineList(List.of(new OpenCDXVaccineModel(Vaccine.newBuilder().build())))
                                 .heightMeasurementList(
-                                        List.of(HeightMeasurement.newBuilder().build()))
+                                        List.of(new OpenCDXHeightMeasurementModel(HeightMeasurement.newBuilder().build())))
                                 .weightMeasurementList(
-                                        List.of(WeightMeasurement.newBuilder().build()))
-                                .bpmList(List.of(BPM.newBuilder().build()))
-                                .heartRPMList(List.of(HeartRPM.newBuilder().build()))
+                                        List.of(new OpenCDXWeightMeasurementModel(WeightMeasurement.newBuilder().build())))
+                                .bpmList(List.of(new OpenCDXBPMModel(BPM.newBuilder().build())))
+                                .heartRPMList(List.of(new OpenCDXHeartRPMModel(HeartRPM.newBuilder().build())))
                                 .userQuestionnaireDataList(List.of(
-                                        UserQuestionnaireData.newBuilder().build()))
+                                        new OpenCDXUserQuestionnaireModel(UserQuestionnaireData.newBuilder().build())))
                                 .connectedTestList(
-                                        List.of(ConnectedTest.newBuilder().build()))
+                                        List.of(new OpenCDXConnectedTestModel(ConnectedTest.newBuilder().build())))
                                 .build()
                                 .getProtobufMessage())
                         .build(),

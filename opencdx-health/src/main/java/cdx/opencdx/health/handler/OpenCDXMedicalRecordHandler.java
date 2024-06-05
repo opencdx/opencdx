@@ -47,7 +47,7 @@ public class OpenCDXMedicalRecordHandler implements OpenCDXMessageHandler {
             ObjectMapper objectMapper) {
         this.openCDXMedicalRecordProcessService = openCDXMedicalRecordProcessService;
         this.objectMapper = objectMapper;
-        log.trace("Instantiating OpenCDXClassificationMessageHandler.");
+        log.info("Instantiating OpenCDXMedicalRecordHandler.");
 
         openCDXMessageService.subscribe(OpenCDXMessageService.MEDICAL_RECORD_MESSAGE, this);
     }
@@ -56,10 +56,10 @@ public class OpenCDXMedicalRecordHandler implements OpenCDXMessageHandler {
     public void receivedMessage(byte[] message) {
         try {
             MedicalRecord medicalRecord = objectMapper.readValue(message, MedicalRecord.class);
-            log.trace("Received Medical Record Message");
+            log.info("Received Medical Record Message");
             this.openCDXMedicalRecordProcessService.processMedicalRecord(new OpenCDXIdentifier(medicalRecord.getId()));
         } catch (Exception e) {
-            log.error("Failed to process classification event", e);
+            log.error("Failed to process Medical Record event", e);
         }
     }
 }

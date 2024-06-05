@@ -44,7 +44,7 @@ public class OpenCDXMedicalRecordMessageServiceImpl implements OpenCDXMedicalRec
 
     @Override
     public void sendMedicalRecord(MedicalRecord medicalRecord) {
-        log.trace("Sending notification");
+        log.info("Sending Medical Record Message");
         this.messageService.send(OpenCDXMessageService.MEDICAL_RECORD_MESSAGE, medicalRecord);
     }
 }
