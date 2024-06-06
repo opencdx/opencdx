@@ -1,0 +1,17 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: adr
+  datasource:
+    url: jdbc:postgresql://postgres:5432/adr
+    driverClassName: org.postgresql.Driver
+    username: adr_user
+    password: S3cret
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  h2:
+    console:
+      enabled: true
+opencdx:
+  helloworld:
+    format: "Hello %s!"
