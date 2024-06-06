@@ -32,7 +32,6 @@ import cdx.opencdx.health.service.OpenCDXTemperatureMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,6 +39,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+/**
+ * Service Implementation for the Temperature Measurement Service
+ */
 @Service
 @Slf4j
 @Observed(name = "opencdx")
@@ -57,6 +60,14 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository;
 
+    /**
+     * Constructor for the Temperature Measurement Service Implementation
+     * @param openCDXAuditService Audit Service
+     * @param openCDXCurrentUser Current User Service
+     * @param objectMapper Object Mapper
+     * @param openCDXDocumentValidator Document Validator
+     * @param openCDXTemperatureMeasurementRepository Temperature Measurement Repository
+     */
     public OpenCDXTemperatureMeasurementServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
