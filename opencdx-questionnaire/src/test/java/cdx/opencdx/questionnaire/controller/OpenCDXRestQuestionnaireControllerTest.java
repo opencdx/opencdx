@@ -268,7 +268,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .perform(get("/questionnaire/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[]}",
+                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[],\"version\":\"0\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -294,7 +294,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .perform(get("/questionnaire/refresh/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[]}",
+                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[],\"version\":\"0\"}",
                 mv.getResponse().getContentAsString());
     }
 
