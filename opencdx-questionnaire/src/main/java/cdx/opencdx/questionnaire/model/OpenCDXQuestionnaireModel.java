@@ -176,6 +176,8 @@ public class OpenCDXQuestionnaireModel {
             builder.setModifier(this.modifier.toHexString());
         }
 
+        builder.setVersion(String.valueOf(this.version));
+
         return builder.build();
     }
 
