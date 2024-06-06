@@ -503,7 +503,7 @@ build_docker() {
   local auto_select_all=$1
   local auto_confirm_all=$2
 
-  components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
+  components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar" "opencdx/nats"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/health" "opencdx/iam"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/logistics"
     "opencdx/discovery" "opencdx/graphql")
