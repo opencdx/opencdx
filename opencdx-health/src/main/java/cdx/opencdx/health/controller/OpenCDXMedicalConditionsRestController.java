@@ -53,12 +53,12 @@ public class OpenCDXMedicalConditionsRestController {
 
     /**
      * Method to get MedicalConditions
-     * @param request MedicalConditions .
+     * @param id MedicalConditions id
      * @return Response MedicalConditions.
      */
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DiagnosisResponse> getDiagnosis(@RequestBody DiagnosisRequest request) {
-        return new ResponseEntity<>(this.openCDXMedicalConditionsService.getDiagnosis(request), HttpStatus.OK);
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable String id)   {
+        return new ResponseEntity<>(this.openCDXMedicalConditionsService.getDiagnosis(GetDiagnosisByIdRequest.newBuilder().setId(id).build()), HttpStatus.OK);
     }
 
     /**
@@ -66,19 +66,19 @@ public class OpenCDXMedicalConditionsRestController {
      * @param request for the MedicalConditions.
      * @return Response with the MedicalConditions.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DiagnosisResponse> updateDiagnosis(@RequestBody DiagnosisRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalConditionsService.updateDiagnosis(request), HttpStatus.OK);
     }
 
     /**
      * Delete MedicalConditions
-     * @param request for the MedicalConditions.
+     * @param id MedicalConditions id
      * @return Response with the MedicalConditions.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DiagnosisResponse> deleteDiagnosis(@RequestBody DiagnosisRequest request) {
-        return new ResponseEntity<>(this.openCDXMedicalConditionsService.deleteDiagnosis(request), HttpStatus.OK);
+    @GetMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DiagnosisResponse> deleteDiagnosis(@PathVariable String id) {
+        return new ResponseEntity<>(this.openCDXMedicalConditionsService.deleteDiagnosis(DeleteDiagnosisRequest.newBuilder().setId(id).build()), HttpStatus.OK);
     }
 
     /**

@@ -56,7 +56,7 @@ public class OpenCDXMedicalConditionsGrpcController
      * @param responseObserver The response observer.
      */
     @Override
-    public void getDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
+    public void getDiagnosis(GetDiagnosisByIdRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMedicalConditionsService.getDiagnosis(request));
         responseObserver.onCompleted();
     }
@@ -78,7 +78,7 @@ public class OpenCDXMedicalConditionsGrpcController
      * @param responseObserver The response observer.
      */
     @Override
-    public void deleteDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
+    public void deleteDiagnosis(DeleteDiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMedicalConditionsService.deleteDiagnosis(request));
         responseObserver.onCompleted();
     }

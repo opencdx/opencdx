@@ -37,10 +37,17 @@ import cdx.opencdx.health.service.OpenCDXMedicalConditionsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service for Medical Conditions
@@ -176,14 +183,14 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
      * @return A DiagnosisResponse containing information about the requested diagnosis.
      */
     @Override
-    public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
+    public DiagnosisResponse getDiagnosis(GetDiagnosisByIdRequest request) {
         OpenCDXMedicalConditionsModel model = this.openCDXMedicalConditionsRepository
-                .findById(new OpenCDXIdentifier(request.getDiagnosis().getDiagnosisId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN,
                         3,
                         FAILED_TO_CONVERT_OPEN_CDX_MEDICAL_CONDITIONS_MODEL
-                                + request.getDiagnosis().getDiagnosisId()));
+                                + request.getId()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -218,14 +225,14 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
      */
     @Override
     public DiagnosisResponse updateDiagnosis(DiagnosisRequest request) {
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "medical-conditions",
-                new OpenCDXIdentifier(request.getDiagnosis().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "medical-conditions",
-                new OpenCDXIdentifier(request.getDiagnosis().getDiagnosisId()));
-        OpenCDXMedicalConditionsModel model =
-                this.openCDXMedicalConditionsRepository.save(new OpenCDXMedicalConditionsModel(request.getDiagnosis()));
+
+        OpenCDXMedicalConditionsModel model = this.openCDXMedicalConditionsRepository.findById(new OpenCDXIdentifier(request.getDiagnosis().getDiagnosisId())).orElseThrow(() -> new OpenCDXNotFound(
+                DOMAIN,
+                3,
+                "Failed to find Medical Condition: " + request.getDiagnosis().getDiagnosisId()));
+
+
+        model = this.openCDXMedicalConditionsRepository.save(model.update(request.getDiagnosis()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
@@ -297,17 +304,17 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
      * @return A DiagnosisResponse containing information about the requested diagnosis.
      */
     @Override
-    public DiagnosisResponse deleteDiagnosis(DiagnosisRequest request) {
+    public DiagnosisResponse deleteDiagnosis(DeleteDiagnosisRequest request) {
         OpenCDXMedicalConditionsModel model = this.openCDXMedicalConditionsRepository
-                .findById(new OpenCDXIdentifier(request.getDiagnosis().getDiagnosisId()))
+                .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN,
                         3,
                         FAILED_TO_FIND_MEDICAL_CONDITIONS
-                                + request.getDiagnosis().getDiagnosisId()));
+                                + request.getId()));
 
         this.openCDXMedicalConditionsRepository.deleteById(model.getId());
-        log.info("Deleted MedicalCondition: {}", request.getDiagnosis().getDiagnosisId());
+        log.info("Deleted MedicalCondition: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

@@ -35,7 +35,7 @@ public interface OpenCDXMedicalConditionsService {
      * @param request The DiagnosisRequest for retrieving diagnosis information.
      * @return A DiagnosisResponse containing information about the requested diagnosis.
      */
-    DiagnosisResponse getDiagnosis(DiagnosisRequest request);
+    DiagnosisResponse getDiagnosis(GetDiagnosisByIdRequest request);
 
     /**
      * Updates information about a diagnosis based on the provided DiagnosisRequest.
@@ -51,7 +51,7 @@ public interface OpenCDXMedicalConditionsService {
      * @param request The DiagnosisRequest for deleting the diagnosis information.
      * @return A DiagnosisResponse containing information about the requested diagnosis.
      */
-    DiagnosisResponse deleteDiagnosis(DiagnosisRequest request);
+    DiagnosisResponse deleteDiagnosis(DeleteDiagnosisRequest request);
 
     /**
      * Retrieves information about a diagnosis based on the provided ListDiagnosisRequest.

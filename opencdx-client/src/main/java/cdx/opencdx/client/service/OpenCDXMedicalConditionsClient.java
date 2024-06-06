@@ -36,7 +36,7 @@ public interface OpenCDXMedicalConditionsClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with the diagnosis.
      */
-    DiagnosisResponse getDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    DiagnosisResponse getDiagnosis(GetDiagnosisByIdRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to update diagnosis.
@@ -52,7 +52,7 @@ public interface OpenCDXMedicalConditionsClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with diagnosis
      */
-    DiagnosisResponse deleteDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    DiagnosisResponse deleteDiagnosis(DeleteDiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to get diagnosis information by patient ID or national health ID.

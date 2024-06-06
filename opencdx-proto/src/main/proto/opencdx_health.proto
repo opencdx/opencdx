@@ -441,6 +441,26 @@ message DiagnosisRequest {
 }
 
 /*
+ * Request message for fetching a diagnosis by ID.
+ */
+message GetDiagnosisByIdRequest {
+  /*
+   * The id of the diagnosis to search for.
+   */
+  string id = 1;
+}
+
+/*
+ * Request Message for deleting a diagnosis.
+ */
+message DeleteDiagnosisRequest {
+  /*
+   * The ID of the diagnosis to delete.
+   */
+  string id = 1;
+}
+
+/*
  * Response message for the Diagnosis creation operation.
  */
 message DiagnosisResponse {
@@ -1516,11 +1536,11 @@ service MedicalConditionsService {
   /*
   * RPC service for deleting a diagnosis entity.
   */
-  rpc DeleteDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  rpc DeleteDiagnosis(DeleteDiagnosisRequest) returns (DiagnosisResponse);
   /*
    * RPC service for retrieving information about a specific diagnosis entity.
    */
-  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  rpc GetDiagnosis(GetDiagnosisByIdRequest) returns (DiagnosisResponse);
   /*
   * Retrieve diagnosis information by patient ID or national health id.
   */

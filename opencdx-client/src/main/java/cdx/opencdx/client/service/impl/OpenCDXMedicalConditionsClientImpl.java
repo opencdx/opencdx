@@ -85,7 +85,7 @@ public class OpenCDXMedicalConditionsClientImpl implements OpenCDXMedicalConditi
      * @return Response with the diagnosis.
      */
     @Override
-    public DiagnosisResponse getDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public DiagnosisResponse getDiagnosis(GetDiagnosisByIdRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalConditionsServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -135,7 +135,7 @@ public class OpenCDXMedicalConditionsClientImpl implements OpenCDXMedicalConditi
      * @return Response with diagnosis
      */
     @Override
-    public DiagnosisResponse deleteDiagnosis(DiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public DiagnosisResponse deleteDiagnosis(DeleteDiagnosisRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalConditionsServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
