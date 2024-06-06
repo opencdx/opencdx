@@ -34,7 +34,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OpenCDXTemperatureMeasurementClientImplTest {
 
     @Mock
-    TemperatureMeasurementServiceGrpc.TemperatureMeasurementServiceBlockingStub temperatureMeasurementServiceBlockingStub;
+    TemperatureMeasurementServiceGrpc.TemperatureMeasurementServiceBlockingStub
+            temperatureMeasurementServiceBlockingStub;
 
     OpenCDXTemperatureMeasurementClient openCDXTemperatureMeasurementClient;
 
@@ -74,7 +75,8 @@ class OpenCDXTemperatureMeasurementClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTemperatureMeasurementClient.createTemperatureMeasurement(request, openCDXCallCredentials));
+                () -> this.openCDXTemperatureMeasurementClient.createTemperatureMeasurement(
+                        request, openCDXCallCredentials));
     }
 
     @Test
@@ -98,7 +100,8 @@ class OpenCDXTemperatureMeasurementClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTemperatureMeasurementClient.getTemperatureMeasurement(request, openCDXCallCredentials));
+                () -> this.openCDXTemperatureMeasurementClient.getTemperatureMeasurement(
+                        request, openCDXCallCredentials));
     }
 
     @Test
@@ -122,7 +125,8 @@ class OpenCDXTemperatureMeasurementClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTemperatureMeasurementClient.updateTemperatureMeasurement(request, openCDXCallCredentials));
+                () -> this.openCDXTemperatureMeasurementClient.updateTemperatureMeasurement(
+                        request, openCDXCallCredentials));
     }
 
     @Test
@@ -146,7 +150,8 @@ class OpenCDXTemperatureMeasurementClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTemperatureMeasurementClient.deleteTemperatureMeasurement(request, openCDXCallCredentials));
+                () -> this.openCDXTemperatureMeasurementClient.deleteTemperatureMeasurement(
+                        request, openCDXCallCredentials));
     }
 
     @Test
@@ -170,6 +175,7 @@ class OpenCDXTemperatureMeasurementClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTemperatureMeasurementClient.listTemperatureMeasurements(request, openCDXCallCredentials));
+                () -> this.openCDXTemperatureMeasurementClient.listTemperatureMeasurements(
+                        request, openCDXCallCredentials));
     }
 }

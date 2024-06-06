@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.health.controller;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -14,6 +29,9 @@ import cdx.opencdx.health.service.OpenCDXTemperatureMeasurementService;
 import cdx.opencdx.health.service.impl.OpenCDXTemperatureMeasurementServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,10 +45,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -66,7 +80,8 @@ class OpenCDXTemperatureMeasurementGrpcControllerTest {
     void setUp() {
         this.openCDXTemperatureMeasurementRepository = Mockito.mock(OpenCDXTemperatureMeasurementRepository.class);
 
-        Mockito.when(this.openCDXTemperatureMeasurementRepository.save(Mockito.any(OpenCDXTemperatureMeasurementModel.class)))
+        Mockito.when(this.openCDXTemperatureMeasurementRepository.save(
+                        Mockito.any(OpenCDXTemperatureMeasurementModel.class)))
                 .thenAnswer(invocation -> {
                     OpenCDXTemperatureMeasurementModel argument = invocation.getArgument(0);
                     if (argument.getId() == null) {
@@ -76,12 +91,11 @@ class OpenCDXTemperatureMeasurementGrpcControllerTest {
                 });
 
         Mockito.when(this.openCDXTemperatureMeasurementRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenAnswer(invocation ->
-                        Optional.of(OpenCDXTemperatureMeasurementModel.builder()
-                                .id(invocation.getArgument(0))
-                                .patientId(invocation.getArgument(0))
-                                .nationalHealthId(UUID.randomUUID().toString())
-                                .build()));
+                .thenAnswer(invocation -> Optional.of(OpenCDXTemperatureMeasurementModel.builder()
+                        .id(invocation.getArgument(0))
+                        .patientId(invocation.getArgument(0))
+                        .nationalHealthId(UUID.randomUUID().toString())
+                        .build()));
 
         Mockito.when(this.openCDXTemperatureMeasurementRepository.findAllByPatientId(
                         Mockito.any(OpenCDXIdentifier.class), Mockito.any(Pageable.class)))
@@ -132,7 +146,8 @@ class OpenCDXTemperatureMeasurementGrpcControllerTest {
                                 .build())
                         .build(),
                 responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateTemperatureMeasurementResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1))
+                .onNext(Mockito.any(CreateTemperatureMeasurementResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -159,7 +174,8 @@ class OpenCDXTemperatureMeasurementGrpcControllerTest {
                                 .build())
                         .build(),
                 responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UpdateTemperatureMeasurementResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1))
+                .onNext(Mockito.any(UpdateTemperatureMeasurementResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -189,7 +205,8 @@ class OpenCDXTemperatureMeasurementGrpcControllerTest {
                                 .build())
                         .build(),
                 responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListTemperatureMeasurementsResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1))
+                .onNext(Mockito.any(ListTemperatureMeasurementsResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

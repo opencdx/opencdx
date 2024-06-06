@@ -20,6 +20,7 @@ import cdx.opencdx.grpc.data.TemperatureMeasurement;
 import cdx.opencdx.grpc.types.TemperatureMethod;
 import cdx.opencdx.grpc.types.TemperatureScale;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
 
 /**
  * Model for Temperature Measurement in Mongo. Features conversions to/from Protobuf messages.

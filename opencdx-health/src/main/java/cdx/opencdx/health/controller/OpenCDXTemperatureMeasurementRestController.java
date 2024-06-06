@@ -38,7 +38,8 @@ public class OpenCDXTemperatureMeasurementRestController {
      * Constructor for the Temperature Measurement Rest Controller
      * @param openCDXTemperatureMeasurementService Service Interface
      */
-    public OpenCDXTemperatureMeasurementRestController(OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
+    public OpenCDXTemperatureMeasurementRestController(
+            OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
         this.openCDXTemperatureMeasurementService = openCDXTemperatureMeasurementService;
     }
 
@@ -88,7 +89,9 @@ public class OpenCDXTemperatureMeasurementRestController {
     public ResponseEntity<SuccessResponse> deleteTemperatureMeasurement(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXTemperatureMeasurementService.deleteTemperatureMeasurement(
-                        DeleteTemperatureMeasurementRequest.newBuilder().setId(id).build()),
+                        DeleteTemperatureMeasurementRequest.newBuilder()
+                                .setId(id)
+                                .build()),
                 HttpStatus.OK);
     }
 

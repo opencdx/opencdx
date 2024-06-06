@@ -32,14 +32,13 @@ import cdx.opencdx.health.service.OpenCDXTemperatureMeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 @Slf4j
@@ -49,7 +48,8 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
     private static final String DOMAIN = "OpenCDXTemperatureMeasurementServiceImpl";
     private static final String TEMPERATURE_MEASUREMENTS = "TEMPERATURE Measurements: ";
     private static final String OBJECT = "OBJECT";
-    private static final String FAILED_TO_CONVERT_TEMPERATURE_MEASUREMENTS = "Failed to convert Temperature Measurements";
+    private static final String FAILED_TO_CONVERT_TEMPERATURE_MEASUREMENTS =
+            "Failed to convert Temperature Measurements";
     private static final String FAILED_TO_FIND_TEMPERATURE = "Failed to find temperature ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -57,11 +57,12 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository;
 
-    public OpenCDXTemperatureMeasurementServiceImpl(OpenCDXAuditService openCDXAuditService,
-                                                    OpenCDXCurrentUser openCDXCurrentUser,
-                                                    ObjectMapper objectMapper,
-                                                    OpenCDXDocumentValidator openCDXDocumentValidator,
-                                                    OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository) {
+    public OpenCDXTemperatureMeasurementServiceImpl(
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
@@ -70,9 +71,11 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
     }
 
     @Override
-    public CreateTemperatureMeasurementResponse createTemperatureMeasurement(CreateTemperatureMeasurementRequest request) {
+    public CreateTemperatureMeasurementResponse createTemperatureMeasurement(
+            CreateTemperatureMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getTemperatureMeasurement().getPatientId()));
+                "profiles",
+                new OpenCDXIdentifier(request.getTemperatureMeasurement().getPatientId()));
         OpenCDXTemperatureMeasurementModel model = this.openCDXTemperatureMeasurementRepository.save(
                 new OpenCDXTemperatureMeasurementModel(request.getTemperatureMeasurement()));
         try {
@@ -132,15 +135,19 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
     }
 
     @Override
-    public UpdateTemperatureMeasurementResponse updateTemperatureMeasurement(UpdateTemperatureMeasurementRequest request) {
+    public UpdateTemperatureMeasurementResponse updateTemperatureMeasurement(
+            UpdateTemperatureMeasurementRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getTemperatureMeasurement().getPatientId()));
+                "profiles",
+                new OpenCDXIdentifier(request.getTemperatureMeasurement().getPatientId()));
         OpenCDXTemperatureMeasurementModel model = this.openCDXTemperatureMeasurementRepository
-                .findById(new OpenCDXIdentifier(request.getTemperatureMeasurement().getId()))
+                .findById(new OpenCDXIdentifier(
+                        request.getTemperatureMeasurement().getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN,
                         1,
-                        FAILED_TO_FIND_TEMPERATURE + request.getTemperatureMeasurement().getId()));
+                        FAILED_TO_FIND_TEMPERATURE
+                                + request.getTemperatureMeasurement().getId()));
         model = this.openCDXTemperatureMeasurementRepository.save(model.update(request.getTemperatureMeasurement()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -257,4 +264,3 @@ public class OpenCDXTemperatureMeasurementServiceImpl implements OpenCDXTemperat
                 .build();
     }
 }
-

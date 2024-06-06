@@ -31,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXTemperatureMeasurementClientImpl implements OpenCDXTemperatureMeasurementClient {
-    private static final String OPEN_CDX_TEMPERATURE_MEASUREMENT_CLIENT_IMPL = "OpenCDXTemperatureMeasurementClientImpl";
+    private static final String OPEN_CDX_TEMPERATURE_MEASUREMENT_CLIENT_IMPL =
+            "OpenCDXTemperatureMeasurementClientImpl";
     private final TemperatureMeasurementServiceGrpc.TemperatureMeasurementServiceBlockingStub
             temperatureMeasurementServiceBlockingStub;
 
@@ -48,7 +49,8 @@ public class OpenCDXTemperatureMeasurementClientImpl implements OpenCDXTemperatu
      * @param temperatureMeasurementServiceBlockingStub gRPC Blocking Stub for Provider.
      */
     public OpenCDXTemperatureMeasurementClientImpl(
-            TemperatureMeasurementServiceGrpc.TemperatureMeasurementServiceBlockingStub temperatureMeasurementServiceBlockingStub) {
+            TemperatureMeasurementServiceGrpc.TemperatureMeasurementServiceBlockingStub
+                    temperatureMeasurementServiceBlockingStub) {
         this.temperatureMeasurementServiceBlockingStub = temperatureMeasurementServiceBlockingStub;
     }
 

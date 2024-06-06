@@ -1,4 +1,22 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.health.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -16,6 +34,8 @@ import cdx.opencdx.health.service.OpenCDXTemperatureMeasurementService;
 import cdx.opencdx.health.service.impl.OpenCDXTemperatureMeasurementServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,12 +60,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -88,7 +102,8 @@ class OpenCDXTemperatureMeasurementRestControllerTest {
     @BeforeEach
     public void setup() {
 
-        Mockito.when(this.openCDXTemperatureMeasurementRepository.save(Mockito.any(OpenCDXTemperatureMeasurementModel.class)))
+        Mockito.when(this.openCDXTemperatureMeasurementRepository.save(
+                        Mockito.any(OpenCDXTemperatureMeasurementModel.class)))
                 .thenAnswer(new Answer<OpenCDXTemperatureMeasurementModel>() {
                     @Override
                     public OpenCDXTemperatureMeasurementModel answer(InvocationOnMock invocation) throws Throwable {
@@ -225,4 +240,3 @@ class OpenCDXTemperatureMeasurementRestControllerTest {
         Assertions.assertNotNull(content);
     }
 }
-

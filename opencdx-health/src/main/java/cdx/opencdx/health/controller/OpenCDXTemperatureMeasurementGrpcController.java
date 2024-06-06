@@ -38,27 +38,31 @@ public class OpenCDXTemperatureMeasurementGrpcController
      * @param openCDXTemperatureMeasurementService service to use for processing
      */
     @Autowired
-    public OpenCDXTemperatureMeasurementGrpcController(OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
+    public OpenCDXTemperatureMeasurementGrpcController(
+            OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
         this.openCDXTemperatureMeasurementService = openCDXTemperatureMeasurementService;
     }
 
     @Override
     public void createTemperatureMeasurement(
-            CreateTemperatureMeasurementRequest request, StreamObserver<CreateTemperatureMeasurementResponse> responseObserver) {
+            CreateTemperatureMeasurementRequest request,
+            StreamObserver<CreateTemperatureMeasurementResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTemperatureMeasurementService.createTemperatureMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void getTemperatureMeasurement(
-            GetTemperatureMeasurementRequest request, StreamObserver<GetTemperatureMeasurementResponse> responseObserver) {
+            GetTemperatureMeasurementRequest request,
+            StreamObserver<GetTemperatureMeasurementResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTemperatureMeasurementService.getTemperatureMeasurement(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void updateTemperatureMeasurement(
-            UpdateTemperatureMeasurementRequest request, StreamObserver<UpdateTemperatureMeasurementResponse> responseObserver) {
+            UpdateTemperatureMeasurementRequest request,
+            StreamObserver<UpdateTemperatureMeasurementResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTemperatureMeasurementService.updateTemperatureMeasurement(request));
         responseObserver.onCompleted();
     }
@@ -72,9 +76,9 @@ public class OpenCDXTemperatureMeasurementGrpcController
 
     @Override
     public void listTemperatureMeasurements(
-            ListTemperatureMeasurementsRequest request, StreamObserver<ListTemperatureMeasurementsResponse> responseObserver) {
+            ListTemperatureMeasurementsRequest request,
+            StreamObserver<ListTemperatureMeasurementsResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTemperatureMeasurementService.listTemperatureMeasurements(request));
         responseObserver.onCompleted();
     }
 }
-
