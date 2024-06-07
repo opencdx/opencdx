@@ -46,11 +46,12 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * Service for processing Classification Requests
@@ -73,6 +74,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
     private final OpenCDXCommunicationService openCDXCommunicationService;
+    private final OpenCDXAdrMessageService openCDXAdrMessageService;
 
     private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
     private final OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
@@ -93,6 +95,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCommunicationService service for communication
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
+     * @param openCDXAdrMessageService service for ADR message
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -108,6 +111,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
             OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXAdrMessageService openCDXAdrMessageService,
             OpenCDXCDCPayloadService openCDXCDCPayloadService,
             OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -122,6 +126,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
         this.openCDXCommunicationService = openCDXCommunicationService;
+        this.openCDXAdrMessageService = openCDXAdrMessageService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
     }
@@ -156,6 +161,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     model.getConnectedTest(),
                     model.getTestDetailsMedia()));
         } else if (model.getUserQuestionnaireData() != null) {
+            sendAnfToAdr(model);
             model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeQuestionnaire(
                     model.getPatient(), model.getUserAnswer(), model.getMedia(), model.getUserQuestionnaireData()));
         } else {
@@ -190,6 +196,37 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         }
         log.info("Processed ClassificationRequest");
         return model.getClassificationResponse();
+    }
+
+    @SuppressWarnings("java:S3776")
+    private void sendAnfToAdr(OpenCDXClassificationModel model) {
+        if (model.getUserQuestionnaireData().getQuestionnaireDataList() != null) {
+            model.getUserQuestionnaireData().getQuestionnaireDataList().forEach(questionnaireData -> {
+                if (questionnaireData.getItemList() != null) {
+                    questionnaireData.getItemList().forEach(item -> {
+                        this.processQuestionnaireItem(item);
+                        if (item.getItemList() != null) {
+                            item.getItemList().forEach(this::processQuestionnaireItem);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    @SuppressWarnings("java:S3776")
+    private void processQuestionnaireItem(QuestionnaireItem item) {
+        if (item.getAnfStatementConnectorList() != null) {
+            item.getAnfStatementConnectorList().forEach(anfStatementConnector -> {
+                if (anfStatementConnector.getAnfStatement() != null) {
+                    try {
+                        this.openCDXAdrMessageService.sendAdrMessage(anfStatementConnector.getAnfStatement());
+                    } catch (Exception e) {
+                        log.error("Failed to submit ADR Statement", e);
+                    }
+                }
+            });
+        }
     }
 
     private OpenCDXClassificationModel creeateOpenCDXClassificationModel(ClassificationRequest request) {

@@ -68,6 +68,9 @@ class OpenCDXGrpcClassificationControllerTest {
     @Autowired
     OpenCDXOrderMessageService openCDXOrderMessageService;
 
+    @Autowired
+    OpenCDXAdrMessageService openCDXAdrMessageService;
+
     OpenCDXClassificationServiceImpl classificationService;
 
     OpenCDXGrpcClassificationController openCDXGrpcClassificationController;
@@ -260,6 +263,7 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);

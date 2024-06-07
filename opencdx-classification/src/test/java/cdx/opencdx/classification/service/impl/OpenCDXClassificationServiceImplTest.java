@@ -87,6 +87,9 @@ class OpenCDXClassificationServiceImplTest {
     OpenCDXAuditService openCDXAuditService;
 
     @Autowired
+    OpenCDXAdrMessageService openCDXAdrMessageService;
+
+    @Autowired
     OpenCDXOrderMessageService openCDXOrderMessageService;
 
     @Autowired
@@ -311,6 +314,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
     }
@@ -608,6 +612,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
@@ -756,6 +761,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
@@ -1002,6 +1008,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
