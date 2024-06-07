@@ -19,10 +19,9 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Questionnaire;
 import cdx.opencdx.grpc.data.QuestionnaireItem;
 import cdx.opencdx.grpc.types.QuestionnaireStatus;
+import java.util.List;
 import org.bson.assertions.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class OpenCDXQuestionnaireModelTest {
 

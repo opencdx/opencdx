@@ -16,10 +16,7 @@
 package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.MedicalRecordStatus;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
@@ -65,17 +62,13 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     private final OpenCDXBPMService openCDXBPMService;
     private final OpenCDXHeartRPMRepository openCDXHeartRPMRepository;
     private final OpenCDXHeartRPMService openCDXHeartRPMService;
-    private final OpenCDXClassificationRepository openCDXClassificationRepository;
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
     private final OpenCDXConnectedTestService openCDXConnectedTestService;
 
     /**
      * Method to processing medical record.
-     * @param openCDXCurrentUser current user.
      * @param openCDXProfileRepository profile repository.
      * @param openCDXIAMProfileService profile service.
-     * @param openCDXClassificationRepository classification repository.
-     * @param openCDXClassificationMessageService classification message service.
      * @param openCDXMedicationRepository medication repository.
      * @param openCDXMedicationService medication service.
      * @param openCDXMedicationAdministrationRepository medication administration repository.
@@ -100,11 +93,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
      * @param openCDXConnectedTestService connected test service.
      */
     public OpenCDXMedicalRecordProcessServiceImpl(
-            OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXIAMProfileService openCDXIAMProfileService,
-            OpenCDXClassificationRepository openCDXClassificationRepository,
-            OpenCDXClassificationMessageService openCDXClassificationMessageService,
             OpenCDXMedicationRepository openCDXMedicationRepository,
             OpenCDXMedicationService openCDXMedicationService,
             OpenCDXMedicationAdministrationRepository openCDXMedicationAdministrationRepository,
@@ -129,7 +119,6 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXConnectedTestService openCDXConnectedTestService) {
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXIAMProfileService = openCDXIAMProfileService;
-        this.openCDXClassificationRepository = openCDXClassificationRepository;
         this.openCDXMedicalRecordRepository = openCDXMedicalRecordRepository;
         this.openCDXMedicationRepository = openCDXMedicationRepository;
         this.openCDXMedicationService = openCDXMedicationService;
@@ -173,75 +162,66 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     private void processExport(OpenCDXMedicalRecordModel medicalRecordModel) {
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
 
-        medicalRecordModel.setMedicationList(
-                openCDXMedicationRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable).toList());
-        medicalRecordModel.setMedicationAdministrationList(
-                openCDXMedicationAdministrationRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setKnownAllergyList(
-                openCDXAllergyRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setDoctorNotesList(
-                openCDXDoctorNotesRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setVaccineList(
-                openCDXVaccineRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setHeightMeasurementList(
-                openCDXHeightMeasurementRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setWeightMeasurementList(
-                openCDXWeightMeasurementRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setBpmList(
-                openCDXBPMRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setHeartRPMList(
-                openCDXHeartRPMRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
-        medicalRecordModel.setConnectedTestList(
-                openCDXConnectedTestRepository
-                        .findAllByPatientId(
-                                new OpenCDXIdentifier(
-                                        medicalRecordModel.getUserProfile().getId()),
-                                pageable)
-                        .toList());
+        medicalRecordModel.setMedicationList(openCDXMedicationRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setMedicationAdministrationList(openCDXMedicationAdministrationRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setKnownAllergyList(openCDXAllergyRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setDoctorNotesList(openCDXDoctorNotesRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setVaccineList(openCDXVaccineRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setHeightMeasurementList(openCDXHeightMeasurementRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setWeightMeasurementList(openCDXWeightMeasurementRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setBpmList(openCDXBPMRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setHeartRPMList(openCDXHeartRPMRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+        medicalRecordModel.setConnectedTestList(openCDXConnectedTestRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
 
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
 
@@ -249,86 +229,113 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     }
 
     private void processImport(OpenCDXMedicalRecordModel medicalRecordModel) {
-            if (openCDXProfileRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                openCDXIAMProfileService.updateUserProfile(UpdateUserProfileRequest.newBuilder()
-                        .setUpdatedProfile(medicalRecordModel.getUserProfile())
+        if (openCDXProfileRepository.existsById(
+                new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+            openCDXIAMProfileService.updateUserProfile(UpdateUserProfileRequest.newBuilder()
+                    .setUpdatedProfile(medicalRecordModel.getUserProfile())
+                    .build());
+        } else {
+            openCDXIAMProfileService.createUserProfile(CreateUserProfileRequest.newBuilder()
+                    .setUserProfile(medicalRecordModel.getUserProfile())
+                    .build());
+        }
+        // Medication
+        medicalRecordModel.getMedicationList().stream()
+                .map(OpenCDXMedicationModel::getProtobufMessage)
+                .forEach(openCDXMedicationService::prescribing);
+        // Medication Administration
+        medicalRecordModel.getMedicationAdministrationList().forEach(medicationAdministration -> {
+            if (openCDXMedicationAdministrationRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXMedicationAdministrationService.trackMedicationAdministration(
+                        medicationAdministration.getProtobufMessage());
+            }
+        });
+        medicalRecordModel.getKnownAllergyList().forEach(allergy -> {
+            if (openCDXAllergyRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXAllergyService.updateAllergy(UpdateAllergyRequest.newBuilder()
+                        .setKnownAllergy(allergy.getProtobufMessage())
                         .build());
             } else {
-                openCDXIAMProfileService.createUserProfile(CreateUserProfileRequest
-                        .newBuilder().setUserProfile(medicalRecordModel.getUserProfile()).build());
+                openCDXAllergyService.createAllergy(CreateAllergyRequest.newBuilder()
+                        .setKnownAllergy(allergy.getProtobufMessage())
+                        .build());
             }
-            // Medication
-            medicalRecordModel.getMedicationList().stream().map(OpenCDXMedicationModel::getProtobufMessage).forEach(openCDXMedicationService::prescribing);
-            // Medication Administration
-            medicalRecordModel.getMedicationAdministrationList().forEach(medicationAdministration -> {
-                if (openCDXMedicationAdministrationRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXMedicationAdministrationService.trackMedicationAdministration(medicationAdministration.getProtobufMessage());
-                }
-            })  ;
-            medicalRecordModel.getKnownAllergyList().forEach(allergy -> {
-                if (openCDXAllergyRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXAllergyService.updateAllergy(UpdateAllergyRequest.newBuilder().setKnownAllergy(allergy.getProtobufMessage()).build());
-                } else {
-                    openCDXAllergyService.createAllergy(CreateAllergyRequest.newBuilder().setKnownAllergy(allergy.getProtobufMessage()).build());
-                }
-            });
-            medicalRecordModel.getDoctorNotesList().forEach(doctorNotes -> {
-                if (openCDXDoctorNotesRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXDoctorNotesService.updateDoctorNotes(UpdateDoctorNotesRequest
-                            .newBuilder().setDoctorNotes(doctorNotes.getProtobufMessage()).build());
-                } else {
-                    openCDXDoctorNotesService.createDoctorNotes(CreateDoctorNotesRequest.newBuilder().setDoctorNotes(doctorNotes.getProtobufMessage())
-                            .build());
-                }
-            });
-            // Vaccine
-            medicalRecordModel.getVaccineList().forEach(vaccine -> {
-                if (openCDXVaccineRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXVaccineService.updateVaccine(vaccine.getProtobufMessage());
-                } else {
-                    openCDXVaccineService.trackVaccineAdministration(vaccine.getProtobufMessage());
-                }
-            });
-            medicalRecordModel.getHeightMeasurementList().forEach(heightMeasurement -> {
-                if (openCDXHeightMeasurementRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXHeightMeasurementService.createHeightMeasurement(CreateHeightMeasurementRequest.newBuilder()
-                                    .setHeightMeasurement(heightMeasurement.getProtobufMessage())
-                            .build());
-                } else {
-                    openCDXHeightMeasurementService.createHeightMeasurement(CreateHeightMeasurementRequest.newBuilder()
-                                    .setHeightMeasurement(heightMeasurement.getProtobufMessage())
-                            .build());
-                }
-            });
-            medicalRecordModel.getWeightMeasurementList().forEach(weightMeasurement -> {
-                if (openCDXWeightMeasurementRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXWeightMeasurementService.updateWeightMeasurement(UpdateWeightMeasurementRequest.newBuilder()
-                                    .setWeightMeasurement(weightMeasurement.getProtobufMessage())
-                            .build());
-                } else {
-                    openCDXWeightMeasurementService.createWeightMeasurement(CreateWeightMeasurementRequest.newBuilder()
-                                    .setWeightMeasurement(weightMeasurement.getProtobufMessage())
-                            .build());
-                }
-            });
-            medicalRecordModel.getBpmList().forEach(bpm -> {
-                if (openCDXBPMRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                    openCDXBPMService.updateBPMMeasurement(UpdateBPMRequest.newBuilder().setBpmMeasurement(bpm.getProtobufMessage()).build());
-                } else {
-                    openCDXBPMService.createBPMMeasurement(CreateBPMRequest.newBuilder().setBpmMeasurement(bpm.getProtobufMessage()).build());
-                }
-            });
-        medicalRecordModel.getHeartRPMList().forEach(heartRPM -> {
-                if (openCDXHeartRPMRepository.existsById(new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
-                 openCDXHeartRPMService.updateHeartRPMMeasurement(UpdateHeartRPMRequest.newBuilder()
-                         .setHeartRpmMeasurement(heartRPM.getProtobufMessage()).build());
-                } else {
-                    openCDXHeartRPMService.createHeartRPMMeasurement(CreateHeartRPMRequest.newBuilder()
-                            .setHeartRpmMeasurement(heartRPM.getProtobufMessage()).build());
-                }
         });
-        //ConnectedTest
-        medicalRecordModel.getConnectedTestList().stream().map(OpenCDXConnectedTestModel::getProtobufMessage).forEach(openCDXConnectedTestService::submitTest);
+        medicalRecordModel.getDoctorNotesList().forEach(doctorNotes -> {
+            if (openCDXDoctorNotesRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXDoctorNotesService.updateDoctorNotes(UpdateDoctorNotesRequest.newBuilder()
+                        .setDoctorNotes(doctorNotes.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXDoctorNotesService.createDoctorNotes(CreateDoctorNotesRequest.newBuilder()
+                        .setDoctorNotes(doctorNotes.getProtobufMessage())
+                        .build());
+            }
+        });
+        // Vaccine
+        medicalRecordModel.getVaccineList().forEach(vaccine -> {
+            if (openCDXVaccineRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXVaccineService.updateVaccine(vaccine.getProtobufMessage());
+            } else {
+                openCDXVaccineService.trackVaccineAdministration(vaccine.getProtobufMessage());
+            }
+        });
+        medicalRecordModel.getHeightMeasurementList().forEach(heightMeasurement -> {
+            if (openCDXHeightMeasurementRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXHeightMeasurementService.createHeightMeasurement(CreateHeightMeasurementRequest.newBuilder()
+                        .setHeightMeasurement(heightMeasurement.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXHeightMeasurementService.createHeightMeasurement(CreateHeightMeasurementRequest.newBuilder()
+                        .setHeightMeasurement(heightMeasurement.getProtobufMessage())
+                        .build());
+            }
+        });
+        medicalRecordModel.getWeightMeasurementList().forEach(weightMeasurement -> {
+            if (openCDXWeightMeasurementRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXWeightMeasurementService.updateWeightMeasurement(UpdateWeightMeasurementRequest.newBuilder()
+                        .setWeightMeasurement(weightMeasurement.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXWeightMeasurementService.createWeightMeasurement(CreateWeightMeasurementRequest.newBuilder()
+                        .setWeightMeasurement(weightMeasurement.getProtobufMessage())
+                        .build());
+            }
+        });
+        medicalRecordModel.getBpmList().forEach(bpm -> {
+            if (openCDXBPMRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXBPMService.updateBPMMeasurement(UpdateBPMRequest.newBuilder()
+                        .setBpmMeasurement(bpm.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXBPMService.createBPMMeasurement(CreateBPMRequest.newBuilder()
+                        .setBpmMeasurement(bpm.getProtobufMessage())
+                        .build());
+            }
+        });
+        medicalRecordModel.getHeartRPMList().forEach(heartRPM -> {
+            if (openCDXHeartRPMRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXHeartRPMService.updateHeartRPMMeasurement(UpdateHeartRPMRequest.newBuilder()
+                        .setHeartRpmMeasurement(heartRPM.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXHeartRPMService.createHeartRPMMeasurement(CreateHeartRPMRequest.newBuilder()
+                        .setHeartRpmMeasurement(heartRPM.getProtobufMessage())
+                        .build());
+            }
+        });
+        // ConnectedTest
+        medicalRecordModel.getConnectedTestList().stream()
+                .map(OpenCDXConnectedTestModel::getProtobufMessage)
+                .forEach(openCDXConnectedTestService::submitTest);
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
 
         openCDXMedicalRecordRepository.save(medicalRecordModel);

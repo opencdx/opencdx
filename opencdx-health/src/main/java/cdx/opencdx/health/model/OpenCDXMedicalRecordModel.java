@@ -22,6 +22,8 @@ import cdx.opencdx.grpc.data.MedicalRecord;
 import cdx.opencdx.grpc.data.UserProfile;
 import cdx.opencdx.grpc.types.MedicalRecordStatus;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,9 +31,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * Model for Medical Record in Mongo. Features conversions to/from Protobuf messages.
@@ -73,17 +72,38 @@ public class OpenCDXMedicalRecordModel {
         this.id = new OpenCDXIdentifier(medicalRecord.getId());
         this.status = medicalRecord.getStatus();
         this.userProfile = medicalRecord.getUserProfile();
-        this.medicationList = medicalRecord.getMedicationList().stream().map(OpenCDXMedicationModel::new).toList();
-        this.medicationAdministrationList = medicalRecord.getMedicationAdministrationList().stream().map(OpenCDXMedicationAdministrationModel::new).toList();
-        this.knownAllergyList = medicalRecord.getKnownAllergyList().stream().map(OpenCDXAllergyModel::new).toList();
-        this.doctorNotesList = medicalRecord.getDoctorNotesList().stream().map(OpenCDXDoctorNotesModel::new).toList();
-        this.vaccineList = medicalRecord.getVaccineList().stream().map(OpenCDXVaccineModel::new).toList();
-        this.heightMeasurementList = medicalRecord.getHeightMeasurementList().stream().map(OpenCDXHeightMeasurementModel::new).toList();
-        this.weightMeasurementList = medicalRecord.getWeightMeasurementList().stream().map(OpenCDXWeightMeasurementModel::new).toList();
-        this.bpmList = medicalRecord.getBpmList().stream().map(OpenCDXBPMModel::new).toList();
-        this.heartRPMList = medicalRecord.getHeartRPMList().stream().map(OpenCDXHeartRPMModel::new).toList();
-        this.userQuestionnaireDataList = medicalRecord.getUserQuestionnaireDataList().stream().map(OpenCDXUserQuestionnaireModel::new).toList();
-        this.connectedTestList = medicalRecord.getConnectedTestList().stream().map(OpenCDXConnectedTestModel::new).toList();
+        this.medicationList = medicalRecord.getMedicationList().stream()
+                .map(OpenCDXMedicationModel::new)
+                .toList();
+        this.medicationAdministrationList = medicalRecord.getMedicationAdministrationList().stream()
+                .map(OpenCDXMedicationAdministrationModel::new)
+                .toList();
+        this.knownAllergyList = medicalRecord.getKnownAllergyList().stream()
+                .map(OpenCDXAllergyModel::new)
+                .toList();
+        this.doctorNotesList = medicalRecord.getDoctorNotesList().stream()
+                .map(OpenCDXDoctorNotesModel::new)
+                .toList();
+        this.vaccineList = medicalRecord.getVaccineList().stream()
+                .map(OpenCDXVaccineModel::new)
+                .toList();
+        this.heightMeasurementList = medicalRecord.getHeightMeasurementList().stream()
+                .map(OpenCDXHeightMeasurementModel::new)
+                .toList();
+        this.weightMeasurementList = medicalRecord.getWeightMeasurementList().stream()
+                .map(OpenCDXWeightMeasurementModel::new)
+                .toList();
+        this.bpmList =
+                medicalRecord.getBpmList().stream().map(OpenCDXBPMModel::new).toList();
+        this.heartRPMList = medicalRecord.getHeartRPMList().stream()
+                .map(OpenCDXHeartRPMModel::new)
+                .toList();
+        this.userQuestionnaireDataList = medicalRecord.getUserQuestionnaireDataList().stream()
+                .map(OpenCDXUserQuestionnaireModel::new)
+                .toList();
+        this.connectedTestList = medicalRecord.getConnectedTestList().stream()
+                .map(OpenCDXConnectedTestModel::new)
+                .toList();
 
         if (medicalRecord.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -122,38 +142,60 @@ public class OpenCDXMedicalRecordModel {
         builder.setId(this.id.toHexString());
         builder.setStatus(this.status);
         builder.setUserProfile(this.userProfile);
-        if(this.medicationList != null) {
-            builder.addAllMedication(this.medicationList.stream().map(OpenCDXMedicationModel::getProtobufMessage).toList());
+        if (this.medicationList != null) {
+            builder.addAllMedication(this.medicationList.stream()
+                    .map(OpenCDXMedicationModel::getProtobufMessage)
+                    .toList());
         }
         if (this.medicationAdministrationList != null) {
-            builder.addAllMedicationAdministration(this.medicationAdministrationList.stream().map(OpenCDXMedicationAdministrationModel::getProtobufMessage).toList());
+            builder.addAllMedicationAdministration(this.medicationAdministrationList.stream()
+                    .map(OpenCDXMedicationAdministrationModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.knownAllergyList != null) {
-            builder.addAllKnownAllergy(this.knownAllergyList.stream().map(OpenCDXAllergyModel::getProtobufMessage).toList());
+        if (this.knownAllergyList != null) {
+            builder.addAllKnownAllergy(this.knownAllergyList.stream()
+                    .map(OpenCDXAllergyModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.doctorNotesList != null) {
-            builder.addAllDoctorNotes(this.doctorNotesList.stream().map(OpenCDXDoctorNotesModel::getProtobufMessage).toList());
+        if (this.doctorNotesList != null) {
+            builder.addAllDoctorNotes(this.doctorNotesList.stream()
+                    .map(OpenCDXDoctorNotesModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.vaccineList != null) {
-            builder.addAllVaccine(this.vaccineList.stream().map(OpenCDXVaccineModel::getProtobufMessage).toList());
+        if (this.vaccineList != null) {
+            builder.addAllVaccine(this.vaccineList.stream()
+                    .map(OpenCDXVaccineModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.heightMeasurementList != null) {
-            builder.addAllHeightMeasurement(this.heightMeasurementList.stream().map(OpenCDXHeightMeasurementModel::getProtobufMessage).toList());
+        if (this.heightMeasurementList != null) {
+            builder.addAllHeightMeasurement(this.heightMeasurementList.stream()
+                    .map(OpenCDXHeightMeasurementModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.weightMeasurementList != null) {
-            builder.addAllWeightMeasurement(this.weightMeasurementList.stream().map(OpenCDXWeightMeasurementModel::getProtobufMessage).toList());
+        if (this.weightMeasurementList != null) {
+            builder.addAllWeightMeasurement(this.weightMeasurementList.stream()
+                    .map(OpenCDXWeightMeasurementModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.bpmList != null) {
-            builder.addAllBpm(this.bpmList.stream().map(OpenCDXBPMModel::getProtobufMessage).toList());
+        if (this.bpmList != null) {
+            builder.addAllBpm(this.bpmList.stream()
+                    .map(OpenCDXBPMModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.heartRPMList != null) {
-            builder.addAllHeartRPM(this.heartRPMList.stream().map(OpenCDXHeartRPMModel::getProtobufMessage).toList());
+        if (this.heartRPMList != null) {
+            builder.addAllHeartRPM(this.heartRPMList.stream()
+                    .map(OpenCDXHeartRPMModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.userQuestionnaireDataList != null) {
-            builder.addAllUserQuestionnaireData(this.userQuestionnaireDataList.stream().map(OpenCDXUserQuestionnaireModel::getProtobufMessage).toList());
+        if (this.userQuestionnaireDataList != null) {
+            builder.addAllUserQuestionnaireData(this.userQuestionnaireDataList.stream()
+                    .map(OpenCDXUserQuestionnaireModel::getProtobufMessage)
+                    .toList());
         }
-        if(this.connectedTestList != null) {
-            builder.addAllConnectedTest(this.connectedTestList.stream().map(OpenCDXConnectedTestModel::getProtobufMessage).toList());
+        if (this.connectedTestList != null) {
+            builder.addAllConnectedTest(this.connectedTestList.stream()
+                    .map(OpenCDXConnectedTestModel::getProtobufMessage)
+                    .toList());
         }
 
         if (this.created != null) {

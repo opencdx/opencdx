@@ -25,5 +25,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXMedicalRecordRepository extends OpenCDXRepository<OpenCDXMedicalRecordModel> {
-}
+public interface OpenCDXMedicalRecordRepository extends OpenCDXRepository<OpenCDXMedicalRecordModel> {}

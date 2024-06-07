@@ -38,10 +38,9 @@ import cdx.opencdx.health.service.OpenCDXMedicalRecordService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for processing Medical Record
@@ -209,17 +208,39 @@ public class OpenCDXMedicalRecordServiceImpl implements OpenCDXMedicalRecordServ
                 .id(new OpenCDXIdentifier(medicalRecord.getId()))
                 .status(MedicalRecordStatus.MEDICAL_RECORD_STATUS_IMPORT)
                 .userProfile(medicalRecord.getUserProfile())
-                .medicationList(medicalRecord.getMedicationList().stream().map(OpenCDXMedicationModel::new).toList())
-                .medicationAdministrationList(medicalRecord.getMedicationAdministrationList().stream().map(OpenCDXMedicationAdministrationModel::new).toList())
-                .knownAllergyList(medicalRecord.getKnownAllergyList().stream().map(OpenCDXAllergyModel::new).toList())
-                .doctorNotesList(medicalRecord.getDoctorNotesList().stream().map(OpenCDXDoctorNotesModel::new).toList())
-                .vaccineList(medicalRecord.getVaccineList().stream().map(OpenCDXVaccineModel::new).toList())
-                .heightMeasurementList(medicalRecord.getHeightMeasurementList().stream().map(OpenCDXHeightMeasurementModel::new).toList())
-                .weightMeasurementList(medicalRecord.getWeightMeasurementList().stream().map(OpenCDXWeightMeasurementModel::new).toList())
-                .bpmList(medicalRecord.getBpmList().stream().map(OpenCDXBPMModel::new).toList())
-                .heartRPMList(medicalRecord.getHeartRPMList().stream().map(OpenCDXHeartRPMModel::new).toList())
-                .userQuestionnaireDataList(medicalRecord.getUserQuestionnaireDataList().stream().map(OpenCDXUserQuestionnaireModel::new).toList())
-                .connectedTestList(medicalRecord.getConnectedTestList().stream().map(OpenCDXConnectedTestModel::new).toList())
+                .medicationList(medicalRecord.getMedicationList().stream()
+                        .map(OpenCDXMedicationModel::new)
+                        .toList())
+                .medicationAdministrationList(medicalRecord.getMedicationAdministrationList().stream()
+                        .map(OpenCDXMedicationAdministrationModel::new)
+                        .toList())
+                .knownAllergyList(medicalRecord.getKnownAllergyList().stream()
+                        .map(OpenCDXAllergyModel::new)
+                        .toList())
+                .doctorNotesList(medicalRecord.getDoctorNotesList().stream()
+                        .map(OpenCDXDoctorNotesModel::new)
+                        .toList())
+                .vaccineList(medicalRecord.getVaccineList().stream()
+                        .map(OpenCDXVaccineModel::new)
+                        .toList())
+                .heightMeasurementList(medicalRecord.getHeightMeasurementList().stream()
+                        .map(OpenCDXHeightMeasurementModel::new)
+                        .toList())
+                .weightMeasurementList(medicalRecord.getWeightMeasurementList().stream()
+                        .map(OpenCDXWeightMeasurementModel::new)
+                        .toList())
+                .bpmList(medicalRecord.getBpmList().stream()
+                        .map(OpenCDXBPMModel::new)
+                        .toList())
+                .heartRPMList(medicalRecord.getHeartRPMList().stream()
+                        .map(OpenCDXHeartRPMModel::new)
+                        .toList())
+                .userQuestionnaireDataList(medicalRecord.getUserQuestionnaireDataList().stream()
+                        .map(OpenCDXUserQuestionnaireModel::new)
+                        .toList())
+                .connectedTestList(medicalRecord.getConnectedTestList().stream()
+                        .map(OpenCDXConnectedTestModel::new)
+                        .toList())
                 .build();
         medicalRecordModel = openCDXMedicalRecordRepository.save(medicalRecordModel);
         try {

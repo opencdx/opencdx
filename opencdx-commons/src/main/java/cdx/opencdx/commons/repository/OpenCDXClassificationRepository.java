@@ -19,10 +19,9 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 import io.micrometer.observation.annotation.Observed;
+import java.util.List;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Repository for protobuf Classification and OpenCDXClassificationModel.
@@ -36,6 +35,6 @@ public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenC
      * @param id identifier.
      * @return List of classification.
      */
-    @Query( value = "{ 'patient.id' : ?0 }")
+    @Query(value = "{ 'patient.id' : ?0 }")
     List<OpenCDXClassificationModel> findAllByPatientId(OpenCDXIdentifier id);
 }
