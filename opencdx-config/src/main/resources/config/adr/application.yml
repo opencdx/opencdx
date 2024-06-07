@@ -9,6 +9,10 @@ spring:
     password: S3cret
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  hibernate:
+        ddl-auto: update
+        show-sql: true
+        format-sql: true
   h2:
     console:
       enabled: true
