@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.questionnaire.repository;
+package cdx.opencdx.health.service;
 
-import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
+import cdx.opencdx.commons.data.OpenCDXIdentifier;
 
 /**
- * The OpenCDXUserQuestionnaireRepository interface provides methods for interacting with the "questionnaire-user" collection in MongoDB.
- * This interface extends the MongoRepository interface, which provides basic CRUD operations.
+ * Interface for the OpenCDXMedicalRecordProcessService
  */
-public interface OpenCDXUserQuestionnaireRepository extends OpenCDXRepository<OpenCDXUserQuestionnaireModel> {}
+public interface OpenCDXMedicalRecordProcessService {
+
+    /**
+     * Method to processing medical record.
+     * @param medicalRecordId id of medical record.
+     */
+    void processMedicalRecord(OpenCDXIdentifier medicalRecordId);
+}

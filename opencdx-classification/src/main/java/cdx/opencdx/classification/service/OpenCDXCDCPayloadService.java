@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.classification.service;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 
 /**
  * Interface for the OpenCDXCDCPayloadService

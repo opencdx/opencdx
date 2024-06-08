@@ -38,6 +38,12 @@ public interface OpenCDXVaccineService {
      */
     Vaccine getVaccineById(GetVaccineByIdRequest request);
     /**
+     * Method to update vaccine information by ID.
+     * @param request Request for the update vaccine.
+     * @return Response with the vaccine.
+     */
+    Vaccine updateVaccine(Vaccine request);
+    /**
      * Method to get vaccine information by patient ID within a date range.
      * @param request Request for the vaccine by patient ID.
      * @return Response with the list of vaccine.

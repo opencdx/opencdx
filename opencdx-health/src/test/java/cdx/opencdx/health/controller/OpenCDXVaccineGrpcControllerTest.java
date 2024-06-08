@@ -192,6 +192,23 @@ class OpenCDXVaccineGrpcControllerTest {
     }
 
     @Test
+    void updateVaccine() {
+        StreamObserver<Vaccine> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXVaccineGrpcController.updateVaccine(
+                Vaccine.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setNationalHealthId(ObjectId.get().toHexString())
+                        .setFips("fips")
+                        .setHealthDistrict("district")
+                        .setDoseNumber(2)
+                        .build(),
+                responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Vaccine.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
     void getVaccineById() {
         StreamObserver<Vaccine> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXVaccineGrpcController.getVaccineById(
