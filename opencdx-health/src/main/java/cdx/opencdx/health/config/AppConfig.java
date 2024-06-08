@@ -17,7 +17,9 @@ package cdx.opencdx.health.config;
 
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.health.handler.OpenCDXConnectedLabMessageHandler;
+import cdx.opencdx.health.handler.OpenCDXMedicalRecordHandler;
 import cdx.opencdx.health.service.OpenCDXConnectedLabService;
+import cdx.opencdx.health.service.OpenCDXMedicalRecordProcessService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -48,5 +50,16 @@ public class AppConfig {
             OpenCDXMessageService openCDXMessageService) {
         log.trace("Instantiating OpenCDXConnectedLabMessageHandler.");
         return new OpenCDXConnectedLabMessageHandler(openCDXMessageService, openCDXClassificationService, objectMapper);
+    }
+
+    @Bean
+    @Description(
+            "OpenCDXMedicalRecordHandler that is specific for handling Connected Lab Findings messages being received over messaging.")
+    OpenCDXMedicalRecordHandler openCDXMedicalRecordHandler(
+            ObjectMapper objectMapper,
+            OpenCDXMedicalRecordProcessService openCDXMedicalRecordProcessService,
+            OpenCDXMessageService openCDXMessageService) {
+        log.trace("Instantiating OpenCDXMedicalRecordHandler.");
+        return new OpenCDXMedicalRecordHandler(openCDXMessageService, openCDXMedicalRecordProcessService, objectMapper);
     }
 }

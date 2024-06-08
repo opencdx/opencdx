@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.repository;
+package cdx.opencdx.health.repository;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.commons.data.OpenCDXRepository;
+import cdx.opencdx.health.model.OpenCDXMedicalRecordModel;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for protobuf Classification and OpenCDXClassificationModel.
+ * Interface for the Database Medical Record model.
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationModel> {}
+public interface OpenCDXMedicalRecordRepository extends OpenCDXRepository<OpenCDXMedicalRecordModel> {}

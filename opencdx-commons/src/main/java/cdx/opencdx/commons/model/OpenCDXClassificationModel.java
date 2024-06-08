@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.model;
+package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.grpc.data.ConnectedTest;
-import cdx.opencdx.grpc.data.Media;
-import cdx.opencdx.grpc.data.UserAnswer;
-import cdx.opencdx.grpc.data.UserQuestionnaireData;
+import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -75,4 +71,15 @@ public class OpenCDXClassificationModel {
 
     @LastModifiedBy
     private OpenCDXIdentifier modifier;
+
+    /**
+     * Returns a UserQuestionnaireData object representing this OpenCDXUserQuestionnaireModel instance.
+     *
+     * @return The UserQuestionnaireData object.
+     */
+    public Classification getProtobufMessage() {
+        Classification.Builder builder = Classification.newBuilder();
+        builder.setPatientId(this.patient.getId().toHexString());
+        return builder.build();
+    }
 }

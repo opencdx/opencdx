@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.repository;
+package cdx.opencdx.commons.repository;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.health.model.OpenCDXMedicationAdministrationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 import io.micrometer.observation.annotation.Observed;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database medication administration model.
+ * Repository for protobuf Classification and OpenCDXClassificationModel.
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXMedicationAdministrationRepository
-        extends OpenCDXRepository<OpenCDXMedicationAdministrationModel> {
+public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationModel> {
+
     /**
-     * Find all medications by patient id.
-     * @param patientId the patient id
-     * @param pageable the pageable
-     * @return the Page of medications
+     * Find all classification by patient id.
+     * @param id identifier.
+     * @return List of classification.
      */
-    Page<OpenCDXMedicationAdministrationModel> findAllByPatientId(OpenCDXIdentifier patientId, Pageable pageable);
+    @Query(value = "{ 'patient.id' : ?0 }")
+    List<OpenCDXClassificationModel> findAllByPatientId(OpenCDXIdentifier id);
 }

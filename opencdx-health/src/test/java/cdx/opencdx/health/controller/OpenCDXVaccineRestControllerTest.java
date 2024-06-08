@@ -15,8 +15,7 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -190,6 +189,25 @@ class OpenCDXVaccineRestControllerTest {
     void trackVaccine() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/vaccine")
+                        .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
+                                .setNationalHealthId(ObjectId.get().toHexString())
+                                .setFips("fips")
+                                .setHealthDistrict("district")
+                                .setDoseNumber(2)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void updateVaccine() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(put("/vaccine")
                         .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setPatientId(ObjectId.get().toHexString())

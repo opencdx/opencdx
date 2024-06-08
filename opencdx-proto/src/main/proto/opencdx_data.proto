@@ -5350,6 +5350,89 @@ message CategoryType {
   string type = 2;
 }
 
+message MedicalRecord {
+  /*
+   * Represents the unique identifier for the medical record.
+   */
+  string id = 1;
+  /*
+   * Represents the status of medical record.
+   */
+  cdx.opencdx.grpc.types.MedicalRecordStatus status = 2;
+  /*
+   * Represents the user profile data.
+   */
+  UserProfile user_profile = 3;
+  /*
+   * List of classification.
+   */
+  repeated Classification classification = 4;
+  /*
+     * List of medication.
+     */
+  repeated Medication medication = 5;
+  /*
+     * List of medicationAdministration.
+     */
+  repeated MedicationAdministration medicationAdministration = 6;
+  /*
+     * List of knownAllergy
+     */
+  repeated KnownAllergy knownAllergy = 7;
+  /*
+     * List of doctorNotes.
+     */
+  repeated DoctorNotes doctorNotes = 8;
+  /*
+     * List of vaccine.
+     */
+  repeated Vaccine vaccine = 9;
+  /*
+     * List of heightMeasurement.
+     */
+  repeated HeightMeasurement heightMeasurement = 10;
+  /*
+     * List of heightMeasurement.
+     */
+  repeated WeightMeasurement weightMeasurement = 11;
+  /*
+     * List of bpm.
+     */
+  repeated BPM bpm = 12;
+  /*
+     * List of heartRPM.
+     */
+  repeated HeartRPM heartRPM = 13;
+  /*
+     * List of userQuestionnaireData.
+     */
+  repeated UserQuestionnaireData userQuestionnaireData = 14;
+  /*
+     * List of userAnswer.
+     */
+  repeated UserAnswer userAnswer = 15;
+  /*
+     * List of connectedTest.
+     */
+  repeated ConnectedTest connectedTest = 16;
+  /*
+     * Timestamp indicating when the record was created.
+     */
+  optional google.protobuf.Timestamp created = 17;
+  /*
+   * Timestamp indicating when the record was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 18;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 19;
+  /*
+   * Identifier of the last modifier of this record.
+   */
+  optional string modifier = 20;
+}
+
 /*
  * Represents Temperature Measurement information.
  */
