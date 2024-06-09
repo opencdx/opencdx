@@ -57,8 +57,11 @@ public class OpenCDXMedicalConditionsRestController {
      * @return Response MedicalConditions.
      */
     @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable String id)   {
-        return new ResponseEntity<>(this.openCDXMedicalConditionsService.getDiagnosis(GetDiagnosisByIdRequest.newBuilder().setId(id).build()), HttpStatus.OK);
+    public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXMedicalConditionsService.getDiagnosis(
+                        GetDiagnosisByIdRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**
@@ -76,9 +79,12 @@ public class OpenCDXMedicalConditionsRestController {
      * @param id MedicalConditions id
      * @return Response with the MedicalConditions.
      */
-    @GetMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DiagnosisResponse> deleteDiagnosis(@PathVariable String id) {
-        return new ResponseEntity<>(this.openCDXMedicalConditionsService.deleteDiagnosis(DeleteDiagnosisRequest.newBuilder().setId(id).build()), HttpStatus.OK);
+        return new ResponseEntity<>(
+                this.openCDXMedicalConditionsService.deleteDiagnosis(
+                        DeleteDiagnosisRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**

@@ -76,20 +76,20 @@ class OpenCDXMedicalConditionsClientImplTest {
 
     @Test
     void getDiagnosis() {
-        Mockito.when(this.medicalConditionsServiceBlockingStub.getDiagnosis(Mockito.any(DiagnosisRequest.class)))
+        Mockito.when(this.medicalConditionsServiceBlockingStub.getDiagnosis(Mockito.any(GetDiagnosisByIdRequest.class)))
                 .thenReturn(DiagnosisResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 DiagnosisResponse.getDefaultInstance(),
                 this.openCDXMedicalConditionsClient.getDiagnosis(
-                        DiagnosisRequest.getDefaultInstance(), openCDXCallCredentials));
+                        GetDiagnosisByIdRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void getDiagnosisException() {
-        Mockito.when(this.medicalConditionsServiceBlockingStub.getDiagnosis(Mockito.any(DiagnosisRequest.class)))
+        Mockito.when(this.medicalConditionsServiceBlockingStub.getDiagnosis(Mockito.any(GetDiagnosisByIdRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        DiagnosisRequest request = DiagnosisRequest.getDefaultInstance();
+        GetDiagnosisByIdRequest request = GetDiagnosisByIdRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
@@ -120,20 +120,22 @@ class OpenCDXMedicalConditionsClientImplTest {
 
     @Test
     void deleteDiagnosis() {
-        Mockito.when(this.medicalConditionsServiceBlockingStub.deleteDiagnosis(Mockito.any(DiagnosisRequest.class)))
+        Mockito.when(this.medicalConditionsServiceBlockingStub.deleteDiagnosis(
+                        Mockito.any(DeleteDiagnosisRequest.class)))
                 .thenReturn(DiagnosisResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 DiagnosisResponse.getDefaultInstance(),
                 this.openCDXMedicalConditionsClient.deleteDiagnosis(
-                        DiagnosisRequest.getDefaultInstance(), openCDXCallCredentials));
+                        DeleteDiagnosisRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void deleteDiagnosisException() {
-        Mockito.when(this.medicalConditionsServiceBlockingStub.deleteDiagnosis(Mockito.any(DiagnosisRequest.class)))
+        Mockito.when(this.medicalConditionsServiceBlockingStub.deleteDiagnosis(
+                        Mockito.any(DeleteDiagnosisRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        DiagnosisRequest request = DiagnosisRequest.getDefaultInstance();
+        DeleteDiagnosisRequest request = DeleteDiagnosisRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,

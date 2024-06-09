@@ -20,6 +20,8 @@ import cdx.opencdx.grpc.data.Diagnosis;
 import cdx.opencdx.grpc.data.DiagnosisCode;
 import cdx.opencdx.grpc.types.DiagnosisStatus;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,9 +29,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * Model for Medication in Mongo.  Features conversions
@@ -96,6 +95,7 @@ public class OpenCDXMedicalConditionsModel {
             this.modifier = new OpenCDXIdentifier(diagnosis.getModifier());
         }
     }
+
     public OpenCDXMedicalConditionsModel update(Diagnosis diagnosis) {
 
         this.diagnosisStatus = diagnosis.getDiagnosisStatus();
