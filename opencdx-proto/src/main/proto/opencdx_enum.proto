@@ -1969,6 +1969,28 @@ enum VitalStatus {
 }
 
 /*
+ * Enum defining possible Medical record
+ */
+enum MedicalRecordStatus {
+  /*
+   * Default or unspecified Medical record.
+   */
+  MEDICAL_RECORD_STATUS_UNSPECIFIED = 0;
+  /*
+   * Medical record exported.
+   */
+  MEDICAL_RECORD_STATUS_EXPORT = 1;
+  /*
+   * Medical record imported.
+   */
+  MEDICAL_RECORD_STATUS_IMPORT = 2;
+  /*
+   * Medical record complete.
+   */
+  MEDICAL_RECORD_STATUS_COMPLETE = 3;
+}
+
+/*
  * Enum defining blood type of a patient.
  */
 enum BloodType {
@@ -2029,4 +2051,28 @@ enum DiagnosisStatus{
    * verified status.
    */
    VERIFIED = 2;
+}
+
+/*
+ * Temperature scale
+ */
+enum TemperatureScale {
+    CELSIUS = 0;
+    FAHRENHEIT = 1;
+    KELVIN = 2;
+    RANKINE = 3;
+    NEWTON = 4;
+}
+
+/*
+ * Temperature method
+ */
+enum TemperatureMethod {
+  ORAL_METHOD = 0;
+  RECTAL_METHOD = 1;
+  ARMPIT = 2;
+  EAR = 3;
+  TEMPORAL = 4;
+  INFRARED = 5;
+  INGESTIBLE = 6;
 }

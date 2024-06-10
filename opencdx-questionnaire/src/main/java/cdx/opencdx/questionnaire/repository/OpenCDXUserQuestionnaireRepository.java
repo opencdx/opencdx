@@ -16,7 +16,7 @@
 package cdx.opencdx.questionnaire.repository;
 
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
+import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 
 /**
  * The OpenCDXUserQuestionnaireRepository interface provides methods for interacting with the "questionnaire-user" collection in MongoDB.

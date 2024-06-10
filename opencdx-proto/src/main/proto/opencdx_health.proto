@@ -1381,6 +1381,194 @@ message ListAllergyResponse {
 }
 
 
+/*
+ * This message contains the details required for creating a Medical Record.
+ */
+message CreateMedicalRecordRequest {
+  /*
+   * The Medical Record
+   */
+  optional cdx.opencdx.grpc.data.MedicalRecord medical_record = 1;
+}
+
+/*
+ * This message contains the response after creating a Medical Record.
+ */
+message CreateMedicalRecordResponse {
+  /*
+   * The Medical Record ID
+   */
+  string medical_record_id = 1;
+}
+
+
+/*
+ * This message contains request for fetching medical record by patiendID or NHID.
+ */
+message GetMedicalRecordRequest {
+	oneof medical_record_identifiers{
+    /**
+     * The ID of the patient.
+     */
+     string patient_id = 1;
+
+    /*
+     * The national health identifier
+     */
+      string national_health_id = 2;
+    }
+}
+
+/*
+ * This is the response of the Medical Record
+ */
+message GetMedicalRecordResponse {
+  /**
+  * The id of medical record.
+  */
+  string medical_record_id = 1;
+}
+
+
+/*
+ * This is the response of the Medical Record
+ */
+message MedicalRecordByIdResponse {
+  /**
+  * The medical record.
+  */
+  cdx.opencdx.grpc.data.MedicalRecord medical_record = 1;
+}
+
+
+/*
+ * This message contains the medical record id
+ */
+message MedicalRecordByIdRequest {
+
+  /**
+   * The ID of the medical record.
+   */
+  string medical_record_id = 1;
+
+}
+
+/*
+ * This message contains the details required for creating a health vitals info for temperature.
+ */
+message CreateTemperatureMeasurementRequest {
+  /*
+   * The Temperature Measurement
+   */
+  optional cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info for temperature.
+ */
+message CreateTemperatureMeasurementResponse {
+  /*
+   * The Temperature Measurement
+   */
+  optional cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 1;
+}
+
+/*
+ * This message contains the details required for getting a health vitals info for temperature.
+ */
+message GetTemperatureMeasurementRequest {
+  /*
+   * The Temperature Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Temperature Measurements info.
+ */
+message GetTemperatureMeasurementResponse {
+  /*
+   * The Temperature Measurement
+   */
+  optional cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info for temperature
+ */
+message UpdateTemperatureMeasurementRequest {
+  /*
+   * The Temperature Measurement
+   */
+  optional cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 1;
+}
+
+/*
+ * This message contains the response after updating a health vitals info for temperature.
+ */
+message UpdateTemperatureMeasurementResponse {
+  /*
+   * The Temperature Measurement
+   */
+  optional cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info for temperature.
+ */
+message DeleteTemperatureMeasurementRequest {
+  /*
+   * The Temperature Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info for temperature.
+ */
+message ListTemperatureMeasurementsRequest {
+  oneof temperature_identifiers {
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the Temperature Measurement
+ */
+message ListTemperatureMeasurementsResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
+  /**
+  * The list of Temperature Measurement.
+  */
+  repeated cdx.opencdx.grpc.data.TemperatureMeasurement temperature_measurement = 2;
+}
+
 
 /*
  * Indicates whether the operation was successful.
@@ -1598,7 +1786,10 @@ service VaccineService {
    * Retrieve vaccine information by ID.
    */
   rpc GetVaccineById(GetVaccineByIdRequest) returns (cdx.opencdx.grpc.data.Vaccine);
-
+  /*
+   * Update vaccine information.
+   */
+  rpc UpdateVaccine(cdx.opencdx.grpc.data.Vaccine) returns (cdx.opencdx.grpc.data.Vaccine);
   /*
    * Retrieve vaccine information by patient ID within a date range.
    */
@@ -1802,4 +1993,58 @@ service KnownAllergyService {
    * RPC to list the allergies
    */
   rpc ListAllergies(ListAllergyRequest) returns (ListAllergyResponse);
+}
+
+/*
+ * Service definitions in Medical Record Service.
+ */
+service MedicalRecordService {
+  /*
+   * RPC to get Medical Record.
+   */
+  rpc RequestMedicalRecord(GetMedicalRecordRequest) returns (GetMedicalRecordResponse);
+
+  /*
+  * RPC to check if a medical record request is complete.
+  */
+  rpc GetMedicalRecordStatus(MedicalRecordByIdRequest) returns (SuccessResponse);
+
+  /*
+  * RPC to get Medical Record by ID.
+  */
+  rpc GetMedicalRecordById(MedicalRecordByIdRequest) returns (MedicalRecordByIdResponse);
+
+  /*
+  * RPC to create a Medical Record.
+  */
+  rpc CreateMedicalRecord(CreateMedicalRecordRequest) returns (CreateMedicalRecordResponse);
+}
+
+
+/*
+ * The TemperatureMeasurementService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Temperature Measurements related information.
+ */
+service TemperatureMeasurementService {
+
+  /**
+   * Create a TemperatureMeasurement.
+   */
+  rpc CreateTemperatureMeasurement(CreateTemperatureMeasurementRequest) returns (CreateTemperatureMeasurementResponse);
+  /**
+   * Get a TemperatureMeasurement.
+   */
+  rpc GetTemperatureMeasurement(GetTemperatureMeasurementRequest) returns (GetTemperatureMeasurementResponse);
+  /**
+   * Update a TemperatureMeasurement.
+   */
+  rpc UpdateTemperatureMeasurement(UpdateTemperatureMeasurementRequest) returns (UpdateTemperatureMeasurementResponse);
+  /**
+   * Delete a TemperatureMeasurement.
+   */
+  rpc DeleteTemperatureMeasurement(DeleteTemperatureMeasurementRequest) returns (SuccessResponse);
+  /**
+   * List TemperatureMeasurements.
+   */
+  rpc ListTemperatureMeasurements(ListTemperatureMeasurementsRequest) returns (ListTemperatureMeasurementsResponse);
 }

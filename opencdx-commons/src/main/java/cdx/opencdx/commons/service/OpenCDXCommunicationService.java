@@ -55,6 +55,14 @@ public interface OpenCDXCommunicationService {
      */
     String DIAGNOSIS_STATUS = "60f1e6b1f075a361a94d3774";
     /**
+     * ID to send a medical record message.
+     */
+    String MEDICAL_RECORD_EXPORT = "60f1e6b1f075a361a94d376c";
+    /**
+     * ID to send a medical record message.
+     */
+    String MEDICAL_RECORD_IMPORT = "60f1e6b1f075a361a94d376d";
+    /**
      * Method to send a Notificaiton to opencdx-communication
      * @param notification Notificaiton to send.
      */

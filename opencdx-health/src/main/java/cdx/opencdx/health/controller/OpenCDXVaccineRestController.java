@@ -69,6 +69,16 @@ public class OpenCDXVaccineRestController {
     }
 
     /**
+     * Update Vaccine Administration.
+     * @param request for the Vaccine.
+     * @return Response with the Vaccine.
+     */
+    @PutMapping
+    public ResponseEntity<Vaccine> updateVaccine(@RequestBody Vaccine request) {
+        return new ResponseEntity<>(this.openCDXVaccineService.updateVaccine(request), HttpStatus.OK);
+    }
+
+    /**
      * Method to get Vaccine by Patient ID
      * @param request Patient ID request
      * @return All the vaccines.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.questionnaire.model;
+package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Questionnaire;
@@ -175,6 +175,8 @@ public class OpenCDXQuestionnaireModel {
         if (this.modified != null) {
             builder.setModifier(this.modifier.toHexString());
         }
+
+        builder.setVersion(String.valueOf(this.version));
 
         return builder.build();
     }

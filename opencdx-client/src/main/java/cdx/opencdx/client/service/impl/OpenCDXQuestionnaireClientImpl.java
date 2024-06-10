@@ -512,4 +512,31 @@ public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClien
                     e);
         }
     }
+
+    /**
+     * Method to gRPC Call Questionnaire List Service getUserQuestionnaireDataList() api.
+     *
+     * @param request                Get Questionnaire request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    @Override
+    public UserQuestionnaireDataResponse getUserQuestionnaireDataList(
+            GetQuestionnaireListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return questionnaireServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getUserQuestionnaireDataList(request);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
+                    18,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
 }
