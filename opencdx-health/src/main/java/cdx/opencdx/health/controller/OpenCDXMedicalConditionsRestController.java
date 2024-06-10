@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/medicalconditions", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/medicalconditions", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXMedicalConditionsRestController {
     private final OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
@@ -46,7 +46,7 @@ public class OpenCDXMedicalConditionsRestController {
      * @param request for the MedicalConditions.
      * @return Response with the MedicalConditions.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<DiagnosisResponse> createDiagnosis(@RequestBody DiagnosisRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalConditionsService.createDiagnosis(request), HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class OpenCDXMedicalConditionsRestController {
      * @param id MedicalConditions id
      * @return Response MedicalConditions.
      */
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXMedicalConditionsService.getDiagnosis(
@@ -69,7 +69,7 @@ public class OpenCDXMedicalConditionsRestController {
      * @param request for the MedicalConditions.
      * @return Response with the MedicalConditions.
      */
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     public ResponseEntity<DiagnosisResponse> updateDiagnosis(@RequestBody DiagnosisRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalConditionsService.updateDiagnosis(request), HttpStatus.OK);
     }
@@ -79,7 +79,7 @@ public class OpenCDXMedicalConditionsRestController {
      * @param id MedicalConditions id
      * @return Response with the MedicalConditions.
      */
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<DiagnosisResponse> deleteDiagnosis(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXMedicalConditionsService.deleteDiagnosis(
@@ -92,7 +92,7 @@ public class OpenCDXMedicalConditionsRestController {
      * @param request Patient ID or national health ID request
      * @return All the MedicalConditions.
      */
-    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/list")
     public ResponseEntity<ListDiagnosisResponse> listDiagnosis(@RequestBody ListDiagnosisRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalConditionsService.listDiagnosis(request), HttpStatus.OK);
     }
