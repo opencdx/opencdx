@@ -40,6 +40,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Document("medical-conditions")
+@SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXMedicalConditionsModel {
     @Id
     private OpenCDXIdentifier id;
@@ -68,6 +69,10 @@ public class OpenCDXMedicalConditionsModel {
     @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
+    /**
+     * Constructor from protobuf message Diagnosis
+     * @param diagnosis Protobuf message to generate from
+     */
     public OpenCDXMedicalConditionsModel(Diagnosis diagnosis) {
         this.id = new OpenCDXIdentifier(diagnosis.getDiagnosisId());
         this.patientId = new OpenCDXIdentifier(diagnosis.getPatientId());
@@ -96,6 +101,12 @@ public class OpenCDXMedicalConditionsModel {
         }
     }
 
+    /**
+     * Updates the OpenCDXMedicalConditionsModel with the provided Diagnosis.
+     *
+     * @param diagnosis The Diagnosis object containing the data to update.
+     * @return The updated OpenCDXMedicalConditionsModel.
+     */
     public OpenCDXMedicalConditionsModel update(Diagnosis diagnosis) {
 
         this.diagnosisStatus = diagnosis.getDiagnosisStatus();

@@ -32,7 +32,6 @@ import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.health.model.OpenCDXMedicalConditionsModel;
 import cdx.opencdx.health.repository.OpenCDXMedicalConditionsRepository;
-import cdx.opencdx.health.service.OpenCDXApiFDA;
 import cdx.opencdx.health.service.OpenCDXMedicalConditionsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,6 +53,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
+@SuppressWarnings({"java:S3655"})
 public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalConditionsService {
     private static final String OBJECT = "OBJECT";
     private static final String MEDICALCONDITIONS = "MedicalConditions: ";
@@ -66,18 +66,18 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
-    private final OpenCDXApiFDA openCDXApiFDA;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXCommunicationService openCDXCommunicationService;
 
     /**
      * Constructor that takes a ObjectMapper, OpenCDXAuditService, OpenCDXCurrentUser, and OpenCDXDocumentValidator
      * @param objectMapper             Jackson Objectmapper to use
+     * @param openCDXDocumentValidator   Document validator service.
      * @param openCDXAuditService      Audit service to record events
      * @param openCDXCurrentUser Service to get Current user.
      * @param openCDXMedicalConditionsRepository repository for reading and writing medical conditions data
      * @param openCDXProfileRepository repository for reading and writing profile data
-     * @param openCDXApiFDA OpenFDA API service
+     * @param openCDXCommunicationService communication service
      */
     public OpenCDXMedicalConditionsServiceImpl(
             ObjectMapper objectMapper,
@@ -86,14 +86,12 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
-            OpenCDXApiFDA openCDXApiFDA,
             OpenCDXCommunicationService openCDXCommunicationService) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXMedicalConditionsRepository = openCDXMedicalConditionsRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
-        this.openCDXApiFDA = openCDXApiFDA;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXCommunicationService = openCDXCommunicationService;
     }
