@@ -105,8 +105,7 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
     @Override
     public DiagnosisResponse createDiagnosis(DiagnosisRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "medical-conditions",
-                new OpenCDXIdentifier(request.getDiagnosis().getPatientId()));
+                "profiles", new OpenCDXIdentifier(request.getDiagnosis().getPatientId()));
         OpenCDXMedicalConditionsModel model =
                 this.openCDXMedicalConditionsRepository.save(new OpenCDXMedicalConditionsModel(request.getDiagnosis()));
         try {
