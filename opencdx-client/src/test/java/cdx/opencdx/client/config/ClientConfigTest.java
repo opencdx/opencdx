@@ -46,7 +46,6 @@ class ClientConfigTest {
         clientConfig.openCDXHelloworldClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMOrganizationClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMProfileClient(server, port, trustStore, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMUserClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXIAMWorkspaceClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXPredictorClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXProtectorClient(server, port, trustStore, observationGrpcClientInterceptor);
@@ -61,6 +60,7 @@ class ClientConfigTest {
         clientConfig.openCDXLabConnectedClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXAllergyClient(server, port, trustStore, observationGrpcClientInterceptor);
         clientConfig.openCDXDoctorNotesClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXTemperatureMeasurementClient(server, port, trustStore, observationGrpcClientInterceptor);
         Assertions.assertNotNull(
                 clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }

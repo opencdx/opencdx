@@ -41,4 +41,25 @@ class OpenCDXNotificationModelTest {
 
         Assertions.assertNotNull(openCDXNotificationModel.getProtobufMessage());
     }
+
+    @Test
+    void getProtobufMessageOrganizationWorkspace() {
+        OpenCDXNotificationModel openCDXNotificationModel = new OpenCDXNotificationModel(Notification.newBuilder()
+                .setQueueId(OpenCDXIdentifier.get().toHexString())
+                .setEventId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
+                .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
+                .setLanguage("en")
+                .setTimestamp(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(OpenCDXIdentifier.get().toHexString())
+                .setModifier(OpenCDXIdentifier.get().toHexString())
+                .build());
+
+        Assertions.assertNotNull(openCDXNotificationModel.getProtobufMessage());
+    }
 }

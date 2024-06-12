@@ -18,7 +18,6 @@ package cdx.opencdx.classification.service.impl;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
@@ -26,6 +25,7 @@ import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXDeviceClient;
 import cdx.opencdx.client.service.OpenCDXManufacturerClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;

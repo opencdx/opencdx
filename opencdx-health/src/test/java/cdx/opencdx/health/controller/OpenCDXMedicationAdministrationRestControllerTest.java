@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,7 +26,6 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.data.MedicationAdministration;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.health.GetMedicationByIdRequest;
 import cdx.opencdx.grpc.service.health.ListMedicationsRequest;
 import cdx.opencdx.health.model.OpenCDXMedicationAdministrationModel;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
@@ -239,10 +239,7 @@ class OpenCDXMedicationAdministrationRestControllerTest {
     @Test
     void getMedicationById() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/medication/administer/" + OpenCDXIdentifier.get())
-                        .content(this.objectMapper.writeValueAsString(GetMedicationByIdRequest.newBuilder()
-                                .setMedicationId(ObjectId.get().toHexString())
-                                .build()))
+                .perform(get("/medication/administer/" + OpenCDXIdentifier.get())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

@@ -46,9 +46,9 @@ class OpenCDXAllergyModelTest {
         KnownAllergy knownAllergy = KnownAllergy.newBuilder()
                 .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
-                .setCreator("creator")
+                .setCreator(OpenCDXIdentifier.get().toHexString())
                 .setModified(Timestamp.getDefaultInstance())
-                .setModifier("modifier")
+                .setModifier(OpenCDXIdentifier.get().toHexString())
                 .build();
         OpenCDXAllergyModel model = new OpenCDXAllergyModel(knownAllergy);
         assertNotNull(model.getProtobufMessage());

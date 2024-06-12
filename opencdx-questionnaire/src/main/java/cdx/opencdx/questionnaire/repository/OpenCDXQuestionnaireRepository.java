@@ -16,7 +16,7 @@
 package cdx.opencdx.questionnaire.repository;
 
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
+import cdx.opencdx.commons.model.OpenCDXQuestionnaireModel;
 
 /**
  * The OpenCDXQuestionnaireRepository interface is responsible for managing and accessing

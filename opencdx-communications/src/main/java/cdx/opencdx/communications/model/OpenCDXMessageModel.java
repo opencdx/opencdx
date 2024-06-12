@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,6 +42,9 @@ public class OpenCDXMessageModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String title;
     private String message;
@@ -49,9 +52,16 @@ public class OpenCDXMessageModel {
     private MessageType messageType;
     private MessageStatus messageStatus;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -119,5 +129,20 @@ public class OpenCDXMessageModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the fields of the OpenCDXMessageModel object based on the provided Message.
+     *
+     * @param message The Message object containing the updated data.
+     * @return This OpenCDXMessageModel object, with the fields updated based on the provided Message.
+     */
+    public OpenCDXMessageModel update(Message message) {
+        this.patientId = new OpenCDXIdentifier(message.getPatientId());
+        this.title = message.getTitle();
+        this.message = message.getMessage();
+        this.messageType = message.getType();
+        this.messageStatus = message.getStatus();
+        return this;
     }
 }

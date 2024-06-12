@@ -25,7 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -42,15 +42,26 @@ public class OpenCDXWeightMeasurementModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
     private double weight;
     WeightUnits unitsOfMeasure;
     private Instant timeOfMeasurement;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
-    private String creator;
-    private String modifier;
+
+    @CreatedBy
+    private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
+    private OpenCDXIdentifier modifier;
 
     /**
      * Constructor from protobuf message WeightMeasurement
@@ -80,10 +91,10 @@ public class OpenCDXWeightMeasurementModel {
                     weightMeasurement.getModified().getNanos());
         }
         if (weightMeasurement.hasCreator()) {
-            this.creator = weightMeasurement.getCreator();
+            this.creator = new OpenCDXIdentifier(weightMeasurement.getCreator());
         }
         if (weightMeasurement.hasModifier()) {
-            this.modifier = weightMeasurement.getModifier();
+            this.modifier = new OpenCDXIdentifier(weightMeasurement.getModifier());
         }
     }
 
@@ -124,11 +135,31 @@ public class OpenCDXWeightMeasurementModel {
                     .build());
         }
         if (this.creator != null) {
-            builder.setCreator(this.creator);
+            builder.setCreator(this.creator.toHexString());
         }
         if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXWeightMeasurementModel with the given WeightMeasurement object.
+     *
+     * @param weightMeasurement The WeightMeasurement object to update the model with.
+     * @return The updated OpenCDXWeightMeasurementModel instance.
+     */
+    public OpenCDXWeightMeasurementModel update(WeightMeasurement weightMeasurement) {
+        this.patientId = new OpenCDXIdentifier(weightMeasurement.getPatientId());
+        this.nationalHealthId = weightMeasurement.getNationalHealthId();
+        this.weight = weightMeasurement.getWeight();
+        this.unitsOfMeasure = weightMeasurement.getUnitsOfMeasure();
+        if (weightMeasurement.hasTimeOfMeasurement()) {
+            this.timeOfMeasurement = Instant.ofEpochSecond(
+                    weightMeasurement.getCreated().getSeconds(),
+                    weightMeasurement.getCreated().getNanos());
+        }
+
+        return this;
     }
 }

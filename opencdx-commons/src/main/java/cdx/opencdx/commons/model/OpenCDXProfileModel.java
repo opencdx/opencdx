@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -43,6 +43,9 @@ public class OpenCDXProfileModel {
 
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier userId;
 
@@ -63,10 +66,19 @@ public class OpenCDXProfileModel {
 
     private List<OpenCDXIdentifier> dependents;
     private List<KnownAllergy> allergies;
+
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
+
     private BloodType bloodType;
 
     /**
@@ -210,5 +222,43 @@ public class OpenCDXProfileModel {
             builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXProfileModel with the data from the given UserProfile.
+     *
+     * @param userProfile The UserProfile object containing the updated data.
+     * @return The updated OpenCDXProfileModel object.
+     */
+    public OpenCDXProfileModel update(UserProfile userProfile) {
+        this.nationalHealthId = userProfile.getNationalHealthId();
+        this.fullName = userProfile.getFullName();
+        this.contactInfo = userProfile.getContactsList();
+
+        if (userProfile.hasUserId()) {
+            this.userId = new OpenCDXIdentifier(userProfile.getUserId());
+        }
+
+        if (userProfile.hasDateOfBirth()) {
+            this.dateOfBirth = Instant.ofEpochSecond(
+                    userProfile.getDateOfBirth().getSeconds(),
+                    userProfile.getDateOfBirth().getNanos());
+        }
+        if (userProfile.hasPlaceOfBirth()) {
+            this.placeOfBirth = userProfile.getPlaceOfBirth();
+        }
+        this.dependents = userProfile.getDependentIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
+        this.isActive = userProfile.getIsActive();
+        this.addresses = userProfile.getAddressList();
+        this.photo = userProfile.getPhoto().toByteArray();
+        this.demographics = userProfile.getDemographics();
+        this.employeeIdentity = userProfile.getEmployeeIdentity();
+        this.primaryContactInfo = userProfile.getPrimaryContactInfo();
+        this.emergencyContact = userProfile.getEmergencyContact();
+        this.pharmacyDetails = userProfile.getPharmacyDetails();
+        this.allergies = userProfile.getKnownAllergiesList();
+        return this;
     }
 }

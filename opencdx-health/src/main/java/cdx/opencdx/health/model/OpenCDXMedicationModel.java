@@ -30,7 +30,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -46,6 +46,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXMedicationModel {
     @Id
     private OpenCDXIdentifier id;
+
+    @Version
+    private long version;
 
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
@@ -71,9 +74,16 @@ public class OpenCDXMedicationModel {
     @Builder.Default
     private boolean generic = false;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
 
     /**
@@ -89,7 +99,7 @@ public class OpenCDXMedicationModel {
         try {
             this.dosageForm = DosageForm.valueOf(product.getDosage_form().toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Invalid dosage form: " + product.getDosage_form());
+            log.error("Invalid dosage form: {}", product.getDosage_form());
             this.dosageForm = DosageForm.OTHER_DOSAGE_FORM;
             this.otherDosageForm = product.getDosage_form();
         }
@@ -113,7 +123,7 @@ public class OpenCDXMedicationModel {
             this.administrationRoute =
                     MedicationAdministrationRoute.valueOf(product.getRoute().toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Invalid route of administration: " + product.getRoute());
+            log.error("Invalid route of administration: {}", product.getRoute());
             this.administrationRoute = MedicationAdministrationRoute.OTHER_ROUTE;
             this.otherAdministrationRoute = product.getRoute();
         }

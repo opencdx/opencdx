@@ -87,8 +87,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     public Device getDeviceById(DeviceIdRequest request) {
         return this.openCDXDeviceRepository
                 .findById(new OpenCDXIdentifier(request.getDeviceId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find testcase: " + request.getDeviceId()))
                 .getProtobufMessage();
     }
 
@@ -143,7 +142,12 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                         .map(OpenCDXIdentifier::new)
                         .toList());
 
-        OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
+        OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find Device: " + request.getId()));
+
+        openCDXDeviceModel = this.openCDXDeviceRepository.save(openCDXDeviceModel.update(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(

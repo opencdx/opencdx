@@ -13,9 +13,6 @@ _**Links are part of the build not available from GitHub.**_
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
-- [API-DOCS](https://localhost:8080/iam/api-docs)
-- [SWAGGER-DOCS](https://localhost:8080/iam/swagger-ui/index.html)
-- [JAVA-Docs](https://localhost:8861/javadoc/cdx/opencdx/iam/package-summary.html)
 
 ## Interfaces
 

@@ -43,6 +43,7 @@ import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.evrete.KnowledgeService;
 import org.evrete.api.Knowledge;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -75,16 +76,18 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param openCDXMediaUpDownClient the OpenCDXMediaUpDownClient object to download media
      * @param openCDXTestCaseClient the OpenCDXTestCaseClient object to get test cases
      * @param openCDXCurrentUser the OpenCDXCurrentUser object to get the current user
+     * @param knowledgeService the KnowledgeService object to create rules knowledge
      */
     public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXTestCaseClient openCDXTestCaseClient,
-            OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXCurrentUser openCDXCurrentUser,
+            KnowledgeService knowledgeService) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.random = new Random();
-        this.knowledgeService = new KnowledgeService();
+        this.knowledgeService = knowledgeService;
     }
 
     /**
@@ -93,6 +96,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param request the ClientRulesRequest object containing the request data
      * @return the RuleSetsResponse object representing the rule sets response
      */
+    @Cacheable("ruleSets")
     @Override
     public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
         return RuleSetsResponse.newBuilder()

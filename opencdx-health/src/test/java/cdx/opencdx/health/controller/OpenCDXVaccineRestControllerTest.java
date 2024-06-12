@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.health.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
@@ -26,7 +26,6 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.data.Medication;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.data.Vaccine;
-import cdx.opencdx.grpc.service.health.GetVaccineByIdRequest;
 import cdx.opencdx.grpc.service.health.ListVaccinesRequest;
 import cdx.opencdx.health.model.OpenCDXVaccineModel;
 import cdx.opencdx.health.repository.OpenCDXVaccineRepository;
@@ -206,13 +205,28 @@ class OpenCDXVaccineRestControllerTest {
     }
 
     @Test
-    void getVaccineById() throws Exception {
+    void updateVaccine() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/vaccine/" + OpenCDXIdentifier.get())
-                        .content(this.objectMapper.writeValueAsString(GetVaccineByIdRequest.newBuilder()
+                .perform(put("/vaccine")
+                        .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
+                                .setNationalHealthId(ObjectId.get().toHexString())
+                                .setFips("fips")
+                                .setHealthDistrict("district")
+                                .setDoseNumber(2)
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void getVaccineById() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/vaccine/" + OpenCDXIdentifier.get()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();

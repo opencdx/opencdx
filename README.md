@@ -1,4 +1,4 @@
-# OpenCDx
+# OpenCDx: A Reference Implementation   
 
 ## Repository Name: [opencdx/opencdx](https://github.com/opencdx/opencdx)
 
@@ -16,6 +16,9 @@
 
 ℹ️ Specific version not required, but the latest version is recommended.
 
+## Software Installation
+To Install the above required software to run OpenCDx, please refer to the installation instructions as detailed [here](INSTALL.md)
+
 ## Description
 
 OpenCDX is a platform for the management of clinical data exchange. It is designed to be a secure, scalable, and interoperable platform for the exchange of clinical data. 
@@ -23,25 +26,20 @@ OpenCDX is a platform for the management of clinical data exchange. It is design
 ## Modules
 
 - [OpenCdx Admin](opencdx-admin/README.md)
-- [OpenCdx Anf](opencdx-anf/README.md)
 - [OpenCdx Audit](opencdx-audit/README.md)
 - [OpenCdx Classification](opencdx-classification/README.md)
+- [OpenCdx Classification Analyzer](opencdx-classification-analyzer/README.md)
 - [OpenCdx Client](opencdx-client/README.md)
 - [OpenCdx Commons](opencdx-commons/README.md)
 - [OpenCDx Communications](opencdx-communications/README.md)
 - [OpenCdx Config](opencdx-config/README.md)
-- [OpenCdx Connected Lab](opencdx-connected-lab/README.md)
-- [OpenCdx Connected Tests](opencdx-connected-test/README.md)
 - [OpenCdx Discovery](opencdx-discovery/README.md)
 - [OpenCdx Gateway](opencdx-gateway/README.md)
 - [OpenCdx IAM](opencdx-iam/README.md)
+- [OpenCdx Logistics](opencdx-logistics/README.md)
 - [OpenCdx Media](opencdx-media/README.md)
-- [OpenCdx Predictor](opencdx-predictor/README.md)
-- [OpenCDX Protector](opencdx-protector/README.md)
 - [OpenCdx Proto](opencdx-proto/README.md)
 - [openCdx Questionnaire](opencdx-questionnaire/README.md)
-- [OpenCdx Routine](opencdx-routine/README.md)
-- [OpenCdx Shipping](opencdx-shipping/README.md)
 - [OpenCdx Tinkar](opencdx-tinkar/README.md)
 
 
@@ -202,6 +200,17 @@ The NVD API Key is optional and can be specified in your local environment by en
 
 ```export NVD_API_KEY=<your-api-key>```
 
+
+## Team Members
+
+[Ravinder Singh (rsdeosi@gmail.com)](mailto:rsdeosi@gmail.com)   
+[Jeff Miller (jeff.miller@safehealth.me)](mailto:jeff.miller@safehealth.me)   
+[Ranga Lakshminarayanan (ranga.lakshminarayanan@safehealth.me)](mailto:ranga.lakshminarayanan@safehealth.me)   
+[Patrick Chou (patrick.chou@safehealth.me)](mailto:patrick.chou@safehealth.me)   
+[Karthick Rajamurugan (karthick.rajamurugan@safehealth.me)](mailto:karthick.rajamurugan@safehealth.me)   
+[Gaurav Mishra (gaurav.mishra@safehealth.me)](mailto:gaurav.mishra@safehealth.me)   
+    
 ## Support Team
 
 [Avengers (cs@safehealth.me)](mailto:cs@safehealth.me)
+

@@ -191,4 +191,14 @@ public interface OpenCDXQuestionnaireClient {
     UserQuestionnaireData getUserQuestionnaireData(
             GetQuestionnaireRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Questionnaire Service getUserQuestionnaireData() api.
+     * @param request Get Questionnaire request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    UserQuestionnaireDataResponse getUserQuestionnaireDataList(
+            GetQuestionnaireListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 }

@@ -3,6 +3,7 @@ import se.solrike.sonarlint.SonarlintListRules
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -246,6 +247,7 @@ allprojects {
             }
         }
     }
+
 
     check.dependsOn jacocoTestCoverageVerification
 

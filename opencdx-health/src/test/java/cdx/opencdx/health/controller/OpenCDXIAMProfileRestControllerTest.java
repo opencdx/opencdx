@@ -197,6 +197,7 @@ class OpenCDXIAMProfileRestControllerTest {
                         .content(this.objectMapper.writeValueAsString(UpdateUserProfileRequest.newBuilder()
                                 .setUserId(OpenCDXIdentifier.get().toHexString())
                                 .setUpdatedProfile(UserProfile.newBuilder()
+                                        .setId(OpenCDXIdentifier.get().toHexString())
                                         .setDemographics(Demographics.newBuilder()
                                                 .setGender(Gender.GENDER_FEMALE)
                                                 .build())

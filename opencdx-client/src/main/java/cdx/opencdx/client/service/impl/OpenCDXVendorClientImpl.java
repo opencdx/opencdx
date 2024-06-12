@@ -20,7 +20,6 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXVendorClient;
 import cdx.opencdx.grpc.data.Vendor;
 import cdx.opencdx.grpc.service.logistics.*;
-import cdx.opencdx.grpc.service.logistics.VendorServiceGrpc;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;

@@ -65,6 +65,16 @@ public class OpenCDXVaccineGrpcController extends VaccineServiceGrpc.VaccineServ
         responseObserver.onCompleted();
     }
     /**
+     * Method to update vaccine information.
+     * @param request Request for the vaccine.
+     * @param responseObserver The response observer.
+     */
+    @Override
+    public void updateVaccine(Vaccine request, StreamObserver<Vaccine> responseObserver) {
+        responseObserver.onNext(this.openCDXVaccineService.updateVaccine(request));
+        responseObserver.onCompleted();
+    }
+    /**
      * Method to get vaccine information by patient ID within a date range.
      * @param request Request for the vaccine by patient ID
      * @param responseObserver The response observer.

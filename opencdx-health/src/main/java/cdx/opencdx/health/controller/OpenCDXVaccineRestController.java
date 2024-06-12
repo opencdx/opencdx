@@ -25,10 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the /health  api's
@@ -60,12 +57,25 @@ public class OpenCDXVaccineRestController {
 
     /**
      * Method to get Vaccine by ID
-     * @param request Vaccine ID.
+     * @param id Vaccine ID.
      * @return Response Vaccine.
      */
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vaccine> getVaccineById(@RequestBody GetVaccineByIdRequest request) {
-        return new ResponseEntity<>(this.openCDXVaccineService.getVaccineById(request), HttpStatus.OK);
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Vaccine> getVaccineById(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXVaccineService.getVaccineById(
+                        GetVaccineByIdRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Update Vaccine Administration.
+     * @param request for the Vaccine.
+     * @return Response with the Vaccine.
+     */
+    @PutMapping
+    public ResponseEntity<Vaccine> updateVaccine(@RequestBody Vaccine request) {
+        return new ResponseEntity<>(this.openCDXVaccineService.updateVaccine(request), HttpStatus.OK);
     }
 
     /**

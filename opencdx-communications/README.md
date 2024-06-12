@@ -13,8 +13,6 @@ _**Links are part of the build not available from GitHub.**_
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
-- [API-DOCS](http://localhost:8380/api-docs)
-- [API-DOCS YAML](http://localhost:8380/api-docs.yaml)
 ## Interfaces
 **OpenCDXCommunicationService** - Interface for implementation of the Communcations service.  Full implementation has been made.
 

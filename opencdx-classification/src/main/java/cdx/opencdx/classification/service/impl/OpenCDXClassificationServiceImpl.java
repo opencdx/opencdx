@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.classification.service.impl;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
-import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -26,8 +24,10 @@ import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.grpc.data.*;
@@ -73,6 +73,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
     private final OpenCDXCommunicationService openCDXCommunicationService;
+    private final OpenCDXAdrMessageService openCDXAdrMessageService;
 
     private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
     private final OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
@@ -93,6 +94,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCommunicationService service for communication
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
+     * @param openCDXAdrMessageService service for ADR message
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -108,6 +110,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
             OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXAdrMessageService openCDXAdrMessageService,
             OpenCDXCDCPayloadService openCDXCDCPayloadService,
             OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -122,6 +125,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
         this.openCDXCommunicationService = openCDXCommunicationService;
+        this.openCDXAdrMessageService = openCDXAdrMessageService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
     }
@@ -156,6 +160,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     model.getConnectedTest(),
                     model.getTestDetailsMedia()));
         } else if (model.getUserQuestionnaireData() != null) {
+            sendAnfToAdr(model);
             model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeQuestionnaire(
                     model.getPatient(), model.getUserAnswer(), model.getMedia(), model.getUserQuestionnaireData()));
         } else {
@@ -190,6 +195,37 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         }
         log.info("Processed ClassificationRequest");
         return model.getClassificationResponse();
+    }
+
+    @SuppressWarnings("java:S3776")
+    private void sendAnfToAdr(OpenCDXClassificationModel model) {
+        if (model.getUserQuestionnaireData().getQuestionnaireDataList() != null) {
+            model.getUserQuestionnaireData().getQuestionnaireDataList().forEach(questionnaireData -> {
+                if (questionnaireData.getItemList() != null) {
+                    questionnaireData.getItemList().forEach(item -> {
+                        this.processQuestionnaireItem(item);
+                        if (item.getItemList() != null) {
+                            item.getItemList().forEach(this::processQuestionnaireItem);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    @SuppressWarnings("java:S3776")
+    private void processQuestionnaireItem(QuestionnaireItem item) {
+        if (item.getAnfStatementConnectorList() != null) {
+            item.getAnfStatementConnectorList().forEach(anfStatementConnector -> {
+                if (anfStatementConnector.getAnfStatement() != null) {
+                    try {
+                        this.openCDXAdrMessageService.sendAdrMessage(anfStatementConnector.getAnfStatement());
+                    } catch (Exception e) {
+                        log.error("Failed to submit ADR Statement", e);
+                    }
+                }
+            });
+        }
     }
 
     private OpenCDXClassificationModel creeateOpenCDXClassificationModel(ClassificationRequest request) {

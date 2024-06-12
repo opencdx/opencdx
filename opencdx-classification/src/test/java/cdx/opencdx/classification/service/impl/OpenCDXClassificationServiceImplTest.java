@@ -19,8 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.classification.analyzer.service.impl.OpenCDXAnalysisEngineImpl;
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
-import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -29,8 +27,10 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
@@ -51,6 +51,7 @@ import com.google.protobuf.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.evrete.KnowledgeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -84,6 +85,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    OpenCDXAdrMessageService openCDXAdrMessageService;
 
     @Autowired
     OpenCDXOrderMessageService openCDXOrderMessageService;
@@ -128,6 +132,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Mock
     OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Autowired
+    KnowledgeService knowledgeService;
 
     @BeforeEach
     void beforeEach() {
@@ -289,7 +296,10 @@ class OpenCDXClassificationServiceImplTest {
                         .build());
 
         this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
-                this.openCDXMediaUpDownClient, this.openCDXTestCaseClient, this.openCDXCurrentUser);
+                this.openCDXMediaUpDownClient,
+                this.openCDXTestCaseClient,
+                this.openCDXCurrentUser,
+                this.knowledgeService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
@@ -304,6 +314,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
     }
@@ -601,6 +612,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
@@ -749,6 +761,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
@@ -995,6 +1008,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
+                openCDXAdrMessageService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 

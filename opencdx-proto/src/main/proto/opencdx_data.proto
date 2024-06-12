@@ -1346,25 +1346,40 @@ message Notification {
    */
   string patient_id = 3;
 
+  /**
+   * The unique identifier for the organization that this notification is intended for.
+   */
+  optional string organization_id = 4;
+
+  /**
+   * The unique identifier for the workspace that this notification is intended for.
+   */
+  optional string workspace_id = 5;
+
+  /*
+   * Preferred language for communication (e.g., English, Spanish, etc.)
+   */
+  optional string language = 6;
+
   /*
    * The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
    */
-  optional cdx.opencdx.grpc.types.NotificationStatus sms_status = 4;
+  optional cdx.opencdx.grpc.types.NotificationStatus sms_status = 7;
 
   /*
    * The status of the EMAIL notification which could also be 'pending', 'sent', or 'failed'.
    */
-  optional cdx.opencdx.grpc.types.NotificationStatus email_status = 5;
+  optional cdx.opencdx.grpc.types.NotificationStatus email_status = 8;
 
   /*
    * The timestamp when the notification was added to the queue.
    */
-  optional google.protobuf.Timestamp timestamp = 6;
+  optional google.protobuf.Timestamp timestamp = 9;
 
   /*
    * Custom data associated with the notification. The purpose of this data varies based on the specific use case.
    */
-  map<string, string> custom_data = 7;
+  map<string, string> custom_data = 10;
 
   /*
    * Email-specific attributes.
@@ -1372,22 +1387,22 @@ message Notification {
   /*
    * The email addresses of the primary recipients.
    */
-  repeated string to_email = 8;
+  repeated string to_email = 11;
 
   /*
    * The email addresses to which the notification should be carbon copied(Cc).
    */
-  repeated string cc_email = 9;
+  repeated string cc_email = 12;
 
   /*
    * The email addresses to which the notification should be blind carbon copied(Bcc).
    */
-  repeated string bcc_email = 10;
+  repeated string bcc_email = 13;
 
   /*
    * Any files that need to be attached to the email notification.
    */
-  repeated Attachment email_attachments = 11;
+  repeated Attachment email_attachments = 14;
 
   /*
    * SMS-specific attributes.
@@ -1395,37 +1410,37 @@ message Notification {
   /*
    * The phone numbers to which the SMS notification should be sent.
    */
-  repeated string to_phone_number = 12;
+  repeated string to_phone_number = 15;
 
   /*
    * Variables or placeholders that can be replaced in the notification's content.
    */
-  map<string, string> variables = 13;
+  map<string, string> variables = 16;
 
   /*
    * The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.
    */
-  repeated string recipients_id = 14;
+  repeated string recipients_id = 17;
 
   /*
    * The timestamp at which this event was created.
    */
-  optional google.protobuf.Timestamp created = 15;
+  optional google.protobuf.Timestamp created = 18;
 
   /*
    * The timestamp at which this event was last modified.
    */
-  optional google.protobuf.Timestamp modified = 16;
+  optional google.protobuf.Timestamp modified = 19;
 
   /*
    * The unique identifier of the user or system that created this event.
    */
-  optional string creator = 17;
+  optional string creator = 20;
 
   /*
    * The unique identifier of the user or system that last modified this event.
    */
-  optional string modifier = 18;
+  optional string modifier = 21;
 }
 
 /*
@@ -3554,52 +3569,6 @@ message Employee {
 message Empty {}
 
 /*
- * Represents an IAM user.
- */
-message IamUser {
-  /*
-   * The unique ID of the user.
-   */
-  optional string id = 1;
-  /*
-   * The name of the system for System Users.
-   */
-  string system_name = 2;
-  /*
-   * The username of the user.
-   */
-  string username = 3;
-  /*
-   * Indicates whether the user's email has been verified.
-   */
-  bool email_verified = 4;
-  /*
-   * The current status of the user.
-   */
-  cdx.opencdx.grpc.types.IamUserStatus status = 5;
-  /*
-   * The type of the user.
-   */
-  cdx.opencdx.grpc.types.IamUserType type = 6;
-  /*
-   * The timestamp when the user was created.
-   */
-  optional google.protobuf.Timestamp created = 7;
-  /*
-   * The timestamp when the user was last modified.
-   */
-  optional google.protobuf.Timestamp modified = 8;
-  /*
-   * The ID of the user who created this user.
-   */
-  optional string creator = 9;
-  /*
-   * The ID of the user who last modified this user.
-   */
-  optional string modifier = 10;
-}
-
-/*
  * Manufacturer is a data structure that captures all the relevant information about a certain manufacturer.
  */
 message Manufacturer {
@@ -5020,6 +4989,11 @@ message Questionnaire {
    * The identifier of the individual or system who last modified the questionnaire.
    */
   optional string modifier = 13;
+
+  /*
+   * The identifier used for the version of the questionnaire
+   */
+  optional string version = 14;
 }
 
 /*
@@ -5374,6 +5348,140 @@ message CategoryType {
    * the type of category.
    */
   string type = 2;
+}
+
+message MedicalRecord {
+  /*
+   * Represents the unique identifier for the medical record.
+   */
+  string id = 1;
+  /*
+   * Represents the status of medical record.
+   */
+  cdx.opencdx.grpc.types.MedicalRecordStatus status = 2;
+  /*
+   * Represents the user profile data.
+   */
+  UserProfile user_profile = 3;
+  /*
+   * List of classification.
+   */
+  repeated Classification classification = 4;
+  /*
+     * List of medication.
+     */
+  repeated Medication medication = 5;
+  /*
+     * List of medicationAdministration.
+     */
+  repeated MedicationAdministration medicationAdministration = 6;
+  /*
+     * List of knownAllergy
+     */
+  repeated KnownAllergy knownAllergy = 7;
+  /*
+     * List of doctorNotes.
+     */
+  repeated DoctorNotes doctorNotes = 8;
+  /*
+     * List of vaccine.
+     */
+  repeated Vaccine vaccine = 9;
+  /*
+     * List of heightMeasurement.
+     */
+  repeated HeightMeasurement heightMeasurement = 10;
+  /*
+     * List of heightMeasurement.
+     */
+  repeated WeightMeasurement weightMeasurement = 11;
+  /*
+     * List of bpm.
+     */
+  repeated BPM bpm = 12;
+  /*
+     * List of heartRPM.
+     */
+  repeated HeartRPM heartRPM = 13;
+  /*
+     * List of userQuestionnaireData.
+     */
+  repeated UserQuestionnaireData userQuestionnaireData = 14;
+  /*
+     * List of userAnswer.
+     */
+  repeated UserAnswer userAnswer = 15;
+  /*
+     * List of connectedTest.
+     */
+  repeated ConnectedTest connectedTest = 16;
+  /*
+     * Timestamp indicating when the record was created.
+     */
+  optional google.protobuf.Timestamp created = 17;
+  /*
+   * Timestamp indicating when the record was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 18;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 19;
+  /*
+   * Identifier of the last modifier of this record.
+   */
+  optional string modifier = 20;
+}
+
+/*
+ * Represents Temperature Measurement information.
+ */
+message TemperatureMeasurement {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+  /*
+   * Temperature of the patient
+   */
+  double temperature_value = 4;
+  /*
+   * The scale of measurement for temperature. The value is an enum defined by the `TemperatureScale` message.
+   */
+  cdx.opencdx.grpc.types.TemperatureScale temperature_scale = 5;
+  /*
+   * The method used for temperature. The value is an enum defined by the `TemperatureMethod` message.
+   */
+  cdx.opencdx.grpc.types.TemperatureMethod temperature_method = 6;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 7;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 10;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 11;
+
 }
 
 /*

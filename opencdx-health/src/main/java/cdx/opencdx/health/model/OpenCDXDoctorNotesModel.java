@@ -127,4 +127,24 @@ public class OpenCDXDoctorNotesModel {
         }
         return builder.build();
     }
+
+    /**
+     * Updates the OpenCDXDoctorNotesModel with the provided DoctorNotes data.
+     *
+     * @param doctorNotes The DoctorNotes object containing the updated data.
+     * @return The updated OpenCDXDoctorNotesModel instance.
+     */
+    public OpenCDXDoctorNotesModel update(DoctorNotes doctorNotes) {
+
+        this.patientId = new OpenCDXIdentifier(doctorNotes.getPatientId());
+        this.nationalHealthId = doctorNotes.getNationalHealthId();
+        this.providerNumber = doctorNotes.getProviderNumber();
+        this.tags = doctorNotes.getTagsList();
+        this.noteDatetime = Instant.ofEpochSecond(
+                doctorNotes.getNoteDatetime().getSeconds(),
+                doctorNotes.getNoteDatetime().getNanos());
+        this.notes = doctorNotes.getNotes();
+
+        return this;
+    }
 }

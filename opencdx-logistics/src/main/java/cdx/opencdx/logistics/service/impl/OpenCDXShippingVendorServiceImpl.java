@@ -22,7 +22,6 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.logistics.*;
-import cdx.opencdx.grpc.service.logistics.ShippingVendorResponse;
 import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.PhoneType;
 import cdx.opencdx.logistics.dto.OpenCDXShippingRequest;

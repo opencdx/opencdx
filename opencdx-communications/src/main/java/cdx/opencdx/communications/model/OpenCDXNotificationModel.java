@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -44,7 +44,16 @@ public class OpenCDXNotificationModel {
     @Id
     private OpenCDXIdentifier id;
 
+    @Version
+    private long version;
+
     private OpenCDXIdentifier patientId;
+
+    private OpenCDXIdentifier organizationId;
+
+    private OpenCDXIdentifier workspaceId;
+
+    private String language;
 
     private OpenCDXIdentifier eventId;
     private NotificationStatus smsStatus;
@@ -69,9 +78,16 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<OpenCDXIdentifier> recipients;
 
+    @CreatedDate
     private Instant created;
+
+    @LastModifiedDate
     private Instant modified;
+
+    @CreatedBy
     private OpenCDXIdentifier creator;
+
+    @LastModifiedBy
     private OpenCDXIdentifier modifier;
     /**
      * Constructor taking a Notification and generating the Model
@@ -104,6 +120,15 @@ public class OpenCDXNotificationModel {
             this.timestamp = Instant.now();
         }
 
+        if (notification.hasOrganizationId()) {
+            this.organizationId = new OpenCDXIdentifier(notification.getOrganizationId());
+        }
+        if (notification.hasWorkspaceId()) {
+            this.workspaceId = new OpenCDXIdentifier(notification.getWorkspaceId());
+        }
+        if (notification.hasLanguage()) {
+            this.language = notification.getLanguage();
+        }
         this.customData = notification.getCustomDataMap();
         this.toEmail = notification.getToEmailList();
         this.ccEmail = notification.getCcEmailList();
@@ -143,6 +168,15 @@ public class OpenCDXNotificationModel {
 
         builder.setPatientId(this.patientId.toHexString());
 
+        if (this.organizationId != null) {
+            builder.setOrganizationId(this.organizationId.toHexString());
+        }
+        if (this.workspaceId != null) {
+            builder.setWorkspaceId(this.workspaceId.toHexString());
+        }
+        if (this.language != null) {
+            builder.setLanguage(this.language);
+        }
         builder.setEventId(this.eventId.toHexString());
         builder.setSmsStatus(this.smsStatus);
         builder.setEmailStatus(this.emailStatus);
@@ -181,5 +215,49 @@ public class OpenCDXNotificationModel {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Updates the OpenCDXNotificationModel with the information from the given Notification.
+     *
+     * @param notification The Notification object containing the updated information.
+     * @return The updated OpenCDXNotificationModel.
+     */
+    public OpenCDXNotificationModel update(Notification notification) {
+        this.emailFailCount = 0;
+        this.smsFailCount = 0;
+        this.patientId = new OpenCDXIdentifier(notification.getPatientId());
+
+        this.eventId = new OpenCDXIdentifier(notification.getEventId());
+        if (notification.hasSmsStatus()) {
+            this.smsStatus = notification.getSmsStatus();
+        } else {
+            this.smsStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasEmailStatus()) {
+            this.emailStatus = notification.getEmailStatus();
+        } else {
+            this.emailStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
+        }
+        if (notification.hasTimestamp()) {
+            this.timestamp = Instant.ofEpochSecond(
+                    notification.getTimestamp().getSeconds(),
+                    notification.getTimestamp().getNanos());
+        } else {
+            this.timestamp = Instant.now();
+        }
+
+        this.customData = notification.getCustomDataMap();
+        this.toEmail = notification.getToEmailList();
+        this.ccEmail = notification.getCcEmailList();
+        this.bccEmail = notification.getBccEmailList();
+        this.attachments = notification.getEmailAttachmentsList();
+        this.phoneNumbers = notification.getToPhoneNumberList();
+        this.variables = notification.getVariablesMap();
+        this.recipients = notification.getRecipientsIdList().stream()
+                .map(OpenCDXIdentifier::new)
+                .toList();
+
+        return this;
     }
 }

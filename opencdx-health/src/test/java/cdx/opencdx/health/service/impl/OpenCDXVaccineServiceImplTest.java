@@ -159,6 +159,19 @@ class OpenCDXVaccineServiceImplTest {
     }
 
     @Test
+    void updateVaccine() {
+        Vaccine vaccine = Vaccine.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
+                .setNationalHealthId(ObjectId.get().toHexString())
+                .setFips("fips")
+                .setHealthDistrict("district")
+                .setDoseNumber(2)
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVaccineService.updateVaccine(vaccine));
+    }
+
+    @Test
     void getVaccineById() {
         GetVaccineByIdRequest request = GetVaccineByIdRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())

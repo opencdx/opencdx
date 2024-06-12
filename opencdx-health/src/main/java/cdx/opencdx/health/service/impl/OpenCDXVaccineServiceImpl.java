@@ -149,6 +149,36 @@ public class OpenCDXVaccineServiceImpl implements OpenCDXVaccineService {
         return model.getProtobufMessage();
     }
 
+    @Override
+    public Vaccine updateVaccine(Vaccine request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(PROFILES, new OpenCDXIdentifier(request.getPatientId()));
+        OpenCDXVaccineModel vaccineModel = this.openCDXVaccineRepository
+                .findById(new OpenCDXIdentifier(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_VACCINE" + request.getId()));
+        OpenCDXVaccineModel model = this.openCDXVaccineRepository.save(vaccineModel.update(request));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiUpdated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Vaccine Prescribed",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    AuditEntity.newBuilder()
+                            .setPatientId(model.getId().toHexString())
+                            .setNationalHealthId(model.getNationalHealthId())
+                            .build(),
+                    VACCINE + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, FAILED_TO_CONVERT_OPEN_CDX_VACCINE_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+        return model.getProtobufMessage();
+    }
+
     /**
      * Method to get vaccine information by patient ID within a date range.
      *
