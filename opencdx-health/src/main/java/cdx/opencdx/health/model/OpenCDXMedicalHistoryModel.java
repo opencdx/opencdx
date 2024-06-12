@@ -107,8 +107,12 @@ public class OpenCDXMedicalHistoryModel {
         builder.setPatientId(this.patientId.toHexString());
         builder.setNationalHealthId(this.nationalHealthId);
 
-        builder.setRelationship(this.relationship);
-        builder.setRelationshipFamilyLine(this.relationshipFamilyLine);
+        if (this.relationship != null) {
+            builder.setRelationship(this.relationship);
+        }
+        if (this.relationshipFamilyLine != null) {
+            builder.setRelationshipFamilyLine(this.relationshipFamilyLine);
+        }
 
         if (this.startDate != null) {
             builder.setStartDate(Timestamp.newBuilder()
@@ -124,7 +128,9 @@ public class OpenCDXMedicalHistoryModel {
                     .build());
         }
 
-        builder.setCondition(this.condition);
+        if (this.condition != null) {
+            builder.setCondition(this.condition);
+        }
 
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
