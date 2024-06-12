@@ -195,7 +195,7 @@ class OpenCDXMedicalHistoryServiceImplTest {
     }
 
     @Test
-    void listVaccinesSortNotAscending() {
+    void listMedicalHistoriesNotAscending() {
         ListMedicalHistoriesRequest request = ListMedicalHistoriesRequest.newBuilder()
                 .setPatientId(ObjectId.get().toHexString())
                 .setNationalHealthId(ObjectId.get().toHexString())

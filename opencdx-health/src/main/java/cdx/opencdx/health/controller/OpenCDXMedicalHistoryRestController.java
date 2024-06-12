@@ -80,7 +80,7 @@ public class OpenCDXMedicalHistoryRestController {
      * @param request for the MedicalHistory.
      * @return Response with the MedicalHistory.
      */
-    @PostMapping()
+    @PutMapping()
     public ResponseEntity<UpdateMedicalHistoryResponse> updateMedicalHistory(
             @RequestBody UpdateMedicalHistoryRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.updateMedicalHistory(request), HttpStatus.OK);
