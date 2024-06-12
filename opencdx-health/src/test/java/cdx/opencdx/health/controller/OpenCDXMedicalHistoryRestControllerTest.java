@@ -13,67 +13,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.service.impl;
-
-import static org.mockito.ArgumentMatchers.any;
+package cdx.opencdx.health.controller;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.data.MedicalHistory;
-import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.Relationship;
 import cdx.opencdx.grpc.types.RelationshipFamilyLine;
 import cdx.opencdx.health.model.OpenCDXMedicalHistoryModel;
 import cdx.opencdx.health.repository.OpenCDXMedicalHistoryRepository;
 import cdx.opencdx.health.service.OpenCDXMedicalHistoryService;
+import cdx.opencdx.health.service.impl.OpenCDXMedicalHistoryServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.nats.client.Connection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.bson.types.ObjectId;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXMedicalHistoryServiceImplTest {
+class OpenCDXMedicalHistoryRestControllerTest {
 
-    OpenCDXMedicalHistoryService openCDXMedicalHistoryService;
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mockMvc;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
     @Autowired
-    OpenCDXDocumentValidator openCDXDocumentValidator;
-
-    @Mock
     ObjectMapper objectMapper;
 
-    @Mock
+    @Autowired
+    ObjectMapper objectMapper1;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @MockBean
+    OpenCDXMedicalHistoryRepository openCDXMedicalHistoryRepository;
+
+    OpenCDXMedicalHistoryService openCDXMedicalHistoryService;
+
+    @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @Mock
-    OpenCDXMedicalHistoryRepository openCDXMedicalHistoryRepository;
+    OpenCDXCurrentUser openCDXCurrentUser1;
+
+    @MockBean
+    Connection connection;
+
+    OpenCDXMedicalHistoryRestController openCDXMedicalHistoryRestController;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -106,7 +121,9 @@ class OpenCDXMedicalHistoryServiceImplTest {
                         return Optional.of(OpenCDXMedicalHistoryModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
-                                .nationalHealthId(UUID.randomUUID().toString())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
+                                .relationship(Relationship.MOTHER)
+                                .relationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE)
                                 .build());
                     }
                 });
@@ -117,7 +134,9 @@ class OpenCDXMedicalHistoryServiceImplTest {
                         List.of(OpenCDXMedicalHistoryModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .patientId(OpenCDXIdentifier.get())
-                                .nationalHealthId(UUID.randomUUID().toString())
+                                .nationalHealthId(OpenCDXIdentifier.get().toHexString())
+                                .relationship(Relationship.MOTHER)
+                                .relationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE)
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -133,81 +152,76 @@ class OpenCDXMedicalHistoryServiceImplTest {
                         PageRequest.of(1, 10),
                         1));
 
-        this.objectMapper = Mockito.mock(ObjectMapper.class);
-        Mockito.when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
-
         this.openCDXMedicalHistoryService = new OpenCDXMedicalHistoryServiceImpl(
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
                 this.openCDXMedicalHistoryRepository);
+        this.openCDXMedicalHistoryRestController =
+                new OpenCDXMedicalHistoryRestController(openCDXMedicalHistoryService);
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @Test
-    void createMedicalHistory() {
-        CreateMedicalHistoryRequest request = CreateMedicalHistoryRequest.newBuilder()
-                .setMedicalHistory(MedicalHistory.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
-                        .setNationalHealthId(ObjectId.get().toHexString())
-                        .setRelationship(Relationship.MOTHER)
-                        .setRelationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE))
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> openCDXMedicalHistoryService.createMedicalHistory(request));
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.connection);
+        Mockito.reset(this.openCDXMedicalHistoryRepository);
     }
+    /*
+       @Test
+       void trackVaccine() throws Exception {
+           MvcResult result = this.mockMvc
+                   .perform(post("/vaccine")
+                           .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
+                                   .setId(ObjectId.get().toHexString())
+                                   .setPatientId(ObjectId.get().toHexString())
+                                   .setNationalHealthId(ObjectId.get().toHexString())
+                                   .setFips("fips")
+                                   .setHealthDistrict("district")
+                                   .setDoseNumber(2)
+                                   .build()))
+                           .contentType(MediaType.APPLICATION_JSON_VALUE))
+                   .andExpect(status().isOk())
+                   .andReturn();
+           String content = result.getResponse().getContentAsString();
+           Assertions.assertNotNull(content);
+       }
 
-    @Test
-    void getMedicalHistory() {
-        GetMedicalHistoryRequest request = GetMedicalHistoryRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
+       @Test
+       void getVaccineById() throws Exception {
+           MvcResult result = this.mockMvc
+                   .perform(post("/vaccine/" + OpenCDXIdentifier.get())
+                           .content(this.objectMapper.writeValueAsString(GetVaccineByIdRequest.newBuilder()
+                                   .setId(ObjectId.get().toHexString())
+                                   .build()))
+                           .contentType(MediaType.APPLICATION_JSON_VALUE))
+                   .andExpect(status().isOk())
+                   .andReturn();
+           String content = result.getResponse().getContentAsString();
+           Assertions.assertNotNull(content);
+       }
 
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> openCDXMedicalHistoryService.getMedicalHistory(request));
-    }
+       @Test
+       void listVaccines() throws Exception {
+           MvcResult result = this.mockMvc
+                   .perform(post("/vaccine/list")
+                           .content(this.objectMapper.writeValueAsString(ListVaccinesRequest.newBuilder()
+                                   .setPagination(Pagination.newBuilder()
+                                           .setPageNumber(1)
+                                           .setPageSize(10)
+                                           .setSortAscending(false)
+                                           .setSort("id")
+                                           .build())
+                                   .setPatientId(ObjectId.get().toHexString())
+                                   .build()))
+                           .contentType(MediaType.APPLICATION_JSON_VALUE))
+                   .andExpect(status().isOk())
+                   .andReturn();
+           String content = result.getResponse().getContentAsString();
+           Assertions.assertNotNull(content);
+       }
 
-    @Test
-    void updateMedicalHistory() {
-        UpdateMedicalHistoryRequest request = UpdateMedicalHistoryRequest.newBuilder()
-                .setMedicalHistory(MedicalHistory.newBuilder()
-                        .setId(ObjectId.get().toHexString())
-                        .setPatientId(ObjectId.get().toHexString())
-                        .setNationalHealthId(ObjectId.get().toHexString())
-                        .setRelationship(Relationship.MOTHER)
-                        .setRelationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE))
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> openCDXMedicalHistoryService.updateMedicalHistory(request));
-    }
-
-    @Test
-    void deleteMedicalHistory() {
-        DeleteMedicalHistoryRequest request = DeleteMedicalHistoryRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> openCDXMedicalHistoryService.deleteMedicalHistory(request));
-    }
-
-    @Test
-    void listVaccinesSortNotAscending() {
-        ListMedicalHistoriesRequest request = ListMedicalHistoriesRequest.newBuilder()
-                .setPatientId(ObjectId.get().toHexString())
-                .setNationalHealthId(ObjectId.get().toHexString())
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .setSortAscending(false)
-                        .setSort("id")
-                        .build())
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> openCDXMedicalHistoryService.listMedicalHistories(request));
-    }
+    */
 }

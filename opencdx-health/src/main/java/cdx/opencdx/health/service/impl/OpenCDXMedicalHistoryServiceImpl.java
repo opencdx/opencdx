@@ -147,7 +147,8 @@ public class OpenCDXMedicalHistoryServiceImpl implements OpenCDXMedicalHistorySe
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getMedicalHistory().getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "MedicalHistory", new OpenCDXIdentifier(request.getMedicalHistory().getId()));
+                "MedicalHistory",
+                new OpenCDXIdentifier(request.getMedicalHistory().getId()));
         OpenCDXMedicalHistoryModel model =
                 this.openCDXMedicalHistoryRepository.save(new OpenCDXMedicalHistoryModel(request.getMedicalHistory()));
         try {
@@ -227,7 +228,8 @@ public class OpenCDXMedicalHistoryServiceImpl implements OpenCDXMedicalHistorySe
             all = this.openCDXMedicalHistoryRepository.findAllByPatientId(
                     new OpenCDXIdentifier(request.getPatientId()), pageable);
         } else if (request.hasNationalHealthId()) {
-            all = this.openCDXMedicalHistoryRepository.findAllByNationalHealthId(request.getNationalHealthId(), pageable);
+            all = this.openCDXMedicalHistoryRepository.findAllByNationalHealthId(
+                    request.getNationalHealthId(), pageable);
         }
         log.trace("found database results");
 
@@ -258,8 +260,9 @@ public class OpenCDXMedicalHistoryServiceImpl implements OpenCDXMedicalHistorySe
                         .setTotalPages(all.getTotalPages())
                         .setTotalRecords(all.getTotalElements())
                         .build())
-                .addAllMedicalHistory(
-                        all.get().map(OpenCDXMedicalHistoryModel::getProtobufMessage).toList())
+                .addAllMedicalHistory(all.get()
+                        .map(OpenCDXMedicalHistoryModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 }

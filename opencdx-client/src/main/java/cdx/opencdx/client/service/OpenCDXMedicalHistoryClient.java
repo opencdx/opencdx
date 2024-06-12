@@ -16,18 +16,16 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.grpc.data.MedicalHistory;
-
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryResponse;
+import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.SuccessResponse;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesRequest;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesResponse;
+import cdx.opencdx.grpc.service.health.SuccessResponse;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
 
 /**
  * Interface for vaccine administration
@@ -39,7 +37,8 @@ public interface OpenCDXMedicalHistoryClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with the MedicalHistory administration.
      */
-    CreateMedicalHistoryResponse createMedicalHistory(CreateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    CreateMedicalHistoryResponse createMedicalHistory(
+            CreateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to get MedicalHistory.
@@ -47,7 +46,8 @@ public interface OpenCDXMedicalHistoryClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return
      */
-    GetMedicalHistoryResponse getMedicalHistory(GetMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    GetMedicalHistoryResponse getMedicalHistory(
+            GetMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to update MedicalHistory.
@@ -55,7 +55,8 @@ public interface OpenCDXMedicalHistoryClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with update MedicalHistory
      */
-    UpdateMedicalHistoryResponse updateMedicalHistory(UpdateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    UpdateMedicalHistoryResponse updateMedicalHistory(
+            UpdateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to delete MedicalHistory.
@@ -63,7 +64,8 @@ public interface OpenCDXMedicalHistoryClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with SuccessResponse of delete MedicalHistory
      */
-    SuccessResponse deleteMedicalHistory(DeleteMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    SuccessResponse deleteMedicalHistory(
+            DeleteMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * Method to get MedicalHistories information by patient ID within a date range.
@@ -71,5 +73,6 @@ public interface OpenCDXMedicalHistoryClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Response with the list of MedicalHistories.
      */
-    ListMedicalHistoriesResponse listMedicalHistories(ListMedicalHistoriesRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    ListMedicalHistoriesResponse listMedicalHistories(
+            ListMedicalHistoriesRequest request, OpenCDXCallCredentials openCDXCallCredentials);
 }

@@ -18,7 +18,6 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXMedicalHistoryClient;
-import cdx.opencdx.grpc.data.MedicalHistory;
 import cdx.opencdx.grpc.service.health.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
@@ -45,9 +44,10 @@ public class OpenCDXMedicalHistoryClientImpl implements OpenCDXMedicalHistoryCli
 
     /**
      * Constructor for the Vaccine client implementation.
-     * @param vaccineServiceBlockingStub gRPC Blocking Stub for Vaccine.
+     * @param medicalHistoryServiceBlockingStub gRPC Blocking Stub for Vaccine.
      */
-    public OpenCDXMedicalHistoryClientImpl(MedicalHistoryServiceGrpc.MedicalHistoryServiceBlockingStub medicalHistoryServiceBlockingStub) {
+    public OpenCDXMedicalHistoryClientImpl(
+            MedicalHistoryServiceGrpc.MedicalHistoryServiceBlockingStub medicalHistoryServiceBlockingStub) {
         this.medicalHistoryServiceBlockingStub = medicalHistoryServiceBlockingStub;
     }
 
@@ -59,7 +59,8 @@ public class OpenCDXMedicalHistoryClientImpl implements OpenCDXMedicalHistoryCli
      * @return Response with the vaccine administration.
      */
     @Override
-    public CreateMedicalHistoryResponse createMedicalHistory(CreateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public CreateMedicalHistoryResponse createMedicalHistory(
+            CreateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalHistoryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -84,7 +85,8 @@ public class OpenCDXMedicalHistoryClientImpl implements OpenCDXMedicalHistoryCli
      * @return Response with the vaccine.
      */
     @Override
-    public GetMedicalHistoryResponse getMedicalHistory(GetMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public GetMedicalHistoryResponse getMedicalHistory(
+            GetMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalHistoryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -102,7 +104,8 @@ public class OpenCDXMedicalHistoryClientImpl implements OpenCDXMedicalHistoryCli
     }
 
     @Override
-    public UpdateMedicalHistoryResponse updateMedicalHistory(UpdateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public UpdateMedicalHistoryResponse updateMedicalHistory(
+            UpdateMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalHistoryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
@@ -120,7 +123,8 @@ public class OpenCDXMedicalHistoryClientImpl implements OpenCDXMedicalHistoryCli
     }
 
     @Override
-    public SuccessResponse deleteMedicalHistory(DeleteMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public SuccessResponse deleteMedicalHistory(
+            DeleteMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return medicalHistoryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)

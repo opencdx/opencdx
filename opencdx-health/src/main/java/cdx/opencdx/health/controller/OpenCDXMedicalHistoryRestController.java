@@ -15,37 +15,33 @@
  */
 package cdx.opencdx.health.controller;
 
-import cdx.opencdx.grpc.data.MedicalHistory;
-
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryResponse;
+import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.SuccessResponse;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesRequest;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesResponse;
-
+import cdx.opencdx.grpc.service.health.SuccessResponse;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
 import cdx.opencdx.health.service.OpenCDXMedicalHistoryService;
-
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the /health  api's
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/MedicalHistory", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(
+        value = "/MedicalHistory",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXMedicalHistoryRestController {
     private final OpenCDXMedicalHistoryService openCDXMedicalHistoryService;
@@ -63,8 +59,9 @@ public class OpenCDXMedicalHistoryRestController {
      * @param request for the MedicalHistory.
      * @return Response with the MedicalHistory.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreateMedicalHistoryResponse> createMedicalHistory(@RequestBody CreateMedicalHistoryRequest request) {
+    @PostMapping()
+    public ResponseEntity<CreateMedicalHistoryResponse> createMedicalHistory(
+            @RequestBody CreateMedicalHistoryRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.createMedicalHistory(request), HttpStatus.OK);
     }
 
@@ -73,7 +70,7 @@ public class OpenCDXMedicalHistoryRestController {
      * @param request MedicalHistory ID.
      * @return Response MedicalHistory.
      */
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<GetMedicalHistoryResponse> getMedicalHistory(@RequestBody GetMedicalHistoryRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.getMedicalHistory(request), HttpStatus.OK);
     }
@@ -83,8 +80,9 @@ public class OpenCDXMedicalHistoryRestController {
      * @param request for the MedicalHistory.
      * @return Response with the MedicalHistory.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateMedicalHistoryResponse> updateMedicalHistory(@RequestBody UpdateMedicalHistoryRequest request) {
+    @PostMapping()
+    public ResponseEntity<UpdateMedicalHistoryResponse> updateMedicalHistory(
+            @RequestBody UpdateMedicalHistoryRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.updateMedicalHistory(request), HttpStatus.OK);
     }
 
@@ -93,19 +91,19 @@ public class OpenCDXMedicalHistoryRestController {
      * @param request for the MedicalHistory.
      * @return Response with the MedicalHistory.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping()
     public ResponseEntity<SuccessResponse> deleteMedicalHistory(@RequestBody DeleteMedicalHistoryRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.deleteMedicalHistory(request), HttpStatus.OK);
     }
-
 
     /**
      * Method to get MedicalHistories by Patient ID
      * @param request Patient ID request
      * @return All the MedicalHistories.
      */
-    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ListMedicalHistoriesResponse> listMedicalHistories(@RequestBody ListMedicalHistoriesRequest request) {
+    @PostMapping(value = "/list")
+    public ResponseEntity<ListMedicalHistoriesResponse> listMedicalHistories(
+            @RequestBody ListMedicalHistoriesRequest request) {
         return new ResponseEntity<>(this.openCDXMedicalHistoryService.listMedicalHistories(request), HttpStatus.OK);
     }
 }

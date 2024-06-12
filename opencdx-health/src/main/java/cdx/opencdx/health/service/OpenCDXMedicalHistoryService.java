@@ -17,14 +17,14 @@ package cdx.opencdx.health.service;
 
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.CreateMedicalHistoryResponse;
+import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.GetMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
-import cdx.opencdx.grpc.service.health.DeleteMedicalHistoryRequest;
-import cdx.opencdx.grpc.service.health.SuccessResponse;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesRequest;
 import cdx.opencdx.grpc.service.health.ListMedicalHistoriesResponse;
+import cdx.opencdx.grpc.service.health.SuccessResponse;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryResponse;
 
 /**
  * Service for MedicalHistory
@@ -33,14 +33,14 @@ public interface OpenCDXMedicalHistoryService {
 
     /**
      * Method to create MedicalHistory.
-     * @param request CreateMedicalHistoryRequest for MedicalHistory.
+     * @param createMedicalHistoryRequest CreateMedicalHistoryRequest for MedicalHistory.
      * @return CreateMedicalHistoryResponse with MedicalHistory.
      */
     CreateMedicalHistoryResponse createMedicalHistory(CreateMedicalHistoryRequest createMedicalHistoryRequest);
 
     /**
      * Method to get MedicalHistory.
-     * @param request GetMedicalHistoryRequest for MedicalHistory.
+     * @param getMedicalHistoryRequest GetMedicalHistoryRequest for MedicalHistory.
      * @return GetMedicalHistoryResponse with MedicalHistory.
      */
     GetMedicalHistoryResponse getMedicalHistory(GetMedicalHistoryRequest getMedicalHistoryRequest);
@@ -65,5 +65,4 @@ public interface OpenCDXMedicalHistoryService {
      * @return ListMedicalHistoriesResponse with MedicalHistory.
      */
     ListMedicalHistoriesResponse listMedicalHistories(ListMedicalHistoriesRequest request);
-
 }
