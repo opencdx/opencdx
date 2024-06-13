@@ -60,8 +60,8 @@ public class OpenCDXMedicalHistoryModel {
     private OpenCDXIdentifier modifier;
 
     /**
-     * Constructor from protobuf message Vaccine
-     * @param vaccine Protobuf message to generate from
+     * Constructor from protobuf message medicalHistory
+     * @param medicalHistory Protobuf message to generate from
      */
     public OpenCDXMedicalHistoryModel(MedicalHistory medicalHistory) {
         this.id = new OpenCDXIdentifier(medicalHistory.getId());
@@ -98,7 +98,7 @@ public class OpenCDXMedicalHistoryModel {
     }
 
     /**
-     * Method to convert to protobuf message vaccine
+     * Method to convert to protobuf message MedicalHistory
      * @return Protobuf message MedicalHistory
      */
     public MedicalHistory getProtobufMessage() {

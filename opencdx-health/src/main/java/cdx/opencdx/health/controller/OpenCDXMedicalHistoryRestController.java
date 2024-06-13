@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping(
-        value = "/MedicalHistory",
+        value = "/medicalhistory",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
@@ -67,12 +67,15 @@ public class OpenCDXMedicalHistoryRestController {
 
     /**
      * Method to get MedicalHistory by ID
-     * @param request MedicalHistory ID.
+     * @param id MedicalHistory ID.
      * @return Response MedicalHistory.
      */
     @GetMapping(value = "/{id}")
-    public ResponseEntity<GetMedicalHistoryResponse> getMedicalHistory(@RequestBody GetMedicalHistoryRequest request) {
-        return new ResponseEntity<>(this.openCDXMedicalHistoryService.getMedicalHistory(request), HttpStatus.OK);
+    public ResponseEntity<GetMedicalHistoryResponse> getMedicalHistory(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXMedicalHistoryService.getMedicalHistory(
+                        GetMedicalHistoryRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**

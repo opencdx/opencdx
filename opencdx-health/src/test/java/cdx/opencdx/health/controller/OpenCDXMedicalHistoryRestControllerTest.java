@@ -15,11 +15,19 @@
  */
 package cdx.opencdx.health.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.MedicalHistory;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.health.CreateMedicalHistoryRequest;
+import cdx.opencdx.grpc.service.health.ListMedicalHistoriesRequest;
+import cdx.opencdx.grpc.service.health.UpdateMedicalHistoryRequest;
 import cdx.opencdx.grpc.types.Relationship;
 import cdx.opencdx.grpc.types.RelationshipFamilyLine;
 import cdx.opencdx.health.model.OpenCDXMedicalHistoryModel;
@@ -32,8 +40,11 @@ import io.nats.client.Connection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -46,9 +57,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -169,59 +182,73 @@ class OpenCDXMedicalHistoryRestControllerTest {
         Mockito.reset(this.connection);
         Mockito.reset(this.openCDXMedicalHistoryRepository);
     }
-    /*
-       @Test
-       void trackVaccine() throws Exception {
-           MvcResult result = this.mockMvc
-                   .perform(post("/vaccine")
-                           .content(this.objectMapper.writeValueAsString(Vaccine.newBuilder()
-                                   .setId(ObjectId.get().toHexString())
-                                   .setPatientId(ObjectId.get().toHexString())
-                                   .setNationalHealthId(ObjectId.get().toHexString())
-                                   .setFips("fips")
-                                   .setHealthDistrict("district")
-                                   .setDoseNumber(2)
-                                   .build()))
-                           .contentType(MediaType.APPLICATION_JSON_VALUE))
-                   .andExpect(status().isOk())
-                   .andReturn();
-           String content = result.getResponse().getContentAsString();
-           Assertions.assertNotNull(content);
-       }
 
-       @Test
-       void getVaccineById() throws Exception {
-           MvcResult result = this.mockMvc
-                   .perform(post("/vaccine/" + OpenCDXIdentifier.get())
-                           .content(this.objectMapper.writeValueAsString(GetVaccineByIdRequest.newBuilder()
-                                   .setId(ObjectId.get().toHexString())
-                                   .build()))
-                           .contentType(MediaType.APPLICATION_JSON_VALUE))
-                   .andExpect(status().isOk())
-                   .andReturn();
-           String content = result.getResponse().getContentAsString();
-           Assertions.assertNotNull(content);
-       }
+    @Test
+    void createMedicalHistory() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/medicalhistory")
+                        .content(this.objectMapper.writeValueAsString(CreateMedicalHistoryRequest.newBuilder()
+                                .setMedicalHistory(MedicalHistory.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(ObjectId.get().toHexString())
+                                        .setRelationship(Relationship.MOTHER)
+                                        .setRelationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE)
+                                        .build())))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
 
-       @Test
-       void listVaccines() throws Exception {
-           MvcResult result = this.mockMvc
-                   .perform(post("/vaccine/list")
-                           .content(this.objectMapper.writeValueAsString(ListVaccinesRequest.newBuilder()
-                                   .setPagination(Pagination.newBuilder()
-                                           .setPageNumber(1)
-                                           .setPageSize(10)
-                                           .setSortAscending(false)
-                                           .setSort("id")
-                                           .build())
-                                   .setPatientId(ObjectId.get().toHexString())
-                                   .build()))
-                           .contentType(MediaType.APPLICATION_JSON_VALUE))
-                   .andExpect(status().isOk())
-                   .andReturn();
-           String content = result.getResponse().getContentAsString();
-           Assertions.assertNotNull(content);
-       }
+    @Test
+    void getMedicalHistoryById() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/medicalhistory/" + OpenCDXIdentifier.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
 
-    */
+    @Test
+    void updateMedicalHistory() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(put("/medicalhistory")
+                        .content(this.objectMapper.writeValueAsString(UpdateMedicalHistoryRequest.newBuilder()
+                                .setMedicalHistory(MedicalHistory.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(ObjectId.get().toHexString())
+                                        .setRelationship(Relationship.MOTHER)
+                                        .setRelationshipFamilyLine(RelationshipFamilyLine.IMMEDIATE)
+                                        .build())))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void listMedicalHistories() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/medicalhistory/list")
+                        .content(this.objectMapper.writeValueAsString(ListMedicalHistoriesRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(false)
+                                        .setSort("id")
+                                        .build())
+                                .setPatientId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
 }

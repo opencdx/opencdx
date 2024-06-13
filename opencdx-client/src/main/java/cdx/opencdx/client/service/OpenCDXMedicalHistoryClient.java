@@ -44,7 +44,7 @@ public interface OpenCDXMedicalHistoryClient {
      * Method to get MedicalHistory.
      * @param request GetMedicalHistoryRequest for Medical History
      * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return
+     * @return GetMedicalHistoryResponse
      */
     GetMedicalHistoryResponse getMedicalHistory(
             GetMedicalHistoryRequest request, OpenCDXCallCredentials openCDXCallCredentials);
