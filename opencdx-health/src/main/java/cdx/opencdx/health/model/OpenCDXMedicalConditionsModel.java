@@ -17,9 +17,10 @@ package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Diagnosis;
-import cdx.opencdx.grpc.data.DiagnosisCode;
 import cdx.opencdx.grpc.types.DiagnosisStatus;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,9 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * Model for Medication in Mongo.  Features conversions
@@ -52,7 +50,7 @@ public class OpenCDXMedicalConditionsModel {
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
 
-    private DiagnosisCode diagnosis_code;
+    private OpenCDXDiagnosisCodeModel diagnosis_code;
     private Instant diagnosis_datetime;
     private String matched_value_set;
     private List<String> related_entities;
@@ -133,8 +131,7 @@ public class OpenCDXMedicalConditionsModel {
         builder.setDiagnosisId(this.id.toHexString());
         builder.setPatientId(this.patientId.toHexString());
         builder.setNationalHealthId(this.nationalHealthId);
-
-        builder.setDiagnosisCode(this.diagnosis_code);
+        builder.setDiagnosisCode(this.diagnosis_code.getProtobufMessage());
         builder.setMatchedValueSet(this.matched_value_set);
         builder.setDiagnosisStatus(this.diagnosisStatus);
         builder.addAllRelatedEntities(this.related_entities);
