@@ -117,65 +117,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     }
 
     /**
-     * Trigger a diagnosis based on the provided DiagnosisRequest.
-     * @param request The DiagnosisRequest to be processed
-     * @return Message indicating the completion of the diagnosis triggering
-     */
-    @Override
-    public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
-        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getDiagnosis().getRelatedEntitiesList().stream()
-                .map(OpenCDXIdentifier::new)
-                .toList());
-
-        return DiagnosisResponse.newBuilder()
-                .setDiagnosis(request.getDiagnosis())
-                .build();
-    }
-
-    /**
-     * Retrieve diagnosis information from the provided DiagnosisRequest.
-     * @param request The DiagnosisRequest for retrieving diagnosis details
-     * @return Message containing details of the requested diagnosis
-     */
-    @Override
-    public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
-
-        return DiagnosisResponse.newBuilder()
-                .setDiagnosis(request.getDiagnosis())
-                .build();
-    }
-
-    /**
-     * Trigger a suspected diagnosis based on the provided SuspectedDiagnosisRequest.
-     * @param request The SuspectedDiagnosisRequest to be processed
-     * @return Message indicating the completion of the suspected diagnosis triggering
-     */
-    @Override
-    public SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
-        this.opencdxDocumentValidator.validateDocumentsOrThrow(
-                request.getSuspectedDiagnosis().getRelatedEntitiesList().stream()
-                        .map(OpenCDXIdentifier::new)
-                        .toList());
-
-        return SuspectedDiagnosisResponse.newBuilder()
-                .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
-                .build();
-    }
-
-    /**
-     * Retrieve suspected diagnosis information from the provided SuspectedDiagnosisRequest.
-     * @param request The SuspectedDiagnosisRequest for retrieving suspected diagnosis details
-     * @return Message containing details of the requested suspected diagnosis
-     */
-    @Override
-    public SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
-
-        return SuspectedDiagnosisResponse.newBuilder()
-                .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
-                .build();
-    }
-
-    /**
      * Trigger a lab result based on the provided LabResultRequest.
      * @param request The LabResultRequest to be processed
      * @return Message indicating the completion of the lab result triggering

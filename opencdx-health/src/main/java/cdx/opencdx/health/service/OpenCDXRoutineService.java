@@ -71,38 +71,6 @@ public interface OpenCDXRoutineService {
     LabOrderResponse getLabOrder(LabOrderRequest request);
 
     /**
-     * Triggers a diagnosis based on the provided DiagnosisRequest.
-     *
-     * @param request The DiagnosisRequest for triggering a diagnosis.
-     * @return A DiagnosisResponse indicating the status of the diagnosis triggering.
-     */
-    DiagnosisResponse triggerDiagnosis(DiagnosisRequest request);
-
-    /**
-     * Retrieves information about a diagnosis based on the provided DiagnosisRequest.
-     *
-     * @param request The DiagnosisRequest for retrieving diagnosis information.
-     * @return A DiagnosisResponse containing information about the requested diagnosis.
-     */
-    DiagnosisResponse getDiagnosis(DiagnosisRequest request);
-
-    /**
-     * Triggers a suspected diagnosis based on the provided SuspectedDiagnosisRequest.
-     *
-     * @param request The SuspectedDiagnosisRequest for triggering a suspected diagnosis.
-     * @return A SuspectedDiagnosisResponse indicating the status of the suspected diagnosis triggering.
-     */
-    SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request);
-
-    /**
-     * Retrieves information about a suspected diagnosis based on the provided SuspectedDiagnosisRequest.
-     *
-     * @param request The SuspectedDiagnosisRequest for retrieving suspected diagnosis information.
-     * @return A SuspectedDiagnosisResponse containing information about the requested suspected diagnosis.
-     */
-    SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request);
-
-    /**
      * Triggers a lab result based on the provided LabResultRequest.
      *
      * @param request The LabResultRequest for triggering a lab result.

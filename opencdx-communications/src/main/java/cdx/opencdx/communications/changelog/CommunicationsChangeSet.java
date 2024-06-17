@@ -56,6 +56,7 @@ public class CommunicationsChangeSet {
     private static final String USER_NAME = "userName";
     private static final String NOTIFICATION = "notification";
     private static final String TEST_NAME = "testName";
+    private static final String DIAGNOSIS_STATUS = "diagnosisstatus";
 
     /**
      * Default Consructor
@@ -599,6 +600,68 @@ public class CommunicationsChangeSet {
                 .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3768"))
                 .smsRetry(4)
                 .messageTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3769"))
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .build();
+        openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
+        openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
+        openCDXMessageTemplateRepository.save(openCDXMessageTemplateModel);
+        openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
+    }
+
+    /**
+     * Create Test/Questionnaire Template
+     * @param openCDXEmailTemplateRepository Email Template Repository
+     * @param openCDXSMSTemplateRespository SMS Template Repository
+     * @param openCDXMessageTemplateRepository Message Template Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @Observed
+    @ChangeSet(order = "012", id = "Create and Update Diagnosis", author = "Jaskarandeep Singh")
+    public void createUpdateDiagnosis(
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXMessageTemplateRepository openCDXMessageTemplateRepository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Create and Update Diagnosis");
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3771"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .subject("Diagnosis Status")
+                .content(
+                        """
+                        Dear [[${firstName}]] [[${lastName}]],
+
+                        This is to notify you that your diagnosis status is [[${diagnosis-status}]].
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, DIAGNOSIS_STATUS))
+                .build();
+        OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3772"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .message("Your diagnosis status is [[${diagnosis-status}]].")
+                .variables(List.of(DIAGNOSIS_STATUS))
+                .build();
+        OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3773"))
+                .messageType(MessageType.INFO)
+                .title("Diagnosis status")
+                .variables(List.of(DIAGNOSIS_STATUS))
+                .content("Your diagnosis status is [[${diagnosis-status}]].")
+                .build();
+        OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
+                .id(new OpenCDXIdentifier("60f1e6b1f075a361a94d3774"))
+                .eventName("Diagnosis Status")
+                .eventDescription("Status of the Diagnosis ")
+                .emailTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3771"))
+                .emailRetry(4)
+                .smsTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3772"))
+                .smsRetry(4)
+                .messageTemplateId(new OpenCDXIdentifier("60f1e6b1f075a361a94d3773"))
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);

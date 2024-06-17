@@ -136,23 +136,6 @@ class RoutineTest {
     }
 
     @Test
-    void testSuspectedDiagnosisRequest() throws JsonProcessingException {
-        SuspectedDiagnosisRequest item = SuspectedDiagnosisRequest.newBuilder()
-                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId(OpenCDXIdentifier.get().toHexString())
-                        .setDiagnosisCode(DiagnosisCode.getDefaultInstance())
-                        .setDiagnosisDatetime(Timestamp.newBuilder().setSeconds(1696435104))
-                        .setMatchedValueSet("Matched Value Set")
-                        .addAllRelatedEntities(List.of(
-                                OpenCDXIdentifier.get().toHexString(),
-                                OpenCDXIdentifier.get().toHexString()))
-                        .build())
-                .build();
-
-        log.info("Item: \n{}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(item));
-    }
-
-    @Test
     void testLabResultRequest() throws JsonProcessingException {
         LabResultRequest item = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder()

@@ -2035,6 +2035,23 @@ enum BloodType {
    */
   AB_POSITIVE = 7;
 }
+enum DiagnosisStatus{
+
+  /*
+   * suspected status.
+   */
+   SUSPECTED = 0;
+
+  /*
+   * rejected status.
+   */
+   REJECTED = 1;
+
+  /*
+   * verified status.
+   */
+   VERIFIED = 2;
+}
 
 /*
  * Temperature scale
