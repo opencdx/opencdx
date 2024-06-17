@@ -16,12 +16,10 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.data.DiagnosisCode;
 import cdx.opencdx.grpc.data.MedicalHistory;
 import cdx.opencdx.grpc.types.Relationship;
 import cdx.opencdx.grpc.types.RelationshipFamilyLine;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 /**
  * Model for Vaccine in Mongo.  Features conversions
@@ -52,7 +52,7 @@ public class OpenCDXMedicalHistoryModel {
     private Instant startDate;
     private Instant endDate;
 
-    private DiagnosisCode condition;
+    private OpenCDXDiagnosisCodeModel condition;
 
     private Instant created;
     private Instant modified;
@@ -77,7 +77,9 @@ public class OpenCDXMedicalHistoryModel {
                 medicalHistory.getEndDate().getSeconds(),
                 medicalHistory.getEndDate().getNanos());
 
-        this.condition = medicalHistory.getCondition();
+        if (medicalHistory.getCondition() != null) {
+            this.condition = new OpenCDXDiagnosisCodeModel(medicalHistory.getCondition());
+        }
 
         if (medicalHistory.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -129,7 +131,7 @@ public class OpenCDXMedicalHistoryModel {
         }
 
         if (this.condition != null) {
-            builder.setCondition(this.condition);
+            builder.setCondition(this.condition.getProtobufMessage());
         }
 
         if (this.created != null) {
