@@ -36,16 +36,17 @@ import cdx.opencdx.health.service.OpenCDXMedicalConditionsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service for Medical Conditions
@@ -129,7 +130,7 @@ public class OpenCDXMedicalConditionsServiceImpl implements OpenCDXMedicalCondit
             throw openCDXNotAcceptable;
         }
         OpenCDXProfileModel patient =
-                this.openCDXProfileRepository.findByUserId(model.getPatientId()).get();
+                this.openCDXProfileRepository.findById(model.getPatientId()).get();
         Map<String, String> map = new HashMap<>();
         map.put("firstName", patient.getFullName().getFirstName());
         map.put("lastName", patient.getFullName().getLastName());

@@ -50,10 +50,10 @@ public class OpenCDXMedicalConditionsModel {
     private OpenCDXIdentifier patientId;
     private String nationalHealthId;
 
-    private OpenCDXDiagnosisCodeModel diagnosis_code;
-    private Instant diagnosis_datetime;
-    private String matched_value_set;
-    private List<String> related_entities;
+    private OpenCDXDiagnosisCodeModel diagnosisCode;
+    private Instant diagnosisDatetime;
+    private String matchedValueSet;
+    private List<String> relatedEntities;
     private DiagnosisStatus diagnosisStatus;
 
     @CreatedDate
@@ -81,9 +81,9 @@ public class OpenCDXMedicalConditionsModel {
         }
         this.nationalHealthId = diagnosis.getNationalHealthId();
         this.diagnosisStatus = diagnosis.getDiagnosisStatus();
-        this.related_entities = diagnosis.getRelatedEntitiesList();
-        this.matched_value_set = diagnosis.getMatchedValueSet();
-        this.diagnosis_datetime = Instant.ofEpochSecond(
+        this.relatedEntities = diagnosis.getRelatedEntitiesList();
+        this.matchedValueSet = diagnosis.getMatchedValueSet();
+        this.diagnosisDatetime = Instant.ofEpochSecond(
                 diagnosis.getDiagnosisDatetime().getSeconds(),
                 diagnosis.getDiagnosisDatetime().getNanos());
 
@@ -113,9 +113,9 @@ public class OpenCDXMedicalConditionsModel {
     public OpenCDXMedicalConditionsModel update(Diagnosis diagnosis) {
 
         this.diagnosisStatus = diagnosis.getDiagnosisStatus();
-        this.related_entities = diagnosis.getRelatedEntitiesList();
-        this.matched_value_set = diagnosis.getMatchedValueSet();
-        this.diagnosis_datetime = Instant.ofEpochSecond(
+        this.relatedEntities = diagnosis.getRelatedEntitiesList();
+        this.matchedValueSet = diagnosis.getMatchedValueSet();
+        this.diagnosisDatetime = Instant.ofEpochSecond(
                 diagnosis.getDiagnosisDatetime().getSeconds(),
                 diagnosis.getDiagnosisDatetime().getNanos());
 
@@ -131,15 +131,17 @@ public class OpenCDXMedicalConditionsModel {
         builder.setDiagnosisId(this.id.toHexString());
         builder.setPatientId(this.patientId.toHexString());
         builder.setNationalHealthId(this.nationalHealthId);
-        builder.setDiagnosisCode(this.diagnosis_code.getProtobufMessage());
-        builder.setMatchedValueSet(this.matched_value_set);
+        if (this.diagnosisCode != null) {
+            builder.setDiagnosisCode(this.diagnosisCode.getProtobufMessage());
+        }
+        builder.setMatchedValueSet(this.matchedValueSet);
         builder.setDiagnosisStatus(this.diagnosisStatus);
-        builder.addAllRelatedEntities(this.related_entities);
+        builder.addAllRelatedEntities(this.relatedEntities);
 
-        if (this.diagnosis_datetime != null) {
+        if (this.diagnosisDatetime != null) {
             builder.setDiagnosisDatetime(Timestamp.newBuilder()
-                    .setSeconds(this.diagnosis_datetime.getEpochSecond())
-                    .setNanos(this.diagnosis_datetime.getNano())
+                    .setSeconds(this.diagnosisDatetime.getEpochSecond())
+                    .setNanos(this.diagnosisDatetime.getNano())
                     .build());
         }
 
