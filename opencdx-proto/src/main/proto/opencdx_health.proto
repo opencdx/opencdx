@@ -441,6 +441,26 @@ message DiagnosisRequest {
 }
 
 /*
+ * Request message for fetching a diagnosis by ID.
+ */
+message GetDiagnosisByIdRequest {
+  /*
+   * The id of the diagnosis to search for.
+   */
+  string id = 1;
+}
+
+/*
+ * Request Message for deleting a diagnosis.
+ */
+message DeleteDiagnosisRequest {
+  /*
+   * The ID of the diagnosis to delete.
+   */
+  string id = 1;
+}
+
+/*
  * Response message for the Diagnosis creation operation.
  */
 message DiagnosisResponse {
@@ -451,23 +471,38 @@ message DiagnosisResponse {
 }
 
 /*
- * Message for Requesting a new Suspected Diagnosis record.
+ * Request message for listing diagnosis by patient ID or national health ID.
  */
-message SuspectedDiagnosisRequest {
-  /*
-   * Data structure for suspected diagnosis
-   */
-  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
-}
+message ListDiagnosisRequest {
 
-/*
- * Response message after Suspected Diagnosis operation.
- */
-message SuspectedDiagnosisResponse {
-  /*
-   * The suspected diagnosis data that was created
+  oneof search {
+    /*
+   * The unique identifier for the patient.
    */
-  cdx.opencdx.grpc.data.SuspectedDiagnosis suspected_diagnosis = 1;
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+/*
+ * Response message for listing diagnosis.
+ */
+message ListDiagnosisResponse {
+  /*
+   * List of diagnosis.
+   */
+  repeated cdx.opencdx.grpc.data.Diagnosis diagnosis = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
 }
 
 /*
@@ -1791,7 +1826,31 @@ service UserProfileService {
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
 }
 
-
+/*
+ * gRPC services and operations for managing medical conditions data.
+ */
+service MedicalConditionsService {
+  /*
+ * RPC service for creating a new diagnosis entity.
+ */
+  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+  * RPC service for updating a diagnosis entity.
+  */
+  rpc UpdateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  /*
+  * RPC service for deleting a diagnosis entity.
+  */
+  rpc DeleteDiagnosis(DeleteDiagnosisRequest) returns (DiagnosisResponse);
+  /*
+   * RPC service for retrieving information about a specific diagnosis entity.
+   */
+  rpc GetDiagnosis(GetDiagnosisByIdRequest) returns (DiagnosisResponse);
+  /*
+  * Retrieve diagnosis information by patient ID or national health id.
+  */
+  rpc ListDiagnosis(ListDiagnosisRequest) returns (ListDiagnosisResponse);
+}
 /*
  * gRPC services and operations for managing healthcare data.
  */
@@ -1820,22 +1879,7 @@ service RoutineSystemService {
    * RPC service for retrieving information about a specific lab order entity.
    */
   rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
-  /*
-   * RPC service for creating a new diagnosis entity.
-   */
-  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
-  /*
-   * RPC service for retrieving information about a specific diagnosis entity.
-   */
-  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
-  /*
-   * RPC service for creating a new suspected diagnosis entity.
-   */
-  rpc CreateSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
-  /*
-   * RPC service for retrieving information about a suspected diagnosis entity.
-   */
-  rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+
   /*
    * RPC service for creating a new lab result entity.
    */
