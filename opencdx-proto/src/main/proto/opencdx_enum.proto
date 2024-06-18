@@ -1968,6 +1968,72 @@ enum VitalStatus {
   VITAL_STATUS_OTHER = 4;
 }
 
+  /*
+   * Enum defining relationship to Patient
+   */
+enum Relationship {
+  /*
+   * Mother
+   */
+  MOTHER = 0;
+
+  /*
+   * Father
+   */
+  FATHER = 1;
+
+  /*
+   * Sister
+   */
+  SISTER = 2;
+
+  /*
+   * Brother
+   */
+  BROTHER = 3;
+
+  /*
+   * Aunt
+   */
+  AUNT = 4;
+
+  /*
+   * Uncle
+   */
+  UNCLE = 5;
+
+  /*
+   * Grandmother
+   */
+  GRANDMOTHER = 6;
+
+  /*
+   * Grandfather
+   */
+  GRANDFATHER = 7;
+
+}
+
+/*
+ * Enum defining relationship to Family Line
+ */
+enum RelationshipFamilyLine {
+  /*
+   * Maternal
+   */
+  MATERNAL = 0;
+
+  /*
+   * Paternal
+   */
+  PATERNAL = 1;
+
+  /*
+  * Immediate
+  */
+  IMMEDIATE = 2;
+}
+
 /*
  * Enum defining possible Medical record
  */
@@ -2034,6 +2100,23 @@ enum BloodType {
    * Donors with AB+ blood type can donate to AB+ recipients and anyone with Rh factor.
    */
   AB_POSITIVE = 7;
+}
+enum DiagnosisStatus{
+
+  /*
+   * suspected status.
+   */
+   SUSPECTED = 0;
+
+  /*
+   * rejected status.
+   */
+   REJECTED = 1;
+
+  /*
+   * verified status.
+   */
+   VERIFIED = 2;
 }
 
 /*

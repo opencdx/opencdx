@@ -151,6 +151,12 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
     @Mock
     OpenCDXMedicalRecordService openCDXMedicalRecordService;
 
+    @Mock
+    OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository;
+
+    @Mock
+    OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
+
     @Test
     void test() {
         assertNotNull("AB");
@@ -606,6 +612,14 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
+        Mockito.when(this.openCDXMedicalConditionsRepository.findAllByPatientId(
+                        any(OpenCDXIdentifier.class), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXMedicalConditionsModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
         Mockito.when(this.openCDXTemperatureMeasurementRepository.findAllByPatientId(
                         any(OpenCDXIdentifier.class), any(Pageable.class)))
@@ -644,6 +658,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
                 openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
@@ -920,6 +937,19 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
                                 .temperatureMeasurementList(List.of(
                                         new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
                                                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -968,6 +998,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
                 openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
@@ -1261,6 +1294,19 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
                                 .temperatureMeasurementList(List.of(
                                         new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
                                                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -1309,6 +1355,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
                 openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
@@ -1633,6 +1682,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
                 openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1673,6 +1725,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
                 openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);

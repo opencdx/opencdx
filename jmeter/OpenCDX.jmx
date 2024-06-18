@@ -1569,7 +1569,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
-    &quot;user_id&quot;: &quot;${patient_id_g}&quot;
+    &quot;patient_id&quot;: &quot;${patient_id_g}&quot;
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
@@ -4412,62 +4412,6 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
     &quot;labOrderId&quot; : &quot;6581e5157e001111d3736b53&quot;,
     &quot;testName&quot; : &quot;Test Name&quot;,
     &quot;orderDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
-    &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateDiagnosis" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.health.RoutineSystemService/CreateDiagnosis</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;diagnosis&quot; : {
-    &quot;diagnosisId&quot; : &quot;6581e5157e001111d3736b44&quot;,
-    &quot;diagnosisCode&quot; : {
-      &quot;tinkarCode&quot; : &quot;&quot;,
-      &quot;valueMap&quot; : { },
-      &quot;providerId&quot; : &quot;&quot;
-    },
-    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
-    &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateSuspectedDiagnosis" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.service.health.RoutineSystemService/CreateSuspectedDiagnosis</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;suspectedDiagnosis&quot; : {
-    &quot;suspectedDiagnosisId&quot; : &quot;6581e5157e001111d3736b56&quot;,
-    &quot;diagnosisCode&quot; : {
-      &quot;tinkarCode&quot; : &quot;&quot;,
-      &quot;valueMap&quot; : { },
-      &quot;providerId&quot; : &quot;&quot;
-    },
-    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
   }
@@ -7836,7 +7780,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.path">/health/profile/${patient_id_r}</stringProp>
+              <stringProp name="HTTPSampler.path">/health/profile/user/${user_id_r}</stringProp>
               <stringProp name="HTTPSampler.method">GET</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -7977,6 +7921,170 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.path">/health/doctor-notes/list</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicalconditions [POST]" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;diagnosis&quot; : {&#xd;
+    &quot;diagnosisCode&quot; : {&#xd;
+      &quot;anfStatement&quot; : {&#xd;
+        &quot;time&quot; : {&#xd;
+          &quot;upperBound&quot; : &quot;120&quot;,&#xd;
+          &quot;lowerBound&quot; : &quot;90&quot;,&#xd;
+          &quot;includeUpperBound&quot; : true,&#xd;
+          &quot;includeLowerBound&quot; : false,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+          &quot;resolution&quot; : &quot;1&quot;&#xd;
+        },&#xd;
+        &quot;subjectOfRecord&quot; : {&#xd;
+          &quot;id&quot; : &quot;544a6056-a8df-4d83-be8d-b908823b6e69&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        },&#xd;
+        &quot;authors&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;a88eb3a7-7b46-4733-9bca-56ebd3db5b9a&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        } ],&#xd;
+        &quot;subjectOfInformation&quot; : &quot;6668bab5559c0b3607a7c109&quot;,&#xd;
+        &quot;associatedStatement&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;f8c5d016-d87d-47eb-aab8-d1bd931c3407&quot;,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;&#xd;
+        } ],&#xd;
+        &quot;topic&quot; : &quot;Blood Pressure&quot;,&#xd;
+        &quot;type&quot; : &quot;Medical Apppointment&quot;,&#xd;
+        &quot;narrativeCircumstance&quot; : {&#xd;
+          &quot;timing&quot; : {&#xd;
+            &quot;upperBound&quot; : &quot;130&quot;,&#xd;
+            &quot;lowerBound&quot; : &quot;130&quot;,&#xd;
+            &quot;includeUpperBound&quot; : true,&#xd;
+            &quot;includeLowerBound&quot; : false,&#xd;
+            &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+            &quot;resolution&quot; : &quot;1&quot;&#xd;
+          },&#xd;
+          &quot;purpose&quot; : [ &quot;Patient Summary&quot; ],&#xd;
+          &quot;text&quot; : &quot;The patient was in good health, and no issues were noted during the examination.&quot;&#xd;
+        },&#xd;
+        &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+      },&#xd;
+      &quot;tinkarCode&quot; : &quot;[TINKAR CODE]&quot;,&#xd;
+      &quot;valueMap&quot; : {&#xd;
+        &quot;TEST&quot; : &quot;JMeter&quot;,&#xd;
+        &quot;Test2&quot; : &quot;smoke&quot;&#xd;
+      },&#xd;
+      &quot;providerId&quot; : &quot;&quot;&#xd;
+    },&#xd;
+    &quot;diagnosisDatetime&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;relatedEntities&quot; : [ ],&#xd;
+    &quot;nationalHealthId&quot; : &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;patientId&quot; : &quot;${patient_id_r}&quot;,&#xd;
+    &quot;diagnosisstatus&quot; : &quot;SUSPECTED&quot;&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/health/medicalconditions</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicalhistory [POST]" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;medicalHistory&quot; : {&#xd;
+    &quot;patientId&quot; : &quot;${patient_id_r}&quot;,&#xd;
+    &quot;nationalHealthId&quot; : &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;relationship&quot; : &quot;MOTHER&quot;,&#xd;
+    &quot;relationshipFamilyLine&quot; : &quot;MATERNAL&quot;,&#xd;
+    &quot;startDate&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;endDate&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;condition&quot; : {&#xd;
+      &quot;anfStatement&quot; : {&#xd;
+        &quot;time&quot; : {&#xd;
+          &quot;upperBound&quot; : &quot;120&quot;,&#xd;
+          &quot;lowerBound&quot; : &quot;90&quot;,&#xd;
+          &quot;includeUpperBound&quot; : true,&#xd;
+          &quot;includeLowerBound&quot; : false,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+          &quot;resolution&quot; : &quot;1&quot;&#xd;
+        },&#xd;
+        &quot;subjectOfRecord&quot; : {&#xd;
+          &quot;id&quot; : &quot;35add8ea-acf5-4966-8d03-ad641ae6060c&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        },&#xd;
+        &quot;authors&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;94540ea8-20b4-43cc-8564-ae5f0380d78e&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        } ],&#xd;
+        &quot;subjectOfInformation&quot; : &quot;6670ded54f58fa6343826a29&quot;,&#xd;
+        &quot;associatedStatement&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;8d464fcd-83be-4bc8-9cce-9d96efa07359&quot;,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;&#xd;
+        } ],&#xd;
+        &quot;topic&quot; : &quot;Blood Pressure&quot;,&#xd;
+        &quot;type&quot; : &quot;Medical Apppointment&quot;,&#xd;
+        &quot;narrativeCircumstance&quot; : {&#xd;
+          &quot;timing&quot; : {&#xd;
+            &quot;upperBound&quot; : &quot;130&quot;,&#xd;
+            &quot;lowerBound&quot; : &quot;130&quot;,&#xd;
+            &quot;includeUpperBound&quot; : true,&#xd;
+            &quot;includeLowerBound&quot; : false,&#xd;
+            &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+            &quot;resolution&quot; : &quot;1&quot;&#xd;
+          },&#xd;
+          &quot;purpose&quot; : [ &quot;Patient Summary&quot; ],&#xd;
+          &quot;text&quot; : &quot;The patient was in good health, and no issues were noted during the examination.&quot;&#xd;
+        },&#xd;
+        &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+      },&#xd;
+      &quot;tinkarCode&quot; : &quot;[TINKAR CODE]&quot;,&#xd;
+      &quot;valueMap&quot; : {&#xd;
+        &quot;TEST&quot; : &quot;JMeter&quot;,&#xd;
+        &quot;Test2&quot; : &quot;smoke&quot;&#xd;
+      }&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/health/medicalhistory</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11310,80 +11418,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.path">/health/labOrder</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-              <boolProp name="HTTPSampler.image_parser">false</boolProp>
-              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-              <boolProp name="HTTPSampler.md5">false</boolProp>
-              <intProp name="HTTPSampler.ipSourceType">0</intProp>
-            </HTTPSamplerProxy>
-            <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/diagnosis [POST]]" enabled="true">
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{&#xd;
-  &quot;diagnosis&quot; : {&#xd;
-    &quot;diagnosisId&quot; : &quot;6581e5157e001111d3736b44&quot;,&#xd;
-    &quot;diagnosisCode&quot; : {&#xd;
-      &quot;tinkarCode&quot; : &quot;&quot;,&#xd;
-      &quot;valueMap&quot; : { },&#xd;
-      &quot;providerId&quot; : &quot;&quot;&#xd;
-    },&#xd;
-    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
-    &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
-  }&#xd;
-}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.path">/health/diagnosis</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-              <boolProp name="HTTPSampler.image_parser">false</boolProp>
-              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-              <boolProp name="HTTPSampler.md5">false</boolProp>
-              <intProp name="HTTPSampler.ipSourceType">0</intProp>
-            </HTTPSamplerProxy>
-            <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/suspectedDiagnosis [POST]]" enabled="true">
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{&#xd;
-  &quot;suspectedDiagnosis&quot; : {&#xd;
-    &quot;suspectedDiagnosisId&quot; : &quot;6581e5157e001111d3736b56&quot;,&#xd;
-    &quot;diagnosisCode&quot; : {&#xd;
-      &quot;tinkarCode&quot; : &quot;&quot;,&#xd;
-      &quot;valueMap&quot; : { },&#xd;
-      &quot;providerId&quot; : &quot;&quot;&#xd;
-    },&#xd;
-    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
-    &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
-  }&#xd;
-}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.path">/health/suspectedDiagnosis</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

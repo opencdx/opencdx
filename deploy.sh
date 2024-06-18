@@ -503,7 +503,7 @@ build_docker() {
   local auto_select_all=$1
   local auto_confirm_all=$2
 
-  components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
+  components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar" "opencdx/nats"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/health" "opencdx/iam"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/logistics"
     "opencdx/discovery" "opencdx/graphql")
@@ -916,7 +916,7 @@ sleep 2
 if [ "$proto" = true ]; then
     handle_info "Wiping Proto generated files"
     rm -rf ./opencdx-proto/build
-    if ./gradlew opencdx-proto:build opencdx-proto:publish --parallel; then
+    if ./gradlew opencdx-proto:build opencdx-proto:publish opencdx-proto:publishToMavenLocal --parallel; then
         # Build Completed Successfully
         handle_info "Proto files generated successfully"
     else
@@ -929,7 +929,7 @@ fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info
-    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
+    if ./gradlew build publish publishToMavenLocal -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
         # Build Completed Successfully
         handle_info "Fast Build completed successfully"
     else
@@ -962,7 +962,7 @@ elif [ "$skip" = false ]; then
     fi
 
     handle_info "Running Parallel Build"
-    if ./gradlew build publish --parallel; then
+    if ./gradlew build publish publishToMavenLocal --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
