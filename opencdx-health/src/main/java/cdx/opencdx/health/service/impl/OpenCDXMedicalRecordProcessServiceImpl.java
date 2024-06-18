@@ -127,7 +127,6 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXConnectedTestService openCDXConnectedTestService,
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
             OpenCDXMedicalConditionsService openCDXMedicalConditionsService,
-            OpenCDXConnectedTestService openCDXConnectedTestService,
             OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository,
             OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
         this.openCDXProfileRepository = openCDXProfileRepository;

@@ -5435,11 +5435,11 @@ message MedicalRecord {
   /*
    * Identifier of the last modifier of this record.
    */
-  optional string modifier = 20;
+  optional string modifier = 21;
   /*
    * List of medical conditions.
    */
-  repeated Diagnosis medicalConditions = 21;
+  repeated Diagnosis medicalConditions = 22;
 }
 
 /*

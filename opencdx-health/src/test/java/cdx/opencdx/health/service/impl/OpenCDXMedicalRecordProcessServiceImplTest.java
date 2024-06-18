@@ -661,7 +661,6 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXConnectedTestService,
                 openCDXMedicalConditionsRepository,
                 openCDXMedicalConditionsService,
-                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
 
@@ -1001,7 +1000,6 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXConnectedTestService,
                 openCDXMedicalConditionsRepository,
                 openCDXMedicalConditionsService,
-                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1358,7 +1356,6 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXConnectedTestService,
                 openCDXMedicalConditionsRepository,
                 openCDXMedicalConditionsService,
-                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1684,7 +1681,6 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXConnectedTestService,
                 openCDXMedicalConditionsRepository,
                 openCDXMedicalConditionsService,
-                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1728,7 +1724,6 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXConnectedTestService,
                 openCDXMedicalConditionsRepository,
                 openCDXMedicalConditionsService,
-                openCDXConnectedTestService,
                 openCDXTemperatureMeasurementRepository,
                 openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
