@@ -52,6 +52,19 @@ public class OpenCDXIAMProfileRestController {
     public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXIAMProfileService.getUserProfile(
+                        UserProfileRequest.newBuilder().setPatientId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Gets the requested profile.
+     * @param id ID of the user to retrieve
+     * @return Response with the user.
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserProfileResponse> getUserProfileByUserId(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXIAMProfileService.getUserProfile(
                         UserProfileRequest.newBuilder().setUserId(id).build()),
                 HttpStatus.OK);
     }

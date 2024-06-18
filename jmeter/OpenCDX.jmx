@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -1569,7 +1569,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{
-    &quot;user_id&quot;: &quot;${patient_id_g}&quot;
+    &quot;patient_id&quot;: &quot;${patient_id_g}&quot;
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
@@ -7780,7 +7780,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.path">/health/profile/${patient_id_r}</stringProp>
+              <stringProp name="HTTPSampler.path">/health/profile/user/${user_id_r}</stringProp>
               <stringProp name="HTTPSampler.method">GET</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

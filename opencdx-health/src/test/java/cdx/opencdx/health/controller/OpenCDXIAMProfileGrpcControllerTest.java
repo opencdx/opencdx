@@ -93,7 +93,7 @@ class OpenCDXIAMProfileGrpcControllerTest {
     @BeforeEach
     void setUp() {
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
                     public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
@@ -233,11 +233,18 @@ class OpenCDXIAMProfileGrpcControllerTest {
 
     @Test
     void createUserProfile() {
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+
         StreamObserver<CreateUserProfileResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProfileGrpcController.createUserProfile(
                 CreateUserProfileRequest.newBuilder(CreateUserProfileRequest.getDefaultInstance())
-                        .setUserProfile(UserProfile.newBuilder()
-                                .setUserId(OpenCDXIdentifier.get().toHexString()))
                         .build(),
                 responseObserver);
 

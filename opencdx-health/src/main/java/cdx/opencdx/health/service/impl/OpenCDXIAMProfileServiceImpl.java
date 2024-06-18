@@ -34,10 +34,11 @@ import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Service for processing IAM Profile Requests
@@ -83,9 +84,21 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
 
     @Override
     public UserProfileResponse getUserProfile(UserProfileRequest request) {
-        OpenCDXProfileModel model = this.openCDXProfileRepository
-                .findById(new OpenCDXIdentifier(request.getUserId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getUserId()));
+        OpenCDXProfileModel model = null;
+
+        if (request.hasUserId()) {
+            model = this.openCDXProfileRepository
+                    .findByUserId(new OpenCDXIdentifier(request.getUserId()))
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find by user id: " + request.getUserId()));
+        } else if (request.hasPatientId()) {
+            model = this.openCDXProfileRepository
+                    .findById(new OpenCDXIdentifier(request.getPatientId()))
+                    .orElseThrow(() ->
+                            new OpenCDXNotFound(DOMAIN, 10, "Failed to find by patient id: " + request.getUserId()));
+        } else {
+            throw new OpenCDXNotAcceptable(DOMAIN, 11, "Failed to find user: No ID provided.");
+        }
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

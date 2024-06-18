@@ -180,8 +180,7 @@ class OpenCDXIAMProfileServiceImplTest {
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
     }
 
     @Test
@@ -198,8 +197,7 @@ class OpenCDXIAMProfileServiceImplTest {
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
     }
 
     @Test
