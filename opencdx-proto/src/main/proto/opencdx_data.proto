@@ -5416,21 +5416,25 @@ message MedicalRecord {
      */
   repeated ConnectedTest connectedTest = 16;
   /*
+   * List of Temperature Measurement.
+   */
+  repeated TemperatureMeasurement temperatureMeasurement = 17;
+  /*
      * Timestamp indicating when the record was created.
      */
-  optional google.protobuf.Timestamp created = 17;
+  optional google.protobuf.Timestamp created = 18;
   /*
    * Timestamp indicating when the record was last modified.
    */
-  optional google.protobuf.Timestamp modified = 18;
+  optional google.protobuf.Timestamp modified = 19;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 19;
+  optional string creator = 20;
   /*
    * Identifier of the last modifier of this record.
    */
-  optional string modifier = 20;
+  optional string modifier = 21;
 }
 
 /*
