@@ -25,11 +25,12 @@ import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.*;
 import cdx.opencdx.health.service.*;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Interface for the OpenCDXMedicalRecordProcessService
@@ -65,6 +66,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     private final OpenCDXConnectedTestService openCDXConnectedTestService;
     private final OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository;
     private final OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
+    private final OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository;
+    private final OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService;
 
     /**
      * Method to processing medical record.
@@ -94,6 +97,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
      * @param openCDXConnectedTestService connected test service.
      * @param openCDXMedicalConditionsRepository medical condition repository.
      * @param openCDXMedicalConditionsService medical condition service.
+     * @param openCDXTemperatureMeasurementRepository temperature measurement repository.
+     * @param openCDXTemperatureMeasurementService temperature measurement service.
      */
     public OpenCDXMedicalRecordProcessServiceImpl(
             OpenCDXProfileRepository openCDXProfileRepository,
@@ -121,7 +126,9 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXConnectedTestService openCDXConnectedTestService,
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
-            OpenCDXMedicalConditionsService openCDXMedicalConditionsService) {
+            OpenCDXMedicalConditionsService openCDXMedicalConditionsService,
+            OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository,
+            OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXIAMProfileService = openCDXIAMProfileService;
         this.openCDXMedicalRecordRepository = openCDXMedicalRecordRepository;
@@ -147,6 +154,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
         this.openCDXConnectedTestService = openCDXConnectedTestService;
         this.openCDXMedicalConditionsRepository = openCDXMedicalConditionsRepository;
         this.openCDXMedicalConditionsService = openCDXMedicalConditionsService;
+        this.openCDXTemperatureMeasurementRepository = openCDXTemperatureMeasurementRepository;
+        this.openCDXTemperatureMeasurementService = openCDXTemperatureMeasurementService;
     }
 
     @Override
@@ -236,6 +245,12 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
                         pageable)
                 .toList());
 
+        medicalRecordModel.setTemperatureMeasurementList(openCDXTemperatureMeasurementRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
 
         openCDXMedicalRecordRepository.save(medicalRecordModel);
@@ -363,6 +378,20 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             }
         });
 
+        medicalRecordModel.getTemperatureMeasurementList().forEach(temperatureMeasurement -> {
+            if (openCDXTemperatureMeasurementRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXTemperatureMeasurementService.updateTemperatureMeasurement(
+                        UpdateTemperatureMeasurementRequest.newBuilder()
+                                .setTemperatureMeasurement(temperatureMeasurement.getProtobufMessage())
+                                .build());
+            } else {
+                openCDXTemperatureMeasurementService.createTemperatureMeasurement(
+                        CreateTemperatureMeasurementRequest.newBuilder()
+                                .setTemperatureMeasurement(temperatureMeasurement.getProtobufMessage())
+                                .build());
+            }
+        });
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
 
         openCDXMedicalRecordRepository.save(medicalRecordModel);

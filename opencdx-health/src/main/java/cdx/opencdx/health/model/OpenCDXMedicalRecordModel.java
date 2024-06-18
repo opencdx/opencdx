@@ -60,6 +60,7 @@ public class OpenCDXMedicalRecordModel {
     List<OpenCDXUserQuestionnaireModel> userQuestionnaireDataList;
     List<OpenCDXConnectedTestModel> connectedTestList;
     List<OpenCDXMedicalConditionsModel> medicalConditions;
+    List<OpenCDXTemperatureMeasurementModel> temperatureMeasurementList;
     private Instant created;
     private Instant modified;
     private String creator;
@@ -107,6 +108,9 @@ public class OpenCDXMedicalRecordModel {
                 .toList();
         this.medicalConditions = medicalRecord.getMedicalConditionsList().stream()
                 .map(OpenCDXMedicalConditionsModel::new)
+                .toList();
+        this.temperatureMeasurementList = medicalRecord.getTemperatureMeasurementList().stream()
+                .map(OpenCDXTemperatureMeasurementModel::new)
                 .toList();
 
         if (medicalRecord.hasCreated()) {
@@ -207,6 +211,11 @@ public class OpenCDXMedicalRecordModel {
                     .toList());
         }
 
+        if (this.temperatureMeasurementList != null) {
+            builder.addAllTemperatureMeasurement(this.temperatureMeasurementList.stream()
+                    .map(OpenCDXTemperatureMeasurementModel::getProtobufMessage)
+                    .toList());
+        }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
                     .setSeconds(this.created.getEpochSecond())
