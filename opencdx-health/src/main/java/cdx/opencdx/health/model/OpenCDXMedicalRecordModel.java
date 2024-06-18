@@ -59,6 +59,7 @@ public class OpenCDXMedicalRecordModel {
     List<OpenCDXHeartRPMModel> heartRPMList;
     List<OpenCDXUserQuestionnaireModel> userQuestionnaireDataList;
     List<OpenCDXConnectedTestModel> connectedTestList;
+    List<OpenCDXMedicalConditionsModel> medicalConditions;
     private Instant created;
     private Instant modified;
     private String creator;
@@ -103,6 +104,9 @@ public class OpenCDXMedicalRecordModel {
                 .toList();
         this.connectedTestList = medicalRecord.getConnectedTestList().stream()
                 .map(OpenCDXConnectedTestModel::new)
+                .toList();
+        this.medicalConditions = medicalRecord.getMedicalConditionsList().stream()
+                .map(OpenCDXMedicalConditionsModel::new)
                 .toList();
 
         if (medicalRecord.hasCreated()) {
@@ -195,6 +199,11 @@ public class OpenCDXMedicalRecordModel {
         if (this.connectedTestList != null) {
             builder.addAllConnectedTest(this.connectedTestList.stream()
                     .map(OpenCDXConnectedTestModel::getProtobufMessage)
+                    .toList());
+        }
+        if (this.medicalConditions != null) {
+            builder.addAllMedicalConditions(this.medicalConditions.stream()
+                    .map(OpenCDXMedicalConditionsModel::getProtobufMessage)
                     .toList());
         }
 

@@ -145,6 +145,12 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
     @Mock
     OpenCDXMedicalRecordService openCDXMedicalRecordService;
 
+    @Mock
+    OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository;
+
+    @Mock
+    OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
+
     @Test
     void test() {
         assertNotNull("AB");
@@ -579,6 +585,14 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
+        Mockito.when(this.openCDXMedicalConditionsRepository.findAllByPatientId(
+                        any(OpenCDXIdentifier.class), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXMedicalConditionsModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
         openCDXMedicalRecordProcessService = new OpenCDXMedicalRecordProcessServiceImpl(
                 openCDXProfileRepository,
@@ -604,7 +618,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService
                 // openCDXQuestionnaireClient
                 );
 
@@ -880,6 +896,19 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
                                 .build());
                     }
                 });
@@ -907,7 +936,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService
                 // openCDXQuestionnaireClient
                 );
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1198,6 +1229,19 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
                                 .build());
                     }
                 });
@@ -1225,7 +1269,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService
                 // openCDXQuestionnaireClient
                 );
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1527,7 +1573,10 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService
+
                 // openCDXQuestionnaireClient
                 );
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
@@ -1568,7 +1617,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService
                 // openCDXQuestionnaireClient
                 );
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
