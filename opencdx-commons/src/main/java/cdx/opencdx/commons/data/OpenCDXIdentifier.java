@@ -63,6 +63,7 @@ public class OpenCDXIdentifier implements java.lang.Comparable<OpenCDXIdentifier
 
     /**
      * Create a new OpenCDXIdentifier with the given timestamp and counter.
+     *
      * @return The OpenCDXIdentifier.
      */
     public static OpenCDXIdentifier get() {

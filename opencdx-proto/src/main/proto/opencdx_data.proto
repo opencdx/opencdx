@@ -5484,3 +5484,64 @@ message TemperatureMeasurement {
   optional string modifier = 11;
 
 }
+
+/*
+ * Contains information about a MedicalHistory including relationship. starting time stamp,
+  ending time stamp of condition, DiagnosisCode
+ */
+message MedicalHistory {
+  /*
+   * ID
+   */
+  optional string id = 1;
+  /*
+   * Patient ID
+   */
+  string patient_id = 2;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 3;
+
+  /*
+  * relationship to patient
+  */
+  cdx.opencdx.grpc.types.Relationship relationship = 4;
+
+  /*
+  * relationship from the family line (maternal, paternal, immediate)
+  */
+  cdx.opencdx.grpc.types.RelationshipFamilyLine relationship_family_line = 5;
+
+  /*
+   * The date when the condition started
+   */
+  optional google.protobuf.Timestamp start_date = 6;
+
+  /*
+   * The date when the condition ended
+   */
+  optional google.protobuf.Timestamp end_date = 7;
+
+  /*
+  * Diagnosis Condition
+  */
+  DiagnosisCode condition = 8;
+
+  /*
+   * Creation timestamp of the data.
+   */
+  optional google.protobuf.Timestamp created = 9;
+  /*
+   * Modification timestamp of the data.
+   */
+  optional google.protobuf.Timestamp modified = 10;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 11;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 12;
+}

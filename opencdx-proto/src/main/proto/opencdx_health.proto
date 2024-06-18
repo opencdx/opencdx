@@ -1579,6 +1579,123 @@ message SuccessResponse{
    */
   bool success = 1;
 }
+/*
+ * This message contains the details required for creating a MedicalHistory.
+ */
+message CreateMedicalHistoryRequest {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.MedicalHistory medical_history = 1;
+}
+
+/*
+ * This message contains the response after creating a MedicalHistory
+ */
+message CreateMedicalHistoryResponse {
+  /*
+   * The Known Allergy
+   */
+  optional cdx.opencdx.grpc.data.MedicalHistory medical_history = 1;
+}
+
+/*
+ * This message contains the details required for getting MedicalHistory
+ */
+message GetMedicalHistoryRequest {
+  /*
+   * The id of the MedicalHistory to search for.
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the response of a Get MedicalHistory
+ */
+message GetMedicalHistoryResponse {
+  /*
+   * The MedicalHistory
+   */
+  optional cdx.opencdx.grpc.data.MedicalHistory medical_history = 1;
+}
+
+/*
+ * This message contains the details required for updating a MedicalHistory
+ */
+message UpdateMedicalHistoryRequest {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.MedicalHistory medical_history = 1;
+}
+
+/*
+ * This message contains the response of a MedicalHistory
+ */
+message UpdateMedicalHistoryResponse {
+  /*
+   * The BPM
+   */
+  optional cdx.opencdx.grpc.data.MedicalHistory medical_history = 1;
+}
+
+/*
+ * This request to delete MedicalHistory
+ */
+message DeleteMedicalHistoryRequest {
+  /*
+   * The Known MedicalHistory id
+   */
+  string id = 1;
+}
+
+message GetMedicalHistoryByIdRequest {
+  /*
+   * The id of the Medical History to search for.
+   */
+  string id = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing MedicalHistory by patient ID.
+ */
+message ListMedicalHistoriesRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the patient.
+   */
+    string patient_id = 1;
+    /*
+   * The unique identifier for the patient's national health ID.
+   */
+    string national_health_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+
+/*
+ * Response message for listing MedicalHistories.
+ */
+message ListMedicalHistoriesResponse {
+  /*
+   * List of MedicalHistory.
+   */
+  repeated cdx.opencdx.grpc.data.MedicalHistory medicalHistory = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
 
 /**
  * The ConnectedLabService provides methods to manage connected labs.
@@ -2047,4 +2164,35 @@ service TemperatureMeasurementService {
    * List TemperatureMeasurements.
    */
   rpc ListTemperatureMeasurements(ListTemperatureMeasurementsRequest) returns (ListTemperatureMeasurementsResponse);
+}
+
+
+/*
+ * Service definitions in MedicalHistory to Create, Get, Update, Delete, List MedicalHistory.
+ */
+service MedicalHistoryService {
+  /*
+   * RPC to create  MedicalHistory.
+   */
+  rpc CreateMedicalHistory(CreateMedicalHistoryRequest) returns (CreateMedicalHistoryResponse);
+
+  /*
+  * RPC to get  MedicalHistory.
+  */
+  rpc GetMedicalHistory(GetMedicalHistoryRequest) returns (GetMedicalHistoryResponse);
+
+  /*
+  * RPC to update MedicalHistory
+  */
+  rpc UpdateMedicalHistory(UpdateMedicalHistoryRequest) returns (UpdateMedicalHistoryResponse);
+
+  /*
+   * RPC to remove MedicalHistory
+   */
+  rpc DeleteMedicalHistory(DeleteMedicalHistoryRequest) returns (SuccessResponse);
+
+  /*
+   * RPC to list the MedicalHistories
+   */
+  rpc ListMedicalHistories(ListMedicalHistoriesRequest) returns (ListMedicalHistoriesResponse);
 }

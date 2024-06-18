@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -8004,6 +8004,87 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.path">/health/medicalconditions</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicalhistory [POST]" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;medicalHistory&quot; : {&#xd;
+    &quot;patientId&quot; : &quot;${patient_id_r}&quot;,&#xd;
+    &quot;nationalHealthId&quot; : &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;relationship&quot; : &quot;MOTHER&quot;,&#xd;
+    &quot;relationshipFamilyLine&quot; : &quot;MATERNAL&quot;,&#xd;
+    &quot;startDate&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;endDate&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
+    &quot;condition&quot; : {&#xd;
+      &quot;anfStatement&quot; : {&#xd;
+        &quot;time&quot; : {&#xd;
+          &quot;upperBound&quot; : &quot;120&quot;,&#xd;
+          &quot;lowerBound&quot; : &quot;90&quot;,&#xd;
+          &quot;includeUpperBound&quot; : true,&#xd;
+          &quot;includeLowerBound&quot; : false,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+          &quot;resolution&quot; : &quot;1&quot;&#xd;
+        },&#xd;
+        &quot;subjectOfRecord&quot; : {&#xd;
+          &quot;id&quot; : &quot;35add8ea-acf5-4966-8d03-ad641ae6060c&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        },&#xd;
+        &quot;authors&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;94540ea8-20b4-43cc-8564-ae5f0380d78e&quot;,&#xd;
+          &quot;practitionerValue&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;code&quot; : &quot;Patient 1&quot;&#xd;
+        } ],&#xd;
+        &quot;subjectOfInformation&quot; : &quot;6670ded54f58fa6343826a29&quot;,&#xd;
+        &quot;associatedStatement&quot; : [ {&#xd;
+          &quot;id&quot; : &quot;8d464fcd-83be-4bc8-9cce-9d96efa07359&quot;,&#xd;
+          &quot;semantic&quot; : &quot;mmHg&quot;&#xd;
+        } ],&#xd;
+        &quot;topic&quot; : &quot;Blood Pressure&quot;,&#xd;
+        &quot;type&quot; : &quot;Medical Apppointment&quot;,&#xd;
+        &quot;narrativeCircumstance&quot; : {&#xd;
+          &quot;timing&quot; : {&#xd;
+            &quot;upperBound&quot; : &quot;130&quot;,&#xd;
+            &quot;lowerBound&quot; : &quot;130&quot;,&#xd;
+            &quot;includeUpperBound&quot; : true,&#xd;
+            &quot;includeLowerBound&quot; : false,&#xd;
+            &quot;semantic&quot; : &quot;mmHg&quot;,&#xd;
+            &quot;resolution&quot; : &quot;1&quot;&#xd;
+          },&#xd;
+          &quot;purpose&quot; : [ &quot;Patient Summary&quot; ],&#xd;
+          &quot;text&quot; : &quot;The patient was in good health, and no issues were noted during the examination.&quot;&#xd;
+        },&#xd;
+        &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+      },&#xd;
+      &quot;tinkarCode&quot; : &quot;[TINKAR CODE]&quot;,&#xd;
+      &quot;valueMap&quot; : {&#xd;
+        &quot;TEST&quot; : &quot;JMeter&quot;,&#xd;
+        &quot;Test2&quot; : &quot;smoke&quot;&#xd;
+      }&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/health/medicalhistory</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

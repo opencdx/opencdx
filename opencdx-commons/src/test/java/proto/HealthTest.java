@@ -17,6 +17,7 @@ package proto;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.service.health.CreateMedicalHistoryRequest;
 import cdx.opencdx.grpc.service.health.DiagnosisRequest;
 import cdx.opencdx.grpc.service.health.SearchMedicationsRequest;
 import cdx.opencdx.grpc.service.health.UpdateUserProfileRequest;
@@ -267,6 +268,76 @@ class HealthTest {
                                                 .setSeconds(1696733104)
                                                 .build())
                                         .setDiagnosisCode(DiagnosisCode.newBuilder()
+                                                .setTinkarCode("[TINKAR CODE]")
+                                                .putAllValueMap(Map.of("TEST", "JMeter", "Test2", "smoke"))
+                                                .setAnfStatement(ANFStatement.newBuilder()
+                                                        .setTime(Measure.newBuilder()
+                                                                .setUpperBound("120")
+                                                                .setLowerBound("90")
+                                                                .setIncludeUpperBound(true)
+                                                                .setIncludeUpperBound(true)
+                                                                .setSemantic("mmHg")
+                                                                .setResolution("1")
+                                                                .build())
+                                                        .setSubjectOfRecord(Participant.newBuilder()
+                                                                .setId(UUID.randomUUID()
+                                                                        .toString())
+                                                                .setPractitionerValue("1234567890")
+                                                                .setCode("Patient 1")
+                                                                .build())
+                                                        .addAllAuthors(List.of(Practitioner.newBuilder()
+                                                                .setId(UUID.randomUUID()
+                                                                        .toString())
+                                                                .setPractitionerValue("1234567890")
+                                                                .setCode("Patient 1")
+                                                                .build()))
+                                                        .setSubjectOfInformation(OpenCDXIdentifier.get()
+                                                                .toHexString())
+                                                        .addAllAssociatedStatement(
+                                                                List.of(AssociatedStatement.newBuilder()
+                                                                        .setId(UUID.randomUUID()
+                                                                                .toString())
+                                                                        .setSemantic("mmHg")
+                                                                        .build()))
+                                                        .setTopic("Blood Pressure")
+                                                        .setType("Medical Apppointment")
+                                                        .setNarrativeCircumstance(NarrativeCircumstance.newBuilder()
+                                                                .setTiming(Measure.newBuilder()
+                                                                        .setUpperBound("130")
+                                                                        .setLowerBound("130")
+                                                                        .setIncludeUpperBound(true)
+                                                                        .setIncludeUpperBound(true)
+                                                                        .setSemantic("mmHg")
+                                                                        .setResolution("1")
+                                                                        .build())
+                                                                .addAllPurpose(List.of("Patient Summary"))
+                                                                .setText(
+                                                                        "The patient was in good health, and no issues were noted during the examination.")
+                                                                .build())
+                                                        .build())
+                                                .build())
+                                        .build())
+                                .build()));
+    }
+
+    @Test
+    void createMedicalHistoryRequest() throws JsonProcessingException {
+        log.info(
+                "CreateMedicalHistoryRequest: \n {}",
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(CreateMedicalHistoryRequest.newBuilder()
+                                .setMedicalHistory(MedicalHistory.newBuilder()
+                                        .setId(OpenCDXIdentifier.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .setStartDate(Timestamp.newBuilder()
+                                                .setSeconds(1696733104)
+                                                .build())
+                                        .setEndDate(Timestamp.newBuilder()
+                                                .setSeconds(1696733104)
+                                                .build())
+                                        .setCondition(DiagnosisCode.newBuilder()
                                                 .setTinkarCode("[TINKAR CODE]")
                                                 .putAllValueMap(Map.of("TEST", "JMeter", "Test2", "smoke"))
                                                 .setAnfStatement(ANFStatement.newBuilder()
