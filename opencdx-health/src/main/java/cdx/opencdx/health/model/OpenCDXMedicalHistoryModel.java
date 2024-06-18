@@ -64,7 +64,9 @@ public class OpenCDXMedicalHistoryModel {
      * @param medicalHistory Protobuf message to generate from
      */
     public OpenCDXMedicalHistoryModel(MedicalHistory medicalHistory) {
-        this.id = new OpenCDXIdentifier(medicalHistory.getId());
+        if (medicalHistory.hasId()) {
+            this.id = new OpenCDXIdentifier(medicalHistory.getId());
+        }
         this.patientId = new OpenCDXIdentifier(medicalHistory.getPatientId());
         this.nationalHealthId = medicalHistory.getNationalHealthId();
 
