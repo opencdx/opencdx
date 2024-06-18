@@ -102,6 +102,28 @@ public class OpenCDXMedicalHistoryModel {
     }
 
     /**
+     * Method to update the model from a protobuf message
+     * @param medicalHistory Protobuf message to update from
+     * @return Updated model
+     */
+    public OpenCDXMedicalHistoryModel update(MedicalHistory medicalHistory) {
+        this.relationship = medicalHistory.getRelationship();
+        this.relationshipFamilyLine = medicalHistory.getRelationshipFamilyLine();
+        this.startDate = Instant.ofEpochSecond(
+                medicalHistory.getStartDate().getSeconds(),
+                medicalHistory.getStartDate().getNanos());
+        this.endDate = Instant.ofEpochSecond(
+                medicalHistory.getEndDate().getSeconds(),
+                medicalHistory.getEndDate().getNanos());
+
+        if (medicalHistory.getCondition() != null) {
+            this.condition = new OpenCDXDiagnosisCodeModel(medicalHistory.getCondition());
+        }
+
+        return this;
+    }
+
+    /**
      * Method to convert to protobuf message MedicalHistory
      * @return Protobuf message MedicalHistory
      */

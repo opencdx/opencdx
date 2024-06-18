@@ -146,11 +146,14 @@ public class OpenCDXMedicalHistoryServiceImpl implements OpenCDXMedicalHistorySe
     public UpdateMedicalHistoryResponse updateMedicalHistory(UpdateMedicalHistoryRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "profiles", new OpenCDXIdentifier(request.getMedicalHistory().getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "MedicalHistory",
-                new OpenCDXIdentifier(request.getMedicalHistory().getId()));
-        OpenCDXMedicalHistoryModel model =
-                this.openCDXMedicalHistoryRepository.save(new OpenCDXMedicalHistoryModel(request.getMedicalHistory()));
+        OpenCDXMedicalHistoryModel model = this.openCDXMedicalHistoryRepository
+                .findById(new OpenCDXIdentifier(request.getMedicalHistory().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        FAILED_TO_FIND_MEDICALHISTORY
+                                + request.getMedicalHistory().getId()));
+        model = this.openCDXMedicalHistoryRepository.save(model.update(request.getMedicalHistory()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiUpdated(
