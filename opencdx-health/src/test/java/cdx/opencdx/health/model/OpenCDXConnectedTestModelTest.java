@@ -16,6 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.grpc.data.BasicInfo;
 import cdx.opencdx.grpc.data.ConnectedTest;
 import com.google.protobuf.Timestamp;

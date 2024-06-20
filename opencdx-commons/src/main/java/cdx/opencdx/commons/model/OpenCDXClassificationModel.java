@@ -16,7 +16,7 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.data.Classification;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -53,12 +53,12 @@ public class OpenCDXClassificationModel {
     private long version;
 
     private OpenCDXProfileModel patient;
-    private UserAnswer userAnswer;
+    private OpenCDXUserAnswerModel userAnswer;
     private ClassificationResponse classificationResponse;
-    private Media media;
-    private ConnectedTest connectedTest;
-    private UserQuestionnaireData userQuestionnaireData;
-    private Media testDetailsMedia;
+    private OpenCDXMediaModel media;
+    private OpenCDXConnectedTestModel connectedTest;
+    private OpenCDXUserQuestionnaireModel userQuestionnaireData;
+    private OpenCDXMediaModel testDetailsMedia;
 
     @CreatedDate
     private Instant created;

@@ -16,6 +16,7 @@
 package cdx.opencdx.media.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXMediaModel;
 import cdx.opencdx.grpc.data.Media;
 import cdx.opencdx.grpc.types.MediaStatus;
 import cdx.opencdx.grpc.types.MediaType;

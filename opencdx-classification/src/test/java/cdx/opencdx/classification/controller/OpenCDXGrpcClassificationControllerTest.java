@@ -33,6 +33,8 @@ import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.service.media.GetMediaRequest;
+import cdx.opencdx.grpc.service.media.GetMediaResponse;
 import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -182,6 +184,8 @@ class OpenCDXGrpcClassificationControllerTest {
                         TestIdRequest argument = invocation.getArgument(0);
                         return ConnectedTest.newBuilder()
                                 .setBasicInfo(BasicInfo.newBuilder()
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
                                         .setId(argument.getTestId())
                                         .build())
                                 .build();
@@ -249,7 +253,20 @@ class OpenCDXGrpcClassificationControllerTest {
                         return argument;
                     }
                 });
-
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(GetMediaResponse.newBuilder()
+                        .setMedia(Media.newBuilder()
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                                .build())
+                        .build());
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .build());
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,
@@ -276,7 +293,10 @@ class OpenCDXGrpcClassificationControllerTest {
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
                         .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                        .setTextResult("Test Result")
+                        .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
                         .setGender(Gender.GENDER_MALE)
                         .setAge(30))
                 .build();

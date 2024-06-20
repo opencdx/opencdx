@@ -22,6 +22,7 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;

@@ -24,9 +24,7 @@ import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
@@ -199,8 +197,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
     @SuppressWarnings("java:S3776")
     private void sendAnfToAdr(OpenCDXClassificationModel model) {
-        if (model.getUserQuestionnaireData().getQuestionnaireDataList() != null) {
-            model.getUserQuestionnaireData().getQuestionnaireDataList().forEach(questionnaireData -> {
+        if (model.getUserQuestionnaireData().getList() != null) {
+            model.getUserQuestionnaireData().getList().forEach(questionnaireData -> {
                 if (questionnaireData.getItemList() != null) {
                     questionnaireData.getItemList().forEach(item -> {
                         this.processQuestionnaireItem(item);
@@ -239,7 +237,9 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                         1,
                         "Failed to find patient: " + request.getUserAnswer().getPatientId())));
 
-        model.setUserAnswer(request.getUserAnswer());
+        if (request.hasUserAnswer()) {
+            model.setUserAnswer(new OpenCDXUserAnswerModel(request.getUserAnswer()));
+        }
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
@@ -258,7 +258,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                             .build(),
                     openCDXCallCredentials);
             if (response.hasMedia()) {
-                model.setMedia(response.getMedia());
+                model.setMedia(new OpenCDXMediaModel(response.getMedia()));
             }
         }
 
@@ -296,7 +296,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                 openCDXCallCredentials);
 
         if (testDetailsById != null) {
-            model.setConnectedTest(testDetailsById);
+            model.setConnectedTest(new OpenCDXConnectedTestModel(testDetailsById));
             if (testDetailsById.hasTestDetails()
                     && StringUtils.isNotEmpty(testDetailsById.getTestDetails().getMediaId())) {
                 GetMediaResponse response = this.openCDXMediaClient.getMedia(
@@ -305,7 +305,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                                 .build(),
                         openCDXCallCredentials);
                 if (response.hasMedia()) {
-                    model.setTestDetailsMedia(response.getMedia());
+                    model.setTestDetailsMedia(new OpenCDXMediaModel(response.getMedia()));
                 }
             }
         }
@@ -324,7 +324,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                 openCDXCallCredentials);
 
         if (userQuestionnaireData != null) {
-            model.setUserQuestionnaireData(userQuestionnaireData);
+            model.setUserQuestionnaireData(new OpenCDXUserQuestionnaireModel(userQuestionnaireData));
         }
     }
 
@@ -412,17 +412,24 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         log.info("Send test Results with response {}", model.getClassificationResponse());
         String testName = null;
         ClassificationResponse classificationResponse = model.getClassificationResponse();
-        ConnectedTest connectedTest = model.getConnectedTest();
-        if (null != connectedTest && connectedTest.hasTestDetails()) {
-            TestDetails testDetails = connectedTest.getTestDetails();
-            testName = testDetails.getTestName();
+        if (model.getConnectedTest() != null) {
+            ConnectedTest connectedTest = model.getConnectedTest().getProtobufMessage();
+            if (null != connectedTest && connectedTest.hasTestDetails()) {
+                TestDetails testDetails = connectedTest.getTestDetails();
+                testName = testDetails.getTestName();
+            }
         }
 
-        UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
-        if (null != userQuestionnaireData
-                && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
-            testName =
-                    userQuestionnaireData.getQuestionnaireDataList().getFirst().getTitle();
+        if (model.getUserQuestionnaireData() != null) {
+            UserQuestionnaireData userQuestionnaireData =
+                    model.getUserQuestionnaireData().getProtobufMessage();
+            if (null != userQuestionnaireData
+                    && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
+                testName = userQuestionnaireData
+                        .getQuestionnaireDataList()
+                        .getFirst()
+                        .getTitle();
+            }
         }
 
         if (testName == null) {

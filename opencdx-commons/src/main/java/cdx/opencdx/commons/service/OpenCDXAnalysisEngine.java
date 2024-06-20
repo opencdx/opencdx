@@ -15,11 +15,7 @@
  */
 package cdx.opencdx.commons.service;
 
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.grpc.data.ConnectedTest;
-import cdx.opencdx.grpc.data.Media;
-import cdx.opencdx.grpc.data.UserAnswer;
-import cdx.opencdx.grpc.data.UserQuestionnaireData;
+import cdx.opencdx.commons.model.*;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
@@ -41,9 +37,9 @@ public interface OpenCDXAnalysisEngine {
      */
     ClassificationResponse analyzeQuestionnaire(
             OpenCDXProfileModel patient,
-            UserAnswer userAnswer,
-            Media media,
-            UserQuestionnaireData userQuestionnaireData);
+            OpenCDXUserAnswerModel userAnswer,
+            OpenCDXMediaModel media,
+            OpenCDXUserQuestionnaireModel userQuestionnaireData);
 
     /**
      * Analyzes a connected test and returns the classification response.
@@ -57,10 +53,10 @@ public interface OpenCDXAnalysisEngine {
      */
     ClassificationResponse analyzeConnectedTest(
             OpenCDXProfileModel patient,
-            UserAnswer userAnswer,
-            Media media,
-            ConnectedTest connectedTest,
-            Media testDetailsMedia);
+            OpenCDXUserAnswerModel userAnswer,
+            OpenCDXMediaModel media,
+            OpenCDXConnectedTestModel connectedTest,
+            OpenCDXMediaModel testDetailsMedia);
 
     /**
      * Gets the rule sets for the given client rules request.

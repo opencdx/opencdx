@@ -16,6 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.grpc.data.MedicalRecord;

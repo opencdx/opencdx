@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -33,7 +34,6 @@ import cdx.opencdx.grpc.service.health.ConnectedTestListByNHIDRequest;
 import cdx.opencdx.grpc.service.health.ConnectedTestListRequest;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.health.TestSubmissionResponse;
-import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.repository.OpenCDXConnectedTestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

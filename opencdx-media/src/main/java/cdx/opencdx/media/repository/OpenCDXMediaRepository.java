@@ -16,7 +16,7 @@
 package cdx.opencdx.media.repository;
 
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.media.model.OpenCDXMediaModel;
+import cdx.opencdx.commons.model.OpenCDXMediaModel;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.stereotype.Repository;
 
