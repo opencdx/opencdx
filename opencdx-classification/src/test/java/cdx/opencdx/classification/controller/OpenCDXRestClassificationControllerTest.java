@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -32,6 +32,8 @@ import cdx.opencdx.grpc.service.classification.ClassificationRequest;
 import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.service.media.GetMediaRequest;
+import cdx.opencdx.grpc.service.media.GetMediaResponse;
 import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,6 +89,9 @@ class OpenCDXRestClassificationControllerTest {
 
     @MockBean
     OpenCDXDeviceClient openCDXDeviceClient;
+
+    @MockBean
+    OpenCDXMediaClient openCDXMediaClient;
 
     @MockBean
     OpenCDXManufacturerClient openCDXManufacturerClient;
@@ -203,11 +208,11 @@ class OpenCDXRestClassificationControllerTest {
                 });
         Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
                 .thenReturn(UserQuestionnaireData.getDefaultInstance());
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }
@@ -221,6 +226,21 @@ class OpenCDXRestClassificationControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(OpenCDXIdentifier.get())
+                        .build());
+
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(GetMediaResponse.newBuilder()
+                        .setMedia(Media.newBuilder()
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                                .build())
+                        .build());
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                         .build());
 
         MockitoAnnotations.openMocks(this);
@@ -244,9 +264,13 @@ class OpenCDXRestClassificationControllerTest {
                         .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
                                 .setUserAnswer(UserAnswer.newBuilder()
                                         .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setTextResult("Test")
                                         .setUserQuestionnaireId(
                                                 OpenCDXIdentifier.get().toHexString())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setGender(Gender.GENDER_MALE)
+                                        .setSubmittingUserId(
+                                                OpenCDXIdentifier.get().toHexString())
                                         .setAge(30))
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

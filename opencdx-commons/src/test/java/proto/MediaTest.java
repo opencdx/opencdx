@@ -76,7 +76,9 @@ class MediaTest {
                         .build())
                 .setUploadUrl("uploadUrl")
                 .build();
-        log.info("CreateMediaResponse: {}", this.mapper.writeValueAsString(createMediaResponse));
+        log.info(
+                "CreateMediaResponse: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(createMediaResponse));
     }
 
     @Test

@@ -16,21 +16,20 @@
 package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.grpc.service.health.*;
 import cdx.opencdx.grpc.types.MedicalRecordStatus;
-import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.health.model.OpenCDXMedicalRecordModel;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.*;
 import cdx.opencdx.health.service.*;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * Interface for the OpenCDXMedicalRecordProcessService

@@ -16,6 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXDiagnosisCodeModel;
 import cdx.opencdx.grpc.data.MedicalHistory;
 import cdx.opencdx.grpc.types.Relationship;
 import cdx.opencdx.grpc.types.RelationshipFamilyLine;

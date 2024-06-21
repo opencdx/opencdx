@@ -26,6 +26,7 @@ import cdx.opencdx.client.service.OpenCDXDeviceClient;
 import cdx.opencdx.client.service.OpenCDXManufacturerClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -159,7 +160,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(manufacturerInfo);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(model);
@@ -204,7 +205,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(manufacturerInfo);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(model);
@@ -254,7 +255,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(Optional.of(openCDXProfileModel));
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(model);
@@ -291,7 +292,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenThrow(OpenCDXClientException.class);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(patient);
 
         Assertions.assertThrows(
@@ -331,7 +332,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenThrow(OpenCDXClientException.class);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         Assertions.assertThrows(
@@ -599,7 +600,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(manufacturerInfo);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(model);
@@ -656,7 +657,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(manufacturerInfo);
 
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
-        model.setConnectedTest(connectedTest);
+        model.setConnectedTest(new OpenCDXConnectedTestModel(connectedTest));
         model.setPatient(openCDXProfileModel);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(model);

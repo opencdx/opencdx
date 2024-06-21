@@ -17,9 +17,9 @@ package cdx.opencdx.media.controller;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXMediaModel;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.media.*;
-import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXMediaService;
 import cdx.opencdx.media.service.impl.OpenCDXMediaServiceImpl;
@@ -88,7 +88,12 @@ class OpenCDXGrpcMediaControllerTest {
     @Test
     void createMedia() {
         StreamObserver<CreateMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcMediaController.createMedia(CreateMediaRequest.getDefaultInstance(), responseObserver);
+        this.openCDXGrpcMediaController.createMedia(
+                CreateMediaRequest.newBuilder(CreateMediaRequest.getDefaultInstance())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

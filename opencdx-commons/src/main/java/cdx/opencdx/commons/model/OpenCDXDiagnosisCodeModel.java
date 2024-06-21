@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.model;
+package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.data.ANFStatement;
 import cdx.opencdx.grpc.data.DiagnosisCode;

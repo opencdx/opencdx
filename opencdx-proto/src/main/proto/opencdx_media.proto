@@ -37,6 +37,16 @@ message CreateMediaRequest {
    * Additional labels related to the media.
    */
   repeated string labels = 5;
+
+  /*
+ * Identifier of the organization this media entity belongs to.
+ */
+  string organization_id = 6;
+
+  /*
+   * Identifier of the workspace this media entity is part of.
+   */
+  string workspace_id = 7;
 }
 /*
  * Contains information received from CreateMedia method once the media is created.

@@ -16,9 +16,9 @@
 package cdx.opencdx.media.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXMediaModel;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.media.*;
-import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXMediaService;
 import java.util.Collections;
@@ -82,8 +82,11 @@ class OpenCDXMediaServiceImplTest {
 
     @Test
     void createMedia() {
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMediaService.createMedia(CreateMediaRequest.getDefaultInstance()));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.createMedia(
+                CreateMediaRequest.newBuilder(CreateMediaRequest.getDefaultInstance())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build()));
     }
 
     @Test

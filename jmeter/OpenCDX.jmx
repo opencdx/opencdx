@@ -1064,6 +1064,8 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
         &quot;ut et nulla sint&quot;,
         &quot;labore adipisicing&quot;
     ],
+    &quot;organization_id&quot; : &quot;${organization_g}&quot;,
+    &quot;workspace_id&quot; : &quot;${workspace_g}&quot;,
     &quot;name&quot;: &quot;dolore eiusmod quis labore dolor&quot;,
     &quot;short_description&quot;: &quot;enim sit&quot;,
     &quot;type&quot;: 2
@@ -5846,7 +5848,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -7250,6 +7252,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
         &quot;ut et nulla sint&quot;,&#xd;
         &quot;labore adipisicing&quot;&#xd;
     ],&#xd;
+    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
+    &quot;workspaceId&quot; : &quot;${workspace_r}&quot;,&#xd;
     &quot;name&quot;: &quot;dolore eiusmod quis labore dolor&quot;,&#xd;
     &quot;shortDescription&quot;: &quot;enim sit&quot;,&#xd;
     &quot;type&quot;: 2&#xd;
@@ -7369,7 +7373,8 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{&quot;id&quot;:&quot;${mediaId}&quot;,&quot;name&quot;:&quot;name&quot;,&quot;shortDescription&quot;:&quot;shortDescription&quot;,&quot;description&quot;:&quot;description&quot;,&quot;labels&quot;:[&quot;labels&quot;],&quot;type&quot;:&quot;MEDIA_TYPE_IMAGE&quot;}</stringProp>
+                    <stringProp name="Argument.value">{&quot;id&quot;:&quot;${mediaId}&quot;,&quot;name&quot;:&quot;name&quot;,&quot;shortDescription&quot;:&quot;shortDescription&quot;,&#xd;
+&quot;description&quot;:&quot;description&quot;,&quot;labels&quot;:[&quot;labels&quot;],&quot;type&quot;:&quot;MEDIA_TYPE_IMAGE&quot;}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
                 </collectionProp>
@@ -13453,7 +13458,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>

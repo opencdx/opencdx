@@ -22,7 +22,7 @@ import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXTestCaseClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.*;
@@ -113,9 +113,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     @Override
     public ClassificationResponse analyzeQuestionnaire(
             OpenCDXProfileModel patient,
-            UserAnswer userAnswer,
-            Media media,
-            UserQuestionnaireData userQuestionnaireData) {
+            OpenCDXUserAnswerModel userAnswer,
+            OpenCDXMediaModel media,
+            OpenCDXUserQuestionnaireModel userQuestionnaireData) {
         log.info("Analyzing User Questionnaire: {}", userQuestionnaireData.getId());
         Resource file = retrieveFile(media);
         if (file != null) {
@@ -140,10 +140,10 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     @Override
     public ClassificationResponse analyzeConnectedTest(
             OpenCDXProfileModel patient,
-            UserAnswer userAnswer,
-            Media media,
-            ConnectedTest connectedTest,
-            Media testDetailsMedia) {
+            OpenCDXUserAnswerModel userAnswer,
+            OpenCDXMediaModel media,
+            OpenCDXConnectedTestModel connectedTest,
+            OpenCDXMediaModel testDetailsMedia) {
         log.info("Analyzing Connected Test: {}", connectedTest.getBasicInfo().getId());
 
         Resource file = retrieveFile(media);
@@ -203,7 +203,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
                 .build();
     }
 
-    private Resource retrieveFile(Media model) {
+    private Resource retrieveFile(OpenCDXMediaModel model) {
         if (model != null) {
             log.trace("Retrieving file for classification.");
 
@@ -214,7 +214,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
                 log.trace("Downloading media for classification: {} as {}", model.getId(), primaryExtension);
                 ResponseEntity<Resource> downloaded = this.openCDXMediaUpDownClient.download(
                         "Bearer " + this.openCDXCurrentUser.getCurrentUserAccessToken(),
-                        model.getId(),
+                        model.getId().toHexString(),
                         primaryExtension);
                 return downloaded.getBody();
             } catch (OpenCDXInternal e) {
@@ -232,16 +232,16 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         return null;
     }
 
-    private void runRules(UserQuestionnaireData userQuestionnaireData, Classification.Builder builder) {
-        if (userQuestionnaireData.getQuestionnaireDataCount() > 0
-                && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isEmpty()
-                && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isBlank()
-                && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+    private void runRules(OpenCDXUserQuestionnaireModel userQuestionnaireData, Classification.Builder builder) {
+        if (!userQuestionnaireData.getList().isEmpty()
+                && !userQuestionnaireData.getList().getFirst().getRuleId().isEmpty()
+                && !userQuestionnaireData.getList().getFirst().getRuleId().isBlank()
+                && userQuestionnaireData.getList().getFirst().getRuleQuestionIdCount() > 0) {
 
             Knowledge knowledge = null;
 
             try {
-                if (userQuestionnaireData.getQuestionnaireData(0).getRuleId().equals(RULE_BLOOD_PRESSURE)) {
+                if (userQuestionnaireData.getList().getFirst().getRuleId().equals(RULE_BLOOD_PRESSURE)) {
                     knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRules.class);
                 }
             } catch (IOException e) {
@@ -266,16 +266,15 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         }
     }
 
-    private Object getResponse(UserQuestionnaireData userQuestionnaireData) {
-        if (userQuestionnaireData.getQuestionnaireDataCount() > 0
-                && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
-            String questionId = userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionId(0);
+    private Object getResponse(OpenCDXUserQuestionnaireModel userQuestionnaireData) {
+        if (!userQuestionnaireData.getList().isEmpty()
+                && userQuestionnaireData.getList().getFirst().getRuleQuestionIdCount() > 0) {
+            String questionId = userQuestionnaireData.getList().getFirst().getRuleQuestionId(0);
 
             if (!questionId.isBlank() && !questionId.isEmpty()) {
-                Optional<QuestionnaireItem> question =
-                        userQuestionnaireData.getQuestionnaireData(0).getItemList().stream()
-                                .filter(questionItem -> questionId.equals(questionItem.getLinkId()))
-                                .findFirst();
+                Optional<QuestionnaireItem> question = userQuestionnaireData.getList().getFirst().getItemList().stream()
+                        .filter(questionItem -> questionId.equals(questionItem.getLinkId()))
+                        .findFirst();
 
                 if (question.isPresent()) {
                     return switch (question.get().getType()) {

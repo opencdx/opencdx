@@ -17,7 +17,7 @@ package cdx.opencdx.health.repository;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
