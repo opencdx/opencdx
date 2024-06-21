@@ -19,13 +19,13 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Classification;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
+import java.time.Instant;
+import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
 
 @Slf4j
 @Data
@@ -48,6 +48,8 @@ public class OpenCDXClassificationResponseModel {
     private Boolean notifyCdc;
     private OpenCDXDiagnosisCodeModel diagnosis;
     private ClassificationType type;
+    private OpenCDXTestKitModel testKit;
+    private List<OpenCDXTestKitModel> alternativeOptions;
 
     public OpenCDXClassificationResponseModel(ClassificationResponse classificationResponse) {
         Classification classification = classificationResponse.getClassification();
@@ -72,6 +74,14 @@ public class OpenCDXClassificationResponseModel {
         }
         this.notifyCdc = classification.getNotifyCdc();
         this.type = classification.getType();
+        if (classification.hasTestKit()) {
+            this.testKit = new OpenCDXTestKitModel(classification.getTestKit());
+        }
+        if (classification.getAlternativeOptionsCount() > 0) {
+            this.alternativeOptions = classification.getAlternativeOptionsList().stream()
+                    .map(OpenCDXTestKitModel::new)
+                    .toList();
+        }
     }
 
     public Classification getClassification() {
@@ -115,6 +125,14 @@ public class OpenCDXClassificationResponseModel {
         }
         if (type != null) {
             builder.setType(type);
+        }
+
+        if (testKit != null) {
+            builder.setTestKit(testKit.getProtobuf());
+        }
+
+        if (alternativeOptions != null) {
+            alternativeOptions.forEach(kit -> builder.addAlternativeOptions(kit.getProtobuf()));
         }
 
         return builder.build();
