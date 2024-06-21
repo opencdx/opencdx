@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.commons.model;
 
-import cdx.opencdx.grpc.data.Interpretation;
 import cdx.opencdx.grpc.data.TestKit;
 import cdx.opencdx.grpc.types.SpecimenType;
 import lombok.AllArgsConstructor;
@@ -35,7 +34,7 @@ public class OpenCDXTestKitModel {
     private String targetDisease;
     private SpecimenType specimenType;
     private String procedure;
-    private Interpretation interpretationGuide;
+    private OpenCDXInterpretationModel interpretationGuide;
     private String brand;
     private String approvalStatus;
     private Float accuracy;
@@ -47,7 +46,9 @@ public class OpenCDXTestKitModel {
         this.targetDisease = testKit.getTargetDisease();
         this.specimenType = testKit.getSpecimenType();
         this.procedure = testKit.getProcedure();
-        this.interpretationGuide = testKit.getInterpretationGuide();
+        if (testKit.hasInterpretationGuide()) {
+            this.interpretationGuide = new OpenCDXInterpretationModel(testKit.getInterpretationGuide());
+        }
         this.brand = testKit.getBrand();
         this.approvalStatus = testKit.getApprovalStatus();
         this.accuracy = testKit.getAccuracy();
@@ -71,7 +72,7 @@ public class OpenCDXTestKitModel {
             builder.setProcedure(this.procedure);
         }
         if (this.interpretationGuide != null) {
-            builder.setInterpretationGuide(this.interpretationGuide);
+            builder.setInterpretationGuide(this.interpretationGuide.getProtobuf());
         }
         if (this.brand != null) {
             builder.setBrand(this.brand);
