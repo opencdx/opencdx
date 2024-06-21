@@ -22,16 +22,16 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Slf4j
 @Data
 @RequiredArgsConstructor
+@Document("classification")
 public class OpenCDXClassificationResponseModel {
 
     @Id
     private OpenCDXIdentifier id;
-
-    private OpenCDXTes
 
     private Classification classification;
 

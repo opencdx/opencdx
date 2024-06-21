@@ -312,6 +312,9 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                                 .build(),
                         openCDXCallCredentials);
                 if (response.hasMedia()) {
+                    log.info(
+                            "Retrieved TestDetailsMedia: {}",
+                            response.getMedia().getId());
                     model.setTestDetailsMedia(new OpenCDXMediaModel(response.getMedia()));
                 }
             }
