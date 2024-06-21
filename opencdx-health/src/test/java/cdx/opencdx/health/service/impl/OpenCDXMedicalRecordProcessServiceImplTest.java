@@ -22,6 +22,7 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -107,6 +108,9 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
     OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
     @Mock
+    OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository;
+
+    @Mock
     OpenCDXIAMProfileService openCDXIAMProfileService;
 
     @Mock
@@ -143,7 +147,16 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
     OpenCDXConnectedTestService openCDXConnectedTestService;
 
     @Mock
+    OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService;
+
+    @Mock
     OpenCDXMedicalRecordService openCDXMedicalRecordService;
+
+    @Mock
+    OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository;
+
+    @Mock
+    OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
 
     @Test
     void test() {
@@ -416,6 +429,27 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .temperatureMeasurementList(List.of(
+                                        new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
+                                                .setId(OpenCDXIdentifier.get().toHexString())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setNationalHealthId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setTemperatureValue(37.0)
+                                                .setTemperatureScale(TemperatureScale.CELSIUS)
+                                                .setTimeOfMeasurement(Timestamp.newBuilder()
+                                                        .setSeconds(1696732104)
+                                                        .setNanos(1696732104)
+                                                        .build())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setModified(Timestamp.getDefaultInstance())
+                                                .setCreator(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setModifier(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .build())))
                                 .build());
                     }
                 });
@@ -579,6 +613,27 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
+        Mockito.when(this.openCDXMedicalConditionsRepository.findAllByPatientId(
+                        any(OpenCDXIdentifier.class), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXMedicalConditionsModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+
+        Mockito.when(this.openCDXTemperatureMeasurementRepository.findAllByPatientId(
+                        any(OpenCDXIdentifier.class), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXTemperatureMeasurementModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .patientId(OpenCDXIdentifier.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .temperatureValue(37.0)
+                                .temperatureScale(TemperatureScale.CELSIUS)
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
         openCDXMedicalRecordProcessService = new OpenCDXMedicalRecordProcessServiceImpl(
                 openCDXProfileRepository,
@@ -604,9 +659,11 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
-                // openCDXQuestionnaireClient
-                );
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXTemperatureMeasurementRepository,
+                openCDXTemperatureMeasurementService);
 
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
         Mockito.verify(openCDXMedicalRecordRepository, Mockito.times(1)).findById(any(OpenCDXIdentifier.class));
@@ -880,6 +937,40 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
+                                .temperatureMeasurementList(List.of(
+                                        new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
+                                                .setId(OpenCDXIdentifier.get().toHexString())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setNationalHealthId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setTemperatureValue(37.0)
+                                                .setTemperatureScale(TemperatureScale.CELSIUS)
+                                                .setTimeOfMeasurement(Timestamp.newBuilder()
+                                                        .setSeconds(1696732104)
+                                                        .setNanos(1696732104)
+                                                        .build())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setModified(Timestamp.getDefaultInstance())
+                                                .setCreator(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setModifier(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .build())))
                                 .build());
                     }
                 });
@@ -907,9 +998,11 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
-                // openCDXQuestionnaireClient
-                );
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXTemperatureMeasurementRepository,
+                openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
         Mockito.verify(openCDXMedicalRecordRepository, Mockito.times(1)).findById(any(OpenCDXIdentifier.class));
     }
@@ -933,6 +1026,8 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
         Mockito.when(this.openCDXBPMRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         Mockito.when(this.openCDXHeartRPMRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(true);
+        Mockito.when(this.openCDXTemperatureMeasurementRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
         Mockito.when(this.openCDXMedicalRecordRepository.findById(any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXMedicalRecordModel>>() {
@@ -1198,6 +1293,40 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .medicalConditions(List.of(new OpenCDXMedicalConditionsModel(Diagnosis.newBuilder()
+                                        .setDiagnosisId(OpenCDXIdentifier.get().toHexString())
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(
+                                                OpenCDXIdentifier.get().toHexString())
+                                        .setDiagnosisDatetime(Timestamp.getDefaultInstance())
+                                        .setDiagnosisStatus(DiagnosisStatus.SUSPECTED)
+                                        .setCreated(Timestamp.getDefaultInstance())
+                                        .setModified(Timestamp.getDefaultInstance())
+                                        .setCreator(OpenCDXIdentifier.get().toHexString())
+                                        .setModifier(OpenCDXIdentifier.get().toHexString())
+                                        .build())))
+                                .temperatureMeasurementList(List.of(
+                                        new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
+                                                .setId(OpenCDXIdentifier.get().toHexString())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setNationalHealthId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setTemperatureValue(37.0)
+                                                .setTemperatureScale(TemperatureScale.CELSIUS)
+                                                .setTimeOfMeasurement(Timestamp.newBuilder()
+                                                        .setSeconds(1696732104)
+                                                        .setNanos(1696732104)
+                                                        .build())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setModified(Timestamp.getDefaultInstance())
+                                                .setCreator(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setModifier(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .build())))
                                 .build());
                     }
                 });
@@ -1225,9 +1354,11 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
-                // openCDXQuestionnaireClient
-                );
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXTemperatureMeasurementRepository,
+                openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
         Mockito.verify(openCDXMedicalRecordRepository, Mockito.times(1)).findById(any(OpenCDXIdentifier.class));
     }
@@ -1500,6 +1631,27 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                                                 .setMedicalCode("medicalCode")
                                                 .build())
                                         .build())))
+                                .temperatureMeasurementList(List.of(
+                                        new OpenCDXTemperatureMeasurementModel(TemperatureMeasurement.newBuilder()
+                                                .setId(OpenCDXIdentifier.get().toHexString())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setPatientId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setNationalHealthId(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setTemperatureValue(37.0)
+                                                .setTemperatureScale(TemperatureScale.CELSIUS)
+                                                .setTimeOfMeasurement(Timestamp.newBuilder()
+                                                        .setSeconds(1696732104)
+                                                        .setNanos(1696732104)
+                                                        .build())
+                                                .setCreated(Timestamp.getDefaultInstance())
+                                                .setModified(Timestamp.getDefaultInstance())
+                                                .setCreator(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .setModifier(
+                                                        OpenCDXIdentifier.get().toHexString())
+                                                .build())))
                                 .build());
                     }
                 });
@@ -1527,9 +1679,11 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
-                // openCDXQuestionnaireClient
-                );
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXTemperatureMeasurementRepository,
+                openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
         Mockito.verify(openCDXMedicalRecordRepository, Mockito.times(1)).findById(any(OpenCDXIdentifier.class));
     }
@@ -1568,9 +1722,11 @@ class OpenCDXMedicalRecordProcessServiceImplTest {
                 openCDXMedicalRecordRepository,
                 openCDXMedicalRecordService,
                 openCDXConnectedTestRepository,
-                openCDXConnectedTestService
-                // openCDXQuestionnaireClient
-                );
+                openCDXConnectedTestService,
+                openCDXMedicalConditionsRepository,
+                openCDXMedicalConditionsService,
+                openCDXTemperatureMeasurementRepository,
+                openCDXTemperatureMeasurementService);
         openCDXMedicalRecordProcessService.processMedicalRecord(OpenCDXIdentifier.get());
         Mockito.verify(openCDXMedicalRecordRepository, Mockito.times(1)).findById(any(OpenCDXIdentifier.class));
     }

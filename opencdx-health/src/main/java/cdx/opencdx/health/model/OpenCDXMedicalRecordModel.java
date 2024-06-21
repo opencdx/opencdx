@@ -16,6 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.grpc.data.MedicalRecord;
@@ -59,6 +60,8 @@ public class OpenCDXMedicalRecordModel {
     List<OpenCDXHeartRPMModel> heartRPMList;
     List<OpenCDXUserQuestionnaireModel> userQuestionnaireDataList;
     List<OpenCDXConnectedTestModel> connectedTestList;
+    List<OpenCDXMedicalConditionsModel> medicalConditions;
+    List<OpenCDXTemperatureMeasurementModel> temperatureMeasurementList;
     private Instant created;
     private Instant modified;
     private String creator;
@@ -103,6 +106,12 @@ public class OpenCDXMedicalRecordModel {
                 .toList();
         this.connectedTestList = medicalRecord.getConnectedTestList().stream()
                 .map(OpenCDXConnectedTestModel::new)
+                .toList();
+        this.medicalConditions = medicalRecord.getMedicalConditionsList().stream()
+                .map(OpenCDXMedicalConditionsModel::new)
+                .toList();
+        this.temperatureMeasurementList = medicalRecord.getTemperatureMeasurementList().stream()
+                .map(OpenCDXTemperatureMeasurementModel::new)
                 .toList();
 
         if (medicalRecord.hasCreated()) {
@@ -197,7 +206,17 @@ public class OpenCDXMedicalRecordModel {
                     .map(OpenCDXConnectedTestModel::getProtobufMessage)
                     .toList());
         }
+        if (this.medicalConditions != null) {
+            builder.addAllMedicalConditions(this.medicalConditions.stream()
+                    .map(OpenCDXMedicalConditionsModel::getProtobufMessage)
+                    .toList());
+        }
 
+        if (this.temperatureMeasurementList != null) {
+            builder.addAllTemperatureMeasurement(this.temperatureMeasurementList.stream()
+                    .map(OpenCDXTemperatureMeasurementModel::getProtobufMessage)
+                    .toList());
+        }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
                     .setSeconds(this.created.getEpochSecond())

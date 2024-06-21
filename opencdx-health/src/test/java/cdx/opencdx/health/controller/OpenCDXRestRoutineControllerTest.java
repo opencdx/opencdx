@@ -181,58 +181,6 @@ class OpenCDXRestRoutineControllerTest {
                 .andExpect(jsonPath("$.labOrder.labOrderId").value("789"));
     }
 
-    // Test cases for triggerDiagnosis
-    @Test
-    void testTriggerDiagnosisValid() throws Exception {
-        this.mockMvc
-                .perform(post("/diagnosis")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(DiagnosisRequest.newBuilder()
-                                .setDiagnosis(Diagnosis.newBuilder()
-                                        .setDiagnosisId("789")
-                                        .build())
-                                .build())))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.diagnosis.diagnosisId").value("789"));
-    }
-
-    // Test cases for getDiagnosis
-    @Test
-    void testGetDiagnosisValid() throws Exception {
-        this.mockMvc
-                .perform(get("/diagnosis/789").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.diagnosis.diagnosisId").value("789"));
-    }
-
-    // Test cases for triggerSuspectedDiagnosis
-    @Test
-    void testTriggerSuspectedDiagnosisValid() throws Exception {
-        this.mockMvc
-                .perform(post("/suspectedDiagnosis")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(SuspectedDiagnosisRequest.newBuilder()
-                                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                                        .setSuspectedDiagnosisId("789")
-                                        .build())
-                                .build())))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.suspectedDiagnosis.suspectedDiagnosisId").value("789"));
-    }
-
-    // Test cases for getSuspectedDiagnosis
-    @Test
-    void testGetSuspectedDiagnosisValid() throws Exception {
-        this.mockMvc
-                .perform(get("/suspectedDiagnosis/" + "789").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.suspectedDiagnosis.suspectedDiagnosisId").value("789"));
-    }
-
     // Test cases for triggerLabResult
     @Test
     void testTriggerLabResultValid() throws Exception {

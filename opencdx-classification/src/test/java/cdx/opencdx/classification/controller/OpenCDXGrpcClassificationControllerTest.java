@@ -20,7 +20,7 @@ import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -33,6 +33,8 @@ import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.service.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.service.health.TestIdRequest;
 import cdx.opencdx.grpc.service.logistics.*;
+import cdx.opencdx.grpc.service.media.GetMediaRequest;
+import cdx.opencdx.grpc.service.media.GetMediaResponse;
 import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -182,6 +184,8 @@ class OpenCDXGrpcClassificationControllerTest {
                         TestIdRequest argument = invocation.getArgument(0);
                         return ConnectedTest.newBuilder()
                                 .setBasicInfo(BasicInfo.newBuilder()
+                                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
                                         .setId(argument.getTestId())
                                         .build())
                                 .build();
@@ -238,18 +242,31 @@ class OpenCDXGrpcClassificationControllerTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
                 });
-
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(GetMediaResponse.newBuilder()
+                        .setMedia(Media.newBuilder()
+                                .setId(OpenCDXIdentifier.get().toHexString())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                                .build())
+                        .build());
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .build());
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,
@@ -276,7 +293,10 @@ class OpenCDXGrpcClassificationControllerTest {
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
                         .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
                         .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                        .setTextResult("Test Result")
+                        .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
                         .setGender(Gender.GENDER_MALE)
                         .setAge(30))
                 .build();

@@ -24,7 +24,7 @@ import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXTestCaseClient;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.service.classification.RuleSetsRequest;
@@ -74,9 +74,12 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -89,10 +92,24 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        ConnectedTest connectedTest = ConnectedTest.newBuilder().build();
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
-        Assertions.assertNotNull(
-                engine.analyzeConnectedTest(openCDXProfileModel, userAnswer, media, connectedTest, media));
+        ConnectedTest connectedTest = ConnectedTest.newBuilder()
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertNotNull(engine.analyzeConnectedTest(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXConnectedTestModel(connectedTest),
+                new OpenCDXMediaModel(media)));
     }
 
     @Test
@@ -106,9 +123,12 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .build();
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -121,11 +141,32 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        ConnectedTest connectedTest = ConnectedTest.newBuilder().build();
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        ConnectedTest connectedTest = ConnectedTest.newBuilder()
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setPatientId(OpenCDXIdentifier.get().toHexString())
+                        .build())
+                .build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
+        OpenCDXUserAnswerModel openCDXUserAnswerModel = new OpenCDXUserAnswerModel(userAnswer);
+        OpenCDXMediaModel openCDXMediaModel = new OpenCDXMediaModel(media);
+        OpenCDXConnectedTestModel openCDXConnectedTestModel = new OpenCDXConnectedTestModel(connectedTest);
+        OpenCDXMediaModel openCDXMediaModel1 = new OpenCDXMediaModel(media);
+
         Assertions.assertThrows(
                 OpenCDXInternal.class,
-                () -> engine.analyzeConnectedTest(openCDXProfileModel, userAnswer, media, connectedTest, media));
+                () -> engine.analyzeConnectedTest(
+                        openCDXProfileModel,
+                        openCDXUserAnswerModel,
+                        openCDXMediaModel,
+                        openCDXConnectedTestModel,
+                        openCDXMediaModel1));
     }
 
     @Test
@@ -139,6 +180,7 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("")
                         .addAllRuleQuestionId(List.of())
@@ -147,6 +189,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -159,9 +203,18 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -175,6 +228,7 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId(" ")
                         .addAllRuleQuestionId(List.of("q1", "q2"))
@@ -183,6 +237,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -195,9 +251,18 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -211,6 +276,7 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllRuleQuestionId(List.of("q1", "q2"))
@@ -219,6 +285,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -231,7 +299,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
         when(knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRules.class))
                 .thenThrow(IOException.class);
@@ -239,8 +313,11 @@ class OpenCDXAnalysisEngineImplTest {
         //                OpenCDXInternal.class,
         //                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media,
         // userQuestionnaireData));
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -254,6 +331,7 @@ class OpenCDXAnalysisEngineImplTest {
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("9b75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllRuleQuestionId(List.of("q1", "q2"))
@@ -262,6 +340,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -274,7 +354,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
         when(knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRules.class))
                 .thenThrow(IOException.class);
@@ -282,8 +368,11 @@ class OpenCDXAnalysisEngineImplTest {
         //                OpenCDXInternal.class,
         //                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media,
         // userQuestionnaireData));
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -317,6 +406,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -326,6 +416,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -338,7 +430,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -363,8 +461,11 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -398,6 +499,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -407,6 +509,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -419,7 +523,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -444,8 +554,11 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -479,6 +592,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -488,6 +602,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -500,7 +616,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -525,8 +647,11 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -560,6 +685,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -569,6 +695,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -581,7 +709,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -606,8 +740,11 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -641,6 +778,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -650,6 +788,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -662,7 +802,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -687,8 +833,11 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -722,6 +871,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -730,6 +880,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -742,7 +894,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -767,13 +925,19 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
         UserQuestionnaireData userQuestionnaireData2 = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData2));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 
     @Test
@@ -807,6 +971,7 @@ class OpenCDXAnalysisEngineImplTest {
                 .build();
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
                 .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
                         .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
                         .addAllItem(List.of(questionnaireItem, questionnaireItem2))
@@ -815,6 +980,8 @@ class OpenCDXAnalysisEngineImplTest {
 
         Media media = Media.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
+                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                 .setMimeType("text/plain")
                 .build();
         ResponseEntity<Resource> responseEntity = Mockito.mock(ResponseEntity.class);
@@ -827,7 +994,13 @@ class OpenCDXAnalysisEngineImplTest {
         when(openCDXTestCaseClient.listTestCase(any(), any())).thenReturn(testCaseListResponse);
         OpenCDXProfileModel openCDXProfileModel = mock(OpenCDXProfileModel.class);
         when(openCDXProfileModel.getId()).thenReturn(OpenCDXIdentifier.get());
-        UserAnswer userAnswer = UserAnswer.newBuilder().build();
+        UserAnswer userAnswer = UserAnswer.newBuilder()
+                .setSubmittingUserId(OpenCDXIdentifier.get().toHexString())
+                .setUserQuestionnaireId(OpenCDXIdentifier.get().toHexString())
+                .setConnectedTestId(OpenCDXIdentifier.get().toHexString())
+                .setMediaId(OpenCDXIdentifier.get().toHexString())
+                .setPatientId(OpenCDXIdentifier.get().toHexString())
+                .build();
         KnowledgeService knowledgeService = mock(KnowledgeService.class);
 
         Knowledge knowledge = mock(Knowledge.class);
@@ -852,12 +1025,18 @@ class OpenCDXAnalysisEngineImplTest {
 
         statelessSession.insertAndFire(anyBoolean(), Mockito.eq(result));
         when(knowledge.newStatelessSession()).thenReturn(statelessSession);
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
         UserQuestionnaireData userQuestionnaireData2 = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
                 .build();
-        Assertions.assertDoesNotThrow(
-                () -> engine.analyzeQuestionnaire(openCDXProfileModel, userAnswer, media, userQuestionnaireData2));
+        Assertions.assertDoesNotThrow(() -> engine.analyzeQuestionnaire(
+                openCDXProfileModel,
+                new OpenCDXUserAnswerModel(userAnswer),
+                new OpenCDXMediaModel(media),
+                new OpenCDXUserQuestionnaireModel(userQuestionnaireData)));
     }
 }

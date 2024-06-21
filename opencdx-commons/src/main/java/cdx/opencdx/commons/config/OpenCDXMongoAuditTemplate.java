@@ -64,7 +64,6 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             log.error("Failed to add OpenCDXIdentifier", e);
         }
-
         return super.maybeCallBeforeConvert(object, collection);
     }
 

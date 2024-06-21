@@ -87,13 +87,14 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
         // Create Device
-        Device device = createDevice(model.getConnectedTest(), openCDXCallCredentials);
+        Device device = createDevice(model.getConnectedTest().getProtobufMessage(), openCDXCallCredentials);
 
         // Create Observation
-        Observation observation = createObservation(model.getConnectedTest());
+        Observation observation = createObservation(model.getConnectedTest().getProtobufMessage());
 
         // Create DiagnosticReport
-        DiagnosticReport diagnosticReport = createDiagnosticReport(model.getConnectedTest());
+        DiagnosticReport diagnosticReport =
+                createDiagnosticReport(model.getConnectedTest().getProtobufMessage());
 
         // Create Bundle
         Bundle bundle = createBundle(getPatientInfo(model.getPatient()), device, observation, diagnosticReport);

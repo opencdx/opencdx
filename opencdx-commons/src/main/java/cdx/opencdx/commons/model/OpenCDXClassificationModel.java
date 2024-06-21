@@ -16,14 +16,12 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.grpc.data.*;
-import cdx.opencdx.grpc.service.classification.ClassificationResponse;
+import cdx.opencdx.grpc.data.Classification;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model class for OpenCDX Classification Model.
@@ -36,7 +34,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Builder
 @AllArgsConstructor
-@Document("classification")
 public class OpenCDXClassificationModel {
 
     /**
@@ -53,12 +50,12 @@ public class OpenCDXClassificationModel {
     private long version;
 
     private OpenCDXProfileModel patient;
-    private UserAnswer userAnswer;
-    private ClassificationResponse classificationResponse;
-    private Media media;
-    private ConnectedTest connectedTest;
-    private UserQuestionnaireData userQuestionnaireData;
-    private Media testDetailsMedia;
+    private OpenCDXUserAnswerModel userAnswer;
+    private OpenCDXClassificationResponseModel classificationResponse;
+    private OpenCDXMediaModel media;
+    private OpenCDXConnectedTestModel connectedTest;
+    private OpenCDXUserQuestionnaireModel userQuestionnaireData;
+    private OpenCDXMediaModel testDetailsMedia;
 
     @CreatedDate
     private Instant created;

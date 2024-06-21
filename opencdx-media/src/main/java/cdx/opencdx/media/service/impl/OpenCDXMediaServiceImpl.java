@@ -18,10 +18,10 @@ package cdx.opencdx.media.service.impl;
 import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXMediaModel;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.media.*;
 import cdx.opencdx.grpc.types.MediaStatus;
-import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXMediaService;
 import io.micrometer.observation.annotation.Observed;
@@ -58,6 +58,13 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
         OpenCDXMediaModel mediaModel = new OpenCDXMediaModel();
         mediaModel.setName(request.getName());
         mediaModel.setMediaType(request.getType());
+        if (request.getOrganizationId() != null) {
+            mediaModel.setOrganization(new OpenCDXIdentifier(request.getOrganizationId()));
+        }
+
+        if (request.getWorkspaceId() != null) {
+            mediaModel.setWorkspace(new OpenCDXIdentifier(request.getWorkspaceId()));
+        }
         mediaModel.setShortDescription(request.getShortDescription());
         mediaModel.setDescription(request.getDescription());
         mediaModel.setLabels(new ArrayList<>(request.getLabelsList()));
