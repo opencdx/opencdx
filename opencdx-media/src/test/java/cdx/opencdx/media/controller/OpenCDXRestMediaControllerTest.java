@@ -105,7 +105,11 @@ class OpenCDXRestMediaControllerTest {
     void createMedia() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/")
-                        .content(this.objectMapper.writeValueAsString(CreateMediaRequest.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(CreateMediaRequest.newBuilder(
+                                        CreateMediaRequest.getDefaultInstance())
+                                .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

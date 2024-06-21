@@ -82,8 +82,11 @@ class OpenCDXMediaServiceImplTest {
 
     @Test
     void createMedia() {
-        Assertions.assertDoesNotThrow(
-                () -> this.openCDXMediaService.createMedia(CreateMediaRequest.getDefaultInstance()));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMediaService.createMedia(
+                CreateMediaRequest.newBuilder(CreateMediaRequest.getDefaultInstance())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build()));
     }
 
     @Test

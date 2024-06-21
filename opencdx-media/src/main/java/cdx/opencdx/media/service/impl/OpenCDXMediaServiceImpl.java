@@ -58,6 +58,13 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
         OpenCDXMediaModel mediaModel = new OpenCDXMediaModel();
         mediaModel.setName(request.getName());
         mediaModel.setMediaType(request.getType());
+        if (request.getOrganizationId() != null) {
+            mediaModel.setOrganization(new OpenCDXIdentifier(request.getOrganizationId()));
+        }
+
+        if (request.getWorkspaceId() != null) {
+            mediaModel.setWorkspace(new OpenCDXIdentifier(request.getWorkspaceId()));
+        }
         mediaModel.setShortDescription(request.getShortDescription());
         mediaModel.setDescription(request.getDescription());
         mediaModel.setLabels(new ArrayList<>(request.getLabelsList()));

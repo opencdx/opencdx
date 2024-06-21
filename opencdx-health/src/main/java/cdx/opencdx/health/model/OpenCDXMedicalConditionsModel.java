@@ -16,6 +16,7 @@
 package cdx.opencdx.health.model;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.model.OpenCDXDiagnosisCodeModel;
 import cdx.opencdx.grpc.data.Diagnosis;
 import cdx.opencdx.grpc.types.DiagnosisStatus;
 import com.google.protobuf.Timestamp;

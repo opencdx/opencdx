@@ -88,7 +88,12 @@ class OpenCDXGrpcMediaControllerTest {
     @Test
     void createMedia() {
         StreamObserver<CreateMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcMediaController.createMedia(CreateMediaRequest.getDefaultInstance(), responseObserver);
+        this.openCDXGrpcMediaController.createMedia(
+                CreateMediaRequest.newBuilder(CreateMediaRequest.getDefaultInstance())
+                        .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
