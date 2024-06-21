@@ -16,11 +16,10 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.data.Interpretation;
+import java.util.Map;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 /**
  * OpenCDXInterpretationModel
