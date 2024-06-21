@@ -16,11 +16,15 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.data.Interpretation;
-import java.util.Map;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
+/**
+ * OpenCDXInterpretationModel
+ */
 @Slf4j
 @Data
 @RequiredArgsConstructor
@@ -29,11 +33,21 @@ public class OpenCDXInterpretationModel {
     private Map<String, String> positive;
     private Map<String, String> negative;
 
+    /**
+     * Constructor
+     *
+     * @param interpretation Interpretation
+     */
     public OpenCDXInterpretationModel(Interpretation interpretation) {
         this.positive = interpretation.getPositiveMap();
         this.negative = interpretation.getNegativeMap();
     }
 
+    /**
+     * Get the Protobuf representation of this model
+     *
+     * @return Interpretation
+     */
     public Interpretation getProtobuf() {
         Interpretation.Builder builder = Interpretation.newBuilder();
         if (this.positive != null) {

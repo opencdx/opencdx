@@ -19,14 +19,18 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Classification;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
-import java.time.Instant;
-import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+import java.util.List;
+
+/**
+ * OpenCDXClassificationResponseModel
+ */
 @Slf4j
 @Data
 @RequiredArgsConstructor
@@ -51,6 +55,11 @@ public class OpenCDXClassificationResponseModel {
     private OpenCDXTestKitModel testKit;
     private List<OpenCDXTestKitModel> alternativeOptions;
 
+    /**
+     * Constructor
+     *
+     * @param classificationResponse ClassificationResponse
+     */
     public OpenCDXClassificationResponseModel(ClassificationResponse classificationResponse) {
         Classification classification = classificationResponse.getClassification();
 
@@ -84,6 +93,11 @@ public class OpenCDXClassificationResponseModel {
         }
     }
 
+    /**
+     * Get Classification
+     *
+     * @return Classification
+     */
     public Classification getClassification() {
         Classification.Builder builder = Classification.newBuilder();
 
@@ -138,6 +152,11 @@ public class OpenCDXClassificationResponseModel {
         return builder.build();
     }
 
+    /**
+     * Get Protobuf
+     *
+     * @return ClassificationResponse
+     */
     public ClassificationResponse getProtobuf() {
 
         return ClassificationResponse.newBuilder()

@@ -20,11 +20,15 @@ import cdx.opencdx.grpc.data.Location;
 import cdx.opencdx.grpc.data.Symptom;
 import cdx.opencdx.grpc.data.UserAnswer;
 import cdx.opencdx.grpc.types.Gender;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
+/**
+ * OpenCDXUserAnswerModel
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -43,6 +47,11 @@ public class OpenCDXUserAnswerModel {
     private Location userLocation;
     private OpenCDXIdentifier submittingUserId;
 
+    /**
+     * Constructor
+     *
+     * @param userAnswer UserAnswer
+     */
     public OpenCDXUserAnswerModel(UserAnswer userAnswer) {
         if (userAnswer.getPatientId() != null) {
             this.patientId = new OpenCDXIdentifier(userAnswer.getPatientId());

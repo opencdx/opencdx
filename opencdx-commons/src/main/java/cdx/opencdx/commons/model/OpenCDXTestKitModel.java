@@ -23,6 +23,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OpenCDXTestKitModel
+ */
 @Slf4j
 @Data
 @Builder
@@ -41,6 +44,11 @@ public class OpenCDXTestKitModel {
     private Integer testDuration;
     private String testCaseId;
 
+    /**
+     * Constructor
+     *
+     * @param testKit TestKit
+     */
     public OpenCDXTestKitModel(TestKit testKit) {
         this.name = testKit.getName();
         this.targetDisease = testKit.getTargetDisease();
@@ -56,6 +64,11 @@ public class OpenCDXTestKitModel {
         this.testCaseId = testKit.getTestCaseId();
     }
 
+    /**
+     * Get the Protobuf representation of this model
+     *
+     * @return TestKit
+     */
     public TestKit getProtobuf() {
         TestKit.Builder builder = TestKit.newBuilder();
 
