@@ -44,11 +44,12 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * Service for processing Classification Requests
@@ -151,22 +152,27 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         OpenCDXClassificationModel model = creeateOpenCDXClassificationModel(request);
 
         if (model.getConnectedTest() != null) {
-            model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeConnectedTest(
-                    model.getPatient(),
-                    model.getUserAnswer(),
-                    model.getMedia(),
-                    model.getConnectedTest(),
-                    model.getTestDetailsMedia()));
+            model.setClassificationResponse(
+                    new OpenCDXClassificationResponseModel(this.openCDXAnalysisEngine.analyzeConnectedTest(
+                            model.getPatient(),
+                            model.getUserAnswer(),
+                            model.getMedia(),
+                            model.getConnectedTest(),
+                            model.getTestDetailsMedia())));
         } else if (model.getUserQuestionnaireData() != null) {
             sendAnfToAdr(model);
-            model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeQuestionnaire(
-                    model.getPatient(), model.getUserAnswer(), model.getMedia(), model.getUserQuestionnaireData()));
+            model.setClassificationResponse(
+                    new OpenCDXClassificationResponseModel(this.openCDXAnalysisEngine.analyzeQuestionnaire(
+                            model.getPatient(),
+                            model.getUserAnswer(),
+                            model.getMedia(),
+                            model.getUserQuestionnaireData())));
         } else {
             throw new OpenCDXNotAcceptable(
                     this.getClass().getName(), 1, "Failed to classify: No connected test or questionnaire data found");
         }
 
-        model = this.openCDXClassificationRepository.save(model);
+        model.setClassificationResponse(this.openCDXClassificationRepository.save(model.getClassificationResponse()));
 
         this.processClassification(model);
 
@@ -182,7 +188,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                             .setPatientId(model.getPatient().getId().toHexString())
                             .setNationalHealthId(model.getPatient().getNationalHealthId())
                             .build(),
-                    "CLASSIFICATION: " + model.getId().toHexString(),
+                    "CLASSIFICATION: "
+                            + model.getClassificationResponse().getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
@@ -192,7 +199,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             throw openCDXNotAcceptable;
         }
         log.info("Processed ClassificationRequest");
-        return model.getClassificationResponse();
+        return model.getClassificationResponse().getProtobuf();
     }
 
     @SuppressWarnings("java:S3776")
@@ -411,7 +418,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private void sendTestResults(OpenCDXClassificationModel model) {
         log.info("Send test Results with response {}", model.getClassificationResponse());
         String testName = null;
-        ClassificationResponse classificationResponse = model.getClassificationResponse();
+        ClassificationResponse classificationResponse =
+                model.getClassificationResponse().getProtobuf();
         if (model.getConnectedTest() != null) {
             ConnectedTest connectedTest = model.getConnectedTest().getProtobufMessage();
             if (null != connectedTest && connectedTest.hasTestDetails()) {

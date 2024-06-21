@@ -18,6 +18,7 @@ package cdx.opencdx.commons.repository;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import org.springframework.data.mongodb.repository.Query;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationModel> {
+public interface OpenCDXClassificationRepository extends OpenCDXRepository<OpenCDXClassificationResponseModel> {
 
     /**
      * Find all classification by patient id.

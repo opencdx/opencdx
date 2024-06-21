@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -208,11 +208,11 @@ class OpenCDXRestClassificationControllerTest {
                 });
         Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
                 .thenReturn(UserQuestionnaireData.getDefaultInstance());
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }

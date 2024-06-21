@@ -20,7 +20,7 @@ import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -39,9 +39,6 @@ import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -55,6 +52,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -242,11 +243,11 @@ class OpenCDXGrpcClassificationControllerTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }

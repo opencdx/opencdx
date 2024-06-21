@@ -20,11 +20,10 @@ import cdx.opencdx.grpc.data.Location;
 import cdx.opencdx.grpc.data.Symptom;
 import cdx.opencdx.grpc.data.UserAnswer;
 import cdx.opencdx.grpc.types.Gender;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder

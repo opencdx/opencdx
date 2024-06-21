@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import cdx.opencdx.classification.analyzer.service.impl.OpenCDXAnalysisEngineImpl;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
@@ -24,10 +27,7 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.model.OpenCDXUserQuestionnaireModel;
+import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -46,6 +46,9 @@ import cdx.opencdx.grpc.types.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.evrete.KnowledgeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,13 +69,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -247,11 +243,11 @@ class OpenCDXClassificationServiceImplTest {
                     }
                 });
 
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
                         }
@@ -745,24 +741,13 @@ class OpenCDXClassificationServiceImplTest {
                                 .build();
                     }
                 });
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
-                        }
-                        if (argument.getUserQuestionnaireData() == null) {
-                            argument.setUserQuestionnaireData(
-                                    new OpenCDXUserQuestionnaireModel(UserQuestionnaireData.newBuilder()
-                                            .setId(OpenCDXIdentifier.get().toHexString())
-                                            .setPatientId(
-                                                    OpenCDXIdentifier.get().toHexString())
-                                            .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
-                                                    .setTitle("title Test")
-                                                    .build()))
-                                            .build()));
                         }
                         return argument;
                     }
@@ -954,25 +939,13 @@ class OpenCDXClassificationServiceImplTest {
                 .setPostalCode("12345")
                 .setAddressPurpose(AddressPurpose.PRIMARY)
                 .build();
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
-                            argument.setPatient(OpenCDXProfileModel.builder()
-                                    .id(OpenCDXIdentifier.get())
-                                    .nationalHealthId(UUID.randomUUID().toString())
-                                    .fullName(FullName.newBuilder()
-                                            .setFirstName("John")
-                                            .setLastName("doe")
-                                            .build())
-                                    .addresses(List.of(address1, address2))
-                                    .primaryContactInfo(ContactInfo.newBuilder()
-                                            .addAllEmails(List.of())
-                                            .build())
-                                    .build());
                         }
                         return argument;
                     }
@@ -998,24 +971,13 @@ class OpenCDXClassificationServiceImplTest {
 
     // @Test
     void testSubmitClassificationProcessClassificationMailing() {
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
-                            argument.setPatient(OpenCDXProfileModel.builder()
-                                    .id(OpenCDXIdentifier.get())
-                                    .fullName(FullName.newBuilder()
-                                            .setFirstName("John")
-                                            .setLastName("doe")
-                                            .build())
-                                    .addresses(List.of())
-                                    .primaryContactInfo(ContactInfo.newBuilder()
-                                            .addAllEmails(List.of())
-                                            .build())
-                                    .build());
                         }
                         return argument;
                     }
@@ -1043,24 +1005,13 @@ class OpenCDXClassificationServiceImplTest {
     void testSubmitClassificationOpenCDXNotFound2() {
         Mockito.reset(openCDXClassificationRepository);
         Mockito.reset(openCDXProfileRepository);
-        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
-                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationResponseModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationResponseModel>() {
                     @Override
-                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
-                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                    public OpenCDXClassificationResponseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationResponseModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
-                            argument.setPatient(OpenCDXProfileModel.builder()
-                                    .id(OpenCDXIdentifier.get())
-                                    .fullName(FullName.newBuilder()
-                                            .setFirstName("John")
-                                            .setLastName("doe")
-                                            .build())
-                                    .addresses(List.of())
-                                    .primaryContactInfo(ContactInfo.newBuilder()
-                                            .addAllEmails(List.of())
-                                            .build())
-                                    .build());
                         }
                         return argument;
                     }

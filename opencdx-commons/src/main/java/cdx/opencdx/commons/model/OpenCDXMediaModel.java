@@ -88,8 +88,12 @@ public class OpenCDXMediaModel {
             this.updated = Instant.now();
         }
 
-        this.organization = new OpenCDXIdentifier(media.getOrganizationId());
-        this.workspace = new OpenCDXIdentifier(media.getWorkspaceId());
+        if (media.getOrganizationId() != null) {
+            this.organization = new OpenCDXIdentifier(media.getOrganizationId());
+        }
+        if (media.getWorkspaceId() != null) {
+            this.workspace = new OpenCDXIdentifier(media.getWorkspaceId());
+        }
         this.name = media.getName();
         this.shortDescription = media.getShortDescription();
         this.description = media.getDescription();
