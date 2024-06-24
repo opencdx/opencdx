@@ -150,7 +150,7 @@ fi
   # Display the status of required software
   handle_info "Required Software:"
   handle_info " Software\tInstalled\tRequired Version\tMinimum Version"
-  handle_info "  Java\t\t$java_installed\t\t$java_version"
+  handle_info "  Java\t\t$java_installed\t\t$required_jdk_version"
   handle_info "  OpenSSL\t$openssl_installed\t\t\t\t\t$openssl_version"
   handle_info "  Keytool\t$keytool_installed\t\t\t\t\t$keytool_version"
   handle_info "  Node.js\t$node_installed\t\t\t\t\t$node_version"
