@@ -121,6 +121,7 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXHeartRPMRepository openCDXHeartRPMRepository,
             OpenCDXHeartRPMService openCDXHeartRPMService,
             OpenCDXMedicalRecordRepository openCDXMedicalRecordRepository,
+            OpenCDXMedicalRecordService openCDXMedicalRecordService,
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXConnectedTestService openCDXConnectedTestService,
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
