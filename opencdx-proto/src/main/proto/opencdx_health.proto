@@ -1701,6 +1701,127 @@ message ListMedicalHistoriesResponse {
   cdx.opencdx.grpc.data.Pagination pagination = 2;
 }
 
+/*
+ * This message contains the details required for creating a AnalysisEngine.
+ */
+message CreateAnalysisEngineRequest {
+  /*
+   * The AnalysisEngine
+   */
+  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
+}
+
+/*
+ * This message contains the response after creating a AnalysisEngine
+ */
+message CreateAnalysisEngineResponse {
+  /*
+   * The AnalysisEngine
+   */
+  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
+}
+
+/*
+ * This message contains the details required for getting AnalysisEngine
+ */
+message GetAnalysisEngineRequest {
+  /*
+   * The id of the AnalysisEngine to search for.
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the response of a Get AnalysisEngine
+ */
+message GetAnalysisEngineResponse {
+  /*
+   * The AnalysisEngine
+   */
+  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
+}
+
+/*
+ * This message contains the details required for updating a AnalysisEngine
+ */
+message UpdateAnalysisEngineRequest {
+  /*
+   * The id of the AnalysisEngine to update
+   */
+  string id = 1;
+  /*
+   * The AnalysisEngine
+   */
+  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 2;
+}
+
+/*
+ * This message contains the response of a AnalysisEngine
+ */
+message UpdateAnalysisEngineResponse {
+  /*
+   * The AnalysisEngine
+   */
+  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
+}
+
+/*
+ * This request to delete AnalysisEngine
+ */
+message DeleteAnalysisEngineRequest {
+  /*
+   * The Known AnalysisEngine id
+   */
+  string id = 1;
+}
+
+message GetAnalysisEngineByIdRequest {
+  /*
+   * The id of the AnalysisEngine to search for.
+   */
+  string id = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing AnalysisEngine by Organization ID / Workspace Id.
+ */
+message ListAnalysisEnginesRequest {
+
+  oneof search {
+    /*
+   * The unique identifier for the organization.
+   */
+    string organization_id = 1;
+    /*
+   * The unique identifier for the workspace
+   */
+    string workspace_id = 2;
+  }
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 3;
+}
+
+/*
+ * Response message for listing AnalysisEngine.
+ */
+message ListAnalysisEnginesResponse {
+  /*
+   * List of AnalysisEngine.
+   */
+  repeated cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
 
 /**
  * The ConnectedLabService provides methods to manage connected labs.
@@ -2200,4 +2321,34 @@ service MedicalHistoryService {
    * RPC to list the MedicalHistories
    */
   rpc ListMedicalHistories(ListMedicalHistoriesRequest) returns (ListMedicalHistoriesResponse);
+}
+
+/*
+ * Service definitions in AnalysisEngine to Create, Get, Update, Delete, List MedicalHistory.
+ */
+service AnalysisEngineService {
+  /*
+   * RPC to create  AnalysisEngine.
+   */
+  rpc CreateAnalysisEngine(CreateAnalysisEngineRequest) returns (CreateAnalysisEngineResponse);
+
+  /*
+  * RPC to get  AnalysisEngine.
+  */
+  rpc GetAnalysisEngine(GetAnalysisEngineRequest) returns (GetAnalysisEngineResponse);
+
+  /*
+  * RPC to update AnalysisEngine
+  */
+  rpc UpdateAnalysisEngine(UpdateAnalysisEngineRequest) returns (UpdateAnalysisEngineResponse);
+
+  /*
+   * RPC to remove AnalysisEngine
+   */
+  rpc DeleteAnalysisEngine(DeleteAnalysisEngineRequest) returns (SuccessResponse);
+
+  /*
+   * RPC to list the AnalysisEngines
+   */
+  rpc ListAnalysisEngines(ListAnalysisEnginesRequest) returns (ListAnalysisEnginesResponse);
 }
