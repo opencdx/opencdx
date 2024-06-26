@@ -91,6 +91,9 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
         Mockito.when(this.openCDXAnalysisEngineRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(invocation -> Optional.of(OpenCDXAnalysisEngineModel.builder()
                         .id(invocation.getArgument(0))
+                        .name("default")
+                        .organizationId(OpenCDXIdentifier.get().toHexString())
+                        .workspaceId(OpenCDXIdentifier.get().toHexString())
                         .build()));
 
         Mockito.when(this.openCDXAnalysisEngineRepository.findAllByOrganizationId(
@@ -99,6 +102,8 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
                         List.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(OpenCDXIdentifier.get())
                                 .organizationId((OpenCDXIdentifier.get().toHexString()))
+                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .name("default")
                                 .build()),
                         PageRequest.of(1, 10),
                         1));

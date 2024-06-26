@@ -81,19 +81,15 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
 
     @Override
     public CreateAnalysisEngineResponse createAnalysisEngine(CreateAnalysisEngineRequest request) {
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getAnalysisEngine().getId()));
-
         OpenCDXAnalysisEngineModel model =
                 this.openCDXAnalysisEngineRepository.save(new OpenCDXAnalysisEngineModel(request.getAnalysisEngine()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.phiCreated(
+            this.openCDXAuditService.config(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "Analysis Engine created",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    null,
                     ANALYSIS_ENGINE + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -116,12 +112,11 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.phiAccessed(
+            this.openCDXAuditService.config(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "AnalysisEngine Accessed",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    null,
                     ANALYSIS_ENGINE + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -138,23 +133,23 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
 
     @Override
     public UpdateAnalysisEngineResponse updateAnalysisEngine(UpdateAnalysisEngineRequest request) {
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "profiles", new OpenCDXIdentifier(request.getAnalysisEngine().getId()));
-
         OpenCDXAnalysisEngineModel model = this.openCDXAnalysisEngineRepository
-                .findById(new OpenCDXIdentifier(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_ANALYSIS_ENGINE + request.getId()));
+                .findById(new OpenCDXIdentifier(request.getAnalysisEngine().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        1,
+                        FAILED_TO_FIND_ANALYSIS_ENGINE
+                                + request.getAnalysisEngine().getId()));
 
         model = this.openCDXAnalysisEngineRepository.save(model.update(request.getAnalysisEngine()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.phiUpdated(
+            this.openCDXAuditService.config(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "AnalysisEngine Updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    null,
                     ANALYSIS_ENGINE + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -180,12 +175,11 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-            this.openCDXAuditService.phiDeleted(
+            this.openCDXAuditService.config(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "Analaysis Engine Deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    null,
                     ANALYSIS_ENGINE + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -215,22 +209,18 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
         }
         Page<OpenCDXAnalysisEngineModel> all = Page.empty();
 
-        if (request.hasOrganizationId()) {
-            all = this.openCDXAnalysisEngineRepository.findAllByOrganizationId(request.getOrganizationId(), pageable);
-        } else if (request.hasWorkspaceId()) {
-            all = this.openCDXAnalysisEngineRepository.findAllByWorkspaceId(request.getWorkspaceId(), pageable);
-        }
+        all = this.openCDXAnalysisEngineRepository.findAllByOrganizationId(request.getOrganizationId(), pageable);
+
         log.trace("Found Analysis Engine in database");
 
         all.get().forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-                this.openCDXAuditService.phiAccessed(
+                this.openCDXAuditService.config(
                         currentUser.getId().toHexString(),
                         currentUser.getAgentType(),
                         "Analysis Engine accessed",
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        null,
                         ANALYSIS_ENGINE + model.getId(),
                         this.objectMapper.writeValueAsString(model.getProtobufMessage()));
             } catch (JsonProcessingException e) {

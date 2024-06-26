@@ -34,8 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OpenCDXAnalysisEngineClientImplTest {
 
     @Mock
-    AnalysisEngineServiceGrpc.AnalysisEngineServiceBlockingStub
-            AnalysisEngineServiceBlockingStub;
+    AnalysisEngineServiceGrpc.AnalysisEngineServiceBlockingStub AnalysisEngineServiceBlockingStub;
 
     OpenCDXAnalysisEngineClient openCDXAnalysisEngineClient;
 
@@ -43,8 +42,7 @@ class OpenCDXAnalysisEngineClientImplTest {
     void setUp() {
         this.AnalysisEngineServiceBlockingStub =
                 Mockito.mock(AnalysisEngineServiceGrpc.AnalysisEngineServiceBlockingStub.class);
-        this.openCDXAnalysisEngineClient =
-                new OpenCDXAnalysisEngineClientImpl(this.AnalysisEngineServiceBlockingStub);
+        this.openCDXAnalysisEngineClient = new OpenCDXAnalysisEngineClientImpl(this.AnalysisEngineServiceBlockingStub);
         Mockito.when(AnalysisEngineServiceBlockingStub.withCallCredentials(Mockito.any()))
                 .thenReturn(this.AnalysisEngineServiceBlockingStub);
     }
@@ -75,8 +73,7 @@ class OpenCDXAnalysisEngineClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAnalysisEngineClient.createAnalysisEngine(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXAnalysisEngineClient.createAnalysisEngine(request, openCDXCallCredentials));
     }
 
     @Test
@@ -100,8 +97,7 @@ class OpenCDXAnalysisEngineClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAnalysisEngineClient.getAnalysisEngine(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXAnalysisEngineClient.getAnalysisEngine(request, openCDXCallCredentials));
     }
 
     @Test
@@ -125,8 +121,7 @@ class OpenCDXAnalysisEngineClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAnalysisEngineClient.updateAnalysisEngine(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXAnalysisEngineClient.updateAnalysisEngine(request, openCDXCallCredentials));
     }
 
     @Test
@@ -150,8 +145,7 @@ class OpenCDXAnalysisEngineClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAnalysisEngineClient.deleteAnalysisEngine(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXAnalysisEngineClient.deleteAnalysisEngine(request, openCDXCallCredentials));
     }
 
     @Test
@@ -175,7 +169,6 @@ class OpenCDXAnalysisEngineClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAnalysisEngineClient.listAnalysisEngines(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXAnalysisEngineClient.listAnalysisEngines(request, openCDXCallCredentials));
     }
 }

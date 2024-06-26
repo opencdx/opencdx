@@ -23,13 +23,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database Temperature measurement model.
+ * Interface for the Database Analysis Engine model.
  */
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXAnalysisEngineRepository extends OpenCDXRepository<OpenCDXAnalysisEngineModel> {
     /**
-     * Find all temperature measurements by patient id.
+     * Find all organization by organization id.
      *
      * @param organizationId the organizationId
      * @param pageable  Pageable for pagination
@@ -38,7 +38,7 @@ public interface OpenCDXAnalysisEngineRepository extends OpenCDXRepository<OpenC
     Page<OpenCDXAnalysisEngineModel> findAllByOrganizationId(String organizationId, Pageable pageable);
 
     /**
-     * Find all temperature measurements by national health id.
+     * Find all workspace measurements by workspace id.
      *
      * @param workspaceId the workspaceId
      * @param pageable         Pageable for pagination

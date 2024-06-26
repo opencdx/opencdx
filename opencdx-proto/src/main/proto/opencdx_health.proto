@@ -1746,13 +1746,9 @@ message GetAnalysisEngineResponse {
  */
 message UpdateAnalysisEngineRequest {
   /*
-   * The id of the AnalysisEngine to update
-   */
-  string id = 1;
-  /*
    * The AnalysisEngine
    */
-  optional cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 2;
+   cdx.opencdx.grpc.data.AnalysisEngine analysis_engine = 1;
 }
 
 /*
@@ -1791,19 +1787,14 @@ message GetAnalysisEngineByIdRequest {
  */
 message ListAnalysisEnginesRequest {
 
-  oneof search {
-    /*
+  /*
    * The unique identifier for the organization.
    */
-    string organization_id = 1;
-    /*
-   * The unique identifier for the workspace
-   */
-    string workspace_id = 2;
-  }
+  string organization_id = 1;
+
   /*
- * Pagination information.
- */
+   * Pagination information.
+   */
   cdx.opencdx.grpc.data.Pagination pagination = 3;
 }
 
