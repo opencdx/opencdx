@@ -27,7 +27,10 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.*;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -85,7 +88,7 @@ class OpenCDXClassificationServiceImplTest {
     OpenCDXAuditService openCDXAuditService;
 
     @Autowired
-    OpenCDXAdrMessageService openCDXAdrMessageService;
+    OpenCDXANFService openCDXANFService;
 
     @Autowired
     OpenCDXOrderMessageService openCDXOrderMessageService;
@@ -329,7 +332,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
     }
@@ -676,7 +679,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
@@ -831,7 +834,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
@@ -1047,7 +1050,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 

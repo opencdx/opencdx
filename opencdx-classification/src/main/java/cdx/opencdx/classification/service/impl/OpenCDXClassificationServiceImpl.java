@@ -44,11 +44,12 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * Service for processing Classification Requests
@@ -71,7 +72,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
     private final OpenCDXCommunicationService openCDXCommunicationService;
-    private final OpenCDXAdrMessageService openCDXAdrMessageService;
+    private final OpenCDXANFService openCDXANFService;
 
     private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
     private final OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
@@ -92,7 +93,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCommunicationService service for communication
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
-     * @param openCDXAdrMessageService service for ADR message
+     * @param openCDXANFService service for ANF
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -108,7 +109,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
             OpenCDXCommunicationService openCDXCommunicationService,
-            OpenCDXAdrMessageService openCDXAdrMessageService,
+            OpenCDXANFService openCDXANFService,
             OpenCDXCDCPayloadService openCDXCDCPayloadService,
             OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -123,7 +124,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
         this.openCDXCommunicationService = openCDXCommunicationService;
-        this.openCDXAdrMessageService = openCDXAdrMessageService;
+        this.openCDXANFService = openCDXANFService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
     }
@@ -144,6 +145,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param request request the process
      * @return Message generated for this request.
      */
+    @SuppressWarnings("java:S3776")
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
         log.trace("Processing ClassificationRequest");
@@ -159,7 +161,13 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                             model.getConnectedTest(),
                             model.getTestDetailsMedia())));
         } else if (model.getUserQuestionnaireData() != null) {
-            sendAnfToAdr(model);
+            log.info("Checking for ANF Statements");
+            if (model.getUserQuestionnaireData().getList() != null) {
+                log.info("Processing ANF Statements");
+                this.openCDXANFService.processQuestionnaires(
+                        model.getUserQuestionnaireData().getList(),
+                        model.getPatient().getId());
+            }
             model.setClassificationResponse(
                     new OpenCDXClassificationResponseModel(this.openCDXAnalysisEngine.analyzeQuestionnaire(
                             model.getPatient(),
@@ -199,37 +207,6 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         }
         log.info("Processed ClassificationRequest");
         return model.getClassificationResponse().getProtobuf();
-    }
-
-    @SuppressWarnings("java:S3776")
-    private void sendAnfToAdr(OpenCDXClassificationModel model) {
-        if (model.getUserQuestionnaireData().getList() != null) {
-            model.getUserQuestionnaireData().getList().forEach(questionnaireData -> {
-                if (questionnaireData.getItemList() != null) {
-                    questionnaireData.getItemList().forEach(item -> {
-                        this.processQuestionnaireItem(item);
-                        if (item.getItemList() != null) {
-                            item.getItemList().forEach(this::processQuestionnaireItem);
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    @SuppressWarnings("java:S3776")
-    private void processQuestionnaireItem(QuestionnaireItem item) {
-        if (item.getAnfStatementConnectorList() != null) {
-            item.getAnfStatementConnectorList().forEach(anfStatementConnector -> {
-                if (anfStatementConnector.getAnfStatement() != null) {
-                    try {
-                        this.openCDXAdrMessageService.sendAdrMessage(anfStatementConnector.getAnfStatement());
-                    } catch (Exception e) {
-                        log.error("Failed to submit ADR Statement", e);
-                    }
-                }
-            });
-        }
     }
 
     private OpenCDXClassificationModel creeateOpenCDXClassificationModel(ClassificationRequest request) {
