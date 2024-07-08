@@ -22,6 +22,7 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for AnalysisEngine
@@ -42,6 +43,7 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
+    @Secured({})
     public void createAnalysisEngine(
             CreateAnalysisEngineRequest request, StreamObserver<CreateAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.createAnalysisEngine(request));
@@ -49,6 +51,7 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
+    @Secured({})
     public void getAnalysisEngine(
             GetAnalysisEngineRequest request, StreamObserver<GetAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.getAnalysisEngine(request));
@@ -56,6 +59,7 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
+    @Secured({})
     public void updateAnalysisEngine(
             UpdateAnalysisEngineRequest request, StreamObserver<UpdateAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.updateAnalysisEngine(request));
@@ -63,6 +67,7 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
+    @Secured({})
     public void deleteAnalysisEngine(
             DeleteAnalysisEngineRequest request, StreamObserver<SuccessResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.deleteAnalysisEngine(request));
@@ -70,6 +75,7 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
+    @Secured({})
     public void listAnalysisEngines(
             ListAnalysisEnginesRequest request, StreamObserver<ListAnalysisEnginesResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.listAnalysisEngines(request));

@@ -46,8 +46,8 @@ public class OpenCDXAnalysisEngineModel {
 
     private String name;
 
-    private String organizationId;
-    private String workspaceId;
+    private OpenCDXIdentifier organizationId;
+    private OpenCDXIdentifier workspaceId;
 
     @CreatedDate
     private Instant created;
@@ -71,8 +71,8 @@ public class OpenCDXAnalysisEngineModel {
         }
 
         this.name = analysisEngine.getName();
-        this.organizationId = analysisEngine.getOrganizationId();
-        this.workspaceId = analysisEngine.getWorkspaceId();
+        this.organizationId = new OpenCDXIdentifier(analysisEngine.getOrganizationId());
+        this.workspaceId = new OpenCDXIdentifier(analysisEngine.getWorkspaceId());
 
         if (analysisEngine.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -104,8 +104,8 @@ public class OpenCDXAnalysisEngineModel {
         }
 
         builder.setName(this.name);
-        builder.setOrganizationId(this.organizationId);
-        builder.setWorkspaceId(this.workspaceId);
+        builder.setOrganizationId(this.organizationId.toHexString());
+        builder.setWorkspaceId(this.workspaceId.toHexString());
 
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
@@ -137,8 +137,8 @@ public class OpenCDXAnalysisEngineModel {
     public OpenCDXAnalysisEngineModel update(AnalysisEngine analysisEngine) {
         this.id = new OpenCDXIdentifier(analysisEngine.getId());
         this.name = analysisEngine.getName();
-        this.organizationId = analysisEngine.getOrganizationId();
-        this.workspaceId = analysisEngine.getWorkspaceId();
+        this.organizationId = new OpenCDXIdentifier(analysisEngine.getOrganizationId());
+        this.workspaceId = new OpenCDXIdentifier(analysisEngine.getWorkspaceId());
 
         return this;
     }

@@ -92,8 +92,8 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
                 .thenAnswer(invocation -> Optional.of(OpenCDXAnalysisEngineModel.builder()
                         .id(invocation.getArgument(0))
                         .name("default")
-                        .organizationId(OpenCDXIdentifier.get().toHexString())
-                        .workspaceId(OpenCDXIdentifier.get().toHexString())
+                        .organizationId(OpenCDXIdentifier.get())
+                        .workspaceId(OpenCDXIdentifier.get())
                         .build()));
 
         Mockito.when(this.openCDXAnalysisEngineRepository.findAllByOrganizationId(
@@ -101,8 +101,8 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(OpenCDXIdentifier.get())
-                                .organizationId((OpenCDXIdentifier.get().toHexString()))
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId((OpenCDXIdentifier.get()))
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("default")
                                 .build()),
                         PageRequest.of(1, 10),
@@ -137,6 +137,7 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
                 CreateAnalysisEngineRequest.newBuilder()
                         .setAnalysisEngine(AnalysisEngine.newBuilder()
                                 .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);
@@ -164,6 +165,7 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
                         .setAnalysisEngine(AnalysisEngine.newBuilder()
                                 .setId(OpenCDXIdentifier.get().toHexString())
                                 .setOrganizationId(OpenCDXIdentifier.get().toHexString())
+                                .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                 .build())
                         .build(),
                 responseObserver);

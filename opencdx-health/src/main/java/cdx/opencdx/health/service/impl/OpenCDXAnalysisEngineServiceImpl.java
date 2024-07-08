@@ -55,7 +55,6 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
-    private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXAnalysisEngineRepository openCDXAnalysisEngineRepository;
 
     /**
@@ -75,7 +74,6 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
-        this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXAnalysisEngineRepository = openCDXAnalysisEngineRepository;
     }
 
@@ -207,9 +205,8 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
                     request.getPagination().getPageNumber(),
                     request.getPagination().getPageSize());
         }
-        Page<OpenCDXAnalysisEngineModel> all = Page.empty();
-
-        all = this.openCDXAnalysisEngineRepository.findAllByOrganizationId(request.getOrganizationId(), pageable);
+        Page<OpenCDXAnalysisEngineModel> all =
+                this.openCDXAnalysisEngineRepository.findAllByOrganizationId(request.getOrganizationId(), pageable);
 
         log.trace("Found Analysis Engine in database");
 

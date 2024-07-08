@@ -109,8 +109,8 @@ class OpenCDXAnalysisEngineRestControllerTest {
                         OpenCDXAnalysisEngineModel argument = invocation.getArgument(0);
                         if (argument.getId() == null) {
                             argument.setId(OpenCDXIdentifier.get());
-                            argument.setOrganizationId(OpenCDXIdentifier.get().toHexString());
-                            argument.setWorkspaceId(OpenCDXIdentifier.get().toHexString());
+                            argument.setOrganizationId(OpenCDXIdentifier.get());
+                            argument.setWorkspaceId(OpenCDXIdentifier.get());
                         }
                         return argument;
                     }
@@ -123,8 +123,8 @@ class OpenCDXAnalysisEngineRestControllerTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(argument)
-                                .organizationId(OpenCDXIdentifier.get().toHexString())
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId(OpenCDXIdentifier.get())
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("default")
                                 .build());
                     }
@@ -134,8 +134,8 @@ class OpenCDXAnalysisEngineRestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(OpenCDXIdentifier.get())
-                                .organizationId(OpenCDXIdentifier.get().toHexString())
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId(OpenCDXIdentifier.get())
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("default")
                                 .build()),
                         PageRequest.of(1, 10),
@@ -185,6 +185,7 @@ class OpenCDXAnalysisEngineRestControllerTest {
                                 .setAnalysisEngine(AnalysisEngine.newBuilder()
                                         .setOrganizationId(
                                                 OpenCDXIdentifier.get().toHexString())
+                                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -201,6 +202,7 @@ class OpenCDXAnalysisEngineRestControllerTest {
                                 .setAnalysisEngine(AnalysisEngine.newBuilder()
                                         .setOrganizationId(
                                                 OpenCDXIdentifier.get().toHexString())
+                                        .setWorkspaceId(OpenCDXIdentifier.get().toHexString())
                                         .setId(OpenCDXIdentifier.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

@@ -95,8 +95,8 @@ class OpenCDXAnalysisEngineServiceImplTest {
                         OpenCDXIdentifier argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(argument)
-                                .organizationId(OpenCDXIdentifier.get().toHexString())
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId(OpenCDXIdentifier.get())
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("defaultName")
                                 .build());
                     }
@@ -106,8 +106,8 @@ class OpenCDXAnalysisEngineServiceImplTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(OpenCDXIdentifier.get())
-                                .organizationId((OpenCDXIdentifier.get().toHexString()))
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId((OpenCDXIdentifier.get()))
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("default")
                                 .build()),
                         PageRequest.of(1, 10),
@@ -225,8 +225,8 @@ class OpenCDXAnalysisEngineServiceImplTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXAnalysisEngineModel.builder()
                                 .id(OpenCDXIdentifier.get())
-                                .organizationId(OpenCDXIdentifier.get().toHexString())
-                                .workspaceId(OpenCDXIdentifier.get().toHexString())
+                                .organizationId(OpenCDXIdentifier.get())
+                                .workspaceId(OpenCDXIdentifier.get())
                                 .name("defaultName")
                                 .build()),
                         PageRequest.of(1, 10),
