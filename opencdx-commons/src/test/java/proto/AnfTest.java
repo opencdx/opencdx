@@ -21,10 +21,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 @Slf4j
 class AnfTest {
@@ -50,29 +51,32 @@ class AnfTest {
     @Test
     void testAnfStatement() throws JsonProcessingException {
         ANFStatement anfStatement = ANFStatement.newBuilder()
+                .setId("UUID")
                 .setTime(Measure.newBuilder()
-                        .setUpperBound("100")
-                        .setLowerBound("0.0")
+                        .setUpperBound("1562631151")
+                        .setLowerBound("1562631151")
                         .setIncludeLowerBound(true)
                         .setIncludeUpperBound(true)
-                        .setResolution("1.0")
-                        .setSemantic("expression")
+                        .setResolution("seconds")
+                        .setSemantic("Seconds | 1562631151")
                         .build())
                 .setSubjectOfRecord(Participant.newBuilder()
-                        .setId(OpenCDXIdentifier.get().toHexString())
+                        .setId("UUID (PatientId)")
+                        .setCode("UUID (EncounterID)")
                         .build())
                 .addAllAuthors(List.of(Practitioner.newBuilder()
                         .setPractitionerValue("practitioner")
                         .setCode("expression")
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build()))
-                .setSubjectOfInformation("expression")
+                .setSubjectOfInformation("UUID  (PatientId)")
                 .addAllAssociatedStatement(List.of(AssociatedStatement.newBuilder()
                         .setSemantic("Associated description")
                         .build()))
-                .setTopic("Topic")
-                .setType("Type")
+                .setTopic("255585003 |Malignant neoplasm of liver |finding site|624008003 |Bone structure| ")
+                .setType("PERFORMANCE")
                 .setPerformanceCircumstance(PerformanceCircumstance.newBuilder()
+                        .addAllPurpose(List.of("purpose"))
                         .setStatus(
                                 "{\"expressionType\":\"simple\",\"expressionLanguage\":\"local\",\"expressionValue\":\"performed\",\"expressionDescription\":\"Measurement action has been performed.\"}")
                         .setHealthRisk("${{rules.engine.calculated[circumstanceChoice.result]}}")
@@ -80,7 +84,7 @@ class AnfTest {
                                 .setLowerBound("90")
                                 .setIncludeLowerBound(false)
                                 .setSemantic("")
-                                .setResolution("{{REPLACE_3079919224534}}")
+                                .setResolution("mmHg / cm / in / kg / m / s / L / % / etc.")
                                 .setUpperBound("120")
                                 .setIncludeUpperBound(false)
                                 .build())
