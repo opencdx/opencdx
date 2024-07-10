@@ -931,7 +931,7 @@ message Classification {
   /*
    * The Diagnosis of the classification.
    */
-    DiagnosisCode diagnosis = 14;
+  DiagnosisCode diagnosis = 14;
 }
 
 /*
@@ -2831,7 +2831,7 @@ message DoctorNotes {
  *
  */
 message Routine {
-  
+
 
   /*
    * Holds the unique identifier assigned to each routine process
@@ -5421,25 +5421,29 @@ message MedicalRecord {
    */
   repeated TemperatureMeasurement temperatureMeasurement = 17;
   /*
-     * Timestamp indicating when the record was created.
-     */
-  optional google.protobuf.Timestamp created = 18;
+   * List of medical conditions.
+   */
+  repeated Diagnosis medicalConditions = 18;
+  /*
+  * List of Medical histories
+  */
+  repeated MedicalHistory medicalHistory = 19;
+  /*
+   * Timestamp indicating when the record was created.
+   */
+  optional google.protobuf.Timestamp created = 20;
   /*
    * Timestamp indicating when the record was last modified.
    */
-  optional google.protobuf.Timestamp modified = 19;
+  optional google.protobuf.Timestamp modified = 21;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 20;
+  optional string creator = 22;
   /*
    * Identifier of the last modifier of this record.
    */
-  optional string modifier = 21;
-  /*
-   * List of medical conditions.
-   */
-  repeated Diagnosis medicalConditions = 22;
+  optional string modifier = 23;
 }
 
 /*
@@ -5552,4 +5556,51 @@ message MedicalHistory {
    * The user who last modified the Message.
    */
   optional string modifier = 12;
+}
+/**
+ * The request to create AnalysisEngine
+ */
+message AnalysisEngine {
+  /**
+   * The id of the Analysis Engine
+   */
+  optional string id = 1;
+  /**
+   * The name of the Analysis Engine
+   */
+  string name = 2;
+  /**
+   * Identifier of of the Analysis Engine
+   */
+  string identifier = 3;
+  /*
+   * ID of the organization this Analysis Engine is assigned to.
+   */
+  string organization_id = 4;
+  /*
+   * ID denoting the workspace of the organization is assigned to.
+   */
+  string workspace_id = 5;
+
+  /*
+   * The timestamp capturing when this Analysis Engine was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+
+  /*
+   * The timestamp capturing any modifications to this Analysis Engine.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+
+  /*
+   * The ID of the user who initially created this Analysis Engine.
+   * Another optional field.
+   */
+  optional string creator = 8;
+
+  /*
+   * The ID of the user who made the most recent modifications this Analysis Engine.
+   */
+  optional string modifier = 9;
 }

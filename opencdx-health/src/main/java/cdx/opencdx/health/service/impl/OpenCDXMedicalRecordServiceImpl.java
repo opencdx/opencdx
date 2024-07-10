@@ -242,6 +242,9 @@ public class OpenCDXMedicalRecordServiceImpl implements OpenCDXMedicalRecordServ
                 .connectedTestList(medicalRecord.getConnectedTestList().stream()
                         .map(OpenCDXConnectedTestModel::new)
                         .toList())
+                .medicalHistoryList(medicalRecord.getMedicalHistoryList().stream()
+                        .map(OpenCDXMedicalHistoryModel::new)
+                        .toList())
                 .build();
         medicalRecordModel = openCDXMedicalRecordRepository.save(medicalRecordModel);
         try {
