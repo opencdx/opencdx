@@ -931,7 +931,7 @@ message Classification {
   /*
    * The Diagnosis of the classification.
    */
-    DiagnosisCode diagnosis = 14;
+  DiagnosisCode diagnosis = 14;
 }
 
 /*
@@ -2831,7 +2831,7 @@ message DoctorNotes {
  *
  */
 message Routine {
-  
+
 
   /*
    * Holds the unique identifier assigned to each routine process
@@ -5421,25 +5421,29 @@ message MedicalRecord {
    */
   repeated TemperatureMeasurement temperatureMeasurement = 17;
   /*
-     * Timestamp indicating when the record was created.
-     */
-  optional google.protobuf.Timestamp created = 18;
+   * List of medical conditions.
+   */
+  repeated Diagnosis medicalConditions = 18;
+  /*
+  * List of Medical histories
+  */
+  repeated MedicalHistory medicalHistory = 19;
+  /*
+   * Timestamp indicating when the record was created.
+   */
+  optional google.protobuf.Timestamp created = 20;
   /*
    * Timestamp indicating when the record was last modified.
    */
-  optional google.protobuf.Timestamp modified = 19;
+  optional google.protobuf.Timestamp modified = 21;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 20;
+  optional string creator = 22;
   /*
    * Identifier of the last modifier of this record.
    */
-  optional string modifier = 21;
-  /*
-   * List of medical conditions.
-   */
-  repeated Diagnosis medicalConditions = 22;
+  optional string modifier = 23;
 }
 
 /*
