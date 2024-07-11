@@ -67,37 +67,40 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
     private final OpenCDXMedicalConditionsService openCDXMedicalConditionsService;
     private final OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository;
     private final OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService;
+    private final OpenCDXMedicalHistoryService openCDXMedicalHistoryService;
+    private final OpenCDXMedicalHistoryRepository openCDXMedicalHistoryRepository;
 
     /**
      * Method to processing medical record.
-     * @param openCDXProfileRepository profile repository.
-     * @param openCDXIAMProfileService profile service.
-     * @param openCDXMedicationRepository medication repository.
-     * @param openCDXMedicationService medication service.
+     *
+     * @param openCDXProfileRepository                  profile repository.
+     * @param openCDXIAMProfileService                  profile service.
+     * @param openCDXMedicationRepository               medication repository.
+     * @param openCDXMedicationService                  medication service.
      * @param openCDXMedicationAdministrationRepository medication administration repository.
-     * @param openCDXMedicationAdministrationService medication administration service.
-     * @param openCDXAllergyRepository allergy repository.
-     * @param openCDXAllergyService allergy service.
-     * @param openCDXDoctorNotesRepository doctor notes repository.
-     * @param openCDXDoctorNotesService doctor notes service.
-     * @param openCDXVaccineRepository vaccine repository.
-     * @param openCDXVaccineService vaccine service.
-     * @param openCDXHeightMeasurementRepository height measurement repository.
-     * @param openCDXHeightMeasurementService height measurement service.
-     * @param openCDXWeightMeasurementRepository weight measurement repository.
-     * @param openCDXWeightMeasurementService weight measurement service.
-     * @param openCDXBPMRepository bpm repository.
-     * @param openCDXBPMService bpm service.
-     * @param openCDXHeartRPMRepository heartRPM repository.
-     * @param openCDXHeartRPMService heartRPM service.
-     * @param openCDXMedicalRecordRepository medical record repository.
-     * @param openCDXMedicalRecordService medical record service.
-     * @param openCDXConnectedTestRepository connected test repository.
-     * @param openCDXConnectedTestService connected test service.
-     * @param openCDXMedicalConditionsRepository medical condition repository.
-     * @param openCDXMedicalConditionsService medical condition service.
-     * @param openCDXTemperatureMeasurementRepository temperature measurement repository.
-     * @param openCDXTemperatureMeasurementService temperature measurement service.
+     * @param openCDXMedicationAdministrationService    medication administration service.
+     * @param openCDXAllergyRepository                  allergy repository.
+     * @param openCDXAllergyService                     allergy service.
+     * @param openCDXDoctorNotesRepository              doctor notes repository.
+     * @param openCDXDoctorNotesService                 doctor notes service.
+     * @param openCDXVaccineRepository                  vaccine repository.
+     * @param openCDXVaccineService                     vaccine service.
+     * @param openCDXHeightMeasurementRepository        height measurement repository.
+     * @param openCDXHeightMeasurementService           height measurement service.
+     * @param openCDXWeightMeasurementRepository        weight measurement repository.
+     * @param openCDXWeightMeasurementService           weight measurement service.
+     * @param openCDXBPMRepository                      bpm repository.
+     * @param openCDXBPMService                         bpm service.
+     * @param openCDXHeartRPMRepository                 heartRPM repository.
+     * @param openCDXHeartRPMService                    heartRPM service.
+     * @param openCDXMedicalRecordRepository            medical record repository.
+     * @param openCDXMedicalRecordService               medical record service.
+     * @param openCDXConnectedTestRepository            connected test repository.
+     * @param openCDXConnectedTestService               connected test service.
+     * @param openCDXMedicalConditionsRepository        medical condition repository.
+     * @param openCDXMedicalConditionsService           medical condition service.
+     * @param openCDXTemperatureMeasurementRepository   temperature measurement repository.
+     * @param openCDXTemperatureMeasurementService      temperature measurement service.
      */
     public OpenCDXMedicalRecordProcessServiceImpl(
             OpenCDXProfileRepository openCDXProfileRepository,
@@ -127,7 +130,9 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
             OpenCDXMedicalConditionsRepository openCDXMedicalConditionsRepository,
             OpenCDXMedicalConditionsService openCDXMedicalConditionsService,
             OpenCDXTemperatureMeasurementRepository openCDXTemperatureMeasurementRepository,
-            OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService) {
+            OpenCDXTemperatureMeasurementService openCDXTemperatureMeasurementService,
+            OpenCDXMedicalHistoryService openCDXMedicalHistoryService,
+            OpenCDXMedicalHistoryRepository openCDXMedicalHistoryRepository) {
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXIAMProfileService = openCDXIAMProfileService;
         this.openCDXMedicalRecordRepository = openCDXMedicalRecordRepository;
@@ -155,6 +160,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
         this.openCDXMedicalConditionsService = openCDXMedicalConditionsService;
         this.openCDXTemperatureMeasurementRepository = openCDXTemperatureMeasurementRepository;
         this.openCDXTemperatureMeasurementService = openCDXTemperatureMeasurementService;
+        this.openCDXMedicalHistoryService = openCDXMedicalHistoryService;
+        this.openCDXMedicalHistoryRepository = openCDXMedicalHistoryRepository;
     }
 
     @Override
@@ -250,6 +257,13 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
                                 medicalRecordModel.getUserProfile().getId()),
                         pageable)
                 .toList());
+        medicalRecordModel.setMedicalHistoryList(openCDXMedicalHistoryRepository
+                .findAllByPatientId(
+                        new OpenCDXIdentifier(
+                                medicalRecordModel.getUserProfile().getId()),
+                        pageable)
+                .toList());
+
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
 
         openCDXMedicalRecordRepository.save(medicalRecordModel);
@@ -389,6 +403,19 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
                         CreateTemperatureMeasurementRequest.newBuilder()
                                 .setTemperatureMeasurement(temperatureMeasurement.getProtobufMessage())
                                 .build());
+            }
+        });
+
+        medicalRecordModel.getMedicalHistoryList().forEach(medicalHistory -> {
+            if (openCDXMedicalHistoryRepository.existsById(
+                    new OpenCDXIdentifier(medicalRecordModel.getUserProfile().getId()))) {
+                openCDXMedicalHistoryService.updateMedicalHistory(UpdateMedicalHistoryRequest.newBuilder()
+                        .setMedicalHistory(medicalHistory.getProtobufMessage())
+                        .build());
+            } else {
+                openCDXMedicalHistoryService.createMedicalHistory(CreateMedicalHistoryRequest.newBuilder()
+                        .setMedicalHistory(medicalHistory.getProtobufMessage())
+                        .build());
             }
         });
         medicalRecordModel.setStatus(MedicalRecordStatus.MEDICAL_RECORD_STATUS_COMPLETE);
