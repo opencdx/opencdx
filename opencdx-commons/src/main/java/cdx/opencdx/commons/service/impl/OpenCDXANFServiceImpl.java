@@ -22,13 +22,12 @@ import cdx.opencdx.commons.service.OpenCDXANFService;
 import cdx.opencdx.commons.service.OpenCDXAdrMessageService;
 import cdx.opencdx.grpc.data.*;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -79,7 +78,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         return anfStatements;
     }
 
-    @SuppressWarnings("java:S3776")
+    @SuppressWarnings({"java:S3776", "java:S1181"})
     private void sendToAdr(List<ANFStatement> anfStatements, OpenCDXIdentifier patienId) {
         log.info("Sending {} ANF statements to ADR", anfStatements.size());
         Instant now = Instant.now();
@@ -170,7 +169,13 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                             return anfStatement;
                         }
                     })
-                    .forEach(openCDXAdrMessageService::sendAdrMessage);
+                    .forEach(item -> {
+                        try {
+                            openCDXAdrMessageService.postANFStatement(item);
+                        } catch (Throwable throwable) {
+                            log.warn("Failed to send ANF statement to ADR", throwable);
+                        }
+                    });
             log.info("Sent {} ANF statements to ADR", anfStatements.size());
         } else {
             log.error("Patient with id {} not found", patienId);
