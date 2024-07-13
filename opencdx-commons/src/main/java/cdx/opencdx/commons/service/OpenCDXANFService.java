@@ -19,7 +19,16 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Questionnaire;
 import java.util.List;
 
+/**
+ * This service is for processing ANF questionnaires.
+ */
 public interface OpenCDXANFService {
 
+    /**
+     * This method processes a list of ANF questionnaires.
+     *
+     * @param questionnaires The list of ANF questionnaires to be processed.
+     * @param patienId The patient identifier.
+     */
     void processQuestionnaires(List<Questionnaire> questionnaires, OpenCDXIdentifier patienId);
 }

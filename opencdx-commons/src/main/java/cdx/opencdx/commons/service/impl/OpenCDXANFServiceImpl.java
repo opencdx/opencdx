@@ -22,13 +22,17 @@ import cdx.opencdx.commons.service.OpenCDXANFService;
 import cdx.opencdx.commons.service.OpenCDXAdrMessageService;
 import cdx.opencdx.grpc.data.*;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
+/**
+ * This service is for processing ANF questionnaires.
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -36,6 +40,12 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     private final OpenCDXAdrMessageService openCDXAdrMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
+    /**
+     * Constructor.
+     *
+     * @param openCDXAdrMessageService The OpenCDX ADR message service.
+     * @param openCDXProfileRepository The OpenCDX profile repository.
+     */
     public OpenCDXANFServiceImpl(
             OpenCDXAdrMessageService openCDXAdrMessageService, OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXAdrMessageService = openCDXAdrMessageService;

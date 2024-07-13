@@ -31,6 +31,7 @@ public interface OpenCDXAdrMessageService {
      * This method sends an ANFS Statement message to the OpenCDX ADR.
      *
      * @param anfStatement The ANFS Statement message to be sent.
+     * @return The response from the OpenCDX ADR.
      */
     @PostMapping(value = "/anf", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> postANFStatement(@RequestBody ANFStatement anfStatement);
