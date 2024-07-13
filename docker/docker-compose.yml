@@ -1,4 +1,7 @@
 version: '3'
+networks:
+  opencdx-network:
+    external: true
 services:
   gateway:
     deploy:
