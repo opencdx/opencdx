@@ -17,7 +17,7 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.service.iam.*;
 
 /**
  * Interface for communicating with the Temperature service.
@@ -60,7 +60,7 @@ public interface OpenCDXAnalysisEngineClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    SuccessResponse deleteAnalysisEngine(
+    DeleteAnalysisEngineResponse deleteAnalysisEngine(
             DeleteAnalysisEngineRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 

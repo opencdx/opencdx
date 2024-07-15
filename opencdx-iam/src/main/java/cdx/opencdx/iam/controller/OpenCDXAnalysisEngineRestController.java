@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.controller;
+package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.service.health.*;
-import cdx.opencdx.health.service.OpenCDXAnalysisEngineService;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.iam.service.OpenCDXAnalysisEngineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -83,7 +83,7 @@ public class OpenCDXAnalysisEngineRestController {
      * @return Response with the status.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<SuccessResponse> deleteAnalysisEngine(@PathVariable String id) {
+    public ResponseEntity<DeleteAnalysisEngineResponse> deleteAnalysisEngine(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.openCDXAnalysisEngineService.deleteAnalysisEngine(
                         DeleteAnalysisEngineRequest.newBuilder().setId(id).build()),

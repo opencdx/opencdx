@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.controller;
+package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.service.health.*;
-import cdx.opencdx.health.service.OpenCDXAnalysisEngineService;
+import cdx.opencdx.grpc.service.health.SuccessResponse;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.iam.service.OpenCDXAnalysisEngineService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -66,13 +67,20 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
         responseObserver.onCompleted();
     }
 
+    /**
+     * <pre>
+     * RPC to remove AnalysisEngine
+     * </pre>
+     *
+     * @param request
+     * @param responseObserver
+     */
     @Override
-    @Secured({})
-    public void deleteAnalysisEngine(
-            DeleteAnalysisEngineRequest request, StreamObserver<SuccessResponse> responseObserver) {
+    public void deleteAnalysisEngine(DeleteAnalysisEngineRequest request, StreamObserver<DeleteAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.deleteAnalysisEngine(request));
         responseObserver.onCompleted();
     }
+
 
     @Override
     @Secured({})

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.service;
+package cdx.opencdx.iam.service;
 
-import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.service.iam.*;
 
 /**
  * Interface for the OpenCDXAnalysisEngineService
@@ -45,9 +45,9 @@ public interface OpenCDXAnalysisEngineService {
     /**
      * Method to delete AnalysisEngine
      * @param request DeleteAnalysisEngineRequest for measurement.
-     * @return SuccessResponse with measurement.
+     * @return DeleteAnalysisEngineResponse with measurement.
      */
-    SuccessResponse deleteAnalysisEngine(DeleteAnalysisEngineRequest request);
+    DeleteAnalysisEngineResponse deleteAnalysisEngine(DeleteAnalysisEngineRequest request);
 
     /**
      * Method to list AnalysisEngines

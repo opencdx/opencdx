@@ -18,7 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXAnalysisEngineClient;
-import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.service.iam.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -140,7 +140,7 @@ public class OpenCDXAnalysisEngineClientImpl implements OpenCDXAnalysisEngineCli
      * @return Message response.
      */
     @Override
-    public SuccessResponse deleteAnalysisEngine(
+    public DeleteAnalysisEngineResponse deleteAnalysisEngine(
             DeleteAnalysisEngineRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.controller;
+package cdx.opencdx.iam.controller;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -22,15 +22,13 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.data.AnalysisEngine;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.health.*;
-import cdx.opencdx.health.model.OpenCDXAnalysisEngineModel;
-import cdx.opencdx.health.repository.OpenCDXAnalysisEngineRepository;
-import cdx.opencdx.health.service.OpenCDXAnalysisEngineService;
-import cdx.opencdx.health.service.impl.OpenCDXAnalysisEngineServiceImpl;
+import cdx.opencdx.grpc.service.iam.*;
+import cdx.opencdx.iam.model.OpenCDXAnalysisEngineModel;
+import cdx.opencdx.iam.repository.OpenCDXAnalysisEngineRepository;
+import cdx.opencdx.iam.service.OpenCDXAnalysisEngineService;
+import cdx.opencdx.iam.service.impl.OpenCDXAnalysisEngineServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +42,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -175,13 +176,13 @@ class OpenCDXAnalysisEngineGrpcControllerTest {
 
     @Test
     void deleteAnalysisEngine() {
-        StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<DeleteAnalysisEngineResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXAnalysisEngineGrpcController.deleteAnalysisEngine(
                 DeleteAnalysisEngineRequest.newBuilder()
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build(),
                 responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SuccessResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeleteAnalysisEngineResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 

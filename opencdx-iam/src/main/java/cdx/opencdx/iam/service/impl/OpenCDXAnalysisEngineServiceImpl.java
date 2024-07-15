@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.service.impl;
+package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -23,21 +23,22 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.data.Pagination;
-import cdx.opencdx.grpc.service.health.*;
+import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
-import cdx.opencdx.health.model.OpenCDXAnalysisEngineModel;
-import cdx.opencdx.health.repository.OpenCDXAnalysisEngineRepository;
-import cdx.opencdx.health.service.OpenCDXAnalysisEngineService;
+import cdx.opencdx.iam.model.OpenCDXAnalysisEngineModel;
+import cdx.opencdx.iam.repository.OpenCDXAnalysisEngineRepository;
+import cdx.opencdx.iam.service.OpenCDXAnalysisEngineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service Implementation for the Temperature Measurement Service
@@ -163,7 +164,7 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
     }
 
     @Override
-    public SuccessResponse deleteAnalysisEngine(DeleteAnalysisEngineRequest request) {
+    public DeleteAnalysisEngineResponse deleteAnalysisEngine(DeleteAnalysisEngineRequest request) {
         OpenCDXAnalysisEngineModel model = this.openCDXAnalysisEngineRepository
                 .findById(new OpenCDXIdentifier(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_ANALYSIS_ENGINE + request.getId()));
@@ -187,7 +188,7 @@ public class OpenCDXAnalysisEngineServiceImpl implements OpenCDXAnalysisEngineSe
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        return SuccessResponse.newBuilder().setSuccess(true).build();
+        return DeleteAnalysisEngineResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
