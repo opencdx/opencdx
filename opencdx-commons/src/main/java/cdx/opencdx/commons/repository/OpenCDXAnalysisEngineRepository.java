@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.repository;
+package cdx.opencdx.commons.repository;
 
 import cdx.opencdx.commons.data.OpenCDXRepository;
-import cdx.opencdx.iam.model.OpenCDXAnalysisEngineModel;
+import cdx.opencdx.commons.model.OpenCDXAnalysisEngineModel;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
