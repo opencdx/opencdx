@@ -1,0 +1,17 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: communications-batch
+
+queue:
+  priority:
+    high: 0 * * ? * *
+    medium: 0 0 * ? * *
+    low: 0 0 */3 ? * *
+
+mongock:
+  change-logs-scan-package: cdx.opencdx.communications-batch.changelog
+  max-waiting-for-lock-minutes: 3
+  lock-acquired-for-minutes: 2
+  max-tries: 5
+  service-identifier: ${spring.application.name}
