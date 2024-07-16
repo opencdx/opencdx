@@ -13,6 +13,8 @@ opencdx:
       enabled: true
     logistics:
       enabled: true
+  engines:
+    default: classificationEngineDefault
 
 mongock:
   change-logs-scan-package: cdx.opencdx.classification.changelog

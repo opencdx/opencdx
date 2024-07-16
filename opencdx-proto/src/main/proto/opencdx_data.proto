@@ -5537,3 +5537,50 @@ message MedicalHistory {
    */
   optional string modifier = 12;
 }
+   /**
+    * The request to create AnalysisEngine
+    */
+message AnalysisEngine {
+  /**
+   * The id of the Analysis Engine
+   */
+  optional string id = 1;
+  /**
+   * The name of the Analysis Engine
+   */
+  string name = 2;
+  /**
+   * Identifier of of the Analysis Engine
+   */
+  string identifier = 3;
+  /*
+   * ID of the organization this Analysis Engine is assigned to.
+   */
+  string organization_id = 4;
+  /*
+   * ID denoting the workspace of the organization is assigned to.
+   */
+  string workspace_id = 5;
+
+  /*
+   * The timestamp capturing when this Analysis Engine was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+
+  /*
+   * The timestamp capturing any modifications to this Analysis Engine.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+
+  /*
+   * The ID of the user who initially created this Analysis Engine.
+   * Another optional field.
+   */
+  optional string creator = 8;
+
+  /*
+   * The ID of the user who made the most recent modifications this Analysis Engine.
+   */
+  optional string modifier = 9;
+}

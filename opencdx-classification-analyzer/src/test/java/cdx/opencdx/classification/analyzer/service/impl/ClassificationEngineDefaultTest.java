@@ -44,7 +44,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 @SuppressWarnings("java:S5976")
-class OpenCDXAnalysisEngineImplTest {
+class ClassificationEngineDefaultTest {
 
     OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     OpenCDXTestCaseClient openCDXTestCaseClient;
@@ -58,7 +58,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         Assertions.assertNotNull(engine.getRuleSets(request));
     }
@@ -70,7 +70,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -119,7 +119,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -176,7 +176,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -224,7 +224,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -272,7 +272,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -327,7 +327,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         UserQuestionnaireData userQuestionnaireData = UserQuestionnaireData.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -382,7 +382,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -475,7 +475,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -568,7 +568,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -661,7 +661,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -754,7 +754,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -847,7 +847,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
@@ -947,7 +947,7 @@ class OpenCDXAnalysisEngineImplTest {
         this.openCDXMediaUpDownClient = Mockito.mock(OpenCDXMediaUpDownClient.class);
         this.knowledgeService = Mockito.mock(KnowledgeService.class);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        OpenCDXAnalysisEngineImpl engine = new OpenCDXAnalysisEngineImpl(
+        ClassificationEngineDefault engine = new ClassificationEngineDefault(
                 openCDXMediaUpDownClient, openCDXTestCaseClient, openCDXCurrentUser, knowledgeService);
         QuestionnaireItem questionnaireItem = QuestionnaireItem.newBuilder()
                 .setLinkId("q1")
