@@ -33,10 +33,6 @@ import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
 import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
 import io.micrometer.observation.annotation.Observed;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
@@ -48,6 +44,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
 /**
  * Demonstration implementation of the OpenCDXAnalysisEngine class. This class is responsible for analyzing the patient's questionnaire and connected test data,
  * and returning the classification response. This class can be backed by rules engines, machine learning models, or any other classification engine. This is
@@ -56,7 +57,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
+public class ClassificationEngineDefault implements OpenCDXAnalysisEngine {
 
     private static final String FILE_NAME = "fileName: {}";
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
@@ -78,7 +79,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * @param openCDXCurrentUser the OpenCDXCurrentUser object to get the current user
      * @param knowledgeService the KnowledgeService object to create rules knowledge
      */
-    public OpenCDXAnalysisEngineImpl(
+    public ClassificationEngineDefault(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXTestCaseClient openCDXTestCaseClient,
             OpenCDXCurrentUser openCDXCurrentUser,

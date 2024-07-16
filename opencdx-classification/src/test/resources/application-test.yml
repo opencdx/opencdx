@@ -74,3 +74,5 @@ opencdx:
       server: logistics
       port: 9090
       enabled: true
+  engines:
+    default: classificationEngineDefault
