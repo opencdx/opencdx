@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+/**
+ * Factory bean for OpenCDXClassificationEngine
+ */
 @Slf4j
 @Component
 @ConfigurationProperties("opencdx")
@@ -20,8 +23,10 @@ public class OpenCDXClassificationEngineFactoryBean {
 
     private final ApplicationContext applicationContext;
 
+
     /**
-     * Default Constructor
+     * Constructor using the ApplicationContext
+     * @param applicationContext the application context
      */
     public OpenCDXClassificationEngineFactoryBean(ApplicationContext applicationContext) {
         // Explicit declaration to prevent this class from inadvertently being made instantiable

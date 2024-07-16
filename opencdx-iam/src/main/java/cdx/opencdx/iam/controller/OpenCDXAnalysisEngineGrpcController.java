@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.grpc.service.health.SuccessResponse;
 import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.service.OpenCDXAnalysisEngineService;
 import io.grpc.stub.StreamObserver;
@@ -67,19 +66,12 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
         responseObserver.onCompleted();
     }
 
-    /**
-     * <pre>
-     * RPC to remove AnalysisEngine
-     * </pre>
-     *
-     * @param request
-     * @param responseObserver
-     */
     @Override
     public void deleteAnalysisEngine(DeleteAnalysisEngineRequest request, StreamObserver<DeleteAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.deleteAnalysisEngine(request));
         responseObserver.onCompleted();
     }
+
 
 
     @Override

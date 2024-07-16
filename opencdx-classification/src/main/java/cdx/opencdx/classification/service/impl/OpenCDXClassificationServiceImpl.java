@@ -95,6 +95,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
      * @param openCDXANFService service for ANF
+     * @param openCDXClassificationEngineFactoryBean factory bean for classification engine
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
