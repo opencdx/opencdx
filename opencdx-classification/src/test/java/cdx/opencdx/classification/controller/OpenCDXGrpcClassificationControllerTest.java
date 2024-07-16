@@ -284,8 +284,8 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXClassificationEngineFactoryBean,
                 openCDXANFService,
+                openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
