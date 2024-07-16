@@ -73,7 +73,7 @@ class OpenCDXGrpcClassificationControllerTest {
     OpenCDXOrderMessageService openCDXOrderMessageService;
 
     @Autowired
-    OpenCDXAdrMessageService openCDXAdrMessageService;
+    OpenCDXANFService openCDXANFService;
 
     @Autowired
     OpenCDXClassificationEngineFactoryBean openCDXClassificationEngineFactoryBean;
@@ -284,8 +284,8 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
                 openCDXClassificationEngineFactoryBean,
+                openCDXANFService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);

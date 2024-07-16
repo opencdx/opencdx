@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.services;
+package cdx.opencdx.commons.service;
 
 import io.grpc.Server;
 import io.grpc.inprocess.InProcessServerBuilder;

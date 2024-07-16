@@ -22,6 +22,10 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXClassificationModel;
+import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -86,7 +90,7 @@ class OpenCDXClassificationServiceImplTest {
     OpenCDXAuditService openCDXAuditService;
 
     @Autowired
-    OpenCDXAdrMessageService openCDXAdrMessageService;
+    OpenCDXANFService openCDXANFService;
 
     @Autowired
     OpenCDXOrderMessageService openCDXOrderMessageService;
@@ -358,7 +362,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
@@ -613,7 +617,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
@@ -768,7 +772,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
@@ -929,7 +933,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
                 openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
