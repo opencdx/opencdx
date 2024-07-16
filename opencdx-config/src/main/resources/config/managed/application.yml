@@ -90,6 +90,18 @@ spring:
             location: file:/certs/opencdx-keystore.p12
             password: ${keystore.password}
             keystore.type: PKCS12
+  cloud:
+    openfeign:
+      httpclient:
+        disable-ssl-validation: true
+      client:
+        config:
+          adrService:
+            url: http://adr:8085
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+            micrometer.enabled: true
   cache:
     type: generic
 # Enable SSL for REST

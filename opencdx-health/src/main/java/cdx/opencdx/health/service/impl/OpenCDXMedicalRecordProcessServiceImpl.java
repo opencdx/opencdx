@@ -25,11 +25,12 @@ import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.*;
 import cdx.opencdx.health.service.*;
 import io.micrometer.observation.annotation.Observed;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Interface for the OpenCDXMedicalRecordProcessService
@@ -101,6 +102,8 @@ public class OpenCDXMedicalRecordProcessServiceImpl implements OpenCDXMedicalRec
      * @param openCDXMedicalConditionsService           medical condition service.
      * @param openCDXTemperatureMeasurementRepository   temperature measurement repository.
      * @param openCDXTemperatureMeasurementService      temperature measurement service.
+     * @param openCDXMedicalHistoryService              medical history service.
+     * @param openCDXMedicalHistoryRepository           medical history repository.
      */
     public OpenCDXMedicalRecordProcessServiceImpl(
             OpenCDXProfileRepository openCDXProfileRepository,

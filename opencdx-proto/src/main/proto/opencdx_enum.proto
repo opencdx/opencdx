@@ -1147,20 +1147,6 @@ enum Status {
    */
   STATUS_DELETED = 2;
 }
-/*
- * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified
- */
-enum CircumstancePriority {
-
-  /*
-   * Indicates that the requested action is of normal priority and needs to be carried out when available.
-   */
-  ROUTINE = 0;
-  /*
-   * Indicates that the requested action is of high priority and needs to be carried out immediately.
-   */
-  STAT = 1;
-}
 
 /*
  * Describes the specific type of Audit event being recorded.
