@@ -21,10 +21,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 @Slf4j
 class AnfTest {
@@ -57,32 +58,32 @@ class AnfTest {
                         .setIncludeLowerBound(true)
                         .setIncludeUpperBound(true)
                         .setResolution("seconds")
-                        .setSemantic("Seconds | 1562631151")
+                        .setSemantic(LogicalExpression.newBuilder().setExpression("Seconds | 1562631151"))
                         .build())
                 .setSubjectOfRecord(Participant.newBuilder()
                         .setId("UUID (PatientId)")
-                        .setCode("UUID (EncounterID)")
+                        .setCode(LogicalExpression.newBuilder().setExpression("UUID (EncounterID)"))
                         .build())
                 .addAllAuthors(List.of(Practitioner.newBuilder()
                         .setPractitionerValue("practitioner")
-                        .setCode("expression")
+                        .setCode(LogicalExpression.newBuilder().setExpression("expression"))
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build()))
-                .setSubjectOfInformation("UUID  (PatientId)")
+                .setSubjectOfInformation(LogicalExpression.newBuilder().setExpression("UUID  (PatientId)"))
                 .addAllAssociatedStatement(List.of(AssociatedStatement.newBuilder()
-                        .setSemantic("Associated description")
+                        .setSemantic(LogicalExpression.newBuilder().setExpression("Associated description"))
                         .build()))
-                .setTopic("255585003 |Malignant neoplasm of liver |finding site|624008003 |Bone structure| ")
-                .setType("PERFORMANCE")
+                .setTopic(LogicalExpression.newBuilder().setExpression("255585003 |Malignant neoplasm of liver |finding site|624008003 |Bone structure| "))
+                .setType(LogicalExpression.newBuilder().setExpression("PERFORMANCE"))
                 .setPerformanceCircumstance(PerformanceCircumstance.newBuilder()
-                        .addAllPurpose(List.of("purpose"))
+                        .addAllPurpose(List.of(LogicalExpression.newBuilder().setExpression("purpose").build()))
                         .setStatus(
-                                "{\"expressionType\":\"simple\",\"expressionLanguage\":\"local\",\"expressionValue\":\"performed\",\"expressionDescription\":\"Measurement action has been performed.\"}")
-                        .setHealthRisk("${{rules.engine.calculated[circumstanceChoice.result]}}")
+                                LogicalExpression.newBuilder().setExpression("{\"expressionType\":\"simple\",\"expressionLanguage\":\"local\",\"expressionValue\":\"performed\",\"expressionDescription\":\"Measurement action has been performed.\"}"))
+                        .setHealthRisk(LogicalExpression.newBuilder().setExpression("${{rules.engine.calculated[circumstanceChoice.result]}}"))
                         .setResult(Measure.newBuilder()
                                 .setLowerBound("90")
                                 .setIncludeLowerBound(false)
-                                .setSemantic("")
+                                .setSemantic(LogicalExpression.newBuilder().setExpression(""))
                                 .setResolution("mmHg / cm / in / kg / m / s / L / % / etc.")
                                 .setUpperBound("120")
                                 .setIncludeUpperBound(false)

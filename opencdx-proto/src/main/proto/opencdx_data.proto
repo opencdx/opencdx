@@ -330,7 +330,7 @@ message Measure {
   /*
    * The `semantic` field signifies the meaning of the measure.
    */
-  string semantic = 5;
+  LogicalExpression semantic = 5;
 
   /*
    * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
@@ -347,9 +347,15 @@ message Participant {
    */
   string id = 1;
 
+  /**
+   * Reference to the participating patient
+   */
   string practitioner_value = 2;
 
-  string code = 3;
+  /**
+   * Authorized roles of the participant
+   */
+  LogicalExpression code = 3;
 }
 
 /*
@@ -369,7 +375,7 @@ message Practitioner {
   /*
    * Authorized roles of the practitioner
    */
-  string code = 3;
+  LogicalExpression code = 3;
 }
 
 /*
@@ -380,7 +386,7 @@ message AssociatedStatement {
   /*
    * Contents or description of the associated statement
    */
-  string semantic = 2;
+  LogicalExpression semantic = 2;
 }
 
 /*
@@ -409,12 +415,12 @@ message PerformanceCircumstance {
   /*
    * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
    */
-  repeated string purpose = 2;
+  repeated LogicalExpression purpose = 2;
 
   /*
    * This is a coded value representing the current status of the intervention (e.g. "completed"). This data element is not intended as a substitute for workflow specification.
    */
-  string status = 3;
+  LogicalExpression status = 3;
 
   /*
    * Intervention result as a measure.
@@ -424,7 +430,7 @@ message PerformanceCircumstance {
   /*
    * This optional data element is used to flag a result with coded values such as 'low', 'normal', high', and 'critical'
    */
-  optional string health_risk = 5;
+  optional LogicalExpression health_risk = 5;
 
   /*
    * This optional data element is the interval of values that are normal for the observation/finding described by the "topic" for this "subject". It refers to "normal" for the patient/subject with these conditions.
@@ -448,7 +454,7 @@ message RequestCircumstance {
   /*
    * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
    */
-  repeated string purpose = 2;
+  repeated LogicalExpression purpose = 2;
 
   /*
    * Attribute This data element is used to represent a condition, or set of conditions that must exist in order for Request to be executed.
@@ -463,7 +469,7 @@ message RequestCircumstance {
   /*
    * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified.
    */
-  string priority = 5;
+  LogicalExpression priority = 5;
 
   /*
    * This data element specifies the measurable result.
@@ -518,11 +524,20 @@ message NarrativeCircumstance {
   /*
    * This data element describes WHY a procedure was requested or performed in a post-coordinated expression
    */
-  repeated string purpose = 2;
+  repeated LogicalExpression purpose = 2;
   /*
    * Text description of circumstances
    */
   string text = 3;
+}
+/*
+ * LogicalExpression is used to represent a logical expression in a structured format.
+ */
+message LogicalExpression {
+  /*
+   * The logical operator used in the expression.
+   */
+  string expression = 1;
 }
 /*
  * This is the main class which describes a clinical statement. Most importantly it contains the 'topic' which describes what this statement is about, and the 'circumstance' which will contain either request or result information regarding the 'topic'.
@@ -547,7 +562,7 @@ message ANFStatement {
   /*
    * Refers to the subject or topic of the incorporated information.
    */
-  string subject_of_information = 5;
+  LogicalExpression subject_of_information = 5;
   /*
    * Refers to any related statements or conditions.
    */
@@ -559,11 +574,11 @@ message ANFStatement {
    * - Laboratory test statements use the "Laboratory Procedure" concept.
    * - Imaging Procedure statements use the "Imaging Procedure" concept.
    */
-  string topic = 7;
+  LogicalExpression topic = 7;
   /*
    * Specifies the type category of the statement such as "Request", "Performance", etc.
    */
-  string type = 8;
+  LogicalExpression type = 8;
   /*
    * Circumstance choice
    */
