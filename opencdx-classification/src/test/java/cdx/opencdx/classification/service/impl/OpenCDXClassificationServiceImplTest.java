@@ -141,6 +141,7 @@ class OpenCDXClassificationServiceImplTest {
 
     @BeforeEach
     void beforeEach() throws Exception {
+        this.openCDXClassifyProcessorService = Mockito.mock(OpenCDXAnalysisEngine.class);
         Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
                         Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<UserQuestionnaireData>() {
@@ -316,11 +317,11 @@ class OpenCDXClassificationServiceImplTest {
                         .build());
 
         when(this.openCDXClassifyProcessorService.analyzeConnectedTest(
-                        any(OpenCDXProfileModel.class),
-                        any(OpenCDXUserAnswerModel.class),
-                        any(OpenCDXMediaModel.class),
-                        any(OpenCDXConnectedTestModel.class),
-                        any(OpenCDXMediaModel.class)))
+                        any(),
+                        any(),
+                        any(),
+                        any(),
+                        any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -335,11 +336,11 @@ class OpenCDXClassificationServiceImplTest {
                     }
                 });
 
-        when(this.openCDXClassifyProcessorService.analyzeQuestionnaire(
-                        any(OpenCDXProfileModel.class),
-                        any(OpenCDXUserAnswerModel.class),
-                        any(OpenCDXMediaModel.class),
-                        any(OpenCDXUserQuestionnaireModel.class)))
+        Mockito.when(this.openCDXClassifyProcessorService.analyzeQuestionnaire(
+                        Mockito.any(),
+                        Mockito.any(),
+                        Mockito.any(),
+                        Mockito.any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -349,13 +350,14 @@ class OpenCDXClassificationServiceImplTest {
                                 .setClassification(Classification.newBuilder()
                                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setMessage("Executed classify operation.")
+                                        .setFurtherActions("Elevated blood pressure. Please continue monitoring.")
                                         .build())
                                 .build();
                     }
                 });
 
         this.openCDXClassificationEngineFactoryBean = Mockito.mock(OpenCDXClassificationEngineFactoryBean.class);
-        Mockito.when(openCDXClassificationEngineFactoryBean.getEngine(anyString())).thenReturn(this.openCDXClassifyProcessorService);
+        Mockito.when(this.openCDXClassificationEngineFactoryBean.getEngine(anyString())).thenReturn(this.openCDXClassifyProcessorService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
@@ -758,7 +760,7 @@ class OpenCDXClassificationServiceImplTest {
         // Verify that the rules executed and set the correct further actions
         Assertions.assertEquals(
                 "Elevated blood pressure. Please continue monitoring.",
-                this.classificationService
+                classificationService
                         .classify(classificationRequest)
                         .getClassification()
                         .getFurtherActions());
