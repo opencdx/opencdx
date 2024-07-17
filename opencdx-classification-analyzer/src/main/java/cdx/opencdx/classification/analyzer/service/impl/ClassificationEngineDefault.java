@@ -33,6 +33,10 @@ import cdx.opencdx.grpc.service.logistics.TestCaseListRequest;
 import cdx.opencdx.grpc.service.logistics.TestCaseListResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
 import io.micrometer.observation.annotation.Observed;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
@@ -43,11 +47,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 /**
  * Demonstration implementation of the OpenCDXAnalysisEngine class. This class is responsible for analyzing the patient's questionnaire and connected test data,

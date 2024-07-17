@@ -937,12 +937,12 @@ if [ "$fast_build" = true ]; then
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
-    ./gradlew clean --parallel || handle_error "Failed to clean the project."
+    ./gradlew clean -x dependencyCheckAggregate --parallel || handle_error "Failed to clean the project."
 elif [ "$skip" = false ]; then
     git_info
     if [ "$clean" = true ]; then
         handle_info  "Cleaning the project"
-        if ./gradlew clean --parallel; then
+        if ./gradlew clean -x dependencyCheckAggregate --parallel; then
             # Build Completed Successfully
             handle_info "Clean completed successfully"
         else
@@ -953,7 +953,7 @@ elif [ "$skip" = false ]; then
 
     handle_info "Running Spotless"
 
-    if ./gradlew spotlessApply; then
+    if ./gradlew spotlessApply -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Spotless completed successfully"
     else
@@ -962,7 +962,7 @@ elif [ "$skip" = false ]; then
     fi
 
     handle_info "Running Parallel Build"
-    if ./gradlew build publish publishToMavenLocal --parallel; then
+    if ./gradlew build publish publishToMavenLocal -x dependencyCheckAggregate --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
@@ -973,7 +973,7 @@ fi
 
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
-    ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
+    ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc -x dependencyCheckAggregate --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"
 fi

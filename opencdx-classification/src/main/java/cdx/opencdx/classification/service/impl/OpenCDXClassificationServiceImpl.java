@@ -46,12 +46,11 @@ import cdx.opencdx.grpc.types.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * Service for processing Classification Requests
@@ -143,8 +142,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXAnalysisEngine defaultEngine = this.openCDXClassificationEngineFactoryBean.getEngine("default");
             return defaultEngine.getRuleSets(request);
         } catch (Exception e) {
-            throw new OpenCDXServiceUnavailable(
-                    this.getClass().getName(), 1, "Failed to get rule sets", e);
+            throw new OpenCDXServiceUnavailable(this.getClass().getName(), 1, "Failed to get rule sets", e);
         }
     }
 
@@ -162,39 +160,41 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         try {
             OpenCDXAnalysisEngine defaultEngine = this.openCDXClassificationEngineFactoryBean.getEngine("default");
 
-        if (model.getConnectedTest() != null) {
-            model.setClassificationResponse(
-                    new OpenCDXClassificationResponseModel(defaultEngine.analyzeConnectedTest(
-                            model.getPatient(),
-                            model.getUserAnswer(),
-                            model.getMedia(),
-                            model.getConnectedTest(),
-                            model.getTestDetailsMedia())));
-        } else if (model.getUserQuestionnaireData() != null) {
-            log.info("Checking for ANF Statements");
-            if (model.getUserQuestionnaireData().getList() != null) {
-                log.info("Processing ANF Statements");
-                this.openCDXANFService.processQuestionnaires(
-                        model.getUserQuestionnaireData().getList(),
-                        model.getPatient().getId());
+            if (model.getConnectedTest() != null) {
+                model.setClassificationResponse(
+                        new OpenCDXClassificationResponseModel(defaultEngine.analyzeConnectedTest(
+                                model.getPatient(),
+                                model.getUserAnswer(),
+                                model.getMedia(),
+                                model.getConnectedTest(),
+                                model.getTestDetailsMedia())));
+            } else if (model.getUserQuestionnaireData() != null) {
+                log.info("Checking for ANF Statements");
+                if (model.getUserQuestionnaireData().getList() != null) {
+                    log.info("Processing ANF Statements");
+                    this.openCDXANFService.processQuestionnaires(
+                            model.getUserQuestionnaireData().getList(),
+                            model.getPatient().getId());
+                }
+                model.setClassificationResponse(
+                        new OpenCDXClassificationResponseModel(defaultEngine.analyzeQuestionnaire(
+                                model.getPatient(),
+                                model.getUserAnswer(),
+                                model.getMedia(),
+                                model.getUserQuestionnaireData())));
+            } else {
+                throw new OpenCDXNotAcceptable(
+                        this.getClass().getName(),
+                        1,
+                        "Failed to classify: No connected test or questionnaire data found");
             }
-            model.setClassificationResponse(
-                    new OpenCDXClassificationResponseModel(defaultEngine.analyzeQuestionnaire(
-                            model.getPatient(),
-                            model.getUserAnswer(),
-                            model.getMedia(),
-                            model.getUserQuestionnaireData())));
-        } else {
-            throw new OpenCDXNotAcceptable(
-                    this.getClass().getName(), 1, "Failed to classify: No connected test or questionnaire data found");
-        }
 
-            model.setClassificationResponse(this.openCDXClassificationRepository.save(model.getClassificationResponse()));
+            model.setClassificationResponse(
+                    this.openCDXClassificationRepository.save(model.getClassificationResponse()));
 
             this.processClassification(model);
         } catch (Exception e) {
-            throw new OpenCDXServiceUnavailable(
-                    this.getClass().getName(), 1, "Failed to classify", e);
+            throw new OpenCDXServiceUnavailable(this.getClass().getName(), 1, "Failed to classify", e);
         }
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

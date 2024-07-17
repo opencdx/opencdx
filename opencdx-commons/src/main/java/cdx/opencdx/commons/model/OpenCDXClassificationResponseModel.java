@@ -19,14 +19,13 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.grpc.data.Classification;
 import cdx.opencdx.grpc.service.classification.ClassificationResponse;
 import cdx.opencdx.grpc.types.ClassificationType;
+import java.time.Instant;
+import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * OpenCDXClassificationResponseModel
