@@ -463,7 +463,7 @@ message RequestCircumstance {
   /*
    * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified.
    */
-  cdx.opencdx.grpc.types.CircumstancePriority priority = 5;
+  string priority = 5;
 
   /*
    * This data element specifies the measurable result.
@@ -484,47 +484,27 @@ message Repetition {
   /*
    * When the repeated action should begin
    */
-  google.protobuf.Timestamp period_start = 1;
+  Measure period_start = 1;
 
   /*
    * How long the repetitions should persist
    */
-  uint32 period_duration = 2;
-
-  /*
-   * The unit of time for the period duration
-   */
-  cdx.opencdx.grpc.types.DurationType period_duration_type = 3;
+  Measure period_duration = 2;
 
   /*
    * How often the action should occur
    */
-  uint32 event_frequency = 4;
-
-  /*
-   * The unit of time for the event frequency
-   */
-  cdx.opencdx.grpc.types.DurationType event_frequency_type = 5;
+  Measure event_frequency = 3;
 
   /*
    * How long between actions
    */
-  uint32 event_separation = 6;
-
-  /*
-   * The unit of time for the event separation
-   */
-  cdx.opencdx.grpc.types.DurationType event_separation_type = 7;
+  Measure event_separation = 4;
 
   /*
    * How long every action should last
    */
-  uint32 event_duration = 8;
-
-  /*
-   * The unit of time for the event duration
-   */
-  cdx.opencdx.grpc.types.DurationType event_duration_type = 9;
+  Measure event_duration = 5;
 }
 /*
  * This class is used to describe the circumstances of a clinical statement using natural language/text rather than a structure
@@ -5556,4 +5536,51 @@ message MedicalHistory {
    * The user who last modified the Message.
    */
   optional string modifier = 12;
+}
+   /**
+    * The request to create AnalysisEngine
+    */
+message AnalysisEngine {
+  /**
+   * The id of the Analysis Engine
+   */
+  optional string id = 1;
+  /**
+   * The name of the Analysis Engine
+   */
+  string name = 2;
+  /**
+   * Identifier of of the Analysis Engine
+   */
+  string identifier = 3;
+  /*
+   * ID of the organization this Analysis Engine is assigned to.
+   */
+  string organization_id = 4;
+  /*
+   * ID denoting the workspace of the organization is assigned to.
+   */
+  string workspace_id = 5;
+
+  /*
+   * The timestamp capturing when this Analysis Engine was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+
+  /*
+   * The timestamp capturing any modifications to this Analysis Engine.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+
+  /*
+   * The ID of the user who initially created this Analysis Engine.
+   * Another optional field.
+   */
+  optional string creator = 8;
+
+  /*
+   * The ID of the user who made the most recent modifications this Analysis Engine.
+   */
+  optional string modifier = 9;
 }

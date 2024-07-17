@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.controller;
 
+import cdx.opencdx.classification.config.OpenCDXClassificationEngineFactoryBean;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -39,9 +40,6 @@ import cdx.opencdx.grpc.types.EmailType;
 import cdx.opencdx.grpc.types.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -55,6 +53,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -71,7 +73,10 @@ class OpenCDXGrpcClassificationControllerTest {
     OpenCDXOrderMessageService openCDXOrderMessageService;
 
     @Autowired
-    OpenCDXAdrMessageService openCDXAdrMessageService;
+    OpenCDXANFService openCDXANFService;
+
+    @Autowired
+    OpenCDXClassificationEngineFactoryBean openCDXClassificationEngineFactoryBean;
 
     OpenCDXClassificationServiceImpl classificationService;
 
@@ -275,12 +280,12 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXMediaClient,
                 openCDXConnectedTestClient,
                 openCDXQuestionnaireClient,
-                this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
                 openCDXCommunicationService,
-                openCDXAdrMessageService,
+                openCDXANFService,
+                openCDXClassificationEngineFactoryBean,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);

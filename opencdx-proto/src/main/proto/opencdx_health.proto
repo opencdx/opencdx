@@ -2201,3 +2201,4 @@ service MedicalHistoryService {
    */
   rpc ListMedicalHistories(ListMedicalHistoriesRequest) returns (ListMedicalHistoriesResponse);
 }
+
