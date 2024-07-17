@@ -383,9 +383,35 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public SubmissionResponse deleteQuestionnaireData(DeleteQuestionnaireRequest request) {
+        if (!this.openCDXQuestionnaireRepository.existsById(new OpenCDXIdentifier(request.getId()))) {
+            return SubmissionResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Questionnaire not found")
+                    .build();
+        }
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting Questionnaire",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    QUESTIONNAIRE + request.getId(),
+                    this.objectMapper.writeValueAsString(request));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+
+        this.openCDXQuestionnaireRepository.deleteById(new OpenCDXIdentifier(request.getId()));
+        log.trace("Deleted questionnaire id: {}", request.getId());
+
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
-                .setMessage("deleteQuestionnaireData Executed")
+                .setMessage("Executed DeleteQuestionnaire operation.")
                 .build();
     }
 

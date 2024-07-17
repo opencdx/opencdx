@@ -691,8 +691,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
     void deleteQuestionnaireData() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        DeleteQuestionnaireRequest request =
-                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        DeleteQuestionnaireRequest request = DeleteQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Executed")
