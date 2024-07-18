@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -4799,9 +4799,6 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 				      &quot;code&quot; : {&#xd;
 				        &quot;expression&quot; : &quot;expression&quot;&#xd;
 				      }&#xd;
-				    } ],&#xd;
-				    &quot;device&quot; : [ {&#xd;
-				      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 				    } ]&#xd;
 				  },&#xd;
 				  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -5127,9 +5124,6 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 					      &quot;code&quot; : {&#xd;
 					        &quot;expression&quot; : &quot;expression&quot;&#xd;
 					      }&#xd;
-					    } ],&#xd;
-					    &quot;device&quot; : [ {&#xd;
-					      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 					    } ]&#xd;
 					  },&#xd;
 					  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -7923,9 +7917,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 		      &quot;code&quot; : {&#xd;
 		        &quot;expression&quot; : &quot;expression&quot;&#xd;
 		      }&#xd;
-		    } ],&#xd;
-		    &quot;device&quot; : [ {&#xd;
-		      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 		    } ]&#xd;
 		  },&#xd;
 		  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -8068,9 +8059,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 		      &quot;code&quot; : {&#xd;
 		        &quot;expression&quot; : &quot;expression&quot;&#xd;
 		      }&#xd;
-		    } ],&#xd;
-		    &quot;device&quot; : [ {&#xd;
-		      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 		    } ]&#xd;
 		  },&#xd;
 		  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -11894,9 +11882,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 				      &quot;code&quot; : {&#xd;
 				        &quot;expression&quot; : &quot;expression&quot;&#xd;
 				      }&#xd;
-				    } ],&#xd;
-				    &quot;device&quot; : [ {&#xd;
-				      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 				    } ]&#xd;
 				  },&#xd;
 				  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -12220,9 +12205,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 				      &quot;code&quot; : {&#xd;
 				        &quot;expression&quot; : &quot;expression&quot;&#xd;
 				      }&#xd;
-				    } ],&#xd;
-				    &quot;device&quot; : [ {&#xd;
-				      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 				    } ]&#xd;
 				  },&#xd;
 				  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
@@ -12559,9 +12541,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 					      &quot;code&quot; : {&#xd;
 					        &quot;expression&quot; : &quot;expression&quot;&#xd;
 					      }&#xd;
-					    } ],&#xd;
-					    &quot;device&quot; : [ {&#xd;
-					      &quot;id&quot; : &quot;DEVICE ID&quot;&#xd;
 					    } ]&#xd;
 					  },&#xd;
 					  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;

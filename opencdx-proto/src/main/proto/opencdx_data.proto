@@ -337,15 +337,7 @@ message Measure {
    */
   double resolution = 6;
 }
-/**
- * Device Identifier
- */
-message AnfDevice {
-  /*
-   * Unique identifier for the device
-   */
-  string id = 1;
-}
+
 /*
  * Message representing a participant, who is typically a patient.
  */
@@ -460,11 +452,6 @@ message PerformanceCircumstance {
    * This optional data element identifies the practitioner(s) responsible for the results reported.
    */
   repeated Participant participant = 7;
-
-  /**
-   * Device used for the performance
-   */
-  repeated AnfDevice device = 8;
 }
 /*
  * A Request for Action clinical statement describes a request made by a clinician.
@@ -504,11 +491,6 @@ message RequestCircumstance {
    * This data element describes when an action is requested for more than a single occurrence using the Measure data structure:
    */
   Repetition repetition = 7;
-
-  /**
-   * Device used for the request
-   */
-  repeated AnfDevice device = 8;
 }
 
 /*
