@@ -67,12 +67,11 @@ public class OpenCDXAnalysisEngineGrpcController extends AnalysisEngineServiceGr
     }
 
     @Override
-    public void deleteAnalysisEngine(DeleteAnalysisEngineRequest request, StreamObserver<DeleteAnalysisEngineResponse> responseObserver) {
+    public void deleteAnalysisEngine(
+            DeleteAnalysisEngineRequest request, StreamObserver<DeleteAnalysisEngineResponse> responseObserver) {
         responseObserver.onNext(this.openCDXAnalysisEngineService.deleteAnalysisEngine(request));
         responseObserver.onCompleted();
     }
-
-
 
     @Override
     @Secured({})

@@ -22,10 +22,6 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXClassificationModel;
-import cdx.opencdx.commons.model.OpenCDXClassificationResponseModel;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.*;
 import cdx.opencdx.commons.repository.OpenCDXClassificationRepository;
@@ -101,7 +97,7 @@ class OpenCDXClassificationServiceImplTest {
     @Autowired
     OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
 
-    @Autowired
+    @Mock
     OpenCDXClassificationEngineFactoryBean openCDXClassificationEngineFactoryBean;
 
     @Mock
@@ -125,7 +121,7 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXTestCaseClient openCDXTestCaseClient;
 
-    @MockBean
+    @Mock
     OpenCDXAnalysisEngine openCDXClassifyProcessorService;
 
     @Mock
@@ -144,7 +140,8 @@ class OpenCDXClassificationServiceImplTest {
     KnowledgeService knowledgeService;
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws Exception {
+        this.openCDXClassifyProcessorService = Mockito.mock(OpenCDXAnalysisEngine.class);
         Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
                         Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<UserQuestionnaireData>() {
@@ -319,7 +316,12 @@ class OpenCDXClassificationServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        when(this.openCDXClassifyProcessorService.analyzeConnectedTest(any(OpenCDXProfileModel.class), any(OpenCDXUserAnswerModel.class), any(OpenCDXMediaModel.class), any(OpenCDXConnectedTestModel.class), any(OpenCDXMediaModel.class)))
+        when(this.openCDXClassifyProcessorService.analyzeConnectedTest(
+                        any(),
+                        any(),
+                        any(),
+                        any(),
+                        any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -334,7 +336,11 @@ class OpenCDXClassificationServiceImplTest {
                     }
                 });
 
-        when(this.openCDXClassifyProcessorService.analyzeQuestionnaire(any(OpenCDXProfileModel.class), any(OpenCDXUserAnswerModel.class), any(OpenCDXMediaModel.class), any(OpenCDXUserQuestionnaireModel.class)))
+        Mockito.when(this.openCDXClassifyProcessorService.analyzeQuestionnaire(
+                        Mockito.any(),
+                        Mockito.any(),
+                        Mockito.any(),
+                        Mockito.any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -344,11 +350,14 @@ class OpenCDXClassificationServiceImplTest {
                                 .setClassification(Classification.newBuilder()
                                         .setPatientId(OpenCDXIdentifier.get().toHexString())
                                         .setMessage("Executed classify operation.")
+                                        .setFurtherActions("Elevated blood pressure. Please continue monitoring.")
                                         .build())
                                 .build();
                     }
                 });
 
+        this.openCDXClassificationEngineFactoryBean = Mockito.mock(OpenCDXClassificationEngineFactoryBean.class);
+        Mockito.when(this.openCDXClassificationEngineFactoryBean.getEngine(anyString())).thenReturn(this.openCDXClassifyProcessorService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
@@ -648,8 +657,7 @@ class OpenCDXClassificationServiceImplTest {
 
         // Verify that submitting the classification with the ObjectMapper throwing JsonProcessingException results in
         // OpenCDXNotAcceptable exception
-        Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> classificationService.classify(classificationRequest));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> classificationService.classify(classificationRequest));
     }
 
     @Test
@@ -760,24 +768,8 @@ class OpenCDXClassificationServiceImplTest {
 
     @Test
     void testgetRuleSets() {
-        OpenCDXClassificationServiceImpl openCDXClassificationService = new OpenCDXClassificationServiceImpl(
-                openCDXAuditService,
-                objectMapper,
-                openCDXCurrentUser,
-                openCDXDocumentValidator,
-                openCDXMediaClient,
-                openCDXConnectedTestClient,
-                openCDXQuestionnaireClient,
-                openCDXClassificationRepository,
-                openCDXProfileRepository,
-                openCDXOrderMessageService,
-                openCDXCommunicationService,
-                openCDXANFService,
-                openCDXClassificationEngineFactoryBean,
-                openCDXCDCPayloadService,
-                openCDXConnectedLabMessageService);
         RuleSetsRequest request = RuleSetsRequest.newBuilder().build();
-        Assertions.assertDoesNotThrow(() -> openCDXClassificationService.getRuleSets(request));
+        Assertions.assertDoesNotThrow(() -> this.classificationService.getRuleSets(request));
     }
 
     @Test
