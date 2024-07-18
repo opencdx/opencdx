@@ -300,11 +300,12 @@ class OpenCDXRestQuestionnaireControllerTest {
 
     @Test
     void testDeleteQuestionnaire() throws Exception {
+        String id = OpenCDXIdentifier.get().toHexString();
         MvcResult mv = this.mockMvc
-                .perform(delete("/questionnaire/639")
+                .perform(delete("/questionnaire/" + id)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
-                                .setId("639")
+                                .setId(id)
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(

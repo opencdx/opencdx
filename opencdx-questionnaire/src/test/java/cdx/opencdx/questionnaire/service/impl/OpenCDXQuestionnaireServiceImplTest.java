@@ -200,6 +200,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 });
         Mockito.when(openCDXUserQuestionnaireRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(true);
+        Mockito.when(openCDXQuestionnaireRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(true);
         Mockito.when(this.openCDXUserQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
@@ -391,8 +393,10 @@ class OpenCDXQuestionnaireServiceImplTest {
 
     @Test
     void testDeleteQuestionnaireData() {
-        DeleteQuestionnaireRequest request =
-                DeleteQuestionnaireRequest.newBuilder().build();
+        DeleteQuestionnaireRequest request = DeleteQuestionnaireRequest.newBuilder()
+                .setId(OpenCDXIdentifier.get().toHexString())
+                .build();
+
         SubmissionResponse response = this.questionnaireService.deleteQuestionnaireData(request);
 
         Assertions.assertEquals(true, response.getSuccess());

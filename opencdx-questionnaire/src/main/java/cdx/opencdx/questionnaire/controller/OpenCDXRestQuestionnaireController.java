@@ -116,14 +116,8 @@ public class OpenCDXRestQuestionnaireController {
     @DeleteMapping(value = "/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .deleteQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
-                                        .setId(id)
-                                        .build())
-                                .getSuccess())
-                        .setMessage("Executed DeleteQuestionnaire operation.")
-                        .build(),
+                openCDXQuestionnaireService.deleteQuestionnaireData(
+                        DeleteQuestionnaireRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
 
