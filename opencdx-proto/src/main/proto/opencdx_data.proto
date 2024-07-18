@@ -310,12 +310,12 @@ message Measure {
   /*
    * The `upper_bound` field signifies the maximum limit of the measure.
    */
-  string upper_bound = 1;
+  double upper_bound = 1;
 
   /*
    * The `lower_bound` field signifies the minimum limit of the measure.
    */
-  string lower_bound = 2;
+  double lower_bound = 2;
 
   /*
    * The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
@@ -335,7 +335,7 @@ message Measure {
   /*
    * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
    */
-  string resolution = 6;
+  double resolution = 6;
 }
 
 /*

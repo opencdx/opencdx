@@ -36,7 +36,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
-    public static final String ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER = "363704007 |Associated with| = 363698007 |National identifier|";
+    public static final String ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER =
+            "363704007 |Associated with| = 363698007 |National identifier|";
     public static final String OBSERVATION_FINDING_FINDING = "416541006 |Observation finding (finding)|";
     private final OpenCDXAdrMessageService openCDXAdrMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
@@ -100,15 +101,22 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     .map(anfStatement -> ANFStatement.newBuilder(anfStatement)
                             .setSubjectOfRecord(Participant.newBuilder()
                                     .setId(patient.get().getNationalHealthId())
-                                    .setCode(LogicalExpression.newBuilder().setExpression(ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER).build())
+                                    .setCode(LogicalExpression.newBuilder()
+                                            .setExpression(ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER)
+                                            .build())
                                     .build())
-                            .setSubjectOfInformation( LogicalExpression.newBuilder().setExpression(patient.get().getNationalHealthId() + " |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|"))
+                            .setSubjectOfInformation(
+                                    LogicalExpression.newBuilder()
+                                            .setExpression(
+                                                    patient.get().getNationalHealthId()
+                                                            + " |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|"))
                             .setTime(Measure.newBuilder()
                                     .setIncludeUpperBound(true)
                                     .setIncludeLowerBound(true)
-                                    .setSemantic(LogicalExpression.newBuilder().setExpression(OBSERVATION_FINDING_FINDING))
-                                    .setLowerBound(Long.toString(now.getEpochSecond()))
-                                    .setUpperBound(Long.toString(now.getEpochSecond()))
+                                    .setSemantic(
+                                            LogicalExpression.newBuilder().setExpression(OBSERVATION_FINDING_FINDING))
+                                    .setLowerBound(now.getEpochSecond())
+                                    .setUpperBound(now.getEpochSecond())
                                     .build())
                             .build())
                     .map(anfStatement -> {
@@ -120,14 +128,18 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                                                     0,
                                                     Participant.newBuilder()
                                                             .setId(patient.get().getNationalHealthId())
-                                                            .setCode(LogicalExpression.newBuilder().setExpression(ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER).build())
+                                                            .setCode(LogicalExpression.newBuilder()
+                                                                    .setExpression(
+                                                                            ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER)
+                                                                    .build())
                                                             .build())
                                             .setTiming(Measure.newBuilder()
                                                     .setIncludeUpperBound(true)
                                                     .setIncludeLowerBound(true)
-                                                    .setSemantic(LogicalExpression.newBuilder().setExpression(OBSERVATION_FINDING_FINDING))
-                                                    .setLowerBound(Long.toString(now.getEpochSecond()))
-                                                    .setUpperBound(Long.toString(now.getEpochSecond()))
+                                                    .setSemantic(LogicalExpression.newBuilder()
+                                                            .setExpression(OBSERVATION_FINDING_FINDING))
+                                                    .setLowerBound(now.getEpochSecond())
+                                                    .setUpperBound(now.getEpochSecond())
                                                     .build())
                                             .build())
                                     .build();
@@ -144,14 +156,18 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                                                     0,
                                                     Participant.newBuilder()
                                                             .setId(patient.get().getNationalHealthId())
-                                                            .setCode(LogicalExpression.newBuilder().setExpression(ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER).build())
+                                                            .setCode(LogicalExpression.newBuilder()
+                                                                    .setExpression(
+                                                                            ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER)
+                                                                    .build())
                                                             .build())
                                             .setTiming(Measure.newBuilder()
                                                     .setIncludeUpperBound(true)
                                                     .setIncludeLowerBound(true)
-                                                    .setSemantic(LogicalExpression.newBuilder().setExpression(OBSERVATION_FINDING_FINDING))
-                                                    .setLowerBound(Long.toString(now.getEpochSecond()))
-                                                    .setUpperBound(Long.toString(now.getEpochSecond()))
+                                                    .setSemantic(LogicalExpression.newBuilder()
+                                                            .setExpression(OBSERVATION_FINDING_FINDING))
+                                                    .setLowerBound(now.getEpochSecond())
+                                                    .setUpperBound(now.getEpochSecond())
                                                     .build())
                                             .build())
                                     .build();
@@ -167,9 +183,10 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                                                     .setTiming(Measure.newBuilder()
                                                             .setIncludeUpperBound(true)
                                                             .setIncludeLowerBound(true)
-                                                            .setSemantic(LogicalExpression.newBuilder().setExpression(OBSERVATION_FINDING_FINDING))
-                                                            .setLowerBound(Long.toString(now.getEpochSecond()))
-                                                            .setUpperBound(Long.toString(now.getEpochSecond()))
+                                                            .setSemantic(LogicalExpression.newBuilder()
+                                                                    .setExpression(OBSERVATION_FINDING_FINDING))
+                                                            .setLowerBound(now.getEpochSecond())
+                                                            .setUpperBound(now.getEpochSecond())
                                                             .build())
                                                     .build())
                                     .build();
