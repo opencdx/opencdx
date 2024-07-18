@@ -36,9 +36,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
-    public static final String ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER =
+
+    private  static final String ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER =
             "363704007 |Associated with| = 363698007 |National identifier|";
-    public static final String OBSERVATION_FINDING_FINDING = "416541006 |Observation finding (finding)|";
+    private static final String OBSERVATION_FINDING_FINDING = "416541006 |Observation finding (finding)|";
     private final OpenCDXAdrMessageService openCDXAdrMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
