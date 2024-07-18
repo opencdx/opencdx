@@ -28,12 +28,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 class HealthTest {
@@ -283,14 +284,24 @@ class HealthTest {
                                                         .setSubjectOfRecord(Participant.newBuilder()
                                                                 .setId(UUID.randomUUID()
                                                                         .toString())
-                                                                .setPractitionerValue("1234567890")
+                                                                .setPractitionerValue(Reference.newBuilder()
+                                                                        .setDisplay("display")
+                                                                        .setIdentifier("identifier")
+                                                                        .setReference("reference")
+                                                                        .setUri("uri")
+                                                                        .build())
                                                                 .setCode(LogicalExpression.newBuilder()
                                                                         .setExpression("Patient 1"))
                                                                 .build())
                                                         .addAllAuthors(List.of(Practitioner.newBuilder()
                                                                 .setId(UUID.randomUUID()
                                                                         .toString())
-                                                                .setPractitionerValue("1234567890")
+                                                                .setPractitionerValue(Reference.newBuilder()
+                                                                        .setDisplay("display")
+                                                                        .setIdentifier("identifier")
+                                                                        .setReference("reference")
+                                                                        .setUri("uri")
+                                                                        .build())
                                                                 .setCode(LogicalExpression.newBuilder()
                                                                         .setExpression("Patient 1"))
                                                                 .build()))
@@ -299,8 +310,12 @@ class HealthTest {
                                                                         .toHexString()))
                                                         .addAllAssociatedStatement(
                                                                 List.of(AssociatedStatement.newBuilder()
-                                                                        .setId(UUID.randomUUID()
-                                                                                .toString())
+                                                                        .setId(Reference.newBuilder()
+                                                                                .setDisplay("display")
+                                                                                .setIdentifier("identifier")
+                                                                                .setReference("reference")
+                                                                                .setUri("uri")
+                                                                                .build())
                                                                         .setSemantic(LogicalExpression.newBuilder()
                                                                                 .setExpression("mmHg"))
                                                                         .build()))
@@ -363,14 +378,24 @@ class HealthTest {
                                                         .setSubjectOfRecord(Participant.newBuilder()
                                                                 .setId(UUID.randomUUID()
                                                                         .toString())
-                                                                .setPractitionerValue("1234567890")
+                                                                .setPractitionerValue(Reference.newBuilder()
+                                                                        .setDisplay("display")
+                                                                        .setIdentifier("identifier")
+                                                                        .setReference("reference")
+                                                                        .setUri("uri")
+                                                                        .build())
                                                                 .setCode(LogicalExpression.newBuilder()
                                                                         .setExpression("Patient 1"))
                                                                 .build())
                                                         .addAllAuthors(List.of(Practitioner.newBuilder()
                                                                 .setId(UUID.randomUUID()
                                                                         .toString())
-                                                                .setPractitionerValue("1234567890")
+                                                                .setPractitionerValue(Reference.newBuilder()
+                                                                        .setDisplay("display")
+                                                                        .setIdentifier("identifier")
+                                                                        .setReference("reference")
+                                                                        .setUri("uri")
+                                                                        .build())
                                                                 .setCode(LogicalExpression.newBuilder()
                                                                         .setExpression("Patient 1"))
                                                                 .build()))
@@ -379,8 +404,12 @@ class HealthTest {
                                                                         .toHexString()))
                                                         .addAllAssociatedStatement(
                                                                 List.of(AssociatedStatement.newBuilder()
-                                                                        .setId(UUID.randomUUID()
-                                                                                .toString())
+                                                                        .setId(Reference.newBuilder()
+                                                                                .setDisplay("display")
+                                                                                .setIdentifier("identifier")
+                                                                                .setReference("reference")
+                                                                                .setUri("uri")
+                                                                                .build())
                                                                         .setSemantic(LogicalExpression.newBuilder()
                                                                                 .setExpression("mmHg"))
                                                                         .build()))

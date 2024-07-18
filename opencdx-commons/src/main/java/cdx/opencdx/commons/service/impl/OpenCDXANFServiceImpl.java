@@ -150,26 +150,17 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     .map(anfStatement -> {
                         if (anfStatement.hasRequestCircumstance()) {
                             return ANFStatement.newBuilder(anfStatement)
-                                    .setRequestCircumstance(RequestCircumstance.newBuilder(
-                                                    anfStatement.getRequestCircumstance())
-                                            .setRequestedParticipant(
-                                                    0,
-                                                    Participant.newBuilder()
-                                                            .setId(patient.get().getNationalHealthId())
-                                                            .setCode(LogicalExpression.newBuilder()
-                                                                    .setExpression(
-                                                                            ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER)
-                                                                    .build())
+                                    .setRequestCircumstance(
+                                            RequestCircumstance.newBuilder(anfStatement.getRequestCircumstance())
+                                                    .setTiming(Measure.newBuilder()
+                                                            .setIncludeUpperBound(true)
+                                                            .setIncludeLowerBound(true)
+                                                            .setSemantic(LogicalExpression.newBuilder()
+                                                                    .setExpression(OBSERVATION_FINDING_FINDING))
+                                                            .setLowerBound(now.getEpochSecond())
+                                                            .setUpperBound(now.getEpochSecond())
                                                             .build())
-                                            .setTiming(Measure.newBuilder()
-                                                    .setIncludeUpperBound(true)
-                                                    .setIncludeLowerBound(true)
-                                                    .setSemantic(LogicalExpression.newBuilder()
-                                                            .setExpression(OBSERVATION_FINDING_FINDING))
-                                                    .setLowerBound(now.getEpochSecond())
-                                                    .setUpperBound(now.getEpochSecond())
                                                     .build())
-                                            .build())
                                     .build();
                         } else {
                             return anfStatement;

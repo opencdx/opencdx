@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 class AnfTest {
@@ -65,7 +66,12 @@ class AnfTest {
                         .setCode(LogicalExpression.newBuilder().setExpression("UUID (EncounterID)"))
                         .build())
                 .addAllAuthors(List.of(Practitioner.newBuilder()
-                        .setPractitionerValue("practitioner")
+                        .setPractitionerValue(Reference.newBuilder()
+                                .setDisplay("display")
+                                .setIdentifier("identifier")
+                                .setReference("reference")
+                                .setUri("uri")
+                                .build())
                         .setCode(LogicalExpression.newBuilder().setExpression("expression"))
                         .setId(OpenCDXIdentifier.get().toHexString())
                         .build()))
@@ -97,7 +103,19 @@ class AnfTest {
                                 .build())
                         .setNormalRange(Measure.getDefaultInstance())
                         .setTiming(Measure.getDefaultInstance())
-                        .addAllParticipant(List.of(Participant.getDefaultInstance()))
+                        .addAllParticipant(List.of(Participant.newBuilder()
+                                        .setId(UUID.randomUUID().toString())
+                                        .setCode(LogicalExpression.newBuilder().setExpression("expression"))
+                                        .setPractitionerValue(Reference.newBuilder()
+                                                .setDisplay("display")
+                                                .setIdentifier("identifier")
+                                                .setReference("reference")
+                                                .setUri("uri")
+                                                .build())
+                                .build()))
+                        .addDevice(AnfDevice.newBuilder()
+                                .setId("DEVICE ID")
+                                .build())
                         .build())
                 .build();
 

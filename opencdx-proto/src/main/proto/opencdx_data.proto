@@ -337,7 +337,15 @@ message Measure {
    */
   double resolution = 6;
 }
-
+/**
+ * Device Identifier
+ */
+message AnfDevice {
+  /*
+   * Unique identifier for the device
+   */
+  string id = 1;
+}
 /*
  * Message representing a participant, who is typically a patient.
  */
@@ -350,7 +358,7 @@ message Participant {
   /**
    * Reference to the participating patient
    */
-  string practitioner_value = 2;
+  Reference practitioner_value = 2;
 
   /**
    * Authorized roles of the participant
@@ -370,7 +378,7 @@ message Practitioner {
   /*
    * Reference to the participating practitioner
    */
-  string practitioner_value = 2;
+  Reference practitioner_value = 2;
 
   /*
    * Authorized roles of the practitioner
@@ -382,7 +390,7 @@ message Practitioner {
  * Message representing associated statements like preconditions or interpretations.
  */
 message AssociatedStatement {
-  string id = 1;
+  Reference id = 1;
   /*
    * Contents or description of the associated statement
    */
@@ -393,14 +401,25 @@ message AssociatedStatement {
  * Message representing a reference to other entities like patient records or health practitioners.
  */
 message Reference {
-  /*
-   * Unique identifier for the reference
+  /**
+   Logical reference, when literal reference is not known
    */
-  string id = 1;
-  /*
-   * The type of the reference, for example, "Patient", "Practitioner"
+  string identifier = 1;
+
+  /**
+   Text description of the resource being referenced
    */
-  string type = 2;
+  string display = 2;
+
+  /**
+    A reference to the resource that is the subject of the statement
+   */
+  string reference = 3;
+
+  /**
+   * The type of the resource being referenced
+   */
+  string uri = 4;
 }
 
 /*
@@ -441,6 +460,11 @@ message PerformanceCircumstance {
    * This optional data element identifies the practitioner(s) responsible for the results reported.
    */
   repeated Participant participant = 7;
+
+  /**
+   * Device used for the performance
+   */
+  repeated AnfDevice device = 8;
 }
 /*
  * A Request for Action clinical statement describes a request made by a clinician.
@@ -464,7 +488,7 @@ message RequestCircumstance {
   /*
    * This data element is an optional list of either specific persons or roles who perform an action, assist in performing an action or are targets of an action.
    */
-  repeated Participant requested_participant = 4;
+  repeated Reference requested_participant = 4;
 
   /*
    * This data element species the priority with which a requested action has to be carried out, e.g. “routine” or “stat”. By default a Request will be considered "routine" unless otherwise specified.
@@ -480,6 +504,11 @@ message RequestCircumstance {
    * This data element describes when an action is requested for more than a single occurrence using the Measure data structure:
    */
   Repetition repetition = 7;
+
+  /**
+   * Device used for the request
+   */
+  repeated AnfDevice device = 8;
 }
 
 /*
