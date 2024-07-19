@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import cdx.opencdx.classification.config.OpenCDXClassificationEngineFactoryBean;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
@@ -42,6 +45,9 @@ import cdx.opencdx.grpc.types.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.evrete.KnowledgeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,13 +69,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -316,12 +315,7 @@ class OpenCDXClassificationServiceImplTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        when(this.openCDXClassifyProcessorService.analyzeConnectedTest(
-                        any(),
-                        any(),
-                        any(),
-                        any(),
-                        any()))
+        when(this.openCDXClassifyProcessorService.analyzeConnectedTest(any(), any(), any(), any(), any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -337,10 +331,7 @@ class OpenCDXClassificationServiceImplTest {
                 });
 
         Mockito.when(this.openCDXClassifyProcessorService.analyzeQuestionnaire(
-                        Mockito.any(),
-                        Mockito.any(),
-                        Mockito.any(),
-                        Mockito.any()))
+                        Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenAnswer(new Answer<ClassificationResponse>() {
                     @Override
                     public ClassificationResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -357,7 +348,8 @@ class OpenCDXClassificationServiceImplTest {
                 });
 
         this.openCDXClassificationEngineFactoryBean = Mockito.mock(OpenCDXClassificationEngineFactoryBean.class);
-        Mockito.when(this.openCDXClassificationEngineFactoryBean.getEngine(anyString())).thenReturn(this.openCDXClassifyProcessorService);
+        Mockito.when(this.openCDXClassificationEngineFactoryBean.getEngine(anyString()))
+                .thenReturn(this.openCDXClassifyProcessorService);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
