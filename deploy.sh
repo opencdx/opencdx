@@ -481,7 +481,7 @@ print_usage() {
     echo "  --clean          Clean the project before building."
     echo "  --no_menu       Skip the interactive menu and perform actions directly."
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
-    echo "  --check         Perform build and check all requirements"
+    echo "  --check         Perform build and check all requirements for a pull request"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
     echo "  --smoke         Will Start JMeter Smoke test 10 users with 10 loops ~3 minutes"
     echo "  --performance   Will Start JMeter Performance 10 users with 100 loops NO gRPC ~30 minutes"
@@ -872,6 +872,17 @@ for arg in "$@"; do
         build=true
         parallel=true
         ;;
+    --test)
+        clean=true
+        javadoc=true
+        sonar=true
+        spotless=true
+        build=true
+        parallel=true
+        deploy=true
+        jmeter=true
+        jmeter_test="smoke"
+        ;;
     --docker)
         docker_images=true
         ;;
@@ -965,6 +976,12 @@ sleep 2
 
 ./gradlew -stop all
 if [ "$skip" = false ]; then
+
+   if [ "$spotless" = true ]; then
+          handle_info "Spotless formatting..."x
+          ./gradlew  spotlessApply  spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to format with spotlessc."
+    fi
+
   gradlew_cmd="./gradlew "
 
   if [ "$clean" = true ]; then
@@ -983,13 +1000,11 @@ if [ "$skip" = false ]; then
       gradlew_cmd="$gradlew_cmd -x sonarlintMain -x sonarlintTest"
   fi
 
-  if [ "$spotless" = false ]; then
-      gradlew_cmd="$gradlew_cmd -x spotlessApply -x spotlessCheck"
-  fi
-
   if [ "$dependency" = false ]; then
       gradlew_cmd="$gradlew_cmd -x dependencyCheckAggregate"
   fi
+
+  gradlew_cmd="$gradlew_cmd -x spotlessJavaCheck"
 
   if [ "$parallel" = true ]; then
       gradlew_cmd="$gradlew_cmd --parallel"
@@ -998,7 +1013,8 @@ if [ "$skip" = false ]; then
   eval "$gradlew_cmd" || handle_error "Build failed."
 
   if [ "$javadoc" = true ]; then
-        ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
+        handle_info "Generating JavaDoc..."x
+        ./gradlew allJavadoc -x spotlessApply -x spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to generate the JavaDoc."
   fi
 
   if [ "$docker_images" = true ]; then
