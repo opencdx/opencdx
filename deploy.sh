@@ -481,7 +481,7 @@ print_usage() {
     echo "  --clean          Clean the project before building."
     echo "  --no_menu       Skip the interactive menu and perform actions directly."
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
-    echo "  --check         Perform build and check all requirements"
+    echo "  --check         Perform build and check all requirements for a pull request"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
     echo "  --smoke         Will Start JMeter Smoke test 10 users with 10 loops ~3 minutes"
     echo "  --performance   Will Start JMeter Performance 10 users with 100 loops NO gRPC ~30 minutes"
@@ -489,7 +489,15 @@ print_usage() {
     echo "  --fast          Will perform a fast build skipping tests."
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
-    echo "  --proto         Will force the rebuild of the proto files only and exit."
+    echo "  --proto         Will force the rebuild of the proto files "
+    echo "  --build         Will build the java code"
+    echo "  --javadoc       Will build the javadoc"
+    echo "  --sonar         Will perform a sonar analysis"
+    echo "  --spotless      Will format the code"
+    echo "  --dependency    Will perform a dependency analysis"
+    echo "  --parallel      Will perform the build in parallel"
+    echo "  --docker        Will build docker images"
+    echo "  --pipeline      Will build as a pipeline"
     echo "  --help          Show this help message."
     exit 0
 }
@@ -821,6 +829,13 @@ fast_build=false
 wipe=false
 cert=false
 proto=false
+build=false
+javadoc=false
+sonar=false
+spotless=false
+dependency=false
+parallel=false
+docker_images=false
 jmeter_test=""
 
 # Parse command-line arguments
@@ -839,8 +854,37 @@ for arg in "$@"; do
         open_all=true
         no_menu=true
         ;;
+    --pipeline)
+        clean=true
+        javadoc=true
+        sonar=true
+        spotless=true
+        build=true
+        parallel=true
+        docker_images=true
+        no_menu=true
+        ;;
     --check)
-        check=true
+        clean=true
+        javadoc=true
+        sonar=true
+        spotless=true
+        build=true
+        parallel=true
+        ;;
+    --test)
+        clean=true
+        javadoc=true
+        sonar=true
+        spotless=true
+        build=true
+        parallel=true
+        deploy=true
+        jmeter=true
+        jmeter_test="smoke"
+        ;;
+    --docker)
+        docker_images=true
         ;;
     --deploy)
         deploy=true
@@ -858,7 +902,8 @@ for arg in "$@"; do
         jmeter_test="soak"
         ;;
     --fast)
-        fast_build=true
+        build=true
+        parallel=true
         ;;
     --wipe)
         wipe=true
@@ -868,6 +913,24 @@ for arg in "$@"; do
         ;;
     --proto)
         proto=true
+        ;;
+    --build)
+        build=true
+        ;;
+    --javadoc)
+        javadoc=true
+        ;;
+    --sonar)
+        sonar=true
+        ;;
+    --spotless)
+        spotless=true
+        ;;
+    --dependency)
+        dependency=true
+        ;;
+    --parallel)
+        parallel=true
         ;;
     --help)
         print_usage
@@ -912,71 +975,54 @@ handle_info "Version: ${version}"
 sleep 2
 
 ./gradlew -stop all
+if [ "$skip" = false ]; then
 
-if [ "$proto" = true ]; then
-    handle_info "Wiping Proto generated files"
-    rm -rf ./opencdx-proto/build
-    if ./gradlew opencdx-proto:build opencdx-proto:publish opencdx-proto:publishToMavenLocal --parallel; then
-        # Build Completed Successfully
-        handle_info "Proto files generated successfully"
-    else
-        # Build Failed
-        handle_error "Proto files failed to generate. Please review output to determine the issue."
+   if [ "$spotless" = true ]; then
+          handle_info "Spotless formatting..."x
+          ./gradlew  spotlessApply  spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to format with spotlessc."
     fi
-    exit 0
+
+  gradlew_cmd="./gradlew "
+
+  if [ "$clean" = true ]; then
+      gradlew_cmd="$gradlew_cmd clean"
+  fi
+
+  if [ "$proto" = true ]; then
+      gradlew_cmd="$gradlew_cmd proto"
+  fi
+
+  if [ "$build" = true ]; then
+      gradlew_cmd="$gradlew_cmd build publish publishToMavenLocal"
+  fi
+
+  if [ "$sonar" = false ]; then
+      gradlew_cmd="$gradlew_cmd -x sonarlintMain -x sonarlintTest"
+  fi
+
+  if [ "$dependency" = false ]; then
+      gradlew_cmd="$gradlew_cmd -x dependencyCheckAggregate"
+  fi
+
+  gradlew_cmd="$gradlew_cmd -x spotlessJavaCheck"
+
+  if [ "$parallel" = true ]; then
+      gradlew_cmd="$gradlew_cmd --parallel"
+  fi
+  handle_info "Executing: $gradlew_cmd"
+  eval "$gradlew_cmd" || handle_error "Build failed."
+
+  if [ "$javadoc" = true ]; then
+        handle_info "Generating JavaDoc..."x
+        ./gradlew allJavadoc -x spotlessApply -x spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to generate the JavaDoc."
+  fi
+
+  if [ "$docker_images" = true ]; then
+        build_docker true true;
+  fi
+
 fi
 
-# Clean the project if --clean is specified
-if [ "$fast_build" = true ]; then
-    git_info
-    if ./gradlew build publish publishToMavenLocal -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
-        # Build Completed Successfully
-        handle_info "Fast Build completed successfully"
-    else
-        # Build Failed
-        handle_error "Build failed. Please review output to determine the issue."
-    fi
-elif [ "$clean" = true ] && [ "$skip" = true ]; then
-    ./gradlew clean -x dependencyCheckAggregate --parallel || handle_error "Failed to clean the project."
-elif [ "$skip" = false ]; then
-    git_info
-    if [ "$clean" = true ]; then
-        handle_info  "Cleaning the project"
-        if ./gradlew clean -x dependencyCheckAggregate --parallel; then
-            # Build Completed Successfully
-            handle_info "Clean completed successfully"
-        else
-            # Build Failed
-            handle_error "Build failed. Please review output to determine the issue."
-        fi
-    fi
-
-    handle_info "Running Spotless"
-
-    if ./gradlew spotlessApply -x dependencyCheckAggregate; then
-        # Build Completed Successfully
-        handle_info "Spotless completed successfully"
-    else
-        # Build Failed
-        handle_error "Spotless failed. Please review output to determine the issue."
-    fi
-
-    handle_info "Running Parallel Build"
-    if ./gradlew build publish publishToMavenLocal -x dependencyCheckAggregate --parallel; then
-        # Build Completed Successfully
-        handle_info "Build completed successfully"
-    else
-        # Build Failed
-        handle_error "Build failed. Please review output to determine the issue."
-    fi
-fi
-
-if [ "$check" = true ]; then
-    handle_info "Performing Check on JavaDoc"
-    ./gradlew  dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc -x dependencyCheckAggregate --parallel || handle_error "Failed to generate the JavaDoc."
-    echo
-    handle_info "Project Passes all checks"
-fi
 echo
 # Main Menu
 if [ "$no_menu" = false ]; then
