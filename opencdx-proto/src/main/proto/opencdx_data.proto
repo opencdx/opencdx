@@ -452,6 +452,11 @@ message PerformanceCircumstance {
    * This optional data element identifies the practitioner(s) responsible for the results reported.
    */
   repeated Participant participant = 7;
+
+  /**
+   * This optional data element identifies the device(s) responsible for the results reported.
+   */
+  repeated string deviceId = 8;
 }
 /*
  * A Request for Action clinical statement describes a request made by a clinician.
@@ -491,6 +496,11 @@ message RequestCircumstance {
    * This data element describes when an action is requested for more than a single occurrence using the Measure data structure:
    */
   Repetition repetition = 7;
+
+  /**
+   * This optional data element identifies the device(s) responsible for the results reported.
+   */
+  repeated string deviceId = 8;
 }
 
 /*
