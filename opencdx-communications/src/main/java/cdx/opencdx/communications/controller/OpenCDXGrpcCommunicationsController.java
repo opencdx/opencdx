@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
-import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationEmailTemplateService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationSmsTemplateService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.communications.service.OpenCDXSystemMessageService;
 import cdx.opencdx.grpc.data.*;
@@ -38,26 +38,26 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
 
     private final OpenCDXNotificationService openCDXNotificationService;
 
-    private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
-    private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    private final OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailTemplateService;
+    private final OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
     private final OpenCDXSystemMessageService openCDXMessageService;
 
     /**
      * Constructor using the gRPC Communications Controller.
      *  @param openCDXNotificationService       service to process notifications
-     * @param openCDXCommunicationEmailService service to process email request
-     * @param openCDXCommunicationSmsService   service to process SMS request
+     * @param openCDXCommunicationEmailTemplateService service to process email request
+     * @param openCDXCommunicationSmsTemplateService   service to process SMS request
      * @param openCDXMessageService           service to process message request
      */
     @Autowired
     public OpenCDXGrpcCommunicationsController(
             OpenCDXNotificationService openCDXNotificationService,
-            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
-            OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
+            OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailTemplateService,
+            OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService,
             OpenCDXSystemMessageService openCDXMessageService) {
         this.openCDXNotificationService = openCDXNotificationService;
-        this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
-        this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
+        this.openCDXCommunicationEmailTemplateService = openCDXCommunicationEmailTemplateService;
+        this.openCDXCommunicationSmsTemplateService = openCDXCommunicationSmsTemplateService;
         this.openCDXMessageService = openCDXMessageService;
         log.info("OpenCDXGrpcCommunicationsController created");
     }
@@ -66,7 +66,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void createEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
         log.trace("Received request to create email template ");
-        responseObserver.onNext(this.openCDXCommunicationEmailService.createEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailTemplateService.createEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -74,7 +74,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void getEmailTemplate(TemplateRequest request, StreamObserver<EmailTemplate> responseObserver) {
         log.trace("Received request to get email template ");
-        responseObserver.onNext(this.openCDXCommunicationEmailService.getEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailTemplateService.getEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -82,7 +82,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void updateEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
         log.trace("Received request to update email template ");
-        responseObserver.onNext(this.openCDXCommunicationEmailService.updateEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailTemplateService.updateEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -90,7 +90,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void deleteEmailTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
         log.trace("Received request to delete email template ");
-        responseObserver.onNext(this.openCDXCommunicationEmailService.deleteEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailTemplateService.deleteEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -98,7 +98,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void createSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
         log.trace("Received request to create SMS template ");
-        responseObserver.onNext(this.openCDXCommunicationSmsService.createSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsTemplateService.createSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -106,7 +106,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void getSMSTemplate(TemplateRequest request, StreamObserver<SMSTemplate> responseObserver) {
         log.trace("Received request to get SMS template ");
-        responseObserver.onNext(this.openCDXCommunicationSmsService.getSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -114,7 +114,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void updateSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
         log.trace("Received request to update SMS template ");
-        responseObserver.onNext(this.openCDXCommunicationSmsService.updateSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsTemplateService.updateSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -122,7 +122,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void deleteSMSTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
         log.trace("Received request to delete SMS template ");
-        responseObserver.onNext(this.openCDXCommunicationSmsService.deleteSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsTemplateService.deleteSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
@@ -171,7 +171,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     public void listSMSTemplates(
             SMSTemplateListRequest request, StreamObserver<SMSTemplateListResponse> responseObserver) {
         log.trace("Received request to list SMS templates ");
-        responseObserver.onNext(this.openCDXCommunicationSmsService.listSMSTemplates(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsTemplateService.listSMSTemplates(request));
         responseObserver.onCompleted();
     }
 
@@ -180,7 +180,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     public void listEmailTemplates(
             EmailTemplateListRequest request, StreamObserver<EmailTemplateListResponse> responseObserver) {
         log.trace("Received request to list email templates ");
-        responseObserver.onNext(this.openCDXCommunicationEmailService.listEmailTemplates(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailTemplateService.listEmailTemplates(request));
         responseObserver.onCompleted();
     }
 

@@ -92,7 +92,7 @@ class OpenCDXNotificationServiceImplTest {
     OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
 
     @Mock
-    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
     @Mock
     OpenCDXNotificationService openCDXNotificationService;
@@ -223,7 +223,7 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXHTMLProcessor,
                 openCDXMessageService,
                 openCDXCurrentUser,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationSmsTemplateService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
@@ -324,7 +324,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -369,7 +369,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -414,7 +414,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -486,7 +486,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -527,7 +527,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
@@ -562,7 +562,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -614,7 +614,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -663,7 +663,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -711,7 +711,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -760,7 +760,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -829,7 +829,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -878,7 +878,7 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXHTMLProcessor,
                 openCDXMessageService,
                 this.openCDXCurrentUser,
-                this.openCDXCommunicationSmsService,
+                this.openCDXCommunicationSmsTemplateService,
                 this.openCDXCommunicationEmailService,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
@@ -907,7 +907,7 @@ class OpenCDXNotificationServiceImplTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
@@ -944,7 +944,7 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXHTMLProcessor,
                 openCDXMessageService,
                 openCDXCurrentUser,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationSmsTemplateService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,

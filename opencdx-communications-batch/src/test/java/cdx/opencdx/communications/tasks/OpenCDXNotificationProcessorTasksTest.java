@@ -89,7 +89,7 @@ class OpenCDXNotificationProcessorTasksTest {
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
     @Mock
-    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
     @Mock
     OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
@@ -120,7 +120,7 @@ class OpenCDXNotificationProcessorTasksTest {
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
         this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
         this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailService.class);
-        this.openCDXCommunicationSmsService = Mockito.mock(OpenCDXCommunicationSmsService.class);
+        this.openCDXCommunicationSmsTemplateService = Mockito.mock(OpenCDXCommunicationSmsTemplateService.class);
 
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
@@ -202,7 +202,7 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXHTMLProcessor,
                 openCDXMessageService,
                 openCDXCurrentUser,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationSmsTemplateService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
@@ -228,7 +228,7 @@ class OpenCDXNotificationProcessorTasksTest {
                 .addAllVariables((List.of("A", "B", "C")))
                 .build();
 
-        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+        Mockito.when(this.openCDXCommunicationSmsTemplateService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()

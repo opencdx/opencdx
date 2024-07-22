@@ -77,7 +77,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXSMSService openCDXSMSService;
     private final OpenCDXHTMLProcessor openCDXHTMLProcessor;
 
-    private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    private final OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
     private final OpenCDXSystemMessageService openCDXMessageService;
@@ -96,7 +96,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
      * @param openCDXMessageService         Message Service for sending messages
      * @param openCDXCurrentUser                 Current User Service to access information.
-     * @param openCDXCommunicationSmsService     SMS Service to use for handling SMS
+     * @param openCDXCommunicationSmsTemplateService     SMS Service to use for handling SMS
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
@@ -113,7 +113,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
             OpenCDXSystemMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
+            OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
@@ -127,7 +127,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
         this.openCDXMessageService = openCDXMessageService;
         this.openCDXCurrentUser = openCDXCurrentUser;
-        this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
+        this.openCDXCommunicationSmsTemplateService = openCDXCommunicationSmsTemplateService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
@@ -272,7 +272,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             CommunicationAuditRecord.Builder auditBuilder,
             Map<String, Object> objectVariableMap,
             NotificationEvent notificationEvent) {
-        SMSTemplate smsTemplate = this.openCDXCommunicationSmsService.getSMSTemplate(TemplateRequest.newBuilder()
+        SMSTemplate smsTemplate = this.openCDXCommunicationSmsTemplateService.getSMSTemplate(TemplateRequest.newBuilder()
                 .setTemplateId(notificationEvent.getSmsTemplateId())
                 .build());
         String message = this.processHTML(

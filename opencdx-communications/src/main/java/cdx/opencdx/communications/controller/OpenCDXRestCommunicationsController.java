@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
-import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationEmailTemplateService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationSmsTemplateService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.communications.service.OpenCDXSystemMessageService;
 import cdx.opencdx.grpc.data.*;
@@ -39,28 +39,28 @@ import org.springframework.web.bind.annotation.*;
 public class OpenCDXRestCommunicationsController {
 
     private final OpenCDXNotificationService openCDXNotificationService;
-    private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    private final OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
-    private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    private final OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailTemplateService;
     private final OpenCDXSystemMessageService openCDXMessageService;
 
     /**
-     * Constructor that takes a OpenCDXNotificationService, OpenCDXCommunicationSmsService, OpenCDXCommunicationEmailService
+     * Constructor that takes a OpenCDXNotificationService, OpenCDXCommunicationSmsTemplateService, OpenCDXCommunicationEmailTemplateService
      *  @param openCDXNotificationService       service for processing requests.
-     * @param openCDXCommunicationSmsService   service for processing SMS requests.
-     * @param openCDXCommunicationEmailService service for processing email requests.
+     * @param openCDXCommunicationSmsTemplateService   service for processing SMS requests.
+     * @param openCDXCommunicationEmailTemplateService service for processing email requests.
      * @param openCDXMessageService        service for processing message requests.
      */
     @Autowired
     public OpenCDXRestCommunicationsController(
             OpenCDXNotificationService openCDXNotificationService,
-            OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
-            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
+            OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService,
+            OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailTemplateService,
             OpenCDXSystemMessageService openCDXMessageService) {
         log.info("OpenCDXRestCommunicationsController created");
         this.openCDXNotificationService = openCDXNotificationService;
-        this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
-        this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
+        this.openCDXCommunicationSmsTemplateService = openCDXCommunicationSmsTemplateService;
+        this.openCDXCommunicationEmailTemplateService = openCDXCommunicationEmailTemplateService;
         this.openCDXMessageService = openCDXMessageService;
     }
 
@@ -74,7 +74,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<EmailTemplate> createEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         log.trace("Creating EmailTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationEmailService.createEmailTemplate(emailTemplate), HttpStatus.OK);
+                this.openCDXCommunicationEmailTemplateService.createEmailTemplate(emailTemplate), HttpStatus.OK);
     }
 
     /**
@@ -87,7 +87,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<EmailTemplate> getEmailTemplate(@PathVariable String id) {
         log.trace("Getting EmailTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationEmailService.getEmailTemplate(
+                this.openCDXCommunicationEmailTemplateService.getEmailTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
                 HttpStatus.OK);
     }
@@ -102,7 +102,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<EmailTemplate> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         log.trace("Updating EmailTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationEmailService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
+                this.openCDXCommunicationEmailTemplateService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
     }
 
     /**
@@ -115,7 +115,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<SuccessResponse> deleteEmailTemplate(@PathVariable String id) {
         log.trace("Deleting EmailTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationEmailService.deleteEmailTemplate(
+                this.openCDXCommunicationEmailTemplateService.deleteEmailTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
                 HttpStatus.OK);
     }
@@ -129,7 +129,7 @@ public class OpenCDXRestCommunicationsController {
     @PostMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> createSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         log.trace("Creating SMSTemplate");
-        return new ResponseEntity<>(this.openCDXCommunicationSmsService.createSMSTemplate(smsTemplate), HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXCommunicationSmsTemplateService.createSMSTemplate(smsTemplate), HttpStatus.OK);
     }
 
     /**
@@ -142,7 +142,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<SMSTemplate> getSMSTemplate(@PathVariable String id) {
         log.trace("Getting SMSTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationSmsService.getSMSTemplate(
+                this.openCDXCommunicationSmsTemplateService.getSMSTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
                 HttpStatus.OK);
     }
@@ -156,7 +156,7 @@ public class OpenCDXRestCommunicationsController {
     @PutMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> updateSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         log.trace("Updating SMSTemplate");
-        return new ResponseEntity<>(this.openCDXCommunicationSmsService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXCommunicationSmsTemplateService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
     }
 
     /**
@@ -169,7 +169,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<SuccessResponse> deleteSMSTemplate(@PathVariable String id) {
         log.trace("Deleting SMSTemplate");
         return new ResponseEntity<>(
-                this.openCDXCommunicationSmsService.deleteSMSTemplate(
+                this.openCDXCommunicationSmsTemplateService.deleteSMSTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
                 HttpStatus.OK);
     }
@@ -247,7 +247,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<SMSTemplateListResponse> listSMSTemplates(
             @RequestBody SMSTemplateListRequest smsTemplateListRequest) {
         return new ResponseEntity<>(
-                this.openCDXCommunicationSmsService.listSMSTemplates(smsTemplateListRequest), HttpStatus.OK);
+                this.openCDXCommunicationSmsTemplateService.listSMSTemplates(smsTemplateListRequest), HttpStatus.OK);
     }
 
     /**
@@ -260,7 +260,7 @@ public class OpenCDXRestCommunicationsController {
     public ResponseEntity<EmailTemplateListResponse> listEmailTemplates(
             @RequestBody EmailTemplateListRequest emailTemplateListRequest) {
         return new ResponseEntity<>(
-                this.openCDXCommunicationEmailService.listEmailTemplates(emailTemplateListRequest), HttpStatus.OK);
+                this.openCDXCommunicationEmailTemplateService.listEmailTemplates(emailTemplateListRequest), HttpStatus.OK);
     }
 
     /**

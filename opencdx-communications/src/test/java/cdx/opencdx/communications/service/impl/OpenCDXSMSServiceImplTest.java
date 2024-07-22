@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.communications.service.impl;
 
-import cdx.opencdx.communications.service.OpenCDXSMSService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

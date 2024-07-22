@@ -25,9 +25,9 @@ import cdx.opencdx.grpc.service.communications.SuccessResponse;
 import cdx.opencdx.grpc.service.communications.TemplateRequest;
 
 /**
- * Interface for the OpenCDXCommunicationSmsService
+ * Interface for the OpenCDXCommunicationSmsTemplateService
  */
-public interface OpenCDXCommunicationSmsService {
+public interface OpenCDXCommunicationSmsTemplateService {
 
     /**
      * Create an SMS Template

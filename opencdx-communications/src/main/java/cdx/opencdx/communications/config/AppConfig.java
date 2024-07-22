@@ -20,9 +20,7 @@ import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.communications.handlers.OpenCDXCDCMessageHandler;
 import cdx.opencdx.communications.handlers.OpenCDXCommunicationNotificationMessageHandler;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
-import cdx.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockProvider;
@@ -46,16 +44,6 @@ public class AppConfig {
         log.trace("Creating AppConfig");
     }
 
-    /**
-     * Bean to get SMS notification service.
-     * @return Object of OpenCDXSMSServiceImpl.
-     */
-    @Bean
-    @Description("Bean for OpenCDXSMSService, to get the SMS notification.")
-    OpenCDXSMSService openCDXSMSService() {
-        log.info("Creating OpenCDXSMSService");
-        return new OpenCDXSMSServiceImpl();
-    }
 
     /**
      * Bean to get HTML processor.
@@ -66,13 +54,6 @@ public class AppConfig {
     OpenCDXHTMLProcessor openCDXHTMLProcessor() {
         log.info("Creating OpenCDXHTMLProcessor");
         return new OpenCDXHTMLProcessorImpl();
-    }
-
-    @Bean
-    @Description("Bean for OpenCDXEmailService, to send the Email Notification")
-    OpenCDXEmailService openCDXEmailService() {
-        log.info("Creating OpenCDXEmailService");
-        return new OpenCDXEmailServiceImpl();
     }
 
     /**

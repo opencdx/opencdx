@@ -27,7 +27,7 @@ import cdx.opencdx.communications.model.*;
 import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
-import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsTemplateServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXSystemMessageServiceImpl;
 import cdx.opencdx.grpc.data.*;
@@ -101,7 +101,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
 
     OpenCDXNotificationService openCDXNotificationService;
 
-    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
     OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
 
@@ -223,7 +223,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXNotificationEventRepository,
                 openCDXCurrentUser,
                 objectMapper);
-        this.openCDXCommunicationSmsService = new OpenCDXCommunicationSmsServiceImpl(
+        this.openCDXCommunicationSmsTemplateService = new OpenCDXCommunicationSmsTemplateServiceImpl(
                 this.openCDXAuditService,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
@@ -238,7 +238,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXHTMLProcessor,
                 openCDXMessageService,
                 openCDXCurrentUser,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationSmsTemplateService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 this.openCDXDocumentValidator,
@@ -254,7 +254,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
         this.openCDXGrpcCommunicationsController = new OpenCDXGrpcCommunicationsController(
                 this.openCDXNotificationService,
                 openCDXCommunicationEmailService,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationSmsTemplateService,
                 this.openCDXMessageService);
     }
 

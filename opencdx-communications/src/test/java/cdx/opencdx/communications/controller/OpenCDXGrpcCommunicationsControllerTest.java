@@ -26,8 +26,8 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.*;
 import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
-import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailTemplateServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsTemplateServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXSystemMessageServiceImpl;
 import cdx.opencdx.grpc.data.*;
@@ -73,12 +73,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
     OpenCDXHTMLProcessor openCDXHTMLProcessor;
 
     @Autowired
-    OpenCDXSMSService openCDXSMSService;
-
-    @Autowired
-    OpenCDXEmailService openCDXEmailService;
-
-    @Autowired
     OpenCDXSystemMessageService openCDXMessageService;
 
     @Autowired
@@ -101,9 +95,9 @@ class OpenCDXGrpcCommunicationsControllerTest {
 
     OpenCDXNotificationService openCDXNotificationService;
 
-    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
-    OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailTemplateService;
 
     OpenCDXGrpcCommunicationsController openCDXGrpcCommunicationsController;
 
@@ -217,13 +211,13 @@ class OpenCDXGrpcCommunicationsControllerTest {
                         .id(OpenCDXIdentifier.get())
                         .build());
 
-        this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailServiceImpl(
+        this.openCDXCommunicationEmailTemplateService = new OpenCDXCommunicationEmailTemplateServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXCurrentUser,
                 objectMapper);
-        this.openCDXCommunicationSmsService = new OpenCDXCommunicationSmsServiceImpl(
+        this.openCDXCommunicationSmsTemplateService = new OpenCDXCommunicationSmsTemplateServiceImpl(
                 this.openCDXAuditService,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
@@ -233,13 +227,11 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 this.openCDXAuditService,
                 openCDXNotificationEventRepository,
                 openCDXNotificaitonRepository,
-                openCDXEmailService,
-                openCDXSMSService,
                 openCDXHTMLProcessor,
                 openCDXMessageService,
                 openCDXCurrentUser,
-                openCDXCommunicationSmsService,
-                openCDXCommunicationEmailService,
+                openCDXCommunicationSmsTemplateService,
+                openCDXCommunicationEmailTemplateService,
                 objectMapper,
                 this.openCDXDocumentValidator,
                 openCDXProfileRepository,
@@ -253,8 +245,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXCurrentUser);
         this.openCDXGrpcCommunicationsController = new OpenCDXGrpcCommunicationsController(
                 this.openCDXNotificationService,
-                openCDXCommunicationEmailService,
-                openCDXCommunicationSmsService,
+                openCDXCommunicationEmailTemplateService,
+                openCDXCommunicationSmsTemplateService,
                 this.openCDXMessageService);
     }
 
