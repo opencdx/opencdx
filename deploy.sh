@@ -982,6 +982,11 @@ if [ "$skip" = false ]; then
           ./gradlew  spotlessApply  spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to format with spotlessc."
     fi
 
+
+  if [ "$proto" = true ]; then
+      ./gradlew opencdx-proto:publish opencdx-proto:publishToMavenLocal
+  fi
+
   gradlew_cmd="./gradlew "
 
   if [ "$clean" = true ]; then
@@ -989,7 +994,7 @@ if [ "$skip" = false ]; then
   fi
 
   if [ "$proto" = true ]; then
-      gradlew_cmd="$gradlew_cmd proto"
+      gradlew_cmd="$gradlew_cmd opencdx-proto:publish opencdx-proto:publishToMavenLocal"
   fi
 
   if [ "$build" = true ]; then
