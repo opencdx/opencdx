@@ -147,6 +147,9 @@ class OpenCDXCommunicationEmailServiceImplTest {
 
     @Test
     void deleteEmailTemplate() throws JsonProcessingException {
+        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(
+                        Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(true);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
@@ -160,7 +163,7 @@ class OpenCDXCommunicationEmailServiceImplTest {
     void deleteEmailTemplateFail() throws JsonProcessingException {
         Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(
                         Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(true);
+                .thenReturn(false);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();

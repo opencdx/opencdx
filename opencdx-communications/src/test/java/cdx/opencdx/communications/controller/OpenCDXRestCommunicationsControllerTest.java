@@ -266,7 +266,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("Received\n {}", content);
-        Assertions.assertEquals("{\"success\":true}", content);
+        Assertions.assertEquals("{\"success\":false}", content);
     }
 
     @Test

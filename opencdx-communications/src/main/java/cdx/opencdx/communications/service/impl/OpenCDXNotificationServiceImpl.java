@@ -215,7 +215,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (this.openCDXNotificaitonRepository.existsByEventId(
+        if (!this.openCDXNotificaitonRepository.existsByEventId(
                 new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }

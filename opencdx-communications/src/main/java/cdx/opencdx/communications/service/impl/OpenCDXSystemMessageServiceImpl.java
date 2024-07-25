@@ -198,7 +198,7 @@ public class OpenCDXSystemMessageServiceImpl implements OpenCDXSystemMessageServ
     @CacheEvict(value = "message_template", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteMessageTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (openCDXMessageTemplateRepository.existsById(new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
+        if (!openCDXMessageTemplateRepository.existsById(new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {

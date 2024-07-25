@@ -170,7 +170,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
 
-        if (this.openCDXNotificationEventRepository.existsByEmailTemplateId(
+        if (!this.openCDXNotificationEventRepository.existsByEmailTemplateId(
                 new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
