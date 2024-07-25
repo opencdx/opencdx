@@ -79,7 +79,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     private final OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;
 
-    private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    private final OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailService;
     private final OpenCDXSystemMessageService openCDXMessageService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
@@ -114,7 +114,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXSystemMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService,
-            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
+            OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
             OpenCDXProfileRepository openCDXProfileRepository,

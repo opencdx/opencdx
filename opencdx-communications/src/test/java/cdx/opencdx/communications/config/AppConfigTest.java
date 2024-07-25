@@ -28,18 +28,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class AppConfigTest {
 
     @Test
-    void testOpenCDXSMSService() {
-        AppConfig appConfig = new AppConfig();
-        Assertions.assertNotNull(appConfig.openCDXSMSService());
-    }
-
-    @Test
-    void testOpenCDXEmailService() {
-        AppConfig appConfig = new AppConfig();
-        Assertions.assertNotNull(appConfig.openCDXEmailService());
-    }
-
-    @Test
     void testOpenCDXHTMLProcessor() {
         AppConfig appConfig = new AppConfig();
         Assertions.assertNotNull(appConfig.openCDXHTMLProcessor());

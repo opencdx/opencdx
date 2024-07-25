@@ -28,7 +28,7 @@ import cdx.opencdx.grpc.service.communications.TemplateRequest;
 /**
  * Represents a service for communicating with OpenCDX via email.
  */
-public interface OpenCDXCommunicationEmailService {
+public interface OpenCDXCommunicationEmailTemplateService {
 
     /**
      * Create an Email Template

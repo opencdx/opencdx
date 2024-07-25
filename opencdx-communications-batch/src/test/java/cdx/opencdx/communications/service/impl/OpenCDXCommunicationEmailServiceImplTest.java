@@ -25,7 +25,7 @@ import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationEmailTemplateService;
 import cdx.opencdx.grpc.data.EmailTemplate;
 import cdx.opencdx.grpc.service.communications.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,7 +47,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXCommunicationEmailServiceImplTest {
+class OpenCDXCommunicationEmailTemplateServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
@@ -63,13 +63,13 @@ class OpenCDXCommunicationEmailServiceImplTest {
     @Mock
     OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
 
-    OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
         this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
-        this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailService.class);
+        this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailTemplateService.class);
 
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenAnswer(invocation -> {
@@ -103,7 +103,7 @@ class OpenCDXCommunicationEmailServiceImplTest {
                         .build());
 
         this.objectMapper = Mockito.mock(ObjectMapper.class);
-        this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailServiceImpl(
+        this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailTemplateServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,

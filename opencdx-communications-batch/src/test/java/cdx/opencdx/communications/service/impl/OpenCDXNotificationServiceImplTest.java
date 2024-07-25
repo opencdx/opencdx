@@ -89,7 +89,7 @@ class OpenCDXNotificationServiceImplTest {
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
     @Mock
-    OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    OpenCDXCommunicationEmailTemplateService openCDXCommunicationEmailService;
 
     @Mock
     OpenCDXCommunicationSmsTemplateService openCDXCommunicationSmsTemplateService;

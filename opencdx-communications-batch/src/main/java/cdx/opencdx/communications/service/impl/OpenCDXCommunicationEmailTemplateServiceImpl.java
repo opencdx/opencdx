@@ -27,7 +27,7 @@ import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationEmailTemplateService;
 import cdx.opencdx.grpc.data.EmailTemplate;
 import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.communications.EmailTemplateListRequest;
@@ -55,7 +55,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicationEmailService {
+public class OpenCDXCommunicationEmailTemplateServiceImpl implements OpenCDXCommunicationEmailTemplateService {
     private static final String EMAIL_TEMPLATE = "EMAIL-TEMPLATE: ";
     private final OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
@@ -77,7 +77,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
-    public OpenCDXCommunicationEmailServiceImpl(
+    public OpenCDXCommunicationEmailTemplateServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
