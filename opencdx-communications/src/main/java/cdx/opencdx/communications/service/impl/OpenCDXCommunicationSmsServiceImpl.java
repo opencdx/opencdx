@@ -168,7 +168,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (this.openCDXNotificationEventRepository.existsBySmsTemplateId(
+        if (!this.openCDXNotificationEventRepository.existsBySmsTemplateId(
                 new OpenCDXIdentifier(templateRequest.getTemplateId()))) {
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }

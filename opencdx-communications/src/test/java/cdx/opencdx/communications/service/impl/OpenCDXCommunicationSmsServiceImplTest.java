@@ -149,6 +149,9 @@ class OpenCDXCommunicationSmsServiceImplTest {
 
     @Test
     void deleteSMSTemplate() throws JsonProcessingException {
+        Mockito.when(this.openCDXNotificationEventRepository.existsBySmsTemplateId(
+                        Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(true);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
@@ -162,7 +165,7 @@ class OpenCDXCommunicationSmsServiceImplTest {
     void deleteSMSTemplateFail() throws JsonProcessingException {
         Mockito.when(this.openCDXNotificationEventRepository.existsBySmsTemplateId(
                         Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(true);
+                .thenReturn(false);
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();

@@ -23,7 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.communications.model.*;
+import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
 import cdx.opencdx.grpc.data.MessageTemplate;
@@ -206,6 +206,8 @@ class OpenCDXSystemMessageServiceImplTest {
 
     @Test
     void deleteMessageTemplateException() throws JsonProcessingException {
+        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
+                .thenReturn(true);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
@@ -218,7 +220,7 @@ class OpenCDXSystemMessageServiceImplTest {
     @Test
     void deleteMessageTemplateSuccess() {
         Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(OpenCDXIdentifier.class)))
-                .thenReturn(true);
+                .thenReturn(false);
         TemplateRequest messageTemplate = TemplateRequest.newBuilder()
                 .setTemplateId(OpenCDXIdentifier.get().toHexString())
                 .build();
