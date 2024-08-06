@@ -22,12 +22,14 @@ import cdx.opencdx.commons.service.OpenCDXANFService;
 import cdx.opencdx.commons.service.OpenCDXAdrMessageService;
 import cdx.opencdx.grpc.data.*;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 /**
  * This service is for processing ANF questionnaires.
@@ -100,6 +102,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (patient.isPresent()) {
             anfStatements.stream()
                     .map(anfStatement -> ANFStatement.newBuilder(anfStatement)
+                            .setId(UUID.randomUUID().toString())
                             .setSubjectOfRecord(Participant.newBuilder()
                                     .setId(patient.get().getNationalHealthId())
                                     .setCode(LogicalExpression.newBuilder()
