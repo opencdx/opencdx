@@ -307,35 +307,46 @@ message ANFIdentifier {
  * This data element describes when the statement was documented. Is its expressed as a Measure
  */
 message Measure {
+
+  /*
+   * The `upper_bound_config` field represents the upper bound value that will be replaced on submission.
+   */
+  string upper_bound_config = 1;
+
   /*
    * The `upper_bound` field signifies the maximum limit of the measure.
    */
-  double upper_bound = 1;
+  double upper_bound = 2;
+
+  /*
+   * The `lower_bound_` field represents the lower bound value that will be replaced on submission.
+   */
+  string lower_bound_config = 3;
 
   /*
    * The `lower_bound` field signifies the minimum limit of the measure.
    */
-  double lower_bound = 2;
+  double lower_bound = 4;
 
   /*
    * The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
    */
-  bool include_upper_bound = 3;
+  bool include_upper_bound = 5;
 
   /*
    * The `include_lower_bound` field reveals if the `lower_bound` value is inclusive in the measure.
    */
-  bool include_lower_bound = 4;
+  bool include_lower_bound = 6;
 
   /*
    * The `semantic` field signifies the meaning of the measure.
    */
-  LogicalExpression semantic = 5;
+  LogicalExpression semantic = 7;
 
   /*
    * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
    */
-  double resolution = 6;
+  double resolution = 8;
 }
 
 /*
