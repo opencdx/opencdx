@@ -22,14 +22,13 @@ import cdx.opencdx.commons.service.OpenCDXANFService;
 import cdx.opencdx.commons.service.OpenCDXAdrMessageService;
 import cdx.opencdx.grpc.data.*;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * This service is for processing ANF questionnaires.
