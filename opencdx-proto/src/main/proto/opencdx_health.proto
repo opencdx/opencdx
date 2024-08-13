@@ -1811,7 +1811,8 @@ service MedicationAdministrationService {
  */
 service UserProfileService {
   /*
-   * GetUserProfile is an RPC method that retrieves a user profile based on the provided user ID in the UserProfileRequest
+   * GetUserProfile is an RPC method that retrieves a user profile based on the provided user ID in the UserProfileRequest.
+   * If no user id or patient id is provided, the method will return the profile of the user making the request.
    */
   rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
 

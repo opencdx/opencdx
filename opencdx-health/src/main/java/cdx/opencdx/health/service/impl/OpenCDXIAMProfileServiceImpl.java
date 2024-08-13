@@ -34,10 +34,11 @@ import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Service for processing IAM Profile Requests
@@ -96,7 +97,15 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     .orElseThrow(() ->
                             new OpenCDXNotFound(DOMAIN, 10, "Failed to find by patient id: " + request.getUserId()));
         } else {
-            throw new OpenCDXNotAcceptable(DOMAIN, 11, "Failed to find user: No ID provided.");
+            Optional<OpenCDXProfileModel> currentUserProfile = this.openCDXProfileRepository.findByUserId(
+                    openCDXCurrentUser.getCurrentUser().getId());
+            if (currentUserProfile.isPresent()) {
+                model = currentUserProfile.get();
+            } else {
+                model = new OpenCDXProfileModel();
+                model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
+                model = this.openCDXProfileRepository.save(model);
+            }
         }
 
         try {

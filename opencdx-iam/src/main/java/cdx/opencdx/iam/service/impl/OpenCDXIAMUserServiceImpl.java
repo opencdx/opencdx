@@ -315,8 +315,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         if (passwordEncoder.matches(request.getOldPassword(), model.getPassword())) {
             model.setPassword(passwordEncoder.encode(request.getNewPassword()));
         } else {
-            throw new OpenCDXNotAcceptable(
-                    DOMAIN, 5, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, new Throwable("Password mismatch"));
+            throw new OpenCDXNotAcceptable(DOMAIN, 5, "Current Passwords does not match");
         }
 
         model = this.openCDXIAMUserRepository.save(model);

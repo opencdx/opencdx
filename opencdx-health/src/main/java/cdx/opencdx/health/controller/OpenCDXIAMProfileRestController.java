@@ -68,6 +68,18 @@ public class OpenCDXIAMProfileRestController {
                         UserProfileRequest.newBuilder().setUserId(id).build()),
                 HttpStatus.OK);
     }
+
+    /**
+     * Gets the current user's  profile.
+     * @return Response with the user profile.
+     */
+    @GetMapping("/user")
+    public ResponseEntity<UserProfileResponse> getUserProfileByUserId() {
+        return new ResponseEntity<>(
+                this.openCDXIAMProfileService.getUserProfile(
+                        UserProfileRequest.newBuilder().build()),
+                HttpStatus.OK);
+    }
     /**
      * Method to update information on a profile.
      * @param request The updated information for a user.
