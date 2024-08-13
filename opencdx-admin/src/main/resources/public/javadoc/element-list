@@ -16,7 +16,6 @@ cdx.opencdx.classification.config
 cdx.opencdx.classification.controller
 cdx.opencdx.classification.handlers
 cdx.opencdx.classification.model
-cdx.opencdx.classification.repository
 cdx.opencdx.classification.security
 cdx.opencdx.classification.service
 cdx.opencdx.classification.service.impl
@@ -96,7 +95,6 @@ cdx.opencdx.media
 cdx.opencdx.media.config
 cdx.opencdx.media.controller
 cdx.opencdx.media.dto
-cdx.opencdx.media.model
 cdx.opencdx.media.repository
 cdx.opencdx.media.security
 cdx.opencdx.media.service
@@ -104,7 +102,6 @@ cdx.opencdx.media.service.impl
 cdx.opencdx.questionnaire
 cdx.opencdx.questionnaire.config
 cdx.opencdx.questionnaire.controller
-cdx.opencdx.questionnaire.model
 cdx.opencdx.questionnaire.repository
 cdx.opencdx.questionnaire.security
 cdx.opencdx.questionnaire.service
