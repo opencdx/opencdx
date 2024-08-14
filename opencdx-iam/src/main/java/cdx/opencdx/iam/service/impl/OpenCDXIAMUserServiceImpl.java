@@ -535,8 +535,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     public LoginResponse login(LoginRequest request) {
         OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
                 .findByUsername(request.getUserName())
-                .orElseThrow(() ->
-                        new OpenCDXUnauthorized(DOMAIN, 1, "Failed to authenticate user: " + request.getUserName()));
+                .orElseThrow(() -> new OpenCDXUnauthorized(DOMAIN, 1, FAILED_TO_FIND_USER + request.getUserName()));
         try {
 
             if (Boolean.TRUE.equals(userModel.getEmailVerified())) {
