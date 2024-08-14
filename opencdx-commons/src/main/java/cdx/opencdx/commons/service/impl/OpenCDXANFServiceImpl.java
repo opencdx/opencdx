@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -100,6 +101,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (patient.isPresent()) {
             anfStatements.stream()
                     .map(anfStatement -> ANFStatement.newBuilder(anfStatement)
+                            .setId(UUID.randomUUID().toString())
                             .setSubjectOfRecord(Participant.newBuilder()
                                     .setId(patient.get().getNationalHealthId())
                                     .setCode(LogicalExpression.newBuilder()
