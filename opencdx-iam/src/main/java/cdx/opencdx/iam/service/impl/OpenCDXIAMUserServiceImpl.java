@@ -41,10 +41,6 @@ import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +50,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service for processing IAM User Requests
@@ -350,6 +351,55 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                             .build());
         }
         return ChangePasswordResponse.builder()
+                .iamUser(model.getIamUserProtobufMessage())
+                .build();
+    }
+
+    /**
+     * Method to reset a user password
+     *
+     * @param request Request to reset a user password
+     * @return Response for reset a users password.
+     */
+    @Override
+    public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_USER + request.getUsername()));
+
+        model.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        model = this.openCDXIAMUserRepository.save(model);
+
+        this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.CHANGE_PASSWORD)
+                .setPatientId(model.getId().toHexString())
+                .addAllToEmail(List.of(model.getUsername()))
+                .putAllVariables(Map.of(USER_NAME, model.getUsername()))
+                .build());
+        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(model);
+
+        Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findByUserId(model.getId());
+
+        if (patient.isPresent()) {
+
+            this.openCDXAuditService.passwordChange(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "User Password Reset",
+                    AuditEntity.newBuilder()
+                            .setPatientId(patient.get().getId().toHexString())
+                            .setNationalHealthId(patient.get().getNationalHealthId())
+                            .build());
+        } else {
+            this.openCDXAuditService.passwordChange(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "User Password Reset",
+                    AuditEntity.newBuilder()
+                            .setUserId(model.getId().toHexString())
+                            .build());
+        }
+        return ResetPasswordResponse.builder()
                 .iamUser(model.getIamUserProtobufMessage())
                 .build();
     }

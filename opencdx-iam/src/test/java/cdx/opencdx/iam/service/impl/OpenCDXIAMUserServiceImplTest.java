@@ -589,4 +589,37 @@ class OpenCDXIAMUserServiceImplTest {
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMUserService.changePassword(request));
     }
+
+    @Test
+    void resetPassword() {
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class))).thenReturn(Optional.empty());
+        ResetPasswordRequest request = ResetPasswordRequest.builder()
+                .username("xy@safehealth.me")
+                .newPassword("newpass")
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.resetPassword(request));
+    }
+
+    @Test
+    void resetPasswordPatientEmpty() {
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(OpenCDXIdentifier.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIdentifier argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .password("{noop}pass")
+                        .username("username")
+                        .build()));
+        ResetPasswordRequest request = ResetPasswordRequest.builder()
+                .newPassword("newpass")
+                .username("username")
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMUserService.resetPassword(request));
+    }
 }

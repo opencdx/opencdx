@@ -115,6 +115,16 @@ public class OpenCDXIAMUserRestController {
     }
 
     /**
+     * Method to reset a user's password
+     * @param request Reset password information
+     * @return Updated user record.
+     */
+    @PostMapping(value = "/password/reset", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResetPasswordResponse> resetPassword(@RequestBody ResetPasswordRequest request) {
+        return new ResponseEntity<>(this.openCDXIAMUserService.resetPassword(request), HttpStatus.OK);
+    }
+
+    /**
      * Method to check if a user exists
      * @param request Request with the user to check if exists
      * @return The user record if found.

@@ -59,6 +59,13 @@ public interface OpenCDXIAMUserService {
     ChangePasswordResponse changePassword(ChangePasswordRequest request);
 
     /**
+     * Method to reset a user password
+     * @param request Request to reset a user password
+     * @return Response for reset a users password.
+     */
+    ResetPasswordResponse resetPassword(ResetPasswordRequest request);
+
+    /**
      * Method to delete a user. User's status is udpated to DELETED. User it not actually removed.
      * @param request Request to delete the specified user.
      * @return Response for deleting a user.

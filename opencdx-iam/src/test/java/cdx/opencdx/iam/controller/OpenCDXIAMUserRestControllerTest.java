@@ -177,6 +177,18 @@ class OpenCDXIAMUserRestControllerTest {
                                 .build());
                     }
                 });
+        when(this.openCDXIAMUserRepository.findByUsername(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(OpenCDXIdentifier.get())
+                                .password("{noop}pass")
+                                .username("ab@safehealth.me")
+                                .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .build());
+                    }
+                });
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
@@ -297,6 +309,21 @@ class OpenCDXIAMUserRestControllerTest {
                         .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.builder()
                                 .id(OpenCDXIdentifier.get().toHexString())
                                 .oldPassword("pass")
+                                .newPassword("newpass")
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void resetPassword() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/user/password/reset")
+                        .content(this.objectMapper.writeValueAsString(ResetPasswordRequest.builder()
+                                .username("ab@safehealth.me")
                                 .newPassword("newpass")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
