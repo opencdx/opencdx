@@ -73,6 +73,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/user/signup")
                         .permitAll()
+                        .requestMatchers("/user/password/reset")
+                        .permitAll()
                         .requestMatchers("/user/login")
                         .permitAll()
                         .requestMatchers("/user/verify/**")
