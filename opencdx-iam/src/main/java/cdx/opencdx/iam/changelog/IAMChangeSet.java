@@ -25,6 +25,7 @@ import cdx.opencdx.grpc.types.IamUserType;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import java.util.List;
 
@@ -181,7 +182,9 @@ public class IAMChangeSet {
     @ChangeSet(order = "002", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
-        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("username")));
+        mongockTemplate
+                .getCollection("users")
+                .createIndex(Indexes.ascending(List.of("username")), new IndexOptions().unique(true));
     }
 
     /**
@@ -211,16 +214,8 @@ public class IAMChangeSet {
     @ChangeSet(order = "004", id = "Setup Users System Index", author = "Jeff Miller")
     public void setupSystemIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
-        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
-    }
-
-    /**
-     * Create an index based on the id
-     * @param mongockTemplate MongockTemplate to modify MongoDB.
-     * @param openCDXCurrentUser Current User to use for authentication.
-     */
-    @ChangeSet(order = "005", id = "Setup IAM Index", author = "Gaurav Mishra")
-    public void setupIAMIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
-        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        mongockTemplate
+                .getCollection("users")
+                .createIndex(Indexes.ascending(List.of("systemName")), new IndexOptions().unique(true));
     }
 }
