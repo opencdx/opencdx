@@ -15,39 +15,61 @@
  */
 package cdx.opencdx.tinkar.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryRequest;
+import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResponse;
+import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResult;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@ActiveProfiles({"test"})
-@ExtendWith(MockitoExtension.class)
-@Disabled
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ActiveProfiles({"test", "managed"})
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRestTinkarSearchControllerTest {
 
-    @Mock
+    @MockBean
     OpenCDXTinkarService openCDXTinkarService;
+
+    @Autowired
+    private WebApplicationContext context;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new OpenCDXRestTinkarSearchController(openCDXTinkarService))
+
+        TinkarSearchQueryRequest request = TinkarSearchQueryRequest.newBuilder()
+                .setQuery("chronic disease of respiratory system")
+                .setMaxResults(10)
                 .build();
+        TinkarSearchQueryResponse response = TinkarSearchQueryResponse.newBuilder()
+                .addResults(createResult())
+                .build();
+
+        when(openCDXTinkarService.search(request)).thenReturn(response);
+
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     void testSearch() throws Exception {
+
         MvcResult result = this.mockMvc
                 .perform(get("/search")
                         .param("query", "chronic disease of respiratory")
@@ -105,5 +127,16 @@ class OpenCDXRestTinkarSearchControllerTest {
                         .param("resultConformanceConceptId", "550e8400-e29b-41d4-a716-446655440000"))
                 .andExpect(status().is(200))
                 .andReturn();
+    }
+
+    private TinkarSearchQueryResult createResult() {
+        return TinkarSearchQueryResult.newBuilder()
+                .setNid(-2144684618)
+                .setRcNid(-2147393046)
+                .setPatternNid(-2147483638)
+                .setFieldIndex(1)
+                .setScore(13.158955F)
+                .setHighlightedString("<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>")
+                .build();
     }
 }
