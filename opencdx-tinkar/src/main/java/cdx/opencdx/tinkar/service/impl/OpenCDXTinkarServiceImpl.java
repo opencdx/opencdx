@@ -19,12 +19,11 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
+import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
-import dev.ikm.tinkar.common.service.*;
-import dev.ikm.tinkar.provider.search.Searcher;
+import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import io.micrometer.observation.annotation.Observed;
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -43,21 +42,25 @@ import org.springframework.stereotype.Service;
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
-    private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
-
     private final String pathParent;
 
     private final String pathChild;
+
+    private final TinkarPrimitive primitive;
 
     /**
      * Default Constructor
      * @param pathParent Parent path
      * @param pathChild Child path
+     * @param primitive TinkarPrimitive
      */
     public OpenCDXTinkarServiceImpl(
-            @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild) {
+            @Value("${data.path.parent}") String pathParent,
+            @Value("${data.path.child}") String pathChild,
+            TinkarPrimitive primitive) {
         this.pathParent = pathParent;
         this.pathChild = pathChild;
+        this.primitive = primitive;
     }
 
     /**
@@ -67,7 +70,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Scheduled(initialDelay = 30, fixedDelay = Long.MAX_VALUE)
     public void initialize() {
         log.info("Initializing OpenCDXTinkarServiceImpl");
-        initializePrimitiveData(pathParent, pathChild);
+        primitive.initializePrimitiveData(pathParent, pathChild);
         log.info("OpenCDXTinkarServiceImpl initialized");
     }
 
@@ -76,8 +79,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
             log.info("search query - {}", request.getQuery());
-            PrimitiveDataSearchResult[] searchResults =
-                    PrimitiveData.get().search(request.getQuery(), request.getMaxResults());
+            PrimitiveDataSearchResult[] searchResults = primitive.search(request.getQuery(), request.getMaxResults());
             TinkarSearchQueryResult[] results =
                     Arrays.stream(searchResults).map(this::extract).toArray(TinkarSearchQueryResult[]::new);
 
@@ -94,7 +96,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     public TinkarGetResult getEntity(TinkarGetRequest request) {
         try {
             List<String> descriptions =
-                    Searcher.descriptionsOf(List.of(PublicIds.of(UUID.fromString(request.getConceptId()))));
+                    primitive.descriptionsOf(List.of(PublicIds.of(UUID.fromString(request.getConceptId()))));
             return TinkarGetResult.newBuilder()
                     .setConceptId(request.getConceptId())
                     .setDescription(descriptions.getFirst())
@@ -109,7 +111,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Override
     public TinkarGetResponse getTinkarChildConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
-        List<PublicId> children = Searcher.childrenOf(parentConceptId);
+        List<PublicId> children = primitive.childrenOf(parentConceptId);
         List<TinkarGetResult> results = children.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
@@ -123,7 +125,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Override
     public TinkarGetResponse getTinkarDescendantConcepts(TinkarGetRequest request) {
         PublicId parentConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
-        List<PublicId> children = Searcher.descendantsOf(parentConceptId);
+        List<PublicId> children = primitive.descendantsOf(parentConceptId);
         List<TinkarGetResult> results = children.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
@@ -137,7 +139,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Override
     public TinkarGetResponse getLIDRRecordConceptsFromTestKit(TinkarGetRequest request) {
         PublicId testKitConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
-        List<PublicId> lidrRecords = Searcher.getLidrRecordSemanticsFromTestKit(testKitConceptId);
+        List<PublicId> lidrRecords = primitive.getLidrRecordSemanticsFromTestKit(testKitConceptId);
         List<TinkarGetResult> results = lidrRecords.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
@@ -151,7 +153,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Override
     public TinkarGetResponse getResultConformanceConceptsFromLIDRRecord(TinkarGetRequest request) {
         PublicId lidrRecordConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
-        List<PublicId> resultConformances = Searcher.getResultConformancesFromLidrRecord(lidrRecordConceptId);
+        List<PublicId> resultConformances = primitive.getResultConformancesFromLidrRecord(lidrRecordConceptId);
         List<TinkarGetResult> results = resultConformances.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
@@ -165,7 +167,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Override
     public TinkarGetResponse getAllowedResultConceptsFromResultConformance(TinkarGetRequest request) {
         PublicId resultConformanceConceptId = PublicIds.of(UUID.fromString(request.getConceptId()));
-        List<PublicId> allowedResults = Searcher.getAllowedResultsFromResultConformance(resultConformanceConceptId);
+        List<PublicId> allowedResults = primitive.getAllowedResultsFromResultConformance(resultConformanceConceptId);
         List<TinkarGetResult> results = allowedResults.stream()
                 .map(d -> this.getEntity(TinkarGetRequest.newBuilder()
                         .setConceptId(d.asUuidArray()[0].toString())
@@ -173,16 +175,6 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
                 .toList();
 
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
-    }
-
-    @ExcludeFromJacocoGeneratedReport
-    private void initializePrimitiveData(String pathParent, String pathChild) {
-        if (!PrimitiveData.running()) {
-            CachingService.clearAll();
-            ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-            PrimitiveData.selectControllerByName(ARRAY_STORE_TO_OPEN);
-            PrimitiveData.start();
-        }
     }
 
     private TinkarSearchQueryResult extract(PrimitiveDataSearchResult searchResult) {

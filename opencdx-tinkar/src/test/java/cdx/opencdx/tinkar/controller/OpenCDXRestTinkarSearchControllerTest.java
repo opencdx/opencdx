@@ -15,39 +15,58 @@
  */
 package cdx.opencdx.tinkar.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
+import cdx.opencdx.tinkar.service.TinkarPrimitive;
+import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@ActiveProfiles({"test"})
-@ExtendWith(MockitoExtension.class)
-@Disabled
+@ActiveProfiles({"test", "managed"})
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRestTinkarSearchControllerTest {
 
-    @Mock
-    OpenCDXTinkarService openCDXTinkarService;
+    @MockBean
+    TinkarPrimitive tinkarPrimitive;
+
+    @Autowired
+    private WebApplicationContext context;
 
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new OpenCDXRestTinkarSearchController(openCDXTinkarService))
-                .build();
+    void setup() throws Exception {
+
+        PrimitiveDataSearchResult[] results = new PrimitiveDataSearchResult[1];
+        results[0] = createResult();
+        when(tinkarPrimitive.search(Mockito.anyString(), Mockito.any(Integer.class)))
+                .thenReturn(results);
+        Mockito.when(tinkarPrimitive.descriptionsOf(Mockito.any(List.class)))
+                .thenReturn(List.of("TEST-DEP-DESCRIPTION"));
+
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     void testSearch() throws Exception {
+
         MvcResult result = this.mockMvc
                 .perform(get("/search")
                         .param("query", "chronic disease of respiratory")
@@ -105,5 +124,16 @@ class OpenCDXRestTinkarSearchControllerTest {
                         .param("resultConformanceConceptId", "550e8400-e29b-41d4-a716-446655440000"))
                 .andExpect(status().is(200))
                 .andReturn();
+    }
+
+    private PrimitiveDataSearchResult createResult() {
+
+        return new PrimitiveDataSearchResult(
+                -2144684618,
+                -2147393046,
+                -2147483638,
+                1,
+                13.158955F,
+                "<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>");
     }
 }
