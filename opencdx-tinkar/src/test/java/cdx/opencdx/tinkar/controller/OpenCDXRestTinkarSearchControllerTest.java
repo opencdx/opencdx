@@ -15,13 +15,12 @@
  */
 package cdx.opencdx.tinkar.controller;
 
-import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryRequest;
-import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResponse;
-import cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResult;
-import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
+import cdx.opencdx.tinkar.service.TinkarPrimitive;
+import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +32,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OpenCDXRestTinkarSearchControllerTest {
 
     @MockBean
-    OpenCDXTinkarService openCDXTinkarService;
+    TinkarPrimitive tinkarPrimitive;
 
     @Autowired
     private WebApplicationContext context;
@@ -51,17 +52,12 @@ class OpenCDXRestTinkarSearchControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setup() {
+    void setup() throws Exception {
 
-        TinkarSearchQueryRequest request = TinkarSearchQueryRequest.newBuilder()
-                .setQuery("chronic disease of respiratory system")
-                .setMaxResults(10)
-                .build();
-        TinkarSearchQueryResponse response = TinkarSearchQueryResponse.newBuilder()
-                .addResults(createResult())
-                .build();
-
-        when(openCDXTinkarService.search(request)).thenReturn(response);
+        PrimitiveDataSearchResult[] results = new PrimitiveDataSearchResult[1];
+        results[0] = createResult();
+        when(tinkarPrimitive.search(Mockito.anyString(),Mockito.any(Integer.class))).thenReturn(results);
+        Mockito.when(tinkarPrimitive.descriptionsOf(Mockito.any(List.class))).thenReturn(List.of("TEST-DEP-DESCRIPTION"));
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -129,14 +125,14 @@ class OpenCDXRestTinkarSearchControllerTest {
                 .andReturn();
     }
 
-    private TinkarSearchQueryResult createResult() {
-        return TinkarSearchQueryResult.newBuilder()
-                .setNid(-2144684618)
-                .setRcNid(-2147393046)
-                .setPatternNid(-2147483638)
-                .setFieldIndex(1)
-                .setScore(13.158955F)
-                .setHighlightedString("<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>")
-                .build();
+    private PrimitiveDataSearchResult createResult() {
+
+        return new PrimitiveDataSearchResult(-2144684618,
+                -2147393046,
+                -2147483638,
+                1,
+                13.158955F,
+                "<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>");
+
     }
 }
