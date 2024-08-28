@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
+import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.grpc.service.tinkar.*;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import cdx.opencdx.tinkar.service.TinkarPrimitive;
@@ -25,6 +29,9 @@ import dev.ikm.tinkar.common.service.CachingService;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import dev.ikm.tinkar.common.service.ServiceProperties;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,13 +43,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})
@@ -57,107 +57,105 @@ class OpenCDXTinkarServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        openCDXTinkarService = new OpenCDXTinkarServiceImpl("parent", "child",primitiveDataService);
+        openCDXTinkarService = new OpenCDXTinkarServiceImpl("parent", "child", primitiveDataService);
     }
 
     @Test
     void testSearch() throws Exception {
-            Mockito.when(this.primitiveDataService.search("test", 10)).thenReturn(createSearchResults());
+        Mockito.when(this.primitiveDataService.search("test", 10)).thenReturn(createSearchResults());
 
-            TinkarSearchQueryResponse response = openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
-                    .setQuery("test")
-                    .setMaxResults(10)
-                    .build());
+        TinkarSearchQueryResponse response = openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
+                .setQuery("test")
+                .setMaxResults(10)
+                .build());
 
-            assertNotNull(response);
-            Assertions.assertEquals(1, response.getResultsCount());
+        assertNotNull(response);
+        Assertions.assertEquals(1, response.getResultsCount());
 
-            Mockito.verify(this.primitiveDataService).search("test", 10);
-
+        Mockito.verify(this.primitiveDataService).search("test", 10);
     }
 
     @Test
     void testSearchException() throws Exception {
-            Mockito.when(this.primitiveDataService.search(Mockito.anyString(), Mockito.any(Integer.class))).thenThrow(Exception.class);
+        Mockito.when(this.primitiveDataService.search(Mockito.anyString(), Mockito.any(Integer.class)))
+                .thenThrow(new OpenCDXInternal("TinkarPrimitiveImpl", 1, "Error searching for primitive data"));
 
-            try {
-                openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
-                        .setQuery("test")
-                        .setMaxResults(10)
-                        .build());
-            } catch (Exception e) {
-                Assertions.assertEquals(OpenCDXBadRequest.class, e.getClass());
-                Assertions.assertEquals("Search Failed", e.getMessage());
-            }
+        try {
+            openCDXTinkarService.search(TinkarSearchQueryRequest.newBuilder()
+                    .setQuery("test")
+                    .setMaxResults(10)
+                    .build());
+        } catch (Exception e) {
+            Assertions.assertEquals(OpenCDXBadRequest.class, e.getClass());
+            Assertions.assertEquals("Search Failed", e.getMessage());
+        }
 
-            verify(primitiveDataService).search("test", 10);
-
+        verify(primitiveDataService).search("test", 10);
     }
 
     @Test
     void testGetEntity() throws Exception {
-            Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class))).thenReturn(List.of("TEST"));
+        Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class)))
+                .thenReturn(List.of("TEST"));
 
-            TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
-                    .setConceptId("550e8400-e29b-41d4-a716-446655440000")
-                    .build());
+        TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .build());
 
-            assertNotNull(result);
-            Assertions.assertEquals("TEST", result.getDescription());
+        assertNotNull(result);
+        Assertions.assertEquals("TEST", result.getDescription());
 
-            Mockito.verify(this.primitiveDataService).descriptionsOf(Mockito.any(List.class));
-
+        Mockito.verify(this.primitiveDataService).descriptionsOf(Mockito.any(List.class));
     }
 
     @Test
     void testGetEntityException() throws Exception {
 
+        Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class)))
+                .thenReturn(new ArrayList<String>());
+        try {
+            TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
+                    .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                    .build());
+        } catch (Exception e) {
+            Assertions.assertEquals(OpenCDXBadRequest.class, e.getClass());
+            Assertions.assertEquals("Entity Get Failed", e.getMessage());
+        }
 
-            Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class))).thenReturn(new ArrayList<String>());
-            try {
-                TinkarGetResult result = openCDXTinkarService.getEntity(TinkarGetRequest.newBuilder()
-                        .setConceptId("550e8400-e29b-41d4-a716-446655440000")
-                        .build());
-            } catch (Exception e) {
-                Assertions.assertEquals(OpenCDXBadRequest.class, e.getClass());
-                Assertions.assertEquals("Entity Get Failed", e.getMessage());
-            }
-
-            Mockito.verify(this.primitiveDataService).descriptionsOf(Mockito.any(List.class));
+        Mockito.verify(this.primitiveDataService).descriptionsOf(Mockito.any(List.class));
     }
 
     @Test
     void testGetTinkarChildConcepts() {
 
         Mockito.when(this.primitiveDataService.childrenOf(Mockito.any(PublicId.class)))
-                    .thenReturn(List.of(
-                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
-                            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))));
+                .thenReturn(List.of(
+                        PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
+                        PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))));
 
         Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class)))
-                    .thenReturn(List.of("TEST-CHILD-DESCRIPTION"));
+                .thenReturn(List.of("TEST-CHILD-DESCRIPTION"));
 
-            TinkarGetResponse childConcepts = openCDXTinkarService.getTinkarChildConcepts(TinkarGetRequest.newBuilder()
-                    .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
-                    .build());
-            assertNotNull(childConcepts);
-            Assertions.assertEquals(2, childConcepts.getResultsCount());
+        TinkarGetResponse childConcepts = openCDXTinkarService.getTinkarChildConcepts(TinkarGetRequest.newBuilder()
+                .setConceptId("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe")
+                .build());
+        assertNotNull(childConcepts);
+        Assertions.assertEquals(2, childConcepts.getResultsCount());
 
-
-            Mockito.verify(this.primitiveDataService).childrenOf(Mockito.any(PublicId.class));
-            Mockito.verify(this.primitiveDataService, times(2)).descriptionsOf(Mockito.any(List.class));
-
+        Mockito.verify(this.primitiveDataService).childrenOf(Mockito.any(PublicId.class));
+        Mockito.verify(this.primitiveDataService, times(2)).descriptionsOf(Mockito.any(List.class));
     }
 
     @Test
     void testGetTinkarDescendantConcepts() {
 
-        Mockito.when(this.primitiveDataService.descendantsOf(Mockito.any(PublicId.class))).thenReturn(List.of(
-            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
-            PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))
-        ));
+        Mockito.when(this.primitiveDataService.descendantsOf(Mockito.any(PublicId.class)))
+                .thenReturn(List.of(
+                        PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")),
+                        PublicIds.of(UUID.fromString("550e8400-e29b-41d4-a716-446655440001"))));
 
-        Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class))).thenReturn(List.of("TEST-DEP-DESCRIPTION"));
+        Mockito.when(this.primitiveDataService.descriptionsOf(Mockito.any(List.class)))
+                .thenReturn(List.of("TEST-DEP-DESCRIPTION"));
 
         TinkarGetResponse descendantConcepts =
                 openCDXTinkarService.getTinkarDescendantConcepts(TinkarGetRequest.newBuilder()
@@ -185,7 +183,8 @@ class OpenCDXTinkarServiceImplTest {
         }
         // when(primitiveDataService.search("test", 10)).thenReturn(createSearchResults());
 
-        OpenCDXTinkarServiceImpl openCDXTinkarService = new OpenCDXTinkarServiceImpl("parent", "child",primitiveDataService);
+        OpenCDXTinkarServiceImpl openCDXTinkarService =
+                new OpenCDXTinkarServiceImpl("parent", "child", primitiveDataService);
         assertNotNull(openCDXTinkarService);
     }
 

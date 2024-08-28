@@ -24,15 +24,14 @@ import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Tinkar Service implementation
@@ -42,8 +41,6 @@ import java.util.UUID;
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
-
-    private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
 
     private final String pathParent;
 
@@ -58,7 +55,9 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
      * @param primitive TinkarPrimitive
      */
     public OpenCDXTinkarServiceImpl(
-            @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild, TinkarPrimitive primitive) {
+            @Value("${data.path.parent}") String pathParent,
+            @Value("${data.path.child}") String pathChild,
+            TinkarPrimitive primitive) {
         this.pathParent = pathParent;
         this.pathChild = pathChild;
         this.primitive = primitive;
@@ -80,8 +79,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
             log.info("search query - {}", request.getQuery());
-            PrimitiveDataSearchResult[] searchResults =
-                    primitive.search(request.getQuery(), request.getMaxResults());
+            PrimitiveDataSearchResult[] searchResults = primitive.search(request.getQuery(), request.getMaxResults());
             TinkarSearchQueryResult[] results =
                     Arrays.stream(searchResults).map(this::extract).toArray(TinkarSearchQueryResult[]::new);
 

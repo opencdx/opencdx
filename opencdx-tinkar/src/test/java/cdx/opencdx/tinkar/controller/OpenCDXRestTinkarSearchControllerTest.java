@@ -15,8 +15,13 @@
  */
 package cdx.opencdx.tinkar.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,12 +36,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -56,8 +55,10 @@ class OpenCDXRestTinkarSearchControllerTest {
 
         PrimitiveDataSearchResult[] results = new PrimitiveDataSearchResult[1];
         results[0] = createResult();
-        when(tinkarPrimitive.search(Mockito.anyString(),Mockito.any(Integer.class))).thenReturn(results);
-        Mockito.when(tinkarPrimitive.descriptionsOf(Mockito.any(List.class))).thenReturn(List.of("TEST-DEP-DESCRIPTION"));
+        when(tinkarPrimitive.search(Mockito.anyString(), Mockito.any(Integer.class)))
+                .thenReturn(results);
+        Mockito.when(tinkarPrimitive.descriptionsOf(Mockito.any(List.class)))
+                .thenReturn(List.of("TEST-DEP-DESCRIPTION"));
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -127,12 +128,12 @@ class OpenCDXRestTinkarSearchControllerTest {
 
     private PrimitiveDataSearchResult createResult() {
 
-        return new PrimitiveDataSearchResult(-2144684618,
+        return new PrimitiveDataSearchResult(
+                -2144684618,
                 -2147393046,
                 -2147483638,
                 1,
                 13.158955F,
                 "<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>");
-
     }
 }
