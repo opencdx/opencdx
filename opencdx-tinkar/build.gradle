@@ -36,12 +36,14 @@ dependencies {
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
 
+    implementation "dev.ikm.tinkar:tinkar-core:${tinkarVersion}"
     implementation "dev.ikm.tinkar:entity:${tinkarVersion}"
     implementation "dev.ikm.tinkar:entity-provider:${tinkarVersion}"
     implementation "dev.ikm.tinkar:common:${tinkarVersion}"
     implementation "dev.ikm.tinkar:coordinate:${tinkarVersion}"
     implementation "dev.ikm.tinkar:data-spinedarray-provider:${tinkarVersion}"
     implementation "dev.ikm.tinkar:executor-provider:${tinkarVersion}"
+
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
