@@ -14,7 +14,7 @@
 - protoc-gen-doc: 1.5.1
 - yq: 4:40.5 ℹ️
 
-ℹ️ Specific version not required, but the latest version is recommended.
+ℹ️ Specific version not required, but the latest version is recommended .
 
 ## Software Installation
 To Install the above required software to run OpenCDx, please refer to the installation instructions as detailed [here](INSTALL.md)
