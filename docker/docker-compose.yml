@@ -82,21 +82,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-  graphql:
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 60s
-        max_attempts: 5
-        window: 60s
-    image: opencdx/graphql:${version}
-    depends_on:
-      database:
-        condition: service_healthy
-    volumes:
-      - ../certs:/certs
-    ports:
-      - "8632:8632"
   iam:
     deploy:
       restart_policy:
