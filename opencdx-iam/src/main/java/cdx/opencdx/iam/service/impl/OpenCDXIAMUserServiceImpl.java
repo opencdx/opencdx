@@ -41,10 +41,6 @@ import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +50,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service for processing IAM User Requests
@@ -362,6 +363,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
+        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_USER + request.getUsername()));
