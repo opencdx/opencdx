@@ -71,6 +71,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private static final String IAM_USER = "USERS: ";
     private static final String USER_NAME = "userName";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
+    private static final String ROLE_SYSTEM = "ROLE_SYSTEM";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -130,7 +131,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
-        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
+        this.openCDXCurrentUser.configureAuthentication(ROLE_SYSTEM);
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(request);
         model.setPassword(this.passwordEncoder.encode(request.getPassword()));
         model = this.openCDXIAMUserRepository.save(model);
@@ -363,7 +364,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
-        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
+        this.openCDXCurrentUser.configureAuthentication(ROLE_SYSTEM);
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_USER + request.getUsername()));
@@ -491,7 +492,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public void verifyEmailIamUser(String id) {
-        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
+        this.openCDXCurrentUser.configureAuthentication(ROLE_SYSTEM);
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
                 .findById(new OpenCDXIdentifier(id))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));
