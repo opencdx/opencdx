@@ -996,8 +996,8 @@ if [ "$skip" = false ]; then
             if [ -z "$changes" ]; then
               handle_info "No changes detected."
             else
-              handle_warn "Changes detected:"
-              handle_warn "$changes"
+              handle_info "Changes detected:"
+              handle_info "$changes"
               handle_error "Please commit the changes before proceeding."
             fi
 
