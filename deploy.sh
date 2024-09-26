@@ -231,7 +231,7 @@ generate_version_number() {
     datetime=$(date +"%Y%m%d%H%M%S")
 
     # Combine the hostname and date/time to create the version number
-    version_number="0.1.${datetime}"
+    version_number="1.0.${datetime}"
 
     # Save the version number to ./version.txt
     echo "$version_number" > "./version.txt"
