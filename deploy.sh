@@ -80,6 +80,11 @@ required_software() {
   keytool_installed=false
   node_installed=false
   curl_installed=false
+  git_installed=false
+
+if command -v git &> /dev/null; then
+  git_installed=true
+fi
 
   if command -v yq &> /dev/null
   then
@@ -157,12 +162,13 @@ fi
   handle_info "  Docker\t$docker_installed"
   handle_info "  Tinkar\t$tinkar_installed"
   handle_info "  Curl\t\t$curl_installed"
+  handle_info "  Git\t\t$git_installed"
   if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]]; then
     handle_info "  open\t\t$open_installed"
   fi
   handle_info "  yq\t\t$yq_installed"
 
-  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed || ! $curl_installed);
+  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed || ! $curl_installed || ! $git_installed);
   then
     handle_error "Required software is not installed. Please install missing required software."
   else
@@ -837,6 +843,7 @@ dependency=false
 parallel=false
 docker_images=false
 jmeter_test=""
+git_check=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -869,6 +876,7 @@ for arg in "$@"; do
         javadoc=true
         sonar=true
         spotless=true
+        git_check=true
         build=true
         parallel=true
         ;;
@@ -877,6 +885,7 @@ for arg in "$@"; do
         javadoc=true
         sonar=true
         spotless=true
+        git_check=true
         build=true
         parallel=true
         deploy=true
@@ -978,8 +987,21 @@ sleep 2
 if [ "$skip" = false ]; then
 
    if [ "$spotless" = true ]; then
-          handle_info "Spotless formatting..."x
+          handle_info "Spotless formatting..."
           ./gradlew  spotlessApply  spotlessCheck -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to format with spotlessc."
+
+          if [ "$git_check" = true ]; then
+            changes=$(git status --porcelain)
+
+            if [ -z "$changes" ]; then
+              handle_info "No changes detected."
+            else
+              handle_info "Changes detected:"
+              handle_info "$changes"
+              handle_error "Please commit the changes before proceeding."
+            fi
+
+          fi
     fi
 
 
