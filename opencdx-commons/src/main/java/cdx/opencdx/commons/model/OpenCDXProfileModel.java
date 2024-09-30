@@ -20,8 +20,6 @@ import cdx.opencdx.grpc.data.*;
 import cdx.opencdx.grpc.types.BloodType;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +27,9 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Model for OpenCDX Profile
@@ -51,7 +52,7 @@ public class OpenCDXProfileModel {
 
     private FullName fullName;
     private String nationalHealthId;
-
+    private List<EmailAddress> emails;
     private List<ContactInfo> contactInfo;
     private Instant dateOfBirth;
     private PlaceOfBirth placeOfBirth;
@@ -93,6 +94,7 @@ public class OpenCDXProfileModel {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
+        this.emails = userProfile.getEmailList();
 
         if (userProfile.hasUserId()) {
             this.userId = new OpenCDXIdentifier(userProfile.getUserId());
@@ -157,6 +159,10 @@ public class OpenCDXProfileModel {
 
         if (this.nationalHealthId != null) {
             builder.setNationalHealthId(this.nationalHealthId);
+        }
+
+        if (this.emails != null && !this.emails.isEmpty()) {
+            builder.addAllEmail(this.emails);
         }
 
         if (this.fullName != null) {
@@ -237,6 +243,10 @@ public class OpenCDXProfileModel {
 
         if (userProfile.hasUserId()) {
             this.userId = new OpenCDXIdentifier(userProfile.getUserId());
+        }
+
+        if (userProfile.getEmailList() != null && !userProfile.getEmailList().isEmpty()) {
+            this.emails = userProfile.getEmailList();
         }
 
         if (userProfile.hasDateOfBirth()) {
