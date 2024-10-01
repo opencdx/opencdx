@@ -51,7 +51,7 @@ public class OpenCDXProfileModel {
 
     private FullName fullName;
     private String nationalHealthId;
-
+    private List<EmailAddress> emails;
     private List<ContactInfo> contactInfo;
     private Instant dateOfBirth;
     private PlaceOfBirth placeOfBirth;
@@ -93,6 +93,7 @@ public class OpenCDXProfileModel {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
+        this.emails = userProfile.getEmailList();
 
         if (userProfile.hasUserId()) {
             this.userId = new OpenCDXIdentifier(userProfile.getUserId());
@@ -157,6 +158,10 @@ public class OpenCDXProfileModel {
 
         if (this.nationalHealthId != null) {
             builder.setNationalHealthId(this.nationalHealthId);
+        }
+
+        if (this.emails != null && !this.emails.isEmpty()) {
+            builder.addAllEmail(this.emails);
         }
 
         if (this.fullName != null) {
@@ -237,6 +242,10 @@ public class OpenCDXProfileModel {
 
         if (userProfile.hasUserId()) {
             this.userId = new OpenCDXIdentifier(userProfile.getUserId());
+        }
+
+        if (userProfile.getEmailList() != null && !userProfile.getEmailList().isEmpty()) {
+            this.emails = userProfile.getEmailList();
         }
 
         if (userProfile.hasDateOfBirth()) {
