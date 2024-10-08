@@ -244,6 +244,8 @@ class OpenCDXIAMUserRestControllerTest {
 
     @Test
     void signUp() throws Exception {
+        Mockito.when(this.openCDXIAMUserRepository.findByUsername("test@opencdx.org"))
+                .thenReturn(Optional.empty());
         MvcResult result = this.mockMvc
                 .perform(post("/user/signup")
                         .content(this.objectMapper.writeValueAsString(SignUpRequest.builder()
@@ -252,6 +254,26 @@ class OpenCDXIAMUserRestControllerTest {
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void signUpException() throws Exception {
+        Mockito.when(this.openCDXIAMUserRepository.findByUsername("test@opencdx.org"))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(OpenCDXIdentifier.get())
+                        .username("test@opencdx.org")
+                        .build()));
+        MvcResult result = this.mockMvc
+                .perform(post("/user/signup")
+                        .content(this.objectMapper.writeValueAsString(SignUpRequest.builder()
+                                .username("test@opencdx.org")
+                                .password("password")
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         Assertions.assertNotNull(content);
