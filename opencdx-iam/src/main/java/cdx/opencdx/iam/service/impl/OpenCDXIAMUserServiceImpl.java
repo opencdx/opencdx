@@ -17,10 +17,7 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.dto.SignUpRequest;
-import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
+import cdx.opencdx.commons.exceptions.*;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -131,6 +128,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
         this.openCDXCurrentUser.configureAuthentication(ROLE_SYSTEM);
+
+        Optional<OpenCDXIAMUserModel> user = this.openCDXIAMUserRepository
+                .findByUsername(request.getUsername());
+        if (user.isPresent()) {
+            log.error("User with email {} already found.", request.getUsername());
+            throw new OpenCDXBadRequest(DOMAIN, 1, "User with email " + request.getUsername() + " already found.");
+        }
+
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(request);
         model.setPassword(this.passwordEncoder.encode(request.getPassword()));
         model = this.openCDXIAMUserRepository.save(model);
