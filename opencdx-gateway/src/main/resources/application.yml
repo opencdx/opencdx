@@ -32,18 +32,6 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: grpc-helloworld
-          uri: https://helloworld:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.service.helloworld.*/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-anf
-          uri: https://anf:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.service.anf.*/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
         - id: grpc-audit
           uri: https://audit:9090
           predicates:
@@ -66,12 +54,6 @@ spring:
           uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.service.health.*/**
-          filters:
-            - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-helloworld
-          uri: https://helloworld:9090
-          predicates:
-            - Path=/cdx.opencdx.grpc.service.helloworld.*/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-iam
