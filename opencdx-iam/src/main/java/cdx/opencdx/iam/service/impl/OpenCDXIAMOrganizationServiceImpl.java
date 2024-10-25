@@ -30,8 +30,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
+import cdx.opencdx.grpc.data.Pagination;
 import org.springframework.stereotype.Service;
 
 /**
@@ -159,13 +161,29 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
 
     /**
      * Method to get the list of organization.
-     *
+     * @param request ListOrganizationsRequest for organizations.
      * @return ListOrganizationsResponse with all the organization.
      */
     @Override
-    public ListOrganizationsResponse listOrganizations() {
-        List<OpenCDXIAMOrganizationModel> all = this.openCDXIAMOrganizationRepository.findAll();
+    public ListOrganizationsResponse listOrganizations(ListOrganizationsRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXIAMOrganizationModel> all = this.openCDXIAMOrganizationRepository.findAll(pageable);
         return ListOrganizationsResponse.newBuilder()
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllOrganizations(all.stream()
                         .map(OpenCDXIAMOrganizationModel::getProtobufMessage)
                         .toList())

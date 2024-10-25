@@ -51,6 +51,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
+import cdx.opencdx.grpc.service.iam.ListOrganizationsRequest;
+import cdx.opencdx.grpc.data.Pagination;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -174,9 +180,19 @@ class OpenCDXIAMOrganizationRestControllerTest {
 
     @Test
     void listOrganizations() throws Exception {
+        OpenCDXIAMOrganizationModel model =
+                OpenCDXIAMOrganizationModel.builder().id(OpenCDXIdentifier.get()).build();
+        when(this.openCDXIAMOrganizationRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/organization/list")
-                        .content("{}")
+                        .content(this.objectMapper.writeValueAsString(ListOrganizationsRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

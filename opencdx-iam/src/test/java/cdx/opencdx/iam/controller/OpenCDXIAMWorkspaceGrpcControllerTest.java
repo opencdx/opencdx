@@ -52,6 +52,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import cdx.opencdx.grpc.data.Pagination;
+import java.util.List;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -294,9 +300,20 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
 
     @Test
     void listWorkspaces() {
+        OpenCDXIAMWorkspaceModel model =
+                OpenCDXIAMWorkspaceModel.builder().id(OpenCDXIdentifier.get()).build();
+        when(this.openCDXIAMWorkspaceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         StreamObserver<ListWorkspacesResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXIAMWorkspaceGrpcController.listWorkspaces(Empty.getDefaultInstance(), responseObserver);
-
+        this.openCDXIAMWorkspaceGrpcController.listWorkspaces(
+                ListWorkspacesRequest.newBuilder()
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListWorkspacesResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }

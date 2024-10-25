@@ -45,7 +45,8 @@ public interface OpenCDXIAMWorkspaceService {
 
     /**
      * Method to get the list of workspace.
+     * @param request ListWorkspacesRequest for a workspaces.
      * @return ListWorkspacesResponse with all the workspace.
      */
-    ListWorkspacesResponse listWorkspaces();
+    ListWorkspacesResponse listWorkspaces(ListWorkspacesRequest request);
 }

@@ -123,19 +123,19 @@ class OpenCDXIAMWorkspaceClientImplTest {
 
     @Test
     void listWorkspaces() {
-        Mockito.when(this.workspaceServiceBlockingStub.listWorkspaces(Mockito.any(Empty.class)))
+        Mockito.when(this.workspaceServiceBlockingStub.listWorkspaces(Mockito.any(ListWorkspacesRequest.class)))
                 .thenReturn(ListWorkspacesResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ListWorkspacesResponse.getDefaultInstance(),
-                this.openCDXIAMWorkspaceClient.listWorkspaces(Empty.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXIAMWorkspaceClient.listWorkspaces(ListWorkspacesRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
     void listWorkspacesException() {
-        Mockito.when(this.workspaceServiceBlockingStub.listWorkspaces(Mockito.any(Empty.class)))
+        Mockito.when(this.workspaceServiceBlockingStub.listWorkspaces(Mockito.any(ListWorkspacesRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        Empty request = Empty.getDefaultInstance();
+        ListWorkspacesRequest request = ListWorkspacesRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,

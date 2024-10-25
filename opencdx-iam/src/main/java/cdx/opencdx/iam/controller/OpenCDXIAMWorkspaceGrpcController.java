@@ -64,8 +64,8 @@ public class OpenCDXIAMWorkspaceGrpcController extends WorkspaceServiceGrpc.Work
     }
 
     @Override
-    public void listWorkspaces(Empty request, StreamObserver<ListWorkspacesResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXIAMWorkspaceService.listWorkspaces());
+    public void listWorkspaces(ListWorkspacesRequest request, StreamObserver<ListWorkspacesResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMWorkspaceService.listWorkspaces(request));
         responseObserver.onCompleted();
     }
 }

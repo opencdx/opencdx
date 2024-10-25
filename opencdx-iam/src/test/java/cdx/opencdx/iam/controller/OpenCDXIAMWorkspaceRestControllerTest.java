@@ -51,6 +51,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import cdx.opencdx.grpc.data.Pagination;
+import cdx.opencdx.grpc.service.iam.ListWorkspacesRequest;
+import java.util.List;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -178,9 +184,19 @@ class OpenCDXIAMWorkspaceRestControllerTest {
 
     @Test
     void listWorkspaces() throws Exception {
+        OpenCDXIAMWorkspaceModel model =
+                OpenCDXIAMWorkspaceModel.builder().id(OpenCDXIdentifier.get()).build();
+        when(this.openCDXIAMWorkspaceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/workspace/list")
-                        .content("{}")
+                        .content(this.objectMapper.writeValueAsString(ListWorkspacesRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

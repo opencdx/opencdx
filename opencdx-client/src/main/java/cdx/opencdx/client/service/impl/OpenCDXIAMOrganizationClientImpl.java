@@ -138,12 +138,12 @@ public class OpenCDXIAMOrganizationClientImpl implements OpenCDXIAMOrganizationC
     /**
      * Method to gRPC Call IAM Organization Service listOrganizations() api.
      *
-     * @param request                Empty to pass
+     * @param request ListOrganizationsRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public ListOrganizationsResponse listOrganizations(Empty request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ListOrganizationsResponse listOrganizations(ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return organizationServiceBlockingStub

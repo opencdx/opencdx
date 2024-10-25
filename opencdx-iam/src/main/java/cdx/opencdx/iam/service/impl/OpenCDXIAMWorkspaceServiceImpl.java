@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
@@ -33,6 +34,10 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -165,13 +170,29 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
 
     /**
      * Method to get the list of workspace.
-     *
+     * @param request ListWorkspacesRequest for workspace.
      * @return ListWorkspacesResponse with all the workspace.
      */
     @Override
-    public ListWorkspacesResponse listWorkspaces() {
-        List<OpenCDXIAMWorkspaceModel> all = this.openCDXIAMWorkspaceRepository.findAll();
+    public ListWorkspacesResponse listWorkspaces(ListWorkspacesRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXIAMWorkspaceModel> all = this.openCDXIAMWorkspaceRepository.findAll(pageable);
         return ListWorkspacesResponse.newBuilder()
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllWorkspaces(all.stream()
                         .map(OpenCDXIAMWorkspaceModel::getProtobufMessage)
                         .toList())
