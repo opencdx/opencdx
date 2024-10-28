@@ -25,6 +25,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.data.Address;
 import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.service.health.*;
@@ -58,6 +59,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
+    private final OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
 
     /**
      * Constructor for setting up Profile service
@@ -73,12 +75,14 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
             OpenCDXAuditService openCDXAuditService,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXNationalHealthIdentifier = openCDXNationalHealthIdentifier;
     }
 
     @Override
@@ -103,6 +107,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
             } else {
                 model = new OpenCDXProfileModel();
                 model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
+                model.setNationalHealthId(openCDXNationalHealthIdentifier.generateNationalHealthId(openCDXCurrentUser.getCurrentUser()));
                 model = this.openCDXProfileRepository.save(model);
             }
         }

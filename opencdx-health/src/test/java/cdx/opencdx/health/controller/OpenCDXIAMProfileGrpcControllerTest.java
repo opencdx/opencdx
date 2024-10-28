@@ -193,7 +193,8 @@ class OpenCDXIAMProfileGrpcControllerTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         this.openCDXIAMProfileGrpcController = new OpenCDXIAMProfileGrpcController(this.openCDXIAMProfileService);
     }
 
