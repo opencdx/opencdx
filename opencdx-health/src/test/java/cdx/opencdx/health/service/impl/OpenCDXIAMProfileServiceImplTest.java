@@ -176,7 +176,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -193,7 +194,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -210,7 +212,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
@@ -229,7 +232,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
@@ -247,7 +251,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .setUpdatedProfile(UserProfile.newBuilder()
@@ -269,7 +274,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .setUpdatedProfile(UserProfile.newBuilder()
@@ -290,7 +296,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
                 .setUserProfile(UserProfile.newBuilder()
                         .setUserId(OpenCDXIdentifier.get().toHexString())
@@ -311,7 +318,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
                 .setUserProfile(UserProfile.newBuilder()
                         .setUserId(OpenCDXIdentifier.get().toHexString())
@@ -330,7 +338,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -348,7 +357,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(OpenCDXIdentifier.get().toHexString())
                 .build();
@@ -366,7 +376,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -433,7 +444,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder()
                 .setId(OpenCDXIdentifier.get().toHexString())
@@ -477,7 +489,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
@@ -542,7 +555,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
@@ -585,7 +599,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
@@ -644,7 +659,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
@@ -690,7 +706,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(OpenCDXIdentifier.class)))
                 .thenReturn(Optional.empty());
         UserProfileRequest request = UserProfileRequest.newBuilder()
@@ -713,7 +730,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
         CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
                 .setUserProfile(UserProfile.newBuilder()
                         .setUserId(OpenCDXIdentifier.get().toHexString())
@@ -751,7 +769,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
@@ -833,7 +852,8 @@ class OpenCDXIAMProfileServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXProfileRepository,
                 this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXNationalHealthIdentifier);
 
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setUserId(OpenCDXIdentifier.get().toHexString());
