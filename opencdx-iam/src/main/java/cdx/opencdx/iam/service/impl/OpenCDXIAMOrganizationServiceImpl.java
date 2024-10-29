@@ -21,6 +21,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.grpc.types.SensitivityLevel;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
@@ -33,7 +34,6 @@ import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.Pageable;
-import cdx.opencdx.grpc.data.Pagination;
 import org.springframework.stereotype.Service;
 
 /**

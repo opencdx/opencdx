@@ -129,8 +129,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     public SignUpResponse signUp(SignUpRequest request) {
         this.openCDXCurrentUser.configureAuthentication(ROLE_SYSTEM);
 
-        Optional<OpenCDXIAMUserModel> user = this.openCDXIAMUserRepository
-                .findByUsername(request.getUsername());
+        Optional<OpenCDXIAMUserModel> user = this.openCDXIAMUserRepository.findByUsername(request.getUsername());
         if (user.isPresent()) {
             log.error("User with email {} already found.", request.getUsername());
             throw new OpenCDXBadRequest(DOMAIN, 1, "User with email " + request.getUsername() + " already found.");

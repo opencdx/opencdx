@@ -128,7 +128,8 @@ class OpenCDXIAMWorkspaceClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ListWorkspacesResponse.getDefaultInstance(),
-                this.openCDXIAMWorkspaceClient.listWorkspaces(ListWorkspacesRequest.getDefaultInstance(), openCDXCallCredentials));
+                this.openCDXIAMWorkspaceClient.listWorkspaces(
+                        ListWorkspacesRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test

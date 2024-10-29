@@ -128,7 +128,8 @@ class OpenCDXIAMOrganizationClientImplTest {
 
     @Test
     void listOrganizations() {
-        Mockito.when(this.organizationServiceBlockingStub.listOrganizations(Mockito.any(ListOrganizationsRequest.class)))
+        Mockito.when(this.organizationServiceBlockingStub.listOrganizations(
+                        Mockito.any(ListOrganizationsRequest.class)))
                 .thenReturn(ListOrganizationsResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -139,7 +140,8 @@ class OpenCDXIAMOrganizationClientImplTest {
 
     @Test
     void listOrganizationsException() {
-        Mockito.when(this.organizationServiceBlockingStub.listOrganizations(Mockito.any(ListOrganizationsRequest.class)))
+        Mockito.when(this.organizationServiceBlockingStub.listOrganizations(
+                        Mockito.any(ListOrganizationsRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ListOrganizationsRequest request = ListOrganizationsRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");

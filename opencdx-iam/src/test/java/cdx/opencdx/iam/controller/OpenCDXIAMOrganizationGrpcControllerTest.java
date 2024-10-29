@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.iam.controller;
 
+import static org.mockito.Mockito.when;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -24,6 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.Organization;
+import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
@@ -34,6 +37,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -47,16 +51,13 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import cdx.opencdx.grpc.data.Pagination;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import java.util.List;
-import static org.mockito.Mockito.when;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -286,8 +287,9 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
 
     @Test
     void listOrganizations() {
-        OpenCDXIAMOrganizationModel model =
-                OpenCDXIAMOrganizationModel.builder().id(OpenCDXIdentifier.get()).build();
+        OpenCDXIAMOrganizationModel model = OpenCDXIAMOrganizationModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .build();
         when(this.openCDXIAMOrganizationRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         StreamObserver<ListOrganizationsResponse> responseObserver = Mockito.mock(StreamObserver.class);

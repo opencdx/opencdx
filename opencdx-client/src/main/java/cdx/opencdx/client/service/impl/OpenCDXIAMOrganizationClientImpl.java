@@ -143,7 +143,8 @@ public class OpenCDXIAMOrganizationClientImpl implements OpenCDXIAMOrganizationC
      * @return Message response.
      */
     @Override
-    public ListOrganizationsResponse listOrganizations(ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ListOrganizationsResponse listOrganizations(
+            ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return organizationServiceBlockingStub

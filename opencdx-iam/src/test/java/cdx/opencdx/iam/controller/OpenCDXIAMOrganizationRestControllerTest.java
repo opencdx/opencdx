@@ -22,13 +22,16 @@ import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.data.Organization;
+import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.service.iam.CreateOrganizationRequest;
+import cdx.opencdx.grpc.service.iam.ListOrganizationsRequest;
 import cdx.opencdx.grpc.service.iam.UpdateOrganizationRequest;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -42,6 +45,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,12 +57,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import java.util.List;
-import cdx.opencdx.grpc.service.iam.ListOrganizationsRequest;
-import cdx.opencdx.grpc.data.Pagination;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -180,8 +180,9 @@ class OpenCDXIAMOrganizationRestControllerTest {
 
     @Test
     void listOrganizations() throws Exception {
-        OpenCDXIAMOrganizationModel model =
-                OpenCDXIAMOrganizationModel.builder().id(OpenCDXIdentifier.get()).build();
+        OpenCDXIAMOrganizationModel model = OpenCDXIAMOrganizationModel.builder()
+                .id(OpenCDXIdentifier.get())
+                .build();
         when(this.openCDXIAMOrganizationRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         MvcResult result = this.mockMvc

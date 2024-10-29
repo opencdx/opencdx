@@ -59,6 +59,7 @@ public interface OpenCDXIAMOrganizationClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ListOrganizationsResponse listOrganizations(ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    ListOrganizationsResponse listOrganizations(
+            ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

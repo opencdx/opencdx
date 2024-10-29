@@ -143,7 +143,8 @@ public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient 
      * @return Message response.
      */
     @Override
-    public ListWorkspacesResponse listWorkspaces(ListWorkspacesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ListWorkspacesResponse listWorkspaces(
+            ListWorkspacesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return workspaceServiceBlockingStub
