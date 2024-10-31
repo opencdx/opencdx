@@ -82,7 +82,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
             <stringProp name="HTTPSampler.implementation"></stringProp>
           </ConfigTestElement>
           <hashTree/>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
@@ -91,7 +91,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
@@ -469,7 +469,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / List Organization">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / List Organization" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -628,7 +628,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / ListWorkspaces">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / ListWorkspaces" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -1244,7 +1244,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / ListMedia">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / ListMedia" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
@@ -5888,7 +5888,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run REST Test?" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run REST Test?">
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">false</boolProp>
           <stringProp name="IfController.condition">${__P(restTest,true)}</stringProp>
@@ -5923,7 +5923,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
@@ -6120,7 +6120,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user/list [POST]" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user/list [POST]">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/user/list</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6132,12 +6132,11 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-	&quot;pagination&quot;:{&#xd;
-		&quot;pageNumber&quot;:1,&#xd;
-		&quot;pageSize&quot;:10,&#xd;
-		&quot;sortAscending&quot;:true,&#xd;
-		&quot;sort&quot;:&quot;lastname&quot;&#xd;
-	}&#xd;
+	&quot;pagination&quot;: {&#xd;
+    &quot;pageNumber&quot;: 1,&#xd;
+    &quot;pageSize&quot;: 10,&#xd;
+    &quot;sortAscending&quot;: true&#xd;
+  }&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -6360,7 +6359,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/organization/${organization_r}</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6383,12 +6382,12 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value"> {&#xd;
- 	&quot;pagination&quot;:{&#xd;
-		&quot;page_number&quot;:1,&#xd;
-		&quot;page_size&quot;:10,&#xd;
-		&quot;sort_ascending&quot;:true&#xd;
-	}&#xd;
+                    <stringProp name="Argument.value">{&#xd;
+ 	&quot;pagination&quot;: {&#xd;
+    &quot;pageNumber&quot;: 1,&#xd;
+    &quot;pageSize&quot;: 10,&#xd;
+    &quot;sortAscending&quot;: true&#xd;
+  }&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -6521,7 +6520,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/{id} [GET]" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/{id} [GET]">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/workspace/${workspace_r}</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6545,11 +6544,11 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-	&quot;pagination&quot;:{&#xd;
-		&quot;page_number&quot;:1,&#xd;
-		&quot;page_size&quot;:10,&#xd;
-		&quot;sort_ascending&quot;:true&#xd;
-	}&#xd;
+	&quot;pagination&quot;: {&#xd;
+    &quot;pageNumber&quot;: 1,&#xd;
+    &quot;pageSize&quot;: 10,&#xd;
+    &quot;sortAscending&quot;: true&#xd;
+  }&#xd;
 }&#xd;
 </stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
