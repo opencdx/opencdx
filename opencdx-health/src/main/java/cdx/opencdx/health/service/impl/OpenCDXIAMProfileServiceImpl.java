@@ -69,6 +69,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
      * @param openCDXProfileRepository Profile repository
      * @param openCDXCurrentUser Service to get Current user.
      * @param openCDXDocumentValidator Document validator
+     * @param openCDXNationalHealthIdentifier National Health Identifier generator
      */
     public OpenCDXIAMProfileServiceImpl(
             ObjectMapper objectMapper,
@@ -107,7 +108,8 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
             } else {
                 model = new OpenCDXProfileModel();
                 model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
-                model.setNationalHealthId(openCDXNationalHealthIdentifier.generateNationalHealthId(openCDXCurrentUser.getCurrentUser()));
+                model.setNationalHealthId(
+                        openCDXNationalHealthIdentifier.generateNationalHealthId(openCDXCurrentUser.getCurrentUser()));
                 model = this.openCDXProfileRepository.save(model);
             }
         }
