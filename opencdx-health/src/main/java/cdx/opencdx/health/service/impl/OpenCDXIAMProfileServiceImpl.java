@@ -35,10 +35,11 @@ import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Service for processing IAM Profile Requests
@@ -69,6 +70,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
      * @param openCDXProfileRepository Profile repository
      * @param openCDXCurrentUser Service to get Current user.
      * @param openCDXDocumentValidator Document validator
+     * @param openCDXNationalHealthIdentifier National Health Identifier generator
      */
     public OpenCDXIAMProfileServiceImpl(
             ObjectMapper objectMapper,
