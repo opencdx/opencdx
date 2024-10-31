@@ -643,7 +643,7 @@ message ANFStatement {
   /*
    * Specifies the method used or to be used for the topic.
    */
-  repeated LogicalExpression method = 17;
+  optional LogicalExpression method = 17;
 }
 
 /*
