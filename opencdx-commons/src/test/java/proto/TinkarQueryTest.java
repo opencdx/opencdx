@@ -48,25 +48,20 @@ class TinkarQueryTest {
 
     @Test
     void testTinkarSearchQueryResponse() throws JsonProcessingException {
-        TinkarSearchQueryResult tinkarSearchQueryResult = TinkarSearchQueryResult.newBuilder()
-                .setNid(-2144684618)
-                .setRcNid(-2147393046)
-                .setPatternNid(-2147483638)
-                .setFieldIndex(1)
-                .setScore(13.158955f)
-                .setHighlightedString("<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>")
+        TinkarGetResult tinkarGetResult = TinkarGetResult.newBuilder()
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000").setDescription("TEST")
                 .build();
 
         Assertions.assertEquals(
-                "{\"nid\":-2144684618,\"rcNid\":-2147393046,\"patternNid\":-2147483638,\"fieldIndex\":1,\"score\":13.158955,\"highlightedString\":\"<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>\"}",
-                this.mapper.writeValueAsString(tinkarSearchQueryResult));
+                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}",
+                this.mapper.writeValueAsString(tinkarGetResult));
 
         TinkarSearchQueryResponse tinkarSearchQueryResponse = TinkarSearchQueryResponse.newBuilder()
-                .addResults(tinkarSearchQueryResult)
+                .addResults(tinkarGetResult)
                 .build();
 
         Assertions.assertEquals(
-                "{\"results\":[{\"nid\":-2144684618,\"rcNid\":-2147393046,\"patternNid\":-2147483638,\"fieldIndex\":1,\"score\":13.158955,\"highlightedString\":\"<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>\"}]}",
+                "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}]}",
                 this.mapper.writeValueAsString(tinkarSearchQueryResponse));
     }
 
