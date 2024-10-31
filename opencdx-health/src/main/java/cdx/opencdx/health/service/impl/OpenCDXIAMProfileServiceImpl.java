@@ -107,7 +107,8 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
             } else {
                 model = new OpenCDXProfileModel();
                 model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
-                model.setNationalHealthId(openCDXNationalHealthIdentifier.generateNationalHealthId(openCDXCurrentUser.getCurrentUser()));
+                model.setNationalHealthId(
+                        openCDXNationalHealthIdentifier.generateNationalHealthId(openCDXCurrentUser.getCurrentUser()));
                 model = this.openCDXProfileRepository.save(model);
             }
         }

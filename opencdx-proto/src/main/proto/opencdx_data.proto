@@ -639,6 +639,11 @@ message ANFStatement {
    * Specifies the current status of the ANFStatement.
    */
   cdx.opencdx.grpc.types.Status status = 16;
+
+  /*
+   * Specifies the method used or to be used for the topic.
+   */
+  repeated LogicalExpression method = 17;
 }
 
 /*
