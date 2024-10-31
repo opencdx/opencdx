@@ -20,24 +20,6 @@ message TinkarSearchQueryRequest {
 }
 
 /*
- * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
- */
-message TinkarSearchQueryResult {
-  int32 nid = 1;
-  int32 rc_nid = 2;
-  int32 pattern_nid = 3;
-  int32 field_index = 4;
-  float score = 5;
-  string highlighted_string = 6;
-}
-/*
- * TinkarResponse Message: Represents the response that `Tinkar` service returns.
- */
-message TinkarSearchQueryResponse {
-  repeated TinkarSearchQueryResult results = 1;
-}
-
-/*
  * TinkarGetRequest Message: Represents the user's request to search the tinkar db.
  */
 message TinkarGetRequest {
@@ -68,6 +50,12 @@ message TinkarGetResponse {
   repeated TinkarGetResult results = 1;
 }
 
+/*
+ * TinkarResponse Message: Represents the response that `Tinkar` service returns.
+ */
+message TinkarSearchQueryResponse {
+  repeated TinkarGetResult results = 1;
+}
 
 /*
  * TinkarQueryService: Provides a gRPC endpoints for the querying the Tinkar DB

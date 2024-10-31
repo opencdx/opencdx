@@ -22,16 +22,14 @@ import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
-import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 /**
  * Tinkar Service implementation
@@ -42,36 +40,14 @@ import org.springframework.stereotype.Service;
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
-    private final String pathParent;
-
-    private final String pathChild;
-
     private final TinkarPrimitive primitive;
 
     /**
      * Default Constructor
-     * @param pathParent Parent path
-     * @param pathChild Child path
      * @param primitive TinkarPrimitive
      */
-    public OpenCDXTinkarServiceImpl(
-            @Value("${data.path.parent}") String pathParent,
-            @Value("${data.path.child}") String pathChild,
-            TinkarPrimitive primitive) {
-        this.pathParent = pathParent;
-        this.pathChild = pathChild;
+    public OpenCDXTinkarServiceImpl(TinkarPrimitive primitive) {
         this.primitive = primitive;
-    }
-
-    /**
-     * Initializer
-     */
-    @ExcludeFromJacocoGeneratedReport
-    @Scheduled(initialDelay = 30, fixedDelay = Long.MAX_VALUE)
-    public void initialize() {
-        log.info("Initializing OpenCDXTinkarServiceImpl");
-        primitive.initializePrimitiveData(pathParent, pathChild);
-        log.info("OpenCDXTinkarServiceImpl initialized");
     }
 
     @Cacheable(value = "search")
@@ -79,9 +55,9 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         try {
             log.info("search query - {}", request.getQuery());
-            PrimitiveDataSearchResult[] searchResults = primitive.search(request.getQuery(), request.getMaxResults());
-            TinkarSearchQueryResult[] results =
-                    Arrays.stream(searchResults).map(this::extract).toArray(TinkarSearchQueryResult[]::new);
+            List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
+            TinkarGetResult[] results =
+                    searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
 
             return TinkarSearchQueryResponse.newBuilder()
                     .addAllResults(Arrays.asList(results))
@@ -177,14 +153,11 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
     }
 
-    private TinkarSearchQueryResult extract(PrimitiveDataSearchResult searchResult) {
-        return TinkarSearchQueryResult.newBuilder()
-                .setNid(searchResult.nid())
-                .setRcNid(searchResult.rcNid())
-                .setPatternNid(searchResult.patternNid())
-                .setFieldIndex(searchResult.fieldIndex())
-                .setScore(searchResult.score())
-                .setHighlightedString(searchResult.highlightedString())
+    private TinkarGetResult extract(PublicId conceptId) {
+        return TinkarGetResult.newBuilder()
+                .setConceptId(conceptId.idString())
+                .setDescription(primitive.descriptionsOf(Arrays.asList(conceptId)).getFirst())
                 .build();
     }
+
 }
