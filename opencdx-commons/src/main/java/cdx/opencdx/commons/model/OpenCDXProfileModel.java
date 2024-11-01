@@ -63,6 +63,7 @@ public class OpenCDXProfileModel {
     private EmergencyContact emergencyContact;
     private Pharmacy pharmacyDetails;
     private boolean isActive;
+    private List<PhoneNumber> phone;
 
     private List<OpenCDXIdentifier> dependents;
     private List<KnownAllergy> allergies;
@@ -226,6 +227,9 @@ public class OpenCDXProfileModel {
         if (this.modified != null) {
             builder.setModifier(this.modifier.toHexString());
         }
+        if (this.phone != null) {
+            builder.addAllPhone(this.phone);
+        }
         return builder.build();
     }
 
@@ -268,6 +272,7 @@ public class OpenCDXProfileModel {
         this.emergencyContact = userProfile.getEmergencyContact();
         this.pharmacyDetails = userProfile.getPharmacyDetails();
         this.allergies = userProfile.getKnownAllergiesList();
+        this.phone = userProfile.getPhoneList();
         return this;
     }
 }
