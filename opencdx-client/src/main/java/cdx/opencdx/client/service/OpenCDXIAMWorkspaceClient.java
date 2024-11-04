@@ -55,10 +55,10 @@ public interface OpenCDXIAMWorkspaceClient {
 
     /**
      * Method to gRPC Call IAM Workspace Service listWorkspaces() api.
-     * @param request Empty to pass
+     * @param request ListWorkspacesRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ListWorkspacesResponse listWorkspaces(Empty request, OpenCDXCallCredentials openCDXCallCredentials)
+    ListWorkspacesResponse listWorkspaces(ListWorkspacesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

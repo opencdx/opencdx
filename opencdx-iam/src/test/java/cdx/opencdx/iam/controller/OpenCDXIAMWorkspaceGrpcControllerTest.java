@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.iam.controller;
 
+import static org.mockito.Mockito.when;
+
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -24,6 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.data.Pagination;
 import cdx.opencdx.grpc.data.Workspace;
 import cdx.opencdx.grpc.service.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -35,6 +38,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -48,6 +52,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -294,9 +301,20 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
 
     @Test
     void listWorkspaces() {
+        OpenCDXIAMWorkspaceModel model =
+                OpenCDXIAMWorkspaceModel.builder().id(OpenCDXIdentifier.get()).build();
+        when(this.openCDXIAMWorkspaceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
         StreamObserver<ListWorkspacesResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXIAMWorkspaceGrpcController.listWorkspaces(Empty.getDefaultInstance(), responseObserver);
-
+        this.openCDXIAMWorkspaceGrpcController.listWorkspaces(
+                ListWorkspacesRequest.newBuilder()
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListWorkspacesResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }

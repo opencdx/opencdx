@@ -65,8 +65,9 @@ public class OpenCDXIAMOrganizationGrpcController extends OrganizationServiceGrp
     }
 
     @Override
-    public void listOrganizations(Empty request, StreamObserver<ListOrganizationsResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXIAMOrganizationService.listOrganizations());
+    public void listOrganizations(
+            ListOrganizationsRequest request, StreamObserver<ListOrganizationsResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMOrganizationService.listOrganizations(request));
         responseObserver.onCompleted();
     }
 }

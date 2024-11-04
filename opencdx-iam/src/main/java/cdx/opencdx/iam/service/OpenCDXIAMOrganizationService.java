@@ -45,7 +45,8 @@ public interface OpenCDXIAMOrganizationService {
 
     /**
      * Method to get the list of organization.
-     * @return ListOrganizationsResponse with all the organization.
+     * @param request ListOrganizationsRequest for an organizations.
+     * @return ListOrganizationsResponse with all the organizations.
      */
-    ListOrganizationsResponse listOrganizations();
+    ListOrganizationsResponse listOrganizations(ListOrganizationsRequest request);
 }

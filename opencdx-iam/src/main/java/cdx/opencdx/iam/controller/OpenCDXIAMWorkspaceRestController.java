@@ -79,10 +79,11 @@ public class OpenCDXIAMWorkspaceRestController {
 
     /**
      * List of workspaces
+     * @param request for the workspaces.
      * @return All the workspaces.
      */
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ListWorkspacesResponse> listWorkspaces() {
-        return new ResponseEntity<>(this.openCDXIAMWorkspaceService.listWorkspaces(), HttpStatus.OK);
+    public ResponseEntity<ListWorkspacesResponse> listWorkspaces(@RequestBody ListWorkspacesRequest request) {
+        return new ResponseEntity<>(this.openCDXIAMWorkspaceService.listWorkspaces(request), HttpStatus.OK);
     }
 }

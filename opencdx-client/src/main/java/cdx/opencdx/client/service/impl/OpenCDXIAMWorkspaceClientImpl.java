@@ -138,12 +138,13 @@ public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient 
     /**
      * Method to gRPC Call IAM Workspace Service listWorkspaces() api.
      *
-     * @param request                Empty to pass
+     * @param request ListWorkspacesRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
     @Override
-    public ListWorkspacesResponse listWorkspaces(Empty request, OpenCDXCallCredentials openCDXCallCredentials)
+    public ListWorkspacesResponse listWorkspaces(
+            ListWorkspacesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return workspaceServiceBlockingStub

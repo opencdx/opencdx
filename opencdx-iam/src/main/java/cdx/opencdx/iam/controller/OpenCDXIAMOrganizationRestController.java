@@ -81,10 +81,11 @@ public class OpenCDXIAMOrganizationRestController {
 
     /**
      * List of organizations
+     * @param request for the organizations.
      * @return All the organizations.
      */
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ListOrganizationsResponse> listOrganizations() {
-        return new ResponseEntity<>(this.openCDXIAMOrganizationService.listOrganizations(), HttpStatus.OK);
+    public ResponseEntity<ListOrganizationsResponse> listOrganizations(@RequestBody ListOrganizationsRequest request) {
+        return new ResponseEntity<>(this.openCDXIAMOrganizationService.listOrganizations(request), HttpStatus.OK);
     }
 }

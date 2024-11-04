@@ -55,10 +55,11 @@ public interface OpenCDXIAMOrganizationClient {
 
     /**
      * Method to gRPC Call IAM Organization Service listOrganizations() api.
-     * @param request Empty to pass
+     * @param request ListOrganizationsRequest to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    ListOrganizationsResponse listOrganizations(Empty request, OpenCDXCallCredentials openCDXCallCredentials)
+    ListOrganizationsResponse listOrganizations(
+            ListOrganizationsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

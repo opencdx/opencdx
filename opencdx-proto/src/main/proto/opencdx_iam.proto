@@ -76,6 +76,20 @@ message ListOrganizationsResponse {
    * An array of organization objects which include the details of all organizations.
    */
   repeated cdx.opencdx.grpc.data.Organization organizations = 1;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing organizations.
+ */
+message ListOrganizationsRequest {
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
 }
 
 /*
@@ -146,6 +160,20 @@ message ListWorkspacesResponse {
    * An array of workspace objects which includes the details of all workspaces within an organization.
    */
   repeated cdx.opencdx.grpc.data.Workspace workspaces = 1;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.data.Pagination pagination = 2;
+}
+
+/*
+ * Request message for listing workspaces.
+ */
+message ListWorkspacesRequest {
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.data.Pagination pagination = 1;
 }
 
 /*
@@ -377,7 +405,7 @@ service OrganizationService {
   /*
    * ListOrganizations is an RPC method that returns a list of all organizations.
    */
-  rpc ListOrganizations(Empty) returns (ListOrganizationsResponse);
+  rpc ListOrganizations(ListOrganizationsRequest) returns (ListOrganizationsResponse);
 }
 
 /*
@@ -406,7 +434,7 @@ service WorkspaceService {
   /*
    * ListWorkspaces is an RPC method that provides a list of all workspaces within an organization.
    */
-  rpc ListWorkspaces(Empty) returns (ListWorkspacesResponse);
+  rpc ListWorkspaces(ListWorkspacesRequest) returns (ListWorkspacesResponse);
 }
 
 /*
