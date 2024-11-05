@@ -30,6 +30,11 @@ message AnfStatementConnector {
    * The Value of the ANF Operator used in the Statement
    */
   string operator_value = 4;
+
+  /*
+   * Name of the ANF statement
+   */
+  optional string name = 5;
 }
 
 
@@ -5258,6 +5263,10 @@ message QuestionnaireItemInitial {
    * Represents initial value for questions of decimal type.
    */
   optional double value_decimal = 3;
+  /*
+   * Represents initial value for questions of string type.
+   */
+  optional double value_string = 4;
 }
 
 /*
