@@ -5266,7 +5266,7 @@ message QuestionnaireItemInitial {
   /*
    * Represents initial value for questions of string type.
    */
-  optional double value_string = 4;
+  optional string value_string = 4;
 }
 
 /*
