@@ -598,20 +598,37 @@ display_components() {
 }
 # Function to start Docker services
 # Parameters: $1 - Docker Compose filename
+generate_compose_command(){
+  # Get Docker version
+  docker_version=$(docker -v | awk -F'[ ,]' '{print $3}')
+
+  # Determine the compose command based on Docker version
+  if [[ "$(printf '%s\n' "4.32" "$docker_version" | sort -V | head -n1)" == "4.32" ]]; then
+      compose_command="docker compose"
+  else
+      compose_command="docker-compose"
+  fi
+  echo "$compose_command"
+}
+
 start_docker() {
     if [ -z "$1" ]; then
         handle_error "Error: Docker Compose filename is missing."
     fi
 
-    handle_info "Starting Docker services using $1..."
-    (cd docker && docker-compose --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
+    compose_command=$(generate_compose_command)
+
+    handle_info "Starting Docker services using $1 (with $compose_command)..."
+    (cd docker && $compose_command --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
 }
 
 # Function to stop Docker services
 # Parameters: $1 (optional) - Docker Compose filename
 stop_docker() {
-    handle_info "Stopping Docker services"
-    (cd docker && docker-compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
+    compose_command=$(generate_compose_command)
+
+    handle_info "Stopping Docker services (with $compose_command)..."
+    (cd docker && $compose_command --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
     DEPLOYED="NONE"
 }
 
