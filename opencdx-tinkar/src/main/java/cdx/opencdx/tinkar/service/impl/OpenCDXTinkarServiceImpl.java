@@ -52,18 +52,14 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Cacheable(value = "search")
     @Override
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
-        try {
-            log.info("search query - {}", request.getQuery());
-            List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
-            TinkarGetResult[] results =
-                    searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
+        log.info("search query - {}", request.getQuery());
+        List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
+        TinkarGetResult[] results =
+                searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
 
-            return TinkarSearchQueryResponse.newBuilder()
-                    .addAllResults(Arrays.asList(results))
-                    .build();
-        } catch (Exception e) {
-            throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Search Failed", e);
-        }
+        return TinkarSearchQueryResponse.newBuilder()
+                .addAllResults(Arrays.asList(results))
+                .build();
     }
 
     @Cacheable(value = "getEntity")
