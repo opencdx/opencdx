@@ -172,8 +172,6 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
      */
     @Override
     public List<PublicId> childrenOf(PublicId parentConceptId) {
-        //        List<PublicId> children =Searcher.childrenOf(parentConceptId);
-        // TODO: Once IKM supports this way to look up children, remove the above line and uncomment the below code
         List<PublicId> children = new ArrayList<>();
         EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
@@ -207,9 +205,9 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
 
         StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
         if (PrimitiveData.get().hasPublicId(member)) {
-            EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
+            EntityService.get().getEntity(member.asUuidArray()).ifPresent(entity -> {
                 if (entity instanceof PatternEntity<?> patternEntity) {
-                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) -> {
+                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), semanticEntityOfPattern -> {
                         if (stampCalc.latest(semanticEntityOfPattern).get().active()) {
                             memberOfList.add(semanticEntityOfPattern
                                     .referencedComponent()
@@ -298,7 +296,9 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
             }
 
             @Override
-            public void forEach(LongConsumer longConsumer) {}
+            public void forEach(LongConsumer longConsumer) {
+                //TODO to be implemented later
+            }
         };
     }
 
@@ -339,16 +339,12 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
     }
 
     @Override
-    public List<PublicId> search(String search, int limit) {
-        try {
-            return Calculators.View.Default().search(search, limit).stream()
-                    .filter(item -> item.latestVersion().isPresent())
-                    .map(LatestVersionSearchResult::latestVersion)
-                    .map(latestVersion ->
-                            latestVersion.get().referencedComponent().publicId())
-                    .toList();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public List<PublicId> search(String search, int limit) throws Exception {
+        return Calculators.View.Default().search(search, limit).stream()
+                .filter(item -> item.latestVersion().isPresent())
+                .map(LatestVersionSearchResult::latestVersion)
+                .map(latestVersion ->
+                        latestVersion.get().referencedComponent().publicId())
+                .toList();
     }
 }

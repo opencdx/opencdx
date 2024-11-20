@@ -118,5 +118,5 @@ public interface TinkarPrimitive {
      * @param limit The maximum number of PublicIds to return.
      * @return A list of PublicIds that match the search criteria, limited by the specified number.
      */
-    List<PublicId> search(String search, int limit);
+    List<PublicId> search(String search, int limit) throws Exception;
 }
