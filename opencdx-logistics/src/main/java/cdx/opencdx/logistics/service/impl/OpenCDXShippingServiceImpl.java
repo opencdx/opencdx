@@ -43,7 +43,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * OpenCDX shipping service implementation
  */
 @Slf4j
 @Service

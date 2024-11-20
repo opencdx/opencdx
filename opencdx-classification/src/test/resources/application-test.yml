@@ -59,9 +59,6 @@ opencdx:
       server: health
       port: 9090
       enabled: true
-    helloworld:
-      server: helloworld
-      port: 9090
     media:
       server: media
       port: 9090

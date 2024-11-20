@@ -18,9 +18,6 @@ opencdx:
     health:
       server: health
       port: 9090
-    helloworld:
-      server: helloworld
-      port: 9090
     iam:
       server: iam
       port: 9090

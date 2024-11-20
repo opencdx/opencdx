@@ -94,14 +94,6 @@ public class IAMChangeSet {
                 .emailVerified(true)
                 .build());
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .username("helloworld")
-                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .systemName("OpenCDX-Helloworld")
-                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
-                .password(SCRAMBLED_PASSWORD)
-                .emailVerified(true)
-                .build());
-        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
                 .username("media")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .systemName("OpenCDX-Media")

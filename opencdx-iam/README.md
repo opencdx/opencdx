@@ -1,8 +1,8 @@
-# OpenCDX HelloWorld
+# OpenCDX IAM
 > Template Module for an OpenCDX Service. Used to quickly setup new services.
 
 ## Docker Image
-opencdx/helloworld
+opencdx/iam
 
 ## Docker Port
 - RestAPI > Host 8080 : Container 8080
@@ -43,7 +43,6 @@ login to the system using the dashboard UI
 | audit             | OpenCDX-Audit          | IAM_USER_TYPE_SYSTEM  |
 | communications    | OpenCDX-Communications | IAM_USER_TYPE_SYSTEM  |
 | connected-test    | OpenCDX-Connected-Test | IAM_USER_TYPE_SYSTEM  |
-| helloworld        | OpenCDX-Helloworld     | IAM_USER_TYPE_SYSTEM  |
 | media             | OpenCDX-Media          | IAM_USER_TYPE_SYSTEM  |
 | protector         | OpenCDX-Protector      | IAM_USER_TYPE_SYSTEM  |
 | routine           | OpenCDX-Routine        | IAM_USER_TYPE_SYSTEM  |
