@@ -99,9 +99,9 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.descendentsOf(concept).forEach(descendant -> {
-            descendants.add(PrimitiveData.publicId(descendant));
-        });
+        navigationCalculator
+                .descendentsOf(concept)
+                .forEach(descendant -> descendants.add(PrimitiveData.publicId(descendant)));
 
         if (log.isInfoEnabled()) {
             log.debug(
@@ -125,9 +125,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.parentsOf(concept).forEach(parent -> {
-            parents.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.parentsOf(concept).forEach(parent -> parents.add(PrimitiveData.publicId(parent)));
 
         if (log.isDebugEnabled()) {
             log.debug(
@@ -150,9 +148,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.ancestorsOf(concept).forEach(parent -> {
-            ancestors.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.ancestorsOf(concept).forEach(parent -> ancestors.add(PrimitiveData.publicId(parent)));
 
         if (log.isDebugEnabled()) {
             log.debug(
@@ -182,9 +178,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.childrenOf(concept).forEach(parent -> {
-            children.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.childrenOf(concept).forEach(parent -> children.add(PrimitiveData.publicId(parent)));
 
         if (log.isInfoEnabled()) {
             log.debug(
@@ -323,7 +317,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         AtomicReference<PublicId> result = new AtomicReference<>();
 
         try {
-            EntityService.get().forEachSemanticOfPattern(TinkarTerm.IDENTIFIER_PATTERN.nid(), (semanticEntity) -> {
+            EntityService.get().forEachSemanticOfPattern(TinkarTerm.IDENTIFIER_PATTERN.nid(), semanticEntity -> {
                 viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
                     String idValue = latestIdPattern
                             .get()
