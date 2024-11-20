@@ -54,8 +54,7 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
         log.info("search query - {}", request.getQuery());
         List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
-        TinkarGetResult[] results =
-                searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
+        TinkarGetResult[] results = searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
 
         return TinkarSearchQueryResponse.newBuilder()
                 .addAllResults(Arrays.asList(results))

@@ -318,15 +318,19 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         AtomicReference<PublicId> result = new AtomicReference<>();
 
         try {
-            EntityService.get().forEachSemanticOfPattern(TinkarTerm.IDENTIFIER_PATTERN.nid(),
-                    semanticEntity -> viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
-                String idValue = latestIdPattern
-                        .get()
-                        .getFieldWithMeaning(TinkarTerm.IDENTIFIER_VALUE, latestSemanticVersion);
-                if (idValue.equals(device)) {
-                    result.set(latestSemanticVersion.referencedComponent().publicId());
-                }
-            }));
+            EntityService.get()
+                    .forEachSemanticOfPattern(
+                            TinkarTerm.IDENTIFIER_PATTERN.nid(),
+                            semanticEntity -> viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
+                                String idValue = latestIdPattern
+                                        .get()
+                                        .getFieldWithMeaning(TinkarTerm.IDENTIFIER_VALUE, latestSemanticVersion);
+                                if (idValue.equals(device)) {
+                                    result.set(latestSemanticVersion
+                                            .referencedComponent()
+                                            .publicId());
+                                }
+                            }));
         } catch (Exception e) {
             log.error("Encountered exception {}", e.getMessage());
         }
@@ -344,7 +348,8 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
             return Calculators.View.Default().search(search, limit).stream()
                     .filter(item -> item.latestVersion().isPresent())
                     .map(LatestVersionSearchResult::latestVersion)
-                    .map(latestVersion -> latestVersion.get().referencedComponent().publicId())
+                    .map(latestVersion ->
+                            latestVersion.get().referencedComponent().publicId())
                     .toList();
         } catch (Exception e) {
             throw new OpenCDXBadRequest("TinkarPrimitiveImpl", 1, "Search Failed", e);
