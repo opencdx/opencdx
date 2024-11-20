@@ -111,7 +111,6 @@ public interface TinkarPrimitive {
      */
     PublicId getPublicIdForDevice(String device);
 
-
     /**
      * Searches for PublicIds based on the provided search string and limit.
      *
@@ -120,5 +119,4 @@ public interface TinkarPrimitive {
      * @return A list of PublicIds that match the search criteria, limited by the specified number.
      */
     List<PublicId> search(String search, int limit);
-
 }

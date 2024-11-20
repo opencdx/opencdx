@@ -49,7 +49,8 @@ class TinkarQueryTest {
     @Test
     void testTinkarSearchQueryResponse() throws JsonProcessingException {
         TinkarGetResult tinkarGetResult = TinkarGetResult.newBuilder()
-                .setConceptId("550e8400-e29b-41d4-a716-446655440000").setDescription("TEST")
+                .setConceptId("550e8400-e29b-41d4-a716-446655440000")
+                .setDescription("TEST")
                 .build();
 
         Assertions.assertEquals(
