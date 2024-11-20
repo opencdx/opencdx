@@ -297,7 +297,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
 
             @Override
             public void forEach(LongConsumer longConsumer) {
-                //TODO to be implemented later
+                // TODO to be implemented later
             }
         };
     }
@@ -343,8 +343,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         return Calculators.View.Default().search(search, limit).stream()
                 .filter(item -> item.latestVersion().isPresent())
                 .map(LatestVersionSearchResult::latestVersion)
-                .map(latestVersion ->
-                        latestVersion.get().referencedComponent().publicId())
+                .map(latestVersion -> latestVersion.get().referencedComponent().publicId())
                 .toList();
     }
 }
