@@ -16,7 +16,7 @@ logging:
       safe: DEBUG
 spring:
   application:
-    name: HelloWorld
+    name: iam
   cloud:
     config:
       enabled: false

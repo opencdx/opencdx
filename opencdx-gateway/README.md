@@ -1,8 +1,8 @@
-# OpenCDX HelloWorld
-> Template Module for an OpenCDX Service. Used to quickly setup new services.
+# OpenCDX Gateway
+> Module for handling access to all service APIs.
 
 ## Docker Image
-opencdx/helloworld
+opencdx/gateway
 
 ## Docker Port
 - RestAPI > Host 8080 : Container 8080

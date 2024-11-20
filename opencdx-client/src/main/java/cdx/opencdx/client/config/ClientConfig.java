@@ -144,18 +144,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.helloworld", name = "enabled", havingValue = "true")
-    OpenCDXHelloworldClient openCDXHelloworldClient(
-            @Value("${opencdx.client.helloworld.server}") String server,
-            @Value("${opencdx.client.helloworld.port}") Integer port,
-            @Value("${opencdx.client.trustStore}") String trustStore,
-            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        return new OpenCDXHelloworldClientImpl(
-                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMOrganizationClient openCDXIAMOrganizationClient(
             @Value("${opencdx.client.iam.server}") String server,

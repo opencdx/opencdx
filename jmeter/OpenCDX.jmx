@@ -27,7 +27,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tests">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tests" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
@@ -39,7 +39,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run gRPC Test?">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Run gRPC Test?" enabled="true">
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">false</boolProp>
           <stringProp name="IfController.condition">${__P(gRpcTest,true)}</stringProp>
@@ -70,7 +70,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
 </stringProp>
           </BeanShellSampler>
           <hashTree/>
-          <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+          <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
             <intProp name="HTTPSampler.connect_timeout">1000</intProp>
             <intProp name="HTTPSampler.response_timeout">1000</intProp>
             <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
@@ -82,7 +82,7 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
             <stringProp name="HTTPSampler.implementation"></stringProp>
           </ConfigTestElement>
           <hashTree/>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
@@ -664,29 +664,6 @@ vars.put(&quot;address_3_g&quot;,&quot;${__RandomString(${__groovy(new Random().
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="HelloWorld" enabled="false">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
-          </TransactionController>
-          <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="HelloWorld / SayHello" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">${__P(serverName,localhost)}</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
-              <stringProp name="GRPCSampler.deadline">2000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;name&quot;:&quot;Hello&quot;
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Audit" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
@@ -5902,7 +5879,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
 </stringProp>
           </BeanShellSampler>
           <hashTree/>
-          <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+          <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
             <intProp name="HTTPSampler.connect_timeout">2000</intProp>
             <intProp name="HTTPSampler.response_timeout">2000</intProp>
             <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
@@ -5923,7 +5900,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="IAM" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
@@ -6120,7 +6097,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user/list [POST]">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user/list [POST]" enabled="true">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/user/list</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6359,7 +6336,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]" enabled="true">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/organization/${organization_r}</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6371,7 +6348,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/list [POST]">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/list [POST]" enabled="true">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/organization/list</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6520,7 +6497,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/{id} [GET]">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/{id} [GET]" enabled="true">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/workspace/${workspace_r}</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6532,7 +6509,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/list [POST]">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/list [POST]" enabled="true">
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.path">/iam/workspace/list</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -6571,31 +6548,6 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="HelloWorld" enabled="false">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
-          </TransactionController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/helloworld/hello" enabled="true">
-              <intProp name="HTTPSampler.concurrentPool">6</intProp>
-              <stringProp name="HTTPSampler.path">/helloworld/hello</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{&#xd;
-    &quot;name&quot;: &quot;jeff&quot;&#xd;
-}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-            </HTTPSamplerProxy>
-            <hashTree/>
-          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Audit" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
@@ -12260,7 +12212,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -12297,7 +12249,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -12334,7 +12286,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="true">
+      <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -12371,7 +12323,7 @@ vars.put(&quot;nationalHealthID_r&quot;,jMUUID);
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <Summariser guiclass="SummariserGui" testclass="Summariser" testname="Generate Summary Results" enabled="true"/>
+      <Summariser guiclass="SummariserGui" testclass="Summariser" testname="Generate Summary Results"/>
       <hashTree/>
     </hashTree>
   </hashTree>

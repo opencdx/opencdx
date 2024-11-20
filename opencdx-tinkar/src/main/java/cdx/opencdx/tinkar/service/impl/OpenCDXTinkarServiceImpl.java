@@ -23,13 +23,12 @@ import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
 import io.micrometer.observation.annotation.Observed;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 /**
  * Tinkar Service implementation
@@ -53,18 +52,13 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     @Cacheable(value = "search")
     @Override
     public TinkarSearchQueryResponse search(TinkarSearchQueryRequest request) {
-        try {
-            log.info("search query - {}", request.getQuery());
-            List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
-            TinkarGetResult[] results =
-                    searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
+        log.info("search query - {}", request.getQuery());
+        List<PublicId> searchResults = primitive.search(request.getQuery(), request.getMaxResults());
+        TinkarGetResult[] results = searchResults.stream().map(this::extract).toArray(TinkarGetResult[]::new);
 
-            return TinkarSearchQueryResponse.newBuilder()
-                    .addAllResults(Arrays.asList(results))
-                    .build();
-        } catch (Exception e) {
-            throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Search Failed", e);
-        }
+        return TinkarSearchQueryResponse.newBuilder()
+                .addAllResults(Arrays.asList(results))
+                .build();
     }
 
     @Cacheable(value = "getEntity")
@@ -156,8 +150,8 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
     private TinkarGetResult extract(PublicId conceptId) {
         return TinkarGetResult.newBuilder()
                 .setConceptId(conceptId.idString())
-                .setDescription(primitive.descriptionsOf(Arrays.asList(conceptId)).getFirst())
+                .setDescription(
+                        primitive.descriptionsOf(Arrays.asList(conceptId)).getFirst())
                 .build();
     }
-
 }

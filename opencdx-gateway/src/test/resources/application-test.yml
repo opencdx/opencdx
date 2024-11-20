@@ -16,7 +16,7 @@ logging:
       safe: DEBUG
 spring:
   application:
-    name: HelloWorld
+    name: gateway
   cloud:
     config:
       enabled: false
@@ -36,7 +36,5 @@ spring:
     password: root
 
 opencdx:
-  helloworld:
-    format: "Hello %s!"
   client:
     trustStore: ../certs/opencdx-clients.pem

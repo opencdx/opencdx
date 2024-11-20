@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.service.*;
@@ -28,6 +29,8 @@ import dev.ikm.tinkar.entity.EntityService;
 import dev.ikm.tinkar.entity.PatternEntity;
 import dev.ikm.tinkar.entity.PatternEntityVersion;
 import dev.ikm.tinkar.provider.search.Searcher;
+import dev.ikm.tinkar.terms.EntityProxy;
+import dev.ikm.tinkar.terms.TinkarTerm;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,9 +38,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.LongConsumer;
-
-import dev.ikm.tinkar.terms.EntityProxy;
-import dev.ikm.tinkar.terms.TinkarTerm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -62,8 +62,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
      * @param pathChild Child path
      */
     public TinkarPrimitiveImpl(
-            @Value("${data.path.parent}") String pathParent,
-            @Value("${data.path.child}") String pathChild) {
+            @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild) {
         log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
             log.debug("Initializing Primitive Data");
@@ -101,13 +100,16 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.descendentsOf(concept).forEach(descendant -> {
-            descendants.add(PrimitiveData.publicId(descendant));
-        });
+        navigationCalculator
+                .descendentsOf(concept)
+                .forEach(descendant -> descendants.add(PrimitiveData.publicId(descendant)));
 
         if (log.isInfoEnabled()) {
-            log.debug("Descendants of ID: {}, Description: {}", parentConceptId.asUuidArray()[0],
-                    this.descriptionsOf(Collections.singletonList(parentConceptId)).getFirst());
+            log.debug(
+                    "Descendants of ID: {}, Description: {}",
+                    parentConceptId.asUuidArray()[0],
+                    this.descriptionsOf(Collections.singletonList(parentConceptId))
+                            .getFirst());
             descendants.forEach(descendant -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(descendant));
                 log.debug("Descendant ID: {}, Description: {}", descendant.asUuidArray()[0], strings.getFirst());
@@ -124,12 +126,12 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.parentsOf(concept).forEach(parent -> {
-            parents.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.parentsOf(concept).forEach(parent -> parents.add(PrimitiveData.publicId(parent)));
 
         if (log.isDebugEnabled()) {
-            log.debug("Parents of ID: {}, Description: {}", conceptId.asUuidArray()[0],
+            log.debug(
+                    "Parents of ID: {}, Description: {}",
+                    conceptId.asUuidArray()[0],
                     this.descriptionsOf(Collections.singletonList(conceptId)).getFirst());
             parents.forEach(parent -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(parent));
@@ -147,12 +149,12 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.ancestorsOf(concept).forEach(parent -> {
-            ancestors.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.ancestorsOf(concept).forEach(parent -> ancestors.add(PrimitiveData.publicId(parent)));
 
         if (log.isDebugEnabled()) {
-            log.debug("Parents of ID: {}, Description: {}", conceptId.asUuidArray()[0],
+            log.debug(
+                    "Parents of ID: {}, Description: {}",
+                    conceptId.asUuidArray()[0],
                     this.descriptionsOf(Collections.singletonList(conceptId)).getFirst());
             ancestors.forEach(ancestor -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(ancestor));
@@ -171,18 +173,18 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
      */
     @Override
     public List<PublicId> childrenOf(PublicId parentConceptId) {
-//        List<PublicId> children =Searcher.childrenOf(parentConceptId);
-// TODO: Once IKM supports this way to look up children, remove the above line and uncomment the below code
         List<PublicId> children = new ArrayList<>();
         EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
         NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
 
-        navigationCalculator.childrenOf(concept).forEach(parent -> {
-            children.add(PrimitiveData.publicId(parent));
-        });
+        navigationCalculator.childrenOf(concept).forEach(parent -> children.add(PrimitiveData.publicId(parent)));
 
         if (log.isInfoEnabled()) {
-            log.debug("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).getFirst());
+            log.debug(
+                    "Children of ID: {}, Description: {}",
+                    parentConceptId.asUuidArray()[0],
+                    this.descriptionsOf(Collections.singletonList(parentConceptId))
+                            .getFirst());
             children.forEach(child -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(child));
                 log.debug("Child ID: {}, Description: {}", child.asUuidArray()[0], strings.getFirst());
@@ -191,7 +193,6 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
 
         return children;
     }
-
 
     /**
      * Determines the list of PublicId objects to which the given member belongs.
@@ -205,11 +206,13 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
 
         StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
         if (PrimitiveData.get().hasPublicId(member)) {
-            EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
+            EntityService.get().getEntity(member.asUuidArray()).ifPresent(entity -> {
                 if (entity instanceof PatternEntity<?> patternEntity) {
-                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) -> {
+                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), semanticEntityOfPattern -> {
                         if (stampCalc.latest(semanticEntityOfPattern).get().active()) {
-                            memberOfList.add(semanticEntityOfPattern.referencedComponent().publicId());
+                            memberOfList.add(semanticEntityOfPattern
+                                    .referencedComponent()
+                                    .publicId());
                         }
                     });
                 }
@@ -217,7 +220,10 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).getFirst());
+            log.debug(
+                    "Members for Member ID: {}, Description: {}",
+                    member.asUuidArray()[0],
+                    this.descriptionsOf(Collections.singletonList(member)).getFirst());
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
                 log.debug("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
@@ -282,7 +288,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
         return new PublicId() {
             @Override
             public UUID[] asUuidArray() {
-                return new UUID[]{UUID.fromString(concept)};
+                return new UUID[] {UUID.fromString(concept)};
             }
 
             @Override
@@ -292,7 +298,7 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
 
             @Override
             public void forEach(LongConsumer longConsumer) {
-
+                // TODO to be implemented later
             }
         };
     }
@@ -307,18 +313,24 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
     public PublicId getPublicIdForDevice(String device) {
 
         ViewCalculator viewCalc = Calculators.View.Default();
-        Latest<PatternEntityVersion> latestIdPattern = viewCalc.latestPatternEntityVersion(TinkarTerm.IDENTIFIER_PATTERN);
+        Latest<PatternEntityVersion> latestIdPattern =
+                viewCalc.latestPatternEntityVersion(TinkarTerm.IDENTIFIER_PATTERN);
         AtomicReference<PublicId> result = new AtomicReference<>();
 
         try {
-            EntityService.get().forEachSemanticOfPattern(TinkarTerm.IDENTIFIER_PATTERN.nid(), (semanticEntity) -> {
-                viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
-                    String idValue = latestIdPattern.get().getFieldWithMeaning(TinkarTerm.IDENTIFIER_VALUE, latestSemanticVersion);
-                    if (idValue.equals(device)) {
-                        result.set(latestSemanticVersion.referencedComponent().publicId());
-                    }
-                });
-            });
+            EntityService.get()
+                    .forEachSemanticOfPattern(
+                            TinkarTerm.IDENTIFIER_PATTERN.nid(),
+                            semanticEntity -> viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
+                                String idValue = latestIdPattern
+                                        .get()
+                                        .getFieldWithMeaning(TinkarTerm.IDENTIFIER_VALUE, latestSemanticVersion);
+                                if (idValue.equals(device)) {
+                                    result.set(latestSemanticVersion
+                                            .referencedComponent()
+                                            .publicId());
+                                }
+                            }));
         } catch (Exception e) {
             log.error("Encountered exception {}", e.getMessage());
         }
@@ -331,17 +343,16 @@ public class TinkarPrimitiveImpl implements TinkarPrimitive, AutoCloseable {
     }
 
     @Override
-    public List<PublicId> search(String search, int limit) {
+    public List<PublicId> search(String search, int limit) throws OpenCDXBadRequest {
         try {
             return Calculators.View.Default().search(search, limit).stream()
                     .filter(item -> item.latestVersion().isPresent())
                     .map(LatestVersionSearchResult::latestVersion)
-                    .map(latestVersion -> latestVersion.get().referencedComponent().publicId())
+                    .map(latestVersion ->
+                            latestVersion.get().referencedComponent().publicId())
                     .toList();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new OpenCDXBadRequest("TinkarPrimitiveImpl", 1, "Search Failed", e);
         }
-
     }
-
 }

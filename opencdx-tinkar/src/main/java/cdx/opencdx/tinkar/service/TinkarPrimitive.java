@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.tinkar.service;
 
+import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import dev.ikm.tinkar.common.id.PublicId;
 import java.util.List;
 
@@ -111,7 +112,6 @@ public interface TinkarPrimitive {
      */
     PublicId getPublicIdForDevice(String device);
 
-
     /**
      * Searches for PublicIds based on the provided search string and limit.
      *
@@ -119,6 +119,5 @@ public interface TinkarPrimitive {
      * @param limit The maximum number of PublicIds to return.
      * @return A list of PublicIds that match the search criteria, limited by the specified number.
      */
-    List<PublicId> search(String search, int limit);
-
+    List<PublicId> search(String search, int limit) throws OpenCDXBadRequest;
 }

@@ -37,7 +37,7 @@ public class OpenCDXRestShippingController {
     private final OpenCDXShippingService openCDXShippingService;
 
     /**
-     * Constructor that takes a HelloWorldService
+     * Constructor that takes a OpenCDXShippingService
      * @param openCDXShippingService service for processing requests.
      */
     @Autowired

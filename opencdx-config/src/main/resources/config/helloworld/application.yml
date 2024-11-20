@@ -1,8 +1,0 @@
-# Properties for a Managed Environment go here.
-spring:
-  application:
-    name: helloworld
-
-opencdx:
-  helloworld:
-    format: "Hello %s!"

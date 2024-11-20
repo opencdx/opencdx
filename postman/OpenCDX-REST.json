@@ -138,45 +138,6 @@
 			"response": []
 		},
 		{
-			"name": "https://localhost:8080/helloworld/hello",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"OpenCDx\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:8080/helloworld/hello",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"helloworld",
-						"hello"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "http://localhost:8080/iam/user/exists",
 			"event": [
 				{
