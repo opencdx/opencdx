@@ -9,7 +9,7 @@ Host 8888 : Container 8888
 
 ## Links
 _**Links are part of the build not available from GitHub.**_
-- Configuration URL: http://localhost:8888/{Applicaiton_Name}/{Profile}
+- Configuration URL: http://localhost:8888/{Application_Name}/{Profile}
 ## Interfaces
 
 ## Encrypt sensitive information

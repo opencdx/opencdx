@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Configuration
 @EnableConfigurationProperties

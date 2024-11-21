@@ -53,7 +53,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     /**
      * Constructor based on the OpenCDXMessageService
      * @param messageService Messaging Service to use,
-     * @param applicationName Applicaiton name to set.
+     * @param applicationName Application name to set.
      * @param openCDXDocumentValidator Document validator to validate the document.
      */
     public OpenCDXAuditServiceImpl(

@@ -47,9 +47,9 @@ public class OpenCDXRestAuditController {
     }
 
     /**
-     * Post Hello Rest API
-     * @param request HelloRequest indicating who to say hello to.
-     * @return HelloReply with the hello message.
+     * Post Audit Event API
+     * @param request AuditEvent indicating the event that is being audited.
+     * @return AuditStatus with the response message.
      */
     @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {

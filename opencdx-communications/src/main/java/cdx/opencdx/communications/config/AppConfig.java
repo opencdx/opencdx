@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Slf4j
 @Configuration

@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Configuration
 @EnableConfigurationProperties(AppProperties.class)
