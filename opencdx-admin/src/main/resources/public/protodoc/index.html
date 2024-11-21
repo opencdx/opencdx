@@ -1737,29 +1737,6 @@
         
           
           <li>
-            <a href="#opencdx_helloworld.proto">opencdx_helloworld.proto</a>
-            <ul>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.service.helloworld.HelloRequest"><span class="badge">M</span>HelloRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.service.helloworld.HelloResponse"><span class="badge">M</span>HelloResponse</a>
-                </li>
-              
-              
-              
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.service.helloworld.Greeter"><span class="badge">S</span>Greeter</a>
-                </li>
-              
-            </ul>
-          </li>
-        
-          
-          <li>
             <a href="#opencdx_iam.proto">opencdx_iam.proto</a>
             <ul>
               
@@ -1844,7 +1821,15 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.service.iam.ListOrganizationsRequest"><span class="badge">M</span>ListOrganizationsRequest</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.service.iam.ListOrganizationsResponse"><span class="badge">M</span>ListOrganizationsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.service.iam.ListWorkspacesRequest"><span class="badge">M</span>ListWorkspacesRequest</a>
                 </li>
               
                 <li>
@@ -2217,10 +2202,6 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResponse"><span class="badge">M</span>TinkarSearchQueryResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResult"><span class="badge">M</span>TinkarSearchQueryResult</a>
                 </li>
               
               
@@ -3235,6 +3216,13 @@ and returns a PredictorResponse message that contains the output of the predicti
                   <td><p>Specifies the current status of the ANFStatement. </p></td>
                 </tr>
               
+                <tr>
+                  <td>method</td>
+                  <td><a href="#cdx.opencdx.grpc.data.LogicalExpression">LogicalExpression</a></td>
+                  <td>optional</td>
+                  <td><p>Specifies the method used or to be used for the topic. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3516,6 +3504,13 @@ Another optional field. </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>The Value of the ANF Operator used in the Statement </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Name of the ANF statement </p></td>
                 </tr>
               
             </tbody>
@@ -10477,6 +10472,13 @@ for possible values. </p></td>
                   <td><a href="#double">double</a></td>
                   <td>optional</td>
                   <td><p>Represents initial value for questions of decimal type. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_string</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Represents initial value for questions of string type. </p></td>
                 </tr>
               
             </tbody>
@@ -20663,96 +20665,6 @@ If no user id or patient id is provided, the method will return the profile of t
     
       
       <div class="file-heading">
-        <h2 id="opencdx_helloworld.proto">opencdx_helloworld.proto</h2><a href="#title">Top</a>
-      </div>
-      <p>Proto file for maintaining the list of services implemented by OpenCDx Helloworld.</p>
-
-      
-        <h3 id="cdx.opencdx.grpc.service.helloworld.HelloRequest">HelloRequest</h3>
-        <p>The protocol message definition for the request.</p><p>The HelloRequest message structure which will be used to pass request information from the client to the greeter service.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The name field of the HelloRequest message.
-It constitutes the main part of our request message and represents the user&#39;s name to be greeted.
-
-username </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.service.helloworld.HelloResponse">HelloResponse</h3>
-        <p>The protocol message definition for the response.</p><p>The HelloResponse message structure which will be used by the greeter service to pass greeting message back to the client.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>message</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The message field of the HelloResponse message.
-It serves as our greeting message, sent back to the user.
-
-message in response </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-
-      
-
-      
-
-      
-        <h3 id="cdx.opencdx.grpc.service.helloworld.Greeter">Greeter</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>SayHello</td>
-                <td><a href="#cdx.opencdx.grpc.service.helloworld.HelloRequest">HelloRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.service.helloworld.HelloResponse">HelloResponse</a></td>
-                <td><p>Defines the SayHello rpc method for the Greeter service.
-The SayHello service receives a HelloRequest message containing a user&#39;s name and sends back a greeting in a HelloResponse message.
-It takes a single argument (HelloRequest) and returns a response (HelloResponse).
-This is the main method which clients using our service will interact with to send and receive greeting</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-
-        
-    
-      
-      <div class="file-heading">
         <h2 id="opencdx_iam.proto">opencdx_iam.proto</h2><a href="#title">Top</a>
       </div>
       <p>Proto file for maintaining the list of services implemented by OpenCDx IAM.</p>
@@ -21242,6 +21154,30 @@ This is the main method which clients using our service will interact with to se
 
         
       
+        <h3 id="cdx.opencdx.grpc.service.iam.ListOrganizationsRequest">ListOrganizationsRequest</h3>
+        <p>Request message for listing organizations.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.service.iam.ListOrganizationsResponse">ListOrganizationsResponse</h3>
         <p>This message contains the list of organizations. It is the response message for a request to list all organizations.</p>
 
@@ -21257,6 +21193,37 @@ This is the main method which clients using our service will interact with to se
                   <td><a href="#cdx.opencdx.grpc.data.Organization">cdx.opencdx.grpc.data.Organization</a></td>
                   <td>repeated</td>
                   <td><p>An array of organization objects which include the details of all organizations. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.service.iam.ListWorkspacesRequest">ListWorkspacesRequest</h3>
+        <p>Request message for listing workspaces.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information. </p></td>
                 </tr>
               
             </tbody>
@@ -21281,6 +21248,13 @@ This is the main method which clients using our service will interact with to se
                   <td><a href="#cdx.opencdx.grpc.data.Workspace">cdx.opencdx.grpc.data.Workspace</a></td>
                   <td>repeated</td>
                   <td><p>An array of workspace objects which includes the details of all workspaces within an organization. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.data.Pagination">cdx.opencdx.grpc.data.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information. </p></td>
                 </tr>
               
             </tbody>
@@ -21674,7 +21648,7 @@ by its specific ID.</p></td>
             
               <tr>
                 <td>ListOrganizations</td>
-                <td><a href="#cdx.opencdx.grpc.service.iam.Empty">Empty</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.iam.ListOrganizationsRequest">ListOrganizationsRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.service.iam.ListOrganizationsResponse">ListOrganizationsResponse</a></td>
                 <td><p>ListOrganizations is an RPC method that returns a list of all organizations.</p></td>
               </tr>
@@ -21715,7 +21689,7 @@ by its specific ID.</p></td>
             
               <tr>
                 <td>ListWorkspaces</td>
-                <td><a href="#cdx.opencdx.grpc.service.iam.Empty">Empty</a></td>
+                <td><a href="#cdx.opencdx.grpc.service.iam.ListWorkspacesRequest">ListWorkspacesRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.service.iam.ListWorkspacesResponse">ListWorkspacesResponse</a></td>
                 <td><p>ListWorkspaces is an RPC method that provides a list of all workspaces within an organization.</p></td>
               </tr>
@@ -23978,67 +23952,8 @@ by its specific ID.</p></td>
               
                 <tr>
                   <td>results</td>
-                  <td><a href="#cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResult">TinkarSearchQueryResult</a></td>
+                  <td><a href="#cdx.opencdx.grpc.service.tinkar.TinkarGetResult">TinkarGetResult</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.service.tinkar.TinkarSearchQueryResult">TinkarSearchQueryResult</h3>
-        <p>TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>nid</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>rc_nid</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>pattern_nid</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>field_index</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>score</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>highlighted_string</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
