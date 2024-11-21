@@ -47,7 +47,7 @@ public class OpenCDXRestAuditController {
     }
 
     /**
-     * Post Hello Rest API
+     * Post Audit Event API
      * @param request AuditEvent indicating the event that is being audited.
      * @return AuditStatus with the response message.
      */

@@ -44,16 +44,16 @@ public class OpenCDXRestConnectedLabController {
     }
 
     /** Post Lab Rest API
-     * @param request LabFindings indicating who to say hello to.
-     * @return LabFindingsResponse with the hello message.
+     * @param request LabFindings to submit.
+     * @return response with submit lab findings status.
      */
     @PostMapping(value = "/lab/findings", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LabFindingsResponse> submitLabFindings(@RequestBody LabFindings request) {
         return new ResponseEntity<>(this.openCDXConnectedLabService.submitLabFindings(request), HttpStatus.OK);
     }
     /** Get Connected Lab Rest API
-     * @param id ConnectedLabId indicating who to say hello to.
-     * @return GetConnectedLabResponse with the hello message.
+     * @param id String indicating connected lab id to be retrieved.
+     * @return response with retrieved connected lab information.
      */
     @GetMapping("/lab/{id}")
     public ResponseEntity<GetConnectedLabResponse> getConnectedLab(@PathVariable("id") String id) {
@@ -64,8 +64,8 @@ public class OpenCDXRestConnectedLabController {
                 HttpStatus.OK);
     }
     /** Create Connected Lab Rest API
-     * @param request CreateConnectedLabRequest indicating who to say hello to.
-     * @return CreateConnectedLabResponse with the hello message.
+     * @param request CreateConnectedLabRequest indicating the connected lab information to be created.
+     * @return response with created connected lab.
      */
     @PostMapping(value = "/lab", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateConnectedLabResponse> createConnectedLab(
@@ -73,8 +73,8 @@ public class OpenCDXRestConnectedLabController {
         return new ResponseEntity<>(this.openCDXConnectedLabService.createConnectedLab(request), HttpStatus.OK);
     }
     /** Update Connected Lab Rest API
-     * @param request UpdateConnectedLabRequest indicating who to say hello to.
-     * @return UpdateConnectedLabResponse with the hello message.
+     * @param request UpdateConnectedLabRequest indicating the connected lab information to be updated.
+     * @return response with update connected lab information.
      */
     @PutMapping(value = "/lab", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateConnectedLabResponse> updatupdateConnectedLabeOrder(
@@ -82,8 +82,8 @@ public class OpenCDXRestConnectedLabController {
         return new ResponseEntity<>(this.openCDXConnectedLabService.updateConnectedLab(request), HttpStatus.OK);
     }
     /** Delete Connected Lab Rest API
-     * @param id ConnectedLabId indicating who to say hello to.
-     * @return DeleteConnectedLabResponse with the hello message.
+     * @param id String indicating connected lab to delete.
+     * @return response with delete connected lab status.
      */
     @DeleteMapping("/lab/{id}")
     public ResponseEntity<DeleteConnectedLabResponse> deleteConnectedLab(@PathVariable String id) {
@@ -94,8 +94,8 @@ public class OpenCDXRestConnectedLabController {
                 HttpStatus.OK);
     }
     /** List Connected Lab Rest API
-     * @param request ListConnectedLabsRequest indicating who to say hello to.
-     * @return ListConnectedLabsResponse with the hello message.
+     * @param request ListConnectedLabsRequest to list the connected labs.
+     * @return response with list of connected labs.
      */
     @PostMapping(value = "/lab/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListConnectedLabsResponse> listConnectedLabs(@RequestBody ListConnectedLabsRequest request) {
