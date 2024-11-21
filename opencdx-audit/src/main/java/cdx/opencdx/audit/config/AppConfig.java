@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Slf4j
 @Configuration
