@@ -35,6 +35,11 @@ message AnfStatementConnector {
    * Name of the ANF statement
    */
   optional string name = 5;
+
+  /*
+   * The id of the question containing the main ANF statement
+   */
+  optional string main_statement = 6;
 }
 
 
