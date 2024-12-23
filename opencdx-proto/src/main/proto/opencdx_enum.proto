@@ -795,6 +795,11 @@ enum AnfStatementType {
    * `ANF_STATEMENT_TYPE_NOT_APPLICABLE` implies that the ANF statement does not apply.
    */
   ANF_STATEMENT_TYPE_NOT_APPLICABLE = 4;
+
+  /*
+   * `ANF_STATEMENT_TYPE_CONTRIBUTING` implies that the ANF statement contributes to a main ANF statement.
+   */
+  ANF_STATEMENT_TYPE_CONTRIBUTING = 5;
 }
 
 /*
