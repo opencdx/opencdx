@@ -31,6 +31,14 @@ public interface OpenCDXTinkarService {
     TinkarSearchQueryResponse search(TinkarSearchQueryRequest request);
 
     /**
+     * Method to search for a concept
+     *
+     * @param request TinkarSearchQueryRequest containing the term to search and limit
+     * @return TinkarSearchQueryResponse
+     */
+    TinkarGetResponse conceptSearch(TinkarSearchQueryRequest request);
+
+    /**
      * Method to search for an NID
      *
      * @param request TinkarGetRequest containing the terms to search

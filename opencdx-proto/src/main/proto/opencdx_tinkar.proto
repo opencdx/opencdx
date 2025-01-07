@@ -41,6 +41,10 @@ message TinkarGetResult {
    * The description of the concept ID of the result.
    */
   string description = 2;
+  /*
+   * The name of the concept ID of the result.
+   */
+  string name = 3;
 }
 
 /*

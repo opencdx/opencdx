@@ -54,7 +54,7 @@ class TinkarQueryTest {
                 .build();
 
         Assertions.assertEquals(
-                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}",
+                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\",\"name\":\"\"}",
                 this.mapper.writeValueAsString(tinkarGetResult));
 
         TinkarSearchQueryResponse tinkarSearchQueryResponse = TinkarSearchQueryResponse.newBuilder()
@@ -62,7 +62,7 @@ class TinkarQueryTest {
                 .build();
 
         Assertions.assertEquals(
-                "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}]}",
+                "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\",\"name\":\"\"}]}",
                 this.mapper.writeValueAsString(tinkarSearchQueryResponse));
     }
 
@@ -83,14 +83,14 @@ class TinkarQueryTest {
                 .build();
 
         Assertions.assertEquals(
-                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}",
+                "{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\",\"name\":\"\"}",
                 this.mapper.writeValueAsString(result));
 
         TinkarGetResponse tinkarGetResponse =
                 TinkarGetResponse.newBuilder().addResults(result).build();
 
         Assertions.assertEquals(
-                "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\"}]}",
+                "{\"results\":[{\"conceptId\":\"550e8400-e29b-41d4-a716-446655440000\",\"description\":\"TEST\",\"name\":\"\"}]}",
                 this.mapper.writeValueAsString(tinkarGetResponse));
     }
 }
