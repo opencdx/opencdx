@@ -22,6 +22,12 @@ import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import cdx.opencdx.tinkar.service.TinkarPrimitive;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
+import dev.ikm.tinkar.common.service.PrimitiveData;
+import dev.ikm.tinkar.coordinate.Calculators;
+import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
+import dev.ikm.tinkar.coordinate.stamp.calculator.LatestVersionSearchResult;
+import dev.ikm.tinkar.entity.EntityService;
+import dev.ikm.tinkar.provider.search.Searcher;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +65,29 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         return TinkarSearchQueryResponse.newBuilder()
                 .addAllResults(Arrays.asList(results))
                 .build();
+    }
+
+    @Override
+    public TinkarGetResponse conceptSearch(TinkarSearchQueryRequest request) {
+        try {
+            return TinkarGetResponse.newBuilder().addAllResults(Calculators.View.Default()
+                            .search(request.getQuery(), request.getMaxResults()).stream()
+                    .map(LatestVersionSearchResult::latestVersion)
+                    .filter(Latest::isPresent)
+                    .map(latestVersion -> latestVersion.get().referencedComponent().publicId())
+                    .toList()
+                    .stream()
+                    .distinct()
+                    .map(publicId -> TinkarGetResult.newBuilder()
+                            .setConceptId(publicId.asUuidArray()[0].toString())
+                            .setName(PrimitiveData.textOptional(EntityService.get().nidForPublicId(publicId)).orElse(null))
+                            .setDescription(descriptionsOf(List.of(publicId)).getFirst())
+                            .build()
+                    ).toList()).build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Tinkar search failed", e);
+        }
     }
 
     @Cacheable(value = "getEntity")
@@ -145,6 +174,10 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
                 .toList();
 
         return TinkarGetResponse.newBuilder().addAllResults(results).build();
+    }
+
+    public List<String> descriptionsOf(List<PublicId> conceptIds) {
+        return Searcher.descriptionsOf(conceptIds);
     }
 
     private TinkarGetResult extract(PublicId conceptId) {

@@ -65,7 +65,6 @@ public class OpenCDXRestQuestionnaireController {
      */
     @PutMapping(value = "/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Questionnaire> updateQuestionnaire(@RequestBody QuestionnaireRequest request) {
-
         return new ResponseEntity<>(openCDXQuestionnaireService.updateQuestionnaire(request), HttpStatus.OK);
     }
 

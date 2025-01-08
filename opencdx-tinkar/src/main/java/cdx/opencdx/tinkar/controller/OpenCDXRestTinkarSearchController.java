@@ -59,6 +59,22 @@ public class OpenCDXRestTinkarSearchController {
     }
 
     /**
+     * Search for concepts based off a search term
+     * @param query String containing the term to search
+     * @param maxResults Maximum number of results to return.
+     * @return TinkarSearchQueryResponse that contains the results.
+     */
+    @GetMapping("/conceptSearch")
+    public TinkarGetResponse conceptSearch(
+            @RequestParam("query") String query,
+            @RequestParam(name = "maxResults", required = false) Integer maxResults) {
+        return openCDXTinkarService.conceptSearch(TinkarSearchQueryRequest.newBuilder()
+                .setQuery(query)
+                .setMaxResults(maxResults != null ? maxResults : 30)
+                .build());
+    }
+
+    /**
      * Method to look up an entity by the tinkar concept public ID
      * @param conceptId String representing an entity concept ID.
      * @return TinkarGetResult representing the entity.
