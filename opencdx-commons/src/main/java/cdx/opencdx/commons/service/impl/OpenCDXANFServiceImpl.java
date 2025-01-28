@@ -39,8 +39,8 @@ import org.springframework.stereotype.Service;
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     private static final String ASSOCIATED_WITH_363698007_NATIONAL_IDENTIFIER =
-            "363704007 |Associated with| = 363698007 |National identifier|";
-    private static final String OBSERVATION_FINDING_FINDING = "416541006 |Observation finding (finding)|";
+            "86490a44-8539-31e2-8e0f-3a6253a72fca";
+    private static final String OBSERVATION_FINDING_FINDING = "b5ba88ba-22d5-37fe-a9a1-b82c377e0212";
     private final OpenCDXAdrMessageService openCDXAdrMessageService;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
