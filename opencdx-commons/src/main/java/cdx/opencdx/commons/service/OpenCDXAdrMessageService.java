@@ -34,5 +34,5 @@ public interface OpenCDXAdrMessageService {
      * @return The response from the OpenCDX ADR.
      */
     @PostMapping(value = "/anf", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> postANFStatement(@RequestBody ANFStatement anfStatement);
+    public ResponseEntity<Long> postANFStatement(@RequestBody ANFStatement[] anfStatement);
 }

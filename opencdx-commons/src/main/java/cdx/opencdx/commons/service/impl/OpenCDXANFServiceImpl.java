@@ -99,7 +99,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findById(patienId);
 
         if (patient.isPresent()) {
-            anfStatements.stream()
+            ANFStatement[] preparedStatements = anfStatements.stream()
                     .map(anfStatement -> ANFStatement.newBuilder(anfStatement)
                             .setId(UUID.randomUUID().toString())
                             .setSubjectOfRecord(Participant.newBuilder()
@@ -187,14 +187,8 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                         } else {
                             return anfStatement;
                         }
-                    })
-                    .forEach(item -> {
-                        try {
-                            openCDXAdrMessageService.postANFStatement(item);
-                        } catch (Throwable throwable) {
-                            log.warn("Failed to send ANF statement to ADR", throwable);
-                        }
-                    });
+                    }).toArray(ANFStatement[]::new);
+            openCDXAdrMessageService.postANFStatement(preparedStatements);
             log.info("Sent {} ANF statements to ADR", anfStatements.size());
         } else {
             log.error("Patient with id {} not found", patienId);
