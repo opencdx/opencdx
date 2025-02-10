@@ -178,6 +178,15 @@ This declares a volume under the docker default volume location which works perf
   > keytool -version
 
 ### Docker Desktop 4.28.0
+- Install docker desktop from [here](https://docs.docker.com/desktop/install/ubuntu/)
+
+- Then verify docker version
+```
+docker --version
+```
+
+Or install using apt:
+
 - Add the docker repository to ubuntu sources
 ```
 # Add Docker's official GPG key:
@@ -203,21 +212,31 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 docker --version
 ```
 
-### Git 2.39.3
+### Git
 - Install git
   > sudo apt-get install git
 - Check git version
   > git version
 
 ### Node.js: 20.0.0
-- Installs nvm (Node Version Manager)
-  > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+- Install [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+  > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 - Download and install Node.js
   > nvm install 20
 - Verifies the right Node.js version is in the environment
   > node -v
 
-### Apache JMeter: 5.6.2 & Apache JMeter gRPC Request: 1.2.6
+### Install yq
+- Install yq
+  > sudo apt-get install yq
+
+
+### Add Tinkar dataset
+- If Tinkar dataset is available, rename the root dataset to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
+- If not using the Tinkar service, can just create an empty directory
+  > mkdir -p data/solor-us-tinkar
+
+### Apache JMeter: 5.6.2 & Apache JMeter gRPC Request: 1.2.6 (optional)
 - Install JMeter through the following. This should install ver 5.6.3
   > wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
 - Unzip the downloaded file in the location of your choice
@@ -234,15 +253,15 @@ docker --version
 - Click on the below button in the lower right hand corner
   > Apply Changes and Restart JMeter
 
-### OpenSSL 3.1.2
-- OpenSSl comes standard with Ubuntu Linux.
-- Check the version.
-  > openssl version
-
-### protoc-gen-doc: 1.5.1
+### protoc-gen-doc: 1.5.1 (optional)
 - Download the protoc-gen-doc from the following locations based on your OS type
   > [Intel / AMD64](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_amd64.tar.gz)
   >
   > [ARM (AArch64)](https://github.com/pseudomuto/protoc-gen-doc/releases/download/v1.5.1/protoc-gen-doc_1.5.1_linux_arm64.tar.gz)
 - Unzip the downloaded file to a location of your choice. This location of the exec can be used to generate the proto documentation
   using option 13 in the deploy menu while deploying the application
+
+### OpenSSL 3.1.2
+- OpenSSl comes standard with Ubuntu Linux.
+- Check the version.
+  > openssl version
