@@ -53,6 +53,12 @@ The document is split into sections for different OS types.
 - Click on the below button in the lower right hand corner
   > Apply Changes and Restart JMeter
 
+### Add Tinkar dataset
+- Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
+- If Tinkar dataset is available, rename the unzipped root folder to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
+- If not using the Tinkar service, can just create an empty directory
+  > mkdir -p data/solor-us-tinkar
+
 ### OpenSSL 3.1.2
 - Install OpenSSL through homebrew in terminal. This should install version 3.3.0
   > brew install openssl@3
@@ -232,25 +238,28 @@ docker --version
 
 
 ### Add Tinkar dataset
-- If Tinkar dataset is available, rename the root dataset to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
+- Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
+- If Tinkar dataset is available, rename the unzipped root folder to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
 - If not using the Tinkar service, can just create an empty directory
   > mkdir -p data/solor-us-tinkar
 
-### Apache JMeter: 5.6.2 & Apache JMeter gRPC Request: 1.2.6 (optional)
+### Apache JMeter: 5.6.3 & Apache JMeter gRPC Request: 1.2.6 (optional)
 - Install JMeter through the following. This should install ver 5.6.3
   > wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
 - Unzip the downloaded file in the location of your choice
-  > unzip apache-jmeter-5.3.zip
+  > unzip apache-jmeter-5.6.3.zip
 - Download jmeter plugins jar
-  > wget -P apache-jmeter-5.3/lib/ext https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
-- Start JMeter
-  > cd apache-jmeter-5.3/bin
-  > ./jmeter
+  > wget -P apache-jmeter-5.6.3/lib/ext https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
+- Start JMeter (any startup warnings can be ignored)
+```
+cd apache-jmeter-5.6.3/bin
+./jmeter
+```
 - Once JMeter UI comes up, click on the following menu items
   > Options -> Plugins Manager -> Available Plugins
-- Select the following item from the list. you can search for it
+- Search and select the following item from the list
   > JMeter gRPC Request
-- Click on the below button in the lower right hand corner
+- Click on the button in the lower right hand corner
   > Apply Changes and Restart JMeter
 
 ### protoc-gen-doc: 1.5.1 (optional)
