@@ -5,7 +5,7 @@ The document is split into sections for different OS types.
 
 - [MacOS](#macos)
 - [Windows](#windows)
-- [Linux](#linux)
+- [Linux](#linux-ubuntu)
 
 ## MacOS
 ### Java Development Kit (JDK): 21
