@@ -241,7 +241,7 @@ docker --version
 - Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
 - If Tinkar dataset is available, rename the unzipped root folder to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
 - If not using the Tinkar service, can just create an empty directory
-  > mkdir -p data/solor-us-tinkar
+  > mkdir -p data/solor-us-tinkar.sa
 
 ### Apache JMeter: 5.6.3 & Apache JMeter gRPC Request: 1.2.6 (optional)
 - Install JMeter through the following. This should install ver 5.6.3
