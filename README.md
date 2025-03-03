@@ -75,7 +75,7 @@ Here's your updated markdown with descriptions for each software:
 ## Deployment Procedures
 
 1. Run the command "chmod 755 deploy.sh" in the root directory.
-2. Run the command "./deploy.sh --deploy" in the root directory of the repository.
+2. Run the command "./deploy.sh --build --deploy" in the root directory of the repository.
 > This will run a full build, test, docker image generation and deployment of all services to docker desktop.
 3. Once successfully deployed you will receive a menu like this:
 > OpenCDX Deployment Menu:
