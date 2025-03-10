@@ -24,7 +24,7 @@ node_version="20.0.0"
 keytool_version="20.0.1"
 
 # openssl version
-openssl_version="3.0.8"
+openssl_version="3.0.2"
 
 # Function to handle errors
 # Parameters: $1 - Error message

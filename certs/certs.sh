@@ -2,7 +2,7 @@
 
 # Function to check minimum OpenSSL version
 check_openssl_version() {
-    local min_version="3.0.8"
+    local min_version="3.0.2"
     if ! command -v openssl &> /dev/null; then
         echo "Error: OpenSSL is not installed. Please install OpenSSL and try again."
         exit 1
