@@ -100,7 +100,7 @@ def myNvdKey = System.getenv("NVD_API_KEY")
 
 // Conditionally include the section based on the presence of the environment variable
 if (myNvdKey != null && myNvdKey != "") {
-    println "Using NVD API Key"
+    println "Found NVD API Key using it for Dependency Check.."
     dependencyCheck {
         analyzers.assemblyEnabled = false
         suppressionFile = "./config/owasp_suppression.xml"
@@ -110,7 +110,7 @@ if (myNvdKey != null && myNvdKey != "") {
         }
     }
 } else {
-    println "NVD API Key not available.."
+    println "NVD API Key not found using Public NVD Access for Dependency Check.."
     dependencyCheck {
         analyzers.assemblyEnabled = false
         suppressionFile = "./config/owasp_suppression.xml"
