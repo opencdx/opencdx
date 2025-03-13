@@ -57,7 +57,7 @@ The document is split into sections for different OS types.
 - Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
 - If Tinkar dataset is available, rename the unzipped root folder to solor-us-tinkar.sa and place it in the /data folder inside /opencdx (e.g opencdx/data/solor-us-tinkar.sa)
 - If not using the Tinkar service, can just create an empty directory
-  > mkdir -p data/solor-us-tinkar
+  > mkdir -p data/solor-us-tinkar.sa
 
 ### OpenSSL 3.1.2
 - Install OpenSSL through homebrew in terminal. This should install version 3.3.0
@@ -140,6 +140,12 @@ using option 13 in the deploy menu while deploying the application
 - Click on the below button in the lower right hand corner
   > Apply Changes and Restart JMeter
 
+### Add Tinkar dataset
+- Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
+- If Tinkar dataset is available, rename the unzipped root folder to solor-us-tinkar.sa and place it in the /data folder inside C:\opencdx (e.g C:\opencdx\data\solor-us-tinkar.sa)
+- If not using the Tinkar service, can just create an empty directory
+  > C:\data\solor-us-tinkar.sa
+
 ### OpenSSL 3.1.2
 - OpenSSL is installed as a part of git bash install and available in a git bash terminal
 - Open Git bash
@@ -218,7 +224,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 docker --version
 ```
 
-### Git
+### Git 
 - Install git
   > sudo apt-get install git
 - Check git version
