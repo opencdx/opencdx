@@ -223,8 +223,23 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 ```
 docker --version
 ```
+- Ensure that no instance of docker is running
+> sudo docker ps
+- Ensure that the current user is added to the docker user group
+  > sudo usermod -aG docker $USER
+
+this allows current user to run the final build deployment
 
 ### Git 
+
+- Only install git if it is not already installed
+- To check if Git is installed on Linux, open a terminal and type:
+  > git --version
+- If Git is installed, you'll see output similar to:
+git version 2.39.3
+- If Git is not installed, you'll get a message like:
+git: command not found
+
 - Install git
   > sudo apt-get install git
 - Check git version
@@ -235,6 +250,7 @@ docker --version
   > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 - Download and install Node.js
   > nvm install 20
+- Reboot system (just exiting the terminal works inconsistently and fails build deployment)
 - Verifies the right Node.js version is in the environment
   > node -v
 
