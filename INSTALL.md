@@ -239,9 +239,20 @@ docker --version
   > node -v
 
 ### Install yq
-- Install yq
+- Install yq with apt-get
   > sudo apt-get install yq
+- Install yq with snapd
+  > sudo apt update
+  > 
+  > sudo apt install snapd  
+  >
+  >  sudo snap install yq 
 
+### Create ./data directory
+- Create a directory to store the MongoDB data
+  > mkdir data
+- Specify permissions for the directory
+  > chmod 755 data
 
 ### Add Tinkar dataset
 - Tinkar is used for querying medical terminology data. Tinkar is developed by [IKM](https://www.ikm.dev/) who maintains the dataset. This may contain proprietary information so a publicly available download is not currently provided. Please contact IKM for access to the dataset. 
