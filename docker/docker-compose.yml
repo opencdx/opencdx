@@ -294,9 +294,6 @@ services:
       - "8761:8761"
     volumes:
       - ../certs:/certs
-    depends_on:
-      zipkin:
-        condition: service_healthy
   config:
     image: opencdx/config:${version}
     volumes:
@@ -371,9 +368,6 @@ services:
     ports:
       - "9411:9411"
     restart: unless-stopped
-    depends_on:
-      zipkin_dependencies:
-        condition: service_healthy
   zipkin_dependencies:
     image: openzipkin/zipkin-dependencies:2
     container_name: dependencies
