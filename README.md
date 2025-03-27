@@ -16,6 +16,10 @@
 
 ℹ️ Specific version not required, but the latest version is recommended .
 
+## Docker Desktop Spec. Requirements
+- Memory: 36GB+
+- CPU: 8+
+
 ## Software Installation
 To Install the above required software to run OpenCDx, please refer to the installation instructions as detailed [here](INSTALL.md)
 

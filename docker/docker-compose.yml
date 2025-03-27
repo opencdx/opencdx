@@ -294,7 +294,6 @@ services:
       - "8761:8761"
     volumes:
       - ../certs:/certs
-
   config:
     image: opencdx/config:${version}
     volumes:
