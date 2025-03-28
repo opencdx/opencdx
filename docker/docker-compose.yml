@@ -294,6 +294,9 @@ services:
       - "8761:8761"
     volumes:
       - ../certs:/certs
+    depends_on:
+      zipkin:
+        condition: service_started
   config:
     image: opencdx/config:${version}
     volumes:
@@ -360,11 +363,6 @@ services:
       # Uncomment to enable debug logging
       #- JAVA_OPTS=-Dlogging.level.zipkin=DEBUG -Xms512m -Xmx1g
       - JAVA_OPTS=-Xms512m -Xmx1g -Darmeria.ssl.key-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.key-store-type=PKCS12 -Darmeria.ssl.key-store-password=opencdx -Darmeria.ssl.key-alias=zipkin  -Darmeria.ssl.enabled=true -Darmeria.ssl.trust-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.trust-store-type=PKCS12 -Darmeria.ssl.trust-store-password=opencdx -Darmeria.ports[0].port=9411 -Darmeria.ports[0].protocols[0]=https
-    healthcheck:
-      test: "curl -k --fail --silent https://localhost:9411/actuator/health | grep UP || exit 1"
-      interval: 5s
-      timeout: 5s
-      retries: 5
     ports:
       - "9411:9411"
     restart: unless-stopped
