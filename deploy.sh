@@ -82,63 +82,6 @@ required_software() {
   curl_installed=false
   git_installed=false
 
-# Get the directory path from the first command-line argument
-directory="./data"
-
-# Check if the directory exists
-if [[ ! -d "$directory" ]]; then
-  handle_error "Error: Directory '$directory' does not exist."
-fi
-
-# Get the expected permissions, owner, and group
-expected_permissions1="drwxr-xr-x"
-expected_permissions2="drwxrwxr-x"
-expected_owner="$USER"
-expected_group="$(id -gn)"
-
-# Get ls -l output
-ls_output="$(ls -ld "$directory")"
-
-# Extract permissions, owner, and group
-actual_permissions="$(echo "$ls_output" | awk '{print $1}')"
-actual_owner="$(echo "$ls_output" | awk '{print $3}')"
-actual_group="$(echo "$ls_output" | awk '{print $4}')"
-
-# Compare permissions
-if [[ "$actual_permissions" == "$expected_permissions1" || "$actual_permissions" == "$expected_permissions2" ]]; then
- handle_info "Permissions are correct: $actual_permissions"
-else
- handle_error "Permissions are incorrect. Expected: $expected_permissions1 or $expected_permissions2, Actual: $actual_permissions"
-fi
-
-# Compare owner
-if [[ "$actual_owner" == "$expected_owner" ]]; then
- handle_info "Owner is correct: $actual_owner"
-else
- handle_error "Owner is incorrect. Expected: $expected_owner, Actual: $actual_owner"
-fi
-
-# Compare group
-if [[ "$actual_group" == "$expected_group" ]]; then
- handle_info "Group is correct: $actual_group"
-else
- handle_error "Group is incorrect. Expected: $expected_group, Actual: $actual_group"
-fi
-
-# Compare owner
-if [[ "$actual_owner" == "$expected_owner" ]]; then
-  handle_info "Owner is correct: $actual_owner"
-else
-  handle_error "Owner is incorrect. Expected: $expected_owner, Actual: $actual_owner"
-fi
-
-# Compare group
-if [[ "$actual_group" == "$expected_group" ]]; then
-  handle_info "Group is correct: $actual_group"
-else
-  handle_error "Group is incorrect. Expected: $expected_group, Actual: $actual_group"
-fi
-
 if command -v git &> /dev/null; then
   git_installed=true
 fi
