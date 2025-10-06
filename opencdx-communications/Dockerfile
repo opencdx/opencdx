@@ -1,4 +1,4 @@
-ARG  CODE_VERSION=21-slim
+ARG  CODE_VERSION=26-slim
 FROM openjdk:${CODE_VERSION}
 
 # Install prerequisites
