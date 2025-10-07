@@ -1,4 +1,4 @@
-FROM mongo:7.0.4
+FROM mongo:7.0.25
 
 COPY scripts /home/mongodb/scripts
 COPY mongod.conf /home/mongodb
