@@ -45,6 +45,7 @@ generate_certificate() {
     authorityKeyIdentifier=keyid,issuer
     basicConstraints=CA:FALSE
     keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+    extendedKeyUsage = serverAuth
     subjectAltName = @alt_names
 
     [alt_names]
@@ -74,14 +75,27 @@ generate_ca_certificate() {
     openssl genrsa -aes256 -out "${SERVICE_NAME}-key.pem" -passout pass:opencdx 4096
 
     if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
-        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost" -passin pass:opencdx
+        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}" \
+            -addext "subjectAltName = DNS:localhost" \
+            -addext "basicConstraints=critical,CA:true" \
+            -addext "keyUsage=critical,keyCertSign,cRLSign" \
+            -addext "subjectKeyIdentifier=hash" \
+            -addext "authorityKeyIdentifier=keyid,issuer" \
+            -passin pass:opencdx
     else
-        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}" -addext "subjectAltName = DNS:localhost" -passin pass:opencdx
+        openssl req -x509 -new -nodes -key "${SERVICE_NAME}-key.pem" -sha256 -days 3650 -out "${SERVICE_NAME}-cert.pem" -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}" \
+            -addext "subjectAltName = DNS:localhost" \
+            -addext "basicConstraints=critical,CA:true" \
+            -addext "keyUsage=critical,keyCertSign,cRLSign" \
+            -addext "subjectKeyIdentifier=hash" \
+            -addext "authorityKeyIdentifier=keyid,issuer" \
+            -passin pass:opencdx
     fi
 
     echo "Certificate Authority (CA) certificate generated successfully."
     echo "CA Key: $CA_KEY_FILE"
     echo "CA Certificate: $CA_CERT_FILE"
+    # cleanup
 }
 
 check_ca_files_exist() {
@@ -140,8 +154,8 @@ done
 # Setup keys and certificate for Mongodb
 cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
-# Concatenate client certs into a client truststore
-cat admin-cert.pem audit-cert.pem classification-cert.pem communications-cert.pem config-cert.pem health-cert.pem discovery-cert.pem config-cert.pem iam-cert.pem media-cert.pem prometheus-cert.pem questionnaire-cert.pem tinkar-cert.pem logistics-cert.pem zipkin-cert.pem > opencdx-clients.pem
+# Concatenate service certs into a client truststore (for mutual TLS trust)
+cat admin-cert.pem audit-cert.pem classification-cert.pem communications-cert.pem config-cert.pem health-cert.pem discovery-cert.pem config-cert.pem iam-cert.pem media-cert.pem prometheus-cert.pem questionnaire-cert.pem tinkar-cert.pem logistics-cert.pem zipkin-cert.pem mongodb-cert.pem > opencdx-clients.pem
 
 #Regenerating the JKS Keystore will require re-generating the encrypted password/passcodes in the configuration.
 #keytool -genkeypair -alias config-server-key -keyalg RSA -keysize 2048 -dname 'C=US,ST=CA,L=SanDiego,O=SafeHealth,OU=OpenCDx,CN=Config' -keypass opencdx -keystore config-server.jks -storepass opencdx

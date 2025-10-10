@@ -320,10 +320,11 @@ services:
     ports:
         - "27017:27017"
     healthcheck:
-      test: "echo 'db.runCommand({serverStatus:1}).ok' | mongosh localhost:27017/test --quiet"
+      test: "mongosh 'mongodb://appuser:appuser@localhost:27017/opencdx?tls=true&tlsCAFile=/certs/ca-cert.pem' --eval 'db.runCommand({ ping: 1 }).ok' --quiet | grep 1 || exit 1"
+      start_period: 90s
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 30
 
   nats:
     image: opencdx/nats:${version}

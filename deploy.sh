@@ -5,6 +5,10 @@ GIT_BRANCH=""
 
 LAST_COMMIT=""
 DEPLOYED="NONE"
+ROOT_DIR="$(pwd)"
+LOG_DIR="$ROOT_DIR/logs"
+CONTAINER_LOG_DIR="$LOG_DIR/containers"
+PROTO_READY=false
 
 # ANSI color codes
 RED='\033[0;31m'
@@ -117,12 +121,17 @@ fi
     curl_installed=true
   fi
 
-  # Check for OpenSSL
+  # Check for OpenSSL (prefer OpenSSL 3, reject LibreSSL)
   if command -v openssl &> /dev/null; then
-   local current_openssl_version=$(openssl version | awk '{print $2}')
-     if [ "$(printf '%s\n' "$openssl_version" "$current_openssl_version" | sort -V | head -n1)" == "$openssl_version" ]; then
-         openssl_installed=true
-     fi
+    local openssl_ver_str
+    openssl_ver_str=$(openssl version)
+    local current_vendor
+    current_vendor=$(echo "$openssl_ver_str" | awk '{print $1}')
+    local current_openssl_version
+    current_openssl_version=$(echo "$openssl_ver_str" | awk '{print $2}')
+    if [ "$current_vendor" = "OpenSSL" ] && [ "$(printf '%s\n' "$openssl_version" "$current_openssl_version" | sort -V | head -n1)" = "$openssl_version" ]; then
+      openssl_installed=true
+    fi
   fi
 
  # Check for Keytool
@@ -170,11 +179,18 @@ fi
 
   if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed || ! $curl_installed || ! $git_installed);
   then
-    handle_error "Required software is not installed. Please install missing required software."
+    handle_error "Required software is not installed. Ensure OpenSSL 3.x (not LibreSSL) is active."
   else
     handle_info "All dependencies are installed."
   fi
 }
+
+# Prefer OpenSSL 3 if installed (Homebrew paths) before dependency checks
+if [ -x "/opt/homebrew/opt/openssl@3/bin/openssl" ]; then
+  export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+elif [ -x "/usr/local/opt/openssl@3/bin/openssl" ]; then
+  export PATH="/usr/local/opt/openssl@3/bin:$PATH"
+fi
 
 required_software
 
@@ -271,6 +287,15 @@ function copy_files() {
 
     # Copy files from the source to the target directory
     cp -r "$source_dir"/* "$target_dir" || handle_error "Failed to copy files from $source_dir to $target_dir"
+}
+
+# Ensure protobuf sources are generated once per session
+ensure_proto_ready() {
+    if [ "$PROTO_READY" != true ]; then
+        handle_info "Generating protobuf sources..."
+        ./gradlew :opencdx-proto:generateProto -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Failed to generate protobuf sources."
+        PROTO_READY=true
+    fi
 }
 
 # Function to list property files in a directory
@@ -511,7 +536,21 @@ print_usage() {
 # Function to build Docker image
 build_docker_image() {
     handle_info "Building Docker image for $1..."
-    docker build -t "$1:latest" -t "$1:$version" "$2" || handle_error "Docker $1 build failed."
+    local context_dir="$2"
+
+    # If this component is a Gradle Java module, ensure a boot JAR exists first
+    if [ -f "$context_dir/build.gradle" ]; then
+        local module_name="${context_dir#./}"
+        local libs_dir="$context_dir/build/libs"
+        if ! ls "$libs_dir"/*.jar >/dev/null 2>&1; then
+            handle_info "No JAR found for $module_name. Building bootJar..."
+            ./gradlew ":$module_name:bootJar" -x sonarlintMain -x sonarlintTest -x dependencyCheckAggregate || handle_error "Gradle build failed for $module_name."
+        else
+            handle_info "Reusing existing JAR for $module_name in $libs_dir."
+        fi
+    fi
+
+    docker build -t "$1:latest" -t "$1:$version" "$context_dir" || handle_error "Docker $1 build failed."
 }
 build_docker() {
   local auto_select_all=$1
@@ -532,6 +571,7 @@ build_docker() {
 display_components() {
   clear
   echo "All components:"
+  echo "0. Toggle All"
   for ((i = 0; i < ${#components[@]}; i+=2)); do
     comp1="${components[$i]}"
     padded_comp1=$(printf "%-25s" "$comp1")
@@ -564,12 +604,20 @@ display_components() {
       else
         selected_components+=("$component")
       fi
+    elif [[ $index -eq 0 ]]; then
+      # Toggle all components
+      if [[ ${#selected_components[@]} -eq ${#components[@]} ]]; then
+        selected_components=()
+      else
+        selected_components=("${components[@]}")
+      fi
     else
       echo "Invalid input. Please enter a valid component number."
     fi
   }
 
   if [[ $auto_confirm_all == true ]]; then
+      ensure_proto_ready
       for component in "${selected_components[@]}"; do
         if [[ ! -z "$component" ]]; then
           build_docker_image "$component" "./${component//\//-}"
@@ -578,7 +626,7 @@ display_components() {
     else  # Existing logic wrapped in else condition
       display_components
       while true; do
-        read -p "Enter component number to toggle selection (or 'x' to build docker images): " -r
+        read -p "Enter component number to toggle selection (0 for all, or 'x' to build docker images): " -r
         echo
         if [[ $REPLY =~ ^[0-9]+$ ]]; then
           toggle_component
@@ -589,6 +637,7 @@ display_components() {
           echo "Invalid input. Please enter a component number or 'x'."
         fi
       done
+      ensure_proto_ready
       for component in "${selected_components[@]}"; do
         if [[ ! -z "$component" ]]; then
           build_docker_image "$component" "./${component//\//-}"
@@ -619,7 +668,12 @@ start_docker() {
     compose_command=$(generate_compose_command)
 
     handle_info "Starting Docker services using $1 (with $compose_command)..."
-    (cd docker && $compose_command --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
+    if (cd docker && $compose_command --project-name opencdx -f "$1" up -d); then
+        handle_info "Docker services started."
+    else
+        collect_logs
+        handle_error "Failed to start Docker services."
+    fi
 }
 
 # Function to stop Docker services
@@ -630,6 +684,27 @@ stop_docker() {
     handle_info "Stopping Docker services (with $compose_command)..."
     (cd docker && $compose_command --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
     DEPLOYED="NONE"
+}
+
+# Collect logs for troubleshooting into ./logs
+collect_logs() {
+    local timestamp
+    timestamp=$(date +"%Y%m%d-%H%M%S")
+    local out_dir="$LOG_DIR/$timestamp"
+    mkdir -p "$out_dir" "$CONTAINER_LOG_DIR"
+
+    handle_info "Collecting docker compose and container logs into $out_dir..."
+
+    # Docker compose ps and events
+    (cd docker && $(generate_compose_command) --project-name opencdx -f "docker-compose.yml" ps -a) > "$out_dir/compose-ps.txt" 2>&1 || true
+    (cd docker && $(generate_compose_command) --project-name opencdx -f "docker-compose.yml" config) > "$out_dir/compose-config.yml" 2>/dev/null || true
+
+    # Per-container logs
+    docker ps -a --format '{{.Names}}' | grep '^opencdx-' | while read -r name; do
+        docker logs "$name" > "$out_dir/${name}.log" 2>&1 || true
+    done
+
+    handle_info "Logs collected at: $out_dir"
 }
 
 generate_docker_compose() {
@@ -759,7 +834,7 @@ menu() {
                 # Check if stdout is a terminal
                 echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Version: ${GREEN}$version${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC} Deployed: ${GREEN}$DEPLOYED${NC}"
             else
-                cho "Current branch: $GIT_BRANCH Version: $version Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
+                echo "Current branch: $GIT_BRANCH Version: $version Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
             fi
 
         echo "OpenCDX Deployment Menu:"
@@ -814,8 +889,8 @@ menu() {
 
         case $menu_choice in
             1) build_docker false false;;
-            2) build_docker true false; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
-            3) build_docker false false; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
+            2) build_docker true true; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
+            3) generate_docker_compose; build_docker true true; DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
             6) run_jmeter_tests; open_url "build/reports/jmeter/index.html" ;;
@@ -987,6 +1062,13 @@ fi
 
 handle_info "Checking Certificates"
 
+# Prefer OpenSSL 3 if installed (macOS/Homebrew and Intel paths)
+if [ -x "/opt/homebrew/opt/openssl@3/bin/openssl" ]; then
+  export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+elif [ -x "/usr/local/opt/openssl@3/bin/openssl" ]; then
+  export PATH="/usr/local/opt/openssl@3/bin:$PATH"
+fi
+
 # Change into the desired directory
 cd ./certs
 
@@ -999,6 +1081,9 @@ cd ..
 handle_info "Version: ${version}"
 
 sleep 2
+
+# Prepare logs directories
+mkdir -p "$CONTAINER_LOG_DIR"
 
 ./gradlew -stop all
 if [ "$skip" = false ]; then
@@ -1037,7 +1122,7 @@ if [ "$skip" = false ]; then
   fi
 
   if [ "$build" = true ]; then
-      gradlew_cmd="$gradlew_cmd build publish publishToMavenLocal"
+      gradlew_cmd="$gradlew_cmd opencdx-proto:generateProto build publish publishToMavenLocal"
   fi
 
   if [ "$sonar" = false ]; then
