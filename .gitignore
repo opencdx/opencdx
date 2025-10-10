@@ -22,6 +22,7 @@ bin
 
 # Log files
 *.log
+logs/
 
 # Package files
 *.jar
@@ -34,6 +35,9 @@ target/
 # JetBrains IDE
 .idea/
 .run/
+
+# VS Code
+.vscode/
 
 # Unit test reports
 TEST*.xml
