@@ -4,6 +4,7 @@
 # Ignore Gradle build output directory
 build
 out
+bin
 
 # These are some examples of commonly ignored file patterns.
 # You should customize this list as applicable to your project.
@@ -21,6 +22,7 @@ out
 
 # Log files
 *.log
+logs/
 
 # Package files
 *.jar
@@ -33,6 +35,9 @@ target/
 # JetBrains IDE
 .idea/
 .run/
+
+# VS Code
+.vscode/
 
 # Unit test reports
 TEST*.xml
