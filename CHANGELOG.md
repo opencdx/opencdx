@@ -7,30 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- **Configurable NATS audit publishing** in opencdx-commons
-  - New configuration flag: `opencdx.audit.nats.enabled` (defaults to true)
-  - Environment variable support: `OPENCDX_AUDIT_NATS_ENABLED`
-  - Graceful degradation: Falls back to local logging if NATS unavailable
-  - Prevents 406 errors when NATS JetStream connection fails
-- **Audit configuration status endpoint**: GET `/audit/config/nats-status`
-  - Returns current NATS publishing status
-  - Indicates if configuration was explicitly set or using default
-  - Shows configuration source (environment, application.yml, or default)
-- **AuditConfigStatusResponse DTO** in opencdx-commons
-  - Fields: `natsAuditEnabled`, `configEntryFound`, `configSource`
+## [1.0.1] - 2025-10-11
 
-### Changed
-- **OpenCDXAuditServiceImpl**: Enhanced with configurable NATS publishing
-  - Try-catch around NATS publish to prevent transaction failures
-  - Logs audit events locally when NATS publishing is disabled
-  - Null-safe configuration with proper default handling
-- **Docker Compose**: Added `OPENCDX_AUDIT_NATS_ENABLED=false` to questionnaire service for local dev
+### Added
+- **GET `/audit/config/nats-status`**: Returns audit NATS configuration status
+- **AuditConfigStatusResponse DTO**: Configuration status response object
+- **opencdx.audit.nats.enabled flag**: Control NATS audit publishing (default: true, set to false in docker-compose for local dev)
 
 ### Fixed
-- **NATS JetStream connection errors**: Services no longer fail with 406 when NATS is unavailable
-- **Audit event publishing**: Operations complete successfully even if audit logging fails
-- **Delete operations**: No longer return 406 due to audit NATS failures
+- **Audit NATS failures**: Try-catch prevents 406 errors, falls back to local logging
+- **.gitignore**: Added `bin/`, `logs/`, `.vscode/`
 
 ## [1.0.0] - 2025-10-09
 
