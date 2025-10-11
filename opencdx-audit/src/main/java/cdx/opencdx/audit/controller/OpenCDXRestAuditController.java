@@ -16,6 +16,8 @@
 package cdx.opencdx.audit.controller;
 
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import cdx.opencdx.commons.dto.AuditConfigStatusResponse;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.data.AuditEvent;
 import cdx.opencdx.grpc.data.AuditStatus;
 import io.micrometer.observation.annotation.Observed;
@@ -37,13 +39,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Observed(name = "opencdx")
 public class OpenCDXRestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor to handle processing by using the OpenCDXAuditMessageHandler.
      * @param openCDXAuditMessageHandler Handler for processing AuditEvents
+     * @param openCDXAuditService Audit service for configuration status
      */
-    public OpenCDXRestAuditController(OpenCDXAuditMessageHandler openCDXAuditMessageHandler) {
+    public OpenCDXRestAuditController(
+            OpenCDXAuditMessageHandler openCDXAuditMessageHandler,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXAuditMessageHandler = openCDXAuditMessageHandler;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     /**
@@ -57,5 +64,16 @@ public class OpenCDXRestAuditController {
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
         return new ResponseEntity<>(AuditStatus.newBuilder().setSuccess(true).build(), HttpStatus.OK);
+    }
+    
+    /**
+     * Get audit NATS publishing configuration status
+     * @return AuditConfigStatusResponse with current configuration details
+     */
+    @GetMapping(value = "/config/nats-status")
+    public ResponseEntity<AuditConfigStatusResponse> getNatsConfigStatus() {
+        return new ResponseEntity<>(
+                ((cdx.opencdx.commons.service.impl.OpenCDXAuditServiceImpl) openCDXAuditService).getAuditConfigStatus(),
+                HttpStatus.OK);
     }
 }

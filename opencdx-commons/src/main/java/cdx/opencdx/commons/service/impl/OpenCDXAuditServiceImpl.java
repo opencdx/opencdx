@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.data.OpenCDXIdentifier;
+import cdx.opencdx.commons.dto.AuditConfigStatusResponse;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
@@ -45,6 +46,13 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     @Value("${spring.application.name}")
     private String applicationName;
+
+    @Value("${opencdx.audit.nats.enabled:#{null}}")
+    private Boolean natsAuditEnabledConfig;
+    
+    private boolean isNatsAuditEnabled() {
+        return natsAuditEnabledConfig != null ? natsAuditEnabledConfig : true;
+    }
 
     private final OpenCDXMessageService messageService;
 
@@ -343,8 +351,30 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .build();
     }
 
+    /**
+     * Get the current audit configuration status
+     * @return AuditConfigStatusResponse containing the current configuration
+     */
+    public AuditConfigStatusResponse getAuditConfigStatus() {
+        boolean enabled = isNatsAuditEnabled();
+        boolean configFound = natsAuditEnabledConfig != null;
+        String source = configFound 
+            ? (System.getenv("OPENCDX_AUDIT_NATS_ENABLED") != null ? "environment" : "application.yml")
+            : "default";
+        
+        return new AuditConfigStatusResponse(enabled, configFound, source);
+    }
+    
     private void sendMessage(AuditEvent event) {
-        log.info("Sending Audit Event: {}", event.getEventType());
+        boolean enabled = isNatsAuditEnabled();
+        log.info("Audit Event: {} - NATS publishing: {}", event.getEventType(), enabled);
+        
+        if (!enabled) {
+            log.warn("NATS audit publishing disabled. Audit event logged only: {}", event.getEventType());
+            log.debug("Audit details: {}", event);
+            return;
+        }
+        
         openCDXDocumentValidator.validateDocumentOrLog(
                 "users", new OpenCDXIdentifier(event.getActor().getIdentity()));
         if (event.hasAuditEntity()) {
@@ -364,6 +394,12 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                         "profiles", new OpenCDXIdentifier(event.getAuditEntity().getPatientId()));
             }
         }
-        this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
+        
+        try {
+            this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
+        } catch (Exception e) {
+            log.error("Failed to publish audit event to NATS. Event logged locally: {}", event.getEventType(), e);
+            log.debug("Failed audit details: {}", event);
+        }
     }
 }
