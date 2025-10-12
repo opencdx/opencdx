@@ -1,3 +1,4 @@
+name: opencdx
 version: '3'
 networks:
   opencdx-network:
